@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('JPATH_BASE') or die;
@@ -26,7 +26,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 * @since  3.7.0
 	 */
 	protected $type = 'ItemType';
-	
+
 	/**
 	 * Method to get the field input markup.
 	 *

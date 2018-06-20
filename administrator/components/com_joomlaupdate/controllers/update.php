@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,11 +44,28 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$this->_applyCredentials();
 
 		/** @var JoomlaupdateModelDefault $model */
-		$model = $this->getModel('Default');
-		$file = $model->download();
-
-		$message = null;
+		$model       = $this->getModel('Default');
+		$result      = $model->download();
+		$file        = $result['basename'];
+		$message     = null;
 		$messageType = null;
+
+		// The validation was not successful for now just a warning.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($result['check'] === false)
+		{
+			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+			$messageType = 'warning';
+
+			try
+			{
+				JLog::add($message, JLog::INFO, 'Update');
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+		}
 
 		if ($file)
 		{

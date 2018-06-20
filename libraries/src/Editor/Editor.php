@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -237,6 +237,8 @@ class Editor extends \JObject
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use JHtml::script
 	 */
 	public function initialise()
 	{

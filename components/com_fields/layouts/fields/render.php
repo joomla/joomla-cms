@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -57,8 +57,9 @@ if (!$fields)
 			<?php continue; ?>
 		<?php endif; ?>
 		<?php $class = $field->params->get('render_class'); ?>
+		<?php $layout = $field->params->get('layout', 'render'); ?>
 		<dd class="field-entry <?php echo $class; ?>">
-			<?php echo FieldsHelper::render($context, 'field.render', array('field' => $field)); ?>
+			<?php echo FieldsHelper::render($context, 'field.' . $layout, array('field' => $field)); ?>
 		</dd>
 	<?php endforeach; ?>
 </dl>

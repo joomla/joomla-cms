@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,19 +72,7 @@ class Asset extends Nested
 	 */
 	public function loadByName($name)
 	{
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('id'))
-			->from($this->_db->quoteName('#__assets'))
-			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
-		$this->_db->setQuery($query);
-		$assetId = (int) $this->_db->loadResult();
-
-		if (empty($assetId))
-		{
-			return false;
-		}
-
-		return $this->load($assetId);
+		return $this->load(array('name' => $name));
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for Joomla 4.0 pre checks
@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Checks if the installation meats the current requirements for Joomla 4
+ * Checks if the installation meets the current requirements for Joomla 4
  *
  * @return  boolean  True if any check fails.
  *

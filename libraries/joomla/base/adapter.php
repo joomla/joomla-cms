@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  5.0 Will be removed without replacement
  */
 class JAdapter extends JObject
 {
