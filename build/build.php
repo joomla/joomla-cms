@@ -161,6 +161,7 @@ $doNotPackage = array(
 	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
+	'build.js',
 	'composer.json',
 	'composer.lock',
 	'Gemfile',

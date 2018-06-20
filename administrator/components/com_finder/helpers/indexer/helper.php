@@ -14,8 +14,8 @@ use Joomla\CMS\Router\Router;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
-JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
 JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
@@ -25,23 +25,6 @@ JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
  */
 class FinderIndexerHelper
 {
-	/**
-	 * The token stemmer object. The stemmer is set by whatever class
-	 * wishes to use it but it must be an instance of FinderIndexerStemmer.
-	 *
-	 * @var		FinderIndexerStemmer
-	 * @since	2.5
-	 */
-	public static $stemmer;
-
-	/**
-	 * A state flag, in order to not constantly check if the stemmer is an instance of FinderIndexerStemmer
-	 *
-	 * @var		boolean
-	 * @since	3.7.0
-	 */
-	protected static $stemmerOK;
-
 	/**
 	 * Method to parse input into plain text.
 	 *
@@ -73,82 +56,18 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache;
-		$store = StringHelper::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
+		$store = md5($input . '::' . $lang . '::' . $phrase);
 
 		// Check if the string has been tokenized already.
-		if ($store && isset($cache[$store]))
+		if (isset($cache[$store]))
 		{
 			return $cache[$store];
 		}
 
+		$language = FinderIndexerLanguage::getInstance($lang);
 		$tokens = array();
-		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
-
-		// Get the simple language key.
-		$lang = static::getPrimaryLanguage($lang);
-
-		/*
-		 * Parsing the string input into terms is a multi-step process.
-		 *
-		 * Regexes:
-		 *  1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
-		 *  2. Remove plus, dash, period, and comma characters located before letter characters.
-		 *  3. Remove plus, dash, period, and comma characters located after other characters.
-		 *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
-		 *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
-		 *  6. Remove orphaned quote characters.
-		 *  7. Replace the assorted single quotation marks with the ASCII standard single quotation.
-		 *  8. Remove multiple space characters and replaces with a single space.
-		 */
-		$input = StringHelper::strtolower($input);
-		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
-		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
-		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
-		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input);
-		$input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
-		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
-		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
-		$input = preg_replace('#\s+#mui', ' ', $input);
-		$input = trim($input);
-
-		// Explode the normalized string to get the terms.
-		$terms = explode(' ', $input);
-
-		/*
-		 * If we have Unicode support and are dealing with Chinese text, Chinese
-		 * has to be handled specially because there are not necessarily any spaces
-		 * between the "words". So, we have to test if the words belong to the Chinese
-		 * character set and if so, explode them into single glyphs or "words".
-		 */
-		if ($lang === 'zh')
-		{
-			// Iterate through the terms and test if they contain Chinese.
-			for ($i = 0, $n = count($terms); $i < $n; $i++)
-			{
-				$charMatches = array();
-				$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
-
-				// Split apart any groups of Chinese characters.
-				for ($j = 0; $j < $charCount; $j++)
-				{
-					$tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
-
-					if (!empty($tSplit))
-					{
-						$terms[$i] = $tSplit;
-					}
-					else
-					{
-						unset($terms[$i]);
-					}
-
-					$terms[] = $charMatches[0][$j];
-				}
-			}
-
-			// Reset array keys.
-			$terms = array_values($terms);
-		}
+		$terms = $language->tokenise($input);
+		$terms = array_filter($terms);
 
 		/*
 		 * If we have to handle the input as a phrase, that means we don't
@@ -158,14 +77,14 @@ class FinderIndexerHelper
 		if ($phrase === true && count($terms) > 1)
 		{
 			// Create tokens from the phrase.
-			$tokens[] = new FinderIndexerToken($terms, $lang);
+			$tokens[] = new FinderIndexerToken($terms, $language->language, $language->spacer);
 		}
 		else
 		{
 			// Create tokens from the terms.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				$tokens[] = new FinderIndexerToken($terms[$i], $lang);
+				$tokens[] = new FinderIndexerToken($terms[$i], $language->language);
 			}
 
 			// Create two and three word phrase tokens from the individual words.
@@ -179,7 +98,7 @@ class FinderIndexerHelper
 				if ($i2 < $n && isset($tokens[$i2]))
 				{
 					// Tokenize the two word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $language->language, $language->spacer);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -190,7 +109,7 @@ class FinderIndexerHelper
 				if ($i3 < $n && isset($tokens[$i3]))
 				{
 					// Tokenize the three word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $language->language, $language->spacer);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -199,22 +118,13 @@ class FinderIndexerHelper
 			}
 		}
 
-		if ($store)
-		{
-			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+		$cache[$store] = $tokens;
 
-			return $cache[$store];
-		}
-		else
-		{
-			return count($tokens) > 1 ? $tokens : array_shift($tokens);
-		}
+		return $cache[$store];
 	}
 
 	/**
-	 * Method to get the base word of a token. This method uses the public
-	 * {@link FinderIndexerHelper::$stemmer} object if it is set. If no stemmer is set,
-	 * the original token is returned.
+	 * Method to get the base word of a token.
 	 *
 	 * @param   string  $token  The token to stem.
 	 * @param   string  $lang   The language of the token.
@@ -225,31 +135,9 @@ class FinderIndexerHelper
 	 */
 	public static function stem($token, $lang)
 	{
-		// Trim apostrophes at either end of the token.
-		$token = trim($token, '\'');
+		$language = FinderIndexerLanguage::getInstance($lang);
 
-		// Trim everything after any apostrophe in the token.
-		if ($res = explode('\'', $token))
-		{
-			$token = $res[0];
-		}
-
-		if (static::$stemmerOK === true)
-		{
-			return static::$stemmer->stem($token, $lang);
-		}
-		else
-		{
-			// Stem the token if we have a valid stemmer to use.
-			if (static::$stemmer instanceof FinderIndexerStemmer)
-			{
-				static::$stemmerOK = true;
-
-				return static::$stemmer->stem($token, $lang);
-			}
-		}
-
-		return $token;
+		return $language->stem($token);
 	}
 
 	/**

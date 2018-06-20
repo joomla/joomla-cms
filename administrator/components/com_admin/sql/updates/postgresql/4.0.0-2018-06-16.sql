@@ -1,4 +1,4 @@
-INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "namespace", "checked_out", "checked_out_time", "ordering", "state") VALUES (489, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "namespace", "checked_out", "checked_out_time", "ordering", "state") VALUES (490, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 DROP TABLE IF EXISTS "#__finder_terms_common";
 CREATE TABLE "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
