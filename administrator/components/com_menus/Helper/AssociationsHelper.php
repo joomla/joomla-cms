@@ -7,16 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Menus\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Table;
 
 /**
  * Menu associations helper.
  *
  * @since  3.7.0
  */
-class MenusAssociationsHelper extends AssociationExtensionHelper
+class AssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -62,7 +66,7 @@ class MenusAssociationsHelper extends AssociationExtensionHelper
 		$context = $this->extension . '.item';
 
 		// Get the associations.
-		$associations = JLanguageAssociations::getAssociations(
+		$associations = Associations::getAssociations(
 			$this->extension,
 			$type['tables']['a'],
 			$context,
@@ -97,7 +101,7 @@ class MenusAssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'item':
-				$table = JTable::getInstance('menu');
+				$table = Table::getInstance('menu');
 				break;
 		}
 

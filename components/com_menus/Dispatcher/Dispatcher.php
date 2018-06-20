@@ -1,13 +1,13 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_modules
+ * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Modules\Site\Dispatcher;
+namespace Joomla\Component\Menus\Site\Dispatcher;
 
 defined('_JEXEC') or die;
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
- * Dispatcher class for com_modules
+ * Dispatcher class for com_menus
  *
  * @since  4.0.0
  */
@@ -31,7 +31,7 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 	protected function loadLanguage()
 	{
 		$this->app->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
-		$this->app->getLanguage()->load('com_modules', JPATH_ADMINISTRATOR);
+		$this->app->getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -45,9 +45,9 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 	{
 		parent::checkAccess();
 
-		if ($this->input->get('view') === 'modules'
+		if ($this->input->get('view') === 'items'
 			&& $this->input->get('layout') === 'modal'
-			&& !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
+			&& !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
 		{
 			throw new NotAllowed;
 		}
@@ -66,11 +66,8 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
-		if ($this->input->get('task') === 'orderPosition')
-		{
-			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-			$client = 'Administrator';
-		}
+		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+		$client = 'Administrator';
 
 		return parent::getController($name, $client, $config);
 	}
