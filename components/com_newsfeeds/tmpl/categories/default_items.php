@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
 ?>
-<?php $class = ' class="first"'; ?>
+<?php $class = ' first'; ?>
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
 				<?php $class = ' class="last"'; ?>
 			<?php endif; ?>
-			<div<?php echo $class; ?>>
+			<div class="com-newsfeeds-categories__items<?php echo $class; ?>">
 				<?php $class = ''; ?>
 				<h3 class="page-header item-title">
 					<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
@@ -40,13 +40,13 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 				</h3>
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
 					<?php if ($item->description) : ?>
-						<div class="category-desc">
+						<div class="com-newsfeeds-categories__description category-desc">
 							<?php echo JHtml::_('content.prepare', $item->description, '', 'com_newsfeeds.categories'); ?>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-					<div class="collapse fade" id="category-<?php echo $item->id; ?>">
+					<div class="com-newsfeeds-categories__children collapse fade" id="category-<?php echo $item->id; ?>">
 						<?php $this->items[$item->id] = $item->getChildren(); ?>
 						<?php $this->parent = $item; ?>
 						<?php $this->maxLevelcat--; ?>
