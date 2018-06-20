@@ -4,8 +4,8 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_FINDER_SEARCH_IN_PHRASE"
-			description="COM_FINDER_SEARCH_IN_PHRASE"
+			label="COM_FINDER_SEARCH_IN_PHRASE_LABEL"
+			description="COM_FINDER_SEARCH_IN_PHRASE_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 	</fields>
