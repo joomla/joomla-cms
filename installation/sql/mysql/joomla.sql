@@ -578,7 +578,6 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (414, 0, 'plg_editors-xtd_image', 'plugin', 'image', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 2, 0, ''),
 (415, 0, 'plg_editors-xtd_pagebreak', 'plugin', 'pagebreak', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 3, 0, ''),
 (416, 0, 'plg_editors-xtd_readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 4, 0, ''),
-
 (422, 0, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 1, '', '', 0, '0000-00-00 00:00:00', 1, 0, ''),
 (424, 0, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 1, '', '{"browsercache":"0","cachetime":"15"}', 0, '0000-00-00 00:00:00', 9, 0, ''),
 (425, 0, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"1","strip-first":"1","strip-prefix":"","strip-suffix":""}', 0, '0000-00-00 00:00:00', 4, 0, ''),
