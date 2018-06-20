@@ -2115,6 +2115,120 @@
         "homepage": "https://symfony.com"
     },
     {
+        "name": "symfony/ldap",
+        "version": "v3.4.11",
+        "version_normalized": "3.4.11.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/ldap.git",
+            "reference": "be38e9977e072a66b5c1f6c86f6ac1f7c8752736"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/ldap/zipball/be38e9977e072a66b5c1f6c86f6ac1f7c8752736",
+            "reference": "be38e9977e072a66b5c1f6c86f6ac1f7c8752736",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ldap": "*",
+            "php": "^5.5.9|>=7.0.8",
+            "symfony/options-resolver": "~2.8|~3.0|~4.0",
+            "symfony/polyfill-php56": "~1.0"
+        },
+        "time": "2018-01-03T07:37:34+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Ldap\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Charles Sarrazin",
+                "email": "charles@sarraz.in"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "An abstraction in front of PHP's LDAP functions, compatible with PHP 5.3.9 onwards.",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "active directory",
+            "ldap"
+        ]
+    },
+    {
+        "name": "symfony/options-resolver",
+        "version": "v3.4.11",
+        "version_normalized": "3.4.11.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/options-resolver.git",
+            "reference": "f3109a6aedd20e35c3a33190e932c2b063b7b50e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/options-resolver/zipball/f3109a6aedd20e35c3a33190e932c2b063b7b50e",
+            "reference": "f3109a6aedd20e35c3a33190e932c2b063b7b50e",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.5.9|>=7.0.8"
+        },
+        "time": "2018-01-11T07:56:07+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\OptionsResolver\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony OptionsResolver Component",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "config",
+            "configuration",
+            "options"
+        ]
+    },
+    {
         "name": "symfony/polyfill-mbstring",
         "version": "v1.7.0",
         "version_normalized": "1.7.0.0",
@@ -2172,6 +2286,118 @@
             "mbstring",
             "polyfill",
             "portable",
+            "shim"
+        ]
+    },
+    {
+        "name": "symfony/polyfill-php56",
+        "version": "v1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-php56.git",
+            "reference": "af98553c84912459db3f636329567809d639a8f6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/af98553c84912459db3f636329567809d639a8f6",
+            "reference": "af98553c84912459db3f636329567809d639a8f6",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/polyfill-util": "~1.0"
+        },
+        "time": "2018-04-26T10:06:28+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Php56\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill backporting some PHP 5.6+ features to lower PHP versions",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "polyfill",
+            "portable",
+            "shim"
+        ]
+    },
+    {
+        "name": "symfony/polyfill-util",
+        "version": "v1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-util.git",
+            "reference": "1a5ad95d9436cbff3296034fe9f8d586dce3fb3a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/1a5ad95d9436cbff3296034fe9f8d586dce3fb3a",
+            "reference": "1a5ad95d9436cbff3296034fe9f8d586dce3fb3a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2018-04-26T10:06:28+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Util\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony utilities for portability of PHP codes",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compat",
+            "compatibility",
+            "polyfill",
             "shim"
         ]
     },
