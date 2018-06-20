@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of User ACL permissions
@@ -71,7 +72,7 @@ class DebuguserModel extends ListModel
 	public function getItems()
 	{
 		$userId = $this->getState('user_id');
-		$user   = \JFactory::getUser($userId);
+		$user   = Factory::getUser($userId);
 
 		if (($assets = parent::getItems()) && $userId)
 		{
@@ -118,7 +119,7 @@ class DebuguserModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		$layout = $app->input->get('layout', 'default');
@@ -188,7 +189,7 @@ class DebuguserModel extends ListModel
 	{
 		$userId = $this->getState('user_id');
 
-		return \JFactory::getUser($userId);
+		return Factory::getUser($userId);
 	}
 
 	/**

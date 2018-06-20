@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Date\Date;
 
 /**
  * Methods supporting a list of user records.
@@ -70,7 +72,7 @@ class UsersModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout', 'default', 'cmd'))
@@ -444,7 +446,7 @@ class UsersModel extends ListModel
 	private function buildDateRange($range)
 	{
 		// Get UTC for now.
-		$dNow   = new \JDate;
+		$dNow   = new Date;
 		$dStart = clone $dNow;
 
 		switch ($range)
@@ -473,11 +475,11 @@ class UsersModel extends ListModel
 
 			case 'today':
 				// Ranges that need to align with local 'days' need special treatment.
-				$app    = \JFactory::getApplication();
+				$app    = Factory::getApplication();
 				$offset = $app->get('offset');
 
 				// Reset the start time to be the beginning of today, local time.
-				$dStart = new \JDate('now', $offset);
+				$dStart = new Date('now', $offset);
 				$dStart->setTime(0, 0, 0);
 
 				// Now change the timezone back to UTC.

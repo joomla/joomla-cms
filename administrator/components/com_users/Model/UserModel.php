@@ -21,6 +21,12 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Crypt\Crypt;
 
 /**
  * User model.
@@ -150,7 +156,7 @@ class UserModel extends AdminModel
 		}
 
 		// If the user needs to change their password, mark the password fields as required
-		if (\JFactory::getUser()->requireReset)
+		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -163,7 +169,7 @@ class UserModel extends AdminModel
 		}
 
 		// The user should not be able to set the requireReset value on their own account
-		if ((int) $userId === (int) \JFactory::getUser()->id)
+		if ((int) $userId === (int) Factory::getUser()->id)
 		{
 			$form->removeField('requireReset');
 		}
@@ -181,7 +187,7 @@ class UserModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_users.edit.user.data', array());
+		$data = Factory::getApplication()->getUserState('com_users.edit.user.data', array());
 
 		if (empty($data))
 		{
@@ -205,7 +211,7 @@ class UserModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -222,23 +228,23 @@ class UserModel extends AdminModel
 	public function save($data)
 	{
 		$pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-		$user = \JUser::getInstance($pk);
+		$user = User::getInstance($pk);
 
-		$my = \JFactory::getUser();
+		$my = Factory::getUser();
 		$iAmSuperAdmin = $my->authorise('core.admin');
 
 		// User cannot modify own user groups
 		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
 		{
 			// Form was probably tampered with
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
 
 			$data['groups'] = null;
 		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+			$this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
 
 			return false;
 		}
@@ -246,7 +252,7 @@ class UserModel extends AdminModel
 		// Make sure user groups is selected when add/edit an account
 		if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin))
 		{
-			$this->setError(\JText::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
+			$this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
 
 			return false;
 		}
@@ -265,7 +271,7 @@ class UserModel extends AdminModel
 
 			if (!$stillSuperAdmin)
 			{
-				$this->setError(\JText::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'));
+				$this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'));
 
 				return false;
 			}
@@ -283,7 +289,7 @@ class UserModel extends AdminModel
 			{
 				// Run the plugins
 				PluginHelper::importPlugin('twofactorauth');
-				$otpConfigReplies = \JFactory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+				$otpConfigReplies = Factory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
 
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
@@ -354,7 +360,7 @@ class UserModel extends AdminModel
 	 */
 	public function delete(&$pks)
 	{
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 
@@ -365,7 +371,7 @@ class UserModel extends AdminModel
 
 		if (in_array($user->id, $pks))
 		{
-			$this->setError(\JText::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
+			$this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
 			return false;
 		}
@@ -384,10 +390,10 @@ class UserModel extends AdminModel
 				if ($allow)
 				{
 					// Get users data for the users to delete.
-					$user_to_delete = \JFactory::getUser($pk);
+					$user_to_delete = Factory::getUser($pk);
 
 					// Fire the before delete event.
-					\JFactory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
+					Factory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
@@ -398,14 +404,14 @@ class UserModel extends AdminModel
 					else
 					{
 						// Trigger the after delete event.
-						\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
+						Factory::getApplication()->triggerEvent($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
 					}
 				}
 				else
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 			else
@@ -431,8 +437,8 @@ class UserModel extends AdminModel
 	 */
 	public function block(&$pks, $value = 1)
 	{
-		$app        = \JFactory::getApplication();
-		$user       = \JFactory::getUser();
+		$app        = Factory::getApplication();
+		$user       = Factory::getUser();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
@@ -453,7 +459,7 @@ class UserModel extends AdminModel
 			{
 				// Cannot block yourself.
 				unset($pks[$i]);
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'), 'error');
 			}
 			elseif ($table->load($pk))
 			{
@@ -491,7 +497,7 @@ class UserModel extends AdminModel
 						}
 
 						// Trigger the before save event.
-						$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
+						$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -508,7 +514,7 @@ class UserModel extends AdminModel
 						}
 
 						// Trigger the after save event
-						\JFactory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (\Exception $e)
 					{
@@ -527,7 +533,7 @@ class UserModel extends AdminModel
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 				}
 			}
 		}
@@ -546,7 +552,7 @@ class UserModel extends AdminModel
 	 */
 	public function activate(&$pks)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
@@ -587,7 +593,7 @@ class UserModel extends AdminModel
 						}
 
 						// Trigger the before save event.
-						$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
+						$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -604,7 +610,7 @@ class UserModel extends AdminModel
 						}
 
 						// Fire the after save event
-						\JFactory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (\Exception $e)
 					{
@@ -617,7 +623,7 @@ class UserModel extends AdminModel
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 				}
 			}
 		}
@@ -650,7 +656,7 @@ class UserModel extends AdminModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
 
 			return false;
 		}
@@ -681,7 +687,7 @@ class UserModel extends AdminModel
 
 		if (!$done)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 
 			return false;
 		}
@@ -707,12 +713,12 @@ class UserModel extends AdminModel
 		$user_ids = ArrayHelper::toInteger($user_ids);
 
 		// Check if I am a Super Admin
-		$iAmSuperAdmin = \JFactory::getUser()->authorise('core.admin');
+		$iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
 
 		// Non-super super user cannot work with super-admin user.
-		if (!$iAmSuperAdmin && \JUserHelper::checkSuperUserInUsers($user_ids))
+		if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($user_ids))
 		{
-			$this->setError(\JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+			$this->setError(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
 			return false;
 		}
@@ -728,11 +734,11 @@ class UserModel extends AdminModel
 		}
 
 		// Prune out the current user if they are in the supplied user ID array
-		$user_ids = array_diff($user_ids, array(\JFactory::getUser()->id));
+		$user_ids = array_diff($user_ids, array(Factory::getUser()->id));
 
 		if (empty($user_ids))
 		{
-			$this->setError(\JText::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
+			$this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
 
 			return false;
 		}
@@ -781,12 +787,12 @@ class UserModel extends AdminModel
 		$user_ids = ArrayHelper::toInteger($user_ids);
 
 		// Check if I am a Super Admin
-		$iAmSuperAdmin = \JFactory::getUser()->authorise('core.admin');
+		$iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
 
 		// Non-super super user cannot work with super-admin user.
-		if (!$iAmSuperAdmin && \JUserHelper::checkSuperUserInUsers($user_ids))
+		if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($user_ids))
 		{
-			$this->setError(\JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
+			$this->setError(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
 			return false;
 		}
@@ -794,7 +800,7 @@ class UserModel extends AdminModel
 		// Non-super admin cannot work with super-admin group.
 		if ((!$iAmSuperAdmin && Access::checkGroup($group_id, 'core.admin')) || $group_id < 1)
 		{
-			$this->setError(\JText::_('COM_USERS_ERROR_INVALID_GROUP'));
+			$this->setError(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
 
 			return false;
 		}
@@ -879,7 +885,7 @@ class UserModel extends AdminModel
 			// If we have no users to process, throw an error to notify the user
 			if (!$groups)
 			{
-				$this->setError(\JText::_('COM_USERS_ERROR_NO_ADDITIONS'));
+				$this->setError(Text::_('COM_USERS_ERROR_NO_ADDITIONS'));
 
 				return false;
 			}
@@ -912,7 +918,7 @@ class UserModel extends AdminModel
 	 */
 	public function getGroups()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
@@ -965,7 +971,7 @@ class UserModel extends AdminModel
 		}
 		else
 		{
-			$result = \JUserHelper::getUserGroups($userId);
+			$result = UserHelper::getUserGroups($userId);
 		}
 
 		return $result;
@@ -993,7 +999,7 @@ class UserModel extends AdminModel
 		);
 
 		/**
-		 * Get the raw data, without going through \JUser (required in order to
+		 * Get the raw data, without going through User (required in order to
 		 * be able to modify the user record before logging in the user).
 		 */
 		$db = $this->getDbo();
@@ -1146,7 +1152,7 @@ class UserModel extends AdminModel
 	 */
 	public function getOtpConfigEncryptionKey()
 	{
-		return \JFactory::getConfig()->get('secret');
+		return Factory::getConfig()->get('secret');
 	}
 
 	/**
@@ -1167,7 +1173,7 @@ class UserModel extends AdminModel
 
 		PluginHelper::importPlugin('twofactorauth');
 
-		return \JFactory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
 	/**
@@ -1203,7 +1209,7 @@ class UserModel extends AdminModel
 		for ($i = 0; $i < $count; $i++)
 		{
 			$makepass = '';
-			$random = \JCrypt::genRandomBytes($length + 1);
+			$random = Crypt::genRandomBytes($length + 1);
 			$shift = ord($random[0]);
 
 			for ($j = 1; $j <= $length; ++$j)
@@ -1267,7 +1273,7 @@ class UserModel extends AdminModel
 		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
 		{
 			// Load language
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 			$extension = 'com_users';
 			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
@@ -1275,7 +1281,7 @@ class UserModel extends AdminModel
 				|| $lang->load($extension, $source, null, false, true);
 
 			$warn = true;
-			$warnMessage = \JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
+			$warnMessage = Text::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
 
 			if (array_key_exists('warn_if_not_req', $options))
 			{
@@ -1293,7 +1299,7 @@ class UserModel extends AdminModel
 			{
 				try
 				{
-					$app = \JFactory::getApplication();
+					$app = Factory::getApplication();
 					$app->enqueueMessage($warnMessage, 'warning');
 				}
 				catch (\Exception $exc)
@@ -1314,7 +1320,7 @@ class UserModel extends AdminModel
 		// Try to validate the OTP
 		PluginHelper::importPlugin('twofactorauth');
 
-		$otpAuthReplies = \JFactory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
+		$otpAuthReplies = Factory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
 
 		$check = false;
 

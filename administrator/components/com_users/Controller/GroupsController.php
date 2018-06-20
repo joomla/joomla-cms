@@ -10,6 +10,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
@@ -55,7 +56,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::delete();
@@ -74,7 +75,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::publish();
@@ -93,7 +94,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::reorder();
@@ -112,7 +113,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::saveorder();
@@ -131,7 +132,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::checkin();

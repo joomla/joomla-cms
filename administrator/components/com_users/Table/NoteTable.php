@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * User notes table class
@@ -23,11 +26,11 @@ class NoteTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database object
+	 * @param   DatabaseDriver  $db  Database object
 	 *
 	 * @since  2.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_users.note';
 
@@ -45,13 +48,13 @@ class NoteTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate()->toSql();
-		$userId = \JFactory::getUser()->get('id');
+		$date = Factory::getDate()->toSql();
+		$userId = Factory::getUser()->get('id');
 
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = \JFactory::getDbo()->getNullDate();
+			$this->review_time = Factory::getDbo()->getNullDate();
 		}
 
 		if ($this->id)
@@ -103,7 +106,7 @@ class NoteTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}

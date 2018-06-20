@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of User ACL permissions.
@@ -83,9 +86,9 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!\JFactory::getUser()->authorise('core.manage', 'com_users'))
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		\JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
@@ -120,15 +123,15 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users');
 
-		\JToolbarHelper::title(\JText::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'users user');
-		\JToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'users user');
+		ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_users');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_users');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_USERS_DEBUG_USERS');
+		ToolbarHelper::help('JHELP_USERS_DEBUG_USERS');
 	}
 }

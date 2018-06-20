@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of User ACL permissions
@@ -118,7 +119,7 @@ class DebuggroupModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		$layout = $app->input->get('layout', 'default');

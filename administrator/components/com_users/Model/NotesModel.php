@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Factory;
 
 /**
  * User notes model class.
@@ -176,13 +178,13 @@ class NotesModel extends ListModel
 	/**
 	 * Gets a user object if the user filter is set.
 	 *
-	 * @return  \JUser  The \JUser object
+	 * @return  User  The User object
 	 *
 	 * @since   2.5
 	 */
 	public function getUser()
 	{
-		$user = new \JUser;
+		$user = new User;
 
 		// Filter by search in title
 		$search = (int) $this->getState('filter.user_id');
@@ -210,7 +212,7 @@ class NotesModel extends ListModel
 	protected function populateState($ordering = 'a.review_time', $direction = 'desc')
 	{
 		// Adjust the context to support modal layouts.
-		if ($layout = \JFactory::getApplication()->input->get('layout'))
+		if ($layout = Factory::getApplication()->input->get('layout'))
 		{
 			$this->context .= '.' . $layout;
 		}
