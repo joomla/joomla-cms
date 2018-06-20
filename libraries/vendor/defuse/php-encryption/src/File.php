@@ -348,11 +348,10 @@ final class File
         /* Initialize a streaming HMAC state. */
         /** @var resource $hmac */
         $hmac = \hash_init(Core::HASH_FUNCTION_NAME, HASH_HMAC, $akey);
-        if (!\is_resource($hmac)) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Cannot initialize a hash context'
-            );
-        }
+        Core::ensureTrue(
+            \is_resource($hmac) || \is_object($hmac),
+            'Cannot initialize a hash context'
+        );
 
         /* Write the header, salt, and IV. */
         self::writeBytes(
@@ -407,11 +406,7 @@ final class File
                 $thisIv
             );
 
-            if (!\is_string($encrypted)) {
-                throw new Ex\EnvironmentIsBrokenException(
-                    'OpenSSL encryption error'
-                );
-            }
+            Core::ensureTrue(\is_string($encrypted), 'OpenSSL encryption error');
 
             /* Write this buffer's ciphertext. */
             self::writeBytes($outputHandle, $encrypted, Core::ourStrlen($encrypted));
@@ -518,11 +513,7 @@ final class File
         /* Initialize a streaming HMAC state. */
         /** @var resource $hmac */
         $hmac = \hash_init(Core::HASH_FUNCTION_NAME, HASH_HMAC, $akey);
-        if (!\is_resource($hmac)) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Cannot initialize a hash context'
-            );
-        }
+        Core::ensureTrue(\is_resource($hmac) || \is_object($hmac), 'Cannot initialize a hash context');
 
         /* Reset file pointer to the beginning of the file after the header */
         if (\fseek($inputHandle, Core::HEADER_VERSION_SIZE, SEEK_SET) === false) {
@@ -576,11 +567,7 @@ final class File
             /* Remember this buffer-sized chunk's HMAC. */
             /** @var resource $chunk_mac */
             $chunk_mac = \hash_copy($hmac);
-            if (!\is_resource($chunk_mac)) {
-                throw new Ex\EnvironmentIsBrokenException(
-                    'Cannot duplicate a hash context'
-                );
-            }
+            Core::ensureTrue(\is_resource($chunk_mac) || \is_object($chunk_mac), 'Cannot duplicate a hash context');
             $macs []= \hash_final($chunk_mac);
         }
 
@@ -634,11 +621,7 @@ final class File
             \hash_update($hmac2, $read);
             /** @var resource $calc_mac */
             $calc_mac = \hash_copy($hmac2);
-            if (!\is_resource($calc_mac)) {
-                throw new Ex\EnvironmentIsBrokenException(
-                    'Cannot duplicate a hash context'
-                );
-            }
+            Core::ensureTrue(\is_resource($calc_mac) || \is_object($calc_mac), 'Cannot duplicate a hash context');
             $calc = \hash_final($calc_mac);
 
             if (empty($macs)) {
@@ -660,11 +643,7 @@ final class File
                 OPENSSL_RAW_DATA,
                 $thisIv
             );
-            if (!\is_string($decrypted)) {
-                throw new Ex\EnvironmentIsBrokenException(
-                    'OpenSSL decryption error'
-                );
-            }
+            Core::ensureTrue(\is_string($decrypted), 'OpenSSL decryption error');
 
             /* Write the plaintext to the output file. */
             self::writeBytes(
@@ -696,13 +675,12 @@ final class File
      */
     public static function readBytes($stream, $num_bytes)
     {
-        if ($num_bytes < 0) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Tried to read less than 0 bytes'
-            );
-        } elseif ($num_bytes === 0) {
+        Core::ensureTrue($num_bytes >= 0, 'Tried to read less than 0 bytes');
+
+        if ($num_bytes === 0) {
             return '';
         }
+
         $buf       = '';
         $remaining = $num_bytes;
         while ($remaining > 0 && ! \feof($stream)) {
