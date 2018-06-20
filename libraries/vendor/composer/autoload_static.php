@@ -23,6 +23,7 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
@@ -38,6 +39,7 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
             'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\WebLink\\' => 26,
             'Symfony\\Component\\OptionsResolver\\' => 34,
@@ -119,6 +121,10 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -313,8 +319,13 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Joomla\\Application\\AbstractApplication' => __DIR__ . '/..' . '/joomla/application/src/AbstractApplication.php',
         'Joomla\\Application\\AbstractWebApplication' => __DIR__ . '/..' . '/joomla/application/src/AbstractWebApplication.php',
         'Joomla\\Application\\ApplicationEvents' => __DIR__ . '/..' . '/joomla/application/src/ApplicationEvents.php',
+        'Joomla\\Application\\Controller\\ContainerControllerResolver' => __DIR__ . '/..' . '/joomla/application/src/Controller/ContainerControllerResolver.php',
+        'Joomla\\Application\\Controller\\ControllerResolver' => __DIR__ . '/..' . '/joomla/application/src/Controller/ControllerResolver.php',
+        'Joomla\\Application\\Controller\\ControllerResolverInterface' => __DIR__ . '/..' . '/joomla/application/src/Controller/ControllerResolverInterface.php',
+        'Joomla\\Application\\Event\\ApplicationErrorEvent' => __DIR__ . '/..' . '/joomla/application/src/Event/ApplicationErrorEvent.php',
         'Joomla\\Application\\Event\\ApplicationEvent' => __DIR__ . '/..' . '/joomla/application/src/Event/ApplicationEvent.php',
         'Joomla\\Application\\Exception\\UnableToWriteBody' => __DIR__ . '/..' . '/joomla/application/src/Exception/UnableToWriteBody.php',
+        'Joomla\\Application\\WebApplication' => __DIR__ . '/..' . '/joomla/application/src/WebApplication.php',
         'Joomla\\Application\\Web\\WebClient' => __DIR__ . '/..' . '/joomla/application/src/Web/WebClient.php',
         'Joomla\\Archive\\Archive' => __DIR__ . '/..' . '/joomla/archive/src/Archive.php',
         'Joomla\\Archive\\Bzip2' => __DIR__ . '/..' . '/joomla/archive/src/Bzip2.php',
@@ -946,7 +957,6 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Joomla\\Event\\ListenersPriorityQueue' => __DIR__ . '/..' . '/joomla/event/src/ListenersPriorityQueue.php',
         'Joomla\\Event\\Priority' => __DIR__ . '/..' . '/joomla/event/src/Priority.php',
         'Joomla\\Event\\SubscriberInterface' => __DIR__ . '/..' . '/joomla/event/src/SubscriberInterface.php',
-        'Joomla\\Event\\SubscriberManagerInterface' => __DIR__ . '/..' . '/joomla/event/src/SubscriberManagerInterface.php',
         'Joomla\\Filesystem\\Buffer' => __DIR__ . '/..' . '/joomla/filesystem/src/Buffer.php',
         'Joomla\\Filesystem\\Clients\\FtpClient' => __DIR__ . '/..' . '/joomla/filesystem/src/Clients/FtpClient.php',
         'Joomla\\Filesystem\\Exception\\FilesystemException' => __DIR__ . '/..' . '/joomla/filesystem/src/Exception/FilesystemException.php',
@@ -1215,13 +1225,13 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Symfony\\Component\\Yaml\\Tag\\TaggedValue' => __DIR__ . '/..' . '/symfony/yaml/Tag/TaggedValue.php',
         'Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
+        'Symfony\\Polyfill\\Ctype\\Ctype' => __DIR__ . '/..' . '/symfony/polyfill-ctype/Ctype.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
         'Symfony\\Polyfill\\Php56\\Php56' => __DIR__ . '/..' . '/symfony/polyfill-php56/Php56.php',
         'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
         'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
         'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
         'Symfony\\Polyfill\\Util\\LegacyTestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/LegacyTestListener.php',
-        'Symfony\\Polyfill\\Util\\TestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListener.php',
         'Symfony\\Polyfill\\Util\\TestListenerTrait' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListenerTrait.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
         'Zend\\Diactoros\\CallbackStream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/CallbackStream.php',

@@ -58,6 +58,14 @@ abstract class PdoQuery extends DatabaseQuery implements LimitableInterface
 	];
 
 	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = ['0000-00-00 00:00:00'];
+
+	/**
 	 * Method to add a variable to an internal array that will be bound to a prepared SQL statement before query execution. Also
 	 * removes a variable that has been bounded from the internal bounded array when the passed in value is null.
 	 *
