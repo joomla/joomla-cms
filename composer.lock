@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3bd7695b38b737c3b555d83058b877fd",
+    "content-hash": "81c9ca521a0712b07e07143b469e835a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2452,6 +2452,50 @@
             "time": "2018-04-03T05:14:20+00:00"
         },
         {
+            "name": "wamania/php-stemmer",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wamania/php-stemmer.git",
+                "reference": "6cc76829bddd46f7ae7678e0bf87a0c872c8cf58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wamania/php-stemmer/zipball/6cc76829bddd46f7ae7678e0bf87a0c872c8cf58",
+                "reference": "6cc76829bddd46f7ae7678e0bf87a0c872c8cf58",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wamania\\Snowball\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wamania",
+                    "homepage": "http://wamania.com"
+                }
+            ],
+            "description": "Native PHP5 Stemmer",
+            "keywords": [
+                "php",
+                "porter",
+                "stemmer"
+            ],
+            "time": "2017-01-27T17:16:44+00:00"
+        },
+        {
             "name": "zendframework/zend-diactoros",
             "version": "1.7.1",
             "source": {
@@ -3679,7 +3723,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gómez",
+                    "name": "Javier Gomez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -3697,12 +3741,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/mediawiki-api.git",
-                "reference": "1e6c0fe319e7a90926473616dcfd540bd1e7563f"
+                "reference": "c3aae59728397f24ccf768dd9d730f6b62763050"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/1e6c0fe319e7a90926473616dcfd540bd1e7563f",
-                "reference": "1e6c0fe319e7a90926473616dcfd540bd1e7563f",
+                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/c3aae59728397f24ccf768dd9d730f6b62763050",
+                "reference": "c3aae59728397f24ccf768dd9d730f6b62763050",
                 "shasum": ""
             },
             "require": {
@@ -3738,7 +3782,7 @@
                 "joomla",
                 "mediawiki"
             ],
-            "time": "2018-02-18T20:32:39+00:00"
+            "time": "2018-04-08T21:04:10+00:00"
         },
         {
             "name": "joomla/test-system",
