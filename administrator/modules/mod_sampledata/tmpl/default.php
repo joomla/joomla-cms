@@ -54,5 +54,5 @@ Factory::getDocument()->addScriptOptions(
 		<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+	<joomla-alert type="warning"><?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?></joomla-alert>
 <?php endif; ?>
