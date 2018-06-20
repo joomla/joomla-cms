@@ -14,8 +14,10 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
-
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field to display a list of the layouts for a component view from
@@ -113,12 +115,12 @@ class ComponentlayoutField extends FormField
 			$templates = $db->loadObjectList('element');
 
 			// Build the search paths for component layouts.
-			$component_path = \JPath::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
+			$component_path = Path::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
 
 			// Check if the old layouts folder exists, else use the new one
 			if (!file_exists($component_path))
 			{
-				$component_path = \JPath::clean($client->path . '/components/' . $extension . '/tmpl/' . $view);
+				$component_path = Path::clean($client->path . '/components/' . $extension . '/tmpl/' . $view);
 			}
 
 			// Prepare array of component layouts
@@ -130,16 +132,16 @@ class ComponentlayoutField extends FormField
 			// Add a Use Global option if useglobal="true" in XML file
 			if ((string) $this->element['useglobal'] === 'true')
 			{
-				$groups[\JText::_('JOPTION_FROM_STANDARD')]['items'][] = \JHtml::_('select.option', '', \JText::_('JGLOBAL_USE_GLOBAL'));
+				$groups[Text::_('JOPTION_FROM_STANDARD')]['items'][] = HTMLHelper::_('select.option', '', Text::_('JGLOBAL_USE_GLOBAL'));
 			}
 
 			// Add the layout options from the component path.
-			if (is_dir($component_path) && ($component_layouts = \JFolder::files($component_path, '^[^_]*\.xml$', false, true)))
+			if (is_dir($component_path) && ($component_layouts = Folder::files($component_path, '^[^_]*\.xml$', false, true)))
 			{
 				// Create the group for the component
 				$groups['_'] = array();
 				$groups['_']['id'] = $this->id . '__';
-				$groups['_']['text'] = \JText::sprintf('JOPTION_FROM_COMPONENT');
+				$groups['_']['text'] = Text::sprintf('JOPTION_FROM_COMPONENT');
 				$groups['_']['items'] = array();
 
 				foreach ($component_layouts as $i => $file)
@@ -165,8 +167,8 @@ class ComponentlayoutField extends FormField
 					// Add an option to the component group
 					$value = basename($file, '.xml');
 					$component_layouts[$i] = $value;
-					$text = isset($menu['option']) ? \JText::_($menu['option']) : (isset($menu['title']) ? \JText::_($menu['title']) : $value);
-					$groups['_']['items'][] = \JHtml::_('select.option', '_:' . $value, $text);
+					$text = isset($menu['option']) ? Text::_($menu['option']) : (isset($menu['title']) ? Text::_($menu['title']) : $value);
+					$groups['_']['items'][] = HTMLHelper::_('select.option', '_:' . $value, $text);
 				}
 			}
 
@@ -179,7 +181,7 @@ class ComponentlayoutField extends FormField
 					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
 
-					$template_path = \JPath::clean(
+					$template_path = Path::clean(
 						$client->path
 						. '/templates/'
 						. $template->element
@@ -190,7 +192,7 @@ class ComponentlayoutField extends FormField
 					);
 
 					// Add the layout options from the template path.
-					if (is_dir($template_path) && ($files = \JFolder::files($template_path, '^[^_]*\.php$', false, true)))
+					if (is_dir($template_path) && ($files = Folder::files($template_path, '^[^_]*\.php$', false, true)))
 					{
 						foreach ($files as $i => $file)
 						{
@@ -206,7 +208,7 @@ class ComponentlayoutField extends FormField
 							// Create the group for the template
 							$groups[$template->name] = array();
 							$groups[$template->name]['id'] = $this->id . '_' . $template->element;
-							$groups[$template->name]['text'] = \JText::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
+							$groups[$template->name]['text'] = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
 							$groups[$template->name]['items'] = array();
 
 							foreach ($files as $file)
@@ -226,8 +228,8 @@ class ComponentlayoutField extends FormField
 											. $value
 										)
 									)
-									? \JText::_($key) : $value;
-								$groups[$template->name]['items'][] = \JHtml::_('select.option', $template->element . ':' . $value, $text);
+									? Text::_($key) : $value;
+								$groups[$template->name]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
 							}
 						}
 					}
@@ -245,7 +247,7 @@ class ComponentlayoutField extends FormField
 			$selected = array($this->value);
 
 			// Add a grouped list
-			$html[] = \JHtml::_(
+			$html[] = HTMLHelper::_(
 				'select.groupedlist', $groups, $this->name,
 				array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected)
 			);

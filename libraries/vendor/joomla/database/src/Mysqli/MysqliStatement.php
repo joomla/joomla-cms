@@ -33,6 +33,14 @@ class MysqliStatement implements StatementInterface
 	protected $bindedValues;
 
 	/**
+	 * Mapping between named parameters and position in query.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $parameterKeyMapping;
+
+	/**
 	 * Column names from the executed statement.
 	 *
 	 * @var    array|boolean|null
@@ -99,10 +107,10 @@ class MysqliStatement implements StatementInterface
 	/**
 	 * Bound parameter types.
 	 *
-	 * @var    string
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $types;
+	protected $typesKeyMapping;
 
 	/**
 	 * Constructor.
@@ -115,22 +123,145 @@ class MysqliStatement implements StatementInterface
 	 */
 	public function __construct(\mysqli $connection, string $query)
 	{
-		$this->connection = $connection;
-		$this->query      = $query;
+		$this->connection   = $connection;
+		$this->query        = $query;
+
+		$query = $this->prepareParameterKeyMapping($query);
+
 		$this->statement  = $connection->prepare($query);
 
 		if (!$this->statement)
 		{
 			throw new PrepareStatementFailureException($this->connection->error, $this->connection->errno);
 		}
+	}
 
-		$paramCount = $this->statement->param_count;
+	/**
+	 * Replace named parameters with numbered parameters
+	 *
+	 * @param   string  $sql  The SQL statement to prepare.
+	 *
+	 * @return  string  The processed SQL statement.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function prepareParameterKeyMapping($sql)
+	{
+		$escaped   	= false;
+		$startPos  	= 0;
+		$quoteChar 	= '';
+		$literal    = '';
+		$mapping    = [];
+		$replace    = [];
+		$matches    = [];
+		$pattern    = '/([:][a-zA-Z0-9_]+)/';
 
-		if ($paramCount > 0)
+		if (!preg_match($pattern, $sql, $matches))
 		{
-			$this->types        = str_repeat('s', $paramCount);
-			$this->bindedValues = array_fill(1, $paramCount, null);
+			return $sql;
 		}
+
+		$sql = trim($sql);
+		$n   = strlen($sql);
+
+		while ($startPos < $n)
+		{
+			if (!preg_match($pattern, $sql, $matches, 0, $startPos))
+			{
+				break;
+			}
+
+			$j = strpos($sql, "'", $startPos);
+			$k = strpos($sql, '"', $startPos);
+
+			if (($k !== false) && (($k < $j) || ($j === false)))
+			{
+				$quoteChar = '"';
+				$j         = $k;
+			}
+			else
+			{
+				$quoteChar = "'";
+			}
+
+			if ($j === false)
+			{
+				$j = $n;
+			}
+
+			// Search for named prepared parameters and replace it with ? and save its position
+			$replace = [];
+			$substring = substr($sql, $startPos, $j - $startPos);
+
+			if (preg_match_all($pattern, $substring, $matches, PREG_PATTERN_ORDER))
+			{
+				foreach ($matches[0] as $match)
+				{
+					$mapping[$match] = count($mapping);
+					$replace[] = $match;
+				}
+
+				$literal .= str_replace($replace, '?', $substring);
+			}
+			else
+			{
+				$literal .= $substring;
+			}
+
+			$startPos = $j;
+			$j++;
+
+			if ($j >= $n)
+			{
+				break;
+			}
+
+			// Quote comes first, find end of quote
+			while (true)
+			{
+				$k       = strpos($sql, $quoteChar, $j);
+				$escaped = false;
+
+				if ($k === false)
+				{
+					break;
+				}
+
+				$l = $k - 1;
+
+				while ($l >= 0 && $sql{$l} === '\\')
+				{
+					$l--;
+					$escaped = !$escaped;
+				}
+
+				if ($escaped)
+				{
+					$j = $k + 1;
+					continue;
+				}
+
+				break;
+			}
+
+			if ($k === false)
+			{
+				// Error in the query - no end quote; ignore it
+				break;
+			}
+
+			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$startPos = $k + 1;
+		}
+
+		if ($startPos < $n)
+		{
+			$literal .= substr($sql, $startPos, $n - $startPos);
+		}
+
+		$this->parameterKeyMapping = $mapping;
+
+		return $literal;
 	}
 
 	/**
@@ -151,7 +282,7 @@ class MysqliStatement implements StatementInterface
 	public function bindParam($parameter, &$variable, $dataType = ParameterType::STRING, $length = null, $driverOptions = null)
 	{
 		$this->bindedValues[$parameter] =& $variable;
-		$this->types[$parameter - 1]    = $dataType;
+		$this->typesKeyMapping[$parameter] = $dataType;
 
 		return true;
 	}
@@ -165,16 +296,29 @@ class MysqliStatement implements StatementInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function bindValues($values)
+	private function bindValues(array $values)
 	{
-		$params    = [];
-		$types     = str_repeat('s', count($values));
-		$params[0] = $types;
+		$params = [];
+		$types  = str_repeat('s', count($values));
 
-		foreach ($values as &$v)
+		if (!empty($this->parameterKeyMapping))
 		{
-			$params[] =& $v;
+			foreach ($values as $key => &$value)
+			{
+				$params[$this->parameterKeyMapping[$key]] =& $value;
+			}
+
+			ksort($params);
 		}
+		else
+		{
+			foreach ($values as $key => &$value)
+			{
+				$params[] =& $value;
+			}
+		}
+
+		array_unshift($params, $types);
 
 		return call_user_func_array([$this->statement, 'bind_param'], $params);
 	}
@@ -231,26 +375,41 @@ class MysqliStatement implements StatementInterface
 	{
 		if ($this->bindedValues !== null)
 		{
-			if ($parameters !== null)
+			$params = [];
+			$types  = [];
+
+			if (!empty($this->parameterKeyMapping))
 			{
-				if (!$this->bindValues($parameters))
+				foreach ($this->bindedValues as $key => &$value)
 				{
-					throw new PrepareStatementFailureException($this->statement->error, $this->statement->errno);
+					$params[$this->parameterKeyMapping[$key]] =& $value;
+					$types[$this->parameterKeyMapping[$key]]  = $this->typesKeyMapping[$key];
 				}
 			}
 			else
 			{
-				$params = [$this->types];
-
-				foreach ($this->bindedValues as &$value)
+				foreach ($this->bindedValues as $key => &$value)
 				{
-					$params[] =& $value;
+					$params[]    =& $value;
+					$types[$key] = $this->typesKeyMapping[$key];
 				}
+			}
 
-				if (!call_user_func_array([$this->statement, 'bind_param'], $params))
-				{
-					throw new PrepareStatementFailureException($this->statement->error, $this->statement->errno);
-				}
+			ksort($params);
+			ksort($types);
+
+			array_unshift($params, implode('', $types));
+
+			if (!call_user_func_array([$this->statement, 'bind_param'], $params))
+			{
+				throw new PrepareStatementFailureException($this->statement->error, $this->statement->errno);
+			}
+		}
+		elseif ($parameters !== null)
+		{
+			if (!$this->bindValues($parameters))
+			{
+				throw new PrepareStatementFailureException($this->statement->error, $this->statement->errno);
 			}
 		}
 

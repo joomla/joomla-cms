@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\Application;
 
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\EventInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Psr\Log\LoggerAwareInterface;
@@ -84,13 +85,14 @@ abstract class AbstractApplication implements LoggerAwareInterface, DispatcherAw
 	/**
 	 * Dispatches an application event if the dispatcher has been set.
 	 *
-	 * @param   string  $eventName  The event to dispatch.
+	 * @param   string      $eventName  The event to dispatch.
+	 * @param   Event|null  $event      The event object.
 	 *
-	 * @return  void
+	 * @return  EventInterface|void  The dispatched event or null if no dispatcher is set
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function dispatchEvent(string $eventName)
+	protected function dispatchEvent(string $eventName, EventInterface $event = null)
 	{
 		try
 		{
@@ -101,7 +103,7 @@ abstract class AbstractApplication implements LoggerAwareInterface, DispatcherAw
 			return;
 		}
 
-		$dispatcher->dispatch($eventName, new Event\ApplicationEvent($eventName, $this));
+		return $dispatcher->dispatch($eventName, $event ?: new Event\ApplicationEvent($eventName, $this));
 	}
 
 	/**
@@ -124,12 +126,19 @@ abstract class AbstractApplication implements LoggerAwareInterface, DispatcherAw
 	 */
 	public function execute()
 	{
-		$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
+		try
+		{
+			$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
 
-		// Perform application routines.
-		$this->doExecute();
+			// Perform application routines.
+			$this->doExecute();
 
-		$this->dispatchEvent(ApplicationEvents::AFTER_EXECUTE);
+			$this->dispatchEvent(ApplicationEvents::AFTER_EXECUTE);
+		}
+		catch (\Throwable $throwable)
+		{
+			$this->dispatchEvent(ApplicationEvents::ERROR, new Event\ApplicationErrorEvent($thrown, $this));
+		}
 	}
 
 	/**
