@@ -67,6 +67,7 @@
 					name="additional_httpheader"
 					type="subform"
 					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
+					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
 					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
 					multiple="true"
 				/>
@@ -76,7 +77,6 @@
 					name="hsts"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
-					description="PLG_SYSTEM_HTTPHEADERS_HSTS_DESC"
 					class="switcher"
 					default="0"
 					>
@@ -122,7 +122,6 @@
 					name="contentsecuritypolicy"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY"
-					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_DESC"
 					class="switcher"
 					default="0"
 					>
