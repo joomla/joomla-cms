@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
 ?>
-<?php $class = ' first'; ?>
+<?php $class = 'first'; ?>
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
 				<?php $class = ' class="last"'; ?>
 			<?php endif; ?>
-			<div class="com-newsfeeds-categories__items<?php echo $class; ?>">
+			<div class="com-newsfeeds-categories__items <?php echo $class; ?>">
 				<?php $class = ''; ?>
 				<h3 class="page-header item-title">
 					<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
