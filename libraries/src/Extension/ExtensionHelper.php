@@ -133,7 +133,6 @@ class ExtensionHelper
 		array('plugin', 'taggable', 'behaviour', 0),
 		array('plugin', 'versionable', 'behaviour', 0),
 
-
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
 
@@ -212,6 +211,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
+		array('plugin', 'multilang', 'sampledata', 0),
 
 		// Core plugin extensions - search
 		array('plugin', 'categories', 'search', 0),

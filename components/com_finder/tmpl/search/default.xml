@@ -9,7 +9,7 @@
 		</message>
 	</layout>
 
-	<fields name="request" addfieldpath="/administrator/components/com_finder/models/fields">
+	<fields name="request" addfieldprefix="Joomla\Component\Finder\Administrator\Field" >
 		<fieldset name="request">
 			<field
 				name="q"
@@ -25,7 +25,7 @@
 			/>
 		</fieldset>
 	</fields>
-	<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
+	<fields name="params">
 		<fieldset name="basic">
 			<field
 				name="show_date_filters"

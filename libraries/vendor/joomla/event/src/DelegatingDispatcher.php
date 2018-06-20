@@ -52,6 +52,20 @@ final class DelegatingDispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Adds an event subscriber.
+	 *
+	 * @param   SubscriberInterface  $subscriber  The subscriber.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addSubscriber(SubscriberInterface $subscriber)
+	{
+		$this->dispatcher->addSubscriber($subscriber);
+	}
+
+	/**
 	 * Dispatches an event to all registered listeners.
 	 *
 	 * @param   string          $name   The name of the event to dispatch.
@@ -67,6 +81,37 @@ final class DelegatingDispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Get the listeners registered to the given event.
+	 *
+	 * @param   string  $event  The event to fetch listeners for
+	 *
+	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getListeners($event)
+	{
+		return $this->dispatcher->getListeners($event);
+	}
+
+	/**
+	 * Tell if the given listener has been added.
+	 *
+	 * If an event is specified, it will tell if the listener is registered for that event.
+	 *
+	 * @param   callable  $callback   The callable to check is listening to the event.
+	 * @param   string    $eventName  The event to check a listener is subscribed to.
+	 *
+	 * @return  boolean  True if the listener is registered, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasListener(callable $callback, $eventName = null)
+	{
+		return $this->dispatcher->hasListener($callback, $eventName);
+	}
+
+	/**
 	 * Removes an event listener from the specified event.
 	 *
 	 * @param   string    $eventName  The event to remove a listener from.
@@ -79,6 +124,20 @@ final class DelegatingDispatcher implements DispatcherInterface
 	public function removeListener(string $eventName, callable $listener)
 	{
 		$this->dispatcher->removeListener($eventName, $listener);
+	}
+
+	/**
+	 * Removes an event subscriber.
+	 *
+	 * @param   SubscriberInterface  $subscriber  The subscriber.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeSubscriber(SubscriberInterface $subscriber)
+	{
+		$this->dispatcher->removeSubscriber($subscriber);
 	}
 
 	/**

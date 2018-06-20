@@ -134,7 +134,7 @@ trait CategoriesServiceTrait
 	public function countTagItems(array $items, string $extension)
 	{
 		$parts     = explode('.', $extension);
-		$section   = null;
+		$section   = '';
 
 		if (count($parts) > 1)
 		{
@@ -149,7 +149,7 @@ trait CategoriesServiceTrait
 
 		$db    = \JFactory::getDbo();
 		$join  = $db->qn($sectionTable) . ' AS c ON ct.content_item_id=c.id';
-		$state = 'state';
+		$state = $this->getStateColumnForSection($section);
 
 		if ($section === 'category')
 		{
@@ -210,5 +210,19 @@ trait CategoriesServiceTrait
 	protected function getTableNameForSection(string $section = null)
 	{
 		return null;
+	}
+
+	/**
+	 * Returns the state column for the count items functions for the given section.
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getStateColumnForSection(string $section = null)
+	{
+		return 'state';
 	}
 }

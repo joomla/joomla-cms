@@ -470,23 +470,6 @@ abstract class JLoader
 	}
 
 	/**
-	 * Root folders where extensions can be found. For example:
-	 * JLoader::registerExtensionRootFolder(JPATH_SITE, 'Site');
-	 * JLoader::registerExtensionRootFolder(JPATH_ADMINISTRATOR, 'Administrator');
-	 *
-	 * @param   string  $key   The key.
-	 * @param   string  $path  A absolute file path to the root where extensions can be found.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public static function registerExtensionRootFolder($key, $path)
-	{
-		self::$extensionRootFolders[$key] = $path;
-	}
-
-	/**
 	 * Method to setup the autoloaders for the Joomla Platform.
 	 * Since the SPL autoloaders are called in a queue we will add our explicit
 	 * class-registration based loader first, then fall back on the autoloader based on conventions.
@@ -523,104 +506,8 @@ abstract class JLoader
 			// Register the PSR based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
-			spl_autoload_register(array('JLoader', 'loadByExtension'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
-	}
-
-	/**
-	 * Method to autoload classes that are namespaced and do belong to an extension. The
-	 * extension must have the following pattern to be autoloaded:
-	 * - Component: Joomla\Component\Content\Site
-	 * - Module:    Joomla\Module\ArticlesLatest\Administrator
-	 * - Plugin:    Joomla\Plugin\System\Cache
-	 *
-	 * @param   string  $class  The fully qualified class name to autoload.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   4.0.0
-	 */
-	public static function loadByExtension($class)
-	{
-		// Check if it is a namespaced class
-		if (strrpos($class, '\\') === false)
-		{
-			return false;
-		}
-
-		// Splice into segments
-		$segments = explode('\\', $class);
-
-		// Check if there are enough segments
-		if (count($segments) < 5)
-		{
-			return false;
-		}
-
-		// Check if it is an extension class
-		if (!in_array($segments[1], array('Component', 'Module', 'Plugin')))
-		{
-			return false;
-		}
-
-		// Normally Administrator or Site
-		$key = $segments[3];
-
-		// If it is a plugin, then the key is empty
-		if ($segments[1] == 'Plugin')
-		{
-			$key = '';
-		}
-
-		// Check if it is an extension class
-		if (!array_key_exists($key, self::$extensionRootFolders))
-		{
-			return false;
-		}
-
-		// Define the root of the path
-		$path = self::$extensionRootFolders[$key];
-
-		// Add the extension specific folder to the path
-		switch ($segments[1])
-		{
-			case 'Component':
-				$name = strtolower($segments[2]);
-				$path .= '/components/com_' . $name;
-				break;
-			case 'Module':
-				// Convert the name of the extension from camelcase to underscore for module
-				$name = strtolower(implode('_', self::fromCamelCase($segments[2], true)));
-				$path .= '/modules/mod_' . $name;
-				break;
-			case 'Plugin':
-				$group = strtolower($segments[2]);
-				$name  = strtolower($segments[3]);
-				$path .= '/plugins/' . $group . '/' . $name;
-				break;
-		}
-
-		// Check if the extension supports a nice and clean folder structure
-		if (file_exists($path . '/src'))
-		{
-			$path .= '/src';
-		}
-
-		// Extension can't be autoloaded
-		if (!file_exists($path))
-		{
-			return false;
-		}
-
-		// Compile the namespace
-		$ns = implode('\\', array_slice($segments, 0, 4));
-
-		// Register the namespace
-		self::registerNamespace($ns, $path, false, false, 'psr4');
-
-		// Load the class by default PSR-4 routine
-		return self::loadByPsr4($class);
 	}
 
 	/**
@@ -915,23 +802,6 @@ abstract class JLoader
 	private static function stripFirstBackslash($class)
 	{
 		return $class && $class[0] === '\\' ? substr($class, 1) : $class;
-	}
-
-	/**
-	 * Copied form Normalise class, JLoader should not have an external dependency.
-	 *
-	 * @param   string   $input    The string input (ASCII only).
-	 * @param   boolean  $grouped  Optionally allows splitting on groups of uppercase characters.
-	 *
-	 * @return  string  The space separated string.
-	 *
-	 * @since   4.0.0
-	 */
-	private static function fromCamelCase($input, $grouped = false)
-	{
-		return $grouped
-			? preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $input)
-			: trim(preg_replace('#([A-Z])#', ' $1', $input));
 	}
 }
 

@@ -19,9 +19,6 @@ use Joomla\CMS\Language\Text;
 $app  = Factory::getApplication();
 $lang = Factory::getLanguage();
 
-// Getting params from template
-$params = $app->getTemplate(true)->params;
-
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
@@ -71,7 +68,7 @@ else
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
 // Container
-$wrapper = $params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
+$wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
