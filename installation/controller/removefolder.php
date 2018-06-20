@@ -64,7 +64,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		{
 			// Connect the FTP client.
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
-			$ftp->login($options->ftp_user, $options->ftp_pass);
+			$ftp->login($options->ftp_user, $options->ftp_pass_plain);
 
 			// Translate path for the FTP account.
 			$file   = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');

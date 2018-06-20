@@ -83,20 +83,20 @@ else
 			if (!$feed->offsetExists($i)) :
 				break;
 			endif;
-			$uri  = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
-			$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
-			$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
+			$uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+			$uri  = !$uri || stripos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
+			$text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
 						<a href="<?php echo $uri; ?>" target="_blank">
-						<?php  echo $feed[$i]->title; ?></a></h5>
+						<?php echo trim($feed[$i]->title); ?></a></h5>
 					<?php else : ?>
-						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
-					<?php  endif; ?>
+						<h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
+					<?php endif; ?>
 
-					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
+					<?php if ($params->get('rssitemdesc') && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.

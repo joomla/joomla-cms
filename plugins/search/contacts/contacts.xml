@@ -25,6 +25,7 @@
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
 					default="50"
+					filter="integer"
 					size="5"
 				/>
 
@@ -35,6 +36,7 @@
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -47,6 +49,7 @@
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

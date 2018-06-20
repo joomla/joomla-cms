@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -276,7 +276,7 @@ class Input implements \Serializable, \Countable
 	/**
 	 * Check if a value name exists.
 	 *
-	 * @param   string  $path  Value name
+	 * @param   string  $name  Value name
 	 *
 	 * @return  boolean
 	 *
@@ -354,7 +354,7 @@ class Input implements \Serializable, \Countable
 	 *
 	 * @param   string  $input  The serialized input.
 	 *
-	 * @return  Input  The input object.
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */

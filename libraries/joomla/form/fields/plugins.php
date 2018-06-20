@@ -126,6 +126,12 @@ class JFormFieldPlugins extends JFormFieldList
 				->where('enabled = 1')
 				->order('ordering, name');
 
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
+
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = JFactory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
@@ -156,5 +162,22 @@ class JFormFieldPlugins extends JFormFieldList
 		}
 
 		return array_merge($parentOptions, $options);
+	}
+
+	/**
+	 * Method to get input and also set field readonly.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   3.8.7
+	 */
+	protected function getInput()
+	{
+		if (count($this->options) === 1 && $this->options[0]->text === JText::_('JOPTION_DO_NOT_USE'))
+		{
+			$this->readonly = true;
+		}
+
+		return parent::getInput();
 	}
 }

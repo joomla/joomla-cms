@@ -9088,8 +9088,6 @@ input:focus,
 	margin-bottom: 15px;
 	width: 100%;
 	list-style: none;
-	-webkit-column-break-inside: avoid;
-	-webkit-backface-visibility: hidden;
 }
 #menu-assignment .menu-links-block {
 	background-color: #fafafa;
