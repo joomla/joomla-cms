@@ -10,7 +10,7 @@ if (class_exists('ParagonIE_Sodium_Core_ChaCha20_Ctx', false)) {
 class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util implements ArrayAccess
 {
     /**
-     * @var SplFixedArray<int, ParagonIE_Sodium_Core32_Int32>
+     * @var SplFixedArray internally, <int, ParagonIE_Sodium_Core32_Int32>
      */
     protected $container;
 

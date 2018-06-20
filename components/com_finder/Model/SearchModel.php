@@ -267,9 +267,24 @@ class SearchModel extends ListModel
 		 * If there are no optional or required search terms in the query, we
 		 * can get the results in one relatively simple database query.
 		 */
-		if (empty($this->includedTerms))
+		if (empty($this->includedTerms) && $this->searchquery->empty)
 		{
 			// Return the results.
+			return $query;
+		}
+
+		/*
+		 * If there are no optional or required search terms in the query and
+		 * empty searches are not allowed, we return an empty query.
+		 */
+		if (empty($this->includedTerms) && !$this->searchquery->empty)
+		{
+			// Since we need to return a query, we simplify this one.
+			$query->clear('join')
+				->clear('where')
+				->clear('group')
+				->where('false');
+
 			return $query;
 		}
 
@@ -292,9 +307,14 @@ class SearchModel extends ListModel
 		 */
 		if (count($this->requiredTerms))
 		{
-			$required = call_user_func_array('array_merge', $this->requiredTerms);
-			$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS r ON r.link_id = l.link_id')
-					->where('r.term_id IN (' . implode(',', $required) . ')');
+			$i = 0;
+
+			foreach ($this->requiredTerms as $terms)
+			{
+				$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS r' . $i . ' ON r' . $i . '.link_id = l.link_id')
+					->where('r' . $i . '.term_id IN (' . implode(',', $terms) . ')');
+				$i++;
+			}
 		}
 
 		return $query;

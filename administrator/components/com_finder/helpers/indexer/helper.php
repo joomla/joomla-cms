@@ -68,6 +68,8 @@ class FinderIndexerHelper
 			return $cache[$store];
 		}
 
+
+
 		if (is_null($multilingual))
 		{
 			$multilingual = Multilanguage::isEnabled();
