@@ -904,7 +904,7 @@ class FinderIndexerQuery
 					$parts = explode(' ', $match);
 					$tuplecount = $params->get('tuplecount', 1);
 
-					// Check if the phrase is longer than three words.
+					// Check if the phrase is longer than our $tuplecount.
 					if (count($parts) > $tuplecount && $tuplecount > 1)
 					{
 						$chunk = array_slice($parts, 0, $tuplecount);
