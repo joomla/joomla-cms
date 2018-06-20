@@ -299,9 +299,9 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 			/*
 			 * If user is already on edit profile screen or view privacy article
-			 * or press update button, do nothing to avoid infinite redirect
+			 * or press update/apply button, or logout, do nothing to avoid infinite redirect
 			 */
-			if ($task == 'profile.save'
+			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout'))
 				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
 				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{
