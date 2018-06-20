@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 		$this->items  = $this->get('Items');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
-		$this->group = $this->get('Group');
+		$this->group  = $this->get('Group');
 
 		PluginHelper::importPlugin('content');
 
