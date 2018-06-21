@@ -335,8 +335,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return [];
 		}
 
-		$automaticCspHeader = array();
-		$cspHeaderCollection = array();
+		$automaticCspHeader = [];
+		$cspHeaderCollection = [];
 
 		foreach ($rows as $row)
 		{
