@@ -129,13 +129,25 @@
 					<option value="1">JENABLED</option>
 				</field>
 				<field
+					name="contentsecuritypolicy_mode"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE"
+					default="custom"
+					validate="options"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="custom">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_CUSTOM</option>
+					<option value="detecting">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_DETECTING</option>
+					<option value="automatic">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_AUTOMATIC</option>
+				</field>
+				<field
 					name="contentsecuritypolicy_report_only"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY"
 					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
 					class="switcher"
 					default="0"
-					showon="contentsecuritypolicy:1"
+					showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -147,7 +159,7 @@
 					formsource="plugins/system/httpheaders/subform/cspkeyvalue.xml"
 					multiple="true"
 					min="1"
-					showon="contentsecuritypolicy:1"
+					showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
 				/>
 			</fieldset>
 		</fields>

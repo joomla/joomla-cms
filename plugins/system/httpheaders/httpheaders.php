@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
@@ -36,6 +37,14 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
+	 * Database object.
+	 *
+	 * @var    DatabaseDriver
+	 * @since  3.8.0
+	 */
+	protected $db;
+
+	/**
 	 * The list of the supported HTTP headers
 	 *
 	 * @var    array
@@ -51,6 +60,31 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'referrer-policy',
 		'expect-ct',
 	];
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+
+		// Get the application if not done by JPlugin.
+		if (!$this->app)
+		{
+			$this->app = Factory::getApplication();
+		}
+
+		// Get the db if not done by JPlugin.
+		if (!$this->db)
+		{
+			$this->db = Factory::getDbo();
+		}
+	}
 
 	/**
 	 * Returns an array of events this subscriber will listen to.
@@ -73,7 +107,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders()
+	public function setHttpHeaders():void
 	{
 		// Set the default header when they are enabled
 		$this->setDefaultHeader();
@@ -126,7 +160,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function setDefaultHeader()
+	private function setDefaultHeader(): void
 	{
 		// X-Frame-Options
 		if ($this->params->get('xframeoptions', '1') === '1')
@@ -162,16 +196,46 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function setCspHeader()
+	private function setCspHeader(): void
 	{
-		// This is used later to generate a suggestion for the csp header
-		$nonce = base64_encode(bin2hex(random_bytes(64)));
-		$this->app->set('script_nonce', $nonce);
+		// Nonce generation 
+		$cspNonce = base64_encode(bin2hex(random_bytes(64)));
+		$this->app->set('csp_nonce', $cspNonce);
 
-		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
-		$cspReadOnly  = (int) $this->params->get('contentsecuritypolicy_report_only', 0);
-		$csp          = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
-		$newCspValues = array();
+		// Mode Selector
+		$cspMode = $this->params->get('contentsecuritypolicy_mode', 'custom');
+
+		// In detecting mode we set this default rule so any report gets collected by com_csp
+		if ($cspMode === 'detecting')
+		{
+			$this->app->setHeader(
+				'Content-Security-Policy-Report-Only',
+				"default-src 'self'; report-uri index.php?option=com_csp&task=report.log"
+			);
+
+			return;
+		}
+
+		// In automatic mode we compile the automatic header values and append it to the header
+		if ($cspMode === 'automatic')
+		{
+			$this->app->setHeader(
+				'Content-Security-Policy',
+				trim(
+					implode(
+						'; ',
+						$this->compileAutomaticCspHeaderValues($cspNonce)
+					)
+				)
+			);
+
+			return;
+		}
+
+		// In custom mode we compile the header from the values configured
+		$cspValues   = $this->params->get('contentsecuritypolicy_values', array());
+		$cspReadOnly = (int) $this->params->get('contentsecuritypolicy_report_only', 0);
+		$csp         = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -186,7 +250,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if ($cspValue->directive === 'script-src')
 				{
-					'nonce-' . $nonce . ' ' . $cspValue->value;
+					'nonce-' . $cspNonce . ' ' . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -198,7 +262,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$this->app->setHeader($csp, implode(';', $newCspValues));
+		$this->app->setHeader($csp, trim(implode('; ', $newCspValues)));
 	}
 
 	/**
@@ -208,7 +272,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function setHstsHeader()
+	private function setHstsHeader(): void
 	{
 		$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
 		$hstsOptions   = array();
@@ -224,6 +288,63 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$hstsOptions[] = 'preload';
 		}
 
-		$this->app->setHeader('Strict-Transport-Security', implode('; ', $hstsOptions));
+		$this->app->setHeader('Strict-Transport-Security', trim(implode('; ', $hstsOptions)));
+	}
+
+	/**
+	 * Set the HSTS header when enabled
+	 *
+	 * @param  string  $nonce  The System nonce used for script and style tags
+	 *
+	 * @return  array  An array containing the csp rules found in com_csp
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function compileAutomaticCspHeaderValues($nonce): array
+	{
+		// Get database
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(['directive', 'blocked_uri']))
+			->from('#__csp')
+			->where($this->db->quoteName('published') . ' = 1');
+
+		$this->db->setQuery($query);
+
+		try
+		{
+			$rows = (array) $this->db->loadObjectList();
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return [];
+		}
+
+		$automaticCspHeader = array();
+		$cspHeaderCollection = array();
+
+		foreach ($rows as $row)
+		{
+			if (!isset($cspHeaderCollection[$row->directive]))
+			{
+				$cspHeaderCollection = array_fill_keys([$row->directive], '');
+			}
+	
+			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
+		}
+
+		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
+		{
+			// Append the random $nonce for the script and style tags
+			if (in_array($cspHeaderkey, ['script-src', 'style-src']))
+			{
+				$cspHeaderValue = 'nonce-' . $nonce . $cspHeaderValue;
+			}
+
+			$automaticCspHeader[] = $cspHeaderkey . ' ' . trim($cspHeaderValue);
+		}
+
+		return $automaticCspHeader;
 	}
 }

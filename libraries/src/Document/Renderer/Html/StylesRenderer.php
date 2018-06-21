@@ -142,9 +142,9 @@ class StylesRenderer extends DocumentRenderer
 		{
 			$nonce = '';
 
-			if ($this->_doc->scriptNonce)
+			if ($this->_doc->cspNonce)
 			{
-				$nonce = ' nonce="' . $this->_doc->scriptNonce . '"';
+				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
 			}
 
 			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';

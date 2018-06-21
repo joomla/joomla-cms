@@ -51,7 +51,8 @@ class ReportController extends BaseController
 
 		if (filter_var($report->blocked_uri, FILTER_VALIDATE_URL) !== false)
 		{
-			$report->blocked_uri = parse_url($report->blocked_uri, PHP_URL_HOST);
+			$parsedUrl = parse_url($report->blocked_uri);
+			$report->blocked_uri = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
 		}
 
 		$report->directive = $data['violated-directive'];
