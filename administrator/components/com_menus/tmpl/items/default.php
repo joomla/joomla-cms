@@ -173,7 +173,7 @@ if ($menuType == '')
 									<?php
 									// Show protected items as published always. We don't allow state change for them. Show/Hide is the module's job.
 									$published = $item->protected ? 3 : $item->published;
-									echo JHtml::_('MenusHtml.Menus.state', $published, $i, $canChange && !$item->protected, 'cb'); ?>
+									echo JHtml::_('menus.state', $published, $i, $canChange && !$item->protected, 'cb'); ?>
 								</td>
 								<td>
 									<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
@@ -201,7 +201,7 @@ if ($menuType == '')
 										<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 									<?php endif; ?>
 									</span>
-									<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>
+									<?php echo JHtml::_('menus.visibility', $item->params); ?>
 									<div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
 										<span class="small"
@@ -245,7 +245,7 @@ if ($menuType == '')
 								<?php if ($assoc) : ?>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php if ($item->association) : ?>
-											<?php echo JHtml::_('MenusHtml.Menus.association', $item->id); ?>
+											<?php echo JHtml::_('menus.association', $item->id); ?>
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
