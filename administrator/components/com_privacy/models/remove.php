@@ -164,7 +164,7 @@ class PrivacyModelRemove extends JModelLegacy
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'reasons'     => $reasons,
+			'reasons'     => implode('; ', $reasons),
 		);
 
 		/** @var ActionlogsModelActionlog $model */
