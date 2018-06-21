@@ -137,8 +137,8 @@
 					showon="contentsecuritypolicy:1"
 					>
 					<option value="custom">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_CUSTOM</option>
-					<option value="detecting">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_DETECTING</option>
-					<option value="automatic">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_AUTOMATIC</option>
+					<option value="detect">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_DETECT</option>
+					<option value="auto">PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_MODE_AUTO</option>
 				</field>
 				<field
 					name="contentsecuritypolicy_report_only"

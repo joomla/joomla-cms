@@ -124,12 +124,16 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// Set the default header when they are enabled
 		$this->setDefaultHeader();
 
+		// Nonce generation 
+		$cspNonce = base64_encode(bin2hex(random_bytes(64)));
+		$this->app->set('csp_nonce', $cspNonce);
+
 		// Handle CSP Header configuration
 		$cspOptions = (int) $this->params->get('contentsecuritypolicy', 0);
 
 		if ($cspOptions)
 		{
-			$this->setCspHeader();
+			$this->setCspHeader($cspNonce);
 		}
 
 		// Handle HSTS Header configuration
@@ -159,6 +163,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			if (!in_array(strtolower($httpHeader->key), $this->supportedHttpHeaders))
 			{
 				continue;
+			}
+
+			// Allow the custom csp headers to use the random $cspNonce in the rules
+			if (in_array($httpHeader->key, ['content-security-policy', 'content-security-policy-report-only']))
+			{
+				$httpHeader->value = str_replace('{nonce}', $cspNonce, $httpHeader->value);
 			}
 
 			$this->app->setHeader($httpHeader->key, $httpHeader->value, true);
@@ -204,21 +214,19 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Set the CSP header when enabled
 	 *
+	 * @param  string  $cspNonce  The one time string for the script and style tag
+	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function setCspHeader(): void
+	private function setCspHeader($cspNonce): void
 	{
-		// Nonce generation 
-		$cspNonce = base64_encode(bin2hex(random_bytes(64)));
-		$this->app->set('csp_nonce', $cspNonce);
-
 		// Mode Selector
 		$cspMode = $this->params->get('contentsecuritypolicy_mode', 'custom');
 
 		// In detecting mode we set this default rule so any report gets collected by com_csp
-		if ($cspMode === 'detecting')
+		if ($cspMode === 'detect')
 		{
 			$frontendUrl = str_replace('/administrator', '', Uri::base());
 
@@ -231,7 +239,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// In automatic mode we compile the automatic header values and append it to the header
-		if ($cspMode === 'automatic')
+		if ($cspMode === 'auto')
 		{
 			$this->app->setHeader(
 				'Content-Security-Policy',
@@ -264,7 +272,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if (in_array($cspValue->directive, $this->specialDirectives))
 				{
-					'nonce-' . $cspNonce . ' ' . $cspValue->value;
+					$cspValue->value = 'nonce-' . $cspNonce . ' ' . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -335,7 +343,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return [];
 		}
 
-		$automaticCspHeader = [];
+		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
 
 		foreach ($rows as $row)

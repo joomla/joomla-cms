@@ -13,7 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Csp\Administrator\Table\ReportTable;
+use Joomla\Registry\Registry;
 
 /**
  * Csp Controller
@@ -31,9 +33,16 @@ class ReportController extends BaseController
 	 */
 	public function log()
 	{
-		$params = $this->app->getParams();
+		$pluginParams = new Registry;
 
-		if (!$params->get('enable_reporter'))
+		// Get the httpheaders plugin params
+		if (PluginHelper::isEnabled('system', 'httpheaders'))
+		{
+			$pluginParams->loadString(PluginHelper::getPlugin('system', 'httpheaders')->params);
+		}
+
+		// When we are not in detect mode do nothing here
+		if ($pluginParams->get('contentsecuritypolicy_mode', 'custom') != 'detect')
 		{
 			$this->app->close();
 		}
