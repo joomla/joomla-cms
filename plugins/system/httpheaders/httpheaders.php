@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -50,7 +51,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	protected $supportedHttpHeaders = [
+	private $supportedHttpHeaders = [
 		'strict-transport-security',
 		'content-security-policy',
 		'content-security-policy-report-only',
@@ -59,6 +60,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
+	];
+
+	/**
+	 * The list of special directives that need to be handled
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $specialDirectives = [
+		'script-src',
+		'style-src'
 	];
 
 	/**
@@ -208,9 +220,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// In detecting mode we set this default rule so any report gets collected by com_csp
 		if ($cspMode === 'detecting')
 		{
+			$frontendUrl = str_replace('/administrator', '', Uri::base());
+
 			$this->app->setHeader(
 				'Content-Security-Policy-Report-Only',
-				"default-src 'self'; report-uri index.php?option=com_csp&task=report.log"
+				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log"
 			);
 
 			return;
@@ -248,7 +262,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// We can only use this if this is a valid entry
 			if (isset($cspValue->directive) && isset($cspValue->value))
 			{
-				if ($cspValue->directive === 'script-src')
+				if (in_array($cspValue->directive, $this->specialDirectives))
 				{
 					'nonce-' . $cspNonce . ' ' . $cspValue->value;
 				}
@@ -337,12 +351,21 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
 			// Append the random $nonce for the script and style tags
-			if (in_array($cspHeaderkey, ['script-src', 'style-src']))
+			if (in_array($cspHeaderkey, $this->specialDirectives))
 			{
 				$cspHeaderValue = 'nonce-' . $nonce . $cspHeaderValue;
 			}
 
-			$automaticCspHeader[] = $cspHeaderkey . ' ' . trim($cspHeaderValue);
+			// Eval or inline is whitlisted? Well you have not understand strict
+			// csp but hey we cover you lets make sure they still work
+			if (in_array($cspHeaderkey, $this->specialDirectives) 
+				&& in_array($cspHeaderValue, ['eval', 'inline']))
+			{
+				$cspHeaderValue = 'unsafe-' . $cspHeaderValue;
+			}
+
+			// By default we should whitelist 'self' on any directive
+			$automaticCspHeader[] = $cspHeaderkey . " 'self' " . trim($cspHeaderValue);
 		}
 
 		return $automaticCspHeader;
