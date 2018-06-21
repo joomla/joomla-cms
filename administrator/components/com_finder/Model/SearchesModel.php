@@ -18,7 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Methods supporting a list of search terms.
  *
- * @since  __DEPLOYED_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class SearchesModel extends ListModel
 {
@@ -29,7 +29,7 @@ class SearchesModel extends ListModel
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
@@ -54,7 +54,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = 'a.hits', $direction = 'asc')
 	{
@@ -80,7 +80,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -96,7 +96,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  \JDatabaseQuery
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
@@ -131,7 +131,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -153,7 +153,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function reset()
 	{

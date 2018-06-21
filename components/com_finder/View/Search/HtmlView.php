@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Log the search
-		FinderHelper::logSearch($this->query, count($this->total));
+		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
