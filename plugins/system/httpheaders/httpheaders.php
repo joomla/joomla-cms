@@ -107,7 +107,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders():void
+	public function setHttpHeaders(): void
 	{
 		// Set the default header when they are enabled
 		$this->setDefaultHeader();

@@ -116,6 +116,11 @@ class StylesRenderer extends DocumentRenderer
 				$buffer .= ' type="' . $type . '"';
 			}
 
+			if ($this->_doc->cspNonce)
+			{
+				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
+			}
+
 			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
