@@ -41,7 +41,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * Database object.
 	 *
 	 * @var    DatabaseDriver
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
@@ -238,7 +238,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				trim(
 					implode(
 						'; ',
-						$this->compileAutomaticCspHeaderValues($cspNonce)
+						$this->compileAutomaticCspHeaderRules($cspNonce)
 					)
 				)
 			);
@@ -306,7 +306,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Set the HSTS header when enabled
+	 * Compone the automatic csp header rules based on com_csp / #__csp
 	 *
 	 * @param  string  $nonce  The System nonce used for script and style tags
 	 *
@@ -314,9 +314,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function compileAutomaticCspHeaderValues($nonce): array
+	private function compileAutomaticCspHeaderRules($nonce): array
 	{
-		// Get database
+		// Get the published infos form the database
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(['directive', 'blocked_uri']))
 			->from('#__csp')
