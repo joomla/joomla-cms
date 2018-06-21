@@ -64,6 +64,9 @@ class NoteTable extends Table
 		{
 			// New record.
 			$this->created_time = $date;
+
+			// Field modified_user_id does not have a default value!!!
+			$this->modified_user_id = null;
 			$this->created_user_id = $userId;
 		}
 
@@ -186,5 +189,7 @@ class NoteTable extends Table
 		{
 			$this->modified_time = $this->getDbo()->getNullDate();
 		}
+
+		return true;
 	}
 }
