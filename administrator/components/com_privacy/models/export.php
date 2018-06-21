@@ -73,7 +73,7 @@ class PrivacyModelExport extends JModelLegacy
 
 		foreach ($pluginResults as $pluginDomains)
 		{
-			$domains += $pluginDomains;
+			$domains = array_merge($domains, $pluginDomains);
 		}
 
 		return $domains;
