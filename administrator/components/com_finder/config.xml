@@ -282,8 +282,9 @@
 
 		<field
 			name="language_default" 
-			type="contentlanguage" 
+			type="language" 
 			label="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_LABEL"
+			description="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_DESC"
 			>
 			<option value="-1">COM_FINDER_CONFIG_LANGUAGE_DEFAULT_DEFAULT_LANGUAGE</option>
 			<option value="">COM_FINDER_CONFIG_LANGUAGE_DEFAULT_NONE</option>
