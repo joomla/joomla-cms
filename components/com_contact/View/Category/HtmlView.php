@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
-use Joomla\CMS\Mail\Mailhelper;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**

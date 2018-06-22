@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
-use Joomla\CMS\Mail\Mailhelper;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 
