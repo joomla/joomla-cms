@@ -16,8 +16,9 @@ class UpdateCoreCommandTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIfCommandOutputContainsUsageInformation()
 	{
-		exec('php cli/joomla.php help core update', $parts);
+		exec('php cli/joomla.php help core:update', $parts);
 		$parts = array_flip($parts);
+
 		$this->assertArrayHasKey("Usage:", $parts, 'Message should contain usage instructions');
 	}
 }

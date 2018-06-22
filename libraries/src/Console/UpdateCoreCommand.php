@@ -65,25 +65,19 @@ class UpdateCoreCommand extends AbstractCommand
 	{
 		$this->configureIO();
 
-		$action = $this->cliInput->getArgument('action');
-
-		if ($action == 'update')
+		if ($this->updateJoomlaCore())
 		{
-			if ($this->updateJoomlaCore())
-			{
-				$this->ioStyle->success('Joomla Core Updated Successfuly.');
-				return 0;
-			}
-			else
-			{
-				$this->ioStyle->note('No Joomla update is available');
-				return 0;
-			}
+			$this->ioStyle->success('Joomla core updated successfuly.');
+
+			return 0;
 		}
 		else
 		{
-			$this->ioStyle->error("Action not recognized");
+			$this->ioStyle->note('Update cannot be performed.');
+
+			return 0;
 		}
+
 		return 0;
 	}
 
@@ -96,16 +90,10 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	protected function initialise()
 	{
-		$this->setName('core');
-		$this->setDescription('Updates Joomla Core');
+		$this->setName('core:update');
+		$this->setDescription('Updates joomla core');
 
-		$this->addArgument(
-			'action',
-			InputArgument::REQUIRED,
-			'The action you want to perform on the core. e.g update'
-		);
-
-		$help = "The <info>%command.name%</info> Updates the Joomla Core \n <info>php %command.full_name%</info>";
+		$help = "The <info>%command.name%</info> Updates the Joomla core \n <info>php %command.full_name%</info>";
 
 		$this->setHelp($help);
 	}
