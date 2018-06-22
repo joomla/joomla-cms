@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
@@ -33,7 +34,7 @@ $data = $this->get('data');
          </span></a>
 	</div>
 
-	<form action="<?php echo JUri::base() ?>index.php" id="mailtoForm" method="post">
+	<form action="<?php echo Uri::base() ?>index.php" id="mailtoForm" method="post">
 		<div class="control-group">
 			<div class="control-label">
 				<label for="mailto_field">

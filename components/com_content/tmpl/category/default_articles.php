@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -37,7 +38,7 @@ if (!empty($this->items))
 }
 ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar clearfix">
@@ -175,7 +176,7 @@ if (!empty($this->items))
 					<?php
 					echo $this->escape($article->title) . ' : ';
 					$itemId = JFactory::getApplication()->getMenu()->getActive()->id;
-					$link   = new JUri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+					$link   = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
 					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
 					?>
 					<a href="<?php echo $link; ?>" class="register">

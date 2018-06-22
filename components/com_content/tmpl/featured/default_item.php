@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 // Create a shortcut for params.
 $params  = &$this->item->params;
@@ -94,7 +95,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 			$menu = JFactory::getApplication()->getMenu();
 			$active = $menu->getActive();
 			$itemId = $active->id;
-			$link = new JUri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+			$link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
 			$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
 		endif; ?>
 

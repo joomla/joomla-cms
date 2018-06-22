@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
@@ -48,7 +49,7 @@ $n         = count($this->items);
 
 <div class="com-tags__items">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+		<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 			<fieldset class="com-tags__filters filters d-flex justify-content-between mb-3">
 				<?php if ($this->params->get('filter_field')) : ?>
 					<div class="input-group">

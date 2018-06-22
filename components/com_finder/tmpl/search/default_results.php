@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
@@ -18,7 +19,7 @@ use Joomla\CMS\Router\Route;
 		<?php // Display the suggested search query. ?>
 		<?php if ($this->suggested && $this->params->get('show_suggested_query', 1)) : ?>
 			<?php // Replace the base query string with the suggested query string. ?>
-			<?php $uri = JUri::getInstance($this->query->toUri()); ?>
+			<?php $uri = Uri::getInstance($this->query->toUri()); ?>
 			<?php $uri->setVar('q', $this->suggested); ?>
 			<?php // Compile the suggested query link. ?>
 			<?php $linkUrl = Route::_($uri->toString(array('path', 'query'))); ?>
@@ -47,7 +48,7 @@ use Joomla\CMS\Router\Route;
 <?php // Display a list of results ?>
 <br id="highlighter-start" />
 <ul class="search-results list-striped">
-	<?php $this->baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
+	<?php $this->baseUrl = Uri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 	<?php foreach ($this->results as $result) : ?>
 		<?php $this->result = &$result; ?>
 		<?php $layout = $this->getLayoutFile($this->result->layout); ?>
