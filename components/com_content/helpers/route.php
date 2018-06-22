@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\CategoryNode;
+
 /**
  * Content Component Route Helper.
  *
@@ -57,7 +59,7 @@ abstract class ContentHelperRoute
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
-		if ($catid instanceof JCategoryNode)
+		if ($catid instanceof CategoryNode)
 		{
 			$id = $catid->id;
 		}
