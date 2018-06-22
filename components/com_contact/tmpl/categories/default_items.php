@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $class = 'first';
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
@@ -29,7 +30,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 					<a href="<?php echo Route::_(ContactHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTACT_NUM_ITEMS'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTACT_NUM_ITEMS'); ?>">
 							<?php echo JText::_('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
 						</span>
@@ -42,7 +43,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
 					<?php if ($item->description) : ?>
 						<div class="category-desc">
-							<?php echo JHtml::_('content.prepare', $item->description, '', 'com_contact.categories'); ?>
+							<?php echo HTMLHelper::_('content.prepare', $item->description, '', 'com_contact.categories'); ?>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>

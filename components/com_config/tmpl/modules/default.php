@@ -13,9 +13,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.combobox');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.combobox');
 
 HTMLHelper::_('script', 'com_config/modules-default.js', ['relative' => true, 'version' => 'auto']);
 
@@ -177,7 +177,7 @@ if (Multilanguage::isEnabled())
 				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
 				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>">
 				<input type="hidden" name="task" value="">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 
 			</div>
 

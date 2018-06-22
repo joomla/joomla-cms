@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Config Module model.
@@ -210,11 +211,11 @@ class ModulesModel extends FormModel
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = \JHtml::_('select.option', 'none', ':: ' . \JText::_('JNONE') . ' ::');
+				$options[] = HTMLHelper::_('select.option', 'none', ':: ' . \JText::_('JNONE') . ' ::');
 			}
 			else
 			{
-				$options[] = \JHtml::_('select.option', $position, $position);
+				$options[] = HTMLHelper::_('select.option', $position, $position);
 			}
 		}
 

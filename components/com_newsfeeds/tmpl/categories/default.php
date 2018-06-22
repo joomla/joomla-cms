@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::_('behavior.core');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::_('behavior.core');
 
 // Add strings for translations in Javascript.
 JText::script('JGLOBAL_EXPAND_CATEGORIES');

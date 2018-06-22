@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
 HTMLHelper::_('script', 'com_tags/tag-list.js', ['relative' => true, 'version' => 'auto']);
 
@@ -64,16 +64,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<thead>
 					<tr>
 						<th id="categorylist_header_title">
-							<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'c.core_title', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'c.core_title', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($date = $this->params->get('tag_list_show_date')) : ?>
 							<th id="categorylist_header_date">
 								<?php if ($date === 'created') : ?>
-									<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
 								<?php elseif ($date === 'modified') : ?>
-									<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
 								<?php elseif ($date === 'published') : ?>
-									<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
 								<?php endif; ?>
 							</th>
 						<?php endif; ?>
@@ -101,7 +101,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php if ($this->params->get('tag_list_show_date')) : ?>
 							<td headers="categorylist_header_date" class="list-date small">
 								<?php
-								echo JHtml::_(
+								echo HTMLHelper::_(
 									'date', $item->displayDate,
 									$this->escape($this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))
 								); ?>

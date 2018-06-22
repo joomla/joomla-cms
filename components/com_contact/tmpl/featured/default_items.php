@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -49,12 +50,12 @@ $params = &$this->item->params;
 					</th>
 
 					<th class="item-title">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
 					</th>
 
 					<?php if ($this->params->get('show_position_headings')) : ?>
 					<th class="item-position">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
 					</th>
 					<?php endif; ?>
 
@@ -84,19 +85,19 @@ $params = &$this->item->params;
 
 					<?php if ($this->params->get('show_suburb_headings')) : ?>
 					<th class="item-suburb">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
 					</th>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_state_headings')) : ?>
 					<th class="item-state">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_country_headings')) : ?>
 					<th class="item-state">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
 					</th>
 					<?php endif; ?>
 				</tr>

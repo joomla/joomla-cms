@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $class = ' class="first"';
 $lang  = JFactory::getLanguage();
@@ -30,7 +31,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 				<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
 				<?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
-					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+					<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 						<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
 						<?php echo $item->numitems; ?>
 					</span>
@@ -46,7 +47,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 			<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
 				<?php if ($item->description) : ?>
 					<div class="category-desc">
-						<?php echo JHtml::_('content.prepare', $item->description, '', 'com_content.categories'); ?>
+						<?php echo HTMLHelper::_('content.prepare', $item->description, '', 'com_content.categories'); ?>
 					</div>
 				<?php endif; ?>
 			<?php endif; ?>

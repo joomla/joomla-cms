@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Contact Component Controller
@@ -39,7 +40,7 @@ class DisplayController extends BaseController
 
 		if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 		{
-			\JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
+			HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 

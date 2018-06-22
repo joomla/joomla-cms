@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 
 $usersConfig = ComponentHelper::getParams('com_users');
 
@@ -95,7 +96,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<input type="hidden" name="task" value="user.login" />
 			<?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem'))); ?>
 			<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>">
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</fieldset>
 	</form>
 </div>

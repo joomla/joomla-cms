@@ -10,9 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 
 ?>
 <div class="com-users-reset-complete reset-complete">
@@ -46,6 +47,6 @@ JHtml::_('behavior.formvalidator');
 				</button>
 			</div>
 		</div>
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>

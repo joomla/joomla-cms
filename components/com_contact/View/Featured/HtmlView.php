@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Mail\Mailhelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Featured View class
@@ -130,7 +131,7 @@ class HtmlView extends BaseHtmlView
 
 				if (!empty($item->email_to) && MailHelper::isEmailAddress($item->email_to))
 				{
-					$item->email_to = \JHtml::_('email.cloak', $item->email_to);
+					$item->email_to = HTMLHelper::_('email.cloak', $item->email_to);
 				}
 				else
 				{

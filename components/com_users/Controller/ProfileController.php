@@ -19,6 +19,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Profile controller class for Users.
@@ -286,7 +287,7 @@ class ProfileController extends BaseController
 
 		$options = array_merge(
 			array(
-				\JHtml::_('select.option', '', \JText::_('JOPTION_USE_DEFAULT'))
+				HTMLHelper::_('select.option', '', \JText::_('JOPTION_USE_DEFAULT'))
 			),
 			Help::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml')
 		);

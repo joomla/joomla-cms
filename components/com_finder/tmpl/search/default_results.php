@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
@@ -43,7 +44,7 @@ use Joomla\CMS\Uri\Uri;
 <?php endif; ?>
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
-	<?php JHtml::_('behavior.highlighter', $this->query->highlight); ?>
+	<?php HTMLHelper::_('behavior.highlighter', $this->query->highlight); ?>
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />

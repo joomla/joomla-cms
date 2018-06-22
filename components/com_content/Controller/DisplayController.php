@@ -8,9 +8,10 @@
  */
 namespace Joomla\Component\Content\Site\Controller;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Content Component Controller
@@ -43,7 +44,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		// Article frontpage Editor article proxying:
 		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
-			\JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 

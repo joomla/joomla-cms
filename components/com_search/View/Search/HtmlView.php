@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\String\StringHelper;
 use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML View class for the search component
@@ -196,20 +197,20 @@ class HtmlView extends BaseHtmlView
 
 		// Built select lists
 		$orders   = array();
-		$orders[] = \JHtml::_('select.option', 'newest', \JText::_('COM_SEARCH_NEWEST_FIRST'));
-		$orders[] = \JHtml::_('select.option', 'oldest', \JText::_('COM_SEARCH_OLDEST_FIRST'));
-		$orders[] = \JHtml::_('select.option', 'popular', \JText::_('COM_SEARCH_MOST_POPULAR'));
-		$orders[] = \JHtml::_('select.option', 'alpha', \JText::_('COM_SEARCH_ALPHABETICAL'));
-		$orders[] = \JHtml::_('select.option', 'category', \JText::_('JCATEGORY'));
+		$orders[] = HTMLHelper::_('select.option', 'newest', \JText::_('COM_SEARCH_NEWEST_FIRST'));
+		$orders[] = HTMLHelper::_('select.option', 'oldest', \JText::_('COM_SEARCH_OLDEST_FIRST'));
+		$orders[] = HTMLHelper::_('select.option', 'popular', \JText::_('COM_SEARCH_MOST_POPULAR'));
+		$orders[] = HTMLHelper::_('select.option', 'alpha', \JText::_('COM_SEARCH_ALPHABETICAL'));
+		$orders[] = HTMLHelper::_('select.option', 'category', \JText::_('JCATEGORY'));
 
 		$lists             = array();
-		$lists['ordering'] = \JHtml::_('select.genericlist', $orders, 'ordering', 'class="custom-select"', 'value', 'text', $state->get('ordering'));
+		$lists['ordering'] = HTMLHelper::_('select.genericlist', $orders, 'ordering', 'class="custom-select"', 'value', 'text', $state->get('ordering'));
 
 		$searchphrases         = array();
-		$searchphrases[]       = \JHtml::_('select.option', 'all', \JText::_('COM_SEARCH_ALL_WORDS'));
-		$searchphrases[]       = \JHtml::_('select.option', 'any', \JText::_('COM_SEARCH_ANY_WORDS'));
-		$searchphrases[]       = \JHtml::_('select.option', 'exact', \JText::_('COM_SEARCH_EXACT_PHRASE'));
-		$lists['searchphrase'] = \JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
+		$searchphrases[]       = HTMLHelper::_('select.option', 'all', \JText::_('COM_SEARCH_ALL_WORDS'));
+		$searchphrases[]       = HTMLHelper::_('select.option', 'any', \JText::_('COM_SEARCH_ANY_WORDS'));
+		$searchphrases[]       = HTMLHelper::_('select.option', 'exact', \JText::_('COM_SEARCH_EXACT_PHRASE'));
+		$lists['searchphrase'] = HTMLHelper::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// Log the search
 		\Joomla\CMS\Helper\SearchHelper::logSearch($searchWord, 'com_search');
@@ -274,11 +275,11 @@ class HtmlView extends BaseHtmlView
 
 				if ($result->created)
 				{
-					$created = \JHtml::_('date', $result->created, \JText::_('DATE_FORMAT_LC3'));
+					$created = HTMLHelper::_('date', $result->created, \JText::_('DATE_FORMAT_LC3'));
 				}
 
 				$result->title   = $rowTitleHighLighted;
-				$result->text    = \JHtml::_('content.prepare', $rowTextHighLighted, '', 'com_search.search');
+				$result->text    = HTMLHelper::_('content.prepare', $rowTextHighLighted, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;
 			}

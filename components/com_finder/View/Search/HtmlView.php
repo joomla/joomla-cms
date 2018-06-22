@@ -17,6 +17,7 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Search HTML view class for the Finder package.
@@ -167,9 +168,9 @@ class HtmlView extends BaseHtmlView
 		SearchHelper::logSearch($this->query->input, 'com_finder');
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->suggested = \JHtml::_('query.suggested', $query);
-		$this->explained = \JHtml::_('query.explained', $query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$this->suggested = HTMLHelper::_('query.suggested', $query);
+		$this->explained = HTMLHelper::_('query.explained', $query);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));

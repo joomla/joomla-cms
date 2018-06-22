@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
 // Load tooltips behavior
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('script', 'com_config/config-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
@@ -51,6 +51,6 @@ HTMLHelper::_('script', 'com_config/config-default.js', ['relative' => true, 've
 	</div>
 
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 
 </form>

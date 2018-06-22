@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::register('users.spacer', array('JHtmlUsers', 'spacer'));
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::register('users.spacer', array('JHtmlUsers', 'spacer'));
 
 $fieldsets = $this->form->getFieldsets();
 
@@ -52,14 +54,14 @@ foreach ($tmp as $customField)
 						<dd>
 							<?php if (array_key_exists($field->fieldname, $customFields)) : ?>
 								<?php echo $customFields[$field->fieldname]->value ?: JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
-							<?php elseif (JHtml::isRegistered('users.' . $field->id)) : ?>
-								<?php echo JHtml::_('users.' . $field->id, $field->value); ?>
-							<?php elseif (JHtml::isRegistered('users.' . $field->fieldname)) : ?>
-								<?php echo JHtml::_('users.' . $field->fieldname, $field->value); ?>
-							<?php elseif (JHtml::isRegistered('users.' . $field->type)) : ?>
-								<?php echo JHtml::_('users.' . $field->type, $field->value); ?>
+							<?php elseif (HTMLHelper::isRegistered('users.' . $field->id)) : ?>
+								<?php echo HTMLHelper::_('users.' . $field->id, $field->value); ?>
+							<?php elseif (HTMLHelper::isRegistered('users.' . $field->fieldname)) : ?>
+								<?php echo HTMLHelper::_('users.' . $field->fieldname, $field->value); ?>
+							<?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
+								<?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
 							<?php else : ?>
-								<?php echo JHtml::_('users.value', $field->value); ?>
+								<?php echo HTMLHelper::_('users.value', $field->value); ?>
 							<?php endif; ?>
 						</dd>
 					<?php endif; ?>

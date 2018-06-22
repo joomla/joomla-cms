@@ -17,6 +17,8 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * HTML Contact View class for the Contact component
  *
@@ -198,7 +200,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($item->email_to && $item->params->get('show_email'))
 		{
-			$item->email_to = \JHtml::_('email.cloak', $item->email_to, (bool) $item->params->get('add_mailto_link', true));
+			$item->email_to = HTMLHelper::_('email.cloak', $item->email_to, (bool) $item->params->get('add_mailto_link', true));
 		}
 
 		if ($item->params->get('show_street_address') || $item->params->get('show_suburb') || $item->params->get('show_state')
@@ -242,11 +244,11 @@ class HtmlView extends BaseHtmlView
 			default :
 				if ($item->params->get('icon_address'))
 				{
-					$image1 = \JHtml::_('image', $item->params->get('icon_address', 'con_address.png'), \JText::_('COM_CONTACT_ADDRESS') . ': ', null, false);
+					$image1 = HTMLHelper::_('image', $item->params->get('icon_address', 'con_address.png'), \JText::_('COM_CONTACT_ADDRESS') . ': ', null, false);
 				}
 				else
 				{
-					$image1 = \JHtml::_(
+					$image1 = HTMLHelper::_(
 						'image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'),
 						\JText::_('COM_CONTACT_ADDRESS') . ': ',
 						null,
@@ -256,20 +258,20 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_email'))
 				{
-					$image2 = \JHtml::_('image', $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, false);
+					$image2 = HTMLHelper::_('image', $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, false);
 				}
 				else
 				{
-					$image2 = \JHtml::_('image', 'contacts/' . $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, true);
+					$image2 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, true);
 				}
 
 				if ($item->params->get('icon_telephone'))
 				{
-					$image3 = \JHtml::_('image', $item->params->get('icon_telephone', 'con_tel.png'), \JText::_('COM_CONTACT_TELEPHONE') . ': ', null, false);
+					$image3 = HTMLHelper::_('image', $item->params->get('icon_telephone', 'con_tel.png'), \JText::_('COM_CONTACT_TELEPHONE') . ': ', null, false);
 				}
 				else
 				{
-					$image3 = \JHtml::_(
+					$image3 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_telephone', 'con_tel.png'),
 						\JText::_('COM_CONTACT_TELEPHONE') . ': ',
@@ -280,20 +282,20 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_fax'))
 				{
-					$image4 = \JHtml::_('image', $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, false);
+					$image4 = HTMLHelper::_('image', $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, false);
 				}
 				else
 				{
-					$image4 = \JHtml::_('image', 'contacts/' . $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, true);
+					$image4 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, true);
 				}
 
 				if ($item->params->get('icon_misc'))
 				{
-					$image5 = \JHtml::_('image', $item->params->get('icon_misc', 'con_info.png'), \JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, false);
+					$image5 = HTMLHelper::_('image', $item->params->get('icon_misc', 'con_info.png'), \JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, false);
 				}
 				else
 				{
-					$image5 = \JHtml::_(
+					$image5 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_misc', 'con_info.png'),
 						\JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, true
@@ -302,11 +304,11 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_mobile'))
 				{
-					$image6 = \JHtml::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), \JText::_('COM_CONTACT_MOBILE') . ': ', null, false);
+					$image6 = HTMLHelper::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), \JText::_('COM_CONTACT_MOBILE') . ': ', null, false);
 				}
 				else
 				{
-					$image6 = \JHtml::_(
+					$image6 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_mobile', 'con_mobile.png'),
 						\JText::_('COM_CONTACT_MOBILE') . ': ',

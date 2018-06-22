@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\HTML\HTMLHelper;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
@@ -108,7 +109,7 @@ abstract class JHtmlFilter
 		}
 
 		$branch_keys = array_keys($branches);
-		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
+		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
 		);
 
 		// Load plugin language files.
@@ -167,7 +168,7 @@ abstract class JHtmlFilter
 			}
 
 			// Adding slides
-			$html .= JHtml::_('bootstrap.addSlide',
+			$html .= HTMLHelper::_('bootstrap.addSlide',
 				'accordion',
 				JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL',
 					JText::_(FinderHelperLanguage::branchSingular($bv->title)) . ' - ' . count($nodes)
@@ -195,10 +196,10 @@ abstract class JHtmlFilter
 				$html .= '</div>';
 			}
 
-			$html .= JHtml::_('bootstrap.endSlide');
+			$html .= HTMLHelper::_('bootstrap.endSlide');
 		}
 
-		$html .= JHtml::_('bootstrap.endAccordion');
+		$html .= HTMLHelper::_('bootstrap.endAccordion');
 
 		return $html;
 	}
@@ -373,7 +374,7 @@ abstract class JHtmlFilter
 		// Add the dates if enabled.
 		if ($showDates)
 		{
-			$html .= JHtml::_('filter.dates', $idxQuery, $options);
+			$html .= HTMLHelper::_('filter.dates', $idxQuery, $options);
 		}
 
 		$html .= '<div class="filter-branch' . $classSuffix . '">';
@@ -408,7 +409,7 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '</div>';
 			$html .= '<div class="controls">';
-			$html .= JHtml::_(
+			$html .= HTMLHelper::_(
 				'select.genericlist',
 				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
 				'tax-' . OutputFilter::stringURLSafe($bv->title)
@@ -445,14 +446,14 @@ abstract class JHtmlFilter
 		{
 			// Build the date operators options.
 			$operators   = array();
-			$operators[] = JHtml::_('select.option', 'before', JText::_('COM_FINDER_FILTER_DATE_BEFORE'));
-			$operators[] = JHtml::_('select.option', 'exact', JText::_('COM_FINDER_FILTER_DATE_EXACTLY'));
-			$operators[] = JHtml::_('select.option', 'after', JText::_('COM_FINDER_FILTER_DATE_AFTER'));
+			$operators[] = HTMLHelper::_('select.option', 'before', JText::_('COM_FINDER_FILTER_DATE_BEFORE'));
+			$operators[] = HTMLHelper::_('select.option', 'exact', JText::_('COM_FINDER_FILTER_DATE_EXACTLY'));
+			$operators[] = HTMLHelper::_('select.option', 'after', JText::_('COM_FINDER_FILTER_DATE_AFTER'));
 
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
+				HTMLHelper::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.
@@ -465,11 +466,11 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
 			$html .= '<br>';
-			$html .= JHtml::_(
+			$html .= HTMLHelper::_(
 				'select.genericlist',
 				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
-			$html .= JHtml::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
+			$html .= HTMLHelper::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// End date filter.
@@ -478,11 +479,11 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
 			$html .= '<br>';
-			$html .= JHtml::_(
+			$html .= HTMLHelper::_(
 				'select.genericlist',
 				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
-			$html .= JHtml::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
+			$html .= HTMLHelper::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// Close the widget.

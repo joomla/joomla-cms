@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 $app = JFactory::getApplication();
 
@@ -57,7 +58,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-				<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
+				<?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
 			<?php endif; ?>
 			<?php echo $afterDisplayContent; ?>
 		</div>

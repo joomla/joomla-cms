@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Get the mime type class.
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
@@ -35,7 +36,7 @@ if ($show_description)
 	$space = StringHelper::strpos($this->result->description, ' ', $start > 0 ? $start - 1 : 0);
 	$start = ($space && $space < $pos) ? $space + 1 : $start;
 
-	$description = JHtml::_('string.truncate', StringHelper::substr($this->result->description, $start), $desc_length, true);
+	$description = HTMLHelper::_('string.truncate', StringHelper::substr($this->result->description, $start), $desc_length, true);
 }
 
 $route = $this->result->route;

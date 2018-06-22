@@ -8,8 +8,9 @@
  */
 
 defined('_JEXEC') or die;;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0));
+HTMLHelper::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0));
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
@@ -24,4 +25,4 @@ $attr = array(
 		. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
-echo JHtml::_('select.groupedlist', $this->positions, 'jform[position]', $attr);
+echo HTMLHelper::_('select.groupedlist', $this->positions, 'jform[position]', $attr);

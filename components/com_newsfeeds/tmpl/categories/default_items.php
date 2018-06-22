@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <?php $class = ' class="first"'; ?>
@@ -27,7 +28,7 @@ use Joomla\CMS\Router\Route;
 						<?php echo $this->escape($item->title); ?>
 					</a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_NEWSFEEDS_NUM_ITEMS'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_NEWSFEEDS_NUM_ITEMS'); ?>">
 							<?php echo JText::_('COM_NEWSFEEDS_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
 						</span>
@@ -42,7 +43,7 @@ use Joomla\CMS\Router\Route;
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
 					<?php if ($item->description) : ?>
 						<div class="category-desc">
-							<?php echo JHtml::_('content.prepare', $item->description, '', 'com_newsfeeds.categories'); ?>
+							<?php echo HTMLHelper::_('content.prepare', $item->description, '', 'com_newsfeeds.categories'); ?>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>

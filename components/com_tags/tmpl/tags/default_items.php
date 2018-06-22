@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
 HTMLHelper::_('script', 'com_tags/tags-default.js', ['relative' => true, 'version' => 'auto']);
 
@@ -123,7 +124,7 @@ $n         = count($this->items);
 					<div class="caption">
 						<?php if ($this->params->get('all_tags_show_tag_description')) : ?>
 							<span class="tag-body">
-								<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
+								<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 							</span>
 						<?php endif; ?>
 						<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>

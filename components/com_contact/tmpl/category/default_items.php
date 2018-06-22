@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -59,7 +60,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<div class="col-md-2">
 								<?php if ($this->items[$i]->image) : ?>
 									<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
-										<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
+										<?php echo HTMLHelper::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 								<?php endif; ?>
 							</div>
 						<?php else : ?>

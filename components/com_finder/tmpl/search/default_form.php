@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /*
 * This segment of code sets up the autocompleter.
 */
 if ($this->params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
 	JFactory::getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 
@@ -68,7 +69,7 @@ if ($this->params->get('show_autosuggest', 1))
 				</div>
 			<?php endif; ?>
 			<div id="finder-filter-window">
-				<?php echo JHtml::_('filter.select', $this->query, $this->params); ?>
+				<?php echo HTMLHelper::_('filter.select', $this->query, $this->params); ?>
 			</div>
 		</div>
 	<?php endif; ?>

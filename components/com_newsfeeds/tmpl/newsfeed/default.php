@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 
@@ -121,7 +122,7 @@ use Joomla\CMS\Filter\OutputFilter;
                                 <?php if ($this->params->get('show_feed_image', 0) == 0) : ?>
                                     <?php $text = OutputFilter::stripImages($text); ?>
                                 <?php endif; ?>
-                                <?php $text = JHtml::_('string.truncate', $text, $this->params->get('feed_character_count')); ?>
+                                <?php $text = HTMLHelper::_('string.truncate', $text, $this->params->get('feed_character_count')); ?>
                                 <?php echo str_replace('&apos;', "'", $text); ?>
                             </div>
                         <?php endif; ?>

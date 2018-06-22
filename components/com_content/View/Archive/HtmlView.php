@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML View class for the Content component
@@ -161,7 +162,7 @@ class HtmlView extends BaseHtmlView
 			'11' => \JText::_('NOVEMBER_SHORT'),
 			'12' => \JText::_('DECEMBER_SHORT')
 		);
-		$form->monthField = \JHtml::_(
+		$form->monthField = HTMLHelper::_(
 			'select.genericlist',
 			$months,
 			'month',
@@ -175,14 +176,14 @@ class HtmlView extends BaseHtmlView
 		// Year Field
 		$this->years = $this->getModel()->getYears();
 		$years = array();
-		$years[] = \JHtml::_('select.option', null, \JText::_('JYEAR'));
+		$years[] = HTMLHelper::_('select.option', null, \JText::_('JYEAR'));
 
 		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
-			$years[] = \JHtml::_('select.option', $this->years[$i], $this->years[$i]);
+			$years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);
 		}
 
-		$form->yearField = \JHtml::_(
+		$form->yearField = HTMLHelper::_(
 			'select.genericlist',
 			$years,
 			'year',

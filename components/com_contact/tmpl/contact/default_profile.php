@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <?php if (PluginHelper::isEnabled('user', 'profile')) :
@@ -34,7 +35,7 @@ use Joomla\CMS\String\PunycodeHelper;
 							break;
 
 						case 'profile_dob':
-							echo '<dd>' . JHtml::_('date', $profile->text, JText::_('DATE_FORMAT_LC4'), false) . '</dd>';
+							echo '<dd>' . HTMLHelper::_('date', $profile->text, JText::_('DATE_FORMAT_LC4'), false) . '</dd>';
 						break;
 
 						default:

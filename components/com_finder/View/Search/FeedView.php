@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Search feed view class for the Finder package.
@@ -45,8 +46,8 @@ class FeedView extends BaseHtmlView
 		$results = $this->get('Results');
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$explained = \JHtml::_('query.explained', $query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$explained = HTMLHelper::_('query.explained', $query);
 
 		// Set the document title.
 		$title = $params->get('page_title', '');
@@ -89,7 +90,7 @@ class FeedView extends BaseHtmlView
 			$item->title       = $result->title;
 			$item->link        = Route::_($result->route);
 			$item->description = $result->description;
-			$item->date        = (int) $result->start_date ? \JHtml::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
+			$item->date        = (int) $result->start_date ? HTMLHelper::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 $user = JFactory::getUser();
 
 HTMLHelper::_('script', 'com_config/templates-default.js', ['relative' => true, 'version' => 'auto']);
@@ -47,6 +47,6 @@ HTMLHelper::_('script', 'com_config/templates-default.js', ['relative' => true, 
 	</div>
 
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 
 </form>

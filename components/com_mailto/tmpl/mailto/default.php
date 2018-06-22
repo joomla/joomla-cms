@@ -13,8 +13,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-JHtml::_('behavior.core');
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.keepalive');
 
 Text::script('COM_MAILTO_EMAIL_ERR_NOINFO', true);
 
@@ -89,6 +89,6 @@ $data = $this->get('data');
 		<input type="hidden" name="task" value="send">
 		<input type="hidden" name="tmpl" value="component">
 		<input type="hidden" name="link" value="<?php echo $data->link; ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>

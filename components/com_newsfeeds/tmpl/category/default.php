@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 $pageClass = $this->params->get('pageclass_sfx');
 
@@ -24,7 +25,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title', 1)) : ?>
 		<h2>
-			<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category.title'); ?>
+			<?php echo HTMLHelper::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category.title'); ?>
 		</h2>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
@@ -37,7 +38,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 				<img src="<?php echo $this->category->getParams()->get('image'); ?>">
 			<?php endif; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-				<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_newsfeeds.category'); ?>
+				<?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_newsfeeds.category'); ?>
 			<?php endif; ?>
 			<div class="clr"></div>
 		</div>

@@ -10,10 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $fieldSets = $this->form->getFieldsets('params');
 
-echo JHtml::_('bootstrap.startAccordion', 'collapseTypes');
+echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes');
 $i = 0;
 
 foreach ($fieldSets as $name => $fieldSet) :
@@ -26,7 +27,7 @@ if (isset($fieldSet->description) && trim($fieldSet->description)) :
 echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
 endif;
 ?>
-<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($label), 'collapse' . ($i++)); ?>
+<?php echo HTMLHelper::_('bootstrap.addSlide', 'collapseTypes', JText::_($label), 'collapse' . ($i++)); ?>
 
 <ul class="nav flex-column">
 <?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -52,6 +53,6 @@ endif;
 <?php endforeach; ?>
 </ul>
 
-<?php echo JHtml::_('bootstrap.endSlide'); ?>
+<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 <?php endforeach; ?>
-<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>

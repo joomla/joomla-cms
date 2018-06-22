@@ -11,6 +11,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <?php $class = ' class="first"'; ?>
@@ -31,7 +32,7 @@ use Joomla\CMS\Router\Route;
 					<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 						<?php if ($child->description) : ?>
 							<div class="category-desc">
-								<?php echo JHtml::_('content.prepare', $child->description, '', 'com_newsfeeds.category'); ?>
+								<?php echo HTMLHelper::_('content.prepare', $child->description, '', 'com_newsfeeds.category'); ?>
 							</div>
 						<?php endif; ?>
 					<?php endif; ?>

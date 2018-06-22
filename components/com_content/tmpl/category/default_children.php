@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $class  = ' class="first"';
 $lang   = JFactory::getLanguage();
@@ -33,7 +34,7 @@ $groups = $user->getAuthorisedViewLevels();
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
@@ -48,7 +49,7 @@ $groups = $user->getAuthorisedViewLevels();
 				<h3 class="page-header item-title"><a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
@@ -61,7 +62,7 @@ $groups = $user->getAuthorisedViewLevels();
 				<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 					<?php if ($child->description) : ?>
 						<div class="category-desc">
-							<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
+							<?php echo HTMLHelper::_('content.prepare', $child->description, '', 'com_content.category'); ?>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
