@@ -21,7 +21,7 @@ HTMLHelper::_('behavior.formvalidator');
 $usersConfig = ComponentHelper::getParams('com_users');
 
 ?>
-<div class="login">
+<div class="com-users-login login">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -31,7 +31,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	<?php endif; ?>
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
-	<div class="login-description">
+	<div class="com-users-login__description login-description">
 	<?php endif; ?>
 
 		<?php if ($this->params->get('logindescription_show') == 1) : ?>
@@ -39,19 +39,19 @@ $usersConfig = ComponentHelper::getParams('com_users');
 		<?php endif; ?>
 
 		<?php if ($this->params->get('login_image') != '') : ?>
-			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo Text::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>">
+			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="com-users-login__image login-image" alt="<?php echo Text::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>">
 		<?php endif; ?>
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo Route::_('index.php?option=com_users&view=login'); ?>" method="post" class="form-validate form-horizontal well">
+	<form action="<?php echo Route::_('index.php?option=com_users&view=login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well">
 
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
 				<?php if (!$field->hidden) : ?>
-					<div class="control-group">
+					<div class="com-users-login__input control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>
 						</div>
@@ -63,7 +63,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<?php endforeach; ?>
 
 			<?php if ($this->tfa) : ?>
-				<div class="control-group">
+				<div class="com-users-login__secretkey control-group">
 					<div class="control-label">
 						<?php echo $this->form->getField('secretkey')->label; ?>
 					</div>
@@ -74,7 +74,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
-				<div  class="control-group">
+				<div  class="com-users-login__remember control-group">
 					<div class="control-label">
 						<label for="remember">
 							<?php echo Text::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
@@ -86,7 +86,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				</div>
 			<?php endif; ?>
 
-			<div class="control-group">
+			<div class="com-users-login__submit control-group">
 				<div class="controls">
 					<button type="submit" class="btn btn-primary">
 						<?php echo Text::_('JLOGIN'); ?>
@@ -102,15 +102,15 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	</form>
 </div>
 <div>
-	<div class="list-group">
-		<a class="list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
+	<div class="com-users-login__options list-group">
+		<a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
 			<?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
 		</a>
-		<a class="list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
+		<a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
 			<?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
 		</a>
 		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
-			<a class="list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
+			<a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
 				<?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
 			</a>
 		<?php endif; ?>

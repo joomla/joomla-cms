@@ -17,14 +17,14 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
 ?>
-<div class="registration">
+<div class="com-users-registration registration">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
 		</div>
 	<?php endif; ?>
 
-	<form id="member-registration" action="<?php echo Route::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="form-validate" enctype="multipart/form-data">
+	<form id="member-registration" action="<?php echo Route::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="com-users-registration__form form-validate" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
@@ -56,12 +56,12 @@ HTMLHelper::_('behavior.formvalidator');
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<div class="control-group">
+		<div class="com-users-registration__submit control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary validate">
+				<button type="submit" class="com-users-registration__register btn btn-primary validate">
                     <?php echo Text::_('JREGISTER'); ?>
                 </button>
-				<a class="btn btn-danger" href="<?php echo Route::_(''); ?>" title="<?php echo Text::_('JCANCEL'); ?>">
+				<a class="com-users-registration__cancel btn btn-danger" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>">
                     <?php echo Text::_('JCANCEL'); ?>
                 </a>
 				<input type="hidden" name="option" value="com_users">

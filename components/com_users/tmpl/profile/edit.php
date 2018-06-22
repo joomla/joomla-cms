@@ -23,7 +23,7 @@ $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 ?>
-<div class="profile-edit">
+<div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1>
@@ -51,7 +51,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		}
 	</script>
 
-	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="form-validate form-horizontal well" enctype="multipart/form-data">
+	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
 		<?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($group); ?>
@@ -94,10 +94,10 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		<?php endforeach; ?>
 
 		<?php if (count($this->twofactormethods) > 1) : ?>
-			<fieldset>
+			<fieldset class="com-users-profile__twofactor">
 				<legend><?php echo Text::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
 
-				<div class="control-group">
+				<div class="com-users-profile__twofactor-method control-group">
 					<div class="control-label">
 						<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
 							   title="<?php echo '<strong>' . Text::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br>' . Text::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
@@ -108,7 +108,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 					</div>
 				</div>
-				<div id="com_users_twofactor_forms_container">
+				<div id="com_users_twofactor_forms_container" class="com-users-profile__twofactor-form">
 					<?php foreach ($this->twofactorform as $form) : ?>
 						<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
 						<div id="com_users_twofactor_<?php echo $form['method']; ?>" style="<?php echo $style; ?>">
@@ -118,7 +118,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				</div>
 			</fieldset>
 
-			<fieldset>
+			<fieldset class="com-users-profile__oteps">
 				<legend>
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
@@ -136,7 +136,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			</fieldset>
 		<?php endif; ?>
 
-		<div class="control-group">
+		<div class="com-users-profile__edit-submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate">
 					<span>

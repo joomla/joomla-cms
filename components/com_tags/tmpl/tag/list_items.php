@@ -19,9 +19,9 @@ $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-tags-tag-list__items">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<fieldset class="filters d-flex justify-content-between mb-3">
+		<fieldset class="com-tags-tag-list__filters filters d-flex justify-content-between mb-3">
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="input-group">
 					<label class="filter-search-lbl sr-only" for="filter-search">
@@ -57,7 +57,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php if ($this->items === false || $n === 0) : ?>
 		<p><?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
-		<table class="category table table-striped table-bordered table-hover">
+		<table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
 			<?php if ($this->params->get('show_headings')) : ?>
 				<thead>
 					<tr>
@@ -115,7 +115,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php // Add pagination links ?>
 	<?php if (!empty($this->items)) : ?>
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-			<div class="w-100">
+			<div class="com-tags-tag-list__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 					<p class="counter float-right pt-3 pr-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>

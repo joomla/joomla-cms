@@ -6,21 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Search Filter field for the Finder package.
  *
  * @since  2.5
  */
-class SearchfilterField extends \JFormFieldList
+class SearchfilterField extends ListField
 {
 	/**
 	 * The form field type.

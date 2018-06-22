@@ -7,7 +7,7 @@ pipeline:
     image: joomlaprojects/docker-phpcs
     commands:
       - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .
+      - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --encoding=utf-8 --standard=build/phpcs/Joomla .
       - echo $(date)
 
   initdb:
