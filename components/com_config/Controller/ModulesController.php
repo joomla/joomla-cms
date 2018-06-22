@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
 
 /**
  * Component Controller
@@ -136,7 +137,7 @@ class ModulesController extends BaseController
 
 			// Save failed, go back to the screen and display a notice.
 			$this->app->enqueueMessage(\JText::_('JERROR_SAVE_FAILED'));
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
+			$this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
 		}
 
 		// Redirect back to com_config display
@@ -146,7 +147,7 @@ class ModulesController extends BaseController
 		switch ($this->input->getCmd('task'))
 		{
 			case 'apply':
-				$this->app->redirect(\JRoute::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
+				$this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
 				break;
 
 			case 'save':

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
@@ -78,7 +79,7 @@ $n            = count($this->items);
 						</h3>
 					<?php else : ?>
 						<h3 class="mb-0">
-							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+							<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 						</h3>
@@ -88,7 +89,7 @@ $n            = count($this->items);
 				<?php echo $item->event->afterDisplayTitle; ?>
 				<?php $images  = json_decode($item->core_images); ?>
 				<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) : ?>
-					<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+					<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<img src="<?php echo htmlspecialchars($images->image_intro); ?>"
 							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
 					</a>

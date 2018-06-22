@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+use Joomla\CMS\Router\Route;
 
 ?>
 <?php $class = ' class="first"'; ?>
@@ -22,7 +23,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 			<div<?php echo $class; ?>>
 				<?php $class = ''; ?>
 				<h3 class="page-header item-title">
-					<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
+					<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 						<?php echo $this->escape($item->title); ?>
 					</a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>

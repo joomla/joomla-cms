@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 
 // Get the mime type class.
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
@@ -51,7 +52,7 @@ if (!empty($this->query->highlight)
 ?>
 <li>
 	<h4 class="result-title <?php echo $mime; ?>">
-		<a href="<?php echo JRoute::_($route); ?>">
+		<a href="<?php echo Route::_($route); ?>">
 			<?php echo $this->result->title; ?>
 		</a>
 	</h4>
@@ -62,7 +63,7 @@ if (!empty($this->query->highlight)
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
 		<div class="small result-url">
-			<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
+			<?php echo $this->baseUrl, Route::_($this->result->route); ?>
 		</div>
 	<?php endif; ?>
 </li>

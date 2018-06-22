@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
@@ -46,7 +48,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		}
 	</script>
 
-	<form id="member-profile" action="<?php echo JRoute::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
+	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
 		<?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($group); ?>
@@ -138,7 +140,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 						<?php echo JText::_('JSUBMIT'); ?>
 					</span>
 				</button>
-				<a class="btn btn-danger" href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
+				<a class="btn btn-danger" href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
 				<input type="hidden" name="option" value="com_users">
 				<input type="hidden" name="task" value="profile.save">
 			</div>

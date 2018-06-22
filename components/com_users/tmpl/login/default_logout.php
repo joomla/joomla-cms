@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 ?>
 <div class="com-users-logout logout">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -35,7 +37,7 @@ defined('_JEXEC') or die;
 	    </div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="com-users-logout__form form-horizontal well">
+	<form action="<?php echo Route::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="com-users-logout__form form-horizontal well">
 		<div class="com-users-logout__submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary">

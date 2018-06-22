@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Router\Route;
 
 /**
  * Frontpage View class
@@ -36,7 +37,7 @@ class FeedView extends AbstractView
 		$params    = $app->getParams();
 		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
-		$doc->link = \JRoute::_('index.php?option=com_content&view=featured');
+		$doc->link = Route::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -53,7 +54,7 @@ class FeedView extends AbstractView
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// URL link to article
-			$link = \JRoute::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
+			$link = Route::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			// Get row fulltext
 			$db = \JFactory::getDbo();

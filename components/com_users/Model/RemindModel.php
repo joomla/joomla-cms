@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Remind model class for Users.
@@ -171,8 +172,8 @@ class RemindModel extends FormModel
 		$data['fromname'] = $config->get('fromname');
 		$data['mailfrom'] = $config->get('mailfrom');
 		$data['sitename'] = $config->get('sitename');
-		$data['link_text'] = \JRoute::_($link, false, $mode);
-		$data['link_html'] = \JRoute::_($link, true, $mode);
+		$data['link_text'] = Route::_($link, false, $mode);
+		$data['link_html'] = Route::_($link, true, $mode);
 
 		$subject = \JText::sprintf(
 			'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT',

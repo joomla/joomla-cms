@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Router\Route;
 
 /**
  * OpenSearch View class for Finder
@@ -51,7 +52,7 @@ class OpensearchView extends AbstractView
 		}
 
 		$htmlSearch           = new \JOpenSearchUrl;
-		$htmlSearch->template = \JRoute::_($searchUri);
+		$htmlSearch->template = Route::_($searchUri);
 		$doc->addUrl($htmlSearch);
 	}
 }

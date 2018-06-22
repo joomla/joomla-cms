@@ -18,6 +18,7 @@ use Joomla\Component\Templates\Administrator\Controller\Style;
 use Joomla\Component\Templates\Administrator\Controller\StyleController;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
 
 /**
  * Component Controller
@@ -114,7 +115,7 @@ class TemplatesController extends BaseController
 			// Save failed, go back to the screen and display a notice.
 			$message = \JText::sprintf('JERROR_SAVE_FAILED');
 
-			$app->redirect(\JRoute::_('index.php?option=com_config&view=templates', false), $message, 'error');
+			$app->redirect(Route::_('index.php?option=com_config&view=templates', false), $message, 'error');
 
 			return false;
 		}
@@ -125,7 +126,7 @@ class TemplatesController extends BaseController
 		$this->setMessage($message);
 
 		// Redirect back to com_config display
-		$this->redirect(\JRoute::_('index.php?option=com_config&view=templates', false));
+		$this->redirect(Route::_('index.php?option=com_config&view=templates', false));
 
 		return true;
 	}

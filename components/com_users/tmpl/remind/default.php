@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
@@ -21,7 +23,7 @@ JHtml::_('behavior.formvalidator');
 			</h1>
 		</div>
 	<?php endif; ?>
-	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=remind.remind'); ?>" method="post" class="com-users-remind__form form-validate form-horizontal well">
+	<form id="user-registration" action="<?php echo Route::_('index.php?option=com_users&task=remind.remind'); ?>" method="post" class="com-users-remind__form form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
 				<p><?php echo JText::_($fieldset->label); ?></p>

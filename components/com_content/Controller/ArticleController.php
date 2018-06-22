@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Content article class.
@@ -66,7 +67,7 @@ class ArticleController extends FormController
 
 		// Redirect to the edit screen.
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item . '&a_id=0'
 				. $this->getRedirectToItemAppend(), false
 			)
@@ -220,7 +221,7 @@ class ArticleController extends FormController
 			}
 		}
 
-		$this->setRedirect(\JRoute::_($redirlink, false));
+		$this->setRedirect(Route::_($redirlink, false));
 
 		return $result;
 	}
@@ -242,7 +243,7 @@ class ArticleController extends FormController
 
 		if (!$result)
 		{
-			$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
+			$this->setRedirect(Route::_($this->getReturnPage(), false));
 		}
 
 		return $result;
@@ -381,7 +382,7 @@ class ArticleController extends FormController
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(\JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
+				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
 		else
@@ -389,7 +390,7 @@ class ArticleController extends FormController
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
+				$this->setRedirect(Route::_($this->getReturnPage(), false));
 			}
 		}
 

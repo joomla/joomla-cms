@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
@@ -43,7 +44,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&view=login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well">
+	<form action="<?php echo Route::_('index.php?option=com_users&view=login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well">
 
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
@@ -100,14 +101,14 @@ $usersConfig = ComponentHelper::getParams('com_users');
 </div>
 <div>
 	<div class="com-users-login__options list-group">
-		<a class="com-users-login__reset list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+		<a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
 			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?>
 		</a>
-		<a class="com-users-login__remind list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+		<a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
 			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?>
 		</a>
 		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
-			<a class="com-users-login__register list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+			<a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
 				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?>
 			</a>
 		<?php endif; ?>

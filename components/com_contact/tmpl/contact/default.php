@@ -13,6 +13,7 @@ use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Router\Route;
 
 $cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
@@ -105,7 +106,7 @@ $tparams = $this->item->params;
 
 		<?php if ($tparams->get('allow_vcard')) : ?>
 			<?php echo JText::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
-			<a href="<?php echo JRoute::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
+			<a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
 			<?php echo JText::_('COM_CONTACT_VCARD'); ?></a>
 		<?php endif; ?>
 

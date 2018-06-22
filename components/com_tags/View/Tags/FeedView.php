@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Router\Route;
 
 /**
  * HTML View class for the Tags component all tags view
@@ -31,7 +32,7 @@ class FeedView extends BaseHtmlView
 	{
 		$app            = \JFactory::getApplication();
 		$document       = \JFactory::getDocument();
-		$document->link = \JRoute::_('index.php?option=com_tags&view=tags');
+		$document->link = Route::_('index.php?option=com_tags&view=tags');
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');

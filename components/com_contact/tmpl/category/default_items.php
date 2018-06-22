@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('behavior.core');
 
@@ -56,7 +57,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php $contact_width = 7; ?>
 							<div class="col-md-2">
 								<?php if ($this->items[$i]->image) : ?>
-									<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+									<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 										<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 								<?php endif; ?>
 							</div>
@@ -65,7 +66,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 
 						<div class="list-title col-md-<?php echo $contact_width; ?>">
-							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+							<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
 							<?php if ($this->items[$i]->published == 0) : ?>
 								<span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 <div class="archive">
@@ -19,7 +21,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 </h1>
 </div>
 <?php endif; ?>
-<form id="adminForm" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
+<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-inline">
 	<fieldset class="filters">
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>

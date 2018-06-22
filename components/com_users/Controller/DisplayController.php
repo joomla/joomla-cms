@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Base controller class for Users.
@@ -52,7 +53,7 @@ class DisplayController extends BaseController
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
@@ -61,7 +62,7 @@ class DisplayController extends BaseController
 					if (ComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
 					{
 						// Registration is disabled - Redirect to login page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 						return;
 					}
@@ -79,7 +80,7 @@ class DisplayController extends BaseController
 					if ($user->get('guest') == 1)
 					{
 						// Redirect to login page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 						return;
 					}
@@ -99,7 +100,7 @@ class DisplayController extends BaseController
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
@@ -114,7 +115,7 @@ class DisplayController extends BaseController
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}

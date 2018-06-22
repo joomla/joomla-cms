@@ -8,6 +8,8 @@
  */
 namespace Joomla\Component\Users\Site\Controller;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -15,8 +17,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Filesystem\File;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Router\Route;
 
 /**
  * Profile controller class for Users.
@@ -58,7 +59,7 @@ class ProfileController extends BaseController
 		{
 			// If so, the user must login to edit the password and other data.
 			$app->enqueueMessage(\JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
 		}
@@ -83,7 +84,7 @@ class ProfileController extends BaseController
 		}
 
 		// Redirect to the edit screen.
-		$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit', false));
+		$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit', false));
 
 		return true;
 	}
@@ -151,7 +152,7 @@ class ProfileController extends BaseController
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
 			return false;
 		}
@@ -168,7 +169,7 @@ class ProfileController extends BaseController
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
 			$this->setMessage(\JText::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
 			return false;
 		}
@@ -197,7 +198,7 @@ class ProfileController extends BaseController
 					$redirect = 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1';
 				}
 
-				$this->setRedirect(\JRoute::_($redirect, false));
+				$this->setRedirect(Route::_($redirect, false));
 				break;
 
 			default:
@@ -227,7 +228,7 @@ class ProfileController extends BaseController
 
 				// Redirect to the list screen.
 				$this->setMessage(\JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(\JRoute::_($redirect, false));
+				$this->setRedirect(Route::_($redirect, false));
 				break;
 		}
 

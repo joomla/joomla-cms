@@ -15,6 +15,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Router\Route;
 
 /**
  * Search HTML view class for the Finder package.
@@ -204,7 +205,7 @@ class HtmlView extends BaseHtmlView
 		$fields = null;
 
 		// Get the URI.
-		$uri = \JUri::getInstance(\JRoute::_($this->query->toUri()));
+		$uri = \JUri::getInstance(Route::_($this->query->toUri()));
 		$uri->delVar('q');
 		$uri->delVar('o');
 		$uri->delVar('t');
@@ -321,12 +322,12 @@ class HtmlView extends BaseHtmlView
 		{
 			// Add the RSS link.
 			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=rss');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=rss');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
 			// Add the ATOM link.
 			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=atom');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=atom');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 		}
 	}

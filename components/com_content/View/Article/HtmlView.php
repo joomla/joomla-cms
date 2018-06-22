@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Language\Associations;
-
+use Joomla\CMS\Router\Route;
 
 /**
  * HTML Article View class for the Content component
@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+		$item->readmore_link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
@@ -196,7 +196,7 @@ class HtmlView extends BaseHtmlView
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(\JUri::getInstance());
-				$login_url_with_return = \JRoute::_('index.php?option=com_users&return=' . $return);
+				$login_url_with_return = Route::_('index.php?option=com_users&return=' . $return);
 				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\CMS\Router\Route;
 
 $class = ' class="first"';
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
@@ -26,7 +27,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 	<li<?php echo $class; ?>>
 		<?php $class = ''; ?>
 			<h4 class="item-title">
-				<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($child->id)); ?>">
+				<a href="<?php echo Route::_(ContactHelperRoute::getCategoryRoute($child->id)); ?>">
 				<?php echo $this->escape($child->title); ?>
 				</a>
 

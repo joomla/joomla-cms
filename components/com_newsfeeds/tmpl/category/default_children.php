@@ -10,6 +10,8 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 ?>
 <?php $class = ' class="first"'; ?>
 <?php if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
@@ -22,7 +24,7 @@ defined('_JEXEC') or die;
 				<li<?php echo $class; ?>>
 					<?php $class = ''; ?>
 					<span class="item-title">
-						<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($child->id)); ?>">
+						<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($child->id)); ?>">
 							<?php echo $this->escape($child->title); ?>
 						</a>
 					</span>

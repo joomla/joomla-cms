@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 $lang = JFactory::getLanguage();
 $upper_limit = $lang->getUpperLimitSearchWord();
 
 ?>
-<form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search'); ?>" method="post">
+<form id="searchForm" action="<?php echo Route::_('index.php?option=com_search'); ?>" method="post">
 	<div class="form-group">
 		<div class="input-group">
 			<input type="text" name="searchword" placeholder="<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>" id="search-searchword" maxlength="<?php echo $upper_limit; ?>" value="<?php echo $this->escape($this->origkeyword); ?>" class="form-control">

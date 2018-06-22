@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
 
 /**
  * Component Controller
@@ -101,7 +102,7 @@ class ConfigController extends BaseController
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+			$this->app->redirect(Route::_('index.php?option=com_config&view=config', false));
 		}
 
 		// Attempt to save the configuration.
@@ -133,12 +134,12 @@ class ConfigController extends BaseController
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+			$this->app->redirect(Route::_('index.php?option=com_config&view=config', false));
 		}
 
 		// Redirect back to com_config display
 		$this->app->enqueueMessage(\JText::_('COM_CONFIG_SAVE_SUCCESS'));
-		$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+		$this->app->redirect(Route::_('index.php?option=com_config&view=config', false));
 
 		return true;
 	}

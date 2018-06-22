@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -155,7 +156,7 @@ if (!empty($this->items))
 			<?php endif; ?>
 			<td headers="categorylist_header_title" class="list-title">
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
+					<a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 						<?php echo $this->escape($article->title); ?>
 					</a>
 					<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
@@ -163,10 +164,10 @@ if (!empty($this->items))
 						<?php foreach ($associations as $association) : ?>
 							<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+								&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
 								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-								&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+								&nbsp;<a class="<?php echo $class; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
@@ -174,7 +175,7 @@ if (!empty($this->items))
 					<?php
 					echo $this->escape($article->title) . ' : ';
 					$itemId = JFactory::getApplication()->getMenu()->getActive()->id;
-					$link   = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+					$link   = new JUri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
 					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
 					?>
 					<a href="<?php echo $link; ?>" class="register">
@@ -185,10 +186,10 @@ if (!empty($this->items))
 						<?php foreach ($associations as $association) : ?>
 							<?php if ($this->params->get('flags', 1)) : ?>
 								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+								&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
 								<?php $class = 'badge badge-association badge-' . $association['language']->sef; ?>
-								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>

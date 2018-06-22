@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
@@ -20,7 +22,7 @@ JHtml::_('behavior.formvalidator');
 		</div>
 	<?php endif; ?>
 
-	<form id="member-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="com-users-registration__form form-validate" enctype="multipart/form-data">
+	<form id="member-registration" action="<?php echo Route::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="com-users-registration__form form-validate" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
@@ -57,7 +59,7 @@ JHtml::_('behavior.formvalidator');
 				<button type="submit" class="com-users-registration__register btn btn-primary validate">
                     <?php echo JText::_('JREGISTER'); ?>
                 </button>
-				<a class="com-users-registration__cancel btn btn-danger" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>">
+				<a class="com-users-registration__cancel btn btn-danger" href="<?php echo Route::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>">
                     <?php echo JText::_('JCANCEL'); ?>
                 </a>
 				<input type="hidden" name="option" value="com_users">

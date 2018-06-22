@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Registration model class for Users.
@@ -113,7 +114,7 @@ class RegistrationModel extends FormModel
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = \JUri::base();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . \JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate URL in case this method is called from admin
 			if (\JFactory::getApplication()->isClient('administrator'))
@@ -469,7 +470,7 @@ class RegistrationModel extends FormModel
 			// Set the link to confirm the user email.
 			$uri = \JUri::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . \JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate URL in case this method is called from admin
 			if (\JFactory::getApplication()->isClient('administrator'))
@@ -513,7 +514,7 @@ class RegistrationModel extends FormModel
 			// Set the link to activate the user account.
 			$uri = \JUri::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . \JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate URL in case this method is called from admin
 			if (\JFactory::getApplication()->isClient('administrator'))

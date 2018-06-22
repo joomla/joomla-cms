@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Categories\Categories;
-
+use Joomla\CMS\Router\Route;
 /**
  * HTML Contact View class for the Contact component
  *
@@ -330,10 +330,10 @@ class HtmlView extends BaseHtmlView
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = \JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
 			}
 
-			$item->link = \JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
+			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
 		}
 
 		// Process the content plugins.
