@@ -19,6 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Session\Session;
 
 /**
  * Component Controller
@@ -69,7 +70,7 @@ class ModulesController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
 			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'));
 			$this->app->redirect('index.php');

@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Controller\Style;
 use Joomla\Component\Templates\Administrator\Controller\StyleController;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Session\Session;
 
 /**
  * Component Controller
@@ -67,7 +68,7 @@ class TemplatesController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
 			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'));
 

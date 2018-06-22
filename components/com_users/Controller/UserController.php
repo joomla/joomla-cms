@@ -11,6 +11,7 @@ namespace Joomla\Component\Users\Site\Controller;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Session\Session;
 
 defined('_JEXEC') or die;
 
@@ -292,7 +293,7 @@ class UserController extends BaseController
 		}
 
 		// Logout and redirect
-		$this->setRedirect('index.php?option=com_users&task=user.logout&' . \JSession::getFormToken() . '=1&return=' . base64_encode($url));
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url));
 	}
 
 	/**

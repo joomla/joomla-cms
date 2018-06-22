@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Session\Session;
 
 /**
  * Component Controller
@@ -65,7 +66,7 @@ class ConfigController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
 			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'));
 			$this->app->redirect('index.php');
