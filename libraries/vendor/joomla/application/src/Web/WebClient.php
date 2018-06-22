@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -452,16 +452,29 @@ class WebClient
 		}
 		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false)
 		{
-			$result  = explode('/', stristr($userAgent, 'Opera'));
-			$version = explode(' ', $result[1]);
+			$version = false;
 
-			if ($version[0] >= 15)
+			if (preg_match('/Opera[\/| ]?([0-9.]+)/u', $userAgent, $match))
+			{
+				$version = floatval($match[1]);
+			}
+
+			if (preg_match('/Version\/([0-9.]+)/u', $userAgent, $match))
+			{
+				if (floatval($match[1]) >= 10)
+				{
+					$version = floatval($match[1]);
+				}
+			}
+
+			if ($version !== false && $version >= 15)
 			{
 				$this->engine = self::BLINK;
 			}
-
-			// Sometimes Opera browsers don't say Presto.
-			$this->engine = self::PRESTO;
+			else
+			{
+				$this->engine = self::PRESTO;
+			}
 		}
 		elseif (stripos($userAgent, 'KHTML') !== false)
 		{
