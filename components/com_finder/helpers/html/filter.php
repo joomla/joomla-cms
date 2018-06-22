@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filter\OutputFilter;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
@@ -401,7 +402,7 @@ abstract class JHtmlFilter
 			// Build a node.
 			$html .= '<div class="control-group">';
 			$html .= '<div class="control-label">';
-			$html .= '<label for="tax-' . JFilterOutput::stringURLSafe($bv->title) . '">';
+			$html .= '<label for="tax-' . OutputFilter::stringURLSafe($bv->title) . '">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</div>';
@@ -409,7 +410,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_(
 				'select.genericlist',
 				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
-				'tax-' . JFilterOutput::stringURLSafe($bv->title)
+				'tax-' . OutputFilter::stringURLSafe($bv->title)
 			);
 			$html .= '</div>';
 			$html .= '</div>';

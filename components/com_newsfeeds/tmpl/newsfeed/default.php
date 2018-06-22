@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Filter\OutputFilter;
 
 ?>
 
@@ -118,7 +119,7 @@ use Joomla\CMS\Layout\FileLayout;
                         <?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
                             <div class="feed-item-description">
                                 <?php if ($this->params->get('show_feed_image', 0) == 0) : ?>
-                                    <?php $text = JFilterOutput::stripImages($text); ?>
+                                    <?php $text = OutputFilter::stripImages($text); ?>
                                 <?php endif; ?>
                                 <?php $text = JHtml::_('string.truncate', $text, $this->params->get('feed_character_count')); ?>
                                 <?php echo str_replace('&apos;', "'", $text); ?>
