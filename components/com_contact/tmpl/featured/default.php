@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');

@@ -8,10 +8,10 @@
  */
 namespace Joomla\Component\Contact\Site\Helper;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Categories\CategoryNode;
-
-defined('_JEXEC') or die;
 
 /**
  * Contact Component Route Helper

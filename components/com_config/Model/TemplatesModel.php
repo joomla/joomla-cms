@@ -44,7 +44,7 @@ class TemplatesModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|bool    A JForm object on success, false on failure
+	 * @return  JForm|bool    A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -80,7 +80,7 @@ class TemplatesModel extends FormModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   Form  $form   A form object.
+	 * @param   JForm   $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Plugin group to load
 	 *

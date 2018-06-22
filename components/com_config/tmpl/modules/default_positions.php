@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;;
+
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0));

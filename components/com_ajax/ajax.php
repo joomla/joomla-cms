@@ -14,6 +14,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Helper\ModuleHelper;
+
 /*
  * References
  *  Support plugins in your component
