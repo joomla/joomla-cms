@@ -130,7 +130,7 @@ $params     = $this->state->params ?? new JObject;
 											<?php echo $item->count_published; ?></a>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">
-										<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
+										<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-danger'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">

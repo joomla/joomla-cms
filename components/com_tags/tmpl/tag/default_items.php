@@ -28,9 +28,9 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $items        = $this->items;
 $n            = count($this->items);
 ?>
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-tags-tag__items">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<fieldset class="filters d-flex justify-content-between mb-3">
+		<fieldset class="com-tags-tag__filters filters d-flex justify-content-between mb-3">
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="input-group">
 					<label class="filter-search-lbl sr-only" for="filter-search">
@@ -66,7 +66,7 @@ $n            = count($this->items);
 	<?php if ($this->items === false || $n === 0) : ?>
 		<p><?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
-		<ul class="category list-group">
+		<ul class="com-tags-tag__category category list-group">
 			<?php foreach ($items as $i => $item) : ?>
 				<?php if ($item->core_state == 0) : ?>
 					<li class="list-group-item-danger">

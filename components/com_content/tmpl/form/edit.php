@@ -150,7 +150,7 @@ if (!$editoroptions)
 				<span class="fa fa-check" aria-hidden="true"></span>
 				<?php echo JText::_('JSAVE'); ?>
 			</button>
-			<button type="button" class="btn btn-secondary" data-submit-task="article.cancel">
+			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
 				<span class="fa fa-times-cancel" aria-hidden="true"></span>
 				<?php echo JText::_('JCANCEL'); ?>
 			</button>
