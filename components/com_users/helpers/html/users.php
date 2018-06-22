@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Jooml\CMS\Language\LanguageHelper;
+
 /**
  * Users Html Helper
  *
@@ -150,13 +152,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$file = JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
+			$file = LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
 			if (is_file($file))
 			{
-				$result = JLanguageHelper::parseXMLLanguageFile($file);
+				$result = LanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
@@ -187,13 +189,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$file = JLanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
+			$file = LanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
 			if (is_file($file))
 			{
-				$result = JLanguageHelper::parseXMLLanguageFile($file);
+				$result = LanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
