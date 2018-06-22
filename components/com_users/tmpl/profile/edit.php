@@ -9,12 +9,17 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 
 
 // Load user_profile plugin language
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 ?>
@@ -46,7 +51,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		}
 	</script>
 
-	<form id="member-profile" action="<?php echo JRoute::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="form-validate form-horizontal well" enctype="multipart/form-data">
+	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="form-validate form-horizontal well" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
 		<?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($group); ?>
@@ -55,12 +60,12 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 					<?php // If the fieldset has a label set, display it as the legend. ?>
 					<?php if (isset($fieldset->label)) : ?>
 						<legend>
-							<?php echo JText::_($fieldset->label); ?>
+							<?php echo Text::_($fieldset->label); ?>
 						</legend>
 					<?php endif; ?>
 					<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
 						<p>
-							<?php echo $this->escape(JText::_($fieldset->description)); ?>
+							<?php echo $this->escape(Text::_($fieldset->description)); ?>
 						</p>
 					<?php endif; ?>
 					<?php // Iterate through the fields in the set and display them. ?>
@@ -74,7 +79,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 									<?php echo $field->label; ?>
 									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
 										<span class="optional">
-											<?php echo JText::_('COM_USERS_OPTIONAL'); ?>
+											<?php echo Text::_('COM_USERS_OPTIONAL'); ?>
 										</span>
 									<?php endif; ?>
 								</div>
@@ -90,17 +95,17 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 		<?php if (count($this->twofactormethods) > 1) : ?>
 			<fieldset>
-				<legend><?php echo JText::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
+				<legend><?php echo Text::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
 
 				<div class="control-group">
 					<div class="control-label">
 						<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-							   title="<?php echo '<strong>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
-							<?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?>
+							   title="<?php echo '<strong>' . Text::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br>' . Text::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
+							<?php echo Text::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?>
 						</label>
 					</div>
 					<div class="controls">
-						<?php echo JHtml::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 					</div>
 				</div>
 				<div id="com_users_twofactor_forms_container">
@@ -115,11 +120,11 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 			<fieldset>
 				<legend>
-					<?php echo JText::_('COM_USERS_PROFILE_OTEPS'); ?>
+					<?php echo Text::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
-				<joomla-alert type="info"><?php echo JText::_('COM_USERS_PROFILE_OTEPS_DESC'); ?></joomla-alert>
+				<joomla-alert type="info"><?php echo Text::_('COM_USERS_PROFILE_OTEPS_DESC'); ?></joomla-alert>
 				<?php if (empty($this->otpConfig->otep)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?></joomla-alert>
 				<?php else : ?>
 					<?php foreach ($this->otpConfig->otep as $otep) : ?>
 						<span class="col-md-3">
@@ -135,14 +140,14 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate">
 					<span>
-						<?php echo JText::_('JSUBMIT'); ?>
+						<?php echo Text::_('JSUBMIT'); ?>
 					</span>
 				</button>
-				<a class="btn btn-danger" href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
+				<a class="btn btn-danger" href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo Text::_('JCANCEL'); ?>"><?php echo Text::_('JCANCEL'); ?></a>
 				<input type="hidden" name="option" value="com_users">
 				<input type="hidden" name="task" value="profile.save">
 			</div>
 		</div>
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>
