@@ -11,10 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 
-$com_path = JPATH_SITE . '/components/com_content/';
-
-JLoader::register('ContentHelperRoute', $com_path . 'helpers/route.php');
-JModelLegacy::addIncludePath($com_path . 'models', 'ContentModel');
+$comPath = JPATH_SITE . '/components/com_content/';
+JLoader::register('ContentHelperRoute', $comPath . 'helpers/route.php');
+JModelLegacy::addIncludePath($comPath . 'models', 'ContentModel');
 
 /**
  * Helper for mod_articles_category
@@ -28,7 +27,7 @@ abstract class ModArticlesCategoryHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
-	 * @return  mixed
+	 * @return  array
 	 *
 	 * @since  1.6
 	 */
@@ -47,8 +46,8 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
 
-		// This module does not use tags data
-		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
+		// Load tags only when needed
+		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags' ? true : false);
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -61,71 +60,73 @@ abstract class ModArticlesCategoryHelper
 		switch ($mode)
 		{
 			case 'dynamic' :
-				$option = $app->input->get('option');
-				$view   = $app->input->get('view');
+				$option = $app->input->getCmd('option');
+				$view   = $app->input->getCmd('view');
 
 				if ($option === 'com_content')
 				{
 					switch ($view)
 					{
 						case 'category' :
+							$catIds = array($app->input->getInt('id'));
+							break;
 						case 'categories' :
-							$catids = array($app->input->getInt('id'));
+							$catIds = array($app->input->getInt('id'));
 							break;
 						case 'article' :
 							if ($params->get('show_on_article_page', 1))
 							{
-								$article_id = $app->input->getInt('id');
-								$catid      = $app->input->getInt('catid');
+								$articleId = $app->input->getInt('id');
+								$catId     = $app->input->getInt('catid');
 
-								if (!$catid)
+								if (!$catId)
 								{
 									// Get an instance of the generic article model
 									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
-									$article->setState('article.id', (int) $article_id);
+									$article->setState('article.id', (int) $articleId);
 									$item   = $article->getItem();
-									$catids = array($item->catid);
+									$catIds = array($item->catid);
 								}
 								else
 								{
-									$catids = array($catid);
+									$catIds = array($catId);
 								}
 							}
 							else
 							{
 								// Return right away if show_on_article_page option is off
-								return;
+								return array();
 							}
 							break;
 
 						case 'featured' :
 						default:
 							// Return right away if not on the category or article views
-							return;
+							return array();
 					}
 				}
 				else
 				{
 					// Return right away if not on a com_content page
-					return;
+					return array();
 				}
 
 				break;
 
 			case 'normal' :
 			default:
-				$catids = $params->get('catid');
+				$catIds = $params->get('catid');
 				$articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
 				break;
 		}
 
 		// Category filter
-		if ($catids)
+		if ($catIds)
 		{
-			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
+			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 1) > 0)
 			{
 				// Get an instance of the generic categories model
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
@@ -134,11 +135,11 @@ abstract class ModArticlesCategoryHelper
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);
-				$additional_catids = array();
+				$additionalCatIds = array();
 
-				foreach ($catids as $catid)
+				foreach ($catIds as $catId)
 				{
-					$categories->setState('filter.parentId', $catid);
+					$categories->setState('filter.parentId', $catId);
 					$recursive = true;
 					$items     = $categories->getItems($recursive);
 
@@ -150,16 +151,16 @@ abstract class ModArticlesCategoryHelper
 
 							if ($condition)
 							{
-								$additional_catids[] = $category->id;
+								$additionalCatIds[] = $category->id;
 							}
 						}
 					}
 				}
 
-				$catids = array_unique(array_merge($catids, $additional_catids));
+				$catIds = array_unique(array_merge($catIds, $additionalCatIds));
 			}
 
-			$articles->setState('filter.category_id', $catids);
+			$articles->setState('filter.category_id', $catIds);
 		}
 
 		// Ordering
@@ -193,26 +194,26 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', ''));
+		$articles->setState('filter.author_id', $params->get('created_by', array()));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', ''));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
-		$excluded_articles = $params->get('excluded_articles', '');
+		$excludedArticles = $params->get('excluded_articles', '');
 
-		if ($excluded_articles)
+		if ($excludedArticles)
 		{
-			$excluded_articles = explode("\r\n", $excluded_articles);
-			$articles->setState('filter.article_id', $excluded_articles);
+			$excludedArticles = explode("\r\n", $excludedArticles);
+			$articles->setState('filter.article_id', $excludedArticles);
 
 			// Exclude
 			$articles->setState('filter.article_id.include', false);
 		}
 
-		$date_filtering = $params->get('date_filtering', 'off');
+		$dateFiltering = $params->get('date_filtering', 'off');
 
-		if ($date_filtering !== 'off')
+		if ($dateFiltering !== 'off')
 		{
-			$articles->setState('filter.date_filtering', $date_filtering);
+			$articles->setState('filter.date_filtering', $dateFiltering);
 			$articles->setState('filter.date_field', $params->get('date_field', 'a.created'));
 			$articles->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
 			$articles->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
@@ -225,34 +226,34 @@ abstract class ModArticlesCategoryHelper
 		$items = $articles->getItems();
 
 		// Display options
-		$show_date        = $params->get('show_date', 0);
-		$show_date_field  = $params->get('show_date_field', 'created');
-		$show_date_format = $params->get('show_date_format', 'Y-m-d H:i:s');
-		$show_category    = $params->get('show_category', 0);
-		$show_hits        = $params->get('show_hits', 0);
-		$show_author      = $params->get('show_author', 0);
-		$show_introtext   = $params->get('show_introtext', 0);
-		$introtext_limit  = $params->get('introtext_limit', 100);
+		$showDate       = $params->get('show_date', 0);
+		$showDateField  = $params->get('show_date_field', 'created');
+		$showDateFormat = $params->get('show_date_format', 'Y-m-d H:i:s');
+		$showCategory   = $params->get('show_category', 0);
+		$showHits       = $params->get('show_hits', 0);
+		$showAuthor     = $params->get('show_author', 0);
+		$showIntrotext  = $params->get('show_introtext', 0);
+		$introtextLimit = $params->get('introtext_limit', 100);
 
 		// Find current Article ID if on an article page
-		$option = $app->input->get('option');
-		$view   = $app->input->get('view');
+		$option = $app->input->getCmd('option');
+		$view   = $app->input->getCmd('view');
 
 		if ($option === 'com_content' && $view === 'article')
 		{
-			$active_article_id = $app->input->getInt('id');
+			$activeArticleId = $app->input->getInt('id');
 		}
 		else
 		{
-			$active_article_id = 0;
+			$activeArticleId = 0;
 		}
 
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug    = $item->id . ':' . $item->alias;
+			$item->slug = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -263,50 +264,46 @@ abstract class ModArticlesCategoryHelper
 			else
 			{
 				$menu      = $app->getMenu();
-				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
+				$menuItems = $menu->getItems('link', 'index.php?option=com_users&view=login');
 
-				if (isset($menuitems[0]))
+				if (isset($menuItems[0]))
 				{
-					$Itemid = $menuitems[0]->id;
+					$itemId = $menuItems[0]->id;
 				}
 				elseif ($app->input->getInt('Itemid') > 0)
 				{
 					// Use Itemid from requesting page only if there is no existing menu
-					$Itemid = $app->input->getInt('Itemid');
+					$itemId = $app->input->getInt('Itemid');
 				}
 
-				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
+				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
 			}
 
 			// Used for styling the active article
-			$item->active      = $item->id == $active_article_id ? 'active' : '';
-			$item->displayDate = '';
-
-			if ($show_date)
-			{
-				$item->displayDate = JHtml::_('date', $item->$show_date_field, $show_date_format);
-			}
+			$item->active = $item->id == $activeArticleId ? 'active' : '';
+	
+			$item->displayDate = $showDate ? JHtml::_('date', $item->$showDateField, $showDateFormat) : '';
 
 			if ($item->catid)
 			{
 				$item->displayCategoryLink  = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catid));
-				$item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
+				$item->displayCategoryTitle = $showCategory ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
 			}
 			else
 			{
-				$item->displayCategoryTitle = $show_category ? $item->category_title : '';
+				$item->displayCategoryTitle = $showCategory ? $item->category_title : '';
 			}
 
-			$item->displayHits       = $show_hits ? $item->hits : '';
-			$item->displayAuthorName = $show_author ? $item->author : '';
+			$item->displayHits       = $showHits ? $item->hits : '';
+			$item->displayAuthorName = $showAuthor ? $item->author : '';
 
-			if ($show_introtext)
+			if ($showIntrotext)
 			{
 				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
 
-			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
+			$item->displayIntrotext = $showIntrotext ? self::truncate($item->introtext, $introtextLimit) : '';
 			$item->displayReadmore  = $item->alternative_readmore;
 		}
 
@@ -383,49 +380,34 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Groups items by field
 	 *
-	 * @param   array   $list                        list of items
-	 * @param   string  $fieldName                   name of field that is used for grouping
-	 * @param   string  $article_grouping_direction  ordering direction
-	 * @param   null    $fieldNameToKeep             field name to keep
+	 * @param   array   $list       list of items
+	 * @param   string  $fieldName  name of field that is used for grouping
+	 * @param   string  $direction  ordering direction
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
+	public static function groupBy($list, $fieldName, $direction)
 	{
-		$grouped = array();
-
-		if (!is_array($list))
-		{
-			if ($list == '')
-			{
-				return $grouped;
-			}
-
-			$list = array($list);
-		}
+		$grouped  = array();
+		$noAuthor = JText::_('MOD_ARTICLES_CATEGORY_NO_AUTHOR');
 
 		foreach ($list as $key => $item)
 		{
-			if (!isset($grouped[$item->$fieldName]))
-			{
-				$grouped[$item->$fieldName] = array();
-			}
-
-			if ($fieldNameToKeep === null)
+			if ($item->$fieldName !== null)
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
-			else
+			elseif ($fieldName === 'author')
 			{
-				$grouped[$item->$fieldName][$key] = $item->$fieldNameToKeep;
+				$grouped[$noAuthor][$key] = $item;
 			}
 
 			unset($list[$key]);
 		}
 
-		$article_grouping_direction($grouped);
+		$direction($grouped);
 
 		return $grouped;
 	}
@@ -433,47 +415,32 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Groups items by date
 	 *
-	 * @param   array   $list                        list of items
-	 * @param   string  $type                        type of grouping
-	 * @param   string  $article_grouping_direction  ordering direction
-	 * @param   string  $month_year_format           date format to use
+	 * @param   array   $list             list of items
+	 * @param   string  $type             type of grouping
+	 * @param   string  $direction        ordering direction
+	 * @param   string  $monthYearFormat  date format to use
+	 * @param   string  $dateField        date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $type = 'year', $direction, $monthYearFormat = 'F Y', $dateField = 'created')
 	{
 		$grouped = array();
-
-		if (!is_array($list))
-		{
-			if ($list == '')
-			{
-				return $grouped;
-			}
-
-			$list = array($list);
-		}
 
 		foreach ($list as $key => $item)
 		{
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = StringHelper::substr($item->created, 0, 7);
-
-					if (!isset($grouped[$month_year]))
-					{
-						$grouped[$month_year] = array();
-					}
-
-					$grouped[$month_year][$key] = $item;
+					$monthYear = StringHelper::substr($item->$dateField, 0, 7);
+					$grouped[$monthYear][$key] = $item;
 					break;
 
 				case 'year' :
 				default:
-					$year = StringHelper::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->$dateField, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{
@@ -487,19 +454,55 @@ abstract class ModArticlesCategoryHelper
 			unset($list[$key]);
 		}
 
-		$article_grouping_direction($grouped);
+		$direction($grouped);
 
 		if ($type === 'month_year')
 		{
 			foreach ($grouped as $group => $items)
 			{
-				$date                      = new JDate($group);
-				$formatted_group           = $date->format($month_year_format);
-				$grouped[$formatted_group] = $items;
+				$date                     = new JDate($group);
+				$formattedGroup           = $date->format($monthYearFormat);
+				$grouped[$formattedGroup] = $items;
 
 				unset($grouped[$group]);
 			}
 		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Groups items by tags
+	 *
+	 * @param   array   $list       list of items
+	 * @param   string  $direction  ordering direction
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function groupByTags($list, $direction)
+	{
+		$grouped = array();
+		$noTag   = JText::_('MOD_ARTICLES_CATEGORY_NO_TAG');
+
+		foreach ($list as $key => $item)
+		{
+			if (!empty($item->tags->itemTags))
+			{
+				foreach ($item->tags->itemTags as $tag)
+				{
+					$grouped[$tag->title][$key] = $item;
+				}
+				unset($list[$key]);
+			}
+			else
+			{
+				$grouped[$noTag][$key] = $item;
+			}
+		}
+
+		$direction($grouped);
 
 		return $grouped;
 	}
