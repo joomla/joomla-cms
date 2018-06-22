@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 // Get the mime type class.
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
@@ -42,7 +43,7 @@ $route = $this->result->route;
 if (!empty($this->query->highlight)
 	&& empty($this->result->mime)
 	&& $this->params->get('highlight_terms', 1)
-	&& JPluginHelper::isEnabled('system', 'highlight'))
+	&& PluginHelper::isEnabled('system', 'highlight'))
 {
 	$route .= '&highlight=' . base64_encode(json_encode($this->query->highlight));
 }

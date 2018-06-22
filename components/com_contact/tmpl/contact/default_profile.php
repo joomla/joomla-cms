@@ -8,8 +8,11 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Plugin\PluginHelper;
+
 ?>
-<?php if (JPluginHelper::isEnabled('user', 'profile')) :
+<?php if (PluginHelper::isEnabled('user', 'profile')) :
 	$fields = $this->item->profile->getFieldset('profile'); ?>
 	<div class="com-contact__profile contact-profile" id="users-profile-custom">
 		<dl class="dl-horizontal">

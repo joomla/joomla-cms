@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Plugin\PluginHelper;
 
 $cparams = JComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
@@ -189,7 +190,7 @@ $tparams = $this->item->params;
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<?php if ($tparams->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
+	<?php if ($tparams->get('show_profile') && $this->contact->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php if (!$accordionStarted)
 			{

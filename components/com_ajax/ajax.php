@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /*
  * References
@@ -137,7 +138,7 @@ elseif ($input->get('module'))
 elseif ($input->get('plugin'))
 {
 	$group      = $input->get('group', 'ajax');
-	JPluginHelper::importPlugin($group);
+	PluginHelper::importPlugin($group);
 	$plugin     = ucfirst($input->get('plugin'));
 
 	try

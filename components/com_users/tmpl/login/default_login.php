@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\PluginHelper;
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
@@ -67,7 +69,7 @@ $usersConfig = JComponentHelper::getParams('com_users');
 				</div>
 			<?php endif; ?>
 
-			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
+			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
 				<div  class="control-group">
 					<div class="control-label">
 						<label for="remember">
