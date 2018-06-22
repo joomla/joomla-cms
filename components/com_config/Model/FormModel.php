@@ -221,7 +221,7 @@ abstract class FormModel extends BaseForm
 	protected function preprocessData($context, &$data, $group = 'content')
 	{
 		// Get the dispatcher and load the users plugins.
-		\PluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
 		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
@@ -243,7 +243,7 @@ abstract class FormModel extends BaseForm
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
-		\PluginHelper::importPlugin($group);
+		PluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
 		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
