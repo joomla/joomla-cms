@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Dispatcher\Dispatcher;
 use Joomla\CMS\Language\Text;
 
-
 /**
  * Dispatcher class for com_content
  *
