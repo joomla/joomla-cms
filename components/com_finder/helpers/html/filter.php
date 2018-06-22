@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
@@ -117,7 +118,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title === 'Language' && Multilanguage::isEnabled())
 			{
 				continue;
 			}
@@ -305,7 +306,7 @@ abstract class JHtmlFilter
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plugin is enabled then drop the language branch.
-				if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
+				if ($bv->title === 'Language' && Multilanguage::isEnabled())
 				{
 					continue;
 				}
@@ -381,7 +382,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title === 'Language' && Multilanguage::isEnabled())
 			{
 				continue;
 			}

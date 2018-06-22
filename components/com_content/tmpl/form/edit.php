@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
-
+use Joomla\CMS\Language\Multilanguage;
 
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
@@ -126,7 +126,7 @@ if (!$editoroptions)
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php if (\JLanguageMultilang::isEnabled()) : ?>
+			<?php if (Multilanguage::isEnabled()) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
 					<?php echo $this->form->renderField('language'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>

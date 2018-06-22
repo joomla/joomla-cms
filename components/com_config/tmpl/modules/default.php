@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
@@ -20,7 +21,7 @@ HTMLHelper::_('script', 'com_config/modules-default.js', ['relative' => true, 'v
 $hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
 // If multi-language site, make language read-only
-if (JLanguageMultilang::isEnabled())
+if (Multilanguage::isEnabled())
 {
 	$this->form->setFieldAttribute('language', 'readonly', 'true');
 }
@@ -139,7 +140,7 @@ if (JLanguageMultilang::isEnabled())
 						</div>
 					</div>
 
-					<?php if (\JLanguageMultilang::isEnabled()) : ?>
+					<?php if (Multilanguage::isEnabled()) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('language'); ?>

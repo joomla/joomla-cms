@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Content Component Route Helper.
@@ -39,7 +40,7 @@ abstract class ContentHelperRoute
 			$link .= '&catid=' . $catid;
 		}
 
-		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && Multilanguage::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 		}
@@ -76,7 +77,7 @@ abstract class ContentHelperRoute
 		{
 			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
-			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && Multilanguage::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 			}

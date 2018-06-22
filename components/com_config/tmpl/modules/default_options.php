@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+
 $fieldSets = $this->form->getFieldsets('params');
 
 echo JHtml::_('bootstrap.startAccordion', 'collapseTypes');
@@ -37,7 +39,7 @@ endif;
 			<div class="controls">
 				<?php
 				// If multi-language site, make menu-type selection read-only
-				if (JLanguageMultilang::isEnabled() && $this->item['module'] === 'mod_menu' && $field->getAttribute('name') === 'menutype')
+				if (Multilanguage::isEnabled() && $this->item['module'] === 'mod_menu' && $field->getAttribute('name') === 'menutype')
 				{
 					$field->__set('readonly', true);
 				}
