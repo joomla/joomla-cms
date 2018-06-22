@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Filesystem\File;
 
 defined('_JEXEC') or die;
 
@@ -276,7 +277,7 @@ class ProfileController extends BaseController
 		{
 			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
 		}
-		elseif (!\JFile::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
+		elseif (!File::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
 		{
 			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
 		}
