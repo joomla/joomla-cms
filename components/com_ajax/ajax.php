@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
 
 /*
  * References
@@ -162,7 +163,7 @@ elseif ($input->get('plugin'))
 elseif ($input->get('template'))
 {
 	$template   = $input->get('template');
-	$table      = JTable::getInstance('extension');
+	$table      = Table::getInstance('extension');
 	$templateId = $table->find(array('type' => 'template', 'element' => $template));
 
 	if ($templateId && $table->load($templateId) && $table->enabled)
