@@ -22,6 +22,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Date\Date;
 
 /**
  * Registration model class for Users.
@@ -667,7 +668,7 @@ class RegistrationModel extends FormModel
 
 			if (count($userids) > 0)
 			{
-				$jdate = new \JDate;
+				$jdate = new Date;
 
 				// Build the query to add the messages
 				foreach ($userids as $userid)
