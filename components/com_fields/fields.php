@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 $input   = JFactory::getApplication()->input;
@@ -25,6 +27,6 @@ if ($input->get('view') === 'fields' && $input->get('layout') === 'modal')
 	}
 }
 
-$controller = JControllerLegacy::getInstance('Fields');
+$controller = BaseController::getInstance('Fields');
 $controller->execute($input->get('task'));
 $controller->redirect();
