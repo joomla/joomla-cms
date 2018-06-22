@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Document\Feed\FeedItem;
 
 /**
  * Search feed view class for the Finder package.
@@ -83,7 +84,7 @@ class FeedView extends BaseHtmlView
 		foreach ($results as $result)
 		{
 			// Convert the result to a feed entry.
-			$item              = new \JFeedItem;
+			$item              = new FeedItem;
 			$item->title       = $result->title;
 			$item->link        = \JRoute::_($result->route);
 			$item->description = $result->description;

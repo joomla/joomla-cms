@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Document\Feed\FeedItem;
 
 /**
  * Frontpage View class
@@ -77,7 +78,7 @@ class FeedView extends AbstractView
 			$author      = $row->created_by_alias ?: $row->author;
 
 			// Load individual item creator class
-			$item           = new \JFeedItem;
+			$item           = new FeedItem;
 			$item->title    = $title;
 			$item->link     = $link;
 			$item->date     = $row->publish_up;

@@ -10,6 +10,7 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
+use Joomla\CMS\Document\Feed\FeedItem;
 
 defined('_JEXEC') or die;
 
@@ -65,7 +66,7 @@ class FeedView extends BaseHtmlView
 				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 				// Load individual item creator class
-				$feeditem              = new \JFeedItem;
+				$feeditem              = new FeedItem;
 				$feeditem->title       = $title;
 				$feeditem->link        = $link;
 				$feeditem->description = $description;
