@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 /**
  * Single item model for a contact
@@ -217,13 +218,13 @@ class ContactModel extends FormModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
-					throw new \Exception(\JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				/**

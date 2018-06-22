@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Language\Text;
 
 /**
  * Tags Component Tag Model
@@ -315,7 +316,7 @@ class TagModel extends ListModel
 
 		if (!$this->item)
 		{
-			throw new \Exception(\JText::_('COM_TAGS_TAG_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
 		}
 
 		return $this->item;
@@ -346,7 +347,7 @@ class TagModel extends ListModel
 
 			if (!$table->hasPrimaryKey())
 			{
-				throw new \Exception(\JText::_('COM_TAGS_TAG_NOT_FOUND'), 404);
+				throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
 			}
 		}
 

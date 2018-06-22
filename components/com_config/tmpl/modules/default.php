@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -32,36 +33,36 @@ if (Multilanguage::isEnabled())
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
+			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
 						<span class="fa fa-check" aria-hidden="true"></span>
-						<?php echo JText::_('JAPPLY') ?>
+						<?php echo Text::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
 						<span class="fa fa-check" aria-hidden="true"></span>
-						<?php echo JText::_('JSAVE') ?>
+						<?php echo Text::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
 						<span class="fa fa-times" aria-hidden="true"></span>
-						<?php echo JText::_('JCANCEL') ?>
+						<?php echo Text::_('JCANCEL') ?>
 					</button>
 				</div>
 			</div>
 
 			<hr>
 
-			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
+			<legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
 				<span class="badge badge-secondary"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
 				<span class="badge badge-secondary"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr>

@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.keepalive');
@@ -48,7 +49,7 @@ if (!$editoroptions)
 		<fieldset>
 			<?php echo HTMLHelper::_('bootstrap.startTabSet', $this->tab_name, array('active' => 'editor')); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'editor', JText::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 				<?php echo $this->form->renderField('title'); ?>
 
 				<?php if (is_null($this->item->id)) : ?>
@@ -63,7 +64,7 @@ if (!$editoroptions)
 			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 			<?php if ($params->get('show_urls_images_frontend')) : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'images', JText::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'images', Text::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
@@ -98,7 +99,7 @@ if (!$editoroptions)
 
 			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'publishing', JText::_('COM_CONTENT_PUBLISHING')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
 				<?php if ($params->get('save_history', 0)) : ?>
@@ -121,14 +122,14 @@ if (!$editoroptions)
 						<div class="control-label">
 						</div>
 						<div class="controls">
-							<?php echo JText::_('COM_CONTENT_ORDERING'); ?>
+							<?php echo Text::_('COM_CONTENT_ORDERING'); ?>
 						</div>
 					</div>
 				<?php endif; ?>
 			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 			<?php if (Multilanguage::isEnabled()) : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
+				<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'language', Text::_('JFIELD_LANGUAGE_LABEL')); ?>
 					<?php echo $this->form->renderField('language'); ?>
 				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 			<?php else: ?>
@@ -136,7 +137,7 @@ if (!$editoroptions)
 			<?php endif; ?>
 
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'metadata', JText::_('COM_CONTENT_METADATA')); ?>
+				<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'metadata', Text::_('COM_CONTENT_METADATA')); ?>
 					<?php echo $this->form->renderField('metadesc'); ?>
 					<?php echo $this->form->renderField('metakey'); ?>
 				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
@@ -151,11 +152,11 @@ if (!$editoroptions)
 		<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
 				<span class="fa fa-check" aria-hidden="true"></span>
-				<?php echo JText::_('JSAVE'); ?>
+				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
 				<span class="fa fa-times-cancel" aria-hidden="true"></span>
-				<?php echo JText::_('JCANCEL'); ?>
+				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
 				<?php echo $this->form->getInput('contenthistory'); ?>

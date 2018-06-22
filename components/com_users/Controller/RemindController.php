@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 /**
  * Reset controller class for Users.
@@ -44,7 +45,7 @@ class RemindController extends BaseController
 		{
 			// The request failed.
 			// Go back to the request form.
-			$message = \JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
+			$message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
@@ -53,7 +54,7 @@ class RemindController extends BaseController
 		{
 			// The request succeeded.
 			// Proceed to step two.
-			$message = \JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
+			$message = Text::_('COM_USERS_REMIND_REQUEST_SUCCESS');
 			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 			return true;

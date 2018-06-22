@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 ?>
 <dl class="search-results">
@@ -40,7 +41,7 @@ use Joomla\CMS\Router\Route;
 	</dd>
 	<?php if ($this->params->get('show_date')) : ?>
 		<dd class="result-created">
-			<?php echo JText::sprintf('JGLOBAL_CREATED_DATE_ON', $result->created); ?>
+			<?php echo Text::sprintf('JGLOBAL_CREATED_DATE_ON', $result->created); ?>
 		</dd>
 	<?php endif; ?>
 <?php endforeach; ?>

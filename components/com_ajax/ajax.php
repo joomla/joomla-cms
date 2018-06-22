@@ -14,6 +14,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 
 /*
  * References
@@ -40,7 +41,7 @@ $parts   = null;
 // Check for valid format
 if (!$format)
 {
-	$results = new InvalidArgumentException(JText::_('COM_AJAX_SPECIFY_FORMAT'), 404);
+	$results = new InvalidArgumentException(Text::_('COM_AJAX_SPECIFY_FORMAT'), 404);
 }
 /*
  * Module support.
@@ -114,19 +115,19 @@ elseif ($input->get('module'))
 			// Method does not exist
 			else
 			{
-				$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
+				$results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
 			}
 		}
 		// The helper file does not exist
 		else
 		{
-			$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
+			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 	else
 	{
-		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
+		$results = new LogicException(Text::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
 	}
 }
 /*
@@ -222,19 +223,19 @@ elseif ($input->get('template'))
 			// Method does not exist
 			else
 			{
-				$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
+				$results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
 			}
 		}
 		// The helper file does not exist
 		else
 		{
-			$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'tpl_' . $template . '/helper.php'), 404);
+			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'tpl_' . $template . '/helper.php'), 404);
 		}
 	}
 	// Template is not assigned to the current menu item
 	else
 	{
-		$results = new LogicException(JText::sprintf('COM_AJAX_TEMPLATE_NOT_ACCESSIBLE', 'tpl_' . $template), 404);
+		$results = new LogicException(Text::sprintf('COM_AJAX_TEMPLATE_NOT_ACCESSIBLE', 'tpl_' . $template), 404);
 	}
 }
 

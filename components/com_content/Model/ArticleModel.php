@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
 
 /**
  * Content Component Article Model
@@ -153,13 +154,13 @@ class ArticleModel extends ItemModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
 				{
-					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -357,7 +358,7 @@ class ArticleModel extends ItemModel
 			return true;
 		}
 
-		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
+		\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
 
 		return false;
 	}

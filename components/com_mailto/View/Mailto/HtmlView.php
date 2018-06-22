@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Class for Mail.
@@ -62,7 +63,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($data->link == '')
 		{
-			throw new \Exception(\JText::_('COM_MAILTO_LINK_IS_MISSING'), 400);
+			throw new \Exception(Text::_('COM_MAILTO_LINK_IS_MISSING'), 400);
 		}
 
 		// Load with previous data, if it exists

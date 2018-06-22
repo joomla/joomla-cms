@@ -14,6 +14,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Content component
@@ -209,11 +210,11 @@ class HtmlView extends CategoryView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))

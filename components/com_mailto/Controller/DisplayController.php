@@ -15,6 +15,7 @@ use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Mailer Component Controller.
@@ -56,7 +57,7 @@ class DisplayController extends BaseController
 
 		if ($timeout == 0 || time() - $timeout < 20)
 		{
-			$this->setMessage(\JText::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 
 			return $this->mailto();
 		}
@@ -68,7 +69,7 @@ class DisplayController extends BaseController
 		if (!$link || !Uri::isInternal($link))
 		{
 			// Non-local url...
-			$this->setMessage(\JText::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 
 			return $this->mailto();
 		}
@@ -114,7 +115,7 @@ class DisplayController extends BaseController
 		$email           = $this->input->post->getString('mailto', '');
 		$sender          = $this->input->post->getString('sender', '');
 		$from            = $this->input->post->getString('from', '');
-		$subject_default = \JText::sprintf('COM_MAILTO_SENT_BY', $sender);
+		$subject_default = Text::sprintf('COM_MAILTO_SENT_BY', $sender);
 		$subject         = $this->input->post->getString('subject', $subject_default);
 
 		// Check for a valid to address
@@ -122,14 +123,14 @@ class DisplayController extends BaseController
 
 		if (!$email || !MailHelper::isEmailAddress($email))
 		{
-			$error = \JText::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
+			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
 			$this->app->enqueueMessage($error, 'warning');
 		}
 
 		// Check for a valid from address
 		if (!$from || !MailHelper::isEmailAddress($from))
 		{
-			$error = \JText::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
+			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
 			$this->app->enqueueMessage($error, 'warning');
 		}
 
@@ -139,7 +140,7 @@ class DisplayController extends BaseController
 		}
 
 		// Build the message to send
-		$msg  = \JText::_('COM_MAILTO_EMAIL_MSG');
+		$msg  = Text::_('COM_MAILTO_EMAIL_MSG');
 		$body = sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
@@ -154,7 +155,7 @@ class DisplayController extends BaseController
 		// Send the email
 		if (\JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)
 		{
-			$this->setMessage(\JText::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 
 			return $this->mailto();
 		}

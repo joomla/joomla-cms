@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 ?>
 <div class="com-users-profile profile">
@@ -25,7 +26,7 @@ use Joomla\CMS\Router\Route;
         <ul class="com-users-profile__edit btn-toolbar float-right">
             <li class="btn-group">
                 <a class="btn" href="<?php echo Route::_('index.php?option=com_users&task=profile.edit&user_id=' . (int) $this->data->id); ?>">
-                    <span class="icon-user"></span> <?php echo JText::_('COM_USERS_EDIT_PROFILE'); ?>
+                    <span class="icon-user"></span> <?php echo Text::_('COM_USERS_EDIT_PROFILE'); ?>
                 </a>
             </li>
         </ul>

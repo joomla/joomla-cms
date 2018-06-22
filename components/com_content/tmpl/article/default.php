@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
@@ -58,13 +59,13 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 			</h2>
 		<?php endif; ?>
 		<?php if ($this->item->state == 0) : ?>
-			<span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
-			<span class="badge badge-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 		<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
-			<span class="badge badge-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
@@ -150,16 +151,16 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<?php $attribs = json_decode($this->item->attribs); ?>
 		<?php
 		if ($attribs->alternative_readmore == null) :
-			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
+			echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE');
 		elseif ($readmore = $attribs->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
 				echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 			endif;
 		elseif ($params->get('show_readmore_title', 0) == 0) :
-			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
+			echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE');
 		else :
-			echo JText::_('COM_CONTENT_READ_MORE');
+			echo Text::_('COM_CONTENT_READ_MORE');
 			echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 		endif; ?>
 		</a>

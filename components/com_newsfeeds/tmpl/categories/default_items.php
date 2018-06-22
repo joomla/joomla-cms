@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <?php $class = ' class="first"'; ?>
@@ -29,13 +30,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 					</a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
 						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_NEWSFEEDS_NUM_ITEMS'); ?>">
-							<?php echo JText::_('COM_NEWSFEEDS_NUM_ITEMS'); ?>&nbsp;
+							<?php echo Text::_('COM_NEWSFEEDS_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
 						</span>
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES'); ?>">
+							data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>">
 							<span class="icon-plus" aria-hidden="true"></span>
 						</a>
 					<?php endif; ?>

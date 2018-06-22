@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Content component
@@ -62,7 +63,7 @@ class FeedView extends CategoryFeedView
 			// URL link to article
 			$link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
-			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . \JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 		}
 
 		$item->author = $item->created_by_alias ?: $item->author;

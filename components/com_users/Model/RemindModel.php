@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 /**
  * Remind model class for Users.
@@ -141,7 +142,7 @@ class RemindModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 			return false;
 		}
@@ -149,7 +150,7 @@ class RemindModel extends FormModel
 		// Check for a user.
 		if (empty($user))
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -157,7 +158,7 @@ class RemindModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
@@ -176,11 +177,11 @@ class RemindModel extends FormModel
 		$data['link_text'] = Route::_($link, false, $mode);
 		$data['link_html'] = Route::_($link, true, $mode);
 
-		$subject = \JText::sprintf(
+		$subject = Text::sprintf(
 			'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT',
 			$data['sitename']
 		);
-		$body = \JText::sprintf(
+		$body = Text::sprintf(
 			'COM_USERS_EMAIL_USERNAME_REMINDER_BODY',
 			$data['sitename'],
 			$data['username'],
@@ -193,7 +194,7 @@ class RemindModel extends FormModel
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(\JText::_('COM_USERS_MAIL_FAILED'), 500);
+			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
 
 			return false;
 		}

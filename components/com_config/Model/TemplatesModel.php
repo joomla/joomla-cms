@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 /**
  * Template style model.
@@ -113,13 +114,13 @@ class TemplatesModel extends FormModel
 		// Get the template form.
 		if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config'))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Trigger the default form events.

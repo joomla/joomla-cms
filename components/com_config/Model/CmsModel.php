@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Language\Text;
 
 /**
  * Prototype admin model.
@@ -71,7 +72,7 @@ abstract class CmsModel extends BaseDatabaseModel
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -149,7 +150,7 @@ abstract class CmsModel extends BaseDatabaseModel
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);

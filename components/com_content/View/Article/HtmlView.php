@@ -19,6 +19,7 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML Article View class for the Content component
@@ -180,7 +181,7 @@ class HtmlView extends BaseHtmlView
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return;
@@ -198,12 +199,12 @@ class HtmlView extends BaseHtmlView
 			{
 				$return = base64_encode(Uri::getInstance());
 				$login_url_with_return = Route::_('index.php?option=com_users&return=' . $return);
-				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
+				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->setHeader('status', 403, true);
 
 				return;
@@ -281,7 +282,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -318,11 +319,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -376,7 +377,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
 			$this->document->setTitle(
-				$this->item->page_title . ' - ' . \JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
+				$this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
 			);
 		}
 

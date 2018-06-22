@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 /**
  * Profile view class for Users.
@@ -129,7 +130,7 @@ class HtmlView extends BaseHtmlView
 			// If so, the user must login to edit the password and other data.
 			// What should happen here? Should we force a logout which destroys the cookies?
 			$app = \JFactory::getApplication();
-			$app->enqueueMessage(\JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+			$app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
 			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
@@ -138,7 +139,7 @@ class HtmlView extends BaseHtmlView
 		// Check if a user was found.
 		if (!$this->data->id)
 		{
-			throw new \Exception(\JText::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
 
 		$this->data->tags = new TagsHelper;
@@ -189,7 +190,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_USERS_PROFILE'));
+			$this->params->def('page_heading', Text::_('COM_USERS_PROFILE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -200,11 +201,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

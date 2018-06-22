@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 /**
  * Frontpage View class
@@ -86,7 +87,7 @@ class FeedView extends AbstractView
 			$item->category = array();
 
 			// All featured articles are categorized as "Featured"
-			$item->category[] = \JText::_('JFEATURED');
+			$item->category[] = Text::_('JFEATURED');
 
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
 			{
@@ -111,7 +112,7 @@ class FeedView extends AbstractView
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
-				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . \JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 
 			// Load item description and add div

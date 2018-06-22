@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Config Module model.
@@ -98,13 +99,13 @@ class ModulesModel extends FormModel
 			// Get the module form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -148,7 +149,7 @@ class ModulesModel extends FormModel
 					$text = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($value));
 
 					// Construct list of positions
-					$currentTemplatePositions[] = self::createOption($value, \JText::_($text) . ' [' . $value . ']');
+					$currentTemplatePositions[] = self::createOption($value, Text::_($text) . ' [' . $value . ']');
 				}
 			}
 		}
@@ -162,7 +163,7 @@ class ModulesModel extends FormModel
 		$templateGroups[$templateName] = self::createOptionGroup($templateName, $currentTemplatePositions);
 
 		// Add custom position to options
-		$customGroupText = \JText::_('COM_MODULES_CUSTOM_POSITION');
+		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 
 		$editPositions   = true;
 		$customPositions = self::getActivePositions(0, $editPositions);
@@ -211,7 +212,7 @@ class ModulesModel extends FormModel
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = HTMLHelper::_('select.option', 'none', ':: ' . \JText::_('JNONE') . ' ::');
+				$options[] = HTMLHelper::_('select.option', 'none', ':: ' . Text::_('JNONE') . ' ::');
 			}
 			else
 			{

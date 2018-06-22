@@ -24,6 +24,7 @@ use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Language\Text;
 
 /**
  * Profile model class for Users.
@@ -381,7 +382,7 @@ class ProfileModel extends FormModel
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(\JText::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
 
 			return false;
 		}

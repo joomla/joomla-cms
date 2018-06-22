@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <?php $class = ' class="first"'; ?>
@@ -39,7 +40,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php if ($this->params->get('show_cat_items') == 1) : ?>
 						<dl class="newsfeed-count">
 							<dt>
-								<?php echo JText::_('COM_NEWSFEEDS_CAT_NUM'); ?>
+								<?php echo Text::_('COM_NEWSFEEDS_CAT_NUM'); ?>
 							</dt>
 							<dd>
 								<?php echo $child->numitems; ?>

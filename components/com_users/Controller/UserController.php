@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Registration controller class for Users.
@@ -324,7 +325,7 @@ class UserController extends BaseController
 			// Get the error message to display.
 			$message = $app->get('error_reporting')
 				? $return->getMessage()
-				: \JText::_('COM_USERS_REMIND_REQUEST_ERROR');
+				: Text::_('COM_USERS_REMIND_REQUEST_ERROR');
 
 			// Go back to the complete form.
 			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'error');
@@ -335,14 +336,14 @@ class UserController extends BaseController
 		if ($return === false)
 		{
 			// Go back to the complete form.
-			$message = \JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
+			$message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
 		}
 
 		// Proceed to the login form.
-		$message = \JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
+		$message = Text::_('COM_USERS_REMIND_REQUEST_SUCCESS');
 		$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 		return true;

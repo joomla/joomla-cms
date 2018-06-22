@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Content article class.
@@ -436,11 +437,11 @@ class ArticleController extends FormController
 
 			if ($model->storeVote($id, $user_rating))
 			{
-				$this->setRedirect($url, \JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
+				$this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
 			}
 			else
 			{
-				$this->setRedirect($url, \JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
+				$this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
 			}
 		}
 	}

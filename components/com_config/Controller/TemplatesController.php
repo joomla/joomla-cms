@@ -20,6 +20,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Component Controller
@@ -72,7 +73,7 @@ class TemplatesController extends BaseController
 		// Check for request forgeries.
 		if (!Session::checkToken())
 		{
-			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'));
+			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'));
 
 			return false;
 		}
@@ -80,7 +81,7 @@ class TemplatesController extends BaseController
 		// Check if the user is authorized to do this.
 		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
@@ -114,7 +115,7 @@ class TemplatesController extends BaseController
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$message = \JText::sprintf('JERROR_SAVE_FAILED');
+			$message = Text::sprintf('JERROR_SAVE_FAILED');
 
 			$app->redirect(Route::_('index.php?option=com_config&view=templates', false), $message, 'error');
 
@@ -122,7 +123,7 @@ class TemplatesController extends BaseController
 		}
 
 		// Set the success message.
-		$message = \JText::_('COM_CONFIG_SAVE_SUCCESS');
+		$message = Text::_('COM_CONFIG_SAVE_SUCCESS');
 
 		$this->setMessage($message);
 

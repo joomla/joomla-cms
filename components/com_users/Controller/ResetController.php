@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 /**
  * Reset controller class for Users.
@@ -50,7 +51,7 @@ class ResetController extends BaseController
 			}
 			else
 			{
-				$message = \JText::_('COM_USERS_RESET_REQUEST_ERROR');
+				$message = Text::_('COM_USERS_RESET_REQUEST_ERROR');
 			}
 
 			// Go back to the request form.
@@ -62,7 +63,7 @@ class ResetController extends BaseController
 		{
 			// The request failed.
 			// Go back to the request form.
-			$message = \JText::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
+			$message = Text::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(Route::_('index.php?option=com_users&view=reset', false), $message, 'notice');
 
 			return false;
@@ -108,7 +109,7 @@ class ResetController extends BaseController
 			}
 			else
 			{
-				$message = \JText::_('COM_USERS_RESET_CONFIRM_ERROR');
+				$message = Text::_('COM_USERS_RESET_CONFIRM_ERROR');
 			}
 
 			// Go back to the confirm form.
@@ -120,7 +121,7 @@ class ResetController extends BaseController
 		{
 			// Confirm failed.
 			// Go back to the confirm form.
-			$message = \JText::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
+			$message = Text::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
 			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
 
 			return false;
@@ -165,7 +166,7 @@ class ResetController extends BaseController
 			}
 			else
 			{
-				$message = \JText::_('COM_USERS_RESET_COMPLETE_ERROR');
+				$message = Text::_('COM_USERS_RESET_COMPLETE_ERROR');
 			}
 
 			// Go back to the complete form.
@@ -177,7 +178,7 @@ class ResetController extends BaseController
 		{
 			// Complete failed.
 			// Go back to the complete form.
-			$message = \JText::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());
+			$message = Text::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());
 			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'notice');
 
 			return false;
@@ -186,7 +187,7 @@ class ResetController extends BaseController
 		{
 			// Complete succeeded.
 			// Proceed to the login form.
-			$message = \JText::_('COM_USERS_RESET_COMPLETE_SUCCESS');
+			$message = Text::_('COM_USERS_RESET_COMPLETE_SUCCESS');
 			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 			return true;

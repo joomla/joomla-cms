@@ -17,6 +17,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Controller for single contact view
@@ -70,7 +71,7 @@ class ContactController extends FormController
 		{
 			if (\JFactory::getSession()->getState() !== 'active')
 			{
-				$this->app->enqueueMessage(\JText::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
+				$this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
 
 				// Save the data in the session.
 				$this->app->setUserState('com_contact.contact.data', $data);
@@ -143,7 +144,7 @@ class ContactController extends FormController
 		// Set the success message if it was a success
 		if (!($sent instanceof \Exception))
 		{
-			$msg = \JText::_('COM_CONTACT_EMAIL_THANKS');
+			$msg = Text::_('COM_CONTACT_EMAIL_THANKS');
 		}
 		else
 		{
@@ -197,7 +198,7 @@ class ContactController extends FormController
 		$body    = $data['contact_message'];
 
 		// Prepare email body
-		$prefix = \JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', Uri::base());
+		$prefix = Text::sprintf('COM_CONTACT_ENQUIRY_TEXT', Uri::base());
 		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 		// Load the custom fields
@@ -232,9 +233,9 @@ class ContactController extends FormController
 		// Check whether email copy function activated
 		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 		{
-			$copytext    = \JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+			$copytext    = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 			$copytext    .= "\r\n\r\n" . $body;
-			$copysubject = \JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
+			$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
 
 			$mail = \JFactory::getMailer();
 			$mail->addRecipient($email);

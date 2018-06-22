@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\FormModel as BaseForm;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 /**
  * Prototype form model.
@@ -102,7 +103,7 @@ abstract class FormModel extends BaseForm
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 			{
-				throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 			}
 
 			// Attempt to check the row out.

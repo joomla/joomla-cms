@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Jooml\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users Html Helper
@@ -36,7 +37,7 @@ abstract class JHtmlUsers
 
 		if (empty($value))
 		{
-			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
+			return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
 
 		elseif (!is_array($value))
@@ -242,7 +243,7 @@ abstract class JHtmlUsers
 					|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
 				$lang->load($title . '.sys');
 
-				return JText::_($title);
+				return Text::_($title);
 			}
 			else
 			{

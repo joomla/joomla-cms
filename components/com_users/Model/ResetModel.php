@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 /**
  * Rest model class for Users.
@@ -188,7 +189,7 @@ class ResetModel extends FormModel
 		// Check the token and user id.
 		if (empty($token) || empty($userId))
 		{
-			return new \Exception(\JText::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
+			return new \Exception(Text::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
 		}
 
 		// Get the user object.
@@ -197,7 +198,7 @@ class ResetModel extends FormModel
 		// Check for a user and that the tokens match.
 		if (empty($user) || $user->activation !== $token)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -205,7 +206,7 @@ class ResetModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
@@ -213,7 +214,7 @@ class ResetModel extends FormModel
 		// Check if the user is reusing the current password if required to reset their password
 		if ($user->requireReset == 1 && UserHelper::verifyPassword($data['password1'], $user->password))
 		{
-			$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+			$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 			return false;
 		}
@@ -226,7 +227,7 @@ class ResetModel extends FormModel
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Flush the user data from the session.
@@ -297,20 +298,20 @@ class ResetModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			return new \Exception(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			return new \Exception(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 		}
 
 		// Check for a user.
 		if (empty($user))
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
 
 		if (!$user->activation)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -318,7 +319,7 @@ class ResetModel extends FormModel
 		// Verify the token
 		if (!UserHelper::verifyPassword($data['token'], $user->activation))
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -326,7 +327,7 @@ class ResetModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
@@ -401,7 +402,7 @@ class ResetModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 			return false;
 		}
@@ -409,7 +410,7 @@ class ResetModel extends FormModel
 		// Check for a user.
 		if (empty($userId))
 		{
-			$this->setError(\JText::_('COM_USERS_INVALID_EMAIL'));
+			$this->setError(Text::_('COM_USERS_INVALID_EMAIL'));
 
 			return false;
 		}
@@ -420,7 +421,7 @@ class ResetModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
@@ -428,7 +429,7 @@ class ResetModel extends FormModel
 		// Make sure the user isn't a Super Admin.
 		if ($user->authorise('core.admin'))
 		{
-			$this->setError(\JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
+			$this->setError(Text::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
 
 			return false;
 		}
@@ -437,7 +438,7 @@ class ResetModel extends FormModel
 		if (!$this->checkResetLimit($user))
 		{
 			$resetLimit = (int) \JFactory::getApplication()->getParams()->get('reset_time');
-			$this->setError(\JText::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
+			$this->setError(Text::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
 
 			return false;
 		}
@@ -451,7 +452,7 @@ class ResetModel extends FormModel
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Assemble the password reset confirmation link.
@@ -467,12 +468,12 @@ class ResetModel extends FormModel
 		$data['link_html'] = Route::_($link, true, $mode);
 		$data['token'] = $token;
 
-		$subject = \JText::sprintf(
+		$subject = Text::sprintf(
 			'COM_USERS_EMAIL_PASSWORD_RESET_SUBJECT',
 			$data['sitename']
 		);
 
-		$body = \JText::sprintf(
+		$body = Text::sprintf(
 			'COM_USERS_EMAIL_PASSWORD_RESET_BODY',
 			$data['sitename'],
 			$data['token'],
@@ -485,7 +486,7 @@ class ResetModel extends FormModel
 		// Check for an error.
 		if ($return !== true)
 		{
-			return new \Exception(\JText::_('COM_USERS_MAIL_FAILED'), 500);
+			return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
 		}
 
 		return true;

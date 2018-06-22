@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $params             = $this->item->params;
 $presentation_style = $params->get('presentation_style');
@@ -36,11 +37,11 @@ $userFieldGroups    = array();
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
 	<?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
 	<?php if ($presentation_style == 'sliders') : ?>
-		<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
+		<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')); ?>
 	<?php elseif ($presentation_style == 'plain') : ?>
-		<?php echo '<h3>' . ($groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
+		<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 	<?php endif; ?>
 
 	<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
@@ -51,7 +52,7 @@ $userFieldGroups    = array();
 			<?php endif; ?>
 
 			<?php if ($field->params->get('showlabel')) : ?>
-				<?php echo '<dt>' . JText::_($field->label) . '</dt>'; ?>
+				<?php echo '<dt>' . Text::_($field->label) . '</dt>'; ?>
 			<?php endif; ?>
 
 			<?php echo '<dd>' . $field->value . '</dd>'; ?>

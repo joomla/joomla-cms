@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <div class="com-users-logout logout">
@@ -31,7 +32,7 @@ use Joomla\CMS\HTML\HTMLHelper;
     <?php endif; ?>
 
     <?php if ($this->params->get('logout_image') != '') : ?>
-        <img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="com-users-logout__image thumbnail float-right logout-image" alt="<?php echo JText::_('COM_USER_LOGOUT_IMAGE_ALT'); ?>">
+        <img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="com-users-logout__image thumbnail float-right logout-image" alt="<?php echo Text::_('COM_USER_LOGOUT_IMAGE_ALT'); ?>">
     <?php endif; ?>
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
@@ -43,7 +44,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<div class="controls">
 				<button type="submit" class="btn btn-primary">
                     <span class="icon-arrow-left icon-white"></span>
-                    <?php echo JText::_('JLOGOUT'); ?>
+                    <?php echo Text::_('JLOGOUT'); ?>
                 </button>
 			</div>
 		</div>

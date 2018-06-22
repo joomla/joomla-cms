@@ -24,6 +24,8 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+
 /**
  * Registration model class for Users.
  *
@@ -88,7 +90,7 @@ class RegistrationModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 			return false;
 		}
@@ -96,7 +98,7 @@ class RegistrationModel extends FormModel
 		// Check for a valid user id.
 		if (!$userId)
 		{
-			$this->setError(\JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
 
 			return false;
 		}
@@ -131,13 +133,13 @@ class RegistrationModel extends FormModel
 			$data['mailfrom'] = $config->get('mailfrom');
 			$data['sitename'] = $config->get('sitename');
 			$user->setParam('activate', 1);
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_SUBJECT',
 				$data['name'],
 				$data['sitename']
 			);
 
-			$emailBody = \JText::sprintf(
+			$emailBody = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_BODY',
 				$data['sitename'],
 				$data['name'],
@@ -161,7 +163,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 				return false;
 			}
@@ -178,7 +180,7 @@ class RegistrationModel extends FormModel
 					// Check for an error.
 					if ($return !== true)
 					{
-						$this->setError(\JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+						$this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
 						return false;
 					}
@@ -198,13 +200,13 @@ class RegistrationModel extends FormModel
 			$data['mailfrom'] = $config->get('mailfrom');
 			$data['sitename'] = $config->get('sitename');
 			$data['siteurl'] = Uri::base();
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
 				$data['name'],
 				$data['sitename']
 			);
 
-			$emailBody = \JText::sprintf(
+			$emailBody = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_BODY',
 				$data['name'],
 				$data['siteurl'],
@@ -216,7 +218,7 @@ class RegistrationModel extends FormModel
 			// Check for an error.
 			if ($return !== true)
 			{
-				$this->setError(\JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+				$this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
 				return false;
 			}
@@ -230,7 +232,7 @@ class RegistrationModel extends FormModel
 		// Store the user object.
 		if (!$user->save())
 		{
-			$this->setError(\JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
 
 			return false;
 		}
@@ -441,7 +443,7 @@ class RegistrationModel extends FormModel
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(\JText::sprintf('COM_USERS_REGISTRATION_BIND_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_REGISTRATION_BIND_FAILED', $user->getError()));
 
 			return false;
 		}
@@ -452,7 +454,7 @@ class RegistrationModel extends FormModel
 		// Store the data.
 		if (!$user->save())
 		{
-			$this->setError(\JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 
 			return false;
 		}
@@ -483,7 +485,7 @@ class RegistrationModel extends FormModel
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
 			}
 
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
@@ -491,7 +493,7 @@ class RegistrationModel extends FormModel
 
 			if ($sendpassword)
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
 					$data['name'],
 					$data['sitename'],
@@ -503,7 +505,7 @@ class RegistrationModel extends FormModel
 			}
 			else
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
@@ -527,7 +529,7 @@ class RegistrationModel extends FormModel
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
 			}
 
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
@@ -535,7 +537,7 @@ class RegistrationModel extends FormModel
 
 			if ($sendpassword)
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
 					$data['name'],
 					$data['sitename'],
@@ -547,7 +549,7 @@ class RegistrationModel extends FormModel
 			}
 			else
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
@@ -559,7 +561,7 @@ class RegistrationModel extends FormModel
 		}
 		else
 		{
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
@@ -567,7 +569,7 @@ class RegistrationModel extends FormModel
 
 			if ($sendpassword)
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_BODY',
 					$data['name'],
 					$data['sitename'],
@@ -578,7 +580,7 @@ class RegistrationModel extends FormModel
 			}
 			else
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
@@ -593,13 +595,13 @@ class RegistrationModel extends FormModel
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
 		{
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
 			);
 
-			$emailBodyAdmin = \JText::sprintf(
+			$emailBodyAdmin = Text::sprintf(
 				'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
 				$data['name'],
 				$data['username'],
@@ -621,7 +623,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 				return false;
 			}
@@ -634,7 +636,7 @@ class RegistrationModel extends FormModel
 				// Check for an error.
 				if ($return !== true)
 				{
-					$this->setError(\JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+					$this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
 					return false;
 				}
@@ -644,7 +646,7 @@ class RegistrationModel extends FormModel
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(\JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
+			$this->setError(Text::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
 			$db = $this->getDbo();
@@ -661,7 +663,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 				return false;
 			}
@@ -677,8 +679,8 @@ class RegistrationModel extends FormModel
 						$db->quote($userid),
 						$db->quote($userid),
 						$db->quote($jdate->toSql()),
-						$db->quote(\JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
-						$db->quote(\JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
+						$db->quote(Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
+						$db->quote(Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
 					);
 					$query->clear()
 						->insert($db->quoteName('#__messages'))
@@ -692,7 +694,7 @@ class RegistrationModel extends FormModel
 					}
 					catch (\RuntimeException $e)
 					{
-						$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+						$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 						return false;
 					}

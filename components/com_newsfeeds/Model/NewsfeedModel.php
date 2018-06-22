@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
 
 /**
  * Newsfeeds Component Newsfeed Model
@@ -124,14 +125,14 @@ class NewsfeedModel extends ItemModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 
 				if ((is_numeric($published) || is_numeric($archived)) && $data->published != $published && $data->published != $archived)
 				{
-					throw new \Exception(\JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.

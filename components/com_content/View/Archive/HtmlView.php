@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Content component
@@ -148,19 +149,19 @@ class HtmlView extends BaseHtmlView
 
 		// Month Field
 		$months = array(
-			''   => \JText::_('COM_CONTENT_MONTH'),
-			'1'  => \JText::_('JANUARY_SHORT'),
-			'2'  => \JText::_('FEBRUARY_SHORT'),
-			'3'  => \JText::_('MARCH_SHORT'),
-			'4'  => \JText::_('APRIL_SHORT'),
-			'5'  => \JText::_('MAY_SHORT'),
-			'6'  => \JText::_('JUNE_SHORT'),
-			'7'  => \JText::_('JULY_SHORT'),
-			'8'  => \JText::_('AUGUST_SHORT'),
-			'9'  => \JText::_('SEPTEMBER_SHORT'),
-			'10' => \JText::_('OCTOBER_SHORT'),
-			'11' => \JText::_('NOVEMBER_SHORT'),
-			'12' => \JText::_('DECEMBER_SHORT')
+			''   => Text::_('COM_CONTENT_MONTH'),
+			'1'  => Text::_('JANUARY_SHORT'),
+			'2'  => Text::_('FEBRUARY_SHORT'),
+			'3'  => Text::_('MARCH_SHORT'),
+			'4'  => Text::_('APRIL_SHORT'),
+			'5'  => Text::_('MAY_SHORT'),
+			'6'  => Text::_('JUNE_SHORT'),
+			'7'  => Text::_('JULY_SHORT'),
+			'8'  => Text::_('AUGUST_SHORT'),
+			'9'  => Text::_('SEPTEMBER_SHORT'),
+			'10' => Text::_('OCTOBER_SHORT'),
+			'11' => Text::_('NOVEMBER_SHORT'),
+			'12' => Text::_('DECEMBER_SHORT')
 		);
 		$form->monthField = HTMLHelper::_(
 			'select.genericlist',
@@ -176,7 +177,7 @@ class HtmlView extends BaseHtmlView
 		// Year Field
 		$this->years = $this->getModel()->getYears();
 		$years = array();
-		$years[] = HTMLHelper::_('select.option', null, \JText::_('JYEAR'));
+		$years[] = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
 		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
@@ -229,7 +230,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -240,11 +241,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

@@ -13,6 +13,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
@@ -38,7 +39,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 		<?php endif; ?>
 
 		<?php if ($this->params->get('login_image') != '') : ?>
-			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="com-users-login__image login-image" alt="<?php echo JText::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>">
+			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="com-users-login__image login-image" alt="<?php echo Text::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>">
 		<?php endif; ?>
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
@@ -76,7 +77,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				<div  class="com-users-login__remember control-group">
 					<div class="control-label">
 						<label for="remember">
-							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
+							<?php echo Text::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
 					</div>
 					<div class="controls">
@@ -88,7 +89,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<div class="com-users-login__submit control-group">
 				<div class="controls">
 					<button type="submit" class="btn btn-primary">
-						<?php echo JText::_('JLOGIN'); ?>
+						<?php echo Text::_('JLOGIN'); ?>
 					</button>
 				</div>
 			</div>
@@ -103,14 +104,14 @@ $usersConfig = ComponentHelper::getParams('com_users');
 <div>
 	<div class="com-users-login__options list-group">
 		<a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?>
+			<?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
 		</a>
 		<a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?>
+			<?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
 		</a>
 		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 			<a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
-				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?>
+				<?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
 			</a>
 		<?php endif; ?>
 	</div>

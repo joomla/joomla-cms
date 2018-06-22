@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -19,7 +20,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 ?>
 <?php if (empty($this->items)) : ?>
-	<p><?php echo JText::_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
+	<p><?php echo Text::_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
 <?php else : ?>
     <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
         <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
@@ -28,17 +29,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <div class="btn-group">
                         <label class="filter-search-lbl sr-only" for="filter-search">
                             <span class="badge badge-warning">
-                                <?php echo JText::_('JUNPUBLISHED'); ?>
+                                <?php echo Text::_('JUNPUBLISHED'); ?>
                             </span>
-                            <?php echo JText::_('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
+                            <?php echo Text::_('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
                         </label>
-                        <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>">
+                        <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo Text::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>">
                     </div>
                 <?php endif; ?>
                 <?php if ($this->params->get('show_pagination_limit')) : ?>
                     <div class="btn-group float-right">
                         <label for="limit" class="sr-only">
-                            <?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
+                            <?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
                         </label>
                         <?php echo $this->pagination->getLimitBox(); ?>
                     </div>
@@ -54,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<?php if ($this->params->get('show_articles')) : ?>
 					<span class="list-hits badge badge-info float-right">
-						<?php echo JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
+						<?php echo Text::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
 					</span>
 				<?php endif; ?>
 				<span class="list float-left">
@@ -66,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</span>
 				<?php if ($this->items[$i]->published == 0) : ?>
 					<span class="badge badge-warning">
-						<?php echo JText::_('JUNPUBLISHED'); ?>
+						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php endif; ?>
 				<br>

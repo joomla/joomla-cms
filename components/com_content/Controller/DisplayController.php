@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Content Component Controller
@@ -105,7 +106,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
+			throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
 		}
 
 		if ($vName === 'article')

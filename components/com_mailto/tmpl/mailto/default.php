@@ -25,12 +25,12 @@ $data = $this->get('data');
 
 <div id="mailto-window" class="p-2">
 	<h2>
-		<?php echo JText::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
+		<?php echo Text::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
 	</h2>
 	<div class="mailto-close">
-		<a title="<?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>" href="#" class="close-mailto">
+		<a title="<?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>" href="#" class="close-mailto">
 		 <span>
-             <?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>
+             <?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>
          </span></a>
 	</div>
 
@@ -38,7 +38,7 @@ $data = $this->get('data');
 		<div class="control-group">
 			<div class="control-label">
 				<label for="mailto_field">
-                    <?php echo JText::_('COM_MAILTO_EMAIL_TO'); ?>
+                    <?php echo Text::_('COM_MAILTO_EMAIL_TO'); ?>
                 </label>
 			</div>
 			<div class="controls">
@@ -48,7 +48,7 @@ $data = $this->get('data');
 		<div class="control-group">
 			<div class="control-label">
 				<label for="sender_field">
-                    <?php echo JText::_('COM_MAILTO_SENDER'); ?>
+                    <?php echo Text::_('COM_MAILTO_SENDER'); ?>
                 </label>
 			</div>
 			<div class="controls">
@@ -58,7 +58,7 @@ $data = $this->get('data');
 		<div class="control-group">
 			<div class="control-label">
 				<label for="from_field">
-                    <?php echo JText::_('COM_MAILTO_YOUR_EMAIL'); ?>
+                    <?php echo Text::_('COM_MAILTO_YOUR_EMAIL'); ?>
                 </label>
 			</div>
 			<div class="controls">
@@ -68,7 +68,7 @@ $data = $this->get('data');
 		<div class="control-group">
 				<div class="control-label">
 			<label for="subject_field">
-                <?php echo JText::_('COM_MAILTO_SUBJECT'); ?>
+                <?php echo Text::_('COM_MAILTO_SUBJECT'); ?>
             </label>
 			</div>
 			<div class="controls">
@@ -77,10 +77,10 @@ $data = $this->get('data');
 		</div>
 		<div class="control-group">
 			<button type="button" class="btn btn-danger close-mailto">
-				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
+				<?php echo Text::_('COM_MAILTO_CANCEL'); ?>
 			</button>
 			<button type="submit" class="btn btn-success">
-				<?php echo JText::_('COM_MAILTO_SEND'); ?>
+				<?php echo Text::_('COM_MAILTO_SEND'); ?>
 			</button>
 		</div>
 

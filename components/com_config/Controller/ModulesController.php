@@ -22,6 +22,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Component Controller
@@ -74,7 +75,7 @@ class ModulesController extends BaseController
 		// Check for request forgeries.
 		if (!Session::checkToken())
 		{
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'));
 			$this->app->redirect('index.php');
 		}
 
@@ -84,7 +85,7 @@ class ModulesController extends BaseController
 		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
 			&& !$user->authorise('module.edit.frontend', 'com_modules'))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
 		}
 
@@ -137,12 +138,12 @@ class ModulesController extends BaseController
 			$this->app->setUserState('com_config.modules.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->enqueueMessage(\JText::_('JERROR_SAVE_FAILED'));
+			$this->app->enqueueMessage(Text::_('JERROR_SAVE_FAILED'));
 			$this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
 		}
 
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(\JText::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
+		$this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
 
 		// Set the redirect based on the task.
 		switch ($this->input->getCmd('task'))

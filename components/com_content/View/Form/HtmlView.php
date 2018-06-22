@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML Article View class for the Content component
@@ -111,7 +112,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($authorised !== true)
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return false;
@@ -196,18 +197,18 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+			$this->params->def('page_heading', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 		}
 
-		$title = $this->params->def('page_title', \JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+		$title = $this->params->def('page_title', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

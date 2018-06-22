@@ -16,6 +16,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedFactory;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -184,7 +185,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels))))
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return;
@@ -205,16 +206,16 @@ class HtmlView extends BaseHtmlView
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 		catch (\RuntimeException $e)
 		{
-			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($this->rssDoc))
 		{
-			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
 		$feed_display_order = $params->get('feed_display_order', 'des');
@@ -276,7 +277,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -315,11 +316,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))

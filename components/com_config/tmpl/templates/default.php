@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -21,17 +22,17 @@ HTMLHelper::_('script', 'com_config/templates-default.js', ['relative' => true, 
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate"  data-cancel-task="config.cancel.templates">
 
-	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
+	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 		<div class="btn-group mr-2">
 			<button type="button" class="btn btn-primary" data-submit-task="templates.apply">
 				<span class="fa fa-check" aria-hidden="true"></span>
-				<?php echo JText::_('JSAVE') ?>
+				<?php echo Text::_('JSAVE') ?>
 			</button>
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
 				<span class="fa fa-times" aria-hidden="true"></span>
-				<?php echo JText::_('JCANCEL') ?>
+				<?php echo Text::_('JCANCEL') ?>
 			</button>
 		</div>
 	</div>

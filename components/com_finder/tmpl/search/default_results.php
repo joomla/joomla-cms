@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
@@ -25,7 +26,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<?php // Compile the suggested query link. ?>
 			<?php $linkUrl = Route::_($uri->toString(array('path', 'query'))); ?>
 			<?php $link = '<a href="' . $linkUrl . '">' . $this->escape($this->suggested) . '</a>'; ?>
-			<?php echo JText::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
+			<?php echo Text::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
 		<?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>
 			<?php // Display the explained search query. ?>
 			<?php echo $this->explained; ?>
@@ -35,9 +36,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 <?php // Display the 'no results' message and exit the template. ?>
 <?php if (($this->total === 0) || ($this->total === null)) : ?>
 	<div id="search-result-empty">
-		<h2><?php echo JText::_('COM_FINDER_SEARCH_NO_RESULTS_HEADING'); ?></h2>
+		<h2><?php echo Text::_('COM_FINDER_SEARCH_NO_RESULTS_HEADING'); ?></h2>
 		<?php $multilang = JFactory::getApplication()->getLanguageFilter() ? '_MULTILANG' : ''; ?>
-		<p><?php echo JText::sprintf('COM_FINDER_SEARCH_NO_RESULTS_BODY' . $multilang, $this->escape($this->query->input)); ?></p>
+		<p><?php echo Text::sprintf('COM_FINDER_SEARCH_NO_RESULTS_BODY' . $multilang, $this->escape($this->query->input)); ?></p>
 	</div>
 	<?php // Exit this template. ?>
 	<?php return; ?>
@@ -68,6 +69,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 		<?php $total = (int) $this->pagination->total; ?>
 		<?php $limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent; ?>
 		<?php $limit = (int) ($limit > $total ? $total : $limit); ?>
-		<?php echo JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
+		<?php echo Text::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
 	</div>
 </div>

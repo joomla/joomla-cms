@@ -13,6 +13,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 // Create a shortcut for params.
 $params  = &$this->item->params;
@@ -47,13 +48,13 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php endif; ?>
 
 	<?php if ($this->item->state == 0) : ?>
-		<span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+		<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
 	<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
-		<span class="badge badge-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+		<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 	<?php endif; ?>
 	<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
-		<span class="badge badge-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+		<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 
 	<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>

@@ -20,6 +20,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Profile controller class for Users.
@@ -48,7 +49,7 @@ class ProfileController extends BaseController
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return false;
@@ -60,7 +61,7 @@ class ProfileController extends BaseController
 		if (!empty($cookieLogin))
 		{
 			// If so, the user must login to edit the password and other data.
-			$app->enqueueMessage(\JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+			$app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
 			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
@@ -170,7 +171,7 @@ class ProfileController extends BaseController
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setMessage(\JText::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(Text::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
 			return false;
@@ -185,7 +186,7 @@ class ProfileController extends BaseController
 				$model->checkout($return);
 
 				// Redirect back to the edit screen.
-				$this->setMessage(\JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
+				$this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 
 				$redirect = $app->getUserState('com_users.edit.profile.redirect');
 
@@ -229,7 +230,7 @@ class ProfileController extends BaseController
 				}
 
 				// Redirect to the list screen.
-				$this->setMessage(\JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
+				$this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 				$this->setRedirect(Route::_($redirect, false));
 				break;
 		}
@@ -278,16 +279,16 @@ class ProfileController extends BaseController
 
 		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{
-			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
+			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
 		}
 		elseif (!File::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
 		{
-			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
+			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
 		}
 
 		$options = array_merge(
 			array(
-				HTMLHelper::_('select.option', '', \JText::_('JOPTION_USE_DEFAULT'))
+				HTMLHelper::_('select.option', '', Text::_('JOPTION_USE_DEFAULT'))
 			),
 			Help::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml')
 		);

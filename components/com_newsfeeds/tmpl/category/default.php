@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
@@ -47,7 +48,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
 		<div class="cat-children">
 			<h3>
-				<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
+				<?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?>
 			</h3>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>

@@ -15,6 +15,7 @@ use Joomla\String\StringHelper;
 use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the search component
@@ -159,23 +160,23 @@ class HtmlView extends BaseHtmlView
 		{
 			if (!$menu->params->get('page_title'))
 			{
-				$params->set('page_title', \JText::_('COM_SEARCH_SEARCH'));
+				$params->set('page_title', Text::_('COM_SEARCH_SEARCH'));
 			}
 		}
 		else
 		{
-			$params->set('page_title', \JText::_('COM_SEARCH_SEARCH'));
+			$params->set('page_title', Text::_('COM_SEARCH_SEARCH'));
 		}
 
 		$title = $params->get('page_title');
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -197,19 +198,19 @@ class HtmlView extends BaseHtmlView
 
 		// Built select lists
 		$orders   = array();
-		$orders[] = HTMLHelper::_('select.option', 'newest', \JText::_('COM_SEARCH_NEWEST_FIRST'));
-		$orders[] = HTMLHelper::_('select.option', 'oldest', \JText::_('COM_SEARCH_OLDEST_FIRST'));
-		$orders[] = HTMLHelper::_('select.option', 'popular', \JText::_('COM_SEARCH_MOST_POPULAR'));
-		$orders[] = HTMLHelper::_('select.option', 'alpha', \JText::_('COM_SEARCH_ALPHABETICAL'));
-		$orders[] = HTMLHelper::_('select.option', 'category', \JText::_('JCATEGORY'));
+		$orders[] = HTMLHelper::_('select.option', 'newest', Text::_('COM_SEARCH_NEWEST_FIRST'));
+		$orders[] = HTMLHelper::_('select.option', 'oldest', Text::_('COM_SEARCH_OLDEST_FIRST'));
+		$orders[] = HTMLHelper::_('select.option', 'popular', Text::_('COM_SEARCH_MOST_POPULAR'));
+		$orders[] = HTMLHelper::_('select.option', 'alpha', Text::_('COM_SEARCH_ALPHABETICAL'));
+		$orders[] = HTMLHelper::_('select.option', 'category', Text::_('JCATEGORY'));
 
 		$lists             = array();
 		$lists['ordering'] = HTMLHelper::_('select.genericlist', $orders, 'ordering', 'class="custom-select"', 'value', 'text', $state->get('ordering'));
 
 		$searchphrases         = array();
-		$searchphrases[]       = HTMLHelper::_('select.option', 'all', \JText::_('COM_SEARCH_ALL_WORDS'));
-		$searchphrases[]       = HTMLHelper::_('select.option', 'any', \JText::_('COM_SEARCH_ANY_WORDS'));
-		$searchphrases[]       = HTMLHelper::_('select.option', 'exact', \JText::_('COM_SEARCH_EXACT_PHRASE'));
+		$searchphrases[]       = HTMLHelper::_('select.option', 'all', Text::_('COM_SEARCH_ALL_WORDS'));
+		$searchphrases[]       = HTMLHelper::_('select.option', 'any', Text::_('COM_SEARCH_ANY_WORDS'));
+		$searchphrases[]       = HTMLHelper::_('select.option', 'exact', Text::_('COM_SEARCH_EXACT_PHRASE'));
 		$lists['searchphrase'] = HTMLHelper::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// Log the search
@@ -222,18 +223,18 @@ class HtmlView extends BaseHtmlView
 
 		if (SearchHelper::limitSearchWord($searchWord))
 		{
-			$error = \JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
+			$error = Text::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
 		}
 
 		// Sanitise search-word
 		if (SearchHelper::santiseSearchWord($searchWord, $state->get('match')))
 		{
-			$error = \JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
+			$error = Text::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
 		}
 
 		if (!$searchWord && !empty($this->input) && count($this->input->post))
 		{
-			// $error = \JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
+			// $error = Text::_('COM_SEARCH_ERROR_ENTERKEYWORD');
 		}
 
 		// Put the filtered results back into the model
@@ -275,7 +276,7 @@ class HtmlView extends BaseHtmlView
 
 				if ($result->created)
 				{
-					$created = HTMLHelper::_('date', $result->created, \JText::_('DATE_FORMAT_LC3'));
+					$created = HTMLHelper::_('date', $result->created, Text::_('DATE_FORMAT_LC3'));
 				}
 
 				$result->title   = $rowTitleHighLighted;

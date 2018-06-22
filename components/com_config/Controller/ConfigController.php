@@ -18,6 +18,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Component Controller
@@ -70,14 +71,14 @@ class ConfigController extends BaseController
 		// Check for request forgeries.
 		if (!Session::checkToken())
 		{
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'));
 			$this->app->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
 		}
 
@@ -139,7 +140,7 @@ class ConfigController extends BaseController
 		}
 
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(\JText::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->app->enqueueMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'));
 		$this->app->redirect(Route::_('index.php?option=com_config&view=config', false));
 
 		return true;

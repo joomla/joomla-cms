@@ -18,6 +18,7 @@ use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML Contact View class for the Contact component
@@ -181,7 +182,7 @@ class HtmlView extends BaseHtmlView
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return false;
@@ -221,12 +222,12 @@ class HtmlView extends BaseHtmlView
 		{
 			case 1 :
 				// Text
-				$item->params->set('marker_address',   \JText::_('COM_CONTACT_ADDRESS') . ': ');
-				$item->params->set('marker_email',     \JText::_('JGLOBAL_EMAIL') . ': ');
-				$item->params->set('marker_telephone', \JText::_('COM_CONTACT_TELEPHONE') . ': ');
-				$item->params->set('marker_fax',       \JText::_('COM_CONTACT_FAX') . ': ');
-				$item->params->set('marker_mobile',    \JText::_('COM_CONTACT_MOBILE') . ': ');
-				$item->params->set('marker_misc',      \JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
+				$item->params->set('marker_address',   Text::_('COM_CONTACT_ADDRESS') . ': ');
+				$item->params->set('marker_email',     Text::_('JGLOBAL_EMAIL') . ': ');
+				$item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
+				$item->params->set('marker_fax',       Text::_('COM_CONTACT_FAX') . ': ');
+				$item->params->set('marker_mobile',    Text::_('COM_CONTACT_MOBILE') . ': ');
+				$item->params->set('marker_misc',      Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
 				$item->params->set('marker_class',     'jicons-text');
 				break;
 
@@ -244,13 +245,13 @@ class HtmlView extends BaseHtmlView
 			default :
 				if ($item->params->get('icon_address'))
 				{
-					$image1 = HTMLHelper::_('image', $item->params->get('icon_address', 'con_address.png'), \JText::_('COM_CONTACT_ADDRESS') . ': ', null, false);
+					$image1 = HTMLHelper::_('image', $item->params->get('icon_address', 'con_address.png'), Text::_('COM_CONTACT_ADDRESS') . ': ', null, false);
 				}
 				else
 				{
 					$image1 = HTMLHelper::_(
 						'image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'),
-						\JText::_('COM_CONTACT_ADDRESS') . ': ',
+						Text::_('COM_CONTACT_ADDRESS') . ': ',
 						null,
 						true
 					);
@@ -258,23 +259,23 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_email'))
 				{
-					$image2 = HTMLHelper::_('image', $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, false);
+					$image2 = HTMLHelper::_('image', $item->params->get('icon_email', 'emailButton.png'), Text::_('JGLOBAL_EMAIL') . ': ', null, false);
 				}
 				else
 				{
-					$image2 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, true);
+					$image2 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_email', 'emailButton.png'), Text::_('JGLOBAL_EMAIL') . ': ', null, true);
 				}
 
 				if ($item->params->get('icon_telephone'))
 				{
-					$image3 = HTMLHelper::_('image', $item->params->get('icon_telephone', 'con_tel.png'), \JText::_('COM_CONTACT_TELEPHONE') . ': ', null, false);
+					$image3 = HTMLHelper::_('image', $item->params->get('icon_telephone', 'con_tel.png'), Text::_('COM_CONTACT_TELEPHONE') . ': ', null, false);
 				}
 				else
 				{
 					$image3 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_telephone', 'con_tel.png'),
-						\JText::_('COM_CONTACT_TELEPHONE') . ': ',
+						Text::_('COM_CONTACT_TELEPHONE') . ': ',
 						null,
 						true
 					);
@@ -282,36 +283,36 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_fax'))
 				{
-					$image4 = HTMLHelper::_('image', $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, false);
+					$image4 = HTMLHelper::_('image', $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX') . ': ', null, false);
 				}
 				else
 				{
-					$image4 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, true);
+					$image4 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX') . ': ', null, true);
 				}
 
 				if ($item->params->get('icon_misc'))
 				{
-					$image5 = HTMLHelper::_('image', $item->params->get('icon_misc', 'con_info.png'), \JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, false);
+					$image5 = HTMLHelper::_('image', $item->params->get('icon_misc', 'con_info.png'), Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, false);
 				}
 				else
 				{
 					$image5 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_misc', 'con_info.png'),
-						\JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, true
+						Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, true
 					);
 				}
 
 				if ($item->params->get('icon_mobile'))
 				{
-					$image6 = HTMLHelper::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), \JText::_('COM_CONTACT_MOBILE') . ': ', null, false);
+					$image6 = HTMLHelper::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), Text::_('COM_CONTACT_MOBILE') . ': ', null, false);
 				}
 				else
 				{
 					$image6 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_mobile', 'con_mobile.png'),
-						\JText::_('COM_CONTACT_MOBILE') . ': ',
+						Text::_('COM_CONTACT_MOBILE') . ': ',
 						null,
 						true
 					);
@@ -453,7 +454,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -492,11 +493,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
