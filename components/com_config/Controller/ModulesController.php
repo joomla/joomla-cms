@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Modules\Administrator\Controller\ModuleController;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Component Controller
@@ -85,7 +86,7 @@ class ModulesController extends BaseController
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get sumitted module id
 		$moduleId = '&id=' . $this->input->getInt('id');

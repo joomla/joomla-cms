@@ -13,6 +13,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Client\ClientHelper;
 
 defined('_JEXEC') or die;
 
@@ -269,7 +270,7 @@ class ProfileController extends BaseController
 		jimport('joomla.filesystem.file');
 
 		// Set FTP credentials, if given
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{

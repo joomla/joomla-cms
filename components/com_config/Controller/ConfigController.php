@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Component Controller
@@ -78,7 +79,7 @@ class ConfigController extends BaseController
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		$model = $this->getModel();
 

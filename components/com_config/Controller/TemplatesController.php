@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Controller\Style;
 use Joomla\Component\Templates\Administrator\Controller\StyleController;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Component Controller
@@ -82,7 +83,7 @@ class TemplatesController extends BaseController
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		$app = $this->app;
 
