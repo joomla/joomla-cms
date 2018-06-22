@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Profile view class for Users.
@@ -105,7 +106,7 @@ class HtmlView extends BaseHtmlView
 
 		// Get the view data.
 		$this->data	        = $this->get('Data');
-		$this->form	        = $this->getModel()->getForm(new \JObject(array('id' => $user->id)));
+		$this->form	        = $this->getModel()->getForm(new Object(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');

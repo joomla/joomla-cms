@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Tags Component Tag Model
@@ -301,7 +302,7 @@ class TagModel extends ListModel
 
 					// Convert the \JTable to a clean \JObject.
 					$properties = $table->getProperties(1);
-					$this->item[] = ArrayHelper::toObject($properties, 'JObject');
+					$this->item[] = ArrayHelper::toObject($properties, 'Object');
 				}
 				catch (\RuntimeException $e)
 				{

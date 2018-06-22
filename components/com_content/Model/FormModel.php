@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Content Component Article Model
@@ -86,7 +87,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		}
 
 		$properties = $table->getProperties(1);
-		$value = ArrayHelper::toObject($properties, 'JObject');
+		$value = ArrayHelper::toObject($properties, 'CMSObject');
 
 		// Convert attrib field to Registry.
 		$value->params = new Registry($value->attribs);
