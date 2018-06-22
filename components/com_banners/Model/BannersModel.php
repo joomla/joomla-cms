@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Banners model for the Joomla Banners component.
@@ -48,9 +49,9 @@ class BannersModel extends ListModel
 	}
 
 	/**
-	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery   A \JDatabaseQuery object to retrieve the data set.
+	 * @return  DatabaseQuery   A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
