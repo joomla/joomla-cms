@@ -17,6 +17,7 @@ use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * Routing class from com_contact
@@ -65,7 +66,7 @@ class ContactRouter extends RouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = \JCategories::getInstance($this->getName())->get($id);
+		$category = Categories::getInstance($this->getName())->get($id);
 
 		if ($category)
 		{
@@ -143,7 +144,7 @@ class ContactRouter extends RouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = \JCategories::getInstance($this->getName(), array('access' => false))->get($query['id']);
+			$category = Categories::getInstance($this->getName(), array('access' => false))->get($query['id']);
 
 			if ($category)
 			{

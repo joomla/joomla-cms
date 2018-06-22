@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * This models supports retrieving lists of contact categories.
@@ -109,7 +110,7 @@ class CategoriesModel extends ListModel
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
-			$categories = \JCategories::getInstance('Contact', $options);
+			$categories = Categories::getInstance('Contact', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
 			if (is_object($this->_parent))

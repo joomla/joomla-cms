@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -291,7 +292,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$path = array(array('title' => $this->item->name, 'link' => ''));
-			$category = \JCategories::getInstance('Newsfeeds')->get($this->item->catid);
+			$category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
 			while (($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $category->id) && $category->id > 1)
 			{

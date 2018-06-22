@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -357,7 +358,7 @@ class CategoryModel extends ListModel
 				$options['countItems'] = 0;
 			}
 
-			$categories = \JCategories::getInstance('Content', $options);
+			$categories = Categories::getInstance('Content', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			// Compute selected asset permissions.

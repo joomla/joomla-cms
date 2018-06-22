@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * HTML Contact View class for the Contact component
@@ -467,7 +468,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$path = array(array('title' => $this->contact->name, 'link' => ''));
-			$category = \JCategories::getInstance('Contact')->get($this->contact->catid);
+			$category = Categories::getInstance('Contact')->get($this->contact->catid);
 
 			while ($category && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
 			{

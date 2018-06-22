@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * Single item model for a contact
@@ -321,7 +322,7 @@ class CategoryModel extends ListModel
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-			$categories = \JCategories::getInstance('Contact', $options);
+			$categories = Categories::getInstance('Contact', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			if (is_object($this->_item))

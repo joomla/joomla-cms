@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * HTML Article View class for the Content component
@@ -291,7 +292,7 @@ class HtmlView extends BaseHtmlView
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
-			$category = \JCategories::getInstance('Content')->get($this->item->catid);
+			$category = Categories::getInstance('Content')->get($this->item->catid);
 
 			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{

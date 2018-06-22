@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Site\View\Featured;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * Frontpage View class
@@ -38,7 +39,7 @@ class FeedView extends AbstractView
 
 		// Get some data from the model
 		$app->input->set('limit', $app->get('feed_limit'));
-		$categories = \JCategories::getInstance('Content');
+		$categories = Categories::getInstance('Content');
 		$rows       = $this->get('Items');
 
 		foreach ($rows as $row)
