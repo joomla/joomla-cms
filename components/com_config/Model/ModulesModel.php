@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Config Module model.
@@ -84,7 +85,7 @@ class ModulesModel extends FormModel
 		$module   = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;
 
-		$formFile = \JPath::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
+		$formFile = Path::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $basePath, null, false, true)
@@ -126,7 +127,7 @@ class ModulesModel extends FormModel
 		$templateName = \JFactory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
-		$path = \JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
+		$path = Path::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
 		$currentTemplatePositions = array();
 
 		if (file_exists($path))

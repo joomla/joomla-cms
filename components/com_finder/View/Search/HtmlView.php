@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\SearchHelper;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Search HTML view class for the Finder package.
@@ -242,7 +243,7 @@ class HtmlView extends BaseHtmlView
 		// Check if the file exists.
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists     = \JPath::find($this->_path['template'], $filetofind);
+		$exists     = Path::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}

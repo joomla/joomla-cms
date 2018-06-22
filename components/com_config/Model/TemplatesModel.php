@@ -11,6 +11,8 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\Path;
+
 /**
  * Template style model.
  *
@@ -98,12 +100,12 @@ class TemplatesModel extends FormModel
 		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
-		$formFile = \JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
+		$formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))
 		{
 			// If com_config.xml not found, fall back to templateDetails.xml
-			$formFile = \JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
+			$formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
 		// Get the template form.
