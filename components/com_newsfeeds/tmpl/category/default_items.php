@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
+
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -67,7 +69,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<br>
 				<?php if ($this->params->get('show_link')) : ?>
-					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
+					<?php $link = PunycodeHelper::urlToUTF8($item->link); ?>
 					<span class="list float-left">
 							<a href="<?php echo $item->link; ?>">
                                 <?php echo $link; ?>

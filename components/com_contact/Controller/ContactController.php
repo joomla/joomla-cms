@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Controller for single contact view
@@ -188,7 +189,7 @@ class ContactController extends FormController
 		$sitename = $app->get('sitename');
 
 		$name    = $data['contact_name'];
-		$email   = \JStringPunycode::emailToPunycode($data['contact_email']);
+		$email   = PunycodeHelper::emailToPunycode($data['contact_email']);
 		$subject = $data['contact_subject'];
 		$body    = $data['contact_message'];
 

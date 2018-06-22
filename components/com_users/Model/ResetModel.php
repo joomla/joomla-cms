@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Rest model class for Users.
@@ -145,7 +146,7 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -244,7 +245,7 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -350,7 +351,7 @@ class ResetModel extends FormModel
 		// Get the form.
 		$form = $this->getForm();
 
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)

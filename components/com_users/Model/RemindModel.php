@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Remind model class for Users.
@@ -93,7 +94,7 @@ class RemindModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getForm();
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if (empty($form))

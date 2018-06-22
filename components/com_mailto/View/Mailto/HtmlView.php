@@ -11,6 +11,7 @@ namespace Joomla\Component\Mailto\Site\View\Mailto;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Class for Mail.
@@ -78,11 +79,11 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 			$data->sender = $sender;
-			$data->from   = \JStringPunycode::emailToPunycode($from);
+			$data->from   = PunycodeHelper::emailToPunycode($from);
 		}
 
 		$data->subject = $subject;
-		$data->mailto  = \JStringPunycode::emailToPunycode($mailto);
+		$data->mailto  = PunycodeHelper::emailToPunycode($mailto);
 
 		return $data;
 	}

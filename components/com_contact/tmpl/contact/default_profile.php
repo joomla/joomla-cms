@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
 
 ?>
 <?php if (PluginHelper::isEnabled('user', 'profile')) :
@@ -26,9 +27,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 							$v_http = substr($profile->value, 0, 4);
 
 							if ($v_http === 'http') :
-								echo '<dd><a href="' . $profile->text . '">' . JStringPunycode::urlToUTF8($profile->text) . '</a></dd>';
+								echo '<dd><a href="' . $profile->text . '">' . PunycodeHelper::urlToUTF8($profile->text) . '</a></dd>';
 							else :
-								echo '<dd><a href="http://' . $profile->text . '">' . JStringPunycode::urlToUTF8($profile->text) . '</a></dd>';
+								echo '<dd><a href="http://' . $profile->text . '">' . PunycodeHelper::urlToUTF8($profile->text) . '</a></dd>';
 							endif;
 							break;
 

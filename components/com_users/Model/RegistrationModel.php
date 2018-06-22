@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Registration model class for Users.
@@ -420,7 +421,7 @@ class RegistrationModel extends FormModel
 		}
 
 		// Prepare the data for the user object.
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email1']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);

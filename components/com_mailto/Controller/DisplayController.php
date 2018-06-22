@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\CMS\Mail\Mailhelper;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Mailer Component Controller.
@@ -145,9 +146,9 @@ class DisplayController extends BaseController
 		$body    = MailHelper::cleanBody($body);
 
 		// To send we need to use punycode.
-		$from  = \JStringPunycode::emailToPunycode($from);
+		$from  = PunycodeHelper::emailToPunycode($from);
 		$from  = MailHelper::cleanAddress($from);
-		$email = \JStringPunycode::emailToPunycode($email);
+		$email = PunycodeHelper::emailToPunycode($email);
 
 		// Send the email
 		if (\JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)

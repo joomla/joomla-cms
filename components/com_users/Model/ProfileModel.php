@@ -21,6 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Profile model class for Users.
@@ -308,7 +309,7 @@ class ProfileModel extends FormModel
 		$user = new \JUser($userId);
 
 		// Prepare the data for the user object.
-		$data['email']    = \JStringPunycode::emailToPunycode($data['email1']);
+		$data['email']    = PunycodeHelper::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 
 		// Unset the username if it should not be overwritten
