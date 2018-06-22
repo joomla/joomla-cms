@@ -25,7 +25,7 @@ class Cookie extends Input
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(array $source = array(), array $options = array())
+	public function __construct($source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{
