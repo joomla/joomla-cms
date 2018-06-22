@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\String\StringHelper;
 use Joomla\Component\Search\Administrator\Helper\SearchHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTML View class for the search component
@@ -121,7 +122,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The URL instance
 	 *
-	 * @var    \JUri|null
+	 * @var    Uri|null
 	 * @since  4.0.0
 	 */
 	protected $action = null;
@@ -138,7 +139,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app     = \JFactory::getApplication();
-		$uri     = \JUri::getInstance();
+		$uri     = Uri::getInstance();
 		$error   = null;
 		$results = null;
 		$total   = 0;

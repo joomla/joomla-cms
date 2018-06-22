@@ -18,6 +18,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Profile controller class for Users.
@@ -188,7 +189,7 @@ class ProfileController extends BaseController
 				$redirect = $app->getUserState('com_users.edit.profile.redirect');
 
 				// Don't redirect to an external URL.
-				if (!\JUri::isInternal($redirect))
+				if (!Uri::isInternal($redirect))
 				{
 					$redirect = null;
 				}
@@ -216,7 +217,7 @@ class ProfileController extends BaseController
 				$redirect = $app->getUserState('com_users.edit.profile.redirect');
 
 				// Don't redirect to an external URL.
-				if (!\JUri::isInternal($redirect))
+				if (!Uri::isInternal($redirect))
 				{
 					$redirect = null;
 				}

@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Registration controller class for Users.
@@ -88,7 +89,7 @@ class UserController extends BaseController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($data['return']))
+			if (!Uri::isInternal($data['return']))
 			{
 				$data['return'] = '';
 			}
@@ -212,7 +213,7 @@ class UserController extends BaseController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($return))
+			if (!Uri::isInternal($return))
 			{
 				$return = '';
 			}
@@ -221,7 +222,7 @@ class UserController extends BaseController
 		// In case redirect url is not set, redirect user to homepage
 		if (empty($return))
 		{
-			$return = \JUri::root();
+			$return = Uri::root();
 		}
 
 		// Redirect the user.
@@ -290,7 +291,7 @@ class UserController extends BaseController
 		else
 		{
 			// URL to redirect after logout, default page if no ItemID is set
-			$url = $itemid ? 'index.php?Itemid=' . $itemid : \JUri::root();
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : Uri::root();
 		}
 
 		// Logout and redirect

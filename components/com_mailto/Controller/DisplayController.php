@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\CMS\Mail\Mailhelper;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Mailer Component Controller.
@@ -64,7 +65,7 @@ class DisplayController extends BaseController
 		$link     = MailtoHelper::validateHash($this->input->get('link', '', 'post'));
 
 		// Verify that this is a local link
-		if (!$link || !\JUri::isInternal($link))
+		if (!$link || !Uri::isInternal($link))
 		{
 			// Non-local url...
 			$this->setMessage(\JText::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');

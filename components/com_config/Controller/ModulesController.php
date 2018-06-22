@@ -21,6 +21,7 @@ use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Component Controller
@@ -58,7 +59,7 @@ class ModulesController extends BaseController
 	public function cancel()
 	{
 		// Redirect back to home(base) page
-		$this->setRedirect(\JUri::base());
+		$this->setRedirect(Uri::base());
 	}
 
 	/**
@@ -158,14 +159,14 @@ class ModulesController extends BaseController
 					$redirect = base64_decode(urldecode($returnUri));
 
 					// Don't redirect to an external URL.
-					if (!\JUri::isInternal($redirect))
+					if (!Uri::isInternal($redirect))
 					{
-						$redirect = \JUri::base();
+						$redirect = Uri::base();
 					}
 				}
 				else
 				{
-					$redirect = \JUri::base();
+					$redirect = Uri::base();
 				}
 
 				$this->setRedirect($redirect);

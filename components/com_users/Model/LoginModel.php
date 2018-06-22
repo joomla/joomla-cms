@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Rest model class for Users.
@@ -67,7 +68,7 @@ class LoginModel extends FormModel
 		{
 			$data['return'] = base64_decode($return);
 
-			if (!\JUri::isInternal($data['return']))
+			if (!Uri::isInternal($data['return']))
 			{
 				$data['return'] = '';
 			}

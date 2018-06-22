@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Search Component Controller
@@ -105,7 +106,7 @@ class DisplayController extends BaseController
 
 		unset($post['task'], $post['submit']);
 
-		$uri = \JUri::getInstance();
+		$uri = Uri::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 

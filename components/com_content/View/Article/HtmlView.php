@@ -18,6 +18,7 @@ use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTML Article View class for the Content component
@@ -195,7 +196,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($this->user->get('guest'))
 			{
-				$return = base64_encode(\JUri::getInstance());
+				$return = base64_encode(Uri::getInstance());
 				$login_url_with_return = Route::_('index.php?option=com_users&return=' . $return);
 				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);

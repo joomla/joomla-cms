@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * OpenSearch View class for Finder
@@ -41,7 +42,7 @@ class OpensearchView extends AbstractView
 		$doc->setDescription($params->get('opensearch_description', $app->get('MetaDesc')));
 
 		// Add the URL for the search
-		$searchUri = \JUri::base() . 'index.php?option=com_finder&q={searchTerms}';
+		$searchUri = Uri::base() . 'index.php?option=com_finder&q={searchTerms}';
 
 		// Find the menu item for the search
 		$menu  = $app->getMenu();
