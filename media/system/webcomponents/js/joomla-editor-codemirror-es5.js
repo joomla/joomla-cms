@@ -82,13 +82,12 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
             var _map;
 
             // Try to set up the mode
-            var mode = window.CodeMirror.findModeByName(that.options.mode || '');
+            var mode = window.CodeMirror.findModeByName(editor.options.mode || '') || window.CodeMirror.findModeByName(editor.options.mode || '') || window.CodeMirror.findModeByExtension(editor.options.mode || '');
+
+            window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
             if (mode) {
-              window.CodeMirror.autoLoadMode(editor, mode.mode);
-              editor.setOption('mode', mode.mime);
-            } else {
-              window.CodeMirror.autoLoadMode(editor, that.options.mode);
+              editor.setOption('mode', mode.mode);
             }
 
             var map = (_map = {

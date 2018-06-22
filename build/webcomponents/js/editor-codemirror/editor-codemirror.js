@@ -64,13 +64,14 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
             // Fire this function any time an editor is created.
             window.CodeMirror.defineInitHook((editor) => {
               // Try to set up the mode
-              const mode = window.CodeMirror.findModeByName(that.options.mode || '');
+              const mode = window.CodeMirror.findModeByName(editor.options.mode || '') ||
+              window.CodeMirror.findModeByName(editor.options.mode || '') ||
+              window.CodeMirror.findModeByExtension(editor.options.mode || '');
+
+              window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
               if (mode) {
-                window.CodeMirror.autoLoadMode(editor, mode.mode);
-                editor.setOption('mode', mode.mime);
-              } else {
-                window.CodeMirror.autoLoadMode(editor, that.options.mode);
+                editor.setOption('mode', mode.mode);
               }
 
               const map = {

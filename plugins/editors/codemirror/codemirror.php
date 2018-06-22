@@ -127,10 +127,6 @@ class PlgEditorCodemirror extends CMSPlugin
 		{
 			$options->readOnly = 'nocursor';
 		}
-		else
-		{
-			$options->readOnly = null;
-		}
 
 		// Should we focus on the editor on load?
 		$options->autofocus = (boolean) $this->params->get('autoFocus', true);
