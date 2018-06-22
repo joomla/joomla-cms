@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 
 /**
  * Banner model for the Joomla Banners component.
@@ -177,7 +178,7 @@ class BannerModel extends BaseDatabaseModel
 			{
 				$this->_item = $cache->get($loader, array($id), md5(__METHOD__ . $id));
 			}
-			catch (\JCacheException $e)
+			catch (CacheExceptionInterface $e)
 			{
 				$this->_item = $loader($id);
 			}

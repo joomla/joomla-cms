@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Cache\Cache;
 
 /**
  * Prototype admin model.
@@ -223,7 +224,7 @@ abstract class CmsModel extends BaseDatabaseModel
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
 		];
 
-		$cache = \JCache::getInstance('callback', $options);
+		$cache = Cache::getInstance('callback', $options);
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
