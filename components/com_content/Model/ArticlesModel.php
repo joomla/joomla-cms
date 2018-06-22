@@ -19,6 +19,7 @@ use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Helper\TagsHelper;
 
 /**
  * This models supports retrieving lists of articles.
@@ -691,7 +692,7 @@ class ArticlesModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
-				$item->tags = new \JHelperTags;
+				$item->tags = new TagsHelper;
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
