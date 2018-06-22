@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\FileLayout;
+
 ?>
 
 <?php if (!empty($this->msg)) : ?>
@@ -48,7 +50,7 @@ defined('_JEXEC') or die;
         </h2>
 
         <?php if ($this->params->get('show_tags', 1)) : ?>
-            <?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+            <?php $this->item->tagLayout = new FileLayout('joomla.content.tags'); ?>
             <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
         <?php endif; ?>
 

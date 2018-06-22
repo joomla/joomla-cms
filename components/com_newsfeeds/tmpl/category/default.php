@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\FileLayout;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 $pageClass = $this->params->get('pageclass_sfx');
@@ -25,7 +28,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		</h2>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
-		<?php $this->category->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php $this->category->tagLayout = new FileLayout('joomla.content.tags'); ?>
 		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\CMS\Layout\FileLayout;
 
 $cparams = JComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
@@ -59,7 +60,7 @@ $tparams = $this->item->params;
 
 	<?php if ($tparams->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 		<div class="com-contact__tags">
-			<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+			<?php $this->item->tagLayout = new FileLayout('joomla.content.tags'); ?>
 			<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 		</div>
 	<?php endif; ?>
