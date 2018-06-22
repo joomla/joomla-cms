@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\FormModel as BaseForm;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Form\Form;
 
 /**
  * Prototype form model.
@@ -155,15 +156,15 @@ abstract class FormModel extends BaseForm
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
 
 		// Solution until JForm supports splqueue
-		\JForm::addFormPath(JPATH_COMPONENT . '/forms');
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
+		Form::addFormPath(JPATH_COMPONENT . '/forms');
+		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		Form::addFormPath(JPATH_COMPONENT . '/model/form');
+		Form::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 		try
 		{
-			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
+			$form = Form::getInstance($name, $source, $options, false, $xpath);
 
 			if (isset($options['load_data']) && $options['load_data'])
 			{
@@ -230,7 +231,7 @@ abstract class FormModel extends BaseForm
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
+	 * @param   Form  $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -240,7 +241,7 @@ abstract class FormModel extends BaseForm
 	 * @since   3.2
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
 		PluginHelper::importPlugin($group);
@@ -252,7 +253,7 @@ abstract class FormModel extends BaseForm
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   \JForm  $form   The form to validate against.
+	 * @param   Form  $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *

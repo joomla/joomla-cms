@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Form;
 
 /**
  * Template style model.
@@ -43,7 +44,7 @@ class TemplatesModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|bool    A JForm object on success, false on failure
+	 * @return  Form|bool    A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -54,7 +55,7 @@ class TemplatesModel extends FormModel
 
 		try
 		{
-			$form = new \JForm('com_config.templates');
+			$form = new Form('com_config.templates');
 			$data = array();
 			$this->preprocessForm($form, $data);
 
@@ -79,7 +80,7 @@ class TemplatesModel extends FormModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form  $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Plugin group to load
 	 *
@@ -88,7 +89,7 @@ class TemplatesModel extends FormModel
 	 * @since   3.2
 	 * @throws	\Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$lang = \JFactory::getLanguage();
 

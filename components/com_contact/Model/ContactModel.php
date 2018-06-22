@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Component\Users\Administrator\Model\UserModel;
+use Joomla\CMS\Form\Form;
 
 /**
  * Single item model for a contact
@@ -83,7 +84,7 @@ class ContactModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -370,9 +371,9 @@ class ContactModel extends FormModel
 		PluginHelper::importPlugin('user');
 
 		// Get the form.
-		\JForm::addFormPath(JPATH_SITE . '/components/com_users/forms');
+		Form::addFormPath(JPATH_SITE . '/components/com_users/forms');
 
-		$form = \JForm::getInstance('com_users.profile', 'profile');
+		$form = Form::getInstance('com_users.profile', 'profile');
 
 		// Trigger the form preparation event.
 		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
@@ -535,7 +536,7 @@ class ContactModel extends FormModel
 				$data = $userModel->getItem((int) $result->user_id);
 
 				PluginHelper::importPlugin('user');
-				$form = new \JForm('com_users.profile');
+				$form = new Form('com_users.profile');
 
 				// Trigger the form preparation event.
 				\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));

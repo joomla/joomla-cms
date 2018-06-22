@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 
 /**
  * Config Module model.
@@ -46,7 +47,7 @@ class ModulesModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A JForm object on success, false on failure
+	 * @return  Form  A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -68,7 +69,7 @@ class ModulesModel extends FormModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form  $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -77,7 +78,7 @@ class ModulesModel extends FormModel
 	 * @since   3.2
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.path');
 
@@ -107,7 +108,7 @@ class ModulesModel extends FormModel
 		}
 
 		// Load the default advanced params
-		\JForm::addFormPath(JPATH_BASE . '/components/com_config/model/form');
+		Form::addFormPath(JPATH_BASE . '/components/com_config/model/form');
 		$form->loadFile('modules_advanced', false);
 
 		// Trigger the default form events.

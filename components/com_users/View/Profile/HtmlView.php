@@ -14,7 +14,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
-use Joomla\CMS\Router\Route;
 
 /**
  * Profile view class for Users.

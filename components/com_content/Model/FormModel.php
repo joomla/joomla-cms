@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Multilanguage;
-
+use Joomla\CMS\Form\Form;
 
 /**
  * Content Component Article Model
@@ -201,7 +201,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	/**
 	 * Allows preprocessing of the JForm object.
 	 *
-	 * @param   \JForm  $form   The form object
+	 * @param   Form  $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
 	 * @param   string  $group  The plugin group to be executed
 	 *
@@ -209,7 +209,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	 *
 	 * @since   3.7.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$params = $this->getState()->get('params');
 
