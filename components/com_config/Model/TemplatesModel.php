@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Template style model.
@@ -33,7 +34,7 @@ class TemplatesModel extends FormModel
 	{
 		parent::populateState();
 
-		$this->setState('params', \JComponentHelper::getParams('com_templates'));
+		$this->setState('params', ComponentHelper::getParams('com_templates'));
 	}
 
 	/**

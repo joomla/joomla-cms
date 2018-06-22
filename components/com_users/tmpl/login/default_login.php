@@ -10,11 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
-$usersConfig = JComponentHelper::getParams('com_users');
+$usersConfig = ComponentHelper::getParams('com_users');
 
 ?>
 <div class="com-users-login login">

@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
-$cparams = JComponentHelper::getParams('com_media');
+$cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
 ?>
 

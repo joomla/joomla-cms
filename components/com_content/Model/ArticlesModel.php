@@ -127,7 +127,7 @@ class ArticlesModel extends ListModel
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Process show_noauth parameter
-		if ((!$params->get('show_noauth')) || (!JComponentHelper::getParams('com_content')->get('show_noauth')))
+		if ((!$params->get('show_noauth')) || (ComponentHelper::getParams('com_content')->get('show_noauth')))
 		{
 			$this->setState('filter.access', true);
 		}

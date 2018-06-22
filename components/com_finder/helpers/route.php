@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Finder route helper class.
  *
@@ -114,7 +116,7 @@ class FinderHelperRoute
 		if (!$items || !$active)
 		{
 			$app = JFactory::getApplication();
-			$com = JComponentHelper::getComponent('com_finder');
+			$com = ComponentHelper::getComponent('com_finder');
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$items = $menu->getItems('component_id', $com->id);
