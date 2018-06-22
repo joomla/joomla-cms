@@ -8,10 +8,10 @@
  */
 namespace Joomla\Component\Newsfeeds\Site\Helper;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Categories\CategoryNode;
-
-defined('_JEXEC') or die;
 
 /**
  * Newsfeeds Component Route Helper

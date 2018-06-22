@@ -23,7 +23,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Date\Date;
-
+use Joomla\CMS\Router\Route;
 /**
  * Registration model class for Users.
  *
@@ -361,7 +361,7 @@ class RegistrationModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   Form  $form   A Form object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
