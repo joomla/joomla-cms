@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Log\Log;
 
 /*
  * References
@@ -250,7 +251,7 @@ switch ($format)
 		if ($results instanceof Exception)
 		{
 			// Log an error
-			JLog::add($results->getMessage(), JLog::ERROR);
+			Log::add($results->getMessage(), Log::ERROR);
 
 			// Set status header code
 			$app->setHeader('status', $results->getCode(), true);
