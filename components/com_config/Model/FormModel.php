@@ -231,7 +231,7 @@ abstract class FormModel extends BaseForm
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -253,7 +253,7 @@ abstract class FormModel extends BaseForm
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   Form  $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
