@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 $params             = $this->item->params;
 $presentation_style = $params->get('presentation_style');
 
@@ -31,7 +33,7 @@ $userFieldGroups    = array();
 <?php endforeach; ?>
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
-	<?php $id = JApplicationHelper::stringURLSafe($groupTitle); ?>
+	<?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
 	<?php if ($presentation_style == 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php elseif ($presentation_style == 'tabs') : ?>
