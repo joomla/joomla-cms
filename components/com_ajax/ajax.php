@@ -13,7 +13,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
-
+use Joomla\CMS\Helper\ModuleHelper;
 /*
  * References
  *  Support plugins in your component
@@ -52,10 +52,10 @@ if (!$format)
 elseif ($input->get('module'))
 {
 	$module       = $input->get('module');
-	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
+	$moduleObject = ModuleHelper::getModule('mod_' . $module, null);
 
 	/*
-	 * As JModuleHelper::isEnabled always returns true, we check
+	 * As ModuleHelper::isEnabled always returns true, we check
 	 * for an id other than 0 to see if it is published.
 	 */
 	if ($moduleObject->id != 0)
