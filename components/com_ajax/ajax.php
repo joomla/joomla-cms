@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Response\JsonResponse;
+
 /*
  * References
  *  Support plugins in your component
@@ -237,7 +239,7 @@ switch ($format)
 {
 	// JSONinzed
 	case 'json' :
-		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+		echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
 		break;
 
