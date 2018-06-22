@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Form\Form;
 
 /**
@@ -191,7 +192,7 @@ class ResetModel extends FormModel
 		}
 
 		// Get the user object.
-		$user = \JUser::getInstance($userId);
+		$user = User::getInstance($userId);
 
 		// Check for a user and that the tokens match.
 		if (empty($user) || $user->activation !== $token)
@@ -414,7 +415,7 @@ class ResetModel extends FormModel
 		}
 
 		// Get the user object.
-		$user = \JUser::getInstance($userId);
+		$user = User::getInstance($userId);
 
 		// Make sure the user isn't blocked.
 		if ($user->block)
@@ -493,7 +494,7 @@ class ResetModel extends FormModel
 	/**
 	 * Method to check if user reset limit has been exceeded within the allowed time period.
 	 *
-	 * @param   \JUser  $user  User doing the password reset
+	 * @param   User  $user  User doing the password reset
 	 *
 	 * @return  boolean true if user can do the reset, false if limit exceeded
 	 *

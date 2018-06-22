@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\User\User;
 
 /**
  * Registration model class for Users.
@@ -412,8 +413,8 @@ class RegistrationModel extends FormModel
 	{
 		$params = ComponentHelper::getParams('com_users');
 
-		// Initialise the table with \JUser.
-		$user = new \JUser;
+		// Initialise the table with User.
+		$user = new User;
 		$data = (array) $this->getData();
 
 		// Merge in the registration data.

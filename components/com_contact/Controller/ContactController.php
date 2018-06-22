@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
 
 /**
  * Controller for single contact view
@@ -181,7 +182,7 @@ class ContactController extends FormController
 
 		if ($contact->email_to == '' && $contact->user_id != 0)
 		{
-			$contact_user      = \JUser::getInstance($contact->user_id);
+			$contact_user      = User::getInstance($contact->user_id);
 			$contact->email_to = $contact_user->get('email');
 		}
 

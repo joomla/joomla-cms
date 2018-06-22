@@ -23,6 +23,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\User\User;
 
 /**
  * Profile model class for Users.
@@ -74,7 +75,7 @@ class ProfileModel extends FormModel
 
 		if ($userId)
 		{
-			// Initialise the table with \JUser.
+			// Initialise the table with User.
 			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
 
 			// Attempt to check the row in.
@@ -105,7 +106,7 @@ class ProfileModel extends FormModel
 
 		if ($userId)
 		{
-			// Initialise the table with \JUser.
+			// Initialise the table with User.
 			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
 
 			// Get the current user object.
@@ -129,7 +130,7 @@ class ProfileModel extends FormModel
 	 * The base form data is loaded and then an event is fired
 	 * for users plugins to extend the data.
 	 *
-	 * @return  \JUser
+	 * @return  User
 	 *
 	 * @since   1.6
 	 */
@@ -139,8 +140,8 @@ class ProfileModel extends FormModel
 		{
 			$userId = $this->getState('user.id');
 
-			// Initialise the table with \JUser.
-			$this->data = new \JUser($userId);
+			// Initialise the table with User.
+			$this->data = new User($userId);
 
 			// Set the base user data.
 			$this->data->email1 = $this->data->get('email');
@@ -307,7 +308,7 @@ class ProfileModel extends FormModel
 	{
 		$userId = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 
-		$user = new \JUser($userId);
+		$user = new User($userId);
 
 		// Prepare the data for the user object.
 		$data['email']    = PunycodeHelper::emailToPunycode($data['email1']);
