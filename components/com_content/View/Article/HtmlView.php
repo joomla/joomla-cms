@@ -16,6 +16,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Language\Associations;
+
 
 /**
  * HTML Article View class for the Content component
@@ -227,7 +229,7 @@ class HtmlView extends BaseHtmlView
 		$item->tags = new TagsHelper;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
-		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
+		if (Associations::isEnabled() && $item->params->get('show_associations'))
 		{
 			$item->associations = AssociationHelper::displayAssociations($item->id);
 		}

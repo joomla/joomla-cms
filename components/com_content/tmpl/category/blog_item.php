@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Language\Associations;
+
 
 // Create a shortcut for params.
 $params = $this->item->params;
@@ -18,7 +20,7 @@ $canEdit = $this->item->params->get('access-edit');
 $info    = $params->get('info_block_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
-$assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associations'));
+$assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 ?>
 

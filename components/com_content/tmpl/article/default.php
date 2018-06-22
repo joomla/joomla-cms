@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Language\Associations;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
@@ -21,7 +22,7 @@ $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
-$assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associations'));
+$assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>">

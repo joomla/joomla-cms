@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
@@ -694,7 +695,7 @@ class ArticlesModel extends ListModel
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
-			if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
+			if (Associations::isEnabled() && $item->params->get('show_associations'))
 			{
 				$item->associations = AssociationHelper::displayAssociations($item->id);
 			}

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\CMS\Language\Associations;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -157,7 +158,7 @@ if (!empty($this->items))
 					<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 						<?php echo $this->escape($article->title); ?>
 					</a>
-					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+					<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
 						<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 						<?php foreach ($associations as $association) : ?>
 							<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
@@ -179,7 +180,7 @@ if (!empty($this->items))
 					<a href="<?php echo $link; ?>" class="register">
 						<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 					</a>
-					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+					<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
 						<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 						<?php foreach ($associations as $association) : ?>
 							<?php if ($this->params->get('flags', 1)) : ?>
