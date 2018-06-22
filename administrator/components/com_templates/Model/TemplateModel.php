@@ -68,6 +68,172 @@ class TemplateModel extends FormModel
 	}
 
 	/**
+	 * Method to store file information.
+	 *
+	 * @param   string   $path      The base path.
+	 * @param   string   $name      The file name.
+	 * @param   integer  $client    The client id.
+	 * @param   string   $template  The template element.
+	 *
+	 * @return  object  StdClass object.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function storeFileInfo($path, $name, $client, $template)
+	{
+		$temp = new \stdClass;
+		$temp->name = $name;
+		$temp->id = urlencode(base64_encode($path . $name));
+		$temp->client = $client;
+		$temp->template = $template;
+
+		if ($coreFile = $this->getCoreFile($path . $name, $client))
+		{
+			$temp->modifiedDate = date("F d Y H:i:s.", filemtime($coreFile));
+			$temp->coreFile = md5_file($coreFile);
+		}
+		else
+		{
+			$temp->modifiedDate = null;
+			$temp->coreFile = null;
+		}
+
+		return $temp;
+	}
+
+	/**
+	 * Method to get all template list.
+	 *
+	 * @return  object  stdClass object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTemplateList()
+	{
+		// Get a db connection.
+		$db = Factory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		// Select the required fields from the table
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.extension_id, a.name, a.element, a.client_id'
+			)
+		);
+
+		$query->from($db->quoteName('#__extensions', 'a'))
+			->where($db->quoteName('a.enabled') . ' = 1')
+			->where($db->quoteName('a.type') . ' = ' . $db->quote('template'));
+
+		// Reset the query.
+		$db->setQuery($query);
+
+		// Load the results as a list of stdClass objects.
+		$results = $db->loadObjectList();
+
+		return $results;
+	}
+
+	/**
+	 * Method to get a list of all the core files of override files.
+	 *
+	 * @return  array  A array of all core files.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCoreList()
+	{
+		// Get list of all templates
+		$templates = $this->getTemplateList();
+
+		// Intialize the array variable to store core file list.
+		$this->coreFileList = array();
+
+		$app    = Factory::getApplication();
+
+		foreach ($templates as $template)
+		{
+			$client  = ApplicationHelper::getClientInfo($template->client_id);
+			$element = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$path    = Path::clean($element . 'html/');
+
+			if (is_dir($path))
+			{
+				$this->prepareCoreFiles($path, $template->client_id, $element, $template->element);
+			}
+			else
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
+
+				return false;
+			}
+		}
+
+		// Sort list of stdClass array.
+		usort(
+			$this->coreFileList,
+			function ($a, $b)
+			{
+				return strcmp($a->id, $b->id);
+			}
+		);
+
+		return $this->coreFileList;
+	}
+
+	/**
+	 * Prepare core files.
+	 *
+	 * @param   string   $dir       The path of the directory to scan.
+	 * @param   integer  $client    The client id.
+	 * @param   string   $element   The path of the template element.
+	 * @param   string   $template  The name of template.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function prepareCoreFiles($dir, $client, $element, $template)
+	{
+		$dirFiles = scandir($dir);
+
+		foreach ($dirFiles as $key => $value)
+		{
+			if (in_array($value, array('.', '..', 'node_modules')))
+			{
+				continue;
+			}
+
+			if (is_dir($dir . $value))
+			{
+				$relativePath = str_replace($element, '', $dir . $value);
+				$this->prepareCoreFiles($dir . $value . '/', $client, $element, $template);
+			}
+			else
+			{
+				$ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
+				$allowedFormat = $this->checkFormat($ext);
+
+				if ($allowedFormat == true)
+				{
+					$relativePath = str_replace($element, '', $dir);
+					$info = $this->storeFileInfo('/' . $relativePath, $value, $client, $template);
+
+					if($info)
+					{
+						$this->coreFileList[] = $info;
+					}
+				}
+			}
+		}
+
+		return;
+	}
+
+	/**
 	 * Method to get a list of all the files to edit in a template.
 	 *
 	 * @return  array  A nested array of relevant files.
