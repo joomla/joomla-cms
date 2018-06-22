@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+
 
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
@@ -93,7 +95,7 @@ if (!$editoroptions)
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
-			<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'publishing', JText::_('COM_CONTENT_PUBLISHING')); ?>
 				<?php echo $this->form->renderField('catid'); ?>

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.core');
@@ -23,7 +24,7 @@ HTMLHelper::_('script', 'com_contact/categories-default.js', ['relative' => true
 ?>
 <div class="com-contact-categories categories-list">
 	<?php
-		echo JLayoutHelper::render('joomla.content.categories_default', $this);
+		echo LayoutHelper::render('joomla.content.categories_default', $this);
 		echo $this->loadTemplate('items');
 	?>
 </div>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 // Create a shortcut for params.
 $params = $this->item->params;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -20,7 +22,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 ?>
 
-<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
+<?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 <div class="item-content">
 	<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
@@ -28,10 +30,10 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 		<div class="system-unpublished">
 	<?php endif; ?>
 
-	<?php echo JLayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
+	<?php echo LayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
 	<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
-		<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+		<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
 	<?php endif; ?>
 
 	<?php // Todo Not that elegant would be nice to group the params ?>
@@ -40,9 +42,9 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 	  <?php // Todo: for Joomla4 joomla.content.info_block.block can be changed to joomla.content.info_block ?>
-		<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
+		<?php echo LayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 		<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-			<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
+			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -58,9 +60,9 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 	<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 		<?php // Todo: for Joomla4 joomla.content.info_block.block can be changed to joomla.content.info_block ?>
-		<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+		<?php echo LayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
 		<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-			<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
+			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -75,7 +77,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 			$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
 		endif; ?>
 
-		<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
+		<?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 
 	<?php endif; ?>
 

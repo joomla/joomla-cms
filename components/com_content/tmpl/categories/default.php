@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.core');
 
@@ -35,7 +37,7 @@ jQuery(function($) {
 ?>
 <div class="categories-list">
 	<?php
-		echo JLayoutHelper::render('joomla.content.categories_default', $this);
+		echo LayoutHelper::render('joomla.content.categories_default', $this);
 		echo $this->loadTemplate('items');
 	?>
 </div>

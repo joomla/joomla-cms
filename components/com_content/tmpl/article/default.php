@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
 $images  = json_decode($this->item->images);
@@ -63,7 +65,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php endif; ?>
 	<?php if (!$this->print) : ?>
 		<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
-			<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+			<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
 		<?php endif; ?>
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
@@ -78,7 +80,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 		<?php // Todo: for Joomla4 joomla.content.info_block.block can be changed to joomla.content.info_block ?>
-		<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
+		<?php echo LayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 	<?php endif; ?>
 
 	<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
@@ -95,7 +97,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 	<?php if ($params->get('access-view')) : ?>
-	<?php echo JLayoutHelper::render('joomla.content.full_image', $this->item); ?>
+	<?php echo LayoutHelper::render('joomla.content.full_image', $this->item); ?>
 	<?php
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
@@ -111,7 +113,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php if ($info == 1 || $info == 2) : ?>
 		<?php if ($useDefList) : ?>
 				<?php // Todo: for Joomla4 joomla.content.info_block.block can be changed to joomla.content.info_block ?>
-			<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+			<?php echo LayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
 		<?php endif; ?>
 		<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 			<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
@@ -129,7 +131,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php endif; ?>
 	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
-	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
+	<?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>
 	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
