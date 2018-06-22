@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Registration model class for Users.
@@ -110,7 +110,7 @@ class RegistrationModel extends FormModel
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
-			$data['activation'] = ApplicationHelper::getHash(\JUserHelper::genRandomPassword());
+			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = \JUri::base();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -430,7 +430,7 @@ class RegistrationModel extends FormModel
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2))
 		{
-			$data['activation'] = ApplicationHelper::getHash(\JUserHelper::genRandomPassword());
+			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$data['block'] = 1;
 		}
 

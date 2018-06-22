@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Rest model class for Users.
@@ -208,7 +209,7 @@ class ResetModel extends FormModel
 		}
 
 		// Check if the user is reusing the current password if required to reset their password
-		if ($user->requireReset == 1 && \JUserHelper::verifyPassword($data['password1'], $user->password))
+		if ($user->requireReset == 1 && UserHelper::verifyPassword($data['password1'], $user->password))
 		{
 			$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
@@ -216,7 +217,7 @@ class ResetModel extends FormModel
 		}
 
 		// Update the user object.
-		$user->password = \JUserHelper::hashPassword($data['password1']);
+		$user->password = UserHelper::hashPassword($data['password1']);
 		$user->activation = '';
 		$user->password_clear = $data['password1'];
 
@@ -313,7 +314,7 @@ class ResetModel extends FormModel
 		}
 
 		// Verify the token
-		if (!\JUserHelper::verifyPassword($data['token'], $user->activation))
+		if (!UserHelper::verifyPassword($data['token'], $user->activation))
 		{
 			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -440,8 +441,8 @@ class ResetModel extends FormModel
 		}
 
 		// Set the confirmation token.
-		$token = ApplicationHelper::getHash(\JUserHelper::genRandomPassword());
-		$hashedToken = \JUserHelper::hashPassword($token);
+		$token = ApplicationHelper::getHash(UserHelper::genRandomPassword());
+		$hashedToken = UserHelper::hashPassword($token);
 
 		$user->activation = $hashedToken;
 
