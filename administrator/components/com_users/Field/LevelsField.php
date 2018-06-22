@@ -14,7 +14,6 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\CMS\Form\Field\ListField;
 
-
 FormHelper::loadFieldClass('list');
 
 /**

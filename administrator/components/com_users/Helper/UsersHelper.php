@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
 
 defined('_JEXEC') or die;
 
@@ -26,7 +27,7 @@ defined('_JEXEC') or die;
 class UsersHelper
 {
 	/**
-	 * @var    \JObject  A cache for the available actions.
+	 * @var    CMSObject  A cache for the available actions.
 	 * @since  1.6
 	 */
 	protected static $actions;
@@ -42,7 +43,7 @@ class UsersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		\JHtmlSidebar::addEntry(
+		HTMLHelper::_('sidebar.addEntry',
 			Text::_('COM_USERS_SUBMENU_USERS'),
 			'index.php?option=com_users&view=users',
 			$vName == 'users'
@@ -53,12 +54,12 @@ class UsersHelper
 
 		if ($canDo->get('core.admin'))
 		{
-			\JHtmlSidebar::addEntry(
+			HTMLHelper::_('sidebar.addEntry',
 				Text::_('COM_USERS_SUBMENU_GROUPS'),
 				'index.php?option=com_users&view=groups',
 				$vName == 'groups'
 			);
-			\JHtmlSidebar::addEntry(
+			HTMLHelper::_('sidebar.addEntry',
 				Text::_('COM_USERS_SUBMENU_LEVELS'),
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
@@ -67,24 +68,24 @@ class UsersHelper
 
 		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 		{
-			\JHtmlSidebar::addEntry(
+			HTMLHelper::_('sidebar.addEntry',
 				Text::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_users.user',
 				$vName == 'fields.fields'
 			);
-			\JHtmlSidebar::addEntry(
+			HTMLHelper::_('sidebar.addEntry',
 				Text::_('JGLOBAL_FIELD_GROUPS'),
 				'index.php?option=com_fields&view=groups&context=com_users.user',
 				$vName == 'fields.groups'
 			);
 		}
 
-		\JHtmlSidebar::addEntry(
+		HTMLHelper::_('sidebar.addEntry',
 			Text::_('COM_USERS_SUBMENU_NOTES'),
 			'index.php?option=com_users&view=notes',
 			$vName == 'notes'
 		);
-		\JHtmlSidebar::addEntry(
+		HTMLHelper::_('sidebar.addEntry',
 			Text::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_users',
 			$vName == 'categories'
@@ -175,6 +176,7 @@ class UsersHelper
 	 * @return  array
 	 *
 	 * @since   3.2.0
+	 * @throws  \Exception
 	 */
 	public static function getTwoFactorMethods()
 	{
@@ -301,6 +303,7 @@ class UsersHelper
 	 * @return  string|null  The new section
 	 *
 	 * @since   3.7.0
+	 * @throws  \Exception
 	 */
 	public static function validateSection($section)
 	{

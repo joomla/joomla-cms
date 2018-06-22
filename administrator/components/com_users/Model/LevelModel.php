@@ -14,7 +14,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Filter\InputFilter;
 
 /**
@@ -172,6 +171,7 @@ class LevelModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws \Exception
 	 */
 	protected function loadFormData()
 	{
@@ -200,7 +200,7 @@ class LevelModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = '')
+	protected function preprocessForm(\JForm $form, $data, $group = '')
 	{
 		// TO DO warning!
 		parent::preprocessForm($form, $data, 'user');

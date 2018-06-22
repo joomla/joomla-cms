@@ -13,8 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Methods supporting a list of User ACL permissions
@@ -116,6 +118,7 @@ class DebuguserModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws \Exception
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
@@ -181,7 +184,7 @@ class DebuguserModel extends ListModel
 	/**
 	 * Get the user being debugged.
 	 *
-	 * @return  \JUser
+	 * @return  User
 	 *
 	 * @since   1.6
 	 */
@@ -195,7 +198,7 @@ class DebuguserModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   1.6
 	 */

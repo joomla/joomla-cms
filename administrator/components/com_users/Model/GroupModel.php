@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
@@ -99,6 +98,7 @@ class GroupModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws \Exception
 	 */
 	protected function loadFormData()
 	{
@@ -127,7 +127,7 @@ class GroupModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = '')
+	protected function preprocessForm(\JForm $form, $data, $group = '')
 	{
 		$obj = is_array($data) ? ArrayHelper::toObject($data, 'JObject') : $data;
 

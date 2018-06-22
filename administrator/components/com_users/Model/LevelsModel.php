@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Methods supporting a list of user access level records.
@@ -91,7 +92,7 @@ class LevelsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -184,6 +185,8 @@ class LevelsModel extends ListModel
 	 * @param   integer  $order  Order position
 	 *
 	 * @return  boolean  Boolean true on success, boolean false
+	 *
+	 * @throws  \Exception
 	 */
 	public function saveorder($pks, $order)
 	{

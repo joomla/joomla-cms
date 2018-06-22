@@ -60,6 +60,7 @@ class NoteModel extends AdminModel
 	 * @return  mixed  Object on success, false on failure.
 	 *
 	 * @since   2.5
+	 * @throws  \Exception
 	 */
 	public function getItem($pk = null)
 	{
@@ -83,6 +84,7 @@ class NoteModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
@@ -123,6 +125,7 @@ class NoteModel extends AdminModel
 	 * @return  void
 	 *
 	 * @since   2.5
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{

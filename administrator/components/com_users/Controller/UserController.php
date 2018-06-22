@@ -31,7 +31,7 @@ class UserController extends FormController
 	protected $text_prefix = 'COM_USERS_USER';
 
 	/**
-	 * Overrides \JControllerForm::allowEdit
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::allowEdit
 	 *
 	 * Checks that non-Super Admins are not editing Super Admins.
 	 *
@@ -82,8 +82,8 @@ class UserController extends FormController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *

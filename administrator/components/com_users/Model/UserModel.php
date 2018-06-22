@@ -23,7 +23,6 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Crypt\Crypt;
@@ -183,6 +182,7 @@ class UserModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
@@ -200,7 +200,7 @@ class UserModel extends AdminModel
 	}
 
 	/**
-	 * Override \JModelAdmin::preprocessForm to ensure the correct plugin group is loaded.
+	 * Override Joomla\CMS\MVC\Model\AdminModel::preprocessForm to ensure the correct plugin group is loaded.
 	 *
 	 * @param   \JForm  $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
@@ -211,7 +211,7 @@ class UserModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'user')
+	protected function preprocessForm(\JForm $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -224,6 +224,7 @@ class UserModel extends AdminModel
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function save($data)
 	{
@@ -357,6 +358,7 @@ class UserModel extends AdminModel
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function delete(&$pks)
 	{
@@ -434,6 +436,7 @@ class UserModel extends AdminModel
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function block(&$pks, $value = 1)
 	{
@@ -549,6 +552,7 @@ class UserModel extends AdminModel
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function activate(&$pks)
 	{
@@ -1164,6 +1168,7 @@ class UserModel extends AdminModel
 	 * @return  array
 	 *
 	 * @since   3.2
+	 * @throws  \Exception
 	 */
 	public function getTwofactorform($user_id = null)
 	{
@@ -1255,6 +1260,7 @@ class UserModel extends AdminModel
 	 * @return  boolean  True if it's a valid secret key for this user.
 	 *
 	 * @since   3.2
+	 * @throws  \Exception
 	 */
 	public function isValidSecretKey($user_id, $secretkey, $options = array())
 	{

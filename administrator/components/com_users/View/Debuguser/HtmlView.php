@@ -16,6 +16,8 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\User;
 
 /**
  * View class for a list of User ACL permissions.
@@ -50,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 * @since 1.6
 	 */
 	protected $state;
@@ -58,7 +60,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object of the user being debugged.
 	 *
-	 * @var   \JUser
+	 * @var   User
 	 */
 	protected $user;
 

@@ -46,7 +46,7 @@ class GroupsController extends AdminController
 	/**
 	 * Removes an item.
 	 *
-	 * Overrides \JControllerAdmin::delete to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::delete to check the core.admin permission.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
@@ -65,7 +65,7 @@ class GroupsController extends AdminController
 	/**
 	 * Method to publish a list of records.
 	 *
-	 * Overrides \JControllerAdmin::publish to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::publish to check the core.admin permission.
 	 *
 	 * @return  void
 	 *
@@ -84,7 +84,7 @@ class GroupsController extends AdminController
 	/**
 	 * Changes the order of one or more records.
 	 *
-	 * Overrides \JControllerAdmin::reorder to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::reorder to check the core.admin permission.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -103,7 +103,7 @@ class GroupsController extends AdminController
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * Overrides \JControllerAdmin::saveorder to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::saveorder to check the core.admin permission.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -122,7 +122,7 @@ class GroupsController extends AdminController
 	/**
 	 * Check in of one or more records.
 	 *
-	 * Overrides \JControllerAdmin::checkin to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::checkin to check the core.admin permission.
 	 *
 	 * @return  boolean  True on success
 	 *

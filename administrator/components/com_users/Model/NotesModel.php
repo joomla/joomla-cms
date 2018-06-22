@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * User notes model class.
@@ -57,7 +58,7 @@ class NotesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
+	 * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   2.5
 	 */
@@ -208,6 +209,7 @@ class NotesModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState($ordering = 'a.review_time', $direction = 'desc')
 	{

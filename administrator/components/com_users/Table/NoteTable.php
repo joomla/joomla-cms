@@ -33,7 +33,6 @@ class NoteTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_users.note';
-
 		parent::__construct('#__user_notes', 'id', $db);
 	}
 

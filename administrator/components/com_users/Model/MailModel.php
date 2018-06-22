@@ -16,7 +16,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 
 /**
  * Users mail model.
@@ -54,7 +53,7 @@ class MailModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
-	 * @throws
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
@@ -78,7 +77,7 @@ class MailModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'user')
+	protected function preprocessForm(\JForm $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -87,6 +86,8 @@ class MailModel extends AdminModel
 	 * Send the email
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  \Exception
 	 */
 	public function send()
 	{

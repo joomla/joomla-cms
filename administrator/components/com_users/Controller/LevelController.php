@@ -33,7 +33,7 @@ class LevelController extends FormController
 	/**
 	 * Method to check if you can save a new or existing record.
 	 *
-	 * Overrides \JControllerForm::allowSave to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::allowSave to check the core.admin permission.
 	 *
 	 * @param   array   $data  An array of input data.
 	 * @param   string  $key   The name of the key for the primary key.
@@ -50,7 +50,7 @@ class LevelController extends FormController
 	/**
 	 * Removes an item.
 	 *
-	 * Overrides \JControllerAdmin::delete to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::delete to check the core.admin permission.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *

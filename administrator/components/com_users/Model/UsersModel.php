@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Methods supporting a list of user records.
@@ -69,6 +70,7 @@ class UsersModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
@@ -254,7 +256,7 @@ class UsersModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -442,6 +444,7 @@ class UsersModel extends ListModel
 	 * @return  string  The date range to filter on.
 	 *
 	 * @since   3.6.0
+	 * @throws  \Exception
 	 */
 	private function buildDateRange($range)
 	{
@@ -465,6 +468,7 @@ class UsersModel extends ListModel
 
 			case 'past_6month':
 				$dStart->modify('-6 month');
+				$arr = [];
 				break;
 
 			case 'post_year':
