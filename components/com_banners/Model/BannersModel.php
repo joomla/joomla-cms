@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Banners model for the Joomla Banners component.
@@ -250,7 +251,7 @@ class BannersModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			throw new \Exception($e->getMessage(), 500);
 		}
@@ -288,7 +289,7 @@ class BannersModel extends ListModel
 				{
 					$db->execute();
 				}
-				catch (\JDatabaseExceptionExecuting $e)
+				catch (ExecutionFailureException $e)
 				{
 					throw new \Exception($e->getMessage(), 500);
 				}
@@ -313,7 +314,7 @@ class BannersModel extends ListModel
 					{
 						$db->execute();
 					}
-					catch (\JDatabaseExceptionExecuting $e)
+					catch (ExecutionFailureException $e)
 					{
 						throw new \Exception($e->getMessage(), 500);
 					}
