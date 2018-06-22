@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
+use Joomla\CMS\Mail\Mailhelper;
 
 /**
  * Mailer Component Controller.
@@ -117,14 +118,14 @@ class DisplayController extends BaseController
 		// Check for a valid to address
 		$error = false;
 
-		if (!$email || !\JMailHelper::isEmailAddress($email))
+		if (!$email || !MailHelper::isEmailAddress($email))
 		{
 			$error = \JText::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
 			$this->app->enqueueMessage($error, 'warning');
 		}
 
 		// Check for a valid from address
-		if (!$from || !\JMailHelper::isEmailAddress($from))
+		if (!$from || !MailHelper::isEmailAddress($from))
 		{
 			$error = \JText::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
 			$this->app->enqueueMessage($error, 'warning');
@@ -140,12 +141,12 @@ class DisplayController extends BaseController
 		$body = sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
-		$subject = \JMailHelper::cleanSubject($subject);
-		$body    = \JMailHelper::cleanBody($body);
+		$subject = MailHelper::cleanSubject($subject);
+		$body    = MailHelper::cleanBody($body);
 
 		// To send we need to use punycode.
 		$from  = \JStringPunycode::emailToPunycode($from);
-		$from  = \JMailHelper::cleanAddress($from);
+		$from  = MailHelper::cleanAddress($from);
 		$email = \JStringPunycode::emailToPunycode($email);
 
 		// Send the email
