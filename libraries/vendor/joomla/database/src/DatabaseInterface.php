@@ -455,8 +455,8 @@ interface DatabaseInterface
 	 * Sets the SQL statement string for later execution.
 	 *
 	 * @param   mixed    $query   The SQL statement to set either as a Query object or a string.
-	 * @param   integer  $offset  The affected row offset to set.
-	 * @param   integer  $limit   The maximum affected rows to set.
+	 * @param   integer  $offset  The affected row offset to set. {@deprecated 3.0 Use LimitableInterface::setLimit() instead}
+	 * @param   integer  $limit   The maximum affected rows to set. {@deprecated 3.0 Use LimitableInterface::setLimit() instead}
 	 *
 	 * @return  $this
 	 *
