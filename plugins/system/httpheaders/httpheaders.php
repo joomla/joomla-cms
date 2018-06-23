@@ -346,6 +346,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
 
+		// We should have at minimum a default-src rule
+		$cspHeaderCollection = array_fill_keys(['default-src'], '');
+
 		foreach ($rows as $row)
 		{
 			// Handle the client information foreach rule
