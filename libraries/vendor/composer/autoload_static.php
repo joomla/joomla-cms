@@ -1240,6 +1240,7 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
         'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
         'Symfony\\Polyfill\\Util\\LegacyTestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/LegacyTestListener.php',
+        'Symfony\\Polyfill\\Util\\TestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListener.php',
         'Symfony\\Polyfill\\Util\\TestListenerTrait' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListenerTrait.php',
         'Wamania\\Snowball\\Danish' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Danish.php',
         'Wamania\\Snowball\\Dutch' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Dutch.php',
