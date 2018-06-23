@@ -316,7 +316,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Compone the automatic csp header rules based on com_csp / #__csp
+	 * Compile the automatic csp header rules based on com_csp / #__csp
 	 *
 	 * @param  string   $nonce  The System nonce used for script and style tags
 	 *
@@ -326,7 +326,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	private function compileAutomaticCspHeaderRules($nonce): array
 	{
-		// Get the published infos form the database
+		// Get the published infos from the database
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(['client', 'directive', 'blocked_uri']))
 			->from('#__csp')
