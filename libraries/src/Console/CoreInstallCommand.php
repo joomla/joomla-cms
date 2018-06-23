@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputArgument;
  *
  * @since  4.0.0
  */
-class ExtensionInstallCommand extends AbstractCommand
+class CoreInstallCommand extends AbstractCommand
 {
 	/**
 	 * Stores the Input Object
