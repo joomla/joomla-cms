@@ -71,6 +71,9 @@ $saveOrder = $listOrder == 'a.id';
 									<?php echo JHtml::_('searchtools.sort', 'COM_CSP_HEADING_DIRECTIVE', 'a.directive', $listDirn, $listOrder); ?>
 								</th>
 								<th>
+									<?php echo JHtml::_('searchtools.sort', 'JCLIENT', 'a.client', $listDirn, $listOrder); ?>
+								</th>
+								<th>
 									<?php echo JHtml::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
@@ -105,6 +108,9 @@ $saveOrder = $listOrder == 'a.id';
 									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->directive; ?>
+									</td>
+									<td class="d-none d-md-table-cell">
+										<?php echo JText::_('J' . strtoupper($item->client)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->created > 0 ? JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')) : '-'; ?>

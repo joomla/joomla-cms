@@ -232,7 +232,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			$this->app->setHeader(
 				'Content-Security-Policy-Report-Only',
-				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log"
+				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log?client=" . $this->app->getName()
 			);
 
 			return;
@@ -326,7 +326,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		// Get the published infos form the database
 		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(['directive', 'blocked_uri']))
+			->select($this->db->quoteName(['client', 'directive', 'blocked_uri']))
 			->from('#__csp')
 			->where($this->db->quoteName('published') . ' = 1');
 
@@ -348,6 +348,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($rows as $row)
 		{
+			// Handle the client information foreach rule
+			if (!$this->app->isClient($row->client))
+			{
+				continue;
+			}
+
 			// Make sure the directive exists as key
 			if (!isset($cspHeaderCollection[$row->directive]))
 			{

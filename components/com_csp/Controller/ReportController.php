@@ -87,6 +87,7 @@ class ReportController extends BaseController
 
 		$report->created  = $now;
 		$report->modified = $now;
+		$report->client   = (string) $this->app->input->get('client', 'site', 'string');
 
 		if ($this->isEntryExisting($report))
 		{
@@ -120,7 +121,8 @@ class ReportController extends BaseController
 			->select('count(*)')
 			->from('#__csp')
 			->where($db->quoteName('blocked_uri') . '=' . $db->quote($report->blocked_uri))
-			->where($db->quoteName('directive') . '=' . $db->quote($report->directive));
+			->where($db->quoteName('directive') . '=' . $db->quote($report->directive))
+			->where($db->quoteName('site') . '=' . $db->quote($report->site));
 
 		$db->setQuery($query);
 
