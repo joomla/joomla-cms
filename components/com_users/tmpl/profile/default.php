@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<div class="profile">
+<div class="com-users-profile profile">
     <?php if ($this->params->get('show_page_heading')) : ?>
         <div class="page-header">
             <h1>
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
     <?php endif; ?>
 
     <?php if (JFactory::getUser()->id == $this->data->id) : ?>
-        <ul class="btn-toolbar float-right">
+        <ul class="com-users-profile__edit btn-toolbar float-right">
             <li class="btn-group">
                 <a class="btn" href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&user_id=' . (int) $this->data->id); ?>">
                     <span class="icon-user"></span> <?php echo JText::_('COM_USERS_EDIT_PROFILE'); ?>
