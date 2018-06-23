@@ -357,7 +357,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			// Make sure the directive exists as key
+			// Make sure the directive exists as a key
 			if (!isset($cspHeaderCollection[$row->directive]))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys([$row->directive], ''));
