@@ -259,7 +259,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		// In custom mode we compile the header from the values configured
 		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
-		$disableNonce = (int) $this->params->get('disable_nonce', 0);
+		$nonceEnabled = (int) $this->params->get('nonce_enabled', 0);
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -272,7 +272,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// We can only use this if this is a valid entry
 			if (isset($cspValue->directive) && isset($cspValue->value))
 			{
-				if (in_array($cspValue->directive, $this->specialDirectives) && $disableNonce)
+				if (in_array($cspValue->directive, $this->specialDirectives) && $nonceEnabled)
 				{
 					$cspValue->value .= "'nonce-" . $cspNonce . "' " . $cspValue->value;
 				}
@@ -347,7 +347,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
-		$disableNonce        = (int) $this->params->get('disable_nonce', 0);
+		$nonceEnabled        = (int) $this->params->get('nonce_enabled', 0);
 
 		foreach ($rows as $row)
 		{
@@ -381,12 +381,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['script-src']))
+			if (!isset($cspHeaderCollection['script-src']) && $nonceEnabled)
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['style-src']))
+			if (!isset($cspHeaderCollection['style-src']) && $nonceEnabled)
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 			}
@@ -395,7 +395,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
 			// Append the random $nonce for the script and style tags if enabled
-			if (in_array($cspHeaderkey, $this->specialDirectives) && $disableNonce)
+			if (in_array($cspHeaderkey, $this->specialDirectives) && $nonceEnabled)
 			{
 				$cspHeaderValue = "'nonce-" . $nonce . "'" . $cspHeaderValue;
 			}
