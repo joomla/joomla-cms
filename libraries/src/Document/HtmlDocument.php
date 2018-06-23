@@ -254,7 +254,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['scriptText'] as $key => $string)
 			{
-				\JText::script($key, $string);
+				\JText::script($key);
 			}
 		}
 
