@@ -348,11 +348,21 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($rows as $row)
 		{
+			// Make sure the directive exists as key
 			if (!isset($cspHeaderCollection[$row->directive]))
 			{
 				$cspHeaderCollection = array_fill_keys([$row->directive], '');
 			}
-	
+
+			// Eval or inline is whitlisted? Well you have not understand strict
+			// csp but hey we cover you lets make sure they still work
+			if (in_array($row->directive, $this->specialDirectives) 
+				&& in_array($row->blocked_uri, ['eval', 'inline']))
+			{
+				$row->blocked_uri = 'unsafe-' . $row->blocked_uri;
+			}
+
+			// Whiteliste the blocked_uri for the given directive
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
 		}
 
@@ -362,14 +372,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			if (in_array($cspHeaderkey, $this->specialDirectives))
 			{
 				$cspHeaderValue = 'nonce-' . $nonce . $cspHeaderValue;
-			}
-
-			// Eval or inline is whitlisted? Well you have not understand strict
-			// csp but hey we cover you lets make sure they still work
-			if (in_array($cspHeaderkey, $this->specialDirectives) 
-				&& in_array($cspHeaderValue, ['eval', 'inline']))
-			{
-				$cspHeaderValue = 'unsafe-' . $cspHeaderValue;
 			}
 
 			// By default we should whitelist 'self' on any directive
