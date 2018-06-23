@@ -232,7 +232,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			$this->app->setHeader(
 				'Content-Security-Policy-Report-Only',
-				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log?client=" . $this->app->getName()
+				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
 			);
 
 			return;
