@@ -156,7 +156,7 @@ class HtmlView extends BaseHtmlView
 			'a.blocked_uri'  => Text::_('COM_CSP_HEADING_BLOCKED_URI'),
 			'a.document_uri' => Text::_('COM_CSP_HEADING_DOCUMENT_URI'),
 			'a.directive'    => Text::_('COM_CSP_HEADING_DIRECTIVE'),
-			'a.client   '    => Text::_('JCLIENT'),
+			'a.client'       => Text::_('JCLIENT'),
 			'a.id'           => Text::_('JGRID_HEADING_ID'),
 		];
 	}
