@@ -147,7 +147,19 @@
 					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
 					class="switcher"
 					default="1"
-					showon="contentsecuritypolicy:1"
+					showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="disable_nonce"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_DISABLE_NONCE"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_DISABLE_NONCE_DESC"
+					class="switcher"
+					default="0"
+					showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>

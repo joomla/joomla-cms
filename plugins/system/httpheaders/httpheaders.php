@@ -251,12 +251,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				)
 			);
 
-			// When we have no rules we have nothing to set.
-			if (empty($automaticRules))
-			{
-				return;
-			}
-
 			// Set the header
 			$this->app->setHeader($cspHeader, $automaticRules);
 
@@ -264,7 +258,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// In custom mode we compile the header from the values configured
-		$cspValues = $this->params->get('contentsecuritypolicy_values', array());
+		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+		$disableNonce = (int) $this->params->get('disable_nonce', 0);
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -277,7 +272,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// We can only use this if this is a valid entry
 			if (isset($cspValue->directive) && isset($cspValue->value))
 			{
-				if (in_array($cspValue->directive, $this->specialDirectives))
+				if (in_array($cspValue->directive, $this->specialDirectives) && $disableNonce)
 				{
 					$cspValue->value .= "'nonce-" . $cspNonce . "' " . $cspValue->value;
 				}
@@ -352,6 +347,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
+		$disableNonce        = (int) $this->params->get('disable_nonce', 0);
 
 		foreach ($rows as $row)
 		{
@@ -364,7 +360,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Make sure the directive exists as key
 			if (!isset($cspHeaderCollection[$row->directive]))
 			{
-				$cspHeaderCollection = array_fill_keys([$row->directive], '');
+				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys([$row->directive], ''));
 			}
 
 			// Eval or inline lets make sure they still work by adding ' before and after
@@ -377,16 +373,29 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
 		}
 
-		// We should have a default-src rule
-		if (!empty($cspHeaderCollection) && !isset($cspHeaderCollection['default-src']))
+		// We should have a default-src, script-src and style-src rule
+		if (!empty($cspHeaderCollection))
 		{
-			$cspHeaderCollection = array_fill_keys(['default-src'], '');
+			if (!isset($cspHeaderCollection['default-src']))
+			{
+				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
+			}
+
+			if (!isset($cspHeaderCollection['script-src']))
+			{
+				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
+			}
+
+			if (!isset($cspHeaderCollection['style-src']))
+			{
+				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
+			}
 		}
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
-			// Append the random $nonce for the script and style tags
-			if (in_array($cspHeaderkey, $this->specialDirectives))
+			// Append the random $nonce for the script and style tags if enabled
+			if (in_array($cspHeaderkey, $this->specialDirectives) && $disableNonce)
 			{
 				$cspHeaderValue = "'nonce-" . $nonce . "'" . $cspHeaderValue;
 			}
