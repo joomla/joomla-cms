@@ -70,7 +70,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	private $specialDirectives = [
 		'script-src',
-		'style-src'
+		'style-src',
 	];
 
 	/**
@@ -166,7 +166,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Allow the custom csp headers to use the random $cspNonce in the rules
-			if (in_array($httpHeader->key, ['content-security-policy', 'content-security-policy-report-only']))
+			if (in_array(strtolower($httpHeader->key), ['content-security-policy', 'content-security-policy-report-only']))
 			{
 				$httpHeader->value = str_replace('{nonce}', $cspNonce, $httpHeader->value);
 			}
@@ -272,7 +272,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if (in_array($cspValue->directive, $this->specialDirectives))
 				{
-					$cspValue->value .= 'nonce-' . $cspNonce . ' ' . $cspValue->value;
+					$cspValue->value .= "'nonce-" . $cspNonce . "' " . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -369,7 +369,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Append the random $nonce for the script and style tags
 			if (in_array($cspHeaderkey, $this->specialDirectives))
 			{
-				$cspHeaderValue = 'nonce-' . $nonce . $cspHeaderValue;
+				$cspHeaderValue = "'nonce-" . $nonce . "'" . $cspHeaderValue;
 			}
 
 			// By default we should whitelist 'self' on any directive
