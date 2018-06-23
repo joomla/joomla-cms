@@ -126,6 +126,15 @@ class ReportController extends BaseController
 
 		$db->setQuery($query);
 
-		return $db->loadResult() > 0;
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			return false;
+		}
+
+		return $result > 0;
 	}
 }
