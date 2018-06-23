@@ -214,7 +214,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Set the CSP header when enabled
 	 *
-	 * @param  string  $cspNonce  The one time string for the script and style tag
+	 * @param  string  $cspNonce   The one time string for the script and style tag
 	 *
 	 * @return  void
 	 *
@@ -318,7 +318,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Compone the automatic csp header rules based on com_csp / #__csp
 	 *
-	 * @param  string  $nonce  The System nonce used for script and style tags
+	 * @param  string  $nonce   The System nonce used for script and style tags
 	 *
 	 * @return  array  An array containing the csp rules found in com_csp
 	 *
