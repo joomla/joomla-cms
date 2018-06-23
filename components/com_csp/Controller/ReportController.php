@@ -122,7 +122,7 @@ class ReportController extends BaseController
 			->from('#__csp')
 			->where($db->quoteName('blocked_uri') . '=' . $db->quote($report->blocked_uri))
 			->where($db->quoteName('directive') . '=' . $db->quote($report->directive))
-			->where($db->quoteName('site') . '=' . $db->quote($report->site));
+			->where($db->quoteName('client') . '=' . $db->quote($report->client));
 
 		$db->setQuery($query);
 
