@@ -50,7 +50,7 @@ $url = JRoute::_($this->result->route);
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
 		<div class="small result-url">
-			<?php echo $this->baseUrl, $url; ?>
+			<?php echo $this->baseUrl, JRoute::_($this->result->url); ?>
 		</div>
 	<?php endif; ?>
 </li>
