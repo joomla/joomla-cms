@@ -9,16 +9,16 @@
 namespace Joomla\Database\Mysqli;
 
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 use Joomla\Database\Query\LimitableInterface;
 use Joomla\Database\Query\MysqlQueryBuilder;
-use Joomla\Database\Query\PreparableInterface;
 
 /**
  * MySQLi Query Building Class.
  *
  * @since  1.0
  */
-class MysqliQuery extends DatabaseQuery implements LimitableInterface, PreparableInterface
+class MysqliQuery extends DatabaseQuery implements LimitableInterface
 {
 	use MysqlQueryBuilder;
 
@@ -45,6 +45,28 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 	 * @since  1.5.0
 	 */
 	protected $bounded = array();
+
+	/**
+	 * Mapping array for parameter types.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $parameterMapping = [
+		ParameterType::BOOLEAN      => 'i',
+		ParameterType::INTEGER      => 'i',
+		ParameterType::LARGE_OBJECT => 's',
+		ParameterType::NULL         => 's',
+		ParameterType::STRING       => 's',
+	];
+
+	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = ['0000-00-00 00:00:00', '1000-01-01 00:00:00'];
 
 	/**
 	 * Magic function to convert the query to a string.
@@ -103,7 +125,7 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 	 *
 	 * @since   1.5.0
 	 */
-	public function bind($key = null, &$value = null, $dataType = 's', $length = 0, $driverOptions = array())
+	public function bind($key = null, &$value = null, $dataType = ParameterType::STRING, $length = 0, $driverOptions = array())
 	{
 		// Case 1: Empty Key (reset $bounded array)
 		if (empty($key))
@@ -124,9 +146,15 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 			return $this;
 		}
 
+		// Validate parameter type
+		if (!isset($this->parameterMapping[$dataType]))
+		{
+			throw new \InvalidArgumentException(sprintf('Unsupported parameter type `%s`', $dataType));
+		}
+
 		$obj           = new \stdClass;
 		$obj->value    = &$value;
-		$obj->dataType = $dataType;
+		$obj->dataType = $this->parameterMapping[$dataType];
 
 		// Case 3: Simply add the Key/Value into the bounded array
 		$this->bounded[$key] = $obj;

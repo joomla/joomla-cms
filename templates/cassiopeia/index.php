@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,6 @@ use Joomla\CMS\Language\Text;
 
 $app  = Factory::getApplication();
 $lang = Factory::getLanguage();
-
-// Getting params from template
-$params = $app->getTemplate(true)->params;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -71,7 +68,7 @@ else
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
 // Container
-$container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
+$wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
@@ -84,7 +81,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 </head>
 
 <body class="site-grid site <?php echo $option
-	. ' ' . $container
+	. ' ' . $wrapper
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')

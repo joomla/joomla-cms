@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Site\Model;
@@ -65,13 +65,14 @@ class SuggestionsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+		$lang = \FinderIndexerHelper::getPrimaryLanguage($this->getState('language'));
 
 		// Select required fields
 		$query->select('t.term')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
 			->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
 			->where('t.common = 0')
-			->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')')
+			->where('t.language IN (' . $db->quote($lang) . ', ' . $db->quote('*') . ')')
 			->order('t.links DESC')
 			->order('t.weight DESC');
 

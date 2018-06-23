@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,7 +178,7 @@ class CategoryView extends HtmlView
 				$itemElement->event = new \stdClass;
 
 				// For some plugins.
-				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
+				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
 				\JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
@@ -305,12 +305,12 @@ class CategoryView extends HtmlView
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 

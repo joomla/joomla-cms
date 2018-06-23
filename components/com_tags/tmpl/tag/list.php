@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ $n = count($this->items);
 
 ?>
 
-<div class="tag-category">
+<div class="com-tags-tag-list tag-category">
 
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
@@ -32,7 +32,7 @@ $n = count($this->items);
 
 	<?php // We only show a tag description if there is a single tag. ?>
 	<?php if (count($this->item) === 1 && ($this->params->get('tag_list_show_tag_image', 1) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
-		<div class="category-desc">
+		<div class="com-tags-tag-list__description category-desc">
 			<?php $images = json_decode($this->item[0]->images); ?>
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
 				<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8'); ?>">

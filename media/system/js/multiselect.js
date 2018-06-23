@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,12 +93,14 @@ Joomla = window.Joomla || {};
 				row.addEventListener('click', function(event) {
 					var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
 
-					if (!(event.target.id == clicked)) {
-						cbClicked.checked = !cbClicked.checked;
-						Joomla.isChecked(cbClicked.checked);
-					}
+					if (cbClicked) {
+						if (!(event.target.id == clicked)) {
+							cbClicked.checked = !cbClicked.checked;
+							Joomla.isChecked(cbClicked.checked);
+						}
 
-					changeBg(this, cbClicked);
+						changeBg(this, cbClicked);
+					}
 				});
 			});
 		}

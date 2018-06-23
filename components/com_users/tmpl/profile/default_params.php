@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 ?>
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)) : ?>
-	<fieldset id="users-profile-custom">
+	<fieldset id="users-profile-custom" class="com-users-profile__params">
 		<legend><?php echo JText::_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
 		<dl class="dl-horizontal">
 			<?php foreach ($fields as $field) : ?>

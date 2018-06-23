@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Administrator\Model;
@@ -342,13 +342,7 @@ class IndexModel extends ListModel
 		$db->truncateTable('#__finder_links');
 
 		// Truncate the links terms tables.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Get the mapping table suffix.
-			$suffix = dechex($i);
-
-			$db->truncateTable('#__finder_links_terms' . $suffix);
-		}
+		$db->truncateTable('#__finder_links_terms');
 
 		// Truncate the terms table.
 		$db->truncateTable('#__finder_terms');

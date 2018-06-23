@@ -2,61 +2,128 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\Utilities\ArrayHelper;
 
 /**
- * Button base class
+ * The ToolbarButton class.
  *
- * The base class for all toolbar button types
+ * @method self text(string $value)
+ * @method self task(string $value)
+ * @method self icon(string $value)
+ * @method self buttonClass(string $value)
+ * @method self attributes(array $value)
+ * @method self onclick(array $value)
+ * @method string  getText()
+ * @method string  getTask()
+ * @method string  getIcon()
+ * @method string  getButtonClass()
+ * @method array   getAttributes()
+ * @method string  getOnclick()
  *
- * @since  3.0
+ * @since  4.0.0
  */
 abstract class ToolbarButton
 {
 	/**
-	 * element name
+	 * Name of this button.
 	 *
-	 * This has to be set in the final renderer classes.
+	 * @var  string
 	 *
-	 * @var    string
+	 * @since  4.0.0
 	 */
-	protected $_name = null;
+	protected $name;
 
 	/**
-	 * reference to the object that instantiated the element
+	 * Reference to the object that instantiated the element
 	 *
 	 * @var    Toolbar
+	 *
+	 * @since  4.0.0
 	 */
-	protected $_parent = null;
+	protected $parent;
 
 	/**
-	 * Constructor
+	 * The layout path to render this button.
 	 *
-	 * @param   Toolbar  $parent  The parent
+	 * @var  string
+	 *
+	 * @since  4.0.0
 	 */
-	public function __construct(Toolbar $parent = null)
+	protected $layout;
+
+	/**
+	 * Button options.
+	 *
+	 * @var  array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $options = [];
+
+	/**
+	 * Used to track an ids, to avoid duplication
+	 *
+	 * @var    array
+	 *
+	 * @since  4.0.0
+	 */
+	protected static $idCounter = [];
+
+	/**
+	 * Init this class.
+	 *
+	 * @param   string  $name     Name of this button.
+	 * @param   string  $text     The button text, will auto translate.
+	 * @param   array   $options  Button options.
+	 *
+	 * @since  4.0.0
+	 *
+	 * @throws \InvalidArgumentException
+	 */
+	public function __construct(string $name = '', string $text = '', array $options = [])
 	{
-		$this->_parent = $parent;
+		$this->name($name)
+			->text($text);
+
+		$this->options = ArrayHelper::mergeRecursive($this->options, $options);
 	}
 
 	/**
-	 * Get the element name
+	 * Prepare options for this button.
 	 *
-	 * @return  string   type of the parameter
+	 * @param   array  &$options  The options about this button.
 	 *
-	 * @since   3.0
+	 * @return  void
+	 *
+	 * @since  4.0.0
 	 */
-	public function getName()
+	protected function prepareOptions(array &$options)
 	{
-		return $this->_name;
+		$options['name']  = $this->getName();
+		$options['text']  = Text::_($this->getText());
+		$options['class'] = $this->getIcon() ?: $this->fetchIconClass($this->getName());
+		$options['id']    = $this->ensureUniqueId($this->fetchId());
+
+		if (!empty($options['is_child']))
+		{
+			$options['tagName'] = 'a';
+			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
+			$options['attributes']['href'] = '#';
+		}
+		else
+		{
+			$options['tagName'] = 'button';
+			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
+			$options['attributes']['type'] = 'button';
+		}
 	}
 
 	/**
@@ -67,21 +134,74 @@ abstract class ToolbarButton
 	 * @return  string
 	 *
 	 * @since   3.0
+	 *
+	 * @throws \Exception
 	 */
-	public function render(&$definition)
+	public function render(&$definition = null)
 	{
-		/*
-		 * Initialise some variables
-		 */
-		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
+		if ($definition === null)
+		{
+			$action = $this->renderButton($this->options);
+		}
+		// For B/C
+		elseif (is_array($definition))
+		{
+			$action = $this->fetchButton(...$definition);
+		}
+		else
+		{
+			throw new \InvalidArgumentException('Wrong argument: $definition, should be NULL or array.');
+		}
 
 		// Build the HTML Button
-		$options = array();
-		$options['action'] = $action;
-
 		$layout = new FileLayout('joomla.toolbar.base');
 
+		return $layout->render(
+			[
+				'action' => $action,
+				'options' => $this->options
+			]
+		);
+	}
+
+	/**
+	 * Render button HTML.
+	 *
+	 * @param   array  &$options  The button options.
+	 *
+	 * @return  string  The button HTML.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function renderButton(array &$options): string
+	{
+		$this->prepareOptions($options);
+
+		// Prepare custom attributes.
+		unset(
+			$options['attributes']['id'],
+			$options['attributes']['class']
+		);
+
+		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
+		$options['btnClass'] = 'button-' . $this->getName() . ' ' . ($options['btnClass'] ?? '');
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new FileLayout($this->layout);
+
 		return $layout->render($options);
+	}
+
+	/**
+	 * Get the button CSS Id.
+	 *
+	 * @return  string  Button CSS Id
+	 *
+	 * @since   3.0
+	 */
+	protected function fetchId()
+	{
+		return $this->parent->getName() . '-' . $this->getName();
 	}
 
 	/**
@@ -111,6 +231,278 @@ abstract class ToolbarButton
 	 * @return  string
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	abstract public function fetchButton();
+
+	/**
+	 * Get parent toolbar instance.
+	 *
+	 * @return  Toolbar
+	 *
+	 * @since   4.0.0
+	 */
+	public function getParent(): Toolbar
+	{
+		return $this->parent;
+	}
+
+	/**
+	 * Set parent Toolbar instance.
+	 *
+	 * @param   Toolbar  $parent  The parent Toolbar instance to set.
+	 *
+	 * @return  static  Return self to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function setParent(Toolbar $parent): self
+	{
+		$this->parent = $parent;
+
+		return $this;
+	}
+
+	/**
+	 * Get button options.
+	 *
+	 * @return  array
+	 *
+	 * @since  4.0.0
+	 */
+	public function getOptions(): array
+	{
+		return $this->options;
+	}
+
+	/**
+	 * Set all options.
+	 *
+	 * @param   array  $options  The button options.
+	 *
+	 * @return  static  Return self to support chaining.
+	 *
+	 * @since  4.0.0
+	 */
+	public function setOptions(array $options): self
+	{
+		$this->options = $options;
+
+		return $this;
+	}
+
+	/**
+	 * Get single option value.
+	 *
+	 * @param   string  $name     The option name.
+	 * @param   mixed   $default  The default value if this name not exists.
+	 *
+	 * @return  mixed
+	 *
+	 * @since  4.0.0
+	 */
+	public function getOption(string $name, $default = null)
+	{
+		return $this->options[$name] ?? $default;
+	}
+
+	/**
+	 * Set option value.
+	 *
+	 * @param   string  $name   The option name to store value.
+	 * @param   mixed   $value  The option value.
+	 *
+	 * @return  static
+	 *
+	 * @since  4.0.0
+	 */
+	public function setOption(string $name, $value): self
+	{
+		$this->options[$name] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get button name.
+	 *
+	 * @return  string
+	 *
+	 * @since  4.0.0
+	 */
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	/**
+	 * Set button name.
+	 *
+	 * @param   string  $name  The button name.
+	 *
+	 * @return  static  Return self to support chaining.
+	 *
+	 * @since  4.0.0
+	 */
+	public function name(string $name): self
+	{
+		$this->name = $name;
+
+		return $this;
+	}
+
+	/**
+	 * Get layout path.
+	 *
+	 * @return  string
+	 *
+	 * @since  4.0.0
+	 */
+	public function getLayout(): string
+	{
+		return $this->layout;
+	}
+
+	/**
+	 * Set layout path.
+	 *
+	 * @param   string  $layout  The layout path name to render.
+	 *
+	 * @return  static  Return self to support chaining.
+	 *
+	 * @since  4.0.0
+	 */
+	public function layout(string $layout): self
+	{
+		$this->layout = $layout;
+
+		return $this;
+	}
+
+	/**
+	 * Make sure the id is unique
+	 *
+	 * @param   string  $id  The id string.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	protected function ensureUniqueId(string $id): string
+	{
+		if (array_key_exists($id, static::$idCounter))
+		{
+			static::$idCounter[$id]++;
+
+			$id .= static::$idCounter[$id];
+		}
+		else
+		{
+			static::$idCounter[$id] = 0;
+		}
+
+		return $id;
+	}
+
+	/**
+	 * Magiix method to adapt option accessors.
+	 *
+	 * @param   string  $name  The method name.
+	 * @param   array   $args  The method arguments.
+	 *
+	 * @return  mixed
+	 *
+	 * @throws \LogicException
+	 *
+	 * @since  4.0.0
+	 */
+	public function __call(string $name, array $args)
+	{
+		// Getter
+		if (stripos($name, 'get') === 0)
+		{
+			$fieldName = static::findOptionName(lcfirst(substr($name, 3)));
+
+			if ($fieldName !== false)
+			{
+				return $this->getOption($fieldName);
+			}
+		}
+		// Setter
+		else
+		{
+			$fieldName = static::findOptionName($name);
+
+			if ($fieldName !== false)
+			{
+				if (!array_key_exists(0, $args))
+				{
+					throw new \InvalidArgumentException(
+						sprintf(
+							'%s::%s() miss first argument.',
+							get_called_class(),
+							$name
+						)
+					);
+				}
+
+				return $this->setOption($fieldName, $args[0]);
+			}
+		}
+
+		throw new \BadMethodCallException(
+			sprintf(
+				'Method %s() not found in class: %s',
+				$name,
+				get_called_class()
+			)
+		);
+	}
+
+	/**
+	 * Find field option name from accessors.
+	 *
+	 * @param   string  $name  The field name.
+	 *
+	 * @return  boolean|string
+	 *
+	 * @since  4.0.0
+	 */
+	private static function findOptionName(string $name)
+	{
+		$accessors = static::getAccessors();
+
+		if (\in_array($name, $accessors, true))
+		{
+			return $accessors[array_search($name, $accessors, true)];
+		}
+
+		// Getter with alias
+		if (isset($accessors[$name]))
+		{
+			return $accessors[$name];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to configure available option accessors.
+	 *
+	 * @return  array
+	 *
+	 * @since  4.0.0
+	 */
+	protected static function getAccessors(): array
+	{
+		return [
+			'text',
+			'task',
+			'icon',
+			'attributes',
+			'onclick',
+			'buttonClass' => 'button_class'
+		];
+	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php if ($this->params->get('filter_field') !== 'hide' && $this->params->get('filter_field') == '1') : ?>
                     <div class="btn-group">
                         <label class="filter-search-lbl sr-only" for="filter-search">
-                            <span class="label label-warning">
+                            <span class="badge badge-warning">
                                 <?php echo JText::_('JUNPUBLISHED'); ?>
                             </span>
                             <?php echo JText::_('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
@@ -61,7 +61,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</div>
 				</span>
 				<?php if ($this->items[$i]->published == 0) : ?>
-					<span class="label label-warning">
+					<span class="badge badge-warning">
 						<?php echo JText::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php endif; ?>

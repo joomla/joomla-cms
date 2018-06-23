@@ -8,12 +8,14 @@
 
 namespace Joomla\Database;
 
+use Joomla\Database\Query\PreparableInterface;
+
 /**
  * Joomla Framework Query Building Interface.
  *
  * @since  __DEPLOY_VERSION__
  */
-interface QueryInterface
+interface QueryInterface extends PreparableInterface
 {
 	/**
 	 * Convert the query object to a string.
@@ -376,6 +378,20 @@ interface QueryInterface
 	public function nullDate($quoted = true);
 
 	/**
+	 * Generate a SQL statement to check if column represents a zero or null datetime.
+	 *
+	 * Usage:
+	 * $query->where($query->isNullDatetime('modified_date'));
+	 *
+	 * @param   string  $column  A column name.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isNullDatetime($column);
+
+	/**
 	 * Add an ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
@@ -518,6 +534,21 @@ interface QueryInterface
 	public function where($conditions, $glue = 'AND');
 
 	/**
+	 * Add a WHERE IN statement to the query
+	 *
+	 * Usage:
+	 * $query->whereIn('id', [1, 2, 3]);
+	 *
+	 * @param   string $keyName   A string representing the key name for the where clause
+	 * @param   array  $keyValues The array of values to be matched
+	 *
+	 * @return  $this
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function whereIn($keyName, $keyValues);
+
+	/**
 	 * Extend the WHERE clause with a single condition or an array of conditions, with a potentially different logical operator from the one in the
 	 * current WHERE clause.
 	 *
@@ -537,39 +568,66 @@ interface QueryInterface
 
 	/**
 	 * Add a query to UNION with the current query.
-	 * Multiple unions each require separate statements and create an array of unions.
 	 *
 	 * Usage:
 	 * $query->union('SELECT name FROM  #__foo')
-	 * $query->union('SELECT name FROM  #__foo','distinct')
-	 * $query->union(array('SELECT name FROM  #__foo', 'SELECT name FROM  #__bar'))
+	 * $query->union('SELECT name FROM  #__foo', true)
 	 *
-	 * @param   QueryInterface|string  $query     The QueryInterface object or string to union.
-	 * @param   boolean                $distinct  True to only return distinct rows from the union.
-	 * @param   string                 $glue      The glue by which to join the conditions.
+	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
+	 * @param   boolean               $distinct  True to only return distinct rows from the union.
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0
 	 */
-	public function union($query, $distinct = false, $glue = '');
+	public function union($query, $distinct = true);
 
 	/**
 	 * Add a query to UNION ALL with the current query.
-	 * Multiple unions each require separate statements and create an array of unions.
 	 *
 	 * Usage:
-	 * $query->union('SELECT name FROM  #__foo')
-	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
+	 * $query->unionAll('SELECT name FROM  #__foo')
 	 *
-	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
-	 * @param   boolean               $distinct  Not used - ignored.
-	 * @param   string                $glue      The glue by which to join the conditions.
+	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string to union.
 	 *
 	 * @return  $this
 	 *
 	 * @see     union
+	 * @since   1.5.0
+	 */
+	public function unionAll($query);
+
+	/**
+	 * Set a single query to the query set.
+	 * On this type of DatabaseQuery you can use union(), unioAll(), order() and setLimit()
+	 *
+	 * Usage:
+	 * $query->querySet($query2->select('name')->from('#__foo')->order('id DESC')->setLimit(1))
+	 *       ->unionAll($query3->select('name')->from('#__foo')->order('id')->setLimit(1))
+	 *       ->order('name')
+	 *       ->setLimit(1)
+	 *
+	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string.
+	 *
+	 * @return  $this
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function unionAll($query, $distinct = false, $glue = '');
+	public function querySet($query);
+
+	/**
+	 * Create a DatabaseQuery object of type querySet from current query.
+	 *
+	 * Usage:
+	 * $query->select('name')->from('#__foo')->order('id DESC')->setLimit(1)
+	 *       ->toQuerySet()
+	 *       ->unionAll($query2->select('name')->from('#__foo')->order('id')->setLimit(1))
+	 *       ->order('name')
+	 *       ->setLimit(1)
+	 *
+	 * @return  DatabaseQuery  A new object of the DatabaseQuery.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function toQuerySet();
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,7 @@ $filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-vi
 // Load search tools
 HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 ?>
-<div class="js-stools clearfix">
+<div class="js-stools clearfix" role="search">
 	<div class="clearfix">
 		<?php if ($data['options']['showSelector']) : ?>
 		<div class="js-stools-container-selector">

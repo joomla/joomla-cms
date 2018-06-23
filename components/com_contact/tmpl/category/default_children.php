@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 $class = ' class="first"';
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 ?>
-<ul class="list-striped list-condensed">
+<ul class="com-contact-category__children list-striped list-condensed">
 <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 	<?php
 	if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :

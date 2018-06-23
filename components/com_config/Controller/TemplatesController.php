@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Controller\Style;
+use Joomla\Component\Templates\Administrator\Controller\StyleController;
 
 /**
  * Component Controller
@@ -68,6 +69,8 @@ class TemplatesController extends BaseController
 		if (!\JSession::checkToken())
 		{
 			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'));
+
+			return false;
 		}
 
 		// Check if the user is authorized to do this.
@@ -75,7 +78,7 @@ class TemplatesController extends BaseController
 		{
 			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'));
 
-			return;
+			return false;
 		}
 
 		// Set FTP credentials, if given.
@@ -84,13 +87,10 @@ class TemplatesController extends BaseController
 		$app = $this->app;
 
 		// Access backend com_templates
-		\JLoader::register('TemplatesControllerStyle', JPATH_ADMINISTRATOR . '/components/com_templates/controllers/style.php');
-		\JLoader::register('TemplatesModelStyle', JPATH_ADMINISTRATOR . '/components/com_templates/models/style.php');
-		\JLoader::register('TemplatesTableStyle', JPATH_ADMINISTRATOR . '/components/com_templates/tables/style.php');
-		$controllerClass = new Style;
+		$controllerClass = $app->bootComponent('com_templates')->createMVCFactory($app)->createController('Style', 'Administrator');
 
 		// Get a document object
-		$document = \JFactory::getDocument();
+		$document = $app->getDocument();
 
 		// Set backend required params
 		$document->setType('json');
@@ -120,8 +120,10 @@ class TemplatesController extends BaseController
 		// Set the success message.
 		$message = \JText::_('COM_CONFIG_SAVE_SUCCESS');
 
+		$this->setMessage($message);
+
 		// Redirect back to com_config display
-		$app->redirect(\JRoute::_('index.php?option=com_config&view=templates', false), $message);
+		$this->redirect(\JRoute::_('index.php?option=com_config&view=templates', false));
 
 		return true;
 	}

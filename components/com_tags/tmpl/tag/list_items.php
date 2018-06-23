@@ -3,39 +3,36 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::_('behavior.core');
+
+HTMLHelper::_('script', 'com_tags/tag-list.js', ['relative' => true, 'version' => 'auto']);
 
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-
-JFactory::getDocument()->addScriptDeclaration("
-		var resetFilter = function() {
-		document.getElementById('filter-search').value = '';
-	}
-");
-
 ?>
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-tags-tag-list__items">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<fieldset class="filters d-flex justify-content-between mb-3">
+		<fieldset class="com-tags-tag-list__filters filters d-flex justify-content-between mb-3">
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="input-group">
 					<label class="filter-search-lbl sr-only" for="filter-search">
 						<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 					</label>
-					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
+					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 					<span class="input-group-append">
-						<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn btn-secondary">
+						<button type="submit" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
 							<span class="fa fa-search" aria-hidden="true"></span>
 						</button>
-						<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary" onclick="resetFilter(); document.adminForm.submit();">
+						<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
 							<span class="fa fa-times" aria-hidden="true"></span>
 						</button>
 					</span>
@@ -60,7 +57,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php if ($this->items === false || $n === 0) : ?>
 		<p><?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
-		<table class="category table table-striped table-bordered table-hover">
+		<table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
 			<?php if ($this->params->get('show_headings')) : ?>
 				<thead>
 					<tr>
@@ -118,7 +115,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php // Add pagination links ?>
 	<?php if (!empty($this->items)) : ?>
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-			<div class="w-100">
+			<div class="com-tags-tag-list__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 					<p class="counter float-right pt-3 pr-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>

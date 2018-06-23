@@ -10,8 +10,8 @@ namespace Joomla\Database\Sqlsrv;
 
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 use Joomla\Database\Query\LimitableInterface;
-use Joomla\Database\Query\PreparableInterface;
 use Joomla\Database\Query\QueryElement;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Database\Query\QueryElement;
  *
  * @since  1.0
  */
-class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
+class SqlsrvQuery extends DatabaseQuery implements LimitableInterface
 {
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names, etc.
@@ -49,6 +49,30 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 	protected $bounded = array();
 
 	/**
+	 * The offset for the result set.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $offset;
+
+	/**
+	 * The limit for the result set.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $limit;
+
+	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = ['1900-01-01 00:00:00'];
+
+	/**
 	 * Magic function to convert the query to a string.
 	 *
 	 * @return  string  The completed query.
@@ -57,6 +81,12 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 	 */
 	public function __toString()
 	{
+		// For the moment if we are given a query string we can't effectively process limits, fix this later
+		if ($this->sql)
+		{
+			return $this->sql;
+		}
+
 		$query = '';
 
 		switch ($this->type)
@@ -99,6 +129,46 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 					{
 						$query .= (string) $this->having;
 					}
+
+					if ($this->merge)
+					{
+						// Special case for merge
+						foreach ($this->merge as $idx => $element)
+						{
+							$query .= (string) $element . ' AS merge_' . (int) ($idx + 1);
+						}
+					}
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+				else
+				{
+					$query .= PHP_EOL . '/*ORDER BY (SELECT 0)*/';
+				}
+
+				$query = $this->processLimit($query, $this->limit, $this->offset);
+
+				break;
+
+			case 'querySet':
+				$query = $this->querySet;
+
+				if ($query->order || $query->limit || $query->offset)
+				{
+					// If ORDER BY or LIMIT statement exist then parentheses is required for the first query
+					$query = PHP_EOL . "SELECT * FROM ($query) AS merge_0";
+				}
+
+				if ($this->merge)
+				{
+					// Special case for merge
+					foreach ($this->merge as $idx => $element)
+					{
+						$query .= (string) $element . ' AS merge_' . (int) ($idx + 1);
+					}
 				}
 
 				if ($this->order)
@@ -106,10 +176,7 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 					$query .= (string) $this->order;
 				}
 
-				if ($this instanceof LimitableInterface && ($this->limit > 0 || $this->offset > 0))
-				{
-					$query = $this->processLimit($query, $this->limit, $this->offset);
-				}
+				$query = $this->processLimit($query, $this->limit, $this->offset);
 
 				break;
 
@@ -244,7 +311,7 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 	 *
 	 * @since   1.5.0
 	 */
-	public function bind($key = null, &$value = null, $dataType = 's', $length = 0, $driverOptions = array())
+	public function bind($key = null, &$value = null, $dataType = ParameterType::STRING, $length = 0, $driverOptions = array())
 	{
 		// Case 1: Empty Key (reset $bounded array)
 		if (empty($key))
@@ -265,8 +332,9 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 			return $this;
 		}
 
-		$obj        = new \stdClass;
-		$obj->value = &$value;
+		$obj           = new \stdClass;
+		$obj->value    = &$value;
+		$obj->dataType = $dataType;
 
 		// Case 3: Simply add the Key/Value into the bounded array
 		$this->bounded[$key] = $obj;
@@ -1160,5 +1228,98 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Method to modify a query already in string format with the needed additions to make the query limited to a particular number of
+	 * results, or start at a particular offset.
+	 *
+	 * @param   string   $query   The query in string format
+	 * @param   integer  $limit   The limit for the result set
+	 * @param   integer  $offset  The offset for the result set
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function processLimit($query, $limit, $offset = 0)
+	{
+		if ($offset > 0)
+		{
+			// Find a position of the last comment
+			$commentPos = strrpos($query, '/*ORDER BY (SELECT 0)*/');
+
+			// If the last comment belongs to this query, not previous subquery
+			if ($commentPos !== false && $commentPos + 2 === strripos($query, 'ORDER BY', $commentPos + 2))
+			{
+				// We can not use OFFSET without ORDER BY
+				$query = substr_replace($query, 'ORDER BY (SELECT 0)', $commentPos, 23);
+			}
+
+			$query .= PHP_EOL . 'OFFSET ' . (int) $offset . ' ROWS';
+
+			if ($limit > 0)
+			{
+				$query .= PHP_EOL . 'FETCH NEXT ' . (int) $limit . ' ROWS ONLY';
+			}
+		}
+		elseif ($limit > 0)
+		{
+			$position = stripos($query, 'SELECT');
+			$distinct = stripos($query, 'SELECT DISTINCT');
+
+			if ($position === $distinct)
+			{
+				$query = substr_replace($query, 'SELECT DISTINCT TOP ' . (int) $limit, $position, 15);
+			}
+			else
+			{
+				$query = substr_replace($query, 'SELECT TOP ' . (int) $limit, $position, 6);
+			}
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Sets the offset and limit for the result set, if the database driver supports it.
+	 *
+	 * Usage:
+	 * $query->setLimit(100, 0); (retrieve 100 rows, starting at first record)
+	 * $query->setLimit(50, 50); (retrieve 50 rows, starting at 50th record)
+	 *
+	 * @param   integer  $limit   The limit for the result set
+	 * @param   integer  $offset  The offset for the result set
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setLimit($limit = 0, $offset = 0)
+	{
+		$this->limit  = (int) $limit;
+		$this->offset = (int) $offset;
+
+		return $this;
+	}
+
+	/**
+	 * Add a query to UNION with the current query.
+	 *
+	 * Usage:
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union('SELECT name FROM  #__foo', true)
+	 *
+	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
+	 * @param   boolean               $distinct  True to only return distinct rows from the union.
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0
+	 */
+	public function union($query, $distinct = true)
+	{
+		// Set up the name with parentheses, the DISTINCT flag is redundant
+		return $this->merge($distinct ? 'UNION SELECT * FROM ()' : 'UNION ALL SELECT * FROM ()', $query);
 	}
 }

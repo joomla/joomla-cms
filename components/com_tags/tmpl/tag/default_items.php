@@ -3,15 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 JHtml::_('behavior.core');
+
+HTMLHelper::_('script', 'com_tags/tag-default.js', ['relative' => true, 'version' => 'auto']);
 
 // Get the user object.
 $user = JFactory::getUser();
@@ -23,28 +27,21 @@ $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $items        = $this->items;
 $n            = count($this->items);
-
-JFactory::getDocument()->addScriptDeclaration("
-		var resetFilter = function() {
-		document.getElementById('filter-search').value = '';
-	}
-");
-
 ?>
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-tags-tag__items">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<fieldset class="filters d-flex justify-content-between mb-3">
+		<fieldset class="com-tags-tag__filters filters d-flex justify-content-between mb-3">
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="input-group">
 					<label class="filter-search-lbl sr-only" for="filter-search">
 						<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 					</label>
-					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
+					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 					<span class="input-group-append">
-						<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn btn-secondary">
+						<button type="submit" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
 							<span class="fa fa-search" aria-hidden="true"></span>
 						</button>
-						<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary" onclick="resetFilter(); document.adminForm.submit();">
+						<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
 							<span class="fa fa-times" aria-hidden="true"></span>
 						</button>
 					</span>
@@ -69,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php if ($this->items === false || $n === 0) : ?>
 		<p><?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
-		<ul class="category list-group">
+		<ul class="com-tags-tag__category category list-group">
 			<?php foreach ($items as $i => $item) : ?>
 				<?php if ($item->core_state == 0) : ?>
 					<li class="list-group-item-danger">
