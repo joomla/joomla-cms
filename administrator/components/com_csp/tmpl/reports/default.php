@@ -55,10 +55,10 @@ $saveOrder = $listOrder == 'a.id';
 					<table class="table table-striped" id="articleList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="text-center">
+								<th class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center">
+								<th class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th>
@@ -76,7 +76,7 @@ $saveOrder = $listOrder == 'a.id';
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

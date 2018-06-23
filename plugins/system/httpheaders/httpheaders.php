@@ -251,6 +251,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				)
 			);
 
+			// When we have no rules we have nothing to set.
+			if (empty($automaticRules))
+			{
+				return;
+			}
+
 			// Set the header
 			$this->app->setHeader($cspHeader, $automaticRules);
 
