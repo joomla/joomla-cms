@@ -10,12 +10,8 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Installer\Installer;
 use Joomla\Console\AbstractCommand;
-use Joomla\CMS\Installer\InstallerHelper;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Console command for installing the Joomla CMS
@@ -83,4 +79,5 @@ class CoreInstallCommand extends AbstractCommand
 
 		$this->setHelp($help);
 	}
+
 }
