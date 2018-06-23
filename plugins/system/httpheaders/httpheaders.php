@@ -238,26 +238,27 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		$cspReadOnly = (int) $this->params->get('contentsecuritypolicy_report_only', 1);
+		$cspHeader   = $cspReadOnly === 0 ? 'content-security-policy' : 'content-security-policy-report-only';
+
 		// In automatic mode we compile the automatic header values and append it to the header
 		if ($cspMode === 'auto')
 		{
-			$this->app->setHeader(
-				'Content-Security-Policy',
-				trim(
-					implode(
-						'; ',
-						$this->compileAutomaticCspHeaderRules($cspNonce)
-					)
+			$automaticRules = trim(
+				implode(
+					'; ',
+					$this->compileAutomaticCspHeaderRules($cspNonce)
 				)
 			);
+
+			// Set the header
+			$this->app->setHeader($cspHeader, $automaticRules);
 
 			return;
 		}
 
 		// In custom mode we compile the header from the values configured
-		$cspValues   = $this->params->get('contentsecuritypolicy_values', array());
-		$cspReadOnly = (int) $this->params->get('contentsecuritypolicy_report_only', 0);
-		$csp         = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+		$cspValues = $this->params->get('contentsecuritypolicy_values', array());
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -284,7 +285,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$this->app->setHeader($csp, trim(implode('; ', $newCspValues)));
+		$this->app->setHeader($cspHeader, trim(implode('; ', $newCspValues)));
 	}
 
 	/**
@@ -346,9 +347,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
 
-		// We should have at minimum a default-src rule
-		$cspHeaderCollection = array_fill_keys(['default-src'], '');
-
 		foreach ($rows as $row)
 		{
 			// Handle the client information foreach rule
@@ -371,6 +369,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			// Whiteliste the blocked_uri for the given directive
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
+		}
+
+		// We should have a default-src rule
+		if (!empty($cspHeaderCollection) && !isset($cspHeaderCollection['default-src']))
+		{
+			$cspHeaderCollection = array_fill_keys(['default-src'], '');
 		}
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)

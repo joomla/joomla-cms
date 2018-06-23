@@ -146,8 +146,8 @@
 					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY"
 					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
 					class="switcher"
-					default="0"
-					showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
+					default="1"
+					showon="contentsecuritypolicy:1"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
