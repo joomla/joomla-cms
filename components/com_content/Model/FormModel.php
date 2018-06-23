@@ -87,7 +87,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		}
 
 		$properties = $table->getProperties(1);
-		$value = ArrayHelper::toObject($properties, 'CMSObject::class');
+		$value = ArrayHelper::toObject($properties, CMSObject::class);
 
 		// Convert attrib field to Registry.
 		$value->params = new Registry($value->attribs);
