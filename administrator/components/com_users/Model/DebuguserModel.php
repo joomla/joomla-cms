@@ -118,7 +118,7 @@ class DebuguserModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @throws \Exception
+	 * @throws  \Exception
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{

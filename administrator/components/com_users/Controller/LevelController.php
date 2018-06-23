@@ -16,7 +16,6 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
-
 /**
  * User view level controller class.
  *

@@ -171,7 +171,7 @@ class LevelModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
-	 * @throws \Exception
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{

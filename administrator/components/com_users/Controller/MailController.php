@@ -15,7 +15,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Text;
 
-
 /**
  * Users mail controller.
  *
