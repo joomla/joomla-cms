@@ -351,7 +351,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($rows as $row)
 		{
-			// Handle the client information foreach rule
+			// Handle the client information for each rule
 			if (!$this->app->isClient($row->client))
 			{
 				continue;
