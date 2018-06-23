@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space
 ?>
-<div class="blog-featured">
+<div class="com-contact-featured blog-featured">
 <?php if ($this->params->get('show_page_heading') != 0 ) : ?>
 	<h1>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -24,7 +24,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php echo $this->loadTemplate('items'); ?>
 
 <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
-	<div class="w-100">
+	<div class="com-contact-featured__pagination w-100">
 		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 			<p class="counter float-right pt-3 pr-2">
 				<?php echo $this->pagination->getPagesCounter(); ?>
