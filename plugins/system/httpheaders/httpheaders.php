@@ -272,7 +272,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if (in_array($cspValue->directive, $this->specialDirectives))
 				{
-					$cspValue->value = 'nonce-' . $cspNonce . ' ' . $cspValue->value;
+					$cspValue->value .= 'nonce-' . $cspNonce . ' ' . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
