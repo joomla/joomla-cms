@@ -363,13 +363,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys([$row->directive], ''));
 			}
 
-			// Eval or inline lets make sure they still work by adding ' before and after
+			// Eval or inline lets us make sure they still work by adding ' before and after
 			if (in_array($row->blocked_uri, ['unsafe-eval', 'unsafe-inline']))
 			{
 				$row->blocked_uri = "'$row->blocked_uri'";
 			}
 
-			// Whiteliste the blocked_uri for the given directive
+			// Whitelist the blocked_uri for the given directive
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
 		}
 
