@@ -64,6 +64,12 @@ class ReportController extends BaseController
 			$report->blocked_uri = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
 		}
 
+		// Eval or inline lets make sure they get reported in the correct way
+		if (in_array($report->blocked_uri, ['eval', 'inline']))
+		{
+			$report->blocked_uri = "'unsafe-' . $report->blocked_uri";
+		}
+
 		$report->directive = $data['violated-directive'];
 
 		if (empty($data['violated-directive']) && !empty($data['effective-directive']))

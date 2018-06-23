@@ -354,12 +354,10 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_fill_keys([$row->directive], '');
 			}
 
-			// Eval or inline is whitelisted? Well you have not understand strict
-			// csp but hey we cover you lets make sure they still work
-			if (in_array($row->directive, $this->specialDirectives) 
-				&& in_array($row->blocked_uri, ['eval', 'inline']))
+			// Eval or inline lets make sure they still work by adding ' before and after
+			if (in_array($row->blocked_uri, ['unsafe-eval', 'unsafe-inline']))
 			{
-				$row->blocked_uri = 'unsafe-' . $row->blocked_uri;
+				$row->blocked_uri = "'$row->blocked_uri'";
 			}
 
 			// Whiteliste the blocked_uri for the given directive
