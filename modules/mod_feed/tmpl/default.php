@@ -18,7 +18,7 @@ if (!empty($feed) && is_string($feed))
 else
 {
 	$lang      = JFactory::getLanguage();
-	$myrtl     = $params->get('rssrtl');
+	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 
 	$isRtl = $lang->isRtl();
@@ -88,7 +88,7 @@ else
 	<?php if (!empty($feed))
 	{ ?>
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
+		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
 			<?php
 				$uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
 				$uri  = !$uri || stripos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
@@ -103,7 +103,7 @@ else
 						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
 					<?php endif; ?>
 
-					<?php if ($params->get('rssitemdesc') && $text !== '') : ?>
+					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.

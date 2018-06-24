@@ -41,6 +41,7 @@
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 					>
 					<option value="">JCURRENT</option>
 				</field>
@@ -51,6 +52,7 @@
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
 					description="MOD_MENU_FIELD_STARTLEVEL_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -70,6 +72,7 @@
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
 					description="MOD_MENU_FIELD_ENDLEVEL_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -91,6 +94,7 @@
 					description="MOD_MENU_FIELD_ALLCHILDREN_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -140,6 +144,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -151,6 +156,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 
 				<field
