@@ -108,7 +108,7 @@ else
 						<?php
 							// Strip the images.
 							$text = JFilterOutput::stripImages($text);
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+							$text = JHtml::_('string.truncate', $text, $params->get('word_count', 0));
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>
