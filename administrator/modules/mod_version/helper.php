@@ -27,7 +27,7 @@ abstract class ModVersionHelper
 	{
 		$version     = new JVersion;
 		$versionText = $version->getShortVersion();
-		$product     = $params->get('product', 0);
+		$product     = $params->get('product', 1);
 
 		if ($params->get('format', 'short') === 'long')
 		{
