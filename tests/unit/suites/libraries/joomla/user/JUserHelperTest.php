@@ -350,6 +350,29 @@ class JUserHelperTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Testing hashPassword() for argon2id hashing support.
+	 *
+	 * @covers  JUserHelper::hashPassword
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @requires  PHP 7.3
+	 */
+	public function testHashPasswordArgon2id()
+	{
+		if (!defined('PASSWORD_ARGON2ID'))
+		{
+			$this->markTestSkipped('Argon2id algorithm not supported.');
+		}
+
+		$this->assertEquals(
+			strpos(JUserHelper::hashPassword('mySuperSecretPassword', PASSWORD_ARGON2ID), '$argon2id'),
+			0,
+			'The password is hashed using the specified hashing algorithm'
+		);
+	}
+
+	/**
 	 * Testing verifyPassword().
 	 *
 	 * @covers  JUserHelper::verifyPassword
