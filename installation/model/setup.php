@@ -444,9 +444,9 @@ class InstallationModelSetup extends JModelBase
 		// Check the validation results.
 		if ($return === false)
 		{
+			// Get the validation messages from the form.
 			$messages = array_reverse($form->getErrors());
 
-			// Get the validation messages from the form.
 			foreach ($messages as $message)
 			{
 				if ($message instanceof Exception)
