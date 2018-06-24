@@ -59,7 +59,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 
 	/**
 	 * Returns the display name of the provider
-	 *if ($this->params->get('display_name', 1) == 1)
+	 *
 	 * @return string
 	 *
 	 * @since  4.0.0
