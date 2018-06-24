@@ -163,6 +163,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid', 0)); ?>
 	</div>
 </form>
