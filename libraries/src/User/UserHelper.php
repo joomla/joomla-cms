@@ -353,6 +353,16 @@ abstract class UserHelper
 
 			$passwordAlgorithm = PASSWORD_ARGON2I;
 		}
+		// Check for Argon2id hashes
+		elseif (strpos($hash, '$argon2id') === 0)
+		{
+			// This implementation is not supported through any existing polyfills
+			$match = password_verify($password, $hash);
+
+			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2ID);
+
+			$passwordAlgorithm = PASSWORD_ARGON2ID;
+		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
 		{
