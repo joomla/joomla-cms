@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * FileSystem Local plugin.
@@ -58,14 +59,21 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 
 	/**
 	 * Returns the display name of the provider
-	 *
+	 *if ($this->params->get('display_name', 1) == 1)
 	 * @return string
 	 *
 	 * @since  4.0.0
 	 */
 	public function getDisplayName()
 	{
-		return $this->params->get('display_name', 'Local');
+		if ($this->params->get('display_name', 1) == 2 && str_replace(' ', '', $this->params->get('display_custom_name', 'Local')) != '')
+		{
+			return $this->params->get('display_custom_name');
+		}
+		else
+		{
+			return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+		}
 	}
 
 	/**
