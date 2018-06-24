@@ -39,6 +39,9 @@ abstract class ModLatestActionsHelper
 
 		$rows = $model->getItems();
 
+		// Load all actionlog plugins language files
+		ActionlogsHelper::loadActionLogPluginsLanguage();
+
 		foreach ($rows as $row)
 		{
 			$row->message = ActionlogsHelper::getHumanReadableLogMessage($row);
