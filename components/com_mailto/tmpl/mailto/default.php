@@ -78,7 +78,7 @@ $data = $this->get('data');
 			<button type="button" class="com-mailto__cancel btn btn-danger close-mailto">
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
-			<button type="submit" class="com-mailto__send btn btn-success">
+			<button type="submit" class="com-mailto__submit com-mailto__send btn btn-success">
 				<?php echo JText::_('COM_MAILTO_SEND'); ?>
 			</button>
 		</div>
