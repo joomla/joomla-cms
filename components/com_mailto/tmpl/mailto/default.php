@@ -74,11 +74,11 @@ $data = $this->get('data');
 				<input type="text" id="subject_field" name="subject" class="form-control" value="<?php echo $this->escape($data->subject); ?>">
 			</div>
 		</div>
-		<div class="com-mailto__buttons control-group">
+		<div class="com-mailto__submit control-group">
 			<button type="button" class="com-mailto__cancel btn btn-danger close-mailto">
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
-			<button type="submit" class="com-mailto__submit com-mailto__send btn btn-success">
+			<button type="submit" class="com-mailto__send btn btn-success">
 				<?php echo JText::_('COM_MAILTO_SEND'); ?>
 			</button>
 		</div>
