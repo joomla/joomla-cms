@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
 
-		 \JToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
