@@ -66,7 +66,7 @@ class NoteTable extends Table
 			$this->created_time = $date;
 
 			// Field modified_user_id does not have a default value!!!
-			$this->modified_user_id = null;
+			$this->modified_user_id = 0;
 			$this->created_user_id = $userId;
 		}
 
