@@ -19,7 +19,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 </h1>
 </div>
 <?php endif; ?>
-<form id="adminForm" action="<?php echo JRoute::_('index.php?option=com_content&view=archive'); ?>" method="post" class="form-inline">
+<form id="adminForm" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
 	<fieldset class="filters">
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
@@ -32,6 +32,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php echo $this->form->limitField; ?>
 
 		<button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo JText::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+		<input type="hidden" name="view" value="archive">
+		<input type="hidden" name="option" value="com_content">
 		<input type="hidden" name="limitstart" value="0">
 	</div>
 	<br>
