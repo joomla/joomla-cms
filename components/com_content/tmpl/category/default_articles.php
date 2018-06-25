@@ -35,10 +35,10 @@ if (!empty($this->items))
 }
 ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-content-category__articles form-inline">
 
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
-	<fieldset class="filters btn-toolbar clearfix">
+	<fieldset class="com-content-category__filters filters btn-toolbar clearfix">
 		<legend class="hidden-xs-up"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
@@ -56,7 +56,7 @@ if (!empty($this->items))
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="btn-group float-right">
+			<div class="com-content-category__pagination btn-group float-right">
 				<label for="limit" class="sr-only">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
@@ -70,7 +70,7 @@ if (!empty($this->items))
 		<input type="hidden" name="task" value="">
 	</fieldset>
 
-	<div class="control-group hidden-xs-up float-right">
+	<div class="com-content-category__filter-submit control-group hidden-xs-up float-right">
 		<div class="controls">
 			<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
 		</div>
@@ -79,11 +79,11 @@ if (!empty($this->items))
 
 <?php if (empty($this->items)) : ?>
 	<?php if ($this->params->get('show_no_articles', 1)) : ?>
-		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+		<p class="com-content-category__no-articles"><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 	<?php endif; ?>
 <?php else : ?>
 
-	<table class="category table table-striped table-bordered table-hover">
+	<table class="com-content-category__table category table table-striped table-bordered table-hover">
 		<?php
 		$headerTitle    = '';
 		$headerDate     = '';
@@ -272,7 +272,7 @@ if (!empty($this->items))
 <?php // Add pagination links ?>
 <?php if (!empty($this->items)) : ?>
 	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-		<div class="w-100">
+		<div class="com-content-category__pagination w-100">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 				<p class="counter float-right pt-3 pr-2">
 					<?php echo $this->pagination->getPagesCounter(); ?>
