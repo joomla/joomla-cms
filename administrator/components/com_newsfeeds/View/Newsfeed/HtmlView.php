@@ -132,19 +132,19 @@ class HtmlView extends BaseHtmlView
 
 		if (empty($this->item->id))
 		{
-			 \JToolbarHelper::cancel('newsfeed.cancel');
+			\JToolbarHelper::cancel('newsfeed.cancel');
 		}
 		else
 		{
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				 \JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
+				\JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
 
-			 \JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		 \JToolbarHelper::divider();
-		 \JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
 	}
 }
