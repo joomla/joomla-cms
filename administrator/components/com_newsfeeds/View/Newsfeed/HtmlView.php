@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		 \JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
 		$title = $isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
-		 \JToolbarHelper::title($title, 'feed newsfeeds');
+		\JToolbarHelper::title($title, 'feed newsfeeds');
 
 		$toolbarButtons = [];
 
