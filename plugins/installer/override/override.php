@@ -19,7 +19,6 @@ use Joomla\CMS\Factory;
  */
 class PlgInstallerOverride extends CMSPlugin
 {
-
 	/**
 	 * Application object.
 	 *

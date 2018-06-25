@@ -217,12 +217,12 @@ class TemplateModel extends FormModel
 				$ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
 				$allowedFormat = $this->checkFormat($ext);
 
-				if ($allowedFormat == true)
+				if ($allowedFormat === true)
 				{
 					$relativePath = str_replace($element, '', $dir);
 					$info = $this->storeFileInfo('/' . $relativePath, $value, $client, $template);
 
-					if($info)
+					if ($info)
 					{
 						$this->coreFileList[] = $info;
 					}
@@ -458,7 +458,7 @@ class TemplateModel extends FormModel
 		$format = 'Ymd-His';
 		$valid  = Date::createFromFormat($format, $date);
 
-		return $valid && $valid->format($format) == $date;
+		return $valid && $valid->format($format) === $date;
 	}
 
 	/**
