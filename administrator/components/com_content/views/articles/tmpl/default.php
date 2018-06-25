@@ -197,31 +197,58 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								</span>
 								<div class="small">
-									<?php echo JText::_('JCATEGORY') . ':' ?>
-										<?php if ($item->category_level != '1') : ?>
-											<?php if ($item->parent_category_level != '1') : ?>
-												<?php echo ' » '; ?>
-											<?php endif; ?>
-											<?php if ($canEditParCat || $canEditOwnParCat) : ?>
-												<a 	class="hasTooltip"
-													href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content'); ?>"
-													title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
-											<?php endif; ?>
-											<?php echo $item->parent_category_title ; ?>
-											<?php if ($canEditParCat || $canEditOwnParCat) : ?>
-												</a>
-											<?php endif; ?>
-											<?php echo ' » '; ?>
-										<?php endif; ?>
-										<?php if ($canEditCat || $canEditOwnCat) : ?>
-											<a	class="hasTooltip"
-												href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content'); ?>"
-												title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
-										<?php endif; ?>
-											<?php echo $this->escape($item->category_title); ?>
-										<?php if ($canEditCat || $canEditOwnCat) : ?>
-											</a>
-										<?php endif; ?>
+
+									<?php
+									$ParentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
+									$CurrentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
+									$EditCatTxt = JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY');
+
+										echo JText::_('JCATEGORY') . ': ';
+										if ($item->category_level != '1') :
+											if ($item->parent_category_level != '1') :
+												echo ' » ';
+											endif;
+										endif;
+
+										if ($this->document->direction == "ltr") {
+											if ($item->category_level != '1') :
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '<a class="hasTooltip" href=' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->parent_category_title);
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '</a>';
+												endif;
+												echo ' » ';
+											endif;
+											if ($canEditCat || $canEditOwnCat) :
+												echo '<a class="hasTooltip" href=' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+											endif;
+											echo $this->escape($item->category_title);
+											if ($canEditCat || $canEditOwnCat) :
+												echo '</a>';
+											endif;
+										} else {
+											if ($canEditCat || $canEditOwnCat) :
+												echo '<a class="hasTooltip" href=' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+											endif;
+											echo $this->escape($item->category_title);
+											if ($canEditCat || $canEditOwnCat) :
+												echo '</a>';
+											endif;
+
+											if ($item->category_level != '1') :
+												echo ' « ';
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '<a class="hasTooltip" href=' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->parent_category_title);
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '</a>';
+												endif;
+											endif;
+										}
+									?>
 								</div>
 							</div>
 						</td>
