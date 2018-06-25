@@ -41,9 +41,6 @@ HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-codemirror.min
 
 ?>
 <joomla-editor-codemirror <?php echo $editor, $addons, $modPath, $fsCombo, $option; ?>>
-<p class="badge badge-secondary">
-    <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $modifier, $params->get('fullScreen', 'F10')); ?>
-</p>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>
