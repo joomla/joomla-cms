@@ -10,6 +10,10 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Model\ConfigurationModel;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -56,6 +60,10 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function execute(): int
 	{
+//		require_once '/var/www/html/joomla-cms/installation/src/Model/ConfigurationModel.php';
+		$mod = BaseDatabaseModel::getInstance('ConfigurationModel', 'Joomla\CMS\Installation\Model\\');
+//		$up = new ConfigurationModel;
+		var_dump($mod);
 		$this->configureIO();
 
 		return 0;
@@ -80,4 +88,8 @@ class CoreInstallCommand extends AbstractCommand
 		$this->setHelp($help);
 	}
 
+	public function checkCompatibility()
+	{
+		//
+	}
 }
