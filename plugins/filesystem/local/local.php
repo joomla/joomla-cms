@@ -66,14 +66,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 */
 	public function getDisplayName()
 	{
-		if ($this->params->get('display_name', 1) == 2 && str_replace(' ', '', $this->params->get('display_custom_name', 'Local')) != '')
-		{
-			return $this->params->get('display_custom_name');
-		}
-		else
-		{
-			return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
-		}
+		return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
 	}
 
 	/**

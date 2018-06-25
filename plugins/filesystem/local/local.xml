@@ -23,26 +23,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="display_name"
-					type="list"
-					label="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_LABEL"
-					default="1"
-					filter="integer"
-					>
-					<option value="1">PLG_FILESYSTEM_LOCAL_FIELD_VALUE_LOCAL_DISPLAY_NAME_LANGUAGE</option>
-					<option value="2">PLG_FILESYSTEM_LOCAL_FIELD_VALUE_LOCAL_DISPLAY_NAME_CUSTOM</option>
-				</field>
-
-				<field
-					name="display_custom_name"
-					type="text"
-					label="PLG_FILESYSTEM_LOCAL_DISPLAY_CUSTOM_NAME_LABEL"
-					default="Local"
-					filter="safehtml"
-					showon="display_name:2"
-				/>
-
-				<field
 					name="directories"
 					type="subform"
 					label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_LABEL"
