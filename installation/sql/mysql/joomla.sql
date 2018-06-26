@@ -1831,7 +1831,7 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_user_id` int(10) unsigned NOT NULL,
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
