@@ -688,12 +688,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/database.git",
-            "reference": "ccf0eaacb81792742f6def319e780eed917e5faf"
+            "reference": "c839698cafa48e209946e7e6df1f45da633f3d3a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/database/zipball/ccf0eaacb81792742f6def319e780eed917e5faf",
-            "reference": "ccf0eaacb81792742f6def319e780eed917e5faf",
+            "url": "https://api.github.com/repos/joomla-framework/database/zipball/c839698cafa48e209946e7e6df1f45da633f3d3a",
+            "reference": "c839698cafa48e209946e7e6df1f45da633f3d3a",
             "shasum": ""
         },
         "require": {
@@ -717,7 +717,7 @@
             "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
             "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
         },
-        "time": "2018-06-13T21:09:31+00:00",
+        "time": "2018-06-23T18:53:33+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -2599,6 +2599,52 @@
         "homepage": "https://symfony.com"
     },
     {
+        "name": "wamania/php-stemmer",
+        "version": "1.2",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wamania/php-stemmer.git",
+            "reference": "6cc76829bddd46f7ae7678e0bf87a0c872c8cf58"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/wamania/php-stemmer/zipball/6cc76829bddd46f7ae7678e0bf87a0c872c8cf58",
+            "reference": "6cc76829bddd46f7ae7678e0bf87a0c872c8cf58",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8"
+        },
+        "time": "2017-01-27T17:16:44+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Wamania\\Snowball\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Wamania",
+                "homepage": "http://wamania.com"
+            }
+        ],
+        "description": "Native PHP5 Stemmer",
+        "keywords": [
+            "php",
+            "porter",
+            "stemmer"
+        ]
+    },
+    {
         "name": "zendframework/zend-diactoros",
         "version": "1.7.2",
         "version_normalized": "1.7.2.0",
@@ -2651,52 +2697,6 @@
             "http",
             "psr",
             "psr-7"
-        ]
-    },
-    {
-        "name": "wamania/php-stemmer",
-        "version": "1.2",
-        "version_normalized": "1.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/wamania/php-stemmer.git",
-            "reference": "6cc76829bddd46f7ae7678e0bf87a0c872c8cf58"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/wamania/php-stemmer/zipball/6cc76829bddd46f7ae7678e0bf87a0c872c8cf58",
-            "reference": "6cc76829bddd46f7ae7678e0bf87a0c872c8cf58",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^4.8"
-        },
-        "time": "2017-01-27T17:16:44+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Wamania\\Snowball\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Wamania",
-                "homepage": "http://wamania.com"
-            }
-        ],
-        "description": "Native PHP5 Stemmer",
-        "keywords": [
-            "php",
-            "porter",
-            "stemmer"
         ]
     }
 ]

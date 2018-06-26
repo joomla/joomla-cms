@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		 \JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
 		$title = $isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
-		 \JToolbarHelper::title($title, 'feed newsfeeds');
+		\JToolbarHelper::title($title, 'feed newsfeeds');
 
 		$toolbarButtons = [];
 
@@ -125,26 +125,26 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
 
-		 \JToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			 \JToolbarHelper::cancel('newsfeed.cancel');
+			\JToolbarHelper::cancel('newsfeed.cancel');
 		}
 		else
 		{
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				 \JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
+				\JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
 
-			 \JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		 \JToolbarHelper::divider();
-		 \JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
 	}
 }
