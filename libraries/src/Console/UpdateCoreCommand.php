@@ -183,7 +183,7 @@ class UpdateCoreCommand extends AbstractCommand
 	/**
 	 * Downloads and extracts the update Package
 	 *
-	 * @param   array  $updateInformation Stores the update information
+	 * @param   array  $updateInformation  Stores the update information
 	 *
 	 * @return array | boolean
 	 *
@@ -211,7 +211,7 @@ class UpdateCoreCommand extends AbstractCommand
 	/**
 	 * Downloads the Update file
 	 *
-	 * @param   string  $url URL to update file
+	 * @param   string  $url  URL to update file
 	 *
 	 * @return boolean | string
 	 *
@@ -252,6 +252,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 * @param   string  $dir   Destination directory
 	 *
 	 * @return void
+	 *
 	 * @since 4.0
 	 */
 	public function copyFileTo($file, $dir)
