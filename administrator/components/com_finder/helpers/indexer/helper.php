@@ -175,18 +175,18 @@ class FinderIndexerHelper
 			$multilingual = Multilanguage::isEnabled();
 			$config = ComponentHelper::getParams('com_finder');
 
-			if ($config->get('stemmer_default', '') == '')
+			if ($config->get('language_default', '') == '')
 			{
 				$defaultStemmer = FinderIndexerLanguage::getInstance('*');
 			}
-			elseif ($config->get('stemmer_default', '') == '-1')
+			elseif ($config->get('language_default', '') == '-1')
 			{
 				$lconfig = ComponentHelper::getParams('com_languages');
 				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($lconfig->get('site')));
 			}
 			else
 			{
-				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($config->get('stemmer_default')));
+				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($config->get('language_default')));
 			}
 		}
 
