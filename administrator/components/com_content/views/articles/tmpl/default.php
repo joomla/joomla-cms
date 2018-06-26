@@ -204,13 +204,15 @@ $assoc = JLanguageAssociations::isEnabled();
 									$EditCatTxt = JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY');
 
 										echo JText::_('JCATEGORY') . ': ';
+
 										if ($item->category_level != '1') :
 											if ($item->parent_category_level != '1') :
 												echo ' » ';
 											endif;
 										endif;
 
-										if ($this->document->direction == "ltr") {
+										if ($this->document->direction == "ltr")
+										{
 											if ($item->category_level != '1') :
 												if ($canEditParCat || $canEditOwnParCat) :
 													echo '<a class="hasTooltip" href=' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
@@ -228,7 +230,10 @@ $assoc = JLanguageAssociations::isEnabled();
 											if ($canEditCat || $canEditOwnCat) :
 												echo '</a>';
 											endif;
-										} else {
+										}
+										else
+											{
+												
 											if ($canEditCat || $canEditOwnCat) :
 												echo '<a class="hasTooltip" href=' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 											endif;
