@@ -75,17 +75,26 @@ class FinderIndexerHelper
 
 			if ($config->get('language_default', '') == '')
 			{
-				$defaultLanguage = FinderIndexerLanguage::getInstance('*');
+				$defaultLang = '*';
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
 				$lconfig = ComponentHelper::getParams('com_languages');
-				$defaultLanguage = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($lconfig->get('site')));
+				$defaultLang = $lconfig->get('site');
 			}
 			else
 			{
-				$defaultLanguage = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($config->get('language_default')));
+				$defaultLang = $config->get('language_default');
 			}
+
+			/*
+			 * The default language always has the language code '*'.
+			 * In order to not overwrite the language code of the language
+			 * object that we are using, we are cloning it here.
+			 */
+			$obj = FinderIndexerLanguage::getInstance($defaultLang);
+			$defaultLanguage = clone $obj;
+			$defaultLanguage->language = '*';
 		}
 
 		if (!$multilingual || $lang == '*')
@@ -182,11 +191,11 @@ class FinderIndexerHelper
 			elseif ($config->get('language_default', '') == '-1')
 			{
 				$lconfig = ComponentHelper::getParams('com_languages');
-				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($lconfig->get('site')));
+				$defaultStemmer = FinderIndexerLanguage::getInstance($lconfig->get('site'));
 			}
 			else
 			{
-				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($config->get('language_default')));
+				$defaultStemmer = FinderIndexerLanguage::getInstance($config->get('language_default'));
 			}
 		}
 
