@@ -301,9 +301,9 @@ class TagModel extends ListModel
 						continue;
 					}
 
-					// Convert the \JTable to a clean \JObject.
+					// Convert the Table to a clean CMSObject.
 					$properties = $table->getProperties(1);
-					$this->item[] = ArrayHelper::toObject($properties, 'Object');
+					$this->item[] = ArrayHelper::toObject($properties, 'CMSObject::class');
 				}
 				catch (\RuntimeException $e)
 				{
