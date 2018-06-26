@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /**
  * OpenSearch View class for Finder
@@ -34,8 +35,8 @@ class OpensearchView extends AbstractView
 	 */
 	public function display($tpl = null)
 	{
-		$doc = \JFactory::getDocument();
-		$app = \JFactory::getApplication();
+		$doc = Factory::getDocument();
+		$app = Factory::getApplication();
 
 		$params = ComponentHelper::getParams('com_finder');
 		$doc->setShortName($params->get('opensearch_name', $app->get('sitename')));

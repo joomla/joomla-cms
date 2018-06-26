@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 $this->category->text = $this->category->description;
 $app->triggerEvent('onContentPrepare', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));

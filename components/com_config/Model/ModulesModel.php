@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Config Module model.
@@ -35,7 +36,7 @@ class ModulesModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -84,7 +85,7 @@ class ModulesModel extends FormModel
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang     = \JFactory::getLanguage();
+		$lang     = Factory::getLanguage();
 		$module   = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;
 
@@ -126,8 +127,8 @@ class ModulesModel extends FormModel
 	 */
 	public function getPositions()
 	{
-		$lang         = \JFactory::getLanguage();
-		$templateName = \JFactory::getApplication()->getTemplate();
+		$lang         = Factory::getLanguage();
+		$templateName = Factory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
 		$path = Path::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
@@ -184,7 +185,7 @@ class ModulesModel extends FormModel
 	 */
 	public static function getActivePositions($clientId, $editPositions = false)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT position')
 			->from($db->quoteName('#__modules'))
@@ -200,7 +201,7 @@ class ModulesModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return;
 		}

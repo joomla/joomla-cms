@@ -16,20 +16,21 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
 $images  = json_decode($this->item->images);
 $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
-$user    = JFactory::getUser();
+$user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>">
+	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getConfig()->get('language') : $this->item->language; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -61,10 +62,10 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<?php if ($this->item->state == 0) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
-		<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
+		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
-		<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
+		<?php if ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate()) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
@@ -141,7 +142,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php echo HTMLHelper::_('content.prepare', $this->item->introtext); ?>
 	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
-	<?php $menu = JFactory::getApplication()->getMenu(); ?>
+	<?php $menu = Factory::getApplication()->getMenu(); ?>
 	<?php $active = $menu->getActive(); ?>
 	<?php $itemId = $active->id; ?>
 	<?php $link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>

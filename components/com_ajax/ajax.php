@@ -15,6 +15,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /*
  * References
@@ -26,7 +27,7 @@ use Joomla\CMS\Language\Text;
  */
 
 // Reference global application object
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 // JInput object
 $input = $app->input;
@@ -99,7 +100,7 @@ elseif ($input->get('module'))
 			{
 				// Load language file for module
 				$basePath = JPATH_BASE;
-				$lang     = JFactory::getLanguage();
+				$lang     = Factory::getLanguage();
 				$lang->load('mod_' . $module, $basePath, null, false, true)
 				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
 
@@ -147,7 +148,7 @@ elseif ($input->get('plugin'))
 
 	try
 	{
-		$results = JFactory::getApplication()->triggerEvent('onAjax' . $plugin);
+		$results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
 	}
 	catch (Exception $e)
 	{
@@ -207,7 +208,7 @@ elseif ($input->get('template'))
 			if (method_exists($class, $method . 'Ajax'))
 			{
 				// Load language file for template
-				$lang = JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 				$lang->load('tpl_' . $template, $basePath, null, false, true)
 				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template, null, false, true);
 

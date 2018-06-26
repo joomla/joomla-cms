@@ -18,6 +18,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Controller for single contact view
@@ -54,7 +55,7 @@ class ContactController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$model  = $this->getModel('contact');
 		$params = ComponentHelper::getParams('com_contact');
 		$stub   = $this->input->getString('id');
@@ -69,7 +70,7 @@ class ContactController extends FormController
 		// Check for a valid session cookie
 		if ($params->get('validate_session', 0))
 		{
-			if (\JFactory::getSession()->getState() !== 'active')
+			if (Factory::getSession()->getState() !== 'active')
 			{
 				$this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
 
@@ -220,7 +221,7 @@ class ContactController extends FormController
 			}
 		}
 
-		$mail = \JFactory::getMailer();
+		$mail = Factory::getMailer();
 		$mail->addRecipient($contact->email_to);
 		$mail->addReplyTo($email, $name);
 		$mail->setSender(array($mailfrom, $fromname));
@@ -237,7 +238,7 @@ class ContactController extends FormController
 			$copytext    .= "\r\n\r\n" . $body;
 			$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
 
-			$mail = \JFactory::getMailer();
+			$mail = Factory::getMailer();
 			$mail->addRecipient($email);
 			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));

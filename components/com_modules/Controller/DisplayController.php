@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Modules manager master display controller.
@@ -35,7 +36,7 @@ class DisplayController extends BaseController
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		$this->input = \JFactory::getApplication()->input;
+		$this->input = Factory::getApplication()->input;
 
 		// Modules frontpage Editor Module proxying:
 		if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal')

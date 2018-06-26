@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-$user = JFactory::getUser();
+$user = Factory::getUser();
 
 HTMLHelper::_('script', 'com_config/templates-default.js', ['relative' => true, 'version' => 'auto']);
 ?>

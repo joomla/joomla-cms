@@ -19,6 +19,7 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML Contact View class for the Contact component
@@ -118,8 +119,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app        = \JFactory::getApplication();
-		$user       = \JFactory::getUser();
+		$app        = Factory::getApplication();
+		$user       = Factory::getUser();
 		$state      = $this->get('State');
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
@@ -351,17 +352,17 @@ class HtmlView extends BaseHtmlView
 			$item->text = $item->misc;
 		}
 
-		\JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
 
 		// Store the events for later
 		$item->event = new \stdClass;
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		if (!empty($item->text))
@@ -371,10 +372,10 @@ class HtmlView extends BaseHtmlView
 
 		$contactUser = null;
 
-		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = \JFactory::getUser($item->user_id))
+		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
-			\JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+			Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
 
 			if (!isset($contactUser->jcfields))
 			{
@@ -414,7 +415,7 @@ class HtmlView extends BaseHtmlView
 		$model = $this->getModel();
 		$model->hit();
 
-		$captchaSet = $item->params->get('captcha', \JFactory::getApplication()->get('captcha', '0'));
+		$captchaSet = $item->params->get('captcha', Factory::getApplication()->get('captcha', '0'));
 
 		foreach (PluginHelper::getPlugin('captcha') as $plugin)
 		{
@@ -439,7 +440,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;

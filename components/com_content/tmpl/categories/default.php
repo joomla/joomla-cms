@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 HTMLHelper::_('behavior.core');
@@ -20,7 +21,7 @@ HTMLHelper::_('behavior.core');
 Text::script('JGLOBAL_EXPAND_CATEGORIES');
 Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
-JFactory::getDocument()->addScriptDeclaration("
+Factory::getDocument()->addScriptDeclaration("
 jQuery(function($) {
 	$('.categories-list').find('[id^=category-btn-]').each(function(index, btn) {
 		var btn = $(btn);

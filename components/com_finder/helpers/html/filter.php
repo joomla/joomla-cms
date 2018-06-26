@@ -13,6 +13,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
@@ -35,9 +36,9 @@ abstract class JHtmlFilter
 	 */
 	public static function slider($options = array())
 	{
-		$db     = JFactory::getDbo();
+		$db     = Factory::getDbo();
 		$query  = $db->getQuery(true);
-		$user   = JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html   = '';
 		$filter = null;
@@ -150,7 +151,7 @@ abstract class JHtmlFilter
 			}
 
 			// Translate node titles if possible.
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($nodes as $nk => $nv)
 			{
@@ -216,7 +217,7 @@ abstract class JHtmlFilter
 	 */
 	public static function select($idxQuery, $options)
 	{
-		$user   = JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$filter = null;
 
@@ -225,8 +226,8 @@ abstract class JHtmlFilter
 		$showDates   = $options->get('show_date_filters', false);
 
 		// Try to load the results from cache.
-		$cache   = JFactory::getCache('com_finder', '');
-		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
+		$cache   = Factory::getCache('com_finder', '');
+		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, Factory::getLanguage()->getTag()));
 
 		// Check the cached results.
 		if ($cache->contains($cacheId))
@@ -235,7 +236,7 @@ abstract class JHtmlFilter
 		}
 		else
 		{
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
@@ -344,7 +345,7 @@ abstract class JHtmlFilter
 				}
 
 				// Translate branch nodes if possible.
-				$language = JFactory::getLanguage();
+				$language = Factory::getLanguage();
 
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
@@ -394,7 +395,7 @@ abstract class JHtmlFilter
 			if (array_key_exists($bv->title, $idxQuery->filters))
 			{
 				// Get the request filters.
-				$temp   = JFactory::getApplication()->input->request->get('t', array(), 'array');
+				$temp   = Factory::getApplication()->input->request->get('t', array(), 'array');
 
 				// Search for active nodes in the branch and get the active node.
 				$active = array_intersect($temp, $idxQuery->filters[$bv->title]);

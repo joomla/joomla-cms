@@ -21,6 +21,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Component Controller
@@ -79,7 +80,7 @@ class TemplatesController extends BaseController
 		}
 
 		// Check if the user is authorized to do this.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'));
 

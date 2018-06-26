@@ -13,13 +13,14 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 ?>
 
 <?php if (!empty($this->msg)) : ?>
 	<?php echo $this->msg; ?>
 <?php else : ?>
-    <?php $lang      = JFactory::getLanguage(); ?>
+    <?php $lang      = Factory::getLanguage(); ?>
     <?php $myrtl     = $this->newsfeed->rtl; ?>
     <?php $direction = ' '; ?>
     <?php $isRtl     = $lang->isRtl(); ?>

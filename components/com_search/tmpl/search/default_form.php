@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 $upper_limit = $lang->getUpperLimitSearchWord();
 
 ?>

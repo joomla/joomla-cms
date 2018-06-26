@@ -16,6 +16,7 @@ use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the search component
@@ -140,7 +141,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$uri     = Uri::getInstance();
 		$error   = null;
 		$results = null;
@@ -217,7 +218,7 @@ class HtmlView extends BaseHtmlView
 		\Joomla\CMS\Helper\SearchHelper::logSearch($searchWord, 'com_search');
 
 		// Limit search-word
-		$lang        = \JFactory::getLanguage();
+		$lang        = Factory::getLanguage();
 		$upper_limit = $lang->getUpperLimitSearchWord();
 		$lower_limit = $lang->getLowerLimitSearchWord();
 

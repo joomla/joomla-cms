@@ -15,6 +15,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Template style model.
@@ -65,7 +66,7 @@ class TemplatesModel extends FormModel
 		}
 		catch (\Exception $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
@@ -92,9 +93,9 @@ class TemplatesModel extends FormModel
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
-		$template = \JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 
 		jimport('joomla.filesystem.path');
 

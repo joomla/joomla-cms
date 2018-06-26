@@ -17,6 +17,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Tags Component Tag Model
@@ -176,7 +177,7 @@ class TagModel extends ListModel
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the parameters.
 		$params = $app->isClient('administrator') ? ComponentHelper::getParams('com_tags') : $app->getParams();
@@ -296,7 +297,7 @@ class TagModel extends ListModel
 						}
 					}
 
-					if (!in_array($table->access, \JFactory::getUser()->getAuthorisedViewLevels()))
+					if (!in_array($table->access, Factory::getUser()->getAuthorisedViewLevels()))
 					{
 						continue;
 					}
@@ -333,7 +334,7 @@ class TagModel extends ListModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input    = \JFactory::getApplication()->input;
+		$input    = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

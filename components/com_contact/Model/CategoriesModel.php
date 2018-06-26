@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of contact categories.
@@ -53,7 +54,7 @@ class CategoriesModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$this->setState('filter.extension', $this->_extension);
 
 		// Get the parent id if defined.
@@ -98,7 +99,7 @@ class CategoriesModel extends ListModel
 	{
 		if ($this->_items === null)
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;

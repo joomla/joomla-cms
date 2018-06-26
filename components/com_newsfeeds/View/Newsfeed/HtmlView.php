@@ -17,6 +17,7 @@ use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -93,8 +94,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app  = \JFactory::getApplication();
-		$user = \JFactory::getUser();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
@@ -262,7 +263,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;

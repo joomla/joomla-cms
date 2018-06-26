@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Class for Mail.
@@ -53,8 +54,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function getData()
 	{
-		$user = \JFactory::getUser();
-		$app  = \JFactory::getApplication();
+		$user = Factory::getUser();
+		$app  = Factory::getApplication();
 		$data = new \stdClass;
 
 		$input      = $app->input;

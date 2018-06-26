@@ -16,6 +16,7 @@ use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Mailer Component Controller.
@@ -153,7 +154,7 @@ class DisplayController extends BaseController
 		$email = PunycodeHelper::emailToPunycode($email);
 
 		// Send the email
-		if (\JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)
+		if (Factory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)
 		{
 			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 

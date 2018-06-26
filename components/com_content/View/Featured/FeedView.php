@@ -15,6 +15,7 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Frontpage View class
@@ -33,8 +34,8 @@ class FeedView extends AbstractView
 	public function display($tpl = null)
 	{
 		// Parameters
-		$app       = \JFactory::getApplication();
-		$doc       = \JFactory::getDocument();
+		$app       = Factory::getApplication();
+		$doc       = Factory::getDocument();
 		$params    = $app->getParams();
 		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
@@ -58,7 +59,7 @@ class FeedView extends AbstractView
 			$link = Route::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			// Get row fulltext
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('fulltext'))
 				->from($db->quoteName('#__content'))

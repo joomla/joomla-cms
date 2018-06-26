@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\FormModel as BaseForm;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Prototype form model.
@@ -50,7 +51,7 @@ abstract class FormModel extends BaseForm
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
@@ -90,7 +91,7 @@ abstract class FormModel extends BaseForm
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Get an instance of the row to checkout.
 			$table = $this->getTable();
@@ -186,7 +187,7 @@ abstract class FormModel extends BaseForm
 		}
 		catch (\Exception $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
@@ -226,7 +227,7 @@ abstract class FormModel extends BaseForm
 		PluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
+		Factory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
 	}
 
 	/**
@@ -248,7 +249,7 @@ abstract class FormModel extends BaseForm
 		PluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
@@ -273,7 +274,7 @@ abstract class FormModel extends BaseForm
 		// Check for an error.
 		if ($return instanceof \Exception)
 		{
-			\JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($return->getMessage(), 'error');
 
 			return false;
 		}
@@ -289,7 +290,7 @@ abstract class FormModel extends BaseForm
 					$message = $message->getMessage();
 				}
 
-				\JFactory::getApplication()->enqueueMessage($message, 'error');
+				Factory::getApplication()->enqueueMessage($message, 'error');
 			}
 
 			return false;

@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 
+use Joomla\CMS\Factory;
 /**
  * HTML Article View class for the Content component
  *
@@ -92,8 +93,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = \JFactory::getUser();
-		$app  = \JFactory::getApplication();
+		$user = Factory::getUser();
+		$app  = Factory::getApplication();
 
 		// Get model data.
 		$this->state       = $this->get('State');
@@ -157,11 +158,11 @@ class HtmlView extends BaseHtmlView
 		// Propose current language as default when creating new article
 		if (empty($this->item->id) && Multilanguage::isEnabled())
 		{
-			$lang = \JFactory::getLanguage()->getTag();
+			$lang = Factory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);
 		}
 
-		$captchaSet = $params->get('captcha', \JFactory::getApplication()->get('captcha', '0'));
+		$captchaSet = $params->get('captcha', Factory::getApplication()->get('captcha', '0'));
 
 		foreach (PluginHelper::getPlugin('captcha') as $plugin)
 		{
@@ -183,7 +184,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Content component
@@ -40,7 +41,7 @@ class FeedView extends CategoryFeedView
 	protected function reconcileNames($item)
 	{
 		// Get description, intro_image, author and date
-		$app               = \JFactory::getApplication();
+		$app               = Factory::getApplication();
 		$params            = $app->getParams();
 		$item->description = '';
 		$obj = json_decode($item->images);

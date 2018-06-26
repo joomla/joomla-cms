@@ -15,6 +15,7 @@ use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Search feed view class for the Finder package.
@@ -35,7 +36,7 @@ class FeedView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Get the application
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->get('feed_limit'));

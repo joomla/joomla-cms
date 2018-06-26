@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 $class  = ' class="first"';
-$lang   = JFactory::getLanguage();
-$user   = JFactory::getUser();
+$lang   = Factory::getLanguage();
+$user   = Factory::getUser();
 $groups = $user->getAuthorisedViewLevels();
 
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>

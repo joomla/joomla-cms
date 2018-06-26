@@ -18,6 +18,7 @@ use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -116,7 +117,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$pk  = $app->input->getInt('id');
 
 		$this->setState('category.id', $pk);
@@ -134,7 +135,7 @@ class CategoryModel extends ListModel
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		$asset = 'com_content';
 
@@ -237,7 +238,7 @@ class CategoryModel extends ListModel
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
 			$model = new ArticlesModel(array('ignore_request' => true));
-			$model->setState('params', \JFactory::getApplication()->getParams());
+			$model->setState('params', Factory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));
 			$model->setState('filter.access', $this->getState('filter.access'));
@@ -284,7 +285,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function _buildContentOrderBy()
 	{
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$db        = $this->getDbo();
 		$params    = $this->state->params;
 		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
@@ -364,7 +365,7 @@ class CategoryModel extends ListModel
 			// Compute selected asset permissions.
 			if (is_object($this->_item))
 			{
-				$user  = \JFactory::getUser();
+				$user  = Factory::getUser();
 				$asset = 'com_content.category.' . $this->_item->id;
 
 				// Check general create permission.
@@ -485,7 +486,7 @@ class CategoryModel extends ListModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

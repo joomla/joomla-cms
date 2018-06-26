@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Content Component Controller
@@ -35,7 +36,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		$this->input = \JFactory::getApplication()->input;
+		$this->input = Factory::getApplication()->input;
 
 		// Article frontpage Editor pagebreak proxying:
 		if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak')
@@ -75,7 +76,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		$vName = $this->input->getCmd('view', 'categories');
 		$this->input->set('view', $vName);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->get('id')
 			|| ($this->input->getMethod() === 'POST'

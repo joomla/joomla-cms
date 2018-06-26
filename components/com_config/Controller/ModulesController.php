@@ -80,7 +80,7 @@ class ModulesController extends BaseController
 		}
 
 		// Check if the user is authorized to do this.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
 			&& !$user->authorise('module.edit.frontend', 'com_modules'))
@@ -117,7 +117,7 @@ class ModulesController extends BaseController
 		$controllerClass = $dispatcher->getController('Module');
 
 		// Get a document object
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Set backend required params
 		$document->setType('json');

@@ -13,6 +13,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
@@ -37,7 +38,7 @@ use Joomla\CMS\Language\Text;
 <?php if (($this->total === 0) || ($this->total === null)) : ?>
 	<div id="search-result-empty" class="com-finder__empty">
 		<h2><?php echo Text::_('COM_FINDER_SEARCH_NO_RESULTS_HEADING'); ?></h2>
-		<?php $multilang = JFactory::getApplication()->getLanguageFilter() ? '_MULTILANG' : ''; ?>
+		<?php $multilang = Factory::getApplication()->getLanguageFilter() ? '_MULTILANG' : ''; ?>
 		<p><?php echo Text::sprintf('COM_FINDER_SEARCH_NO_RESULTS_BODY' . $multilang, $this->escape($this->query->input)); ?></p>
 	</div>
 	<?php // Exit this template. ?>

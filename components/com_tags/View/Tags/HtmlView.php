@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Tags component
@@ -88,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -104,7 +105,7 @@ class HtmlView extends BaseHtmlView
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
 
 		if (!empty($items))
@@ -197,7 +198,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 

@@ -18,6 +18,7 @@ use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 
 /**
  * Routing class from com_newsfeeds
@@ -111,7 +112,7 @@ class NewsfeedsRouter extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('alias'))
 				->from($dbquery->qn('#__newsfeeds'))
@@ -195,7 +196,7 @@ class NewsfeedsRouter extends RouterView
 	{
 		if ($this->noIDs)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('id'))
 				->from($dbquery->qn('#__newsfeeds'))

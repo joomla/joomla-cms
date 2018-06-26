@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -176,7 +177,7 @@ if (!empty($this->items))
 				<?php else : ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
-					$itemId = JFactory::getApplication()->getMenu()->getActive()->id;
+					$itemId = Factory::getApplication()->getMenu()->getActive()->id;
 					$link   = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
 					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
 					?>
@@ -201,12 +202,12 @@ if (!empty($this->items))
 						<?php echo JText::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php endif; ?>
-				<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
+				<?php if (strtotime($article->publish_up) > strtotime(Factory::getDate())) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
 					</span>
 				<?php endif; ?>
-				<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()) : ?>
+				<?php if ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo JText::_('JEXPIRED'); ?>
 					</span>

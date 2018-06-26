@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
 
 /**
  * Banners model for the Joomla Banners component.
@@ -67,7 +68,7 @@ class BannersModel extends ListModel
 		$keywords   = $this->getState('filter.keywords');
 		$randomise  = ($ordering === 'random');
 		$nullDate   = $db->quote($db->getNullDate());
-		$nowDate    = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate    = $db->quote(Factory::getDate()->toSql());
 
 		$query->select(
 			'a.id as id,'
@@ -186,7 +187,7 @@ class BannersModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		$query->order('a.sticky DESC,' . ($randomise ? $query->Rand() : 'a.ordering'));
@@ -225,7 +226,7 @@ class BannersModel extends ListModel
 	 */
 	public function impress()
 	{
-		$trackDate = \JFactory::getDate()->format('Y-m-d H');
+		$trackDate = Factory::getDate()->format('Y-m-d H');
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);

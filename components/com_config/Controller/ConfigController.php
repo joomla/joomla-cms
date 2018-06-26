@@ -19,6 +19,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Component Controller
@@ -76,7 +77,7 @@ class ConfigController extends BaseController
 		}
 
 		// Check if the user is authorized to do this.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');

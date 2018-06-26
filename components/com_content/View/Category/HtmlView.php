@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Content component
@@ -86,7 +87,7 @@ class HtmlView extends CategoryView
 
 		PluginHelper::importPlugin('content');
 
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)

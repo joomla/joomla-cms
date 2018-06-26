@@ -19,6 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Search HTML view class for the Finder package.
@@ -118,7 +119,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = $app->getParams();
 
 		// Get view data.
@@ -263,7 +264,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument($query)
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 

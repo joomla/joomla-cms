@@ -20,6 +20,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of articles.
@@ -85,7 +86,7 @@ class ArticlesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// List state information
 		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
@@ -117,7 +118,7 @@ class ArticlesModel extends ListModel
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
@@ -187,7 +188,7 @@ class ArticlesModel extends ListModel
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -443,7 +444,7 @@ class ArticlesModel extends ListModel
 
 		// Define null and now dates
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
@@ -512,7 +513,7 @@ class ArticlesModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Filter by a single or group of tags.
@@ -564,11 +565,11 @@ class ArticlesModel extends ListModel
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$userId = $user->get('id');
 		$guest  = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
-		$input  = \JFactory::getApplication()->input;
+		$input  = Factory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);

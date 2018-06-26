@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
@@ -21,7 +22,7 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_tags/tags-default.js', ['relative' => true, 'version' => 'auto']);
 
 // Get the user object.
-$user = JFactory::getUser();
+$user = Factory::getUser();
 
 // Check if user is allowed to add/edit based on tags permissions.
 $canEdit      = $user->authorise('core.edit', 'com_tags');

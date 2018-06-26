@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Frontpage View class
@@ -112,7 +113,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
@@ -156,18 +157,18 @@ class HtmlView extends BaseHtmlView
 				$item->text = $item->introtext;
 			}
 
-			\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
+			Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
@@ -214,7 +215,7 @@ class HtmlView extends BaseHtmlView
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
-		$this->db         = \JFactory::getDbo();
+		$this->db         = Factory::getDbo();
 
 		$this->_prepareDocument();
 
@@ -228,7 +229,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 

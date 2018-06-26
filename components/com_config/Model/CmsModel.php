@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Prototype admin model.
@@ -218,10 +219,10 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = \JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
 		];
 
@@ -229,7 +230,7 @@ abstract class CmsModel extends BaseDatabaseModel
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**
@@ -250,7 +251,7 @@ abstract class CmsModel extends BaseDatabaseModel
 				return false;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			return $user->authorise('core.delete', $this->option);
 		}
@@ -267,7 +268,7 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		return $user->authorise('core.edit.state', $this->option);
 	}

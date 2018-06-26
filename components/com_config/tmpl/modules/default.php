@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -97,7 +98,7 @@ if (Multilanguage::isEnabled())
 
 					<hr>
 
-					<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+					<?php if (Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('published'); ?>
@@ -176,7 +177,7 @@ if (Multilanguage::isEnabled())
 				</div>
 
 				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
-				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>">
+				<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64'); ?>">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
 

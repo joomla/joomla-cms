@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /*
 * This segment of code sets up the autocompleter.
@@ -19,7 +20,7 @@ use Joomla\CMS\Language\Text;
 if ($this->params->get('show_autosuggest', 1))
 {
 	HTMLHelper::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
-	JFactory::getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+	Factory::getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 
 ?>

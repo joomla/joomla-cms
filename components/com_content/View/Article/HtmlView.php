@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML Article View class for the Content component
@@ -86,8 +87,8 @@ class HtmlView extends BaseHtmlView
 			return parent::display($tpl);
 		}
 
-		$app        = \JFactory::getApplication();
-		$user       = \JFactory::getUser();
+		$app        = Factory::getApplication();
+		$user       = Factory::getUser();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
@@ -238,16 +239,16 @@ class HtmlView extends BaseHtmlView
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
-		\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
+		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
 
 		$item->event = new \stdClass;
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output
@@ -265,7 +266,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;

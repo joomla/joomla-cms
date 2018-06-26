@@ -12,6 +12,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
@@ -31,8 +32,8 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = \JFactory::getApplication();
-		$document       = \JFactory::getDocument();
+		$app            = Factory::getApplication();
+		$document       = Factory::getDocument();
 		$document->link = Route::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
 
 		$app->input->set('limit', $app->get('feed_limit'));

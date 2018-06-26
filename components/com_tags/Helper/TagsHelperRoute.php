@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Tags Component Route Helper.
@@ -146,7 +147,7 @@ class TagsHelperRoute extends RouteHelper
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menus    = $app->getMenu('site');
 		$language = $needles['language'] ?? '*';
 

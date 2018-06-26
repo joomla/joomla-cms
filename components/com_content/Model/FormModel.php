@@ -17,6 +17,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Factory;
 
 /**
  * Content Component Article Model
@@ -43,7 +44,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
@@ -93,7 +94,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		$value->params = new Registry($value->attribs);
 
 		// Compute selected asset permissions.
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$userId = $user->get('id');
 		$asset  = 'com_content.article.' . $value->id;
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
@@ -61,7 +63,7 @@ abstract class JHtmlQuery
 		// Process the start date.
 		if ($query->date1)
 		{
-			$date = JFactory::getDate($query->date1)->format(JText::_('DATE_FORMAT_LC'));
+			$date = Factory::getDate($query->date1)->format(JText::_('DATE_FORMAT_LC'));
 			$datecondition = JText::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when1));
 			$parts[] = '<span class="query-start-date">' . JText::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
 		}
@@ -69,7 +71,7 @@ abstract class JHtmlQuery
 		// Process the end date.
 		if ($query->date2)
 		{
-			$date = JFactory::getDate($query->date2)->format(JText::_('DATE_FORMAT_LC'));
+			$date = Factory::getDate($query->date2)->format(JText::_('DATE_FORMAT_LC'));
 			$datecondition = JText::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when2));
 			$parts[] = '<span class="query-end-date">' . JText::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
 		}
@@ -78,13 +80,13 @@ abstract class JHtmlQuery
 		if (!empty($query->filters))
 		{
 			// Get the filters in the request.
-			$t = JFactory::getApplication()->input->request->get('t', array(), 'array');
+			$t = Factory::getApplication()->input->request->get('t', array(), 'array');
 
 			// Process the taxonomy branches.
 			foreach ($query->filters as $branch => $nodes)
 			{
 				// Process the taxonomy nodes.
-				$lang = JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 
 				foreach ($nodes as $title => $id)
 				{
