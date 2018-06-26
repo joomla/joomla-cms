@@ -34,7 +34,7 @@ class Input extends \Joomla\Input\Input
 	 * Container with allowed superglobals
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.9
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
