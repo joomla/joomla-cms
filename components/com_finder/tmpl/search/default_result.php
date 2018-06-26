@@ -51,7 +51,7 @@ if (!empty($this->query->highlight)
 }
 
 ?>
-<li>
+<li class="com-finder__result">
 	<h4 class="result-title <?php echo $mime; ?>">
 		<a href="<?php echo Route::_($route); ?>">
 			<?php echo $this->result->title; ?>

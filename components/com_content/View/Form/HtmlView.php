@@ -75,8 +75,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $user = null;
 
-  /*
-   * Should we show a captcha form for the submission of the article?
+	/*
+	 * Should we show a captcha form for the submission of the article?
 	 *
 	 * @var   bool
 	 * @since 3.7.0

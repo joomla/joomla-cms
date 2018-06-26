@@ -461,7 +461,7 @@ class CategoryModel extends ListModel
 		}
 
 		// Order subcategories
-		if (count($this->_children))
+		if ($this->_children)
 		{
 			$params = $this->getState()->get('params');
 

@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
 <?php if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))) : ?>
-	<div id="search-query-explained">
+	<div id="search-query-explained" class="com-finder__explained">
 		<?php // Display the suggested search query. ?>
 		<?php if ($this->suggested && $this->params->get('show_suggested_query', 1)) : ?>
 			<?php // Replace the base query string with the suggested query string. ?>
@@ -35,7 +35,7 @@ use Joomla\CMS\Language\Text;
 <?php endif; ?>
 <?php // Display the 'no results' message and exit the template. ?>
 <?php if (($this->total === 0) || ($this->total === null)) : ?>
-	<div id="search-result-empty">
+	<div id="search-result-empty" class="com-finder__empty">
 		<h2><?php echo Text::_('COM_FINDER_SEARCH_NO_RESULTS_HEADING'); ?></h2>
 		<?php $multilang = JFactory::getApplication()->getLanguageFilter() ? '_MULTILANG' : ''; ?>
 		<p><?php echo Text::sprintf('COM_FINDER_SEARCH_NO_RESULTS_BODY' . $multilang, $this->escape($this->query->input)); ?></p>
@@ -49,8 +49,8 @@ use Joomla\CMS\Language\Text;
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />
-<ul class="search-results list-striped">
-	<?php $this->baseUrl = Uri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
+<ul class="com-finder__results-list search-results list-striped">
+	<?php $this->baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 	<?php foreach ($this->results as $result) : ?>
 		<?php $this->result = &$result; ?>
 		<?php $layout = $this->getLayoutFile($this->result->layout); ?>
@@ -59,11 +59,11 @@ use Joomla\CMS\Language\Text;
 </ul>
 <br id="highlighter-end" />
 <?php // Display the pagination ?>
-<div class="search-pagination">
-	<div class="w-100">
+<div class="com-finder__navigation search-pagination">
+	<div class="com-finder__pagination w-100">
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
-	<div class="search-pages-counter">
+	<div class="com-finder__counter search-pages-counter">
 		<?php // Prepare the pagination string.  Results X - Y of Z ?>
 		<?php $start = (int) $this->pagination->limitstart + 1; ?>
 		<?php $total = (int) $this->pagination->total; ?>
