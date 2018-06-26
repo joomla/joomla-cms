@@ -9,25 +9,30 @@
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
+// Include the component HTML helpers.
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 $settings  = array();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.item_title', $this); ?>
 
 	<fieldset>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -38,30 +43,30 @@ $settings  = array();
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->grouplist) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS')); ?>
+				<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
 					<?php echo $this->loadTemplate('groups'); ?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php
 			$this->ignore_fieldsets = array('user_details');
-			echo JLayoutHelper::render('joomla.edit.params', $this);
+			echo LayoutHelper::render('joomla.edit.params', $this);
 			?>
 
 		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-					title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong>'; ?>">
-					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
+					title="<?php echo '<strong>' . Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong>'; ?>">
+					<?php echo Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
 			<div class="controls">
-				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+				<?php echo HTMLHelper::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">
@@ -75,11 +80,11 @@ $settings  = array();
 
 		<fieldset>
 			<legend>
-				<?php echo JText::_('COM_USERS_USER_OTEPS'); ?>
+				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
 			</legend>
-			<joomla-alert type="info"><?php echo JText::_('COM_USERS_USER_OTEPS_DESC'); ?></joomla-alert>
+			<joomla-alert type="info"><?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?></joomla-alert>
 			<?php if (empty($this->otpConfig->otep)) : ?>
-				<joomla-alert type="warning"><?php echo JText::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?></joomla-alert>
+				<joomla-alert type="warning"><?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?></joomla-alert>
 			<?php else : ?>
 			<?php foreach ($this->otpConfig->otep as $otep) : ?>
 			<span class="col-md-3">
@@ -89,12 +94,12 @@ $settings  = array();
 			<?php endif; ?>
 		</fieldset>
 
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
