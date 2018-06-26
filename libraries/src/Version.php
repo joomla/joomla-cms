@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '14:00';
+	const RELTIME = '15:45';
 
 	/**
 	 * Release timezone.
