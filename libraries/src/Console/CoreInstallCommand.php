@@ -60,10 +60,8 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function execute(): int
 	{
-//		require_once '/var/www/html/joomla-cms/installation/src/Model/ConfigurationModel.php';
-		$mod = BaseDatabaseModel::getInstance('ConfigurationModel', 'Joomla\CMS\Installation\Model\\');
-//		$up = new ConfigurationModel;
-		var_dump($mod);
+		$model = new ConfigurationModel;
+
 		$this->configureIO();
 
 		return 0;
