@@ -137,6 +137,7 @@
 				label="COM_ADMIN_USER_FIELD_EDITOR_LABEL"
 				description="COM_ADMIN_USER_FIELD_EDITOR_DESC"
 				folder="editors"
+				useaccess="true"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
