@@ -23,7 +23,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
 
 /**
  * Profile model class for Users.
