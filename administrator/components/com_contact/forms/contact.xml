@@ -9,7 +9,6 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
-			size="10"
 			readonly="true"
 		/>
 
@@ -875,7 +874,6 @@
 		type="number"
 		label="JGLOBAL_HITS"
 		class="readonly"
-		size="6"
 		readonly="true"
 		filter="unset"
 	/>

@@ -694,7 +694,7 @@ class PlgSystemDebug extends CMSPlugin
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
-					$labelClass = 'badge-important';
+					$labelClass = 'badge-danger';
 				}
 				elseif ($totalQueryTime < ($totalTime * 0.15))
 				{
@@ -1734,14 +1734,14 @@ class PlgSystemDebug extends CMSPlugin
 	protected function displayLogs()
 	{
 		$priorities = array(
-			Log::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
-			Log::ALERT     => '<span class="badge badge-important">ALERT</span>',
-			Log::CRITICAL  => '<span class="badge badge-important">CRITICAL</span>',
-			Log::ERROR     => '<span class="badge badge-important">ERROR</span>',
+			Log::EMERGENCY => '<span class="badge badge-danger">EMERGENCY</span>',
+			Log::ALERT     => '<span class="badge badge-danger">ALERT</span>',
+			Log::CRITICAL  => '<span class="badge badge-danger">CRITICAL</span>',
+			Log::ERROR     => '<span class="badge badge-danger">ERROR</span>',
 			Log::WARNING   => '<span class="badge badge-warning">WARNING</span>',
 			Log::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
 			Log::INFO      => '<span class="badge badge-info">INFO</span>',
-			Log::DEBUG     => '<span class="badge">DEBUG</span>',
+			Log::DEBUG     => '<span class="badge badge-secondary">DEBUG</span>',
 		);
 
 		$out = '';

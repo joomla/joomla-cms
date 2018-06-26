@@ -272,6 +272,8 @@ abstract class JHtmlFilter
 				->where('c.state = 1')
 				->where('c.access IN (' . $groups . ')')
 				->group($db->quoteName('t.id'))
+				->group($db->quoteName('t.parent_id'))
+				->group('t.title, t.state, t.access, t.ordering')
 				->order('t.ordering, t.title');
 
 			// Limit the branch children to a predefined filter.

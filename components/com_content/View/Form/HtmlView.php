@@ -74,8 +74,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $user = null;
 
-  /*
-   * Should we show a captcha form for the submission of the article?
+	/*
+	 * Should we show a captcha form for the submission of the article?
 	 *
 	 * @var   bool
 	 * @since 3.7.0
@@ -222,12 +222,12 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

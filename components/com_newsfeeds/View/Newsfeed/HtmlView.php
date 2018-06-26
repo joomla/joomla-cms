@@ -225,7 +225,7 @@ class HtmlView extends BaseHtmlView
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-        $this->params = $params;
+		$this->params = $params;
 		$this->newsfeed = $newsfeed;
 		$this->state = $state;
 		$this->item = $item;
@@ -338,16 +338,16 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->item->metakey)
 		{
-			$this->document->setMetadata('keywords', $this->item->metakey);
+			$this->document->setMetaData('keywords', $this->item->metakey);
 		}
 		elseif ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		if ($app->get('MetaTitle') == '1')
@@ -366,7 +366,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($v)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setMetaData($k, $v);
 			}
 		}
 	}
