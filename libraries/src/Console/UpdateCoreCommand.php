@@ -15,7 +15,6 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\AbstractCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 
@@ -28,17 +27,24 @@ class UpdateCoreCommand extends AbstractCommand
 {
 	/**
 	 * Stores the Input Object
-	 * @var
+	 * @var CliInput
 	 * @since 4.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
-	 * @var
+	 * @var SymfonyStyle
 	 * @since 4.0
 	 */
 	private $ioStyle;
+
+	/**
+	 * Update Information
+	 * @var array
+	 * @since 4.0
+	 */
+	private $updateInfo;
 
 	/**
 	 * Configures the IO
@@ -60,14 +66,19 @@ class UpdateCoreCommand extends AbstractCommand
 	 * @return  integer  The exit code for the command.
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws null
 	 */
 	public function execute(): int
 	{
 		$this->configureIO();
 
-		if ($this->updateJoomlaCore())
+		$model = $this->getUpdateModel();
+		$this->setUpdateInfo($model->getUpdateInformation());
+
+		if ($this->updateJoomlaCore($model))
 		{
-			$this->ioStyle->success('Joomla core updated successfuly.');
+			$this->ioStyle->success('Joomla core updated successfully.');
 
 			return 0;
 		}
@@ -75,7 +86,7 @@ class UpdateCoreCommand extends AbstractCommand
 		{
 			$this->ioStyle->note('Update cannot be performed.');
 
-			return 0;
+			return 2;
 		}
 
 		return 0;
@@ -101,28 +112,19 @@ class UpdateCoreCommand extends AbstractCommand
 	/**
 	 * Update Core Joomla
 	 *
-	 * @return  bool  success
+	 * @param   mixed  $updatemodel  Update Model
+	 *
+	 * @return  boolean  success
 	 *
 	 * @since 4.0
 	 */
-	private function updateJoomlaCore()
+	private function updateJoomlaCore($updatemodel)
 	{
-		$app = Factory::getApplication();
-		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
-
-		$updatemodel->purge();
-
-		$updatemodel->refreshUpdates(true);
-
-		$updateInformation = $updatemodel->getUpdateInformation();
+		$updateInformation = $this->updateInfo;
 
 		if (!empty($updateInformation['hasUpdate']))
 		{
-			$packagefile = InstallerHelper::downloadPackage($updateInformation['object']->downloadurl->_data);
-			$tmp_path    = $this->getApplication()->get('tmp_path');
-			$packagefile = $tmp_path . '/' . $packagefile;
-			$package     = InstallerHelper::unpack($packagefile, true);
-			Folder::copy($package['extractdir'], JPATH_BASE, '', true);
+			$package = $this->processUpdatePackage($updateInformation);
 
 			$result = $updatemodel->finaliseUpgrade();
 
@@ -134,12 +136,68 @@ class UpdateCoreCommand extends AbstractCommand
 					File::delete(JPATH_BASE . '/joomla.xml');
 				}
 
-				InstallerHelper::cleanupInstall($packagefile, $package['extractdir']);
+				InstallerHelper::cleanupInstall($package['file'], $package['extractdir']);
 
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Sets the update Information
+	 *
+	 * @param   array  $data  Stores the update information
+	 *
+	 * @since 4.0
+	 *
+	 * @return void
+	 */
+	public function setUpdateInfo($data)
+	{
+		$this->updateInfo = $data;
+	}
+
+	/**
+	 * Retrieves the Update model from com_joomlaupdate
+	 *
+	 * @return mixed
+	 *
+	 * @since 4.0
+	 *
+	 * @throws \Exception
+	 */
+	public function getUpdateModel()
+	{
+		$app = Factory::getApplication();
+		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
+
+		$updatemodel->purge();
+
+		$updatemodel->refreshUpdates(true);
+
+		return $updatemodel;
+	}
+
+	/**
+	 * Downloads and extracts the update Package
+	 *
+	 * @param   array  $updateInformation Stores the update information
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	public function processUpdatePackage($updateInformation)
+	{
+		$packagefile = InstallerHelper::downloadPackage($updateInformation['object']->downloadurl->_data);
+
+		$tmp_path    = $this->getApplication()->get('tmp_path');
+		$packagefile = $tmp_path . '/' . $packagefile;
+		$package     = InstallerHelper::unpack($packagefile, true);
+		Folder::copy($package['extractdir'], JPATH_BASE, '', true);
+
+		return ['file' => $packagefile, 'extractdir' => $package['extractdir']];
 	}
 }

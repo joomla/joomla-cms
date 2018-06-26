@@ -12,9 +12,11 @@ class UpdateCoreCommandTest extends \PHPUnit\Framework\TestCase
 {
 
 	/**
-	 * @testdox Output from  `joomla help extension:remove` contains usage instructions
+	 * @testdox Output from  `php cli/joomla.php help core:update` contains usage instructions
 	 *
 	 * @since 4.0
+	 *
+	 * @return void
 	 */
 	public function testIfCommandOutputContainsUsageInformation()
 	{
@@ -24,14 +26,20 @@ class UpdateCoreCommandTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayHasKey("Usage:", $parts, 'Message should contain usage instructions');
 	}
 
+
 	/**
-	 * @testdox Output from  `joomla help extension:remove` contains usage instructions
+	 * @testdox Output from  `php cli/joomla.php core:update` outputs expected information
 	 *
 	 * @since 4.0
+	 *
+	 * @return void
 	 */
-	public function testIfCommandOutput()
+	public function testIfCommandOutputExpectedInformation()
 	{
-		$commandTester = new CommandTester(new \Joomla\CMS\Console\UpdateCoreCommand);
-		var_dump($commandTester);
+		exec('php cli/joomla.php core:update', $parts);
+		$result = implode("\n", $parts);
+		$bool = strpos($result, 'Update cannot be performed') || strpos($result, 'Joomla core updated successfully');
+
+		$this->assertTrue($bool, 'Update core command did exit with expected information.');
 	}
 }
