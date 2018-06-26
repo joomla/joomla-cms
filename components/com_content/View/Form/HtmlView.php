@@ -15,8 +15,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
-
 use Joomla\CMS\Factory;
+
 /**
  * HTML Article View class for the Content component
  *
