@@ -77,7 +77,7 @@ class PathWrapper
 	 *
 	 * @see     Path::check()
 	 * @since   3.4
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function check($path)
 	{
@@ -94,7 +94,7 @@ class PathWrapper
 	 *
 	 * @see     Path::clean()
 	 * @since   3.4
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{

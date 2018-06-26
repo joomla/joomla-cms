@@ -88,6 +88,9 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 			list($directories) = $directories;
 		}
 
+		// TODO: This should be removed once there is proper support for namespaced plugins
+		JLoader::registerNamespace('\\Joomla\\Plugin\\Filesystem\\Local\\Adapter', __DIR__ . '/Adapter', false, true, 'psr4');
+
 		foreach ($directories as $directoryEntity)
 		{
 			if ($directoryEntity->directory)
