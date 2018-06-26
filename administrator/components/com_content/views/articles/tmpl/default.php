@@ -207,7 +207,7 @@ $assoc = JLanguageAssociations::isEnabled();
 
 										if ($item->category_level != '1') :
 											if ($item->parent_category_level != '1') :
-												echo ' » ';
+												echo ' &#187; ';
 											endif;
 										endif;
 
@@ -221,7 +221,7 @@ $assoc = JLanguageAssociations::isEnabled();
 												if ($canEditParCat || $canEditOwnParCat) :
 													echo '</a>';
 												endif;
-												echo ' » ';
+												echo ' &#187; ';
 											endif;
 											if ($canEditCat || $canEditOwnCat) :
 												echo '<a class="hasTooltip" href=' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
@@ -233,7 +233,7 @@ $assoc = JLanguageAssociations::isEnabled();
 										}
 										else
 											{
-												
+
 											if ($canEditCat || $canEditOwnCat) :
 												echo '<a class="hasTooltip" href=' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 											endif;
@@ -243,7 +243,7 @@ $assoc = JLanguageAssociations::isEnabled();
 											endif;
 
 											if ($item->category_level != '1') :
-												echo ' « ';
+												echo ' &#171; ';
 												if ($canEditParCat || $canEditOwnParCat) :
 													echo '<a class="hasTooltip" href=' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 												endif;
