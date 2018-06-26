@@ -43,6 +43,7 @@ class ExtensionHelper
 		array('component', 'com_content', '', 1),
 		array('component', 'com_contenthistory', '', 1),
 		array('component', 'com_cpanel', '', 1),
+		array('component', 'com_csp', '', 1),
 		array('component', 'com_fields', '', 1),
 		array('component', 'com_finder', '', 1),
 		array('component', 'com_installer', '', 1),
