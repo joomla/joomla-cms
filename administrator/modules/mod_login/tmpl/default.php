@@ -27,9 +27,10 @@ Text::script('JHIDE');
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
-
 		<div class="form-group">
-			<label for="mod-login-username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
+			<label for="mod-login-username">
+				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
+			</label>
 			<input
 				name="username"
 				id="mod-login-username"
@@ -37,12 +38,13 @@ Text::script('JHIDE');
 				class="form-control input-full"
 				required="required"
 				autofocus
-                tabindex="1"
-            >
+				tabindex="1"
+			>
 		</div>
-
 		<div class="form-group">
-			<label for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+			<label for="mod-login-password">
+				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
+			</label>
 			<div class="input-group">
 				<input
 					name="passwd"
@@ -50,17 +52,20 @@ Text::script('JHIDE');
 					type="password"
 					class="form-control input-full"
 					required="required"
-                    tabindex="2"
-                >
+					tabindex="2"
+				>
 				<span class="input-group-addon">
 					<span class="fa fa-eye" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+					<span class="sr-only">
+						<?php echo Text::_('JSHOW'); ?>
+					</span>
 				</span>
 			</div>
 		</div>
-
-		<?php if (count($twofactormethods) > 1): ?>
-			<label for="mod-login-secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+		<?php if (count($twofactormethods) > 1) : ?>
+			<label for="mod-login-secretkey">
+				<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
+			</label>
 			<div class="form-group">
 				<input
 					name="secretkey"
@@ -68,29 +73,35 @@ Text::script('JHIDE');
 					id="mod-login-secretkey"
 					type="text"
 					class="form-control input-full"
-                    tabindex="3"
+					tabindex="3"
 				>
 			</div>
 		<?php endif; ?>
-
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label for="lang" class="sr-only"><?php echo Text::_('JDEFAULTLANGUAGE'); ?></label>
+				<label for="lang" class="sr-only">
+					<?php echo Text::_('JDEFAULTLANGUAGE'); ?>
+				</label>
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-
 		<div class="form-group">
 			<button tabindex="5" class="btn btn-success btn-block btn-lg" id="btn-login-submit">
 				<span class="fa fa-lock icon-white" aria-hidden="true"></span> <?php echo Text::_('JLOGIN'); ?>
 			</button>
 		</div>
-
 		<div class="text-center">
-			<div><a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=remind"><?php echo Text::_('MOD_LOGIN_REMIND'); ?></a></div>
-			<div><a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=reset"><?php echo Text::_('MOD_LOGIN_RESET'); ?></a></div>
+			<div>
+				<a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=remind">
+					<?php echo Text::_('MOD_LOGIN_REMIND'); ?>
+				</a>
+			</div>
+			<div>
+				<a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=reset">
+					<?php echo Text::_('MOD_LOGIN_RESET'); ?>
+				</a>
+			</div>
 		</div>
-
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
 		<input type="hidden" name="return" value="<?php echo $return; ?>">

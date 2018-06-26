@@ -37,7 +37,7 @@ if ($show_description)
 }
 $url = JRoute::_($this->result->route);
 ?>
-<li>
+<li class="com-finder__result">
 	<h4 class="result-title <?php echo $mime; ?>">
 		<a href="<?php echo $url; ?>">
 			<?php echo $this->result->title; ?>
