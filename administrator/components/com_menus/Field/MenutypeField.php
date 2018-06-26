@@ -11,18 +11,19 @@ namespace Joomla\Component\Menus\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Menu Type field.
  *
  * @since  1.6
  */
-class MenutypeField extends \JFormFieldList
+class MenutypeField extends ListField
 {
 	/**
 	 * The form field type.
@@ -52,56 +53,57 @@ class MenutypeField extends \JFormFieldList
 		switch ($this->value)
 		{
 			case 'url':
-				$value = \JText::_('COM_MENUS_TYPE_EXTERNAL_URL');
+				$value = Text::_('COM_MENUS_TYPE_EXTERNAL_URL');
 				break;
 
 			case 'alias':
-				$value = \JText::_('COM_MENUS_TYPE_ALIAS');
+				$value = Text::_('COM_MENUS_TYPE_ALIAS');
 				break;
 
 			case 'separator':
-				$value = \JText::_('COM_MENUS_TYPE_SEPARATOR');
+				$value = Text::_('COM_MENUS_TYPE_SEPARATOR');
 				break;
 
 			case 'heading':
-				$value = \JText::_('COM_MENUS_TYPE_HEADING');
+				$value = Text::_('COM_MENUS_TYPE_HEADING');
 				break;
 
 			case 'container':
-				$value = \JText::_('COM_MENUS_TYPE_CONTAINER');
+				$value = Text::_('COM_MENUS_TYPE_CONTAINER');
 				break;
 
 			default:
 				$link = $this->form->getValue('link');
 
-				$model = new MenutypesModel(array('ignore_request' => true));
+				$model = Factory::getApplication()->bootComponent('com_menus')->createMVCFactory(Factory::getApplication())
+					->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
 				$model->setState('client_id', $clientId);
 
 				$rlu   = $model->getReverseLookup();
 
 				// Clean the link back to the option, view and layout
-				$value = \JText::_(ArrayHelper::getValue($rlu, \MenusHelper::getLinkKey($link)));
+				$value = Text::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
 
-		$link = \JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
+		$link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
 		$html[] = '<span class="input-group-append"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
-			. \JText::_('JSELECT') . '">' . '<span class="icon-list icon-white" aria-hidden="true"></span> '
-			. \JText::_('JSELECT') . '</a></span></span>';
-		$html[] = \JHtml::_(
+			. Text::_('JSELECT') . '">' . '<span class="icon-list icon-white" aria-hidden="true"></span> '
+			. Text::_('JSELECT') . '</a></span></span>';
+		$html[] = HTMLHelper::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',
 			array(
 				'url'        => $link,
-				'title'      => \JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
+				'title'      => Text::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
 				'width'      => '800px',
 				'height'     => '300px',
 				'modalWidth' => 80,
 				'bodyHeight' => 70,
 				'footer'     => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 			)
 		);
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'

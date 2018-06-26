@@ -502,7 +502,7 @@ class PlgSystemFields extends CMSPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   4.0.0
+	 * @since   3.8.4
 	 */
 	private function prepareTagItem($item)
 	{

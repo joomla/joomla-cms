@@ -81,12 +81,23 @@ class JNamespacePsr4Map
 
 				if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element))
 				{
+					// If a component has a src/ directory use it. Else just use the main component directory
 					$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element);
+
+					if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element . '/src/'))
+					{
+						$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element . '/src/');
+					}
 				}
 
 				if (file_exists(JPATH_ROOT . '/components/' . $element))
 				{
 					$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element);
+
+					if (file_exists(JPATH_ROOT . '/components/' . $element . '/src/'))
+					{
+						$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element . '/src/');
+					}
 				}
 			}
 			elseif ($extension->type === 'module')

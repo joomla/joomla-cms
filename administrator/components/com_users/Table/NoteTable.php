@@ -109,9 +109,9 @@ class NoteTable extends Table
 			}
 		}
 
-		$query = $this->_db->getQuery(true)
-			->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('state') . ' = ' . (int) $state);
+		$query = $this->getDbo()->getQuery(true)
+			->update($this->getDbo()->quoteName($this->_tbl))
+			->set($this->getDbo()->quoteName('state') . ' = ' . (int) $state);
 
 		// Build the WHERE clause for the primary keys.
 		$query->where($k . '=' . implode(' OR ' . $k . '=', $pks));
@@ -128,21 +128,21 @@ class NoteTable extends Table
 		}
 
 		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery($query);
+		$this->getDbo()->setQuery($query);
 
 		try
 		{
-			$this->_db->execute();
+			$this->getDbo()->execute();
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError($this->_db->getMessage());
+			$this->setError($this->getDbo()->getMessage());
 
 			return false;
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (count($pks) == $this->getDbo()->getAffectedRows()))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)

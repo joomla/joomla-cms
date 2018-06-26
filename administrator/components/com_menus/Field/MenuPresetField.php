@@ -7,18 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Menus\Administrator\Field;
+
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuHelper;
-
-JFormHelper::loadFieldClass('list');
 
 /**
  * Administrator Menu Presets list field.
  *
  * @since  3.8.0
  */
-class JFormFieldMenuPreset extends JFormFieldList
+class MenuPresetField extends ListField
 {
 	/**
 	 * The form field type.
@@ -43,7 +46,7 @@ class JFormFieldMenuPreset extends JFormFieldList
 
 		foreach ($presets as $preset)
 		{
-			$options[] = JHtml::_('select.option', $preset->name, JText::_($preset->title));
+			$options[] = HTMLHelper::_('select.option', $preset->name, Text::_($preset->title));
 		}
 
 		return array_merge(parent::getOptions(), $options);
