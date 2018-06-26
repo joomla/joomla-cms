@@ -304,7 +304,7 @@ class TagModel extends ListModel
 
 					// Convert the Table to a clean CMSObject.
 					$properties = $table->getProperties(1);
-					$this->item[] = ArrayHelper::toObject($properties, 'CMSObject::class');
+					$this->item[] = ArrayHelper::toObject($properties, CMSObject::class);
 				}
 				catch (\RuntimeException $e)
 				{
