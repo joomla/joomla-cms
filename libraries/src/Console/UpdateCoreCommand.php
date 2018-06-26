@@ -44,7 +44,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 * @var array
 	 * @since 4.0
 	 */
-	private $updateInfo;
+	public $updateInfo;
 
 	/**
 	 * Configures the IO
@@ -170,7 +170,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	public function getUpdateModel()
 	{
-		$app = Factory::getApplication();
+		$app = $this->getApplication();
 		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
 
 		$updatemodel->purge();
@@ -185,19 +185,77 @@ class UpdateCoreCommand extends AbstractCommand
 	 *
 	 * @param   array  $updateInformation Stores the update information
 	 *
-	 * @return array
+	 * @return array | boolean
 	 *
 	 * @since 4.0
 	 */
 	public function processUpdatePackage($updateInformation)
 	{
-		$packagefile = InstallerHelper::downloadPackage($updateInformation['object']->downloadurl->_data);
+		if (!$updateInformation['object'])
+		{
+			return false;
+		}
 
-		$tmp_path    = $this->getApplication()->get('tmp_path');
-		$packagefile = $tmp_path . '/' . $packagefile;
-		$package     = InstallerHelper::unpack($packagefile, true);
-		Folder::copy($package['extractdir'], JPATH_BASE, '', true);
+		$file = $this->downloadFile($updateInformation['object']->downloadurl->_data);
 
-		return ['file' => $packagefile, 'extractdir' => $package['extractdir']];
+		$tmpPath    = $this->getApplication()->get('tmp_path');
+		$updatePackage = $tmpPath . '/' . $file;
+
+		$package = $this->extractFile($updatePackage);
+
+		$this->copyFileTo($package['extractdir'], JPATH_BASE);
+
+		return ['file' => $updatePackage, 'extractdir' => $package['extractdir']];
+	}
+
+	/**
+	 * Downloads the Update file
+	 *
+	 * @param   string  $url URL to update file
+	 *
+	 * @return boolean | string
+	 *
+	 * @since 4.0
+	 */
+	public function downloadFile($url)
+	{
+		$file = InstallerHelper::downloadPackage($url);
+
+		if (!$file)
+		{
+			return false;
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Extracts Update file
+	 *
+	 * @param   string  $file  Full path to file location
+	 *
+	 * @return array | boolean
+	 *
+	 * @since 4.0
+	 */
+	public function extractFile($file)
+	{
+		$package = InstallerHelper::unpack($file, true);
+
+		return $package;
+	}
+
+	/**
+	 * Copy a file to a destination directory
+	 *
+	 * @param   string  $file  Full path to file
+	 * @param   string  $dir   Destination directory
+	 *
+	 * @return void
+	 * @since 4.0
+	 */
+	public function copyFileTo($file, $dir)
+	{
+		Folder::copy($file['extractdir'], $dir, '', true);
 	}
 }
