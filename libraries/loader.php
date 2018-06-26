@@ -546,7 +546,7 @@ abstract class JLoader
 					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
 
 					// We do not allow files outside the namespace root to be loaded
-					if (strpos($classFilePath, $path) !== 0)
+					if (strpos($classFilePath, realpath($path)) !== 0)
 					{
 						continue;
 					}
@@ -614,7 +614,7 @@ abstract class JLoader
 					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . $classPath);
 
 					// We do not allow files outside the namespace root to be loaded
-					if (strpos($classFilePath, $path) !== 0)
+					if (strpos($classFilePath, realpath($path)) !== 0)
 					{
 						continue;
 					}
@@ -733,7 +733,7 @@ abstract class JLoader
 			$path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
 
 			// Load the file if it exists and is in the lookup path.
-			if (strpos($path, $base) === 0 && file_exists($path))
+			if (strpos($path, realpath($base)) === 0 && file_exists($path))
 			{
 				$found = (bool) include_once $path;
 
@@ -754,7 +754,7 @@ abstract class JLoader
 				$path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
 
 				// Load the file if it exists and is in the lookup path.
-				if (strpos($path, $base) === 0 && file_exists($path))
+				if (strpos($path, realpath($base)) === 0 && file_exists($path))
 				{
 					$found = (bool) include_once $path;
 
