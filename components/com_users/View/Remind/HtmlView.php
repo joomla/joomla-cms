@@ -11,7 +11,9 @@ namespace Joomla\Component\Users\Site\View\Remind;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Registration view class for Users.
@@ -37,7 +39,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
@@ -57,6 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  mixed
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -72,7 +75,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for layout override
-		$active = \JFactory::getApplication()->getMenu()->getActive();
+		$active = Factory::getApplication()->getMenu()->getActive();
 
 		if (isset($active->query['layout']))
 		{
@@ -93,10 +96,11 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 

@@ -17,6 +17,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Registration controller class for Users.
@@ -53,7 +54,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -177,7 +178,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -248,7 +249,7 @@ class UserController extends BaseController
 		{
 			if ($itemid)
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))

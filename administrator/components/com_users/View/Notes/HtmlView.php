@@ -12,8 +12,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * User notes list view
@@ -41,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  2.5
 	 */
 	protected $state;
@@ -49,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var    \JUser
+	 * @var    User
 	 * @since  2.5
 	 */
 	protected $user;
@@ -106,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Get the component HTML helpers
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Turn parameters into registry objects
 		foreach ($this->items as $item)
@@ -115,7 +120,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
+		$this->sidebar = HTMLHelper::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -130,44 +135,44 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users', 'category', $this->state->get('filter.category_id'));
 
-		\JToolbarHelper::title(\JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
+		ToolbarHelper::title(Text::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('note.add');
+			ToolbarHelper::addNew('note.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::divider();
-			\JToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::divider();
+			ToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-			\JToolbarHelper::divider();
-			\JToolbarHelper::archiveList('notes.archive');
-			\JToolbarHelper::checkin('notes.checkin');
+			ToolbarHelper::divider();
+			ToolbarHelper::archiveList('notes.archive');
+			ToolbarHelper::checkin('notes.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
-			\JToolbarHelper::divider();
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('notes.trash');
-			\JToolbarHelper::divider();
+			ToolbarHelper::trash('notes.trash');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_users');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_users');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_USERS_USER_NOTES');
+		ToolbarHelper::help('JHELP_USERS_USER_NOTES');
 
-		\JHtmlSidebar::setAction('index.php?option=com_users&view=notes');
+		HTMLHelper::_('sidebar.setAction', 'index.php?option=com_users&view=notes');
 	}
 
 	/**
@@ -180,12 +185,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'u.name'        => \JText::_('COM_USERS_USER_HEADING'),
-			'a.subject'     => \JText::_('COM_USERS_SUBJECT_HEADING'),
-			'c.title'       => \JText::_('COM_USERS_CATEGORY_HEADING'),
-			'a.state'       => \JText::_('JSTATUS'),
-			'a.review_time' => \JText::_('COM_USERS_REVIEW_HEADING'),
-			'a.id'          => \JText::_('JGRID_HEADING_ID')
+			'u.name'        => Text::_('COM_USERS_USER_HEADING'),
+			'a.subject'     => Text::_('COM_USERS_SUBJECT_HEADING'),
+			'c.title'       => Text::_('COM_USERS_CATEGORY_HEADING'),
+			'a.state'       => Text::_('JSTATUS'),
+			'a.review_time' => Text::_('COM_USERS_REVIEW_HEADING'),
+			'a.id'          => Text::_('JGRID_HEADING_ID')
 		);
 	}
 }

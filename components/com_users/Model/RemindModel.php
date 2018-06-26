@@ -16,6 +16,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Remind model class for Users.
@@ -73,11 +74,12 @@ class RemindModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = $app->getParams('com_users');
 
 		// Load the parameters.
@@ -163,7 +165,7 @@ class RemindModel extends FormModel
 			return false;
 		}
 
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		// Assemble the login link.
 		$link = 'index.php?option=com_users&view=login';
@@ -189,7 +191,7 @@ class RemindModel extends FormModel
 		);
 
 		// Send the password reset request email.
-		$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true)

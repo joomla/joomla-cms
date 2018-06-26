@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -24,17 +25,19 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   boolean        $cachable   If true, the view output will be cached
+	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
+	 *                                     for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->getCmd('view', 'login');
@@ -48,7 +51,7 @@ class DisplayController extends BaseController
 			{
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
@@ -75,7 +78,7 @@ class DisplayController extends BaseController
 				case 'profile':
 
 					// If the user is a guest, redirect to the login page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') == 1)
 					{
@@ -95,7 +98,7 @@ class DisplayController extends BaseController
 
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
@@ -110,7 +113,7 @@ class DisplayController extends BaseController
 
 				case 'remind':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{

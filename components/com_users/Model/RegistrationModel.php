@@ -12,19 +12,19 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Registration model class for Users.
@@ -68,10 +68,11 @@ class RegistrationModel extends FormModel
 	 * @return  mixed    False on failure, user object on success.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function activate($token)
 	{
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 		$userParams = ComponentHelper::getParams('com_users');
 		$db = $this->getDbo();
 
@@ -107,7 +108,7 @@ class RegistrationModel extends FormModel
 		PluginHelper::importPlugin('user');
 
 		// Activate the user.
-		$user = \JFactory::getUser($userId);
+		$user = Factory::getUser($userId);
 
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
@@ -123,7 +124,7 @@ class RegistrationModel extends FormModel
 			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate URL in case this method is called from admin
-			if (\JFactory::getApplication()->isClient('administrator'))
+			if (Factory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
@@ -171,11 +172,11 @@ class RegistrationModel extends FormModel
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach ($rows as $row)
 			{
-				$usercreator = \JFactory::getUser($row->id);
+				$usercreator = Factory::getUser($row->id);
 
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
-					$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
 					// Check for an error.
 					if ($return !== true)
@@ -213,7 +214,7 @@ class RegistrationModel extends FormModel
 				$data['username']
 			);
 
-			$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
 			// Check for an error.
 			if ($return !== true)
@@ -249,13 +250,14 @@ class RegistrationModel extends FormModel
 	 * @return  mixed  Data object on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function getData()
 	{
 		if ($this->data === null)
 		{
 			$this->data = new \stdClass;
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$params = ComponentHelper::getParams('com_users');
 
 			// Override the base user data with any data in the session.
@@ -301,7 +303,7 @@ class RegistrationModel extends FormModel
 			PluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
-			\JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.registration', $this->data));
+			Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.registration', $this->data));
 		}
 
 		return $this->data;
@@ -352,7 +354,7 @@ class RegistrationModel extends FormModel
 
 		if (Multilanguage::isEnabled() && empty($data->language))
 		{
-			$data->language = \JFactory::getLanguage()->getTag();
+			$data->language = Factory::getLanguage()->getTag();
 		}
 
 		$this->preprocessData('com_users.registration', $data);
@@ -393,11 +395,12 @@ class RegistrationModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = $app->getParams('com_users');
 
 		// Load the parameters.
@@ -412,12 +415,13 @@ class RegistrationModel extends FormModel
 	 * @return  mixed  The user id on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function register($temp)
 	{
 		$params = ComponentHelper::getParams('com_users');
 
-		// Initialise the table with User.
+		// Initialise the table with Joomla\CMS\User\User.
 		$user = new User;
 		$data = (array) $this->getData();
 
@@ -459,7 +463,7 @@ class RegistrationModel extends FormModel
 			return false;
 		}
 
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
@@ -479,7 +483,7 @@ class RegistrationModel extends FormModel
 			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate URL in case this method is called from admin
-			if (\JFactory::getApplication()->isClient('administrator'))
+			if (Factory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
@@ -523,7 +527,7 @@ class RegistrationModel extends FormModel
 			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate URL in case this method is called from admin
-			if (\JFactory::getApplication()->isClient('administrator'))
+			if (Factory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
@@ -590,7 +594,7 @@ class RegistrationModel extends FormModel
 		}
 
 		// Send the registration email.
-		$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
@@ -631,7 +635,7 @@ class RegistrationModel extends FormModel
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
 			{
-				$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
 
 				// Check for an error.
 				if ($return !== true)

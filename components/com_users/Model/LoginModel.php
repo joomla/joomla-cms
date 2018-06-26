@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -53,11 +53,12 @@ class LoginModel extends FormModel
 	 * @return  array  The default data is an empty array.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered login form data.
-		$app  = \JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$data = $app->getUserState('users.login.form.data', array());
 
 		$input = $app->input;
@@ -89,18 +90,19 @@ class LoginModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = \JFactory::getApplication()->getParams('com_users');
+		$params = Factory::getApplication()->getParams('com_users');
 
 		// Load the parameters.
 		$this->setState('params', $params);
 	}
 
 	/**
-	 * Override \JModelAdmin::preprocessForm to ensure the correct plugin group is loaded.
+	 * Override Joomla\CMS\MVC\Model\AdminModel::preprocessForm to ensure the correct plugin group is loaded.
 	 *
 	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.

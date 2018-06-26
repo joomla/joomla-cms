@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
 
 /**
  * Rest model class for Users.
@@ -84,6 +85,7 @@ class ResetModel extends FormModel
 	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function getResetConfirmForm($data = array(), $loadData = true)
 	{
@@ -96,7 +98,7 @@ class ResetModel extends FormModel
 		}
 		else
 		{
-			$form->setValue('token', '', \JFactory::getApplication()->input->get('token'));
+			$form->setValue('token', '', Factory::getApplication()->input->get('token'));
 		}
 
 		return $form;
@@ -128,11 +130,12 @@ class ResetModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = \JFactory::getApplication()->getParams('com_users');
+		$params = Factory::getApplication()->getParams('com_users');
 
 		// Load the parameters.
 		$this->setState('params', $params);
@@ -146,6 +149,7 @@ class ResetModel extends FormModel
 	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function processResetComplete($data)
 	{
@@ -182,7 +186,7 @@ class ResetModel extends FormModel
 		}
 
 		// Get the token and user id from the confirmation process.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$token = $app->getUserState('com_users.reset.token', null);
 		$userId = $app->getUserState('com_users.reset.user', null);
 
@@ -245,6 +249,7 @@ class ResetModel extends FormModel
 	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function processResetConfirm($data)
 	{
@@ -333,7 +338,7 @@ class ResetModel extends FormModel
 		}
 
 		// Push the user data into the session.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->setUserState('com_users.reset.token', $user->activation);
 		$app->setUserState('com_users.reset.user', $user->id);
 
@@ -348,10 +353,11 @@ class ResetModel extends FormModel
 	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function processResetRequest($data)
 	{
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		// Get the form.
 		$form = $this->getForm();
@@ -437,7 +443,7 @@ class ResetModel extends FormModel
 		// Make sure the user has not exceeded the reset limit
 		if (!$this->checkResetLimit($user))
 		{
-			$resetLimit = (int) \JFactory::getApplication()->getParams()->get('reset_time');
+			$resetLimit = (int) Factory::getApplication()->getParams()->get('reset_time');
 			$this->setError(Text::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
 
 			return false;
@@ -481,7 +487,7 @@ class ResetModel extends FormModel
 		);
 
 		// Send the password reset request email.
-		$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true)
@@ -500,21 +506,22 @@ class ResetModel extends FormModel
 	 * @return  boolean true if user can do the reset, false if limit exceeded
 	 *
 	 * @since    2.5
+	 * @throws  \Exception
 	 */
 	public function checkResetLimit($user)
 	{
-		$params = \JFactory::getApplication()->getParams();
+		$params = Factory::getApplication()->getParams();
 		$maxCount = (int) $params->get('reset_count');
 		$resetHours = (int) $params->get('reset_time');
 		$result = true;
 
 		$lastResetTime = strtotime($user->lastResetTime) ?: 0;
-		$hoursSinceLastReset = (strtotime(\JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
+		$hoursSinceLastReset = (strtotime(Factory::getDate()->toSql()) - $lastResetTime) / 3600;
 
 		if ($hoursSinceLastReset > $resetHours)
 		{
 			// If it's been long enough, start a new reset count
-			$user->lastResetTime = \JFactory::getDate()->toSql();
+			$user->lastResetTime = Factory::getDate()->toSql();
 			$user->resetCount = 1;
 		}
 		elseif ($user->resetCount < $maxCount)

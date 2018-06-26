@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Jooml\CMS\Language\LanguageHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -117,7 +118,7 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('title')
 				->from('#__template_styles')
@@ -227,8 +228,8 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$db = JFactory::getDbo();
-			$lang = JFactory::getLanguage();
+			$db = Factory::getDbo();
+			$lang = Factory::getLanguage();
 			$query = $db->getQuery(true)
 				->select('name')
 				->from('#__extensions')
@@ -240,7 +241,7 @@ abstract class JHtmlUsers
 			if ($title)
 			{
 				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
+				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
 				$lang->load($title . '.sys');
 
 				return Text::_($title);

@@ -11,6 +11,9 @@ namespace Joomla\Component\Users\Site\View\Registration;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -44,14 +47,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
 	/**
-	 * The \JDocument instance
+	 * The HtmlDocument instance
 	 *
-	 * @var  \JDocumentHtml
+	 * @var  HtmlDocument
 	 */
 	public $document;
 
@@ -71,6 +74,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  mixed
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -87,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for layout override
-		$active = \JFactory::getApplication()->getMenu()->getActive();
+		$active = Factory::getApplication()->getMenu()->getActive();
 
 		if (isset($active->query['layout']))
 		{
@@ -108,10 +112,11 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 

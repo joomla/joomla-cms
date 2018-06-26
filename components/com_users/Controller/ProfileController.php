@@ -10,17 +10,19 @@ namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Uri\Uri;
+
 
 /**
  * Profile controller class for Users.
@@ -39,7 +41,7 @@ class ProfileController extends BaseController
 	public function edit()
 	{
 		$app         = $this->app;
-		$user        = \JFactory::getUser();
+		$user        = Factory::getUser();
 		$loginUserId = (int) $user->get('id');
 
 		// Get the previous user id (if any) and the current user id.
@@ -98,6 +100,7 @@ class ProfileController extends BaseController
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function save()
 	{
@@ -108,7 +111,7 @@ class ProfileController extends BaseController
 
 		/* @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model  = $this->getModel('Profile', 'Site');
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$userId = (int) $user->get('id');
 
 		// Get the user data.
@@ -294,6 +297,6 @@ class ProfileController extends BaseController
 		);
 
 		echo new JsonResponse($options);
-		\JFactory::getApplication()->close();
+		Factory::getApplication()->close();
 	}
 }

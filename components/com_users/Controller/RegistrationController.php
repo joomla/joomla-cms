@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Registration controller class for Users.
@@ -28,10 +29,11 @@ class RegistrationController extends BaseController
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function activate()
 	{
-		$user  	 = \JFactory::getUser();
+		$user  	 = Factory::getUser();
 		$input 	 = $this->input;
 		$uParams = ComponentHelper::getParams('com_users');
 
@@ -109,6 +111,7 @@ class RegistrationController extends BaseController
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function register()
 	{

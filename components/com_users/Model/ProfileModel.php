@@ -16,14 +16,13 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -76,7 +75,7 @@ class ProfileModel extends FormModel
 
 		if ($userId)
 		{
-			// Initialise the table with User.
+			// Initialise the table with Joomla\CMS\User\User.
 			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
 
 			// Attempt to check the row in.
@@ -107,11 +106,11 @@ class ProfileModel extends FormModel
 
 		if ($userId)
 		{
-			// Initialise the table with User.
+			// Initialise the table with Joomla\CMS\User\User.
 			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
 
 			// Get the current user object.
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Attempt to check the row out.
 			if (!$table->checkout($user->get('id'), $userId))
@@ -134,6 +133,7 @@ class ProfileModel extends FormModel
 	 * @return  User
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function getData()
 	{
@@ -141,14 +141,14 @@ class ProfileModel extends FormModel
 		{
 			$userId = $this->getState('user.id');
 
-			// Initialise the table with User.
+			// Initialise the table with Joomla\CMS\User\User.
 			$this->data = new User($userId);
 
 			// Set the base user data.
 			$this->data->email1 = $this->data->get('email');
 
 			// Override the base user data with any data in the session.
-			$temp = (array) \JFactory::getApplication()->getUserState('com_users.edit.profile.data', array());
+			$temp = (array) Factory::getApplication()->getUserState('com_users.edit.profile.data', array());
 
 			foreach ($temp as $k => $v)
 			{
@@ -218,7 +218,7 @@ class ProfileModel extends FormModel
 		}
 
 		// If the user needs to change their password, mark the password fields as required
-		if (\JFactory::getUser()->requireReset)
+		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password1', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -262,7 +262,7 @@ class ProfileModel extends FormModel
 		{
 			$form->loadFile('frontend', false);
 
-			if (\JFactory::getUser()->authorise('core.login.admin'))
+			if (Factory::getUser()->authorise('core.login.admin'))
 			{
 				$form->loadFile('frontend_admin', false);
 			}
@@ -279,15 +279,16 @@ class ProfileModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = \JFactory::getApplication()->getParams('com_users');
+		$params = Factory::getApplication()->getParams('com_users');
 
 		// Get the user id.
-		$userId = \JFactory::getApplication()->getUserState('com_users.edit.profile.id');
-		$userId = !empty($userId) ? $userId : (int) \JFactory::getUser()->get('id');
+		$userId = Factory::getApplication()->getUserState('com_users.edit.profile.id');
+		$userId = !empty($userId) ? $userId : (int) Factory::getUser()->get('id');
 
 		// Set the user id.
 		$this->setState('user.id', $userId);
@@ -304,6 +305,7 @@ class ProfileModel extends FormModel
 	 * @return  mixed  The user id on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function save($data)
 	{
@@ -340,7 +342,7 @@ class ProfileModel extends FormModel
 			{
 				// Run the plugins
 				PluginHelper::importPlugin('twofactorauth');
-				$otpConfigReplies = \JFactory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+				$otpConfigReplies = Factory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
 
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
@@ -432,7 +434,7 @@ class ProfileModel extends FormModel
 
 		PluginHelper::importPlugin('twofactorauth');
 
-		return \JFactory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
 	/**
