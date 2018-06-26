@@ -37,7 +37,7 @@ use Joomla\CMS\Language\Text;
         <?php $direction = ' redirect-rtl'; ?>
     <?php endif; ?>
     <?php $images = json_decode($this->item->images); ?>
-	<div class="newsfeed<?php echo $direction; ?>">
+	<div class="com-newsfeeds-newsfeed newsfeed<?php echo $direction; ?>">
         <?php if ($this->params->get('display_num')) : ?>
         <h1 class="<?php echo $direction; ?>">
             <?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -60,7 +60,7 @@ use Joomla\CMS\Language\Text;
         <!-- Show Images from Component -->
         <?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
             <?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
-            <div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
+            <div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
                 <img
                 <?php if ($images->image_first_caption) : ?>
                     <?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
@@ -71,7 +71,7 @@ use Joomla\CMS\Language\Text;
 
         <?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
             <?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
-            <div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
+            <div class="com-newsfeeds-newsfeed__second-image pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
                 <img
                 <?php if ($images->image_second_caption) : ?>
                     <?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
@@ -84,21 +84,21 @@ use Joomla\CMS\Language\Text;
         <!-- Show Feed's Description -->
 
         <?php if ($this->params->get('show_feed_description')) : ?>
-            <div class="feed-description">
+            <div class="com-newsfeeds-newsfeed__description feed-description">
                 <?php echo str_replace('&apos;', "'", $this->rssDoc->description); ?>
             </div>
         <?php endif; ?>
 
         <!-- Show Image -->
         <?php if (isset($this->rssDoc->image, $this->rssDoc->imagetitle) && $this->params->get('show_feed_image')) : ?>
-            <div>
+            <div class="com-newsfeeds-newsfeed__feed-image">
                 <img src="<?php echo $this->rssDoc->image; ?>" alt="<?php echo $this->rssDoc->image->decription; ?>">
             </div>
         <?php endif; ?>
 
         <!-- Show items -->
         <?php if (!empty($this->rssDoc[0])) : ?>
-            <ol>
+            <ol class="com-newsfeeds-newsfeed__items">
                 <?php for ($i = 0; $i < $this->item->numarticles; $i++) : ?>
                     <?php if (empty($this->rssDoc[$i])) : ?>
                         <?php break; ?>
