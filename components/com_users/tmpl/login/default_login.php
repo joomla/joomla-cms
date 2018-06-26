@@ -46,7 +46,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo Route::_('index.php?option=com_users&view=login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well">
+	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well">
 
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
@@ -94,7 +94,6 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				</div>
 			</div>
 
-			<input type="hidden" name="task" value="user.login" />
 			<?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem'))); ?>
 			<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>">
 			<?php echo HTMLHelper::_('form.token'); ?>
