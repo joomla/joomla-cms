@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "81c9ca521a0712b07e07143b469e835a",
@@ -670,12 +670,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "ccf0eaacb81792742f6def319e780eed917e5faf"
+                "reference": "c839698cafa48e209946e7e6df1f45da633f3d3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/ccf0eaacb81792742f6def319e780eed917e5faf",
-                "reference": "ccf0eaacb81792742f6def319e780eed917e5faf",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/c839698cafa48e209946e7e6df1f45da633f3d3a",
+                "reference": "c839698cafa48e209946e7e6df1f45da633f3d3a",
                 "shasum": ""
             },
             "require": {
@@ -721,7 +721,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2018-06-13T21:09:31+00:00"
+            "time": "2018-06-23T18:53:33+00:00"
         },
         {
             "name": "joomla/di",
