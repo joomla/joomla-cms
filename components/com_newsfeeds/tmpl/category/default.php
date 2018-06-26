@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $pageClass = $this->params->get('pageclass_sfx');
 
 ?>
-<div class="newsfeed-category">
+<div class="com-newsfeeds-category newsfeed-category">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -29,7 +29,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
-		<div class="category-desc">
+		<div class="com-newsfeeds-category__description category-desc">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 				<img src="<?php echo $this->category->getParams()->get('image'); ?>">
 			<?php endif; ?>
@@ -41,7 +41,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php endif; ?>
 	<?php echo $this->loadTemplate('items'); ?>
 	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
-		<div class="cat-children">
+		<div class="com-newsfeeds-category__children cat-children">
 			<h3>
 				<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 			</h3>
