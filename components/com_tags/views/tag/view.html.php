@@ -154,16 +154,13 @@ class TagsViewTag extends JViewLegacy
 				{
 					$itemElement->core_body = $itemElement->text;
 				}
-			}
-		}
 
-		// Categories store the images differently so lets re-map it so the display is correct
-		if ($items && $items[0]->type_alias === 'com_content.category')
-		{
-			foreach ($items as $row)
-			{
-				$core_params = json_decode($row->core_params);
-				$row->core_images = json_encode(array('image_intro' => $core_params->image, 'image_intro_alt' => $core_params->image_alt));
+				// Categories store the images differently so lets re-map it so the display is correct
+				if ($itemElement->type_alias === 'com_content.category')
+				{
+					$coreParams = json_decode($itemElement->core_params);
+					$itemElement->core_images = json_encode(array('image_intro' => $coreParams->image, 'image_intro_alt' => $coreParams->image_alt));
+				}
 			}
 		}
 
