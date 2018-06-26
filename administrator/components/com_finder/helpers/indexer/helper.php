@@ -79,8 +79,7 @@ class FinderIndexerHelper
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
-				$lconfig = ComponentHelper::getParams('com_languages');
-				$defaultLang = $lconfig->get('site');
+				$defaultLang = self::getDefaultLanguage();
 			}
 			else
 			{
@@ -190,8 +189,7 @@ class FinderIndexerHelper
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
-				$lconfig = ComponentHelper::getParams('com_languages');
-				$defaultStemmer = FinderIndexerLanguage::getInstance($lconfig->get('site'));
+				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getDefaultLanguage());
 			}
 			else
 			{
