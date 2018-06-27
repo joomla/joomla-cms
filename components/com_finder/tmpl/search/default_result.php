@@ -35,11 +35,10 @@ if ($show_description)
 
 	$description = JHtml::_('string.truncate', StringHelper::substr($this->result->description, $start), $desc_length, true);
 }
-$url = JRoute::_($this->result->route);
 ?>
 <li class="com-finder__result">
 	<h4 class="result-title <?php echo $mime; ?>">
-		<a href="<?php echo $url; ?>">
+		<a href="<?php echo JRoute::_($this->result->route); ?>">
 			<?php echo $this->result->title; ?>
 		</a>
 	</h4>
@@ -50,7 +49,7 @@ $url = JRoute::_($this->result->route);
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
 		<div class="small result-url">
-			<?php echo $this->baseUrl, JRoute::_($this->result->url); ?>
+			<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
 		</div>
 	<?php endif; ?>
 </li>
