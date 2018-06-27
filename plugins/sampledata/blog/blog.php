@@ -959,7 +959,6 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-
 	public function onAjaxSampledataApplyStep4()
 	{
 		$response['success'] = true;
