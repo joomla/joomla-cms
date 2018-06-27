@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
-<div class="archive">
+<div class="com-content-archive archive">
 <?php if ($this->params->get('show_page_heading')) : ?>
 <div class="page-header">
 <h1>
@@ -23,8 +23,8 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 </h1>
 </div>
 <?php endif; ?>
-<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-inline">
-	<fieldset class="filters">
+<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-content-archive__form form-inline">
+	<fieldset class="com-content-archive__filters filters">
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 		<label class="filter-search-lbl sr-only" for="filter-search"><?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>

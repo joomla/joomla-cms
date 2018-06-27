@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
-$class  = ' class="first"';
+$class  = 'first';
 $lang   = Factory::getLanguage();
 $user   = Factory::getUser();
 $groups = $user->getAuthorisedViewLevels();
@@ -27,11 +27,11 @@ $groups = $user->getAuthorisedViewLevels();
 			<?php
 			if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) :
 				if (!isset($this->children[$this->category->id][$id + 1])) :
-					$class = ' class="last"';
+					$class = 'last';
 				endif;
 			?>
 
-			<div<?php echo $class; ?>>
+			<div class="com-content-category__children <?php echo $class; ?>"
 				<?php $class = ''; ?>
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">

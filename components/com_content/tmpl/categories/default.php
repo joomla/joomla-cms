@@ -38,7 +38,7 @@ jQuery(function($) {
 	});
 });");
 ?>
-<div class="categories-list">
+<div class="com-content-categories categories-list">
 	<?php
 		echo LayoutHelper::render('joomla.content.categories_default', $this);
 		echo $this->loadTemplate('items');

@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
-<div class="category-list">
+<div class="com-content-category category-list">
 
 <?php
 $this->subtemplatename = 'articles';
