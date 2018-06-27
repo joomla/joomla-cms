@@ -215,7 +215,7 @@ $assoc = JLanguageAssociations::isEnabled();
 										{
 											if ($item->category_level != '1') :
 												if ($canEditParCat || $canEditOwnParCat) :
-													echo '<a class="hasTooltip" href=' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+													echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 												endif;
 												echo $this->escape($item->parent_category_title);
 												if ($canEditParCat || $canEditOwnParCat) :
@@ -224,7 +224,7 @@ $assoc = JLanguageAssociations::isEnabled();
 												echo ' &#187; ';
 											endif;
 											if ($canEditCat || $canEditOwnCat) :
-												echo '<a class="hasTooltip" href=' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+												echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 											endif;
 											echo $this->escape($item->category_title);
 											if ($canEditCat || $canEditOwnCat) :
@@ -232,10 +232,9 @@ $assoc = JLanguageAssociations::isEnabled();
 											endif;
 										}
 										else
-											{
-
+										{
 											if ($canEditCat || $canEditOwnCat) :
-												echo '<a class="hasTooltip" href=' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+												echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 											endif;
 											echo $this->escape($item->category_title);
 											if ($canEditCat || $canEditOwnCat) :
@@ -245,7 +244,7 @@ $assoc = JLanguageAssociations::isEnabled();
 											if ($item->category_level != '1') :
 												echo ' &#171; ';
 												if ($canEditParCat || $canEditOwnParCat) :
-													echo '<a class="hasTooltip" href=' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+													echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 												endif;
 												echo $this->escape($item->parent_category_title);
 												if ($canEditParCat || $canEditOwnParCat) :
