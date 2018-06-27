@@ -518,7 +518,7 @@ class WebApplication extends BaseApplication
 			// Last modified.
 			if ($this->modifiedDate instanceof \JDate)
 			{
-				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
+				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s', false, false) . ' GMT');
 			}
 		}
 
