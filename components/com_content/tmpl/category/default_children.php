@@ -19,8 +19,7 @@ $groups = $user->getAuthorisedViewLevels();
 		<?php // Check whether category access level allows access to subcategories. ?>
 		<?php if (in_array($child->access, $groups)) : ?>
 			<?php if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) : ?>
-
-			<div class="com-content-category__children"
+			<div class="com-content-category__children">
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
