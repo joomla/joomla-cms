@@ -257,6 +257,6 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	public function copyFileTo($file, $dir)
 	{
-		Folder::copy($file['extractdir'], $dir, '', true);
+		Folder::copy($file, $dir, '', true);
 	}
 }
