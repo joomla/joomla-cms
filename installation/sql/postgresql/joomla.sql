@@ -627,7 +627,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (438, 0, 'plg_quickicon_extensionupdate', 'plugin', 'extensionupdate', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (439, 0, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"clean"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (440, 0, 'plg_system_highlight', 'plugin', 'highlight', 'system', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 7, 0, ''),
-(441, 0, 'plg_content_finder', 'plugin', 'finder', 'content', 0, 0, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(441, 0, 'plg_content_finder', 'plugin', 'finder', 'content', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (442, 0, 'plg_finder_categories', 'plugin', 'categories', 'finder', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 1, 0, ''),
 (443, 0, 'plg_finder_contacts', 'plugin', 'contacts', 'finder', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 2, 0, ''),
 (444, 0, 'plg_finder_content', 'plugin', 'content', 'finder', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 3, 0, ''),
