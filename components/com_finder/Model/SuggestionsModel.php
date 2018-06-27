@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 \JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
@@ -118,10 +119,10 @@ class SuggestionsModel extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$input = $app->input;
 		$params = ComponentHelper::getParams('com_finder');
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Get the query input.
 		$this->setState('input', $input->request->get('q', '', 'string'));
@@ -129,7 +130,7 @@ class SuggestionsModel extends ListModel
 		// Set the query language
 		if (Multilanguage::isEnabled())
 		{
-			$lang = \JFactory::getLanguage()->getTag();
+			$lang = Factory::getLanguage()->getTag();
 		}
 		else
 		{
