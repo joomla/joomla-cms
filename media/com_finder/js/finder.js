@@ -9,7 +9,7 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
-		var forms, awesompletes = [], searchword = document.querySelectorAll('.js-finder-search-query');
+		var forms, searchword = document.querySelectorAll('.js-finder-search-query');
 
 		for (var i = 0; i < searchword.length; i++) {
 			// Handle the auto suggestion
@@ -31,7 +31,7 @@ Joomla = window.Joomla || {};
 								perform: true,
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 								onSuccess: function(response, xhr)
-								{console.log(xhr);
+								{
 									response = JSON.parse(response);
 									if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
 										event.target.awesomplete.list = response.suggestions;
