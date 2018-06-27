@@ -139,8 +139,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function execute()
 	{
 		// Import CMS plugin groups to be able to subscribe to events
-//		PluginHelper::importPlugin('system');
-//		PluginHelper::importPlugin('console');
+		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+		{
+			PluginHelper::importPlugin('system');
+			PluginHelper::importPlugin('console');
+		}
 
 		parent::execute();
 	}
