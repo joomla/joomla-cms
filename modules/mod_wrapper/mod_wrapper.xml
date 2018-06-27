@@ -43,14 +43,14 @@
 				</field>
 
 				<field
-					name="scrolling"
+					name="overflow"
 					type="list"
 					label="MOD_WRAPPER_FIELD_SCROLL_LABEL"
 					default="auto"
 					>
 					<option value="auto">MOD_WRAPPER_FIELD_VALUE_AUTO</option>
-					<option value="no">JNO</option>
-					<option value="yes">JYES</option>
+					<option value="hidden">JNO</option>
+					<option value="scroll">JYES</option>
 				</field>
 
 				<field
@@ -66,7 +66,7 @@
 					type="text"
 					label="MOD_WRAPPER_FIELD_HEIGHT_LABEL"
 					size="5"
-					default="200"
+					default="200px"
 				/>
 
 				<field
@@ -81,14 +81,14 @@
 				</field>
 
 				<field
-					name="frameborder"
+					name="border"
 					type="radio"
 					class="switcher"
 					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
-					default="1"
+					default="thin solid #D3D3D3"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="none">JNO</option>
+					<option value="thin solid #D3D3D3">JYES</option>
 				</field>
 
 				<field
