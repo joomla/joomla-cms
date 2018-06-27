@@ -58,7 +58,7 @@
 				name="filter_language"
 				type="contentlanguage"
 				label="COM_MENUS_ADMIN_LANGUAGE_LABEL"
-				description="COM_MENUS_ADMIN_LANGUAGE_LABEL"
+				description="COM_MENUS_ADMIN_LANGUAGE_DESC"
 				>
 				<option value="">JOPTION_SELECT_LANGUAGE</option>
 				<option value="*">JALL</option>
