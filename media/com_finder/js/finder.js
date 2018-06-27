@@ -9,22 +9,19 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
-		var forms, searchword = document.querySelectorAll('.js-finder-search-query');
+		var forms, awesompletes = [], searchword = document.querySelectorAll('.js-finder-search-query');
 
 		for (var i = 0; i < searchword.length; i++) {
-			// If the current value equals the default value, clear it.
-			searchword[i].addEventListener('focus', function (event) {
-				if (event.target.value === Joomla.JText._('MOD_FINDER_SEARCH_VALUE')) {
-					event.target.value = '';
-				}
-			});
-
 			// Handle the auto suggestion
 			if (Joomla.getOptions('finder-search')) {
 
+				searchword[i].awesomplete = new Awesomplete(searchword[i]);
+
 				// If the current value is empty, set the previous value.
-				searchword[i].addEventListener('keypress', function (event) {
+				searchword[i].addEventListener('keyup', function (event) {
 					if (event.target.value.length > 1) {
+
+						event.target.awesomplete.list = [];
 
 						Joomla.request(
 							{
@@ -34,15 +31,18 @@ Joomla = window.Joomla || {};
 								perform: true,
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 								onSuccess: function(response, xhr)
-								{
+								{console.log(xhr);
 									response = JSON.parse(response);
 									if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
-										new Awesomplete(event.target, { list: response.suggestions });
+										event.target.awesomplete.list = response.suggestions;
 									}
 								},
 								onError: function(xhr)
 								{
-									Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+									if (xhr.status > 0)
+									{
+										Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+									}
 								}
 							}
 						);
