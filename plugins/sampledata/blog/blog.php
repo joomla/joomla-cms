@@ -953,11 +953,11 @@ class PlgSampledataBlog extends CMSPlugin
 	}
 
 	/**
-	 * Final step to show completion of  sampledata.
+	 * Final step to show completion of sampledata.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 
 	public function onAjaxSampledataApplyStep4()
