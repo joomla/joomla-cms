@@ -11,16 +11,11 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 defined('_JEXEC') or die;
 
 ?>
-<?php $class = ' class="first"'; ?>
 <?php if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
 	<ul>
 		<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
-				<?php if (!isset($this->children[$this->category->id][$id + 1])) : ?>
-					<?php $class = ' class="last"'; ?>
-				<?php endif; ?>
-				<li<?php echo $class; ?>>
-					<?php $class = ''; ?>
+				<li>
 					<span class="item-title">
 						<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($child->id)); ?>">
 							<?php echo $this->escape($child->title); ?>

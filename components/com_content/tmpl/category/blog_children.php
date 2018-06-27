@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$class  = ' class="first"';
 $lang   = JFactory::getLanguage();
 $user   = JFactory::getUser();
 $groups = $user->getAuthorisedViewLevels();
@@ -19,14 +18,8 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 	<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 		<?php // Check whether category access level allows access to subcategories. ?>
 		<?php if (in_array($child->access, $groups)) : ?>
-			<?php
-			if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
-				if (!isset($this->children[$this->category->id][$id + 1])) :
-					$class = ' class="last"';
-				endif;
-			?>
-			<div<?php echo $class; ?>>
-				<?php $class = ''; ?>
+			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
+			<div class="com-content-category-blog__child">
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
@@ -66,7 +59,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 				<?php endif; ?>
 
 				<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-				<div class="com-content-category-blog__children collapse fade" id="category-<?php echo $child->id; ?>">
+				<div class="com-content-category-blog__children  collapse fade" id="category-<?php echo $child->id; ?>">
 					<?php
 					$this->children[$child->id] = $child->getChildren();
 					$this->category = $child;
