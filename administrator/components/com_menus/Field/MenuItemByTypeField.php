@@ -7,19 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Menus\Administrator\Field;
+
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('groupedlist');
-
-// Import the com_menus helper.
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\GroupedlistField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
  *
  * @since  3.8.0
  */
-class JFormFieldMenuitemByType extends JFormFieldGroupedList
+class MenuItemByTypeField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -130,18 +132,18 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @see     JFormField::setup()
 	 * @since   3.8.0
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
 
@@ -151,7 +153,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 
 			if (!$menuType)
 			{
-				$app = JFactory::getApplication();
+				$app = Factory::getApplication();
 				$currentMenuType = $app->getUserState('com_menus.items.menutype', '');
 				$menuType        = $app->input->getString('menutype', $currentMenuType);
 			}
@@ -186,7 +188,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 		if ($menuType)
 		{
 			// If the menutype is empty, group the items by menutype.
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
@@ -197,7 +199,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 			{
 				$menuTitle = $db->loadResult();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$menuTitle = $menuType;
 			}
@@ -227,7 +229,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 					$lang = '';
 				}
 
-				$groups[$menuTitle][] = JHtml::_('select.option',
+				$groups[$menuTitle][] = HTMLHelper::_('select.option',
 					$link->value, $levelPrefix . $link->text . $lang,
 					'value',
 					'text',
@@ -259,7 +261,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 						$lang = '';
 					}
 
-					$groups[$menu->title][] = JHtml::_('select.option',
+					$groups[$menu->title][] = HTMLHelper::_('select.option',
 						$link->value,
 						$levelPrefix . $link->text . $lang,
 						'value',

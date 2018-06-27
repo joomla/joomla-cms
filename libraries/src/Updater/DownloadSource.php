@@ -21,7 +21,7 @@ class DownloadSource
 	 * Defines a BZIP2 download package
 	 *
 	 * @const  string
-	 * @since  4.0.0
+	 * @since  3.8.4
 	 */
 	const FORMAT_TAR_BZIP = 'bz2';
 
@@ -29,7 +29,7 @@ class DownloadSource
 	 * Defines a TGZ download package
 	 *
 	 * @const  string
-	 * @since  4.0.0
+	 * @since  3.8.4
 	 */
 	const FORMAT_TAR_GZ = 'gz';
 
@@ -53,7 +53,7 @@ class DownloadSource
 	 * Defines a patch package download type
 	 *
 	 * @const  string
-	 * @since  4.0.0
+	 * @since  3.8.4
 	 */
 	const TYPE_PATCH = 'patch';
 
@@ -61,7 +61,7 @@ class DownloadSource
 	 * Defines an upgrade package download type
 	 *
 	 * @const  string
-	 * @since  4.0.0
+	 * @since  3.8.4
 	 */
 	const TYPE_UPGRADE = 'upgrade';
 

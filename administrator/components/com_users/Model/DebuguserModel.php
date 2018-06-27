@@ -13,7 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Methods supporting a list of User ACL permissions
@@ -71,7 +74,7 @@ class DebuguserModel extends ListModel
 	public function getItems()
 	{
 		$userId = $this->getState('user_id');
-		$user   = \JFactory::getUser($userId);
+		$user   = Factory::getUser($userId);
 
 		if (($assets = parent::getItems()) && $userId)
 		{
@@ -115,10 +118,11 @@ class DebuguserModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		$layout = $app->input->get('layout', 'default');
@@ -180,7 +184,7 @@ class DebuguserModel extends ListModel
 	/**
 	 * Get the user being debugged.
 	 *
-	 * @return  \JUser
+	 * @return  User
 	 *
 	 * @since   1.6
 	 */
@@ -188,13 +192,13 @@ class DebuguserModel extends ListModel
 	{
 		$userId = $this->getState('user_id');
 
-		return \JFactory::getUser($userId);
+		return Factory::getUser($userId);
 	}
 
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
