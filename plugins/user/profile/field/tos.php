@@ -75,6 +75,11 @@ class JFormFieldTos extends JFormFieldRadio
 				ENT_COMPAT,
 				'UTF-8'
 			) . '"';
+
+			if (JFactory::getLanguage()->isRtl())
+			{
+				$label .= ' data-placement="left"';
+			}
 		}
 
 		$tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
