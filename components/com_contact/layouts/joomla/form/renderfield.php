@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 extract($displayData);
 
 /**
@@ -21,8 +23,8 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
-	JHtml::_('jquery.framework');
-	JHtml::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('jquery.framework');
+	HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
