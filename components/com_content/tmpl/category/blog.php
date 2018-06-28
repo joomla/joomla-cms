@@ -27,7 +27,7 @@ $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->ex
 $afterDisplayContent = trim(implode("\n", $results));
 
 ?>
-<div class="blog" itemscope itemtype="https://schema.org/Blog">
+<div class="com-content-category-blog blog" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -69,9 +69,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
-		<div class="blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
+		<div class="com-content-category-blog__items blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
 			<?php foreach ($this->lead_items as &$item) : ?>
-				<div class="blog-item"
+				<div class="com-content-category-blog__item blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 						<?php
@@ -91,9 +91,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 	?>
 
 	<?php if (!empty($this->intro_items)) : ?>
-		<div class="blog-items <?php echo $this->params->get('blog_class'); ?>">
+		<div class="com-content-category-blog__items blog-items <?php echo $this->params->get('blog_class'); ?>">
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
-			<div class="blog-item"
+			<div class="com-content-category-blog__item blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 				<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 					<?php
@@ -107,26 +107,28 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php endif; ?>
 
 	<?php if (!empty($this->link_items)) : ?>
-		<div class="items-more">
+		<div class="com-content-category-blog__items-more items-more">
 			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>
 
 	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
-		<div class="cat-children">
+		<div class="com-content-category-blog__children cat-children">
 			<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 				<h3> <?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
 			<?php endif; ?>
 			<?php echo $this->loadTemplate('children'); ?> </div>
 	<?php endif; ?>
 	<?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-		<div class="w-100">
+		<div class="com-content-category-blog__navigation w-100">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="counter float-right pt-3 pr-2">
+				<p class="com-content-category-blog__counter counter float-right pt-3 pr-2">
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
 			<?php endif; ?>
-			<?php echo $this->pagination->getPagesLinks(); ?>
+			<div class="com-content-category-blog__pagination">
+				<?php echo $this->pagination->getPagesLinks(); ?>				
+			</div>
 		</div>
 	<?php endif; ?>
 </div>

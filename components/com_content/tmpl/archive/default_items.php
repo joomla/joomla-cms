@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $params = $this->params;
 ?>
 
-<div id="archive-items">
+<div id="archive-items" class="com-content-archive__items">
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php $info = $item->params->get('info_block_position', 0); ?>
 		<div class="row<?php echo $i % 2; ?>" itemscope itemtype="https://schema.org/Article">
@@ -46,7 +46,7 @@ $params = $this->params;
 		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 			|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
 		<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
-			<div class="article-info text-muted">
+			<div class="com-content-archive__info article-info text-muted">
 				<dl class="article-info">
 				<dt class="article-info-term">
 					<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
@@ -213,12 +213,13 @@ $params = $this->params;
 	</div>
 	<?php endforeach; ?>
 </div>
-<div class="w-100">
+<div class="com-content-archive__navigation w-100">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		<p class="counter float-right pt-3 pr-2">
+		<p class="com-content-archive__counter counter float-right pt-3 pr-2">
 			<?php echo $this->pagination->getPagesCounter(); ?>
 		</p>
 	<?php endif; ?>
-
-	<?php echo $this->pagination->getPagesLinks(); ?>
+	<div class="com-content-archive__pagination">
+		<?php echo $this->pagination->getPagesLinks(); ?>		
+	</div>
 </div>
