@@ -59,14 +59,14 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 
 				<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 				<?php if ($child->description) : ?>
-					<div class="category-desc">
+					<div class="com-content-category-blog__description category-desc">
 						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
 					</div>
 				<?php endif; ?>
 				<?php endif; ?>
 
 				<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-				<div class="collapse fade" id="category-<?php echo $child->id; ?>">
+				<div class="com-content-category-blog__children collapse fade" id="category-<?php echo $child->id; ?>">
 					<?php
 					$this->children[$child->id] = $child->getChildren();
 					$this->category = $child;
