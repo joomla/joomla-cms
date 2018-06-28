@@ -16,7 +16,7 @@ $urls = json_decode($this->item->urls);
 $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
-<div class="content-links">
+<div class="com-content-article__links content-links">
 	<ul class="nav nav-tabs nav-stacked">
 		<?php
 			$urlarray = array(
@@ -40,7 +40,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				// If no target is present, use the default
 				$target = $target ?: $params->get('target' . $id);
 				?>
-			<li class="content-links-<?php echo $id; ?>">
+			<li class="com-content-article__link content-links-<?php echo $id; ?>">
 				<?php
 					// Compute the correct link
 
