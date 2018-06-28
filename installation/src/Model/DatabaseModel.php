@@ -372,7 +372,6 @@ class DatabaseModel extends BaseInstallationModel
 				// Try to create the database now using the alternate driver
 				try
 				{
-					exit;
 					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
 				catch (\RuntimeException $e)
