@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Plugin to check the PHP version and display a warning about its support status
