@@ -2406,6 +2406,8 @@ CREATE TABLE "#__privacy_consents" (
   "created" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "subject" nvarchar(255) NOT NULL DEFAULT '',
   "body" nvarchar(max) NOT NULL,
+  "remind" smallint NOT NULL,
+  "token" nvarchar(100) NOT NULL DEFAULT '',
 CONSTRAINT "PK_#__privacy_consents_id" PRIMARY KEY CLUSTERED(
   "id" ASC)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON

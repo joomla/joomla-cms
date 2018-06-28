@@ -11,6 +11,8 @@ CREATE TABLE "#__privacy_consents" (
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "subjext" varchar(255) DEFAULT '' NOT NULL,
   "body" text NOT NULL,
+  "remind" smallint DEFAULT 0 NOT NULL,
+  "token" varchar(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__privacy_consents_idx_user_id" ON "#__privacy_consents" ("user_id");
