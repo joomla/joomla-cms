@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -28,7 +29,7 @@ JHtml::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 
 HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
 	<div class="row">
 		<div class="col-md-6">
 			<fieldset>

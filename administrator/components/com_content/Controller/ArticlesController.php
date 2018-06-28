@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Articles list controller class.
@@ -108,11 +109,11 @@ class ArticlesController extends AdminController
 
 		if ($view == 'featured')
 		{
-			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=featured', false), $message);
+			$this->setRedirect(Route::_('index.php?option=com_content&view=featured', false), $message);
 		}
 		else
 		{
-			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles', false), $message);
+			$this->setRedirect(Route::_('index.php?option=com_content&view=articles', false), $message);
 		}
 	}
 

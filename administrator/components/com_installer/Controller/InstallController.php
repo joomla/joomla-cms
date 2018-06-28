@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Installer controller for Joomla! installer class.
@@ -55,7 +56,7 @@ class InstallController extends BaseController
 
 		if (empty($redirect_url))
 		{
-			$redirect_url = \JRoute::_('index.php?option=com_installer&view=install', false);
+			$redirect_url = Route::_('index.php?option=com_installer&view=install', false);
 		}
 		else
 		{

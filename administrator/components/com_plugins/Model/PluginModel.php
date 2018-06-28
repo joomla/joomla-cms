@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Plugin model.
@@ -269,7 +270,7 @@ class PluginModel extends AdminModel
 		if (empty($folder) || empty($element))
 		{
 			$app = \JFactory::getApplication();
-			$app->redirect(\JRoute::_('index.php?option=com_plugins&view=plugins', false));
+			$app->redirect(Route::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
 		$formFile = \JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');

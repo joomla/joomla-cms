@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('behavior.core');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
@@ -26,7 +27,7 @@ $app = JFactory::getApplication();
 
 <div id="installer-install" class="clearfix">
 
-	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
+	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
 			<div id="j-sidebar-container" class="col-md-2">
 				<?php echo $this->sidebar; ?>

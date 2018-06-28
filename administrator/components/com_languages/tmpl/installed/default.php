@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Router\Route;
 
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -19,7 +20,7 @@ $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed'); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_languages&view=installed'); ?>" method="post" id="adminForm" name="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
@@ -26,8 +27,8 @@ $aliasArray     = explode('.', $this->state->type_alias);
 $option         = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
 $filter         = JFilterInput::getInstance();
 $task           = $filter->clean(end($aliasArray)) . '.loadhistory';
-$loadUrl        = JRoute::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
-$deleteUrl      = JRoute::_('index.php?option=com_contenthistory&task=history.delete');
+$loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
+$deleteUrl      = Route::_('index.php?option=com_contenthistory&task=history.delete');
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
 					. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
@@ -41,15 +42,15 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 <div class="container-popup">
 
 	<div class="btn-group float-right mb-3">
-		<button id="toolbar-load" type="submit" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo JRoute::_($loadUrl); ?>">
+		<button id="toolbar-load" type="submit" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo Route::_($loadUrl); ?>">
 			<span class="icon-upload" aria-hidden="true"></span>
 			<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
 		</button>
-		<button id="toolbar-preview" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
+		<button id="toolbar-preview" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
 			<span class="icon-search" aria-hidden="true"></span>
 			<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span>
 		</button>
-		<button id="toolbar-compare" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
+		<button id="toolbar-compare" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
 			<span class="icon-zoom-in" aria-hidden="true"></span>
 			<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span>
 		</button>
@@ -63,7 +64,7 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 		</button>
 	</div>
 
-	<form action="<?php echo JRoute::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
@@ -103,7 +104,7 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 					</td>
 					<td>
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
-							href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
+							href="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
 							<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>

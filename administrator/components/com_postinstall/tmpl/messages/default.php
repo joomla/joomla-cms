@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $renderer = JFactory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
@@ -42,7 +43,7 @@ $params = array('params' => json_encode($param));
 	<div class="jumbotron">
 		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
 		<p><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
-        <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
+        <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
 			<span class="icon icon-eye-open" aria-hidden="true"></span>
 			<?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?>
 		</a>
@@ -58,12 +59,12 @@ $params = array('params' => json_encode($param));
 			<div>
 				<?php echo Text::_($item->description_key); ?>
                 <?php if ($item->type !== 'message') : ?>
-                <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary">
+                <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary">
 					<?php echo Text::_($item->action_key); ?>
 				</a>
 				<?php endif; ?>
 				<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
-                <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
+                <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
 					<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 				</a>
 				<?php endif; ?>

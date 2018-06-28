@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -20,7 +21,7 @@ $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
@@ -62,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('grid.id', $i, $item->message_id); ?>
 						</td>
 						<td>
-							<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">
+							<a href="<?php echo Route::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">
 								<?php echo $this->escape($item->subject); ?></a>
 						</td>
 						<td class="text-center">

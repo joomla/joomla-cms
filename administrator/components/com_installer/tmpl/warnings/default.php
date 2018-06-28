@@ -10,10 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 ?>
 <div id="installer-warnings" class="clearfix">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_installer&view=warnings'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
 			<div id="j-sidebar-container" class="col-md-2">
 				<?php echo $this->sidebar; ?>

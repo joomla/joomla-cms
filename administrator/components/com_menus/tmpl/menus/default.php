@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -35,7 +36,7 @@ foreach ($this->items as $item)
 JFactory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
 JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -94,7 +95,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td>
 									<?php if ($canManageItems) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
@@ -102,7 +103,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 									<div class="small">
 										<?php echo Text::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
 										<?php if ($canEdit) : ?>
-											<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->description); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->description); ?>">
 											<?php echo $this->escape($item->menutype); ?></a>
 										<?php else : ?>
 											<?php echo $this->escape($item->menutype); ?>
@@ -111,7 +112,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 											<?php echo $item->count_published; ?></a>
 									<?php else : ?>
 										<span class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>">
@@ -120,7 +121,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									<?php else : ?>
 										<span class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
@@ -129,7 +130,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 											<?php echo $item->count_trashed; ?></a>
 									<?php else : ?>
 										<span class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
@@ -146,7 +147,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 											<div class="dropdown-menu dropdown-menu-right">
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-														<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
+														<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
 															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 													<?php else : ?>
@@ -159,7 +160,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 										 </div>
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 											<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-												<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
+												<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 												<?php echo JHtml::_(
 														'bootstrap.renderModal',
 														'moduleEdit' . $module->id . 'Modal',
@@ -187,7 +188,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 											<?php endif; ?>
 										<?php endforeach; ?>
 									<?php elseif ($modMenuId) : ?>
-										<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
+										<?php $link = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
 										<a class="btn btn-sm btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
 										<?php echo JHtml::_(
 												'bootstrap.renderModal',

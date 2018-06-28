@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -16,7 +18,7 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 ?>
 <div class="container-popup">
-	<form action="<?php echo JRoute::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form">
+	<form action="<?php echo Route::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form">
 		<fieldset>
 			<?php echo $this->form->renderField('lock'); ?>
 			<?php echo $this->form->renderField('mail_on_new'); ?>

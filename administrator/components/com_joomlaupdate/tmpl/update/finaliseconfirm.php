@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('behavior.keepalive');
 
@@ -28,7 +29,7 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 
 <hr>
 
-<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
+<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">

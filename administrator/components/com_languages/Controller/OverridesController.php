@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Languages Overrides Controller.
@@ -63,7 +64,7 @@ class OverridesController extends AdminController
 			}
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
@@ -77,6 +78,6 @@ class OverridesController extends AdminController
 	{
 		$model = $this->getModel('overrides');
 		$model->purge();
-		$this->setRedirect(\JRoute::_('index.php?option=com_languages&view=overrides', false));
+		$this->setRedirect(Route::_('index.php?option=com_languages&view=overrides', false));
 	}
 }

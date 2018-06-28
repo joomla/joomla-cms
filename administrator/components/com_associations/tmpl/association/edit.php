@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
@@ -29,19 +30,19 @@ $options = array(
 		data-hide-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
 
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" data-associatedview="<?php echo $this->typeName; ?>">
+<form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" data-associatedview="<?php echo $this->typeName; ?>">
 	<div class="sidebyside">
 		<div class="outer-panel" id="left-panel">
 			<div class="inner-panel">
 				<h3><?php echo Text::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
 				<iframe id="reference-association" name="reference-association" title="reference-association"
-					src="<?php echo JRoute::_($this->editUri . '&task=' . $this->typeName . '.edit&id=' . (int) $this->referenceId); ?>"
+					src="<?php echo Route::_($this->editUri . '&task=' . $this->typeName . '.edit&id=' . (int) $this->referenceId); ?>"
 					height="400" width="400"
 					data-action="edit"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
 					data-language="<?php echo $this->referenceLanguage; ?>"
-					data-editurl="<?php echo JRoute::_($this->editUri); ?>">
+					data-editurl="<?php echo Route::_($this->editUri); ?>">
 				</iframe>
 			</div>
 		</div>
@@ -59,7 +60,7 @@ $options = array(
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->targetId; ?>"
 					data-language="<?php echo $this->targetLanguage; ?>"
-					data-editurl="<?php echo JRoute::_($this->editUri); ?>">
+					data-editurl="<?php echo Route::_($this->editUri); ?>">
 				</iframe>
 			</div>
 		</div>

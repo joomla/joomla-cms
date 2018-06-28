@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Association edit controller class.
@@ -42,7 +43,7 @@ class AssociationController extends FormController
 		if (!AssociationsHelper::allowEdit($extensionName, $typeName, $id))
 		{
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_associations&view=associations', false));
+			$this->setRedirect(Route::_('index.php?option=com_associations&view=associations', false));
 
 			return false;
 		}
@@ -84,6 +85,6 @@ class AssociationController extends FormController
 			}
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_associations&view=associations', false));
+		$this->setRedirect(Route::_('index.php?option=com_associations&view=associations', false));
 	}
 }

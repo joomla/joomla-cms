@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Indexer controller class for Finder.
@@ -65,7 +66,7 @@ class FilterController extends FormController
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return false;
 		}
@@ -95,7 +96,7 @@ class FilterController extends FormController
 		if (!$this->allowSave($data, $key))
 		{
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return false;
 		}
@@ -138,7 +139,7 @@ class FilterController extends FormController
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
+				Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
 			);
 
 			return false;
@@ -164,7 +165,7 @@ class FilterController extends FormController
 			// Redirect back to the edit screen.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(
-				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
+				Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
 			);
 
 			return false;
@@ -202,7 +203,7 @@ class FilterController extends FormController
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
 				);
 
 				break;
@@ -214,7 +215,7 @@ class FilterController extends FormController
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, $key), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, $key), false)
 				);
 
 				break;
@@ -226,7 +227,7 @@ class FilterController extends FormController
 
 				// Redirect to the list screen.
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false)
 				);
 
 				break;

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Contenthistory list controller class.
@@ -59,7 +60,7 @@ class HistoryController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
 				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . \JSession::getFormToken() . '=1', false
@@ -121,7 +122,7 @@ class HistoryController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
 				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . \JSession::getFormToken() . '=1', false

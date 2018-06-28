@@ -16,6 +16,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Groups View
@@ -93,7 +94,7 @@ class HtmlView extends BaseHtmlView
 		// Display a warning if the fields system plugin is disabled
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
 			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 

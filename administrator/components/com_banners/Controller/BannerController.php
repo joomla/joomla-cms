@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Banner controller class.
@@ -106,7 +107,7 @@ class BannerController extends FormController
 		$model = $this->getModel('Banner', '', array());
 
 		// Preset the redirect
-		$this->setRedirect(\JRoute::_('index.php?option=com_banners&view=banners' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_banners&view=banners' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

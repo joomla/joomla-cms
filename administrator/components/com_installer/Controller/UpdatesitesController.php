@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Installer Update Sites Controller
@@ -83,7 +84,7 @@ class UpdatesitesController extends BaseController
 
 		$this->setMessage(Text::plural($ntext, count($ids)));
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 	}
 
 	/**
@@ -110,7 +111,7 @@ class UpdatesitesController extends BaseController
 		// Delete the records.
 		$this->getModel('Updatesites')->delete($ids);
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 	}
 
 	/**
@@ -128,6 +129,6 @@ class UpdatesitesController extends BaseController
 		// Rebuild the update sites.
 		$this->getModel('Updatesites')->rebuild();
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 	}
 }

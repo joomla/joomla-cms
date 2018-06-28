@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Sysinfo View class for the Admin component
@@ -100,8 +101,8 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		ToolbarHelper::title(Text::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-2 systeminfo');
-		ToolbarHelper::link(\JRoute::_('index.php?option=com_admin&view=sysinfo&format=text'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT', 'download');
-		ToolbarHelper::link(\JRoute::_('index.php?option=com_admin&view=sysinfo&format=json'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON', 'download');
+		ToolbarHelper::link(Route::_('index.php?option=com_admin&view=sysinfo&format=text'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT', 'download');
+		ToolbarHelper::link(Route::_('index.php?option=com_admin&view=sysinfo&format=json'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON', 'download');
 		ToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
 	}
 }

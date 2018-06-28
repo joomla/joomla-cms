@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * The article controller
@@ -140,7 +141,7 @@ class ArticleController extends FormController
 		$model = $this->getModel('Article', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

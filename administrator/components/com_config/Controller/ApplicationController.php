@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Controller for global configuration
@@ -54,7 +55,7 @@ class ApplicationController extends BaseController
 	 */
 	public function cancel()
 	{
-		$this->setRedirect(\JRoute::_('index.php?option=com_cpanel'));
+		$this->setRedirect(Route::_('index.php?option=com_cpanel'));
 	}
 
 	/**
@@ -116,7 +117,7 @@ class ApplicationController extends BaseController
 			 */
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(\JRoute::_('index.php?option=com_config', false));
+			$this->setRedirect(Route::_('index.php?option=com_config', false));
 		}
 
 		// Attempt to save the configuration.
@@ -134,7 +135,7 @@ class ApplicationController extends BaseController
 			 */
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config', false));
+			$this->app->redirect(Route::_('index.php?option=com_config', false));
 		}
 
 		// Set the success message.
@@ -144,12 +145,12 @@ class ApplicationController extends BaseController
 		switch ($this->input->getCmd('task'))
 		{
 			case 'apply':
-				$this->setRedirect(\JRoute::_('index.php?option=com_config', false));
+				$this->setRedirect(Route::_('index.php?option=com_config', false));
 				break;
 
 			case 'save':
 			default:
-				$this->setRedirect(\JRoute::_('index.php', false));
+				$this->setRedirect(Route::_('index.php', false));
 				break;
 		}
 	}
@@ -192,7 +193,7 @@ class ApplicationController extends BaseController
 		}
 
 		// Set the redirect based on the task.
-		$this->setRedirect(\JRoute::_('index.php'), Text::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->setRedirect(Route::_('index.php'), Text::_('COM_CONFIG_SAVE_SUCCESS'));
 	}
 
 	/**

@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Installer Manage Controller
@@ -87,7 +88,7 @@ class ManageController extends BaseController
 			}
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=manage', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -108,7 +109,7 @@ class ManageController extends BaseController
 		$eid = $this->input->get('cid', array(), 'array');
 		$eid = ArrayHelper::toInteger($eid, array());
 		$model->remove($eid);
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=manage', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -131,6 +132,6 @@ class ManageController extends BaseController
 		$uid = $this->input->get('cid', array(), 'array');
 		$uid = ArrayHelper::toInteger($uid, array());
 		$model->refresh($uid);
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=manage', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
 	}
 }

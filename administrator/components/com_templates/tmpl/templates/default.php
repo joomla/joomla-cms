@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -21,7 +22,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -65,11 +66,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
 								<td class="template-name">
-									<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
 									<?php if ($this->preview && $item->client_id == '0') : ?>
-										<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
+										<a href="<?php echo Route::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
 										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 										</a>
 									<?php elseif ($item->client_id == '1') : ?>

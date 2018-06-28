@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('bootstrap.popover');
 
@@ -23,7 +24,7 @@ Text::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' => 'auto']);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>

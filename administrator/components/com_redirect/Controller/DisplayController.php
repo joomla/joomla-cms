@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Redirect master display controller.
@@ -87,7 +88,7 @@ class DisplayController extends BaseController
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_redirect&view=links', false));
+			$this->setRedirect(Route::_('index.php?option=com_redirect&view=links', false));
 
 			return false;
 		}

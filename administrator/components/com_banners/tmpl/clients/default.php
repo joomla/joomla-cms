@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -29,7 +30,7 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = $this->state->params ?? new JObject;
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -116,7 +117,7 @@ $params     = $this->state->params ?? new JObject;
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
 												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+												<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
@@ -127,19 +128,19 @@ $params     = $this->state->params ?? new JObject;
 										<?php echo $item->contact; ?>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">
-										<a class="badge <?php if ($item->count_published > 0) echo 'badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
+										<a class="badge <?php if ($item->count_published > 0) echo 'badge-success'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
 											<?php echo $item->count_published; ?></a>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">
-										<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-danger'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
+										<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-danger'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">
-										<a class="badge <?php if ($item->count_archived > 0) echo 'badge-info'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
+										<a class="badge <?php if ($item->count_archived > 0) echo 'badge-info'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
 											<?php echo $item->count_archived; ?></a>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">
-										<a class="badge <?php if ($item->count_trashed > 0) echo 'badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
+										<a class="badge <?php if ($item->count_trashed > 0) echo 'badge-inverse'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 											<?php echo $item->count_trashed; ?></a>
 									</td>
 									<td class="small d-none d-md-table-cell text-center">

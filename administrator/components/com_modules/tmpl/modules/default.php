@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('behavior.multiselect');
 
@@ -26,7 +27,7 @@ if ($saveOrder && !empty($this->items))
 }
 $colSpan = $clientId === 1 ? 8 : 10;
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
@@ -133,7 +134,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>

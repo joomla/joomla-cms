@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $app = JFactory::getApplication();
 
@@ -39,7 +40,7 @@ $iconStates = array(
 JFactory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
 JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
+<form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
 . $function . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 <?php if (!empty( $this->sidebar)) : ?>

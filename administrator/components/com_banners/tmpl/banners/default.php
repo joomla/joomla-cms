@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -28,7 +29,7 @@ if ($saveOrder && !empty($this->items))
 	JHtml::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -89,7 +90,7 @@ if ($saveOrder && !empty($this->items))
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 							<?php foreach ($this->items as $i => $item) :
 								$ordering  = ($listOrder == 'ordering');
-								$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
+								$item->cat_link = Route::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
 								$canCreate  = $user->authorise('core.create',     'com_banners.category.' . $item->catid);
 								$canEdit    = $user->authorise('core.edit',       'com_banners.category.' . $item->catid);
 								$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
@@ -132,7 +133,7 @@ if ($saveOrder && !empty($this->items))
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
 												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+												<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>

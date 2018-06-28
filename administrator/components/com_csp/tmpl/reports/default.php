@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.tabstate');
 
@@ -19,13 +22,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.id';
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_csp&view=reports'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_csp&view=reports'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if ($this->httpHeadersId) : ?>
-					<?php $link = JRoute::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->httpHeadersId . '&tmpl=component&layout=modal'); ?>
+					<?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->httpHeadersId . '&tmpl=component&layout=modal'); ?>
 					<?php echo JHtml::_(
 						'bootstrap.renderModal',
 						'plugin' . $this->httpHeadersId . 'Modal',

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Languages Override Controller
@@ -46,7 +47,7 @@ class OverrideController extends FormController
 		if (!$this->allowEdit())
 		{
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return;
 		}
@@ -83,7 +84,7 @@ class OverrideController extends FormController
 		if (!$this->allowSave($data, 'id'))
 		{
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return;
 		}
@@ -128,7 +129,7 @@ class OverrideController extends FormController
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
+				Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
 			);
 
 			return;
@@ -143,7 +144,7 @@ class OverrideController extends FormController
 			// Redirect back to the edit screen.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(
-				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
+				Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
 			);
 
 			return;
@@ -161,7 +162,7 @@ class OverrideController extends FormController
 
 				// Redirect back to the edit screen
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($validData['key'], 'id'), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($validData['key'], 'id'), false)
 				);
 				break;
 
@@ -171,7 +172,7 @@ class OverrideController extends FormController
 
 				// Redirect back to the edit screen
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, 'id'), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, 'id'), false)
 				);
 				break;
 
@@ -180,7 +181,7 @@ class OverrideController extends FormController
 				$app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+				$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 				break;
 		}
 	}
@@ -201,6 +202,6 @@ class OverrideController extends FormController
 		$context = "$this->option.edit.$this->context";
 
 		$this->app->setUserState($context . '.data', null);
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 	}
 }

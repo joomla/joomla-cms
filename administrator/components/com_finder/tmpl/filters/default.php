@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
@@ -20,7 +21,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' => 'auto']);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -88,7 +89,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckIn); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
 										<?php echo $escapedTitle; ?></a>
 								<?php else : ?>
 									<?php echo $escapedTitle; ?>

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
-
+use Joomla\CMS\Router\Route;
 
 /**
  * View class for a list of tracks.
@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
 				'selector' => 'downloadModal',
 				'icon'     => 'download',
 				'text'     => Text::_('JTOOLBAR_EXPORT'),
-				'doTask'   => \JRoute::_('index.php?option=com_banners&view=download&tmpl=component'),
+				'doTask'   => Route::_('index.php?option=com_banners&view=download&tmpl=component'),
 			)
 		);
 

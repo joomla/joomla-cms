@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Extension Manager Install Model
@@ -165,7 +166,7 @@ class InstallModel extends BaseDatabaseModel
 					}
 
 					$app->enqueueMessage(
-						Text::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', \JRoute::_('index.php?option=com_joomlaupdate')),
+						Text::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', Route::_('index.php?option=com_joomlaupdate')),
 						'warning'
 					);
 

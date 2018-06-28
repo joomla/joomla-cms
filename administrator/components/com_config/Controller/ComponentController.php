@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Note: this view is intended only to be opened in a popup
@@ -54,7 +55,7 @@ class ComponentController extends BaseController
 		// Check for request forgeries.
 		if (!\JSession::checkToken())
 		{
-			$this->setRedirect(\JRoute::_('index.php'), Text::_('JINVALID_TOKEN'), 'error');
+			$this->setRedirect(Route::_('index.php'), Text::_('JINVALID_TOKEN'), 'error');
 		}
 
 		// Set FTP credentials, if given.
@@ -71,7 +72,7 @@ class ComponentController extends BaseController
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
 		{
-			$this->setRedirect(\JRoute::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->setRedirect(Route::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Remove the permissions rules data if user isn't allowed to edit them.
@@ -103,7 +104,7 @@ class ComponentController extends BaseController
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(\JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
+			$this->setRedirect(Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
 		}
 
 		// Attempt to save the configuration.
@@ -124,7 +125,7 @@ class ComponentController extends BaseController
 
 			// Save failed, go back to the screen and display a notice.
 			$this->setRedirect(
-				\JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect),
+				Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect),
 				Text::_('JERROR_SAVE_FAILED', $e->getMessage()),
 				'error'
 			);
@@ -135,7 +136,7 @@ class ComponentController extends BaseController
 		{
 			case 'apply':
 				$this->app->enqueueMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
-				$this->app->redirect(\JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
+				$this->app->redirect(Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
 
 				break;
 
@@ -154,7 +155,7 @@ class ComponentController extends BaseController
 					$redirect = \JUri::base();
 				}
 
-				$this->setRedirect(\JRoute::_($redirect, false));
+				$this->setRedirect(Route::_($redirect, false));
 
 				break;
 		}

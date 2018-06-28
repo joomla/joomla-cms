@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -20,7 +21,7 @@ JHtml::_('behavior.formvalidator');
 $fieldsets = $this->form->getFieldsets();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>" method="post" name="adminForm" id="profile-form" enctype="multipart/form-data" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>" method="post" name="adminForm" id="profile-form" enctype="multipart/form-data" class="form-validate">
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'account')); ?>
 
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'account', Text::_('COM_ADMIN_USER_ACCOUNT_DETAILS')); ?>

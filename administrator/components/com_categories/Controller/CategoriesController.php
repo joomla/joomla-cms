@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * The Categories List Controller
@@ -49,7 +50,7 @@ class CategoriesController extends AdminController
 		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$extension = $this->input->get('extension');
-		$this->setRedirect(\JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
+		$this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
 		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel();
@@ -107,7 +108,7 @@ class CategoriesController extends AdminController
 			}
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
 	}
 
 	/**
@@ -126,7 +127,7 @@ class CategoriesController extends AdminController
 
 		// Override the redirect Uri.
 		$redirectUri = 'index.php?option=' . $this->option . '&view=' . $this->view_list . '&extension=' . $this->input->get('extension', '', 'CMD');
-		$this->setRedirect(\JRoute::_($redirectUri, false), $this->message, $this->messageType);
+		$this->setRedirect(Route::_($redirectUri, false), $this->message, $this->messageType);
 
 		return $result;
 	}

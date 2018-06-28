@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -29,7 +30,7 @@ if ($saveOrder && !empty($this->items))
 	JHtml::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -93,7 +94,7 @@ if ($saveOrder && !empty($this->items))
 							$canEditOwn = $user->authorise('core.edit.own',   'com_contact.category.' . $item->catid) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_contact.category.' . $item->catid) && $canCheckin;
 
-							$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
+							$item->cat_link = Route::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 								<td class="order nowrap text-center d-none d-md-table-cell">
@@ -132,7 +133,7 @@ if ($saveOrder && !empty($this->items))
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
 											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-											<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 										<?php else : ?>
 											<?php echo $this->escape($item->name); ?>
@@ -147,7 +148,7 @@ if ($saveOrder && !empty($this->items))
 								</td>
 								<td class="small text-center">
 									<?php if (!empty($item->linked_user)) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
+										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 										<div class="small"><?php echo $item->email; ?></div>
 									<?php endif; ?>
 								</td>

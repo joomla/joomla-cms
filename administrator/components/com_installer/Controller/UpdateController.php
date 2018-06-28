@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Installer Update Controller
@@ -57,7 +58,7 @@ class UpdateController extends BaseController
 
 		if (empty($redirect_url))
 		{
-			$redirect_url = \JRoute::_('index.php?option=com_installer&view=update', false);
+			$redirect_url = Route::_('index.php?option=com_installer&view=update', false);
 		}
 		else
 		{
@@ -97,12 +98,12 @@ class UpdateController extends BaseController
 
 		if ($disabledUpdateSites)
 		{
-			$updateSitesUrl = \JRoute::_('index.php?option=com_installer&view=updatesites');
+			$updateSitesUrl = Route::_('index.php?option=com_installer&view=updatesites');
 			$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
 		}
 
 		$model->findUpdates(0, $cache_timeout, $minimum_stability);
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=update', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false));
 	}
 
 	/**
@@ -127,7 +128,7 @@ class UpdateController extends BaseController
 		 * $model->enableSites();
 		 */
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false), $model->_message);
 	}
 
 	/**

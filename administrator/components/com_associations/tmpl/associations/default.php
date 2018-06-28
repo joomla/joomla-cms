@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::_('jquery.framework');
 JHtml::_('behavior.multiselect');
@@ -30,7 +31,7 @@ $iconStates = array(
 Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, true);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
@@ -102,7 +103,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>

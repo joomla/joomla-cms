@@ -18,6 +18,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Media List View
@@ -65,7 +66,7 @@ class HtmlView extends BaseHtmlView
 		// Check that there are providers
 		if (!count($this->providers))
 		{
-			$link = \JRoute::_('index.php?option=com_plugins&view=plugins&filter[folder]=filesystem');
+			$link = Route::_('index.php?option=com_plugins&view=plugins&filter[folder]=filesystem');
 			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
 		}
 

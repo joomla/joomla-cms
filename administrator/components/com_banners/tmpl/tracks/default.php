@@ -10,11 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -84,7 +85,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					'downloadModal',
 					array(
 						'title'       => Text::_('COM_BANNERS_TRACKS_DOWNLOAD'),
-						'url'         => JRoute::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
+						'url'         => Route::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
 						'height'      => '370px',
 						'width'       => '300px',
 						'modalWidth'  => '40',

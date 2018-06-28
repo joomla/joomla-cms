@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Newsfeed controller class.
@@ -108,7 +109,7 @@ class NewsfeedController extends FormController
 		$model = $this->getModel('Newsfeed', '', array());
 
 		// Preset the redirect
-		$this->setRedirect(\JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

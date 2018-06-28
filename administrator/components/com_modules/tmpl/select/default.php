@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -28,14 +29,14 @@ $document = JFactory::getDocument();
 
 	<?php if ($document->direction != 'rtl') : ?>
 	<li class="list-group-item">
-		<a href="<?php echo JRoute::_($link); ?>" class="mr-2">
+		<a href="<?php echo Route::_($link); ?>" class="mr-2">
 			<strong><?php echo $name; ?></strong></a>
 		<small class="hasPopover" data-placement="right" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
 	</li>
 	<?php else : ?>
 	<li class="list-group-item">
 		<small rel="popover" data-placement="left" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
-		<a href="<?php echo JRoute::_($link); ?>" class="mr-2"><strong><?php echo $name; ?></strong></a>
+		<a href="<?php echo Route::_($link); ?>" class="mr-2"><strong><?php echo $name; ?></strong></a>
 	</li>
 	<?php endif; ?>
 <?php endforeach; ?>

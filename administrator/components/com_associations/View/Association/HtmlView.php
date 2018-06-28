@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * View class for a list of articles.
@@ -161,7 +162,7 @@ class HtmlView extends BaseHtmlView
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
 			$task                   = $this->typeName . '.' . $this->targetAction;
-			$this->defaultTargetSrc = \JRoute::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
+			$this->defaultTargetSrc = Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 

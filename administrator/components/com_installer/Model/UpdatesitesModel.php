@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Installer Update Sites Model
@@ -237,7 +238,7 @@ class UpdatesitesModel extends InstallerModel
 
 			$pluginId = (int) $db->loadResult();
 
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
 			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'error');
 
 			return;

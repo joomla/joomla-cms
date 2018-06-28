@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $app = JFactory::getApplication();
 
@@ -41,7 +42,7 @@ if (!empty($editor))
 }
 ?>
 <div class="container-popup">
-	<form action="<?php echo JRoute::_($link); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 

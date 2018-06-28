@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Controller for a single contact
@@ -106,7 +107,7 @@ class ContactController extends FormController
 		$model = $this->getModel('Contact', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(\JRoute::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

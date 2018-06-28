@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -40,7 +41,7 @@ if ($menuType == '')
 }
 ?>
 <?php // Set up the filter bar. ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"
+<form action="<?php echo Route::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"
       id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
@@ -186,7 +187,7 @@ if ($menuType == '')
 									<?php if ($canEdit && !$item->protected) : ?>
 										<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 										<a class="hasTooltip"
-										   href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
+										   href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
 										   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
@@ -220,7 +221,7 @@ if ($menuType == '')
 											<?php if ($item->language == '*' || $item->home == '0') : ?>
 												<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
 											<?php elseif ($canChange) : ?>
-												<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
+												<a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
 													<?php if ($item->language_image) : ?>
 														<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>

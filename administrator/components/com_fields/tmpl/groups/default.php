@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -40,7 +41,7 @@ if ($saveOrder && !empty($this->items))
 }
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_fields&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_fields&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) { ?>
 		<div id="j-sidebar-container" class="col-md-2">
@@ -125,7 +126,7 @@ if ($saveOrder && !empty($this->items))
 											<?php endif; ?>
 											<?php if ($canEdit || $canEditOwn) : ?>
 												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-												<a href="<?php echo JRoute::_('index.php?option=com_fields&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+												<a href="<?php echo Route::_('index.php?option=com_fields&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 													<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>

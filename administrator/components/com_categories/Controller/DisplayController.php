@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Categories view class for the Category package.
@@ -85,7 +86,7 @@ class DisplayController extends BaseController
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_categories&view=categories&extension=' . $this->extension, false));
+			$this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $this->extension, false));
 
 			return false;
 		}

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
@@ -24,7 +25,7 @@ $opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filte
 $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -86,7 +87,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
-										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
+										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo Route::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
 											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>

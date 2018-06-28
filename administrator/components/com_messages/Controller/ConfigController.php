@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Messages Component Message Model
@@ -68,7 +69,7 @@ class ConfigController extends BaseController
 			}
 
 			// Redirect back to the main list.
-			$this->setRedirect(\JRoute::_('index.php?option=com_messages&view=messages', false));
+			$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 			return false;
 		}
@@ -78,14 +79,14 @@ class ConfigController extends BaseController
 		{
 			// Redirect back to the main list.
 			$this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(\JRoute::_('index.php?option=com_messages&view=messages', false));
+			$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 			return false;
 		}
 
 		// Redirect to the list screen.
 		$this->setMessage(Text::_('COM_MESSAGES_CONFIG_SAVED'));
-		$this->setRedirect(\JRoute::_('index.php?option=com_messages&view=messages', false));
+		$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 		return true;
 	}

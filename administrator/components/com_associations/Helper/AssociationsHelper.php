@@ -18,6 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Associations component helper.
@@ -316,7 +317,7 @@ class AssociationsHelper extends ContentHelper
 				'target'   => $target,
 			);
 
-			$url     = \JRoute::_('index.php?' . http_build_query($options));
+			$url     = Route::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 

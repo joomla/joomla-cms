@@ -20,6 +20,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Module model.
@@ -708,7 +709,7 @@ class ModuleModel extends AdminModel
 				}
 				else
 				{
-					\JFactory::getApplication()->redirect(\JRoute::_('index.php?option=com_modules&view=modules', false));
+					\JFactory::getApplication()->redirect(Route::_('index.php?option=com_modules&view=modules', false));
 
 					return false;
 				}

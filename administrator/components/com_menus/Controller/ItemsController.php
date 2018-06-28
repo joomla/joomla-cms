@@ -1,3 +1,4 @@
+use Joomla\CMS\Router\Route;
 <?php
 /**
  * @package     Joomla.Administrator
@@ -14,6 +15,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * The Menu Item Controller
@@ -125,7 +127,7 @@ class ItemsController extends AdminController
 		else
 		{
 			// Nothing to reorder
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
 		}
@@ -184,7 +186,7 @@ class ItemsController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 			)
@@ -265,7 +267,7 @@ class ItemsController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list . '&menutype=' .
 				\JFactory::getApplication()->getUserState('com_menus.items.menutype'),
 				false
@@ -295,7 +297,7 @@ class ItemsController extends AdminController
 			// Checkin failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
 					false
@@ -311,7 +313,7 @@ class ItemsController extends AdminController
 			// Checkin succeeded.
 			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
 					false

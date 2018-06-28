@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -21,7 +22,7 @@ $colSpan       = $branchFilter ? 5 : 6;
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 'auto']);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -101,7 +102,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							<?php if (!$branchFilter) : ?>
 							<td class="text-center btns">
 							<?php if ((int) $item->num_children !== 0) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
+								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
 									<span class="badge <?php if ($item->num_children > 0) echo 'badge-info'; ?>"><?php echo $item->num_children; ?></span></a>
 							<?php else : ?>
 								-
@@ -110,7 +111,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							<?php endif; ?>
 							<td class="text-center btns">
 							<?php if ((int) $item->num_children === 0) : ?>
-								<a class="badge <?php if ((int) $item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
+								<a class="badge <?php if ((int) $item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_published; ?></a>
 							<?php else : ?>
 								-
@@ -118,7 +119,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							</td>
 							<td class="text-center btns">
 							<?php if ((int) $item->num_children === 0) : ?>
-								<a class="badge <?php if ((int) $item->count_unpublished > 0) echo 'badge-danger'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
+								<a class="badge <?php if ((int) $item->count_unpublished > 0) echo 'badge-danger'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_unpublished; ?></a>
 							<?php else : ?>
 								-

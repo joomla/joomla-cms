@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 ?>
 
@@ -19,7 +20,7 @@ use Joomla\CMS\Language\Text;
 	</legend>
 	<joomla-alert type="success"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_MESSAGE', JVERSION); ?></joomla-alert>
 </fieldset>
-<form action="<?php echo JRoute::_('index.php?option=com_joomlaupdate'); ?>" method="post" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_joomlaupdate'); ?>" method="post" id="adminForm">
 	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

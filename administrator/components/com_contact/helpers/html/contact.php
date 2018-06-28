@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
 
@@ -72,7 +73,7 @@ abstract class JHtmlContact
 				foreach ($items as &$item)
 				{
 					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
+					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
 					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 					$classes = 'hasPopover badge badge-secondary';
 

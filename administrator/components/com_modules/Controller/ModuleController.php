@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Module controller class.
@@ -48,7 +49,7 @@ class ModuleController extends FormController
 		{
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit';
 
-			$this->setRedirect(\JRoute::_($redirectUrl, false));
+			$this->setRedirect(Route::_($redirectUrl, false));
 
 			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
 		}
@@ -155,7 +156,7 @@ class ModuleController extends FormController
 		// Preset the redirect
 		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
 
-		$this->setRedirect(\JRoute::_($redirectUrl, false));
+		$this->setRedirect(Route::_($redirectUrl, false));
 
 		return parent::batch($model);
 	}

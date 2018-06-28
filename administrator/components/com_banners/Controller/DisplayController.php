@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Banners master display controller.
@@ -52,7 +53,7 @@ class DisplayController extends BaseController
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_banners&view=banners', false));
+			$this->setRedirect(Route::_('index.php?option=com_banners&view=banners', false));
 
 			return false;
 		}
@@ -60,7 +61,7 @@ class DisplayController extends BaseController
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_banners&view=clients', false));
+			$this->setRedirect(Route::_('index.php?option=com_banners&view=clients', false));
 
 			return false;
 		}

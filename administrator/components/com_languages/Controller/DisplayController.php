@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Languages Controller.
@@ -47,7 +48,7 @@ class DisplayController extends BaseController
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_languages&view=languages', false));
+			$this->setRedirect(Route::_('index.php?option=com_languages&view=languages', false));
 
 			return false;
 		}
