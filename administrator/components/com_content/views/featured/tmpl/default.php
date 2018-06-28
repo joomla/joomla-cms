@@ -197,27 +197,7 @@ if ($saveOrder)
 											endif;
 										endif;
 
-										if ($this->document->direction == "ltr")
-										{
-											if ($item->category_level != '1') :
-												if ($canEditParCat || $canEditOwnParCat) :
-													echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-												endif;
-												echo $this->escape($item->parent_category_title);
-												if ($canEditParCat || $canEditOwnParCat) :
-													echo '</a>';
-												endif;
-												echo ' &#187; ';
-											endif;
-											if ($canEditCat || $canEditOwnCat) :
-												echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-											endif;
-											echo $this->escape($item->category_title);
-											if ($canEditCat || $canEditOwnCat) :
-												echo '</a>';
-											endif;
-										}
-										else
+										if (JFactory::getLanguage()->isRtl())
 										{
 											if ($canEditCat || $canEditOwnCat) :
 												echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
@@ -236,6 +216,26 @@ if ($saveOrder)
 												if ($canEditParCat || $canEditOwnParCat) :
 													echo '</a>';
 												endif;
+											endif;
+										}
+										else
+										{
+											if ($item->category_level != '1') :
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->parent_category_title);
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '</a>';
+												endif;
+												echo ' &#187; ';
+											endif;
+											if ($canEditCat || $canEditOwnCat) :
+												echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+											endif;
+											echo $this->escape($item->category_title);
+											if ($canEditCat || $canEditOwnCat) :
+												echo '</a>';
 											endif;
 										}
 										?>
