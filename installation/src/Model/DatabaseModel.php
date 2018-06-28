@@ -106,12 +106,15 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @since   3.1
 	 */
-	public function initialise()
+	public function initialise($options = null)
 	{
-		$options = $this->getOptions();
+		if (!$options)
+		{
+			$options = $this->getOptions();
+			$options = ArrayHelper::toObject($options);
+		}
 
 		// Get the options as an object for easier handling.
-		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
 		$lang = Factory::getLanguage();
@@ -316,7 +319,15 @@ class DatabaseModel extends BaseInstallationModel
 
 		$options->db_select = false;
 
-		$db = $this->initialise();
+		if (php_sapi_name() !== "cli")
+		{
+			$db = $this->initialise();
+		}
+		else
+		{
+			$db = $this->initialise($options);
+		}
+
 
 		if ($db === false)
 		{
@@ -361,6 +372,7 @@ class DatabaseModel extends BaseInstallationModel
 				// Try to create the database now using the alternate driver
 				try
 				{
+					exit;
 					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
 				catch (\RuntimeException $e)
@@ -540,11 +552,12 @@ class DatabaseModel extends BaseInstallationModel
 		$serverType = $db->getServerType();
 
 		// Set the appropriate schema script based on UTF-8 support.
-		$schema = 'sql/' . $serverType . '/joomla.sql';
+		$schema = '/var/www/html/joomla-cms/installation/sql/' . $serverType . '/joomla.sql';
 
 		// Check if the schema is a valid file
 		if (!is_file($schema))
 		{
+			var_dump($schema);
 			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_DB', \JText::_('INSTL_DATABASE_NO_SCHEMA')), 'error');
 
 			return false;
@@ -655,7 +668,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		$dblocalise = 'sql/' . $serverType . '/localise.sql';
+		$dblocalise = JPATH_INSTALLATION . '/sql/' . $serverType . '/localise.sql';
 
 		if (is_file($dblocalise))
 		{

@@ -49,6 +49,7 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		$this->cliInput = $this->getApplication()->getConsoleInput();
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+//		$site_name = $this->ioStyle->ask('What is the name of your website?');
 	}
 
 	/**
@@ -60,9 +61,25 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function execute(): int
 	{
-		$model = new ConfigurationModel;
 
 		$this->configureIO();
+
+		$model = new ConfigurationModel;
+
+		$options['site_name'] = $this->ioStyle->ask('What is the name of your website?');
+		$options['admin_user'] = $this->ioStyle->ask('Username?');
+		$options['admin_password'] = $this->ioStyle->ask('Password?');
+		$options['admin_email'] = $this->ioStyle->ask('Email?');
+		$options['db_type'] = 'mysql';
+		$options['db_host'] =  $this->ioStyle->ask('Database Host?');
+		$options['db_user'] =  $this->ioStyle->ask('Database Username?');
+		$options['db_pass'] =  $this->ioStyle->ask('Database Password?');
+		$options['db_name'] =  $this->ioStyle->ask('Database Name?');
+		$options['db_prefix'] = 'lmao_';
+		$options['helpurl'] = 'http://joomla.org';
+		$options['db_old'] = 'remove';
+		$options['language'] = 'en-GB';
+		$model->setup($options);
 
 		return 0;
 	}
