@@ -33,7 +33,7 @@ class TagsHelperRoute extends RouteHelper
 	 * @param   string   $typeAlias         Component type alias
 	 * @param   string   $routerName        Component router
 	 *
-	 * @return  string  URL link to pass to Route
+	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.1
 	 */
@@ -77,7 +77,7 @@ class TagsHelperRoute extends RouteHelper
 	 *
 	 * @param   integer  $id  The ID of the tag
 	 *
-	 * @return  string  URL link to pass to Route
+	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.1
 	 */
@@ -116,7 +116,7 @@ class TagsHelperRoute extends RouteHelper
 	/**
 	 * Tries to load the router for the tags view.
 	 *
-	 * @return  string  URL link to pass to Route
+	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.7
 	 */
