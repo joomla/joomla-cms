@@ -17,10 +17,13 @@ define('JOOMLA_MINIMUM_PHP', '7.0');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
+	$subFolder = ($_SERVER['REQUEST_URI'] !== '') ? $_SERVER['REQUEST_URI'] : '';
+	$subFolder = str_replace('/administrator', '', $subFolder);
+
 	die(
 		str_replace(
 			array('{{PHP_VERSION}}', '{{BASEPATH}}'),
-			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . '/'),
+			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . (!empty($subFolder) ? $subFolder : '/')),
 			file_get_contents(dirname(__FILE__) . '/../templates/system/incompatible.html')
 		)
 	);
