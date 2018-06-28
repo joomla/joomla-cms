@@ -36,7 +36,7 @@
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
 					filter="integer"
 					>
 					<option value="1">JYES</option>
@@ -49,7 +49,7 @@
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
 					filter="integer"
 					>
 					<option value="1">JYES</option>
