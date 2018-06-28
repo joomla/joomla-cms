@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Newsfeed Table class.
@@ -188,7 +189,7 @@ class NewsfeedTable extends Table
 		}
 
 		// Save links as punycode.
-		$this->link = \JStringPunycode::urlToPunycode($this->link);
+		$this->link = PunycodeHelper::urlToPunycode($this->link);
 
 		return parent::store($updateNulls);
 	}

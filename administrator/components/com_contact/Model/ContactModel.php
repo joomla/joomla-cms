@@ -18,6 +18,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Item Model for a Contact.
@@ -422,7 +423,7 @@ class ContactModel extends AdminModel
 		{
 			if ($data['params'][$link])
 			{
-				$data['params'][$link] = \JStringPunycode::urlToPunycode($data['params'][$link]);
+				$data['params'][$link] = PunycodeHelper::urlToPunycode($data['params'][$link]);
 			}
 		}
 

@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Item Model for an Article.
@@ -672,7 +673,7 @@ class ArticleModel extends AdminModel
 					}
 					else
 					{
-						$data['urls'][$i] = \JStringPunycode::urlToPunycode($url);
+						$data['urls'][$i] = PunycodeHelper::urlToPunycode($url);
 					}
 				}
 			}

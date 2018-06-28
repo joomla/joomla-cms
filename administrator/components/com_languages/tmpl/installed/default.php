@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
 
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -114,7 +115,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape($row->author); ?>
 							</td>
 							<td class="d-none d-md-table-cell text-center">
-								<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
+								<?php echo PunycodeHelper::emailToUTF8($this->escape($row->authorEmail)); ?>
 							</td>
 							<td class="d-none d-md-table-cell text-center">
 								<?php echo $this->escape($row->extension_id); ?>

@@ -15,6 +15,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Contact Table class.
@@ -106,10 +107,10 @@ class ContactTable extends Table
 		}
 
 		// Store utf8 email as punycode
-		$this->email_to = \JStringPunycode::emailToPunycode($this->email_to);
+		$this->email_to = PunycodeHelper::emailToPunycode($this->email_to);
 
 		// Convert IDN urls to punycode
-		$this->webpage = \JStringPunycode::urlToPunycode($this->webpage);
+		$this->webpage = PunycodeHelper::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
 		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\');
