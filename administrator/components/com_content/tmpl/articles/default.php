@@ -36,7 +36,7 @@ elseif (strpos($listOrder, 'publish_down') !== false)
 }
 elseif (strpos($listOrder, 'modified') !== false)
 {
-    $orderingColumn = 'modified';
+	$orderingColumn = 'modified';
 }
 else
 {

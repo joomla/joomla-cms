@@ -316,7 +316,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  A string.
 	 *
-	 * @since   4.0.0
+	 * @since   3.8.4
 	 */
 	public function highLight($string, $needle, $searchWords)
 	{

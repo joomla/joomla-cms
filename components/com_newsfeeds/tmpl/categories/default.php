@@ -21,7 +21,7 @@ JText::script('JGLOBAL_COLLAPSE_CATEGORIES');
 HTMLHelper::_('script', 'com_newsfeeds/categories-default.js', ['relative' => true, 'version' => 'auto']);
 
 ?>
-<div class="categories-list">
+<div class="com-newsfeeds-categories categories-list">
 	<?php echo JLayoutHelper::render('joomla.content.categories_default', $this); ?>
 	<?php echo $this->loadTemplate('items'); ?>
 </div>
