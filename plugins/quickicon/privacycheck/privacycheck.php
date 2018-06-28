@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 
 /**
  * Plugin to check privacy requests older than 14 days
- * 
+ *
  * @since  3.9.0
  */
 class PlgQuickiconPrivacyCheck extends JPlugin
@@ -40,7 +40,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_privacy'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.admin', 'com_privacy'))
 		{
 			return;
 		}
@@ -49,7 +49,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 
 		$token    = Session::getFormToken() . '=' . 1;
 		$privacy  = 'index.php?option=com_privacy';
-	
+
 		$options  = array(
 			'plg_quickicon_privacycheck_url'      => Uri::base() . $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
 			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . $privacy . '&task=getNumberUrgentRequests&' . $token,

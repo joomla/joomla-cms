@@ -88,7 +88,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 72, 73, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 1, 109, 110, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
+(56, 1, 109, 110, 1, 'com_privacy', 'com_privacy', '{}'),
 (57, 1, 111, 112, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}'),
 (58, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
 (59, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
