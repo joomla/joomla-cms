@@ -213,7 +213,7 @@ class PlgEditorCodemirror extends JPlugin
 		$options->styleActiveLine = (boolean) $this->params->get('activeLine', 1);
 
 		// Do we highlight selection matches?
-		if ($this->params->get('selectionMatches', 0))
+		if ($this->params->get('selectionMatches', 1))
 		{
 			$options->highlightSelectionMatches = array(
 					'showToken' => true,
@@ -222,7 +222,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Do we use line numbering?
-		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 0))
+		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 1))
 		{
 			$options->gutters[] = 'CodeMirror-linenumbers';
 		}
@@ -234,7 +234,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Do we use a marker gutter?
-		if ($options->markerGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 0)))
+		if ($options->markerGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1)))
 		{
 			$options->gutters[] = 'CodeMirror-markergutter';
 		}
