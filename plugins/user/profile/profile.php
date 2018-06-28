@@ -273,7 +273,7 @@ class PlgUserProfile extends JPlugin
 		}
 
 		$tosArticle = $this->params->get('register_tos_article');
-		$tosEnabled = $this->params->get('register-require_tos', 0);
+		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// We need to be in the registration form and field needs to be enabled
 		if ($name !== 'com_users.registration' || !$tosEnabled)
