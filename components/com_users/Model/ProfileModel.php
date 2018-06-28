@@ -23,6 +23,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Profile model class for Users.
