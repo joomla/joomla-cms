@@ -13,6 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Table\Table;
 
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
@@ -378,7 +379,7 @@ class FinderIndexerHelper
 		}
 
 		// Create a mock content object.
-		$content = JTable::getInstance('Content');
+		$content = Table::getInstance('Content');
 		$content->text = $text;
 
 		if ($item)

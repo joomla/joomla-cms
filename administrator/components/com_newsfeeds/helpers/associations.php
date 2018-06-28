@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Table\Table;
 
 JTable::addIncludePath(__DIR__ . '/../tables');
 
@@ -106,11 +107,11 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'newsfeed':
-				$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+				$table = Table::getInstance('Newsfeed', 'NewsfeedsTable');
 				break;
 
 			case 'category':
-				$table = JTable::getInstance('Category');
+				$table = Table::getInstance('Category');
 				break;
 		}
 
