@@ -161,7 +161,7 @@ class PlgSearchTags extends JPlugin
 			}
 		}
 
-		if (!$this->params->get('show_tagged_items', 0))
+		if (!$this->params->get('show_tagged_items', 1))
 		{
 			return $rows;
 		}
