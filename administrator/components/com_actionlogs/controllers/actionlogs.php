@@ -110,13 +110,6 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		if (!JFactory::getUser()->authorise('core.delete', $this->option))
-		{
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-
-			return;
-		}
-
 		parent::delete();
 	}
 
