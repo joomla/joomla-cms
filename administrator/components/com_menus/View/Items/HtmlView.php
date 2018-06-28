@@ -16,6 +16,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The HTML Menus Menu Items View.
@@ -127,23 +128,23 @@ class HtmlView extends BaseHtmlView
 			switch ($item->type)
 			{
 				case 'url':
-					$value = \JText::_('COM_MENUS_TYPE_EXTERNAL_URL');
+					$value = Text::_('COM_MENUS_TYPE_EXTERNAL_URL');
 					break;
 
 				case 'alias':
-					$value = \JText::_('COM_MENUS_TYPE_ALIAS');
+					$value = Text::_('COM_MENUS_TYPE_ALIAS');
 					break;
 
 				case 'separator':
-					$value = \JText::_('COM_MENUS_TYPE_SEPARATOR');
+					$value = Text::_('COM_MENUS_TYPE_SEPARATOR');
 					break;
 
 				case 'heading':
-					$value = \JText::_('COM_MENUS_TYPE_HEADING');
+					$value = Text::_('COM_MENUS_TYPE_HEADING');
 					break;
 
 				case 'container':
-					$value = \JText::_('COM_MENUS_TYPE_CONTAINER');
+					$value = Text::_('COM_MENUS_TYPE_CONTAINER');
 					break;
 
 				case 'component':
@@ -155,7 +156,7 @@ class HtmlView extends BaseHtmlView
 					if (!empty($item->componentname))
 					{
 						$titleParts   = array();
-						$titleParts[] = \JText::_($item->componentname);
+						$titleParts[] = Text::_($item->componentname);
 						$vars         = null;
 
 						parse_str($item->link, $vars);
@@ -183,7 +184,7 @@ class HtmlView extends BaseHtmlView
 										// Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
 										if ($lang->hasKey($viewTitle))
 										{
-											$titleParts[] = \JText::_($viewTitle);
+											$titleParts[] = Text::_($viewTitle);
 										}
 									}
 								}
@@ -221,13 +222,13 @@ class HtmlView extends BaseHtmlView
 								{
 									if (!empty($layout[0]['title']))
 									{
-										$titleParts[] = \JText::_(trim((string) $layout[0]['title']));
+										$titleParts[] = Text::_(trim((string) $layout[0]['title']));
 									}
 								}
 
 								if (!empty($layout[0]->message[0]))
 								{
-									$item->item_type_desc = \JText::_(trim((string) $layout[0]->message[0]));
+									$item->item_type_desc = Text::_(trim((string) $layout[0]->message[0]));
 								}
 							}
 
@@ -246,11 +247,11 @@ class HtmlView extends BaseHtmlView
 					{
 						if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result))
 						{
-							$value = \JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
+							$value = Text::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
 						}
 						else
 						{
-							$value = \JText::_('COM_MENUS_TYPE_UNKNOWN');
+							$value = Text::_('COM_MENUS_TYPE_UNKNOWN');
 						}
 					}
 					break;
@@ -262,16 +263,16 @@ class HtmlView extends BaseHtmlView
 
 		// Levels filter.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '1', \JText::_('J1'));
-		$options[] = \JHtml::_('select.option', '2', \JText::_('J2'));
-		$options[] = \JHtml::_('select.option', '3', \JText::_('J3'));
-		$options[] = \JHtml::_('select.option', '4', \JText::_('J4'));
-		$options[] = \JHtml::_('select.option', '5', \JText::_('J5'));
-		$options[] = \JHtml::_('select.option', '6', \JText::_('J6'));
-		$options[] = \JHtml::_('select.option', '7', \JText::_('J7'));
-		$options[] = \JHtml::_('select.option', '8', \JText::_('J8'));
-		$options[] = \JHtml::_('select.option', '9', \JText::_('J9'));
-		$options[] = \JHtml::_('select.option', '10', \JText::_('J10'));
+		$options[] = \JHtml::_('select.option', '1', Text::_('J1'));
+		$options[] = \JHtml::_('select.option', '2', Text::_('J2'));
+		$options[] = \JHtml::_('select.option', '3', Text::_('J3'));
+		$options[] = \JHtml::_('select.option', '4', Text::_('J4'));
+		$options[] = \JHtml::_('select.option', '5', Text::_('J5'));
+		$options[] = \JHtml::_('select.option', '6', Text::_('J6'));
+		$options[] = \JHtml::_('select.option', '7', Text::_('J7'));
+		$options[] = \JHtml::_('select.option', '8', Text::_('J8'));
+		$options[] = \JHtml::_('select.option', '9', Text::_('J9'));
+		$options[] = \JHtml::_('select.option', '10', Text::_('J10'));
 
 		$this->f_levels = $options;
 
@@ -330,11 +331,11 @@ class HtmlView extends BaseHtmlView
 
 		if ($menuTypeTitle)
 		{
-			ToolbarHelper::title(\JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+			ToolbarHelper::title(Text::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
 		}
 		else
 		{
-			ToolbarHelper::title(\JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
+			ToolbarHelper::title(Text::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
 		}
 
 		if ($canDo->get('core.create'))
@@ -370,7 +371,7 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
@@ -411,23 +412,23 @@ class HtmlView extends BaseHtmlView
 		if ($this->state->get('filter.client_id') == 0)
 		{
 			return array(
-				'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
-				'a.published' => \JText::_('JSTATUS'),
-				'a.title'     => \JText::_('JGLOBAL_TITLE'),
-				'a.home'      => \JText::_('COM_MENUS_HEADING_HOME'),
-				'a.access'    => \JText::_('JGRID_HEADING_ACCESS'),
-				'association' => \JText::_('COM_MENUS_HEADING_ASSOCIATION'),
-				'language'    => \JText::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'        => \JText::_('JGRID_HEADING_ID')
+				'a.lft'       => Text::_('JGRID_HEADING_ORDERING'),
+				'a.published' => Text::_('JSTATUS'),
+				'a.title'     => Text::_('JGLOBAL_TITLE'),
+				'a.home'      => Text::_('COM_MENUS_HEADING_HOME'),
+				'a.access'    => Text::_('JGRID_HEADING_ACCESS'),
+				'association' => Text::_('COM_MENUS_HEADING_ASSOCIATION'),
+				'language'    => Text::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'        => Text::_('JGRID_HEADING_ID')
 			);
 		}
 		else
 		{
 			return array(
-				'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
-				'a.published' => \JText::_('JSTATUS'),
-				'a.title'     => \JText::_('JGLOBAL_TITLE'),
-				'a.id'        => \JText::_('JGRID_HEADING_ID')
+				'a.lft'       => Text::_('JGRID_HEADING_ORDERING'),
+				'a.published' => Text::_('JSTATUS'),
+				'a.title'     => Text::_('JGLOBAL_TITLE'),
+				'a.id'        => Text::_('JGRID_HEADING_ID')
 			);
 		}
 	}

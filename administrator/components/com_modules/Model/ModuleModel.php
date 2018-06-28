@@ -19,6 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Module model.
@@ -211,7 +212,7 @@ class ModuleModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -272,7 +273,7 @@ class ModuleModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -338,7 +339,7 @@ class ModuleModel extends AdminModel
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+					\JFactory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 					return;
 				}
@@ -397,7 +398,7 @@ class ModuleModel extends AdminModel
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_modules'))
 		{
-			throw new \Exception(\JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$table = $this->getTable();
@@ -850,13 +851,13 @@ class ModuleModel extends AdminModel
 			// Get the module form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Get the help data from the XML file if present.
@@ -934,7 +935,7 @@ class ModuleModel extends AdminModel
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . \JText::_('JGLOBAL_COPY');
+				$data['title'] .= ' ' . Text::_('JGLOBAL_COPY');
 			}
 		}
 

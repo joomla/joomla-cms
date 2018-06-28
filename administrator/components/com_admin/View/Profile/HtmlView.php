@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class to allow users edit their own profile.
@@ -84,7 +85,7 @@ class HtmlView extends BaseHtmlView
 	{
 		\JFactory::getApplication()->input->set('hidemainmenu', 1);
 
-		ToolbarHelper::title(\JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user user-profile');
+		ToolbarHelper::title(Text::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user user-profile');
 
 		ToolbarHelper::saveGroup(
 			[

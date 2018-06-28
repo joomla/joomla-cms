@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $renderer = JFactory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = JModuleHelper::getModule('mod_feed');
@@ -28,7 +30,7 @@ $params = array('params' => json_encode($param));
 
 <form action="index.php" method="post" name="adminForm" class="form-inline mb-3">
 	<input type="hidden" name="option" value="com_postinstall">
-	<label for="eid" class="mr-sm-2"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
+	<label for="eid" class="mr-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
 	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
@@ -38,31 +40,31 @@ $params = array('params' => json_encode($param));
 <?php endif; ?>
 <?php if (empty($this->items)) : ?>
 	<div class="jumbotron">
-		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
-		<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
+		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
+		<p><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
         <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
 			<span class="icon icon-eye-open" aria-hidden="true"></span>
-			<?php echo JText::_('COM_POSTINSTALL_BTN_RESET'); ?>
+			<?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?>
 		</a>
 	</div>
 <?php else : ?>
 	<?php foreach ($this->items as $item) : ?>
 	<div class="card card-outline-secondary mb-3">
 		<div class="card-body">
-			<h3><?php echo JText::_($item->title_key); ?></h3>
+			<h3><?php echo Text::_($item->title_key); ?></h3>
 			<p class="small">
-				<?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
+				<?php echo Text::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
 			</p>
 			<div>
-				<?php echo JText::_($item->description_key); ?>
+				<?php echo Text::_($item->description_key); ?>
                 <?php if ($item->type !== 'message') : ?>
                 <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary">
-					<?php echo JText::_($item->action_key); ?>
+					<?php echo Text::_($item->action_key); ?>
 				</a>
 				<?php endif; ?>
 				<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
                 <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
-					<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE'); ?>
+					<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 				</a>
 				<?php endif; ?>
 			</div>
@@ -73,7 +75,7 @@ $params = array('params' => json_encode($param));
 <?php if ($this->eid == 700) : ?>
 	</div>
 	<div class="col-md-4">
-		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
+		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
 		<?php echo $renderer->render($mod, $params, $options); ?>
 	</div>
 </div>

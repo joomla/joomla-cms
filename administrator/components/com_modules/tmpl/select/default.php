@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.popover');
 $document = JFactory::getDocument();
 ?>
 
-<h2 class="mb-3"><?php echo JText::_('COM_MODULES_TYPE_CHOOSE'); ?></h2>
+<h2 class="mb-3"><?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?></h2>
 <ul id="new-modules-list" class="list-group">
 <?php foreach ($this->items as &$item) : ?>
 	<?php // Prepare variables for the link. ?>

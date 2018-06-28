@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Banners component helper.
@@ -33,25 +34,25 @@ class BannersHelper extends ContentHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_BANNERS_SUBMENU_BANNERS'),
+			Text::_('COM_BANNERS_SUBMENU_BANNERS'),
 			'index.php?option=com_banners&view=banners',
 			$vName == 'banners'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_BANNERS_SUBMENU_CATEGORIES'),
+			Text::_('COM_BANNERS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
+			Text::_('COM_BANNERS_SUBMENU_CLIENTS'),
 			'index.php?option=com_banners&view=clients',
 			$vName == 'clients'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_BANNERS_SUBMENU_TRACKS'),
+			Text::_('COM_BANNERS_SUBMENU_TRACKS'),
 			'index.php?option=com_banners&view=tracks',
 			$vName == 'tracks'
 		);
@@ -183,7 +184,7 @@ class BannersHelper extends ContentHelper
 			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		array_unshift($options, \JHtml::_('select.option', '0', \JText::_('COM_BANNERS_NO_CLIENT')));
+		array_unshift($options, \JHtml::_('select.option', '0', Text::_('COM_BANNERS_NO_CLIENT')));
 
 		return $options;
 	}

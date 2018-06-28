@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Redirect link model.
@@ -148,13 +149,13 @@ class LinkModel extends AdminModel
 		$pks = ArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : \JText::sprintf('COM_REDIRECT_REDIRECTED_ON', \JHtml::_('date', time()));
+		$comment = (!empty($comment)) ? $comment : Text::sprintf('COM_REDIRECT_REDIRECTED_ON', \JHtml::_('date', time()));
 
 		// Access checks.
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -209,7 +210,7 @@ class LinkModel extends AdminModel
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}

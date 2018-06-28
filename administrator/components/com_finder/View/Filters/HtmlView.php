@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Filters view class for Finder.
@@ -131,7 +132,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
-		ToolbarHelper::title(\JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'zoom-in finder');
+		ToolbarHelper::title(Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'zoom-in finder');
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))

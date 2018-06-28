@@ -14,6 +14,7 @@ jimport('joomla.updater.update');
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Languages Installer Model
@@ -130,7 +131,7 @@ class LanguagesModel extends ListModel
 
 		if ($response === null || $response->code !== 200)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
 
 			return;
 		}

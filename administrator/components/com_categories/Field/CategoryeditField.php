@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -236,7 +237,7 @@ class CategoryeditField extends \JFormFieldList
 			{
 				if ($options[$i]->level == 0)
 				{
-					$options[$i]->text = \JText::_('JGLOBAL_ROOT_PARENT');
+					$options[$i]->text = Text::_('JGLOBAL_ROOT_PARENT');
 				}
 			}
 
@@ -322,11 +323,11 @@ class CategoryeditField extends \JFormFieldList
 			if ($row->parent_id == '1')
 			{
 				$parent = new \stdClass;
-				$parent->text = \JText::_('JGLOBAL_ROOT_PARENT');
+				$parent->text = Text::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
 
-			array_unshift($options, \JHtml::_('select.option', '0', \JText::_('JGLOBAL_ROOT')));
+			array_unshift($options, \JHtml::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
 		}
 
 		// Merge any additional options in the XML definition.
@@ -352,12 +353,12 @@ class CategoryeditField extends \JFormFieldList
 
 		if ($this->allowAdd)
 		{
-			$customGroupText = \JText::_('JGLOBAL_CUSTOM_CATEGORY');
+			$customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
 
 			$class[] = 'chzn-custom-value';
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-					. 'data-no_results_text="' . \JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-					. 'data-placeholder="' . \JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+					. 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
+					. 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
 		}
 
 		if ($class)

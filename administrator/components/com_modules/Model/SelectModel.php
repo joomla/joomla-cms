@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Module model.
@@ -140,15 +141,15 @@ class SelectModel extends ListModel
 			// 1.6 3PD Extension Support
 			$lang->load($item->module . '.sys', $client->path, null, false, true)
 				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description))
 			{
-				$item->desc = \JText::_($text);
+				$item->desc = Text::_($text);
 			}
 			else
 			{
-				$item->desc = \JText::_('COM_MODULES_NODESCRIPTION');
+				$item->desc = Text::_('COM_MODULES_NODESCRIPTION');
 			}
 		}
 

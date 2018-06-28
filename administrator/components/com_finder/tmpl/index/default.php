@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 JHtml::_('bootstrap.popover');
 
@@ -18,8 +19,8 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang      = JFactory::getLanguage();
 
-JText::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
-JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
+Text::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
+Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' => 'auto']);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
@@ -49,7 +50,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:15%" class="nowrap text-center d-none d-md-table-cell text-center">
-								<?php echo JText::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
+								<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
 							<th style="width:30%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
@@ -81,16 +82,16 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 							<td class="small nowrap d-none d-md-table-cell text-center">
 								<?php
 								$key = FinderHelperLanguage::branchSingular($item->t_title);
-								echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
+								echo $lang->hasKey($key) ? Text::_($key) : $item->t_title;
 								?>
 							</td>
 							<td class="small nowrap d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
+								<?php echo JHtml::_('date', $item->indexdate, Text::_('DATE_FORMAT_LC4')); ?>
 							</td>
 							<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
-                                    <span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
-                                    <span class="sr-only"><?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
+                                    <span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
+                                    <span class="sr-only"><?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
 								<?php endif; ?>
 							</td>
 							<td class="small break-word d-none d-md-table-cell">

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * Field View
@@ -100,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		$lang->load($component, JPATH_ADMINISTRATOR)
 		|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		$title = \JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', \JText::_(strtoupper($component)));
+		$title = Text::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
 
 		// Prepare the toolbar.
 		ToolbarHelper::title(

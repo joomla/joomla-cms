@@ -21,6 +21,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Categories Component Category Model
@@ -410,7 +411,7 @@ class CategoryModel extends AdminModel
 
 			if (!$form->loadFile($path, false))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -607,7 +608,7 @@ class CategoryModel extends AdminModel
 
 			if ($allLanguage && !empty($associations))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
+				\JFactory::getApplication()->enqueueMessage(Text::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
 			// Get associationskey for edited item
@@ -878,7 +879,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Non-fatal error
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -896,7 +897,7 @@ class CategoryModel extends AdminModel
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
-				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -914,7 +915,7 @@ class CategoryModel extends AdminModel
 			// Make sure we can create in root
 			elseif (!$this->user->authorise('core.create', $extension))
 			{
-				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -961,7 +962,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -1087,7 +1088,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Non-fatal error.
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -1105,7 +1106,7 @@ class CategoryModel extends AdminModel
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
-				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -1117,7 +1118,7 @@ class CategoryModel extends AdminModel
 				if (!$this->user->authorise('core.edit', $extension . '.category.' . $pk))
 				{
 					// Error since user cannot edit this category
-					$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
+					$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
 
 					return false;
 				}
@@ -1143,7 +1144,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}

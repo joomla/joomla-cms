@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
@@ -25,20 +27,20 @@ $user = JFactory::getUser();
 	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 
 		<div class="row">
 			<div class="col-md-9">
 				<h3>
-					<?php echo JText::_($this->item->template); ?>
+					<?php echo Text::_($this->item->template); ?>
 				</h3>
 				<div class="info-labels">
 					<span class="badge badge-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
-						<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
+						<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
 					</span>
 				</div>
 				<div>
-					<p><?php echo JText::_($this->item->xml->description); ?></p>
+					<p><?php echo Text::_($this->item->xml->description); ?></p>
 					<?php
 					$this->fieldset = 'description';
 					$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
@@ -46,7 +48,7 @@ $user = JFactory::getUser();
 					<?php if ($description) : ?>
 						<p class="readmore">
 							<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
-								<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+								<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 							</a>
 						</p>
 					<?php endif; ?>
@@ -76,7 +78,7 @@ $user = JFactory::getUser();
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if ($description) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
 			<?php echo $description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
@@ -88,7 +90,7 @@ $user = JFactory::getUser();
 		?>
 
 		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
 			<?php echo $this->loadTemplate('assignment'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

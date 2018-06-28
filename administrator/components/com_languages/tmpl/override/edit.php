@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -31,7 +32,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 	<div class="row">
 		<div class="col-md-6">
 			<fieldset>
-				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
+				<legend><?php echo empty($this->item->key) ? Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('language'); ?>
@@ -93,22 +94,22 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 
 		<div class="col-md-6">
 			<fieldset>
-				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
+				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 
-				<joomla-alert type="info"><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></joomla-alert>
+				<joomla-alert type="info"><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></joomla-alert>
 
 				<div class="control-group">
 					<div class="input-group">
 						<?php echo $this->form->getInput('searchstring'); ?>
 						<span class="input-group-append">
 							<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
-								<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
+								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 							</button>
 						</span>
 					</div>
 					<span id="refresh-status" class="help-block">
 						<span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
-						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
+						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 					</span>
 				</div>
 				<div class="control-group">
@@ -123,12 +124,12 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 			</fieldset>
 
 			<fieldset id="results-container" class="adminform">
-				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
+				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
 				<div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="fa fa-spinner fa-spin" aria-hidden="true"></span></div>
 				<span id="more-results" class="mt-2">
 					<a id="more-results-button" class="btn btn-secondary">
 						<span id="overrider-spinner-btn" class="overrider-spinner-btn fa fa-spinner fa-spin" aria-hidden="true"></span>
-						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
+						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
 				</span>
 			</fieldset>
 

@@ -15,6 +15,7 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Language\Text;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -69,7 +70,7 @@ class UpdateModel extends BaseDatabaseModel
 				}
 				else
 				{
-					return \JFactory::getApplication()->enqueueMessage(\JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+					return \JFactory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 				}
 				break;
 
@@ -248,13 +249,13 @@ class UpdateModel extends BaseDatabaseModel
 
 		if ($db->execute())
 		{
-			$this->_message = \JText::_('COM_JOOMLAUPDATE_CHECKED_UPDATES');
+			$this->_message = Text::_('COM_JOOMLAUPDATE_CHECKED_UPDATES');
 
 			return true;
 		}
 		else
 		{
-			$this->_message = \JText::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
+			$this->_message = Text::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
 
 			return false;
 		}
@@ -351,7 +352,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		try
 		{
-			\JLog::add(\JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), \JLog::INFO, 'Update');
+			\JLog::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), \JLog::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -630,7 +631,7 @@ ENDDATA;
 
 		if ($manifest === false)
 		{
-			$installer->abort(\JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$installer->abort(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
@@ -661,7 +662,7 @@ ENDDATA;
 		{
 			if ($manifestClass->preflight('update', $installer) === false)
 			{
-				$installer->abort(\JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
 				return false;
 			}
@@ -695,7 +696,7 @@ ENDDATA;
 		{
 			// Install failed, roll back changes.
 			$installer->abort(
-				\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', \JText::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
+				Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
 			);
 
 			return false;
@@ -719,7 +720,7 @@ ENDDATA;
 			{
 				// Install failed, roll back changes.
 				$installer->abort(
-					\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', \JText::_('JLIB_INSTALLER_UPDATE'), $row->getError())
+					Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $row->getError())
 				);
 
 				return false;
@@ -744,7 +745,7 @@ ENDDATA;
 			if (!$row->store())
 			{
 				// Install failed, roll back changes.
-				$installer->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $row->getError()));
+				$installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $row->getError()));
 
 				return false;
 			}
@@ -776,7 +777,7 @@ ENDDATA;
 			if ($manifestClass->update($installer) === false)
 			{
 				// Install failed, rollback changes.
-				$installer->abort(\JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
 				return false;
 			}
@@ -880,27 +881,27 @@ ENDDATA;
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
-			throw new \RuntimeException(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
+			throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
 		}
 
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			throw new \RuntimeException(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+			throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
 		}
 
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			throw new \RuntimeException(\JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
+			throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
 		}
 
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
 			throw new \RuntimeException(
-				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' .
-				\JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' .
+				Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
 				500
 			);
 		}
@@ -909,7 +910,7 @@ ENDDATA;
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
 			throw new \RuntimeException(
-				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 				500
 			);
 		}
@@ -917,7 +918,7 @@ ENDDATA;
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			throw new \RuntimeException(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+			throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
 		}
 
 		// Build the appropriate paths.
@@ -940,7 +941,7 @@ ENDDATA;
 
 		if (!$result)
 		{
-			throw new \RuntimeException(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+			throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
 		}
 
 		\JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
@@ -1051,21 +1052,21 @@ ENDDATA;
 		 * version is not shown. So this check is actually unnecessary.
 		 */
 		$option         = new \stdClass;
-		$option->label  = \JText::sprintf('INSTL_PHP_VERSION_NEWER', $this->getTargetMinimumPHPVersion());
+		$option->label  = Text::sprintf('INSTL_PHP_VERSION_NEWER', $this->getTargetMinimumPHPVersion());
 		$option->state  = $this->isPhpVersionSupported();
 		$option->notice = null;
 		$options[]      = $option;
 
 		// Check for zlib support.
 		$option         = new \stdClass;
-		$option->label  = \JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
+		$option->label  = Text::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
 		$option->state  = extension_loaded('zlib');
 		$option->notice = null;
 		$options[]      = $option;
 
 		// Check for XML support.
 		$option         = new \stdClass;
-		$option->label  = \JText::_('INSTL_XML_SUPPORT');
+		$option->label  = Text::_('INSTL_XML_SUPPORT');
 		$option->state  = extension_loaded('xml');
 		$option->notice = null;
 		$options[]      = $option;
@@ -1074,7 +1075,7 @@ ENDDATA;
 		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
 			$option = new \stdClass;
-			$option->label  = \JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
+			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
 			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
@@ -1085,29 +1086,29 @@ ENDDATA;
 		{
 			// Check for default MB language.
 			$option = new \stdClass;
-			$option->label  = \JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
+			$option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
 			$option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
-			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
+			$option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
 			$option = new \stdClass;
-			$option->label  = \JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
+			$option->label  = Text::_('INSTL_MB_STRING_OVERLOAD_OFF');
 			$option->state  = ini_get('mbstring.func_overload') == 0;
-			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
+			$option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBSTRINGOVERLOAD');
 			$options[] = $option;
 		}
 
 		// Check for a missing native parse_ini_file implementation.
 		$option = new \stdClass;
-		$option->label  = \JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
+		$option->label  = Text::_('INSTL_PARSE_INI_FILE_AVAILABLE');
 		$option->state  = $this->getIniParserAvailability();
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for missing native json_encode / json_decode support.
 		$option = new \stdClass;
-		$option->label  = \JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
+		$option->label  = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
 		$options[] = $option;
@@ -1129,35 +1130,35 @@ ENDDATA;
 
 		// Check for display errors.
 		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_DISPLAY_ERRORS');
+		$setting->label = Text::_('INSTL_DISPLAY_ERRORS');
 		$setting->state = (bool) ini_get('display_errors');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for file uploads.
 		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_FILE_UPLOADS');
+		$setting->label = Text::_('INSTL_FILE_UPLOADS');
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
 
 		// Check for output buffering.
 		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_OUTPUT_BUFFERING');
+		$setting->label = Text::_('INSTL_OUTPUT_BUFFERING');
 		$setting->state = (bool) ini_get('output_buffering');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for session auto-start.
 		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_SESSION_AUTO_START');
+		$setting->label = Text::_('INSTL_SESSION_AUTO_START');
 		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for native ZIP support.
 		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
+		$setting->label = Text::_('INSTL_ZIP_SUPPORT_AVAILABLE');
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
 		$setting->recommended = true;
 		$settings[] = $setting;
@@ -1465,6 +1466,6 @@ ENDDATA;
 		|| $lang->load($extension, $source, null, false, true);
 
 		// Translate the extension name if possible
-		$item->name = \JText::_($item->name);
+		$item->name = Text::_($item->name);
 	}
 }

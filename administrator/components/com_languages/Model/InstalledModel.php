@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Languages Component Languages Model
@@ -396,7 +397,7 @@ class InstalledModel extends ListModel
 		}
 		else
 		{
-			$this->setError(\JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+			$this->setError(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 
 			return false;
 		}
@@ -485,7 +486,7 @@ class InstalledModel extends ListModel
 		}
 		else
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'), 'error');
 
 			return false;
 		}

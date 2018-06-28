@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -44,7 +46,7 @@ if ($saveOrder && !empty($this->items))
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="fieldList">
 						<thead>
@@ -124,26 +126,26 @@ if ($saveOrder && !empty($this->items))
 											<?php endif; ?>
 											<?php if ($canEdit || $canEditOwn) : ?>
 												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-												<a href="<?php echo JRoute::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+												<a href="<?php echo JRoute::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 													<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>
 											<?php endif; ?>
 											<span class="small break-word">
 												<?php if (empty($item->note)) : ?>
-													<?php echo JText::sprintf('JGLOBAL_LIST_NAME', $this->escape($item->name)); ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_NAME', $this->escape($item->name)); ?>
 												<?php else : ?>
-													<?php echo JText::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 												<?php endif; ?>
 											</span>
                                             <?php if ($category) : ?>
                                                 <div class="small">
-                                                    <?php echo JText::_('JCATEGORY') . ': '; ?>
+                                                    <?php echo Text::_('JCATEGORY') . ': '; ?>
                                                     <?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
                                                     <?php if ($categories) : ?>
                                                         <?php echo implode(', ', $categories); ?>
                                                     <?php else: ?>
-                                                        <?php echo JText::_('JALL'); ?>
+                                                        <?php echo Text::_('JALL'); ?>
                                                     <?php endif; ?>
                                                 </div>
                                             <?php endif; ?>
@@ -178,7 +180,7 @@ if ($saveOrder && !empty($this->items))
 								'bootstrap.renderModal',
 								'collapseModal',
 								array(
-									'title' => JText::_('COM_FIELDS_VIEW_FIELDS_BATCH_OPTIONS'),
+									'title' => Text::_('COM_FIELDS_VIEW_FIELDS_BATCH_OPTIONS'),
 									'footer' => $this->loadTemplate('batch_footer')
 								),
 								$this->loadTemplate('batch_body')

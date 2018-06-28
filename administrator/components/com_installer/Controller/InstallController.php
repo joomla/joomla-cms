@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Language\Text;
 
 /**
  * Installer controller for Joomla! installer class.
@@ -30,7 +31,7 @@ class InstallController extends BaseController
 	public function install()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
 		$model = $this->getModel('install');

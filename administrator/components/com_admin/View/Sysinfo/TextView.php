@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Language\Text;
 
 /**
  * Sysinfo View class for the Admin component
@@ -34,7 +35,7 @@ class TextView extends AbstractView
 		// Access check.
 		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('Content-Type: text/plain; charset=utf-8');
@@ -79,27 +80,27 @@ class TextView extends AbstractView
 
 		return array(
 			'info' => array(
-				'title' => \JText::_('COM_ADMIN_SYSTEM_INFORMATION', true),
+				'title' => Text::_('COM_ADMIN_SYSTEM_INFORMATION', true),
 				'data'  => $model->getSafeData('info')
 			),
 			'phpSettings' => array(
-				'title' => \JText::_('COM_ADMIN_PHP_SETTINGS', true),
+				'title' => Text::_('COM_ADMIN_PHP_SETTINGS', true),
 				'data'  => $model->getSafeData('phpSettings')
 			),
 			'config' => array(
-				'title' => \JText::_('COM_ADMIN_CONFIGURATION_FILE', true),
+				'title' => Text::_('COM_ADMIN_CONFIGURATION_FILE', true),
 				'data'  => $model->getSafeData('config')
 			),
 			'directories' => array(
-				'title' => \JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
+				'title' => Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
 				'data'  => $model->getSafeData('directory', true)
 			),
 			'phpInfo' => array(
-				'title' => \JText::_('COM_ADMIN_PHP_INFORMATION', true),
+				'title' => Text::_('COM_ADMIN_PHP_INFORMATION', true),
 				'data'  => $model->getSafeData('phpInfoArray')
 			),
 			'extensions' => array(
-				'title' => \JText::_('COM_ADMIN_EXTENSIONS', true),
+				'title' => Text::_('COM_ADMIN_EXTENSIONS', true),
 				'data'  => $model->getSafeData('extensions')
 			)
 		);

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
 
 /**
  * Tracks list controller class.
@@ -54,7 +55,7 @@ class TracksController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the model.
 		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
@@ -78,11 +79,11 @@ class TracksController extends BaseController
 		}
 		elseif ($count > 0)
 		{
-			$this->setMessage(\JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
+			$this->setMessage(Text::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
+			$this->setMessage(Text::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');

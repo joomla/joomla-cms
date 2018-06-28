@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Group Model
@@ -233,7 +234,7 @@ class GroupModel extends AdminModel
 
 				if (!$form->loadFile($path, false))
 				{
-					throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+					throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 				}
 			}
 		}

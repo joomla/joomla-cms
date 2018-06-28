@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
+use Joomla\CMS\Language\Text;
+
 
 /**
  * Cache Controller
@@ -46,7 +48,7 @@ class DisplayController extends BaseController
 			switch ($vName)
 			{
 				case 'purge':
-					$this->app->enqueueMessage(\JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'), 'warning');
+					$this->app->enqueueMessage(Text::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'), 'warning');
 					break;
 				case 'cache':
 				default:
@@ -75,13 +77,13 @@ class DisplayController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
 		if (empty($cid))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -89,11 +91,11 @@ class DisplayController extends BaseController
 
 			if ($result !== array())
 			{
-				$this->app->enqueueMessage(\JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
+				$this->app->enqueueMessage(Text::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
 			}
 			else
 			{
-				$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
+				$this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
 			}
 		}
 
@@ -110,7 +112,7 @@ class DisplayController extends BaseController
 	public function deleteAll()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app        = $this->app;
 		$model      = $this->getModel('cache');
@@ -123,8 +125,8 @@ class DisplayController extends BaseController
 			if ($mCache->clean($cache->group) === false)
 			{
 				$app->enqueueMessage(
-					\JText::sprintf(
-						'COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', \JText::_('JADMINISTRATOR') . ' > ' . $cache->group
+					Text::sprintf(
+						'COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', Text::_('JADMINISTRATOR') . ' > ' . $cache->group
 					), 'error'
 				);
 				$allCleared = false;
@@ -133,11 +135,11 @@ class DisplayController extends BaseController
 
 		if ($allCleared)
 		{
-			$app->enqueueMessage(\JText::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
+			$app->enqueueMessage(Text::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
+			$app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
 		$this->setRedirect('index.php?option=com_cache&view=cache');
@@ -151,15 +153,15 @@ class DisplayController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		if (!$this->getModel('cache')->purge())
 		{
-			$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
+			$this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
 		}
 		else
 		{
-			$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
+			$this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
 		}
 
 		$this->setRedirect('index.php?option=com_cache&view=purge');

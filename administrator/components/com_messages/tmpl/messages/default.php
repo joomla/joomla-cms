@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -22,7 +24,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-striped">
 				<thead>
@@ -70,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $item->user_from; ?>
 						</td>
 						<td class="d-none d-md-table-cell">
-							<?php echo JHtml::_('date', $item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
+							<?php echo JHtml::_('date', $item->date_time, Text::_('DATE_FORMAT_LC2')); ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

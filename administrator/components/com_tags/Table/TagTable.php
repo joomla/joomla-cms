@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Table\Nested;
+use Joomla\CMS\Language\Text;
 
 /**
  * Tags table
@@ -259,7 +260,7 @@ class TagTable extends Nested
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}

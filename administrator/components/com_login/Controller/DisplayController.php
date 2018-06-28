@@ -11,6 +11,7 @@ namespace Joomla\Component\Login\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
 
 /**
  * Login Controller.
@@ -42,7 +43,7 @@ class DisplayController extends BaseController
 		// For non-html formats we do not have login view, so just display 403 instead
 		if ($this->input->get('format', 'html') !== 'html')
 		{
-			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		/**
@@ -65,7 +66,7 @@ class DisplayController extends BaseController
 	public function login()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 
@@ -102,7 +103,7 @@ class DisplayController extends BaseController
 	 */
 	public function logout()
 	{
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 

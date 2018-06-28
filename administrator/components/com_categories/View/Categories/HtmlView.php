@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Categories view class for the Category package.
@@ -163,17 +164,17 @@ class HtmlView extends BaseHtmlView
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE'))
 		{
-			$title = \JText::_($component_title_key);
+			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
 		// Else if the component section string exits, let's use it
 		{
-			$title = \JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(\JText::_($component_section_key)));
+			$title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
 		}
 		else
 		// Else use the base title
 		{
-			$title = \JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
+			$title = Text::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
 		}
 
 		// Load specific css component
@@ -204,7 +205,7 @@ class HtmlView extends BaseHtmlView
 			&& $canDo->get('core.edit')
 			&& $canDo->get('core.edit.state'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
@@ -247,7 +248,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($lang_help_url);
+			$url = Text::_($lang_help_url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -268,12 +269,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => \JText::_('JSTATUS'),
-			'a.title'     => \JText::_('JGLOBAL_TITLE'),
-			'a.access'    => \JText::_('JGRID_HEADING_ACCESS'),
-			'language'    => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+			'a.lft'       => Text::_('JGRID_HEADING_ORDERING'),
+			'a.published' => Text::_('JSTATUS'),
+			'a.title'     => Text::_('JGLOBAL_TITLE'),
+			'a.access'    => Text::_('JGRID_HEADING_ACCESS'),
+			'language'    => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -42,7 +44,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="menuList">
 						<thead>
@@ -55,19 +57,19 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
-									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-unpublish" aria-hidden="true"></span>
-									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-trash" aria-hidden="true"></span>
-									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-cube" aria-hidden="true"></span>
-									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
+									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
 								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -92,13 +94,13 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td>
 									<?php if ($canManageItems) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 									<div class="small">
-										<?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
+										<?php echo Text::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->description); ?>">
 											<?php echo $this->escape($item->menutype); ?></a>
@@ -138,18 +140,18 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 									<?php if (isset($this->modules[$item->menutype])) : ?>
 										<div class="dropdown">
 											<a href="#" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
-												<?php echo JText::_('COM_MENUS_MODULES'); ?>
+												<?php echo Text::_('COM_MENUS_MODULES'); ?>
 												<span class="caret"></span>
 											</a>
 											<div class="dropdown-menu dropdown-menu-right">
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
-															<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 													<?php else : ?>
                                                         <a href="#" class="disabled" disabled="disabled">
-                                                            <span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
+                                                            <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
                                                         </a>
 													<?php endif; ?>
 												<?php endforeach; ?>
@@ -162,7 +164,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 														'bootstrap.renderModal',
 														'moduleEdit' . $module->id . 'Modal',
 														array(
-															'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+															'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 															'backdrop'    => 'static',
 															'keyboard'    => false,
 															'closeButton' => false,
@@ -173,25 +175,25 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 															'modalWidth'  => 80,
 															'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 																	. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-																	. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 																	. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 																	. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-																	. JText::_('JSAVE') . '</button>'
+																	. Text::_('JSAVE') . '</button>'
 																	. '<button type="button" class="btn btn-success" aria-hidden="true"'
 																	. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-																	. JText::_('JAPPLY') . '</button>',
+																	. Text::_('JAPPLY') . '</button>',
 														)
 													); ?>
 											<?php endif; ?>
 										<?php endforeach; ?>
 									<?php elseif ($modMenuId) : ?>
 										<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-										<a class="btn btn-sm btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+										<a class="btn btn-sm btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
 										<?php echo JHtml::_(
 												'bootstrap.renderModal',
 												'moduleAddModal',
 												array(
-													'title'       => JText::_('COM_MENUS_ADD_MENU_MODULE'),
+													'title'       => Text::_('COM_MENUS_ADD_MENU_MODULE'),
 													'backdrop'    => 'static',
 													'keyboard'    => false,
 													'closeButton' => false,
@@ -202,13 +204,13 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 													'modalWidth'  => 80,
 													'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#closeBtn\').click();">'
-															. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+															. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 															. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#saveBtn\').click();">'
-															. JText::_('JSAVE') . '</button>'
+															. Text::_('JSAVE') . '</button>'
 															. '<button type="button" class="btn btn-success" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#applyBtn\').click();">'
-															. JText::_('JAPPLY') . '</button>',
+															. Text::_('JAPPLY') . '</button>',
 												)
 											); ?>
 									<?php endif; ?>

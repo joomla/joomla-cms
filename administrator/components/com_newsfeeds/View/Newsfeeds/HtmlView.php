@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class for a list of newsfeeds.
@@ -124,7 +125,7 @@ class HtmlView extends BaseHtmlView
 
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');
-		\JToolbarHelper::title(\JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+		\JToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
@@ -148,7 +149,7 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_newsfeeds')
 			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
@@ -184,15 +185,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.published'    => \JText::_('JSTATUS'),
-			'a.name'         => \JText::_('JGLOBAL_TITLE'),
-			'category_title' => \JText::_('JCATEGORY'),
-			'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
-			'numarticles'    => \JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
-			'a.cache_time'   => \JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
-			'a.language'     => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'           => \JText::_('JGRID_HEADING_ID')
+			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => Text::_('JSTATUS'),
+			'a.name'         => Text::_('JGLOBAL_TITLE'),
+			'category_title' => Text::_('JCATEGORY'),
+			'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
+			'numarticles'    => Text::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
+			'a.cache_time'   => Text::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
+			'a.language'     => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => Text::_('JGRID_HEADING_ID')
 		);
 	}
 }

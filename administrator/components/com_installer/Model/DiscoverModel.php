@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Installer Discover Model
@@ -205,7 +206,7 @@ class DiscoverModel extends InstallerModel
 				if (!$result)
 				{
 					$failed = true;
-					$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED') . ': ' . $id);
+					$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED') . ': ' . $id);
 				}
 			}
 
@@ -217,12 +218,12 @@ class DiscoverModel extends InstallerModel
 
 			if (!$failed)
 			{
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
+				$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
 			}
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
 		}
 	}
 
@@ -247,12 +248,12 @@ class DiscoverModel extends InstallerModel
 		}
 		catch (\JDatabaseExceptionExecuting $e)
 		{
-			$this->_message = \JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
+			$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
 			return false;
 		}
 
-		$this->_message = \JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+		$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 
 		return true;
 	}

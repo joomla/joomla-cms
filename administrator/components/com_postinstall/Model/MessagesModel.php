@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Model class to manage postinstall messages
@@ -172,7 +173,7 @@ class MessagesModel extends BaseDatabaseModel
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
-		return \JText::_(strtoupper($extension->name));
+		return Text::_(strtoupper($extension->name));
 	}
 
 	/**
@@ -310,13 +311,13 @@ class MessagesModel extends BaseDatabaseModel
 	 *                         action   A PHP action takes place when the action button is clicked. You need to specify the action_file
 	 *                                  (RAD path to the PHP file) and action (PHP function name) keys. See below for more information.
 	 *
-	 * title_key           The JText language key for the title of this PIM.
+	 * title_key           The Text language key for the title of this PIM.
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_TITLE
 	 *
-	 * description_key     The JText language key for the main body (description) of this PIM
+	 * description_key     The Text language key for the main body (description) of this PIM
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_DESCRIPTION
 	 *
-	 * action_key          The JText language key for the action button. Ignored and not required when type=message
+	 * action_key          The Text language key for the action button. Ignored and not required when type=message
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_ACTION
 	 *
 	 * language_extension  The extension name which holds the language keys used above.

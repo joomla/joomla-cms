@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Banner model.
@@ -76,7 +77,7 @@ class BannerModel extends AdminModel
 		{
 			if (!$user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -133,7 +134,7 @@ class BannerModel extends AdminModel
 					return false;
 				}
 
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 				return false;
 			}
@@ -141,7 +142,7 @@ class BannerModel extends AdminModel
 
 		if (empty($categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 			return false;
 		}
@@ -149,7 +150,7 @@ class BannerModel extends AdminModel
 		// Check that the user has create permission for the component
 		if (!\JFactory::getUser()->authorise('core.create', 'com_banners.category.' . $categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 			return false;
 		}
@@ -174,7 +175,7 @@ class BannerModel extends AdminModel
 				}
 
 				// Not fatal error
-				$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 				continue;
 			}
 
@@ -383,7 +384,7 @@ class BannerModel extends AdminModel
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+					\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 				}
 			}
 		}

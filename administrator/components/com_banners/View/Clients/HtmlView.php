@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
+use Joomla\CMS\Language\Text;
+
 
 /**
  * View class for a list of clients.
@@ -81,7 +83,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = \JHelperContent::getActions('com_banners');
 
-		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
+		\JToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
 		if ($canDo->get('core.create'))
 		{
@@ -123,12 +125,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.status'    => \JText::_('JSTATUS'),
-			'a.name'      => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact'     => \JText::_('COM_BANNERS_HEADING_CONTACT'),
-			'client_name' => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners'    => \JText::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID')
+			'a.status'    => Text::_('JSTATUS'),
+			'a.name'      => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact'     => Text::_('COM_BANNERS_HEADING_CONTACT'),
+			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'nbanners'    => Text::_('COM_BANNERS_HEADING_ACTIVE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID')
 		);
 	}
 }

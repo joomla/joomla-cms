@@ -17,6 +17,7 @@ use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -162,11 +163,11 @@ class HistoryModel extends ListModel
 					{
 						try
 						{
-							\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+							\JLog::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;
@@ -228,7 +229,7 @@ class HistoryModel extends ListModel
 		}
 		else
 		{
-			$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
@@ -302,11 +303,11 @@ class HistoryModel extends ListModel
 					{
 						try
 						{
-							\JLog::add(\JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+							\JLog::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage(\JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+							\JFactory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;

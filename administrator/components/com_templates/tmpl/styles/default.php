@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -43,7 +45,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								</th>
 								<?php if ($clientId === 0) : ?>
 								<th style="width:12%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
+									<?php echo Text::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 								</th>
 								<?php endif; ?>
 								<th style="width:12%" class="d-none d-md-table-cell text-center">
@@ -74,17 +76,17 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<td>
 									<?php if ($this->preview && $item->client_id == '0') : ?>
 										<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
-										<span class="icon-eye-open hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>"></span>
-										<span class="sr-only"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
+										<span class="icon-eye-open hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>"></span>
+										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
 									<?php elseif ($item->client_id == '1') : ?>
 										<span class="icon-eye-close disabled hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>"></span>
-										<span class="sr-only"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?></span>
+										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?></span>
 									<?php else: ?>
 										<span class="icon-eye-close disabled hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
-										<span class="sr-only"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
@@ -96,9 +98,9 @@ $colSpan = $clientId === 1 ? 5 : 6;
 									<?php elseif ($canChange):?>
 										<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
 											<?php if ($item->image) : ?>
-												<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+												<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary" title="<?php echo JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+												<span class="badge badge-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
 											<?php endif; ?>
 										</a>
 									<?php else : ?>
@@ -112,13 +114,13 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<?php if ($clientId === 0) : ?>
 								<td class="small d-none d-md-table-cell text-center">
 									<?php if ($item->home == '1') : ?>
-										<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
+										<?php echo Text::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
 									<?php elseif ($item->home != '0' && $item->home != '1') : ?>
-										<?php echo JText::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($item->language_title)); ?>
+										<?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($item->language_title)); ?>
 									<?php elseif ($item->assigned > 0) : ?>
-										<?php echo JText::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $this->escape($item->assigned)); ?>
+										<?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $this->escape($item->assigned)); ?>
 									<?php else : ?>
-										<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
+										<?php echo Text::_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>

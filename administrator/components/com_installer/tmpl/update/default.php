@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -31,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="info"><?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?></joomla-alert>
+						<joomla-alert type="info"><?php echo Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?></joomla-alert>
 					<?php else : ?>
 						<table class="table table-striped">
 							<thead>
@@ -49,19 +51,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap d-none d-md-table-cell">
-									<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
+									<?php echo Text::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
 								<th class="nowrap center">
-									<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
+									<?php echo Text::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
 								<th class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap d-none d-md-table-cell">
-									<?php echo JText::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
+									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
 								<th style="width:40%" class="nowrap d-none d-md-table-cell">
-									<?php echo JText::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
+									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 								</th>
 							</tr>
 							</thead>
@@ -75,9 +77,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<tbody>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php
-								$client          = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+								$client          = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 								$manifest        = json_decode($item->manifest_cache);
-								$current_version = $manifest->version ?? JText::_('JLIB_UNKNOWN');
+								$current_version = $manifest->version ?? Text::_('JLIB_UNKNOWN');
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td>
@@ -85,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td>
 										<label for="cb<?php echo $i; ?>">
-											<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_DESCRIPTION'), $item->description ?: JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
+											<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', Text::_('JGLOBAL_DESCRIPTION'), $item->description ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
 											<?php echo $this->escape($item->name); ?>
 											</span>
 										</label>

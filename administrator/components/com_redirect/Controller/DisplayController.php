@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Redirect master display controller.
@@ -55,7 +56,7 @@ class DisplayController extends BaseController
 			// Show messages about the enabled plugin and if the plugin should collect URLs
 			if ($pluginEnabled && $collectUrlsEnabled)
 			{
-				$this->app->enqueueMessage(\JText::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', \JText::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
+				$this->app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
 			}
 			else
 			{
@@ -63,20 +64,20 @@ class DisplayController extends BaseController
 				$link = HTMLHelper::_(
 					'link',
 					'#plugin' . $redirectPluginId . 'Modal',
-					\JText::_('COM_REDIRECT_SYSTEM_PLUGIN'),
+					Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
 					'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
 				);
 
 				if ($pluginEnabled && !$collectUrlsEnabled)
 				{
 					$this->app->enqueueMessage(
-						\JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', \JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link),
+						Text::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED'), $link),
 						'notice'
 					);
 				}
 				else
 				{
-					$this->app->enqueueMessage(\JText::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
+					$this->app->enqueueMessage(Text::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
 				}
 			}
 		}
@@ -85,7 +86,7 @@ class DisplayController extends BaseController
 		if ($view == 'link' && $layout == 'edit' && !$this->checkEditId('com_redirect.edit.link', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(\JRoute::_('index.php?option=com_redirect&view=links', false));
 
 			return false;

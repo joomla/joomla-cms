@@ -8,10 +8,11 @@
  */
 namespace Joomla\Component\Joomlaupdate\Administrator\View\Upload;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Update's Update View
@@ -32,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Set the toolbar information.
-		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 

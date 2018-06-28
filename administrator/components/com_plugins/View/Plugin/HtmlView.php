@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a plugin.
@@ -77,7 +78,7 @@ class HtmlView extends BaseHtmlView
 
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		\JToolbarHelper::title(\JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', \JText::_($this->item->name)), 'power-cord plugin');
+		\JToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'power-cord plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
@@ -102,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($help->url);
+			$url = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else

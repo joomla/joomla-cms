@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -20,7 +22,7 @@ JHtml::_('behavior.keepalive');
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK') : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', empty($this->item->id) ? Text::_('COM_REDIRECT_NEW_LINK') : Text::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id)); ?>
 				<?php echo $this->form->renderField('old_url'); ?>
 				<?php echo $this->form->renderField('new_url'); ?>
 				<?php echo $this->form->renderField('published'); ?>

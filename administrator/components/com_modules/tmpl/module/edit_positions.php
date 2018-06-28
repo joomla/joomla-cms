@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $clientId         = $this->item->client_id;
 $state            = 1;
 $selectedPosition = $this->item->position;
 $positions        = JHtml::_('modules.positions', $clientId, $state, $selectedPosition);
 
 // Add custom position to options
-$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 
 // Build field
 $attr = array(

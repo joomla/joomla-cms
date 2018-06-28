@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
 
 /**
  * Groups Table
@@ -83,7 +84,7 @@ class GroupTable extends Table
 		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
+			$this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
 			return false;
 		}

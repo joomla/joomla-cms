@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 \JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a client.
@@ -91,7 +92,7 @@ class HtmlView extends BaseHtmlView
 		$canDo      = $this->canDo;
 
 		\JToolbarHelper::title(
-			$isNew ? \JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : \JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
+			$isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
 			'bookmark banners-clients'
 		);
 

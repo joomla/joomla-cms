@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class for a list of articles.
@@ -217,20 +218,20 @@ class HtmlView extends BaseHtmlView
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		ToolbarHelper::title(\JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', \JText::_($this->extensionName), \JText::_($languageKey)), 'contract assoc');
+		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'contract assoc');
 
 		$bar = Toolbar::getInstance('toolbar');
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. \JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. \JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
 		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)

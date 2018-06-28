@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $input = JFactory::getApplication()->input;
 
 // Checking if loaded via index.php or component.php
@@ -26,13 +28,13 @@ JHtml::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', 'relat
 				<?php foreach ($list as $title => $item) : ?>
 					<?php $menutype = array('id' => $this->recordId, 'title' => $item->type ?? $item->title, 'request' => $item->request); ?>
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
-					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo JText::_($item->description); ?>"
+					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo Text::_($item->description); ?>"
 						onclick="Joomla.setMenuType('<?php echo $menutype; ?>', '<?php echo $tmpl; ?>')">
 						<div class="pr-2">
 							<?php echo $title; ?>
 						</div>
 						<small class="text-muted">
-							<?php echo JText::_($item->description); ?>
+							<?php echo Text::_($item->description); ?>
 						</small>
 					</a>
 				<?php endforeach; ?>

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Update's Update View
@@ -32,7 +33,7 @@ class HtmlView extends BaseHtmlView
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		// Set the toolbar information.
-		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
 
 		// Render the view.
 		parent::display($tpl);

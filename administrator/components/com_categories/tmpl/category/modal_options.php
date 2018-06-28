@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 echo JHtml::_('bootstrap.startAccordion', 'categoryOptions', array('active' => 'collapse0'));
 $fieldSets = $this->form->getFieldsets('params');
 $i = 0;
@@ -16,10 +18,10 @@ $i = 0;
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
-	echo JHtml::_('bootstrap.addSlide', 'categoryOptions', JText::_($label), 'collapse' . ($i++));
+	echo JHtml::_('bootstrap.addSlide', 'categoryOptions', Text::_($label), 'collapse' . ($i++));
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
-		echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+		echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
 	}
 	?>
 	<?php foreach ($this->form->getFieldset($name) as $field) : ?>

@@ -11,6 +11,7 @@ namespace Joomla\Component\Modules\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Modules component helper.
@@ -40,10 +41,10 @@ abstract class ModulesHelper
 	{
 		// Build the filter options.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '1', \JText::_('JPUBLISHED'));
-		$options[] = \JHtml::_('select.option', '0', \JText::_('JUNPUBLISHED'));
-		$options[] = \JHtml::_('select.option', '-2', \JText::_('JTRASHED'));
-		$options[] = \JHtml::_('select.option', '*', \JText::_('JALL'));
+		$options[] = \JHtml::_('select.option', '1', Text::_('JPUBLISHED'));
+		$options[] = \JHtml::_('select.option', '0', Text::_('JUNPUBLISHED'));
+		$options[] = \JHtml::_('select.option', '-2', Text::_('JTRASHED'));
+		$options[] = \JHtml::_('select.option', '*', Text::_('JALL'));
 
 		return $options;
 	}
@@ -57,8 +58,8 @@ abstract class ModulesHelper
 	{
 		// Build the filter options.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '0', \JText::_('JSITE'));
-		$options[] = \JHtml::_('select.option', '1', \JText::_('JADMINISTRATOR'));
+		$options[] = \JHtml::_('select.option', '0', Text::_('JSITE'));
+		$options[] = \JHtml::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -101,7 +102,7 @@ abstract class ModulesHelper
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = \JHtml::_('select.option', 'none', \JText::_('COM_MODULES_NONE'));
+				$options[] = \JHtml::_('select.option', 'none', Text::_('COM_MODULES_NONE'));
 			}
 			else
 			{
@@ -181,7 +182,7 @@ abstract class ModulesHelper
 			$source = $path . "/modules/$extension";
 				$lang->load("$extension.sys", $path, null, false, true)
 			||	$lang->load("$extension.sys", $source, null, false, true);
-			$modules[$i]->text = \JText::_($module->text);
+			$modules[$i]->text = Text::_($module->text);
 		}
 
 		$modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
@@ -240,14 +241,14 @@ abstract class ModulesHelper
 		}
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
-		$text = \JText::_($langKey);
+		$text = Text::_($langKey);
 
 		// Avoid untranslated strings
 		if (!self::isTranslatedText($langKey, $text))
 		{
 			// Modules component translation
 			$langKey = strtoupper('COM_MODULES_POSITION_' . $position);
-			$text = \JText::_($langKey);
+			$text = Text::_($langKey);
 
 			// Avoid untranslated strings
 			if (!self::isTranslatedText($langKey, $text))

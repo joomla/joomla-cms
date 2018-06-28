@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Displays a list of the installed languages.
@@ -125,11 +126,11 @@ class HtmlView extends BaseHtmlView
 
 		if ((int) $this->state->get('client_id') === 1)
 		{
-			\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
+			\JToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
 		}
 		else
 		{
-			\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
+			\JToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
 		}
 
 		if ($canDo->get('core.edit.state'))

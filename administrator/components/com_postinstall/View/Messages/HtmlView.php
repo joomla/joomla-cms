@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
+use Joomla\CMS\Language\Text;
 
 /**
  * Model class to display postinstall messages
@@ -48,7 +49,7 @@ class HtmlView extends BaseHtmlView
 		$this->token = \JFactory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
-		\JToolbarHelper::title(\JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
+		\JToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
 
 		return parent::display($tpl);
 	}

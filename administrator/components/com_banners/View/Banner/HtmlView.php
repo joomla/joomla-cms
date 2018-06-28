@@ -8,10 +8,10 @@
  */
 namespace Joomla\Component\Banners\Administrator\View\Banner;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a banner.
@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->item->catid);
 
-		\JToolbarHelper::title($isNew ? \JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : \JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
+		\JToolbarHelper::title($isNew ? Text::_('COM_BANNERS_MANAGER_BANNER_NEW') : Text::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
 
 		$toolbarButtons = [];
 

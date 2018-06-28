@@ -16,6 +16,8 @@ if (!defined('_JEXEC'))
 	define('_JEXEC', 1);
 }
 
+use Joomla\CMS\Language\Text;
+
 if (!function_exists('jimport'))
 {
 	/**
@@ -115,15 +117,15 @@ if (!class_exists('JFolder'))
 	}
 }
 
-// Fake the JText class - we aren't going to show errors to people anyhow
-if (!class_exists('JText'))
+// Fake the Text class - we aren't going to show errors to people anyhow
+if (!class_exists('Text'))
 {
 	/**
-	 * JText mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+	 * Text mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
 	 *
 	 * @since  3.5.1
 	 */
-	abstract class JText
+	abstract class Text
 	{
 		/**
 		 * No need for translations in a non-interactive script, so always return an empty string here

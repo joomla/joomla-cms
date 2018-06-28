@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+use Joomla\CMS\Language\Text;
 
 /**
  * Extension Manager Warning View
@@ -37,11 +38,11 @@ class HtmlView extends InstallerViewDefault
 
 		if (count($items) > 0)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), 'warning');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), 'warning');
 		}
 		else
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'info');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'info');
 		}
 	}
 

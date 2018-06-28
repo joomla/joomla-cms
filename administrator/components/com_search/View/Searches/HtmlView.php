@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class for a list of search terms.
@@ -99,11 +100,11 @@ class HtmlView extends BaseHtmlView
 		// Check if plugin is enabled
 		if ($this->enabled)
 		{
-			$app->enqueueMessage(\JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+			$app->enqueueMessage(Text::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(Text::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
 		}
 
 		$this->addToolbar();
@@ -121,7 +122,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(\JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
+		\JToolbarHelper::title(Text::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
 
 		$showResults = $this->state->get('show_results', 1, 'int');
 

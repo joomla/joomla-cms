@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Contact component helper.
@@ -32,13 +33,13 @@ class ContactHelper extends ContentHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_CONTACT_SUBMENU_CONTACTS'),
+			Text::_('COM_CONTACT_SUBMENU_CONTACTS'),
 			'index.php?option=com_contact&view=contacts',
 			$vName == 'contacts'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_CONTACT_SUBMENU_CATEGORIES'),
+			Text::_('COM_CONTACT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
@@ -46,12 +47,12 @@ class ContactHelper extends ContentHelper
 		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
 		{
 			\JHtmlSidebar::addEntry(
-				\JText::_('JGLOBAL_FIELDS'),
+				Text::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_contact.contact',
 				$vName == 'fields.fields'
 			);
 			\JHtmlSidebar::addEntry(
-				\JText::_('JGLOBAL_FIELD_GROUPS'),
+				Text::_('JGLOBAL_FIELD_GROUPS'),
 				'index.php?option=com_fields&view=groups&context=com_contact.contact',
 				$vName == 'fields.groups'
 			);
@@ -230,9 +231,9 @@ class ContactHelper extends ContentHelper
 		\JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_contact.contact'    => \JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
-			'com_contact.mail'       => \JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
-			'com_contact.categories' => \JText::_('JCATEGORY')
+			'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail'       => Text::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.categories' => Text::_('JCATEGORY')
 		);
 
 		return $contexts;

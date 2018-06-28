@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * Installer Update Model
@@ -169,12 +170,12 @@ class UpdateModel extends ListModel
 	{
 		foreach ($items as &$item)
 		{
-			$item->client_translated  = $item->client_id ? \JText::_('JADMINISTRATOR') : \JText::_('JSITE');
+			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
-			$item->current_version    = $manifest->version ?? \JText::_('JLIB_UNKNOWN');
-			$item->type_translated    = \JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
-			$item->folder_translated  = $item->folder ?: \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
-			$item->install_type       = $item->extension_id ? \JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : \JText::_('COM_INSTALLER_NEW_INSTALL');
+			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
+			$item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+			$item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+			$item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');
 		}
 
 		return $items;
@@ -284,7 +285,7 @@ class UpdateModel extends ListModel
 		}
 		catch (\JDatabaseExceptionExecuting $e)
 		{
-			$this->_message = \JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
+			$this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
 			return false;
 		}
@@ -295,7 +296,7 @@ class UpdateModel extends ListModel
 			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 		$db->setQuery($query);
 		$db->execute();
-		$this->_message = \JText::_('JLIB_INSTALLER_PURGED_UPDATES');
+		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
 
 		return true;
 	}
@@ -322,14 +323,14 @@ class UpdateModel extends ListModel
 		}
 		catch (\JDatabaseExceptionExecuting $e)
 		{
-			$this->_message .= \JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
+			$this->_message .= Text::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 
 			return false;
 		}
 
 		if ($rows = $db->getAffectedRows())
 		{
-			$this->_message .= \JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
+			$this->_message .= Text::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
 		}
 
 		return true;
@@ -401,7 +402,7 @@ class UpdateModel extends ListModel
 
 		if (!isset($update->get('downloadurl')->_data))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'), 'error');
 
 			return false;
 		}
@@ -434,7 +435,7 @@ class UpdateModel extends ListModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
 
 			return false;
 		}
@@ -453,13 +454,13 @@ class UpdateModel extends ListModel
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = \JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = \JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 		}
 

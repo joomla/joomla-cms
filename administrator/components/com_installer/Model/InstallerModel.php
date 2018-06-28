@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Extension Manager Abstract Extension Model.
@@ -166,10 +167,10 @@ class InstallerModel extends ListModel
 			}
 
 			$item->author_info       = @$item->authorEmail . '<br>' . @$item->authorUrl;
-			$item->client            = $item->client_id ? \JText::_('JADMINISTRATOR') : \JText::_('JSITE');
+			$item->client            = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$item->client_translated = $item->client;
-			$item->type_translated   = \JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
-			$item->folder_translated = @$item->folder ? $item->folder : \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+			$item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+			$item->folder_translated = @$item->folder ? $item->folder : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 
 			$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
@@ -215,13 +216,13 @@ class InstallerModel extends ListModel
 			}
 
 			// Translate the extension name if possible
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 
 			settype($item->description, 'string');
 
 			if (!in_array($item->type, array('language')))
 			{
-				$item->description = \JText::_($item->description);
+				$item->description = Text::_($item->description);
 			}
 		}
 	}

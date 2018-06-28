@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Language\Text;
 
 /**
  * Private Message model.
@@ -83,11 +84,11 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						\JLog::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+						\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -144,7 +145,7 @@ class MessageModel extends AdminModel
 						}
 
 						$this->item->set('user_id_to', $message->user_id_from);
-						$re = \JText::_('COM_MESSAGES_RE');
+						$re = Text::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
@@ -154,7 +155,7 @@ class MessageModel extends AdminModel
 				}
 				elseif ($this->item->user_id_to != \JFactory::getUser()->id)
 				{
-					$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+					$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 					return false;
 				}
@@ -255,11 +256,11 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						\JLog::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
+						\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -324,7 +325,7 @@ class MessageModel extends AdminModel
 
 		if ($config->get('locked', false))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
+			$this->setError(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
 			return false;
 		}
@@ -360,11 +361,11 @@ class MessageModel extends AdminModel
 			{
 				try
 				{
-					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+					Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
 				}
 				catch (\RuntimeException $exception)
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
+					\JFactory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
 				}
 
 				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
@@ -375,11 +376,11 @@ class MessageModel extends AdminModel
 			{
 				try
 				{
-					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
+					Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
 				}
 				catch (\RuntimeException $exception)
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
+					\JFactory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
 				}
 
 				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -26,7 +27,7 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['re
 	<fieldset>
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 			<?php echo $this->form->renderField('title'); ?>
 			<?php echo $this->form->renderField('title_native'); ?>
 			<?php echo $this->form->renderField('lang_code'); ?>
@@ -51,11 +52,11 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['re
 			<?php echo $this->form->renderField('lang_id'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
 		<?php echo $this->form->renderFieldset('metadata'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', Text::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
 		<?php echo $this->form->renderFieldset('site_name'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 

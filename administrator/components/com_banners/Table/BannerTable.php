@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Banner table
@@ -95,7 +96,7 @@ class BannerTable extends Table
 		// Check the publish down date is not earlier than publish up.
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(\JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
 			return false;
 		}
@@ -148,14 +149,14 @@ class BannerTable extends Table
 
 			if ((int) $registry->get('width', 0) < 0)
 			{
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', \JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 
 				return false;
 			}
 
 			if ((int) $registry->get('height', 0) < 0)
 			{
-				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', \JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 
 				return false;
 			}
@@ -248,7 +249,7 @@ class BannerTable extends Table
 
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 			{
-				$this->setError(\JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+				$this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
 				return false;
 			}
@@ -299,7 +300,7 @@ class BannerTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}

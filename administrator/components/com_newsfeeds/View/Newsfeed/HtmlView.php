@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a newsfeed.
@@ -102,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
-		$title = $isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
+		$title = $isNew ? Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
 		\JToolbarHelper::title($title, 'feed newsfeeds');
 
 		$toolbarButtons = [];

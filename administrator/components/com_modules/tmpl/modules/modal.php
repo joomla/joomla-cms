@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 if (JFactory::getApplication()->isClient('site'))
 {
-	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+	JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
 // Load needed scripts
@@ -91,7 +93,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 						<?php if ($item->position) : ?>
 						<a class="js-position-insert btn btn-sm btn-block btn-warning" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
-						<span class="badge badge-secondary"><?php echo JText::_('JNONE'); ?></span>
+						<span class="badge badge-secondary"><?php echo Text::_('JNONE'); ?></span>
 						<?php endif; ?>
 					</td>
 					<td class="small d-none d-md-table-cell">

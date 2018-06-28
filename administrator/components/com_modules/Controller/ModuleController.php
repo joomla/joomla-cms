@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Language\Text;
 
 /**
  * Module controller class.
@@ -49,7 +50,7 @@ class ModuleController extends FormController
 
 			$this->setRedirect(\JRoute::_($redirectUrl, false));
 
-			$app->enqueueMessage(\JText::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
+			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
 		}
 
 		$app->setUserState('com_modules.add.module.extension_id', $extensionId);
@@ -146,7 +147,7 @@ class ModuleController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Module', 'Administrator', array());
@@ -200,7 +201,7 @@ class ModuleController extends FormController
 	{
 		if (!\JSession::checkToken())
 		{
-			\JFactory::getApplication()->redirect('index.php', \JText::_('JINVALID_TOKEN'));
+			\JFactory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
 		}
 
 		if (\JFactory::getDocument()->getType() == 'json')
@@ -253,7 +254,7 @@ class ModuleController extends FormController
 		// Check if user token is valid.
 		if (!\JSession::checkToken('get'))
 		{
-			$app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
+			$app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new  JsonResponse;
 			$app->close();
 		}
@@ -296,14 +297,14 @@ class ModuleController extends FormController
 
 				$orders2[$orders[$i]->position]++;
 				$ord = $orders2[$orders[$i]->position];
-				$title = \JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+				$title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
 
 				$html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
 			}
 		}
 		else
 		{
-			$html[] = $position . ',' . 1 . ',' . \JText::_('JNONE');
+			$html[] = $position . ',' . 1 . ',' . Text::_('JNONE');
 		}
 
 		echo new JsonResponse($html);

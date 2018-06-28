@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * Menu Item List Model for Menus.
@@ -531,14 +532,14 @@ class ItemsModel extends ListModel
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				\JLog::add(\JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), \JLog::ERROR, 'jerror');
+				\JLog::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), \JLog::ERROR, 'jerror');
 
 				return false;
 			}
 			// Check if menu type is valid against ACL.
 			elseif (!\JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				\JLog::add(\JText::_('JERROR_ALERTNOAUTHOR'), \JLog::ERROR, 'jerror');
+				\JLog::add(Text::_('JERROR_ALERTNOAUTHOR'), \JLog::ERROR, 'jerror');
 
 				return false;
 			}
@@ -574,7 +575,7 @@ class ItemsModel extends ListModel
 					}
 
 					// Translate component name
-					$item->title = \JText::_($item->title);
+					$item->title = Text::_($item->title);
 				}
 			}
 

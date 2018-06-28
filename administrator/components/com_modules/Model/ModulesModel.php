@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Modules Component Module Model
@@ -238,23 +239,23 @@ class ModulesModel extends ListModel
 			$source = $clientPath . "/modules/$extension";
 			$lang->load("$extension.sys", $clientPath, null, false, true)
 				|| $lang->load("$extension.sys", $source, null, false, true);
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 
 			if (is_null($item->pages))
 			{
-				$item->pages = \JText::_('JNONE');
+				$item->pages = Text::_('JNONE');
 			}
 			elseif ($item->pages < 0)
 			{
-				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
+				$item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
 			}
 			elseif ($item->pages > 0)
 			{
-				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
+				$item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
 			}
 			else
 			{
-				$item->pages = \JText::_('JALL');
+				$item->pages = Text::_('JALL');
 			}
 		}
 	}

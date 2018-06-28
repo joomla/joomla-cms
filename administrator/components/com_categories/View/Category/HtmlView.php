@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Categories component
@@ -154,19 +155,19 @@ class HtmlView extends BaseHtmlView
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = $component . ($section ? "_$section" : '') . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE'))
 		{
-			$title = \JText::_($component_title_key);
+			$title = Text::_($component_title_key);
 		}
 		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
-			$title = \JText::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
-					. '_TITLE', $this->escape(\JText::_($component_section_key))
+			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
+					. '_TITLE', $this->escape(Text::_($component_section_key))
 					);
 		}
 		// Else use the base title
 		else
 		{
-			$title = \JText::_('COM_CATEGORIES_CATEGORY_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
+			$title = Text::_('COM_CATEGORIES_CATEGORY_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 		}
 
 		// Load specific css component
@@ -256,7 +257,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($lang_help_url);
+			$url = Text::_($lang_help_url);
 			$lang->setDebug($debug);
 		}
 		else

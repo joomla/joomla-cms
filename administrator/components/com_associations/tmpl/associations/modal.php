@@ -10,12 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
 
 $app = JFactory::getApplication();
 
 if ($app->isClient('site'))
 {
-	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+	JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
 JHtml::_('jquery.framework');
@@ -51,7 +52,7 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 <?php endif; ?>
 <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 	<?php if (empty($this->items)) : ?>
-		<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+		<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 	<?php else : ?>
 		<table class="table table-striped" id="associationsList">
 			<thead>
@@ -65,7 +66,7 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:15%" class="nowrap">
-						<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
+						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
 					<th style="width:5%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
@@ -113,20 +114,20 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 							<?php echo $this->escape($item->title); ?></a>
 						<?php elseif ($canEdit && $isCheckout) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
-							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">
+							<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">
 							<?php echo $this->escape($item->title); ?></span>
 						<?php else : ?>
-							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">
+							<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">
 							<?php echo $this->escape($item->title); ?></span>
 						<?php endif; ?>
 						<?php if (!empty($this->typeFields['alias'])) : ?>
 							<span class="small">
-								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+								<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 							</span>
 						<?php endif; ?>
 						<?php if (!empty($this->typeFields['catid'])) : ?>
 							<div class="small">
-								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+								<?php echo Text::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 							</div>
 						<?php endif; ?>
 					</td>

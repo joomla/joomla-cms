@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Load chosen.css
 
 
@@ -20,9 +22,9 @@ defined('_JEXEC') or die;
 
 	foreach ($fieldSets as $name => $fieldSet) :
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_TEMPLATES_' . $name . '_FIELDSET_LABEL';
-		echo JHtml::_('bootstrap.addSlide', 'templatestyleOptions', JText::_($label), 'collapse' . ($i++));
+		echo JHtml::_('bootstrap.addSlide', 'templatestyleOptions', Text::_($label), 'collapse' . ($i++));
 			if (isset($fieldSet->description) && trim($fieldSet->description)) :
-				echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+				echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
 			endif;
 			?>
 				<?php foreach ($this->form->getFieldset($name) as $field) : ?>

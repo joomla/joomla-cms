@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Language\Text;
 
 /**
  * Cache Model
@@ -156,12 +157,12 @@ class CacheModel extends ListModel
 			}
 			catch (\JCacheExceptionConnecting $exception)
 			{
-				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
+				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
 				$this->_data = array();
 			}
 			catch (\JCacheExceptionUnsupported $exception)
 			{
-				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
+				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
 				$this->_data = array();
 			}
 		}

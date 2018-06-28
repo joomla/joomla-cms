@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The Categories List Controller
@@ -45,7 +46,7 @@ class CategoriesController extends AdminController
 	 */
 	public function rebuild()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$extension = $this->input->get('extension');
 		$this->setRedirect(\JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
@@ -56,13 +57,13 @@ class CategoriesController extends AdminController
 		if ($model->rebuild())
 		{
 			// Rebuild succeeded.
-			$this->setMessage(\JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
+			$this->setMessage(Text::_('COM_CATEGORIES_REBUILD_SUCCESS'));
 
 			return true;
 		}
 
 		// Rebuild failed.
-		$this->setMessage(\JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
+		$this->setMessage(Text::_('COM_CATEGORIES_REBUILD_FAILURE'));
 
 		return false;
 	}
@@ -76,7 +77,7 @@ class CategoriesController extends AdminController
 	 */
 	public function delete()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -84,7 +85,7 @@ class CategoriesController extends AdminController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$this->app->enqueueMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -98,7 +99,7 @@ class CategoriesController extends AdminController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
@@ -38,7 +40,7 @@ if ($saveOrder && !empty($this->items))
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
@@ -130,16 +132,16 @@ if ($saveOrder && !empty($this->items))
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
 												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
 											<?php endif; ?>
 											<span class="small break-word">
-												<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 											</span>
 											<div class="small">
-												<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+												<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 											</div>
 										</div>
 									</td>
@@ -150,7 +152,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo $item->client_name; ?>
 									</td>
 									<td class="small d-none d-md-table-cell text-center">
-										<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: JText::_('COM_BANNERS_UNLIMITED')); ?>
+										<?php echo Text::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: Text::_('COM_BANNERS_UNLIMITED')); ?>
 									</td>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php echo $item->clicks; ?> -
@@ -176,7 +178,7 @@ if ($saveOrder && !empty($this->items))
 							'bootstrap.renderModal',
 							'collapseModal',
 							array(
-								'title' => JText::_('COM_BANNERS_BATCH_OPTIONS'),
+								'title' => Text::_('COM_BANNERS_BATCH_OPTIONS'),
 								'footer' => $this->loadTemplate('batch_footer')
 							),
 							$this->loadTemplate('batch_body')

@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * Tags view class for the Tags package.
@@ -97,16 +98,16 @@ class HtmlView extends BaseHtmlView
 
 		// Levels filter.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '1', \JText::_('J1'));
-		$options[] = \JHtml::_('select.option', '2', \JText::_('J2'));
-		$options[] = \JHtml::_('select.option', '3', \JText::_('J3'));
-		$options[] = \JHtml::_('select.option', '4', \JText::_('J4'));
-		$options[] = \JHtml::_('select.option', '5', \JText::_('J5'));
-		$options[] = \JHtml::_('select.option', '6', \JText::_('J6'));
-		$options[] = \JHtml::_('select.option', '7', \JText::_('J7'));
-		$options[] = \JHtml::_('select.option', '8', \JText::_('J8'));
-		$options[] = \JHtml::_('select.option', '9', \JText::_('J9'));
-		$options[] = \JHtml::_('select.option', '10', \JText::_('J10'));
+		$options[] = \JHtml::_('select.option', '1', Text::_('J1'));
+		$options[] = \JHtml::_('select.option', '2', Text::_('J2'));
+		$options[] = \JHtml::_('select.option', '3', Text::_('J3'));
+		$options[] = \JHtml::_('select.option', '4', Text::_('J4'));
+		$options[] = \JHtml::_('select.option', '5', Text::_('J5'));
+		$options[] = \JHtml::_('select.option', '6', Text::_('J6'));
+		$options[] = \JHtml::_('select.option', '7', Text::_('J7'));
+		$options[] = \JHtml::_('select.option', '8', Text::_('J8'));
+		$options[] = \JHtml::_('select.option', '9', Text::_('J9'));
+		$options[] = \JHtml::_('select.option', '10', Text::_('J10'));
 
 		$this->f_levels = $options;
 
@@ -142,7 +143,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(\JText::_('COM_TAGS_MANAGER_TAGS'), 'tags');
+		ToolbarHelper::title(Text::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
 		if ($canDo->get('core.create'))
 		{
@@ -166,7 +167,7 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_tags')
 			&& $user->authorise('core.edit.state', 'com_tags'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
@@ -202,12 +203,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft'      => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'    => \JText::_('JSTATUS'),
-			'a.title'    => \JText::_('JGLOBAL_TITLE'),
-			'a.access'   => \JText::_('JGRID_HEADING_ACCESS'),
-			'a.language' => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'       => \JText::_('JGRID_HEADING_ID')
+			'a.lft'      => Text::_('JGRID_HEADING_ORDERING'),
+			'a.state'    => Text::_('JSTATUS'),
+			'a.title'    => Text::_('JGLOBAL_TITLE'),
+			'a.access'   => Text::_('JGRID_HEADING_ACCESS'),
+			'a.language' => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'       => Text::_('JGRID_HEADING_ID')
 		);
 	}
 }

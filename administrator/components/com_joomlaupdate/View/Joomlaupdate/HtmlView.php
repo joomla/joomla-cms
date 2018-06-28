@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Update's Default View
@@ -117,7 +118,7 @@ class HtmlView extends BaseHtmlView
 		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		// Set the toolbar information.
-		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
 		ToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
@@ -134,7 +135,7 @@ class HtmlView extends BaseHtmlView
 		if (!is_null($this->updateInfo['object']))
 		{
 			// Show the message if an update is found.
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 
 		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
@@ -146,19 +147,19 @@ class HtmlView extends BaseHtmlView
 			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
-				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
+				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
 				break;
 
 			// "Testing"
 			case 'testing':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
-				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
+				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
 				break;
 
 			// "Custom"
 			case 'custom':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
-				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
+				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
 				break;
 
 			/**
@@ -170,7 +171,7 @@ class HtmlView extends BaseHtmlView
 			 */
 			default:
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
-				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
+				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
 
 		$this->warnings = array();

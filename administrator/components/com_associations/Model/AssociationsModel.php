@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Methods supporting a list of article records.
@@ -475,13 +476,13 @@ class AssociationsModel extends ListModel
 		}
 		catch (\JDatabaseExceptionExecuting $e)
 		{
-			$app->enqueueMessage(\JText::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
+			$app->enqueueMessage(Text::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
 			return false;
 		}
 
 		$app->enqueueMessage(
-			\JText::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'),
+			Text::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'),
 			'message'
 		);
 
@@ -541,7 +542,7 @@ class AssociationsModel extends ListModel
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
-				$app->enqueueMessage(\JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
+				$app->enqueueMessage(Text::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
 				return false;
 			}
@@ -550,7 +551,7 @@ class AssociationsModel extends ListModel
 		}
 
 		$app->enqueueMessage(
-			\JText::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'),
+			Text::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'),
 			'message'
 		);
 

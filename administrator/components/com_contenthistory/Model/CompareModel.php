@@ -15,6 +15,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
+use Joomla\CMS\Language\Text;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -66,7 +67,7 @@ class CompareModel extends ItemModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+				$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 				return false;
 			}

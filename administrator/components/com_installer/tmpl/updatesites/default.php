@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -24,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<div id="j-main-container" class="j-main-container">
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+						<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 					<?php else : ?>
 					<table class="table table-striped">
 						<thead>
@@ -77,7 +79,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
-										<?php echo JText::_($item->update_site_name); ?>
+										<?php echo Text::_($item->update_site_name); ?>
 										<br>
 										<span class="small break-word">
 											<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>

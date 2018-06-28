@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a template style.
@@ -97,8 +98,8 @@ class HtmlView extends BaseHtmlView
 		$canDo = $this->canDo;
 
 		\JToolbarHelper::title(
-			$isNew ? \JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
-			: \JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
+			$isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
+			: Text::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
 		);
 
 		$toolbarButtons = [];
@@ -139,7 +140,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($help->url);
+			$url = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else

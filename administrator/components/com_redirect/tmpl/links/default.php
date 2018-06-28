@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -28,7 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				'plugin' . $this->redirectPluginId . 'Modal',
 				array(
 					'url'         => $link,
-					'title'       => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+					'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
 					'height'      => '400px',
 					'width'       => '800px',
 					'bodyHeight'  => '70',
@@ -38,17 +40,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'keyboard'    => false,
 					'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 						. ' onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-						. JText::_("JSAVE") . '</button>'
+						. Text::_("JSAVE") . '</button>'
 						. '<button type="button" class="btn btn-success" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
-						. JText::_("JAPPLY") . '</button>'
+						. Text::_("JAPPLY") . '</button>'
 				)
 			); ?>
 		<?php endif; ?>
 
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-striped">
 				<thead>
@@ -105,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td class="break-word">
 							<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
 									<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?></a>
 							<?php else : ?>
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
@@ -118,7 +120,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($item->referer); ?>
 						</td>
 						<td class="small d-none d-md-table-cell">
-							<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
+							<?php echo JHtml::_('date', $item->created_date, Text::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->hits; ?>
@@ -146,7 +148,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title'  => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
+						'title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
 						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')

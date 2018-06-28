@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.multiselect');
 
 $clientId  = (int) $this->state->get('client_id', 0);
@@ -118,7 +120,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn btn-xs btn-secondary hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+								<button class="btn btn-xs btn-secondary hasTooltip" title="<?php echo Text::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
 									<span class="icon-ban-circle" aria-hidden="true"></span>
 								</button>
 							<?php endif; ?>
@@ -131,7 +133,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
@@ -139,7 +141,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 
 								<?php if (!empty($item->note)) : ?>
 									<div class="small">
-										<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+										<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 									</div>
 								<?php endif; ?>
 							</div>
@@ -151,7 +153,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								</span>
 							<?php else : ?>
 								<span class="badge badge-secondary">
-									<?php echo JText::_('JNONE'); ?>
+									<?php echo Text::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>
 						</td>
@@ -173,9 +175,9 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
 							<td class="small d-none d-md-table-cell">
 								<?php if ($item->language == ''):?>
-									<?php echo JText::_('JUNDEFINED'); ?>
+									<?php echo Text::_('JUNDEFINED'); ?>
 								<?php elseif ($item->language == '*'):?>
-									<?php echo JText::alt('JALL', 'language'); ?>
+									<?php echo Text::alt('JALL', 'language'); ?>
 								<?php else:?>
 									<?php echo $this->escape($item->language); ?>
 								<?php endif; ?>
@@ -198,7 +200,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 				'bootstrap.renderModal',
 				'collapseModal',
 				array(
-					'title'  => JText::_('COM_MODULES_BATCH_OPTIONS'),
+					'title'  => Text::_('COM_MODULES_BATCH_OPTIONS'),
 					'footer' => $this->loadTemplate('batch_footer'),
 				),
 				$this->loadTemplate('batch_body')

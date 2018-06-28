@@ -9,30 +9,32 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $clientId  = $this->state->get('client_id');
 
 // Show only Module Positions of published Templates
 $published = 1;
 $positions = JHtml::_('modules.positions', $clientId, $published);
-$positions['']['items'][] = ModulesHelper::createOption('nochange', JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
-$positions['']['items'][] = ModulesHelper::createOption('noposition', JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
+$positions['']['items'][] = ModulesHelper::createOption('nochange', Text::_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
+$positions['']['items'][] = ModulesHelper::createOption('noposition', Text::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
 
 // Add custom position to options
-$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 
 // Build field
 $attr = array(
 	'id'        => 'batch-position-id',
 	'list.attr' => 'class="chzn-custom-value" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
-		. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
-		. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
+		. 'data-no_results_text="' . Text::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
+		. 'data-placeholder="' . Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
 JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 ?>
 
-<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
+<p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>
 <div class="container">
 	<div class="row">
 		<?php if ($clientId != 1) : ?>
@@ -65,7 +67,7 @@ JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 			<div class="col-md-6">
 				<div class="controls">
 					<label id="batch-choose-action-lbl" for="batch-choose-action">
-						<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
+						<?php echo Text::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
 					</label>
 					<div id="batch-choose-action" class="control-group">
 						<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>

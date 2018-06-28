@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use  \Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Config\Site\Model\ConfigModel;
+use Joomla\CMS\Language\Text;
 
 /**
  * Requests from the frontend
@@ -63,7 +64,7 @@ class RequestController extends BaseController
 		if (!$this->app->getIdentity()->authorise('core.admin', $component)
 			&& !$this->app->getIdentity()->authorise('core.options', $component))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return;
 		}

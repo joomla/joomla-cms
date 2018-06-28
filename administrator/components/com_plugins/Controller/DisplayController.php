@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Plugins master display controller.
@@ -51,7 +52,7 @@ class DisplayController extends BaseController
 		if ($view == 'plugin' && $layout == 'edit' && !$this->checkEditId('com_plugins.edit.plugin', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(\JRoute::_('index.php?option=com_plugins&view=plugins', false));
 
 			return false;

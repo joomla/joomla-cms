@@ -11,6 +11,7 @@ namespace Joomla\Component\Cache\Administrator\View\Purge;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Cache component
@@ -43,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(\JText::_('COM_CACHE_PURGE_EXPIRED_CACHE'), 'lightning purge');
+		\JToolbarHelper::title(Text::_('COM_CACHE_PURGE_EXPIRED_CACHE'), 'lightning purge');
 		\JToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
 		\JToolbarHelper::divider();
 

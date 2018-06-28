@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Message Table class
@@ -57,7 +58,7 @@ class MessageTable extends Table
 
 		if (empty($user->id))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
 
 			return false;
 		}
@@ -66,21 +67,21 @@ class MessageTable extends Table
 
 		if (empty($user->id))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
 
 			return false;
 		}
 
 		if (empty($this->subject))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
 
 			return false;
 		}
 
 		if (empty($this->message))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
 
 			return false;
 		}
@@ -120,7 +121,7 @@ class MessageTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}

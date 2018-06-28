@@ -10,14 +10,15 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Language\Text;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-$client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$client    = $this->state->get('filter.client') == '0' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$opposite_client   = $this->state->get('filter.client') == '1' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$opposite_client   = $this->state->get('filter.client') == '1' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
 	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
 $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
@@ -33,7 +34,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 				<div id="filter-bar" class="btn-toolbar clearfix">
 					<div class="filter-search btn-group float-left">
 						<div class="input-group">
-							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
+							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
 							<div class="input-group-append">
 								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
 								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
@@ -41,12 +42,12 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						</div>
 					</div>
 					<div class="btn-group float-right d-none d-md-block">
-						<label for="limit" class="sr-only"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
+						<label for="limit" class="sr-only"><?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 						<?php echo $this->pagination->getLimitBox(); ?>
 					</div>
 				</div>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="overrideList">
 						<thead>
@@ -61,10 +62,10 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap d-none d-md-table-cell">
-									<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
+									<?php echo Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 								</th>
 								<th class="d-none d-md-table-cell">
-									<?php echo JText::_('JCLIENT'); ?>
+									<?php echo Text::_('JCLIENT'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -85,7 +86,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
-										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
+										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
 											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>

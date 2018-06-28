@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Fields Modal Field
@@ -77,7 +78,7 @@ class FieldField extends FormField
 			$script[] = '	function jClearCategory(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
 			$script[] = '		document.getElementById(id + "_name").value = "' .
-				htmlspecialchars(\JText::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
+				htmlspecialchars(Text::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		document.getElementById(id + "_clear").classList.add("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			document.getElementById(id + "_edit").classList.add("hidden");';
@@ -120,7 +121,7 @@ class FieldField extends FormField
 
 		if (empty($title))
 		{
-			$title = \JText::_('COM_FIELDS_SELECT_A_FIELD');
+			$title = Text::_('COM_FIELDS_SELECT_A_FIELD');
 		}
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -139,24 +140,24 @@ class FieldField extends FormField
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35">';
 		$html[] = '<a href="#modalCategory-' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"' . ' title="' .
-			\JHtml::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . \JText::_('JSELECT') . '</a>';
+			\JHtml::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . Text::_('JSELECT') . '</a>';
 
 		// Edit field button
 		if ($allowEdit)
 		{
 			$html[] = '<a' . ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"' .
 					' href="index.php?option=com_fields&layout=modal&tmpl=component&task=field.edit&id=' . $value . '"' . ' target="_blank"' .
-					' title="' . \JHtml::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . \JText::_('JACTION_EDIT') .
+					' title="' . \JHtml::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . Text::_('JACTION_EDIT') .
 					'</a>';
 
 			$html[] = \JHtml::_(
 				'bootstrap.renderModal', 'modalCategory-' . $this->id,
 				array(
 					'url' => $link . '&amp;' . \JSession::getFormToken() . '=1"',
-					'title' => \JText::_('COM_FIELDS_SELECT_A_FIELD'),
+					'title' => Text::_('COM_FIELDS_SELECT_A_FIELD'),
 					'width' => '800px',
 					'height' => '300px',
-					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . \JText::_("JLIB_HTML_BEHAVIOR_CLOSE") .
+					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . Text::_("JLIB_HTML_BEHAVIOR_CLOSE") .
 						'</button>'
 				)
 			);
@@ -166,7 +167,7 @@ class FieldField extends FormField
 		if ($allowClear)
 		{
 			$html[] = '<button' . ' id="' . $this->id . '_clear"' . ' class="btn' . ($value ? '' : ' hidden') . '"' .
-					' onclick="return jClearCategory(\'' . $this->id . '\')">' . '<span class="icon-remove"></span>' . \JText::_('JCLEAR') .
+					' onclick="return jClearCategory(\'' . $this->id . '\')">' . '<span class="icon-remove"></span>' . Text::_('JCLEAR') .
 					'</button>';
 		}
 

@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 		$user = Factory::getUser();
 
 		// Set the title
-		ToolbarHelper::title(\JText::_('COM_MEDIA'), 'images mediamanager');
+		ToolbarHelper::title(Text::_('COM_MEDIA'), 'images mediamanager');
 
 		// Add the upload and create folder buttons
 		if ($user->authorise('core.create', 'com_media'))

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -45,7 +47,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="text-center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
 									<td>
 										<label for="cb<?php echo $i ?>">
-											<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
+											<?php echo Text::sprintf('COM_CHECKIN_TABLE', $table); ?>
 										</label>
 									</td>
 									<td>

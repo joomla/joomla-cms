@@ -8,9 +8,10 @@
  */
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-use Joomla\CMS\Language\LanguageHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Finder language helper class.
@@ -71,7 +72,7 @@ class FinderHelperLanguage
 
 		if ($branchName === '*')
 		{
-			$title = \JText::_('JALL_LANGUAGE');
+			$title = Text::_('JALL_LANGUAGE');
 		}
 		else
 		{

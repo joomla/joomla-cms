@@ -17,6 +17,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Model for component configuration
@@ -150,7 +151,7 @@ class ComponentModel extends FormModel
 						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
 						&& JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
 					{
-						throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+						throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 					}
 				}
 			}

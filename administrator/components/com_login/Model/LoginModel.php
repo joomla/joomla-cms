@@ -11,6 +11,7 @@ namespace Joomla\Component\Login\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Language\Text;
 
 /**
  * Login Model
@@ -173,14 +174,14 @@ class LoginModel extends BaseDatabaseModel
 			}
 			catch (\JDatabaseExceptionExecuting $databaseException)
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+				\JFactory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 				return array();
 			}
 		}
 		catch (\JDatabaseExceptionExecuting $databaseException)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 			return array();
 		}

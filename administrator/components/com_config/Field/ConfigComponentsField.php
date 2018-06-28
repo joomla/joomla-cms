@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 \JFormHelper::loadFieldClass('List');
 
@@ -64,7 +65,7 @@ class ConfigComponentsField extends \JFormFieldList
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 					// Translate component name
-					$item->text = \JText::_($item->text);
+					$item->text = Text::_($item->text);
 				}
 				else
 				{

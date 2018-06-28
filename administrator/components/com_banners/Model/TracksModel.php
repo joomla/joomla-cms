@@ -14,6 +14,7 @@ use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Methods supporting a list of tracks.
@@ -255,7 +256,7 @@ class TracksModel extends ListModel
 		}
 		else
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 		}
 
 		return true;
@@ -320,7 +321,7 @@ class TracksModel extends ListModel
 			if ($type > 0)
 			{
 				$basename = str_replace('__TYPE__', $type, $basename);
-				$typeName = \JText::_('COM_BANNERS_TYPE' . $type);
+				$typeName = Text::_('COM_BANNERS_TYPE' . $type);
 				$basename = str_replace('__TYPENAME__', $typeName, $basename);
 			}
 			else
@@ -390,7 +391,7 @@ class TracksModel extends ListModel
 			return $name;
 		}
 
-		return \JText::_('COM_BANNERS_NOCATEGORYNAME');
+		return Text::_('COM_BANNERS_NOCATEGORYNAME');
 	}
 
 	/**
@@ -427,7 +428,7 @@ class TracksModel extends ListModel
 			return $name;
 		}
 
-		return \JText::_('COM_BANNERS_NOCLIENTNAME');
+		return Text::_('COM_BANNERS_NOCLIENTNAME');
 	}
 
 	/**
@@ -465,19 +466,19 @@ class TracksModel extends ListModel
 	{
 		if (!isset($this->content))
 		{
-			$this->content = '"' . str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_NAME')) . '","'
-				. str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_CLIENT')) . '","'
-				. str_replace('"', '""', \JText::_('JCATEGORY')) . '","'
-				. str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_TYPE')) . '","'
-				. str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_COUNT')) . '","'
-				. str_replace('"', '""', \JText::_('JDATE')) . '"' . "\n";
+			$this->content = '"' . str_replace('"', '""', Text::_('COM_BANNERS_HEADING_NAME')) . '","'
+				. str_replace('"', '""', Text::_('COM_BANNERS_HEADING_CLIENT')) . '","'
+				. str_replace('"', '""', Text::_('JCATEGORY')) . '","'
+				. str_replace('"', '""', Text::_('COM_BANNERS_HEADING_TYPE')) . '","'
+				. str_replace('"', '""', Text::_('COM_BANNERS_HEADING_COUNT')) . '","'
+				. str_replace('"', '""', Text::_('JDATE')) . '"' . "\n";
 
 			foreach ($this->getItems() as $item)
 			{
 				$this->content .= '"' . str_replace('"', '""', $item->banner_name) . '","'
 					. str_replace('"', '""', $item->client_name) . '","'
 					. str_replace('"', '""', $item->category_title) . '","'
-					. str_replace('"', '""', ($item->track_type == 1 ? \JText::_('COM_BANNERS_IMPRESSION') : \JText::_('COM_BANNERS_CLICK'))) . '","'
+					. str_replace('"', '""', ($item->track_type == 1 ? Text::_('COM_BANNERS_IMPRESSION') : Text::_('COM_BANNERS_CLICK'))) . '","'
 					. str_replace('"', '""', $item->count) . '","'
 					. str_replace('"', '""', $item->track_date) . '"' . "\n";
 			}
@@ -505,7 +506,7 @@ class TracksModel extends ListModel
 					if (!\JFile::delete($delete))
 					{
 						// \JFile::delete throws an error
-						$this->setError(\JText::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
+						$this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
 
 						return false;
 					}
@@ -515,13 +516,13 @@ class TracksModel extends ListModel
 
 				if (!$packager = $archive->getAdapter('zip'))
 				{
-					$this->setError(\JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
+					$this->setError(Text::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 
 					return false;
 				}
 				elseif (!$packager->create($ziproot, $files))
 				{
-					$this->setError(\JText::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
+					$this->setError(Text::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 
 					return false;
 				}

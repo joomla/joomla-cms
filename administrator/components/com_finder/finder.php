@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 if (!\JFactory::getUser()->authorise('core.manage', 'com_finder'))
 {
-	throw new \JAccessExceptionNotallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	throw new \JAccessExceptionNotallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 $controller = \JControllerLegacy::getInstance('Finder');

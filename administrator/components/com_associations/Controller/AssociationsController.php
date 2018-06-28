@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Associations controller class.
@@ -124,7 +125,7 @@ class AssociationsController extends AdminController
 
 		$this->setRedirect(
 			\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
-			\JText::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
+			Text::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
 		);
 
 		return;

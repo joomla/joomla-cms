@@ -9,14 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 ?>
 <div id="template-manager-rename" class="container-fluid">
 	<div class="mt-2">
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
-					<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>">
-						<?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?>
+					<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', Text::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>">
+						<?php echo Text::_('COM_TEMPLATES_NEW_FILE_NAME')?>
 					</label>
 				</div>
 				<div class="controls">

@@ -11,13 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = JFactory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
 $colSpan       = $branchFilter ? 5 : 6;
-JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
+Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 'auto']);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
@@ -29,7 +30,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>
@@ -45,16 +46,16 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							</th>
 							<?php if (!$branchFilter) : ?>
 							<th style="width:1%" class="nowrap text-center">
-								<?php echo JText::_('COM_FINDER_HEADING_CHILDREN'); ?>
+								<?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
 							</th>
 							<?php endif; ?>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-publish" aria-hidden="true"></span>
-								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-unpublish" aria-hidden="true"></span>
-								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 						</tr>
 					</thead>
@@ -84,7 +85,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							else
 							{
 								$key = FinderHelperLanguage::branchSingular($item->title);
-								$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
+								$title = $lang->hasKey($key) ? Text::_($key) : $item->title;
 							}
 							?>
 							<?php if ((int) $item->num_children === 0) : ?>
@@ -94,7 +95,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 								<?php echo $this->escape($title); ?>
 							</label>
 							<?php if ($this->escape(trim($title, '**')) === 'Language' && JLanguageMultilang::isEnabled()) : ?>
-								<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
+								<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 							<?php endif; ?>
 							</td>
 							<?php if (!$branchFilter) : ?>
@@ -109,7 +110,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							<?php endif; ?>
 							<td class="text-center btns">
 							<?php if ((int) $item->num_children === 0) : ?>
-								<a class="badge <?php if ((int) $item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
+								<a class="badge <?php if ((int) $item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_published; ?></a>
 							<?php else : ?>
 								-
@@ -117,7 +118,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							</td>
 							<td class="text-center btns">
 							<?php if ((int) $item->num_children === 0) : ?>
-								<a class="badge <?php if ((int) $item->count_unpublished > 0) echo 'badge-danger'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
+								<a class="badge <?php if ((int) $item->count_unpublished > 0) echo 'badge-danger'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_unpublished; ?></a>
 							<?php else : ?>
 								-

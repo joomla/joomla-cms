@@ -10,6 +10,8 @@ namespace Joomla\Component\Templates\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Templates component helper.
  *
@@ -27,12 +29,12 @@ class TemplatesHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_TEMPLATES_SUBMENU_STYLES'),
+			Text::_('COM_TEMPLATES_SUBMENU_STYLES'),
 			'index.php?option=com_templates&view=styles',
 			$vName == 'styles'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
+			Text::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
 			'index.php?option=com_templates&view=templates',
 			$vName == 'templates'
 		);
@@ -47,8 +49,8 @@ class TemplatesHelper
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '0', \JText::_('JSITE'));
-		$options[] = \JHtml::_('select.option', '1', \JText::_('JADMINISTRATOR'));
+		$options[] = \JHtml::_('select.option', '0', Text::_('JSITE'));
+		$options[] = \JHtml::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
 		return $options;
 	}

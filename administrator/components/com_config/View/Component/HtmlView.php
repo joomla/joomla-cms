@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View for the component configuration
@@ -100,7 +101,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_($this->component->option . '_configuration'), 'equalizer config');
+		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'equalizer config');
 		ToolbarHelper::saveGroup(
 			[
 				['apply', 'component.apply'],

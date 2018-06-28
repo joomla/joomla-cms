@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Utility class working with languages
  *
@@ -30,7 +32,7 @@ abstract class JHtmlLanguages
 			return '&#160;';
 		}
 
-		return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
+		return JHtml::_('image', 'menu/icon-16-default.png', Text::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
 	}
 
 	/**
@@ -61,8 +63,8 @@ abstract class JHtmlLanguages
 	public static function clients()
 	{
 		return array(
-			JHtml::_('select.option', 0, JText::_('JSITE')),
-			JHtml::_('select.option', 1, JText::_('JADMINISTRATOR'))
+			JHtml::_('select.option', 0, Text::_('JSITE')),
+			JHtml::_('select.option', 1, Text::_('JADMINISTRATOR'))
 		);
 	}
 

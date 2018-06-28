@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+use Joomla\CMS\Language\Text;
 
 /**
  * Extension Manager Update View
@@ -58,7 +59,7 @@ class HtmlView extends InstallerViewDefault
 
 		if (count($this->items) > 0)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
 		}
 
 		parent::display($tpl);

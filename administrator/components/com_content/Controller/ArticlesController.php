@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Language\Text;
 
 /**
  * Articles list controller class.
@@ -58,7 +59,7 @@ class ArticlesController extends AdminController
 	public function featured()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$user   = \JFactory::getUser();
 		$ids    = $this->input->get('cid', array(), 'array');
@@ -73,13 +74,13 @@ class ArticlesController extends AdminController
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+				\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -95,11 +96,11 @@ class ArticlesController extends AdminController
 
 			if ($value == 1)
 			{
-				$message = \JText::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+				$message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
 			}
 			else
 			{
-				$message = \JText::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+				$message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
 			}
 		}
 

@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * Languages Component Language Model
@@ -205,7 +206,7 @@ class LanguageModel extends AdminModel
 		// Prevent saving an incorrect language tag
 		if (!preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code']))
 		{
-			$this->setError(\JText::_('COM_LANGUAGES_ERROR_LANG_TAG'));
+			$this->setError(Text::_('COM_LANGUAGES_ERROR_LANG_TAG'));
 
 			return false;
 		}

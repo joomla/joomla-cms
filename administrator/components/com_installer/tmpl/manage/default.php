@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -30,7 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="warning"><?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
+						<joomla-alert type="warning"><?php echo Text::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
 					<?php else : ?>
 					<table class="table table-striped" id="manageList">
 						<thead>
@@ -51,13 +53,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JVERSION'); ?>
+									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JDATE'); ?>
+									<?php echo Text::_('JDATE'); ?>
 								</th>
 								<th style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JAUTHOR'); ?>
+									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<th style="width:5%" class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
@@ -110,7 +112,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell text-center">
-									<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
+									<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 										<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 									</span>
 								</td>

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 \JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
@@ -159,7 +160,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
+		ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
@@ -228,16 +229,16 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'        => \JText::_('JSTATUS'),
-			'a.title'        => \JText::_('JGLOBAL_TITLE'),
-			'category_title' => \JText::_('JCATEGORY'),
-			'access_level'   => \JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by'   => \JText::_('JAUTHOR'),
-			'language'       => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.created'      => \JText::_('JDATE'),
-			'a.id'           => \JText::_('JGRID_HEADING_ID'),
-			'a.featured'     => \JText::_('JFEATURED')
+			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
+			'a.state'        => Text::_('JSTATUS'),
+			'a.title'        => Text::_('JGLOBAL_TITLE'),
+			'category_title' => Text::_('JCATEGORY'),
+			'access_level'   => Text::_('JGRID_HEADING_ACCESS'),
+			'a.created_by'   => Text::_('JAUTHOR'),
+			'language'       => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.created'      => Text::_('JDATE'),
+			'a.id'           => Text::_('JGRID_HEADING_ID'),
+			'a.featured'     => Text::_('JFEATURED')
 		);
 	}
 }

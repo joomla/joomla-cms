@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -17,8 +19,8 @@ JHtml::_('behavior.tabstate');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
-JText::script('ERROR');
-JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
+Text::script('ERROR');
+Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
 JFactory::getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 JHtml::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
@@ -67,7 +69,7 @@ $clientId = $this->state->get('item.client_id', 0);
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php
@@ -140,7 +142,7 @@ $clientId = $this->state->get('item.client_id', 0);
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
 				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
@@ -149,7 +151,7 @@ $clientId = $this->state->get('item.client_id', 0);
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'modules', JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
 			<?php echo $this->loadTemplate('modules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

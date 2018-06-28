@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -32,19 +34,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<thead>
 							<tr>
 								<th class="col1template d-none d-md-table-cell" style="width:20%">
-									<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
+									<?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
 								<th style="width:30%">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JVERSION'); ?>
+									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JDATE'); ?>
+									<?php echo Text::_('JDATE'); ?>
 								</th>
 								<th style="width:25%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JAUTHOR'); ?>
+									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -64,16 +66,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td class="template-name">
 									<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
-										<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
+										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
 									<?php if ($this->preview && $item->client_id == '0') : ?>
 										<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
-										<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 										</a>
 									<?php elseif ($item->client_id == '1') : ?>
-										<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
+										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
 									<?php else : ?>
-										<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+										<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 									</div>
 								</td>

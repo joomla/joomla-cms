@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Help\Help as JHelp;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Admin Component Help Model
@@ -142,7 +143,7 @@ class HelpModel extends BaseDatabaseModel
 			// Loop through the data array
 			foreach ($data as $key => $value)
 			{
-				$this->toc[$key] = \JText::_('COM_ADMIN_HELP_' . $value);
+				$this->toc[$key] = Text::_('COM_ADMIN_HELP_' . $value);
 			}
 
 			// Sort the Table of Contents
@@ -173,7 +174,7 @@ class HelpModel extends BaseDatabaseModel
 			}
 
 			// Translate the page title
-			$title = \JText::_($title);
+			$title = Text::_($title);
 
 			// Strip the extension
 			$file = preg_replace('#\.xml$|\.html$#', '', $file);

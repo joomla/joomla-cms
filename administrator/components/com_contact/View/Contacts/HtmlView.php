@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class for a list of contacts.
@@ -144,7 +145,7 @@ class HtmlView extends BaseHtmlView
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
 		$user  = \JFactory::getUser();
 
-		\JToolbarHelper::title(\JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
+		\JToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
@@ -166,7 +167,7 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_contact')
 			&& $user->authorise('core.edit.state', 'com_contact'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
@@ -204,15 +205,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.published'    => \JText::_('JSTATUS'),
-			'a.name'         => \JText::_('JGLOBAL_TITLE'),
-			'category_title' => \JText::_('JCATEGORY'),
-			'ul.name'        => \JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
-			'a.featured'     => \JText::_('JFEATURED'),
-			'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
-			'a.language'     => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'           => \JText::_('JGRID_HEADING_ID'),
+			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => Text::_('JSTATUS'),
+			'a.name'         => Text::_('JGLOBAL_TITLE'),
+			'category_title' => Text::_('JCATEGORY'),
+			'ul.name'        => Text::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
+			'a.featured'     => Text::_('JFEATURED'),
+			'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
+			'a.language'     => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

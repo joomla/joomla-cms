@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Fields Table
@@ -92,7 +93,7 @@ class FieldTable extends Table
 		// Check for valid name
 		if (trim($this->title) == '')
 		{
-			$this->setError(\JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+			$this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
 			return false;
 		}
@@ -116,7 +117,7 @@ class FieldTable extends Table
 
 		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+			$this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
 			return false;
 		}

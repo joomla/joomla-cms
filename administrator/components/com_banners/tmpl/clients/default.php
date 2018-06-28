@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
-
 
 $purchaseTypes = array(
 		'1' => 'UNLIMITED',
@@ -40,7 +41,7 @@ $params     = $this->state->params ?? new JObject;
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped">
 						<thead>
@@ -58,23 +59,23 @@ $params     = $this->state->params ?? new JObject;
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
                                     </span>
 								</th>
 								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                     </span>
 								</th>
 								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                    <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+                                    <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
                                     </span>
 								</th>
 								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                    <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+                                    <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
                                     </span>
 								</th>
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
@@ -115,7 +116,7 @@ $params     = $this->state->params ?? new JObject;
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
 												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
@@ -143,9 +144,9 @@ $params     = $this->state->params ?? new JObject;
 									</td>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php if ($item->purchase_type < 0) : ?>
-											<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$params->get('purchase_type')])); ?>
+											<?php echo Text::sprintf('COM_BANNERS_DEFAULT', Text::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$params->get('purchase_type')])); ?>
 										<?php else : ?>
-											<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$item->purchase_type]); ?>
+											<?php echo Text::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$item->purchase_type]); ?>
 										<?php endif; ?>
 									</td>
 									<td class="d-none d-md-table-cell text-center">

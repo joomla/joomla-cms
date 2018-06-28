@@ -8,11 +8,12 @@
  */
 namespace Joomla\Component\Languages\Administrator\Helper;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 
 /**
  * Multilang status helper.
@@ -317,7 +318,7 @@ abstract class MultilangstatusHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
 		}
 
 		return $modules;

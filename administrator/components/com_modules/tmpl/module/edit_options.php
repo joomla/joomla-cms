@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <?php
 	echo JHtml::_('bootstrap.startAccordion', 'moduleOptions', array('active' => 'collapse0'));
@@ -18,9 +21,9 @@ defined('_JEXEC') or die;
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . $name . '_FIELDSET_LABEL';
 		$class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
-		echo JHtml::_('bootstrap.addSlide', 'moduleOptions', JText::_($label), 'collapse' . ($i++), $class);
+		echo JHtml::_('bootstrap.addSlide', 'moduleOptions', Text::_($label), 'collapse' . ($i++), $class);
 			if (isset($fieldSet->description) && trim($fieldSet->description)) :
-				echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+				echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
 			endif;
 			?>
 				<?php foreach ($this->form->getFieldset($name) as $field) : ?>

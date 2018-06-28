@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Languages Override Model
@@ -53,8 +54,8 @@ class OverrideModel extends AdminModel
 			$langName = $language;
 		}
 
-		$form->setValue('client', null, \JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_' . strtoupper($client)));
-		$form->setValue('language', null, \JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
+		$form->setValue('client', null, Text::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_' . strtoupper($client)));
+		$form->setValue('language', null, Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
 		$form->setValue('file', null, \JPath::clean(constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini'));
 
 		return $form;
@@ -147,7 +148,7 @@ class OverrideModel extends AdminModel
 
 		if (in_array($data['key'], $blacklist))
 		{
-			$this->setError(\JText::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
+			$this->setError(Text::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
 
 			return false;
 		}

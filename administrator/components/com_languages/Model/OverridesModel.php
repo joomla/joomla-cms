@@ -15,6 +15,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Languages Overrides Model
@@ -219,12 +220,12 @@ class OverridesModel extends ListModel
 		// Create a single array of them.
 		foreach ($site_languages as $tag => $language)
 		{
-			$languages[$tag . '0'] = \JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], \JText::_('JSITE'));
+			$languages[$tag . '0'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JSITE'));
 		}
 
 		foreach ($admin_languages as $tag => $language)
 		{
-			$languages[$tag . '1'] = \JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], \JText::_('JADMINISTRATOR'));
+			$languages[$tag . '1'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JADMINISTRATOR'));
 		}
 
 		// Sort it by language tag and by client after that.
@@ -250,7 +251,7 @@ class OverridesModel extends ListModel
 		// Check permissions first.
 		if (!\JFactory::getUser()->authorise('core.delete', 'com_languages'))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -306,6 +307,6 @@ class OverridesModel extends ListModel
 			return $e;
 		}
 
-		\JFactory::getApplication()->enqueueMessage(\JText::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));
+		\JFactory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));
 	}
 }

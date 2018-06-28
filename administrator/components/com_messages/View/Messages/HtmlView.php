@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class for a list of messages.
@@ -96,7 +97,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_messages');
-		\JToolbarHelper::title(\JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
+		\JToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
 		if ($canDo->get('core.create'))
 		{
@@ -124,11 +125,11 @@ class HtmlView extends BaseHtmlView
 			'',
 			'',
 			'<button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">'
-			. \JText::_('JCANCEL')
+			. Text::_('JCANCEL')
 			. '</button>'
 			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'
 			. ' onclick="jQuery(\'#modal-cog iframe\').contents().find(\'#saveBtn\').click();">'
-			. \JText::_('JSAVE')
+			. Text::_('JSAVE')
 			. '</button>'
 		);
 

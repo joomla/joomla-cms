@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a module.
@@ -89,7 +90,7 @@ class HtmlView extends BaseHtmlView
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		\JToolbarHelper::title(\JText::sprintf('COM_MODULES_MANAGER_MODULE', \JText::_($this->item->module)), 'cube module');
+		\JToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
 
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
@@ -148,7 +149,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($help->url);
+			$url = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else

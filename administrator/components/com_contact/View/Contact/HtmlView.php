@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a contact.
@@ -100,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 
-		\JToolbarHelper::title($isNew ? \JText::_('COM_CONTACT_MANAGER_CONTACT_NEW') : \JText::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
+		\JToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
 
 		// Build the actions for new and existing records.
 		if ($isNew)

@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Template model class.
@@ -88,7 +89,7 @@ class TemplateModel extends FormModel
 
 			if (!is_writable($path))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
 			}
 
 			if (is_dir($path))
@@ -97,7 +98,7 @@ class TemplateModel extends FormModel
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -208,7 +209,7 @@ class TemplateModel extends FormModel
 
 			if (empty($result))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'error');
 				$this->template = false;
 			}
 			else
@@ -275,7 +276,7 @@ class TemplateModel extends FormModel
 			{
 				if (!\JFolder::delete($toPath))
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
 					return false;
 				}
@@ -291,7 +292,7 @@ class TemplateModel extends FormModel
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 			return false;
 		}
@@ -388,7 +389,7 @@ class TemplateModel extends FormModel
 
 		if ((int) $state < 1)
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
 		}
 
 		// Get the form.
@@ -447,7 +448,7 @@ class TemplateModel extends FormModel
 			}
 			catch (\Exception $e)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 
 				return;
 			}
@@ -460,7 +461,7 @@ class TemplateModel extends FormModel
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 			}
 		}
 
@@ -503,12 +504,12 @@ class TemplateModel extends FormModel
 		// Try to make the template file writable.
 		if (!is_writable($filePath))
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'), 'warning');
-			$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_FILE_PERMISSIONS', \JPath::getPermissions($filePath)), 'warning');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'), 'warning');
+			$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_PERMISSIONS', \JPath::getPermissions($filePath)), 'warning');
 
 			if (!\JPath::isOwner($filePath))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_CHECK_FILE_OWNERSHIP'), 'warning');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_CHECK_FILE_OWNERSHIP'), 'warning');
 			}
 
 			return false;
@@ -521,7 +522,7 @@ class TemplateModel extends FormModel
 
 		if (!$return)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
 			return false;
 		}
@@ -532,7 +533,7 @@ class TemplateModel extends FormModel
 
 		if ($ext == 'less')
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_COMPILE_LESS', $fileName));
+			$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_COMPILE_LESS', $fileName));
 		}
 
 		return true;
@@ -708,7 +709,7 @@ class TemplateModel extends FormModel
 			{
 				if (!\JFolder::create($htmlPath))
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
 					return false;
 				}
@@ -737,13 +738,13 @@ class TemplateModel extends FormModel
 
 			if ($return)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
 
 				return true;
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
 
 				return false;
 			}
@@ -831,7 +832,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
 
 				return false;
 			}
@@ -861,14 +862,14 @@ class TemplateModel extends FormModel
 
 			if (file_exists(\JPath::clean($path . '/' . $location . '/' . $name . '.' . $type)))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
 			if (!fopen(\JPath::clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'error');
 
 				return false;
 			}
@@ -879,7 +880,7 @@ class TemplateModel extends FormModel
 			// Add a message if we are not allowed to show this file in the backend.
 			if (!$check)
 			{
-				$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
+				$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
 			}
 
 			return true;
@@ -917,14 +918,14 @@ class TemplateModel extends FormModel
 
 			if (file_exists(\JPath::clean($path . '/' . $location . '/' . $file['name'])))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
 			if (!\JFile::upload($file['tmp_name'], \JPath::clean($path . '/' . $location . '/' . $fileName)))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
 				return false;
 			}
@@ -957,14 +958,14 @@ class TemplateModel extends FormModel
 
 			if (file_exists(\JPath::clean($path . '/' . $location . '/' . $name . '/')))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
 
 				return false;
 			}
 
 			if (!\JFolder::create(\JPath::clean($path . '/' . $location . '/' . $name)))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
 
 				return false;
 			}
@@ -994,7 +995,7 @@ class TemplateModel extends FormModel
 
 			if (!file_exists($path))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'error');
 
 				return false;
 			}
@@ -1003,7 +1004,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
 
 				return false;
 			}
@@ -1037,14 +1038,14 @@ class TemplateModel extends FormModel
 
 			if (file_exists($path . $newName))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
 			if (!rename($path . $fileName, $path . $newName))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
 
 				return false;
 			}
@@ -1091,7 +1092,7 @@ class TemplateModel extends FormModel
 
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -1203,7 +1204,7 @@ class TemplateModel extends FormModel
 
 		if (empty($result))
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'warning');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'warning');
 		}
 		else
 		{
@@ -1250,7 +1251,7 @@ class TemplateModel extends FormModel
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -1284,14 +1285,14 @@ class TemplateModel extends FormModel
 
 			if (file_exists($newPath))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
 			if (\JFile::copy($path . $relPath, $newPath))
 			{
-				$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
+				$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
 
 				return true;
 			}
@@ -1333,14 +1334,14 @@ class TemplateModel extends FormModel
 				}
 				else
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
 
 					return false;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -1382,7 +1383,7 @@ class TemplateModel extends FormModel
 
 						if (file_exists(\JPath::clean($path . '/' . $entry)))
 						{
-							$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
+							$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
 
 							return false;
 						}
@@ -1394,14 +1395,14 @@ class TemplateModel extends FormModel
 				}
 				else
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
 
 					return false;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
 
 				return false;
 			}

@@ -31,7 +31,7 @@ $saveOrder = $listOrder == 'a.id';
 						'plugin' . $this->httpHeadersId . 'Modal',
 						array(
 							'url'         => $link,
-							'title'       => JText::_('COM_CSP_EDIT_PLUGIN_SETTINGS'),
+							'title'       => Text::_('COM_CSP_EDIT_PLUGIN_SETTINGS'),
 							'height'      => '400px',
 							'width'       => '800px',
 							'bodyHeight'  => '70',
@@ -41,16 +41,16 @@ $saveOrder = $listOrder == 'a.id';
 							'keyboard'    => false,
 							'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 								. ' onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-								. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 								. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-								. JText::_("JSAVE") . '</button>'
+								. Text::_("JSAVE") . '</button>'
 								. '<button type="button" class="btn btn-success" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
-								. JText::_("JAPPLY") . '</button>'
+								. Text::_("JAPPLY") . '</button>'
 						)
 					); ?>
 				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
@@ -107,7 +107,7 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo $item->directive; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->created > 0 ? JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')) : '-'; ?>
+										<?php echo $item->created > 0 ? JHtml::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell text-center">
 										<?php echo $item->id; ?>

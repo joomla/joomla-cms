@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Supports a modal item picker.
@@ -59,8 +60,8 @@ class AssociationField extends FormField
 			. ' id="select-change"'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
-			. ' data-select="' . \JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
-			. ' data-change="' . \JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
+			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
+			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
 			. '<span class="icon-file" aria-hidden="true"></span> '
@@ -72,7 +73,7 @@ class AssociationField extends FormField
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
 			. ' id="remove-assoc">'
-			. '<span class="icon-remove" aria-hidden="true"></span> ' . \JText::_('JCLEAR')
+			. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 			. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';
@@ -82,7 +83,7 @@ class AssociationField extends FormField
 			'bootstrap.renderModal',
 			'associationSelect' . $this->id . 'Modal',
 			array(
-				'title'       => \JText::_('COM_ASSOCIATIONS_SELECT_TARGET'),
+				'title'       => Text::_('COM_ASSOCIATIONS_SELECT_TARGET'),
 				'backdrop'    => 'static',
 				'url'         => $urlSelect,
 				'height'      => '400px',
@@ -90,7 +91,7 @@ class AssociationField extends FormField
 				'bodyHeight'  => 70,
 				'modalWidth'  => 80,
 				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. \JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)
 		);
 

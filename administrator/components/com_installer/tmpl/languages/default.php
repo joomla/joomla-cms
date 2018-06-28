@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -24,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<div id="j-main-container" class="j-main-container">
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+						<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 					<?php else : ?>
 					<table class="table table-striped">
 						<thead>
@@ -37,10 +39,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:15%" class="text-center">
-									<?php echo JText::_('JVERSION'); ?>
+									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th style="width:35%" class="nowrap d-none d-md-table-cell">
-									<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
+									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -64,7 +66,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td>
 									<?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
 									<?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
-									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
+									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
 								</td>
 								<td>
                                     <?php echo $language->name; ?>
@@ -76,7 +78,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									    <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 										<?php // Display a Note if language pack version is not equal to Joomla version ?>
 										<?php if (substr($language->version, 0, 3) != $minorVersion || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-											<span class="badge badge-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+											<span class="badge badge-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 										<?php else : ?>
 											<span class="badge badge-success"><?php echo $language->version; ?></span>
 										<?php endif; ?>

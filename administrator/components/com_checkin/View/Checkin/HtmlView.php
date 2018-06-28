@@ -11,6 +11,7 @@ namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Checkin component
@@ -100,7 +101,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(\JText::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'checkin');
+		\JToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'checkin');
 
 		\JToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 

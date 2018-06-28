@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * The HTML Menus Menu Item View.
@@ -85,7 +86,7 @@ class HtmlView extends BaseHtmlView
 		// No need to check for create, because then the moduletype select is empty
 		if (!empty($this->item->id) && !$this->canDo->get('core.edit'))
 		{
-			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for errors.
@@ -126,7 +127,7 @@ class HtmlView extends BaseHtmlView
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		ToolbarHelper::title(\JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
 		$toolbarButtons = [];
 
@@ -184,7 +185,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url   = \JText::_($help->url);
+			$url   = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else

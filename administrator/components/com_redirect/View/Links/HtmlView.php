@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class for a list of redirection links.
@@ -138,7 +139,7 @@ class HtmlView extends BaseHtmlView
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_redirect');
 
-		\JToolbarHelper::title(\JText::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
+		\JToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
 
 		if ($canDo->get('core.create'))
 		{
@@ -174,7 +175,7 @@ class HtmlView extends BaseHtmlView
 			// Get the toolbar object instance
 			$bar = \JToolbar::getInstance('toolbar');
 
-			$title = \JText::_('JTOOLBAR_BULK_IMPORT');
+			$title = Text::_('JTOOLBAR_BULK_IMPORT');
 
 			\JHtml::_('bootstrap.renderModal', 'collapseModal');
 

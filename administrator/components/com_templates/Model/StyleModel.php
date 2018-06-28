@@ -19,6 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Template style model.
@@ -124,13 +125,13 @@ class StyleModel extends AdminModel
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_templates'))
 				{
-					throw new \Exception(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					throw new \Exception(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 
 				// You should not delete a default style
 				if ($table->home != '0')
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'), 'error');
+					\JFactory::getApplication()->enqueueMessage(Text::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'), 'error');
 
 					return false;
 				}
@@ -178,7 +179,7 @@ class StyleModel extends AdminModel
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
 		{
-			throw new \Exception(\JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$context    = $this->option . '.' . $this->name;
@@ -404,7 +405,7 @@ class StyleModel extends AdminModel
 
 		if (!$form->loadFile('style_' . $client->name, true))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		jimport('joomla.filesystem.path');
@@ -420,7 +421,7 @@ class StyleModel extends AdminModel
 			// Get the template form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -435,7 +436,7 @@ class StyleModel extends AdminModel
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
@@ -468,7 +469,7 @@ class StyleModel extends AdminModel
 
 		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id'])))
 		{
-			$this->setError(\JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+			$this->setError(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 
 			return false;
 		}
@@ -569,7 +570,7 @@ class StyleModel extends AdminModel
 
 			if ($n > 0)
 			{
-				$app->enqueueMessage(\JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
+				$app->enqueueMessage(Text::plural('COM_TEMPLATES_MENU_CHANGED', $n));
 			}
 		}
 
@@ -601,14 +602,14 @@ class StyleModel extends AdminModel
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
 		$style = $this->getTable();
 
 		if (!$style->load((int) $id))
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 
 		// Detect disabled extension
@@ -616,7 +617,7 @@ class StyleModel extends AdminModel
 
 		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id)))
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 		}
 
 		// Reset the home fields for the client_id.
@@ -659,7 +660,7 @@ class StyleModel extends AdminModel
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
 		// Lookup the client_id.
@@ -672,11 +673,11 @@ class StyleModel extends AdminModel
 
 		if (!is_numeric($style->client_id))
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 		elseif ($style->home == '1')
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 		}
 
 		// Set the new home style.

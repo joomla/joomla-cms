@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -37,9 +39,9 @@ JFactory::getDocument()->addScriptDeclaration("
 <div class="container-popup">
 
 	<div class="float-right">
-		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
-		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.save');"><?php echo JText::_('JTOOLBAR_SAVE') ?></button>
-		<button class="btn" type="button" onclick="Joomla.submitbutton('field.cancel');"><?php echo JText::_('JCANCEL') ?></button>
+		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.apply');"><?php echo Text::_('JTOOLBAR_APPLY') ?></button>
+		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.save');"><?php echo Text::_('JTOOLBAR_SAVE') ?></button>
+		<button class="btn" type="button" onclick="Joomla.submitbutton('field.cancel');"><?php echo Text::_('JCANCEL') ?></button>
 	</div>
 
 	<hr>
@@ -50,7 +52,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_FIELDS', true)); ?>
 			<div class="row">
 				<div class="col-md-9">
 					<?php echo $this->form->getLabel('description'); ?>
@@ -62,7 +64,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_FIELDS_FIELDSET_PUBLISHING', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('COM_FIELDS_FIELDSET_PUBLISHING', true)); ?>
 			<div class="row">
 				<div class="col-md-6">
 					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -73,7 +75,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_FIELDS_FIELDSET_RULES', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', Text::_('COM_FIELDS_FIELDSET_RULES', true)); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>

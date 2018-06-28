@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a language override
@@ -77,8 +78,8 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add strings for translations in \Javascript.
-		\JText::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
-		\JText::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
+		Text::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+		Text::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -97,7 +98,7 @@ class HtmlView extends BaseHtmlView
 
 		$canDo = ContentHelper::getActions('com_languages');
 
-		\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
+		\JToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
 
 		$toolbarButtons = [];
 

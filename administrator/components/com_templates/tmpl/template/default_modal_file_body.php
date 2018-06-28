@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $input = JFactory::getApplication()->input;
 ?>
 <div id="#template-manager-file" class="container-fluid">
@@ -24,12 +26,12 @@ $input = JFactory::getApplication()->input;
 					<div class="card-body">
 						<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 							<div class="form-group">
-								<label><?php echo JText::_('COM_TEMPLATES_FILE_NAME'); ?></label>
+								<label><?php echo Text::_('COM_TEMPLATES_FILE_NAME'); ?></label>
 								<input type="text" name="name" class="form-control" required>
 							</div>
 							<div class="form-group">
 								<select class="custom-select" data-chosen="true" name="type" required >
-									<option value="">- <?php echo JText::_('COM_TEMPLATES_NEW_FILE_SELECT'); ?> -</option>
+									<option value="">- <?php echo Text::_('COM_TEMPLATES_NEW_FILE_SELECT'); ?> -</option>
 									<option value="css">.css</option>
 									<option value="php">.php</option>
 									<option value="js">.js</option>
@@ -44,7 +46,7 @@ $input = JFactory::getApplication()->input;
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">
 								<?php echo JHtml::_('form.token'); ?>
-								<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
+								<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
 							</div>
 						</form>
 					</div>
@@ -57,12 +59,12 @@ $input = JFactory::getApplication()->input;
 								<input type="file" name="files" class="form-control" required>
 								<?php echo JHtml::_('form.token'); ?>
 								<span class="input-group-append">
-									<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
+									<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
 								</span>
 							</div>
 							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
 							<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize($cMax . 'MB')); ?>
-							<span class="mt-2"><?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></span>
+							<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></span>
 						</form>
 					</div>
 				</div>
@@ -73,12 +75,12 @@ $input = JFactory::getApplication()->input;
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">
 								<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
-									<?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
+									<?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
 								</label>
 								<input type="text" id="new_name" name="new_name" required>
 								<?php echo JHtml::_('form.token'); ?>
 							</div>
-							<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_COPY_FILE'); ?></button>
+							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_COPY_FILE'); ?></button>
 						</form>
 					</div>
 				</div>

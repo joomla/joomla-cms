@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 
 /**
  * The Menu ItemModel  Controller
@@ -139,7 +140,7 @@ class ItemController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel('Item', 'Administrator', array());
@@ -161,7 +162,7 @@ class ItemController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$result = parent::cancel();
 
@@ -254,7 +255,7 @@ class ItemController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app      = $this->app;
 
@@ -295,7 +296,7 @@ class ItemController extends FormController
 			if ($model->checkin($data['id']) === false)
 			{
 				// Check-in failed, go back to the item and display a notice.
-				$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 
 				return false;
 			}
@@ -309,7 +310,7 @@ class ItemController extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				\JRoute::_(
@@ -345,7 +346,7 @@ class ItemController extends FormController
 
 				if (!in_array($protocol, $scheme))
 				{
-					$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
+					$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
 					$this->setRedirect(
 						\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
 					);
@@ -434,7 +435,7 @@ class ItemController extends FormController
 
 			// Redirect back to the edit screen.
 			$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(\JRoute::_($editUrl, false));
 
 			return false;
@@ -444,14 +445,14 @@ class ItemController extends FormController
 		if ($model->checkin($data['id']) === false)
 		{
 			// Check-in failed, go back to the row and display a notice.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
 			$this->setRedirect(\JRoute::_($redirectUrl, false));
 
 			return false;
 		}
 
-		$this->setMessage(\JText::_('COM_MENUS_SAVE_SUCCESS'));
+		$this->setMessage(Text::_('COM_MENUS_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -509,7 +510,7 @@ class ItemController extends FormController
 	 */
 	public function setType()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Link Table for Redirect.
@@ -58,7 +59,7 @@ class LinkTable extends Table
 		// Check for valid name.
 		if (empty($this->old_url))
 		{
-			$this->setError(\JText::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
+			$this->setError(Text::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
 
 			return false;
 		}
@@ -72,7 +73,7 @@ class LinkTable extends Table
 		// Check for valid name if not in advanced mode.
 		if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
 		{
-			$this->setError(\JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+			$this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
 			return false;
 		}
@@ -81,7 +82,7 @@ class LinkTable extends Table
 			// Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
 			if ($this->header < 400 && $this->header >= 300)
 			{
-				$this->setError(\JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+				$this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
 				return false;
 			}
@@ -90,7 +91,7 @@ class LinkTable extends Table
 		// Check for duplicates
 		if ($this->old_url == $this->new_url)
 		{
-			$this->setError(\JText::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
+			$this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
 
 			return false;
 		}
@@ -108,7 +109,7 @@ class LinkTable extends Table
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(\JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
+			$this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 
 			return false;
 		}

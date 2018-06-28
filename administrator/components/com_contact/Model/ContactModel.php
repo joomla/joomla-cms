@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Item Model for a Contact.
@@ -103,7 +104,7 @@ class ContactModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -183,7 +184,7 @@ class ContactModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -569,7 +570,7 @@ class ContactModel extends AdminModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('COM_CONTACT_NO_ITEM_SELECTED'));
 
 			return false;
 		}

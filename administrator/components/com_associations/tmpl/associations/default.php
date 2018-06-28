@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
 
 JHtml::_('jquery.framework');
 JHtml::_('behavior.multiselect');
@@ -26,7 +27,7 @@ $iconStates = array(
 	2  => 'icon-archive',
 );
 
-JText::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
+Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, true);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
@@ -35,7 +36,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="associationsList">
 					<thead>
@@ -49,13 +50,13 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:15%" class="nowrap">
-								<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
+								<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 							</th>
 							<th style="width:5%" class="nowrap">
-								<?php echo JText::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
+								<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 							</th>
 							<th style="width:15%" class="nowrap">
-								<?php echo JText::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
+								<?php echo Text::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
 							</th>
 							<?php if (!empty($this->typeFields['menutype'])) : ?>
 								<th style="width:10%" class="nowrap">
@@ -101,19 +102,19 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a class="hasTooltip" href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
-									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
+									<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
 								<?php if (!empty($this->typeFields['alias'])) : ?>
 									<span class="small">
-										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									</span>
 								<?php endif; ?>
 								<?php if (!empty($this->typeFields['catid'])) : ?>
 									<div class="small">
-										<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+										<?php echo Text::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 									</div>
 								<?php endif; ?>
 							</td>

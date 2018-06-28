@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Tags component
@@ -105,7 +106,7 @@ class HtmlView extends BaseHtmlView
 
 		// Get the results for each action.
 		$canDo = $this->canDo;
-		$title = \JText::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
+		$title = Text::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 
 		/**
 		 * Prepare the toolbar.

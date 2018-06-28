@@ -11,6 +11,7 @@ namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Newsfeeds component helper.
@@ -31,13 +32,13 @@ class NewsfeedsHelper extends ContentHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
+			Text::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
 			'index.php?option=com_newsfeeds&view=newsfeeds',
 			$vName == 'newsfeeds'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
+			Text::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);

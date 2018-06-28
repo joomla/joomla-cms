@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -58,7 +59,7 @@ class PreviewModel extends ItemModel
 		}
 		else
 		{
-			$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}

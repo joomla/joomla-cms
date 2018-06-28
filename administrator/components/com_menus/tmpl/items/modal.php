@@ -10,12 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $app = JFactory::getApplication();
 
 if ($app->isClient('site'))
 {
-	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+	JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 }
 
@@ -45,7 +46,7 @@ if (!empty($editor))
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-striped table-sm">
 				<thead>
@@ -115,9 +116,9 @@ if (!empty($editor))
 							<?php endif; ?>
 							<span class="small">
 								<?php if (empty($item->note)) : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								<?php else : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+									<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
 							</span>
 							<div title="<?php echo $this->escape($item->path); ?>">
@@ -147,9 +148,9 @@ if (!empty($editor))
 						</td>
 						<td class="small d-none d-md-table-cell">
 							<?php if ($item->language == '') : ?>
-								<?php echo JText::_('JDEFAULT'); ?>
+								<?php echo Text::_('JDEFAULT'); ?>
 							<?php elseif ($item->language == '*') : ?>
-								<?php echo JText::alt('JALL', 'language'); ?>
+								<?php echo Text::alt('JALL', 'language'); ?>
 							<?php else : ?>
 								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							<?php endif; ?>

@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.core');
-JText::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
-JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
-JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
-JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
+Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
+Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
+Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
+Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
 JHtml::_('behavior.tabstate');
 JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
@@ -51,11 +53,11 @@ $app = JFactory::getApplication();
 					<?php $lastTab = $app->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
 					<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 					<?php if (!$tabs) : ?>
-						<?php $app->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
+						<?php $app->enqueueMessage(Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
 					<?php endif; ?>
 
 					<?php if ($this->ftp) : ?>
-						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
+						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', Text::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
 						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>

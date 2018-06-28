@@ -11,6 +11,7 @@ namespace Joomla\Component\Checkin\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
 
 /**
  * Checkin Controller
@@ -51,13 +52,13 @@ class DisplayController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->get('cid', array(), 'array');
 
 		if (empty($ids))
 		{
-			$this->app->enqueueMessage(\JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 'warning');
+			$this->app->enqueueMessage(Text::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 'warning');
 		}
 		else
 		{
@@ -66,7 +67,7 @@ class DisplayController extends BaseController
 			$model = $this->getModel('Checkin');
 
 			// Checked in the items.
-			$this->setMessage(\JText::plural('COM_CHECKIN_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
+			$this->setMessage(Text::plural('COM_CHECKIN_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
 		}
 
 		$this->setRedirect('index.php?option=com_checkin');
@@ -84,18 +85,18 @@ class DisplayController extends BaseController
 	protected function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('JGLOBAL_SUBMENU_CHECKIN'),
+			Text::_('JGLOBAL_SUBMENU_CHECKIN'),
 			'index.php?option=com_checkin',
 			$vName == 'com_checkin'
 		);
 
 		\JHtmlSidebar::addEntry(
-			\JText::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
+			Text::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
 			'index.php?option=com_cache',
 			$vName == 'cache'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
+			Text::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
 			'index.php?option=com_cache&view=purge',
 			$vName == 'purge'
 		);

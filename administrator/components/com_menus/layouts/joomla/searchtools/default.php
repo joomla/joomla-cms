@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 /** @var  array  $displayData */
 $data = $displayData;
 
@@ -32,7 +34,7 @@ $customOptions = array(
 	'searchFieldSelector' => '#filter_search',
 	'orderFieldSelector'  => '#list_fullordering',
 	'totalResults'        => $data['options']['totalResults'] ?? -1,
-	'noResultsText'       => $data['options']['noResultsText'] ?? JText::_('JGLOBAL_NO_MATCHING_RESULTS'),
+	'noResultsText'       => $data['options']['noResultsText'] ?? Text::_('JGLOBAL_NO_MATCHING_RESULTS'),
 );
 
 $data['options'] = array_merge($customOptions, $data['options']);

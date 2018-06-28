@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Abstract Fields Plugin
@@ -65,7 +66,7 @@ abstract class FieldsPlugin extends CMSPlugin
 
 			if (\JFactory::getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL'))
 			{
-				$data['label'] = \JText::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
+				$data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
 				// Fix wrongly set parentheses in RTL languages
 				if (\JFactory::getLanguage()->isRTL())

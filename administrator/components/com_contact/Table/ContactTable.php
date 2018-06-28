@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Contact Table class.
@@ -115,7 +116,7 @@ class ContactTable extends Table
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+			$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}
@@ -148,7 +149,7 @@ class ContactTable extends Table
 
 		if (\JFilterInput::checkAttribute(array('href', $this->webpage)))
 		{
-			$this->setError(\JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
+			$this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
 			return false;
 		}
@@ -156,7 +157,7 @@ class ContactTable extends Table
 		// Check for valid name
 		if (trim($this->name) == '')
 		{
-			$this->setError(\JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -167,7 +168,7 @@ class ContactTable extends Table
 		// Check for valid category
 		if (trim($this->catid) == '')
 		{
-			$this->setError(\JText::_('COM_CONTACT_WARNING_CATEGORY'));
+			$this->setError(Text::_('COM_CONTACT_WARNING_CATEGORY'));
 
 			return false;
 		}
@@ -181,7 +182,7 @@ class ContactTable extends Table
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(\JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
 			return false;
 		}

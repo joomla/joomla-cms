@@ -16,6 +16,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 /**
  * Index view class for Finder.
@@ -127,11 +128,11 @@ class HtmlView extends BaseHtmlView
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
 			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
+			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . \JText::_('COM_FINDER_INDEX_TIP'), 'notice');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -154,7 +155,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
-		ToolbarHelper::title(\JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
+		ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
 
 		$toolbar = Toolbar::getInstance('toolbar');
 		$toolbar->appendButton(

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Installer Update Controller
@@ -31,7 +32,7 @@ class UpdateController extends BaseController
 	public function update()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
@@ -78,7 +79,7 @@ class UpdateController extends BaseController
 	 */
 	public function find()
 	{
-		(\JSession::checkToken() or \JSession::checkToken('get')) or jexit(\JText::_('JINVALID_TOKEN'));
+		(\JSession::checkToken() or \JSession::checkToken('get')) or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
@@ -97,7 +98,7 @@ class UpdateController extends BaseController
 		if ($disabledUpdateSites)
 		{
 			$updateSitesUrl = \JRoute::_('index.php?option=com_installer&view=updatesites');
-			$this->setMessage(\JText::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
+			$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
 		}
 
 		$model->findUpdates(0, $cache_timeout, $minimum_stability);
@@ -114,7 +115,7 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
@@ -144,7 +145,7 @@ class UpdateController extends BaseController
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo \JText::_('JINVALID_TOKEN');
+			echo Text::_('JINVALID_TOKEN');
 			$app->close();
 		}
 

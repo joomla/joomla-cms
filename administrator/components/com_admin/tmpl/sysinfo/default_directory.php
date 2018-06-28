@@ -8,17 +8,20 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
+	<legend><?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th style="width:650px">
-					<?php echo JText::_('COM_ADMIN_DIRECTORY'); ?>
+					<?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('COM_ADMIN_STATUS'); ?>
+					<?php echo Text::_('COM_ADMIN_STATUS'); ?>
 				</th>
 			</tr>
 		</thead>

@@ -20,6 +20,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Language\Text;
 
 jimport('joomla.filesystem.path');
 
@@ -177,7 +178,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Non-fatal error
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -201,7 +202,7 @@ class ItemModel extends AdminModel
 
 		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
@@ -246,7 +247,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -382,7 +383,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Non-fatal error
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -395,14 +396,14 @@ class ItemModel extends AdminModel
 
 		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
 
 		if (!$user->authorise('core.edit', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
+			$this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
 
 			return false;
 		}
@@ -426,7 +427,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -1177,13 +1178,13 @@ class ItemModel extends AdminModel
 
 			if ($form->loadFile($formFile, true, '/metadata') == false)
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Get the help data from the XML file if present.
@@ -1198,7 +1199,7 @@ class ItemModel extends AdminModel
 			{
 				if (!$xml = simplexml_load_file($xmlFile))
 				{
-					throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+					throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 				}
 
 				// Get the help data from the XML file if present.
@@ -1219,7 +1220,7 @@ class ItemModel extends AdminModel
 
 		if (!$form->loadFile($typeFile, true, false))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Association menu items, we currently do not support this for admin menu… may be later
@@ -1481,7 +1482,7 @@ class ItemModel extends AdminModel
 
 			if ($all_language && !empty($associations))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
+				\JFactory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
 			// Get associationskey for edited item
@@ -1633,13 +1634,13 @@ class ItemModel extends AdminModel
 					if ($table->home == $value)
 					{
 						unset($pks[$i]);
-						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALREADY_HOME'), 'notice');
+						\JFactory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_ALREADY_HOME'), 'notice');
 					}
 					elseif ($table->menutype == 'main')
 					{
 						// Prune items that you can't change.
 						unset($pks[$i]);
-						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'), 'error');
+						\JFactory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_MENUTYPE_HOME'), 'error');
 					}
 					else
 					{
@@ -1654,7 +1655,7 @@ class ItemModel extends AdminModel
 						{
 							// Prune items that you can't change.
 							unset($pks[$i]);
-							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 						}
 						elseif (!$table->check())
 						{
@@ -1677,7 +1678,7 @@ class ItemModel extends AdminModel
 					if (!$onehome)
 					{
 						$onehome = true;
-						\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_MENUS_ERROR_ONE_HOME'), 'notice');
+						\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_MENUS_ERROR_ONE_HOME'), 'notice');
 					}
 				}
 			}
@@ -1712,7 +1713,7 @@ class ItemModel extends AdminModel
 				if ($table->load($pk) && $table->home && $table->language == '*')
 				{
 					// Prune items that you can't change.
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'), 'error');
+					\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'), 'error');
 					unset($pks[$i]);
 					break;
 				}

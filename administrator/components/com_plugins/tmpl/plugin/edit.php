@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
@@ -30,7 +32,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_PLUGINS_PLUGIN')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_PLUGINS_PLUGIN')); ?>
 
 		<div class="row">
 			<div class="col-md-9">
@@ -40,11 +42,11 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<?php
 							if ($this->item->xml)
 							{
-								echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->name;
+								echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->name;
 							}
 							else
 							{
-								echo JText::_('COM_PLUGINS_XML_ERR');
+								echo Text::_('COM_PLUGINS_XML_ERR');
 							}
 							?>
 						</h3>
@@ -59,7 +61,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 						<div>
 							<?php
 							$this->fieldset    = 'description';
-							$short_description = JText::_($this->item->xml->description);
+							$short_description = Text::_($this->item->xml->description);
 							$this->fieldset    = 'description';
 							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
 
@@ -83,14 +85,14 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<?php if ($long_description) : ?>
 								<p class="readmore">
 									<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
-										<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 									</a>
 								</p>
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<joomla-alert type="danger"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></joomla-alert>
+					<joomla-alert type="danger"><?php echo Text::_('COM_PLUGINS_XML_ERR'); ?></joomla-alert>
 				<?php endif; ?>
 
 				<?php
@@ -136,7 +138,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if (isset($long_description) && $long_description != '') : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
 			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

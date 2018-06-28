@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class for a list of template styles.
@@ -112,11 +113,11 @@ class HtmlView extends BaseHtmlView
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
-			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
+			\JToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
 		}
 		else
 		{
-			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
+			\JToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
 		}
 
 		if ($canDo->get('core.edit.state'))

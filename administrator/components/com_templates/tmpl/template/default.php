@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -21,7 +23,7 @@ $input = JFactory::getApplication()->input;
 // No access if not global SuperUser
 if (!JFactory::getUser()->authorise('core.admin'))
 {
-	JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'danger');
+	JFactory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
 if ($this->type == 'image')
@@ -47,19 +49,19 @@ if ($this->type == 'font')
 }
 ?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
 	<div class="col-md-12">
 		<?php if($this->type == 'file') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 		<?php endif; ?>
 		<?php if($this->type == 'image') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
 			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
 		<?php endif; ?>
 		<?php if($this->type == 'font') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
 			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 		<?php endif; ?>
 	</div>
@@ -73,11 +75,11 @@ if ($this->type == 'font')
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="">
 				<?php echo JHtml::_('form.token'); ?>
-				<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
-				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
+				<h2><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
+				<p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
 					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
-						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
+						<?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>
 			</form>
@@ -94,7 +96,7 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'archive') : ?>
-			<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
+			<legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<ul class="nav flex-column well">
 					<?php foreach ($this->archive as $file) : ?>
@@ -185,10 +187,10 @@ if ($this->type == 'font')
 </div>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row">
 	<div class="col-md-4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
+		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['modules'] as $module) : ?>
@@ -205,7 +207,7 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 	<div class="col-md-4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
+		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
@@ -231,7 +233,7 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 	<div class="col-md-4">
-		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
+		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
@@ -259,7 +261,7 @@ if ($this->type == 'font')
 </div>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
@@ -268,7 +270,7 @@ if ($this->type == 'font')
 $copyModalData = array(
 	'selector' => 'copyModal',
 	'params'   => array(
-		'title'  => JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
+		'title'  => Text::_('COM_TEMPLATES_TEMPLATE_COPY'),
 		'footer' => $this->loadTemplate('modal_copy_footer')
 	),
 	'body' => $this->loadTemplate('modal_copy_body')
@@ -283,7 +285,7 @@ $copyModalData = array(
 	$renameModalData = array(
 		'selector' => 'renameModal',
 		'params'   => array(
-			'title'  => JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
+			'title'  => Text::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
 			'footer' => $this->loadTemplate('modal_rename_footer')
 		),
 		'body' => $this->loadTemplate('modal_rename_body')
@@ -299,7 +301,7 @@ $copyModalData = array(
 	$deleteModalData = array(
 		'selector' => 'deleteModal',
 		'params'   => array(
-			'title'  => JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
+			'title'  => Text::_('COM_TEMPLATES_ARE_YOU_SURE'),
 			'footer' => $this->loadTemplate('modal_delete_footer')
 		),
 		'body' => $this->loadTemplate('modal_delete_body')
@@ -311,7 +313,7 @@ $copyModalData = array(
 $fileModalData = array(
 	'selector' => 'fileModal',
 	'params'   => array(
-		'title'      => JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
+		'title'      => Text::_('COM_TEMPLATES_NEW_FILE_HEADER'),
 		'footer'     => $this->loadTemplate('modal_file_footer'),
 		'height'     => '400px',
 		'width'      => '800px',
@@ -326,7 +328,7 @@ $fileModalData = array(
 $folderModalData = array(
 	'selector' => 'folderModal',
 	'params'   => array(
-		'title'      => JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
+		'title'      => Text::_('COM_TEMPLATES_MANAGE_FOLDERS'),
 		'footer'     => $this->loadTemplate('modal_folder_footer'),
 		'height'     => '400px',
 		'width'      => '800px',
@@ -342,7 +344,7 @@ $folderModalData = array(
 	$resizeModalData = array(
 		'selector' => 'resizeModal',
 		'params'   => array(
-			'title'	 => JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
+			'title'	 => Text::_('COM_TEMPLATES_RESIZE_IMAGE'),
 			'footer' => $this->loadTemplate('modal_resize_footer')
 		),
 		'body' => $this->loadTemplate('modal_resize_body')

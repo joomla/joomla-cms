@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -29,7 +30,7 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 	<div class="row">
 		<div class="col-md-9">
 			<?php echo $this->form->renderField('type'); ?>
@@ -72,7 +73,7 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 	<div class="row">
 		<div class="col-md-6">
 			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -82,7 +83,7 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 	</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php if ($this->canDo->get('core.admin')) : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
 		<?php echo $this->form->getInput('rules'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php endif; ?>

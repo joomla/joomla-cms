@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Components helper for com_config
@@ -79,7 +80,7 @@ class ConfigHelper extends ContentHelper
 			if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component)))
 			{
 				self::loadLanguageForComponent($component);
-				$result[$component] = ApplicationHelper::stringURLSafe(\JText::_($component)) . '_' . $component;
+				$result[$component] = ApplicationHelper::stringURLSafe(Text::_($component)) . '_' . $component;
 			}
 		}
 

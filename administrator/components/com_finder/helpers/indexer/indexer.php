@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
@@ -158,7 +159,7 @@ abstract class FinderIndexer
 		}
 
 		// Throw invalid format exception.
-		throw new RuntimeException(JText::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
+		throw new RuntimeException(Text::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
 	}
 
 	/**

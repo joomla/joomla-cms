@@ -11,6 +11,7 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Language\Text;
 
 /**
  * Template style controller class.
@@ -41,7 +42,7 @@ class StyleController extends FormController
 	{
 		if (!\JSession::checkToken())
 		{
-			\JFactory::getApplication()->redirect('index.php', \JText::_('JINVALID_TOKEN'));
+			\JFactory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
 		}
 
 		$document = \JFactory::getDocument();
@@ -68,7 +69,7 @@ class StyleController extends FormController
 			// Access check.
 			if (!$this->allowSave($data, $key))
 			{
-				$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+				$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
@@ -124,7 +125,7 @@ class StyleController extends FormController
 				// Save the data in the session.
 				$app->setUserState($context . '.data', $validData);
 
-				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+				$app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -136,7 +137,7 @@ class StyleController extends FormController
 				$app->setUserState($context . '.data', $validData);
 
 				// Check-in failed, so go back to the record and display a notice.
-				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				$app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 				return false;
 			}

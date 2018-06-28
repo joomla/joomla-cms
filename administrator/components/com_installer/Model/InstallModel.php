@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Extension Manager Install Model
@@ -113,7 +114,7 @@ class InstallModel extends BaseDatabaseModel
 					break;
 
 				default:
-					$app->setUserState('com_installer.message', \JText::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
+					$app->setUserState('com_installer.message', Text::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
 
 					return false;
 					break;
@@ -164,7 +165,7 @@ class InstallModel extends BaseDatabaseModel
 					}
 
 					$app->enqueueMessage(
-						\JText::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', \JRoute::_('index.php?option=com_joomlaupdate')),
+						Text::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', \JRoute::_('index.php?option=com_joomlaupdate')),
 						'warning'
 					);
 
@@ -181,7 +182,7 @@ class InstallModel extends BaseDatabaseModel
 				\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 
 			return false;
 		}
@@ -190,14 +191,14 @@ class InstallModel extends BaseDatabaseModel
 		if (!$installer->install($package['dir']))
 		{
 			// There was an error installing the package.
-			$msg = \JText::sprintf('COM_INSTALLER_INSTALL_ERROR', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
 			$msgType = 'error';
 		}
 		else
 		{
 			// Package installed successfully.
-			$msg = \JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 			$msgType = 'message';
 		}
@@ -251,7 +252,7 @@ class InstallModel extends BaseDatabaseModel
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
 			return false;
 		}
@@ -259,7 +260,7 @@ class InstallModel extends BaseDatabaseModel
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
 
 			return false;
 		}
@@ -267,7 +268,7 @@ class InstallModel extends BaseDatabaseModel
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
 
 			return false;
 		}
@@ -276,7 +277,7 @@ class InstallModel extends BaseDatabaseModel
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
 			\JFactory::getApplication()->enqueueMessage(
-				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
 				'error'
 			);
 
@@ -287,7 +288,7 @@ class InstallModel extends BaseDatabaseModel
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
 			\JFactory::getApplication()->enqueueMessage(
-				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 				'error'
 			);
 
@@ -297,7 +298,7 @@ class InstallModel extends BaseDatabaseModel
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 
 			return false;
 		}
@@ -335,7 +336,7 @@ class InstallModel extends BaseDatabaseModel
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'error');
 
 			return false;
 		}
@@ -346,7 +347,7 @@ class InstallModel extends BaseDatabaseModel
 		// Did you give us a valid package?
 		if (!$type)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'error');
 		}
 
 		$package['packagefile'] = null;
@@ -374,7 +375,7 @@ class InstallModel extends BaseDatabaseModel
 		// Did you give us a URL?
 		if (!$url)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
 
 			return false;
 		}
@@ -401,7 +402,7 @@ class InstallModel extends BaseDatabaseModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
+			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
 
 			return false;
 		}

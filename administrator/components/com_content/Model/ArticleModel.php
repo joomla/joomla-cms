@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Language\Text;
 
 /**
  * Item Model for an Article.
@@ -95,7 +96,7 @@ class ArticleModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -220,7 +221,7 @@ class ArticleModel extends AdminModel
 		{
 			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -238,7 +239,7 @@ class ArticleModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -724,7 +725,7 @@ class ArticleModel extends AdminModel
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
-					$msg = \JText::_('COM_CONTENT_SAVE_WARNING');
+					$msg = Text::_('COM_CONTENT_SAVE_WARNING');
 				}
 
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
@@ -766,7 +767,7 @@ class ArticleModel extends AdminModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
 
 			return false;
 		}

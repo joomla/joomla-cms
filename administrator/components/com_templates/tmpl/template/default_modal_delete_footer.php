@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $input = JFactory::getApplication()->input;
 ?>
 <form method="post" action="">
@@ -17,6 +19,6 @@ $input = JFactory::getApplication()->input;
 	<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>">
 	<input type="hidden" name="file" value="<?php echo $this->file; ?>">
 	<?php echo JHtml::_('form.token'); ?>
-	<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-	<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
+	<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+	<button type="submit" class="btn btn-danger"><?php echo Text::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
 </form>

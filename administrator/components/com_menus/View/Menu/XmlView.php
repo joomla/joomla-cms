@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The HTML Menus Menu Item View.
@@ -58,7 +59,7 @@ class XmlView extends BaseHtmlView
 
 		if (empty($items))
 		{
-			\JLog::add(\JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), \JLog::WARNING, 'jerror');
 
 			$app->redirect(\JRoute::_('index.php?option=com_menus&view=menus', false));
 

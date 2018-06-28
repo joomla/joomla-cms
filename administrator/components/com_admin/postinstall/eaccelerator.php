@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Checks if the eAccelerator caching method is enabled.
@@ -60,7 +61,7 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file writeable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+		JFactory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 	}
 
 	// Attempt to write the configuration file as a PHP class named JConfig.
@@ -68,7 +69,7 @@ function admin_postinstall_eaccelerator_action()
 
 	if (!JFile::write($file, $configuration))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+		JFactory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 
 		return;
 	}
@@ -76,6 +77,6 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to make the file unwriteable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+		JFactory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 	}
 }

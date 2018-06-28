@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Modules list controller class.
@@ -30,7 +31,7 @@ class ModulesController extends AdminController
 	public function duplicate()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);
@@ -39,12 +40,12 @@ class ModulesController extends AdminController
 		{
 			if (empty($pks))
 			{
-				throw new \Exception(\JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
+				throw new \Exception(Text::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 			}
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(\JText::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
+			$this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
 		}
 		catch (\Exception $e)
 		{

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Categories helper.
@@ -116,7 +117,7 @@ class ContenthistoryHelper
 				{
 					if ($label = (string) $field->attributes()->label)
 					{
-						$labels[(string) $field->attributes()->name] = \JText::_($label);
+						$labels[(string) $field->attributes()->name] = Text::_($label);
 					}
 				}
 
@@ -138,7 +139,7 @@ class ContenthistoryHelper
 							$valueText = trim((string) $optionFieldArray[0]);
 						}
 
-						$values[(string) $field->attributes()->name] = \JText::_($valueText);
+						$values[(string) $field->attributes()->name] = Text::_($valueText);
 					}
 				}
 			}

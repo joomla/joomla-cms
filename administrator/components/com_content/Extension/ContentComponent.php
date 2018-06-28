@@ -23,6 +23,7 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * Component class for com_content
@@ -107,8 +108,8 @@ class ContentComponent extends MVCComponent implements
 		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article'    => \JText::_('COM_CONTENT'),
-			'com_content.categories' => \JText::_('JCATEGORY')
+			'com_content.article'    => Text::_('COM_CONTENT'),
+			'com_content.categories' => Text::_('JCATEGORY')
 		);
 
 		return $contexts;

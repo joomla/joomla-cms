@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
+use Joomla\CMS\Language\Text;
+
 
 /**
  * View class for a list of banners.
@@ -105,7 +107,7 @@ class HtmlView extends BaseHtmlView
 		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user  = \JFactory::getUser();
 
-		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
+		\JToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
@@ -143,7 +145,7 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_banners')
 			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new \JLayoutFile('joomla.toolbar.batch');
@@ -179,15 +181,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'ordering'    => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'     => \JText::_('JSTATUS'),
-			'a.name'      => \JText::_('COM_BANNERS_HEADING_NAME'),
-			'a.sticky'    => \JText::_('COM_BANNERS_HEADING_STICKY'),
-			'client_name' => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'impmade'     => \JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
-			'clicks'      => \JText::_('COM_BANNERS_HEADING_CLICKS'),
-			'a.language'  => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+			'ordering'    => Text::_('JGRID_HEADING_ORDERING'),
+			'a.state'     => Text::_('JSTATUS'),
+			'a.name'      => Text::_('COM_BANNERS_HEADING_NAME'),
+			'a.sticky'    => Text::_('COM_BANNERS_HEADING_STICKY'),
+			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'impmade'     => Text::_('COM_BANNERS_HEADING_IMPRESSIONS'),
+			'clicks'      => Text::_('COM_BANNERS_HEADING_CLICKS'),
+			'a.language'  => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

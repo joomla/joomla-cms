@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit an article.
@@ -124,7 +125,7 @@ class HtmlView extends BaseHtmlView
 		$toolbar = Toolbar::getInstance();
 
 		ToolbarHelper::title(
-			\JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+			Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
 			'pencil-2 article-add'
 		);
 
@@ -180,7 +181,7 @@ class HtmlView extends BaseHtmlView
 			{
 				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
 				$url = \ContentHelperPreview::url($this->item);
-				$toolbar->preview($url, \JText::_('JGLOBAL_PREVIEW'))
+				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
 					->bodyHeight(80)
 					->modalWidth(90);
 			}

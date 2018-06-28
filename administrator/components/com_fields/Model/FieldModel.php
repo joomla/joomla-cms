@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Field Model
@@ -285,7 +286,7 @@ class FieldModel extends AdminModel
 			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
 
 			// Check if the test succeeded
-			return $result === true ? : \JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+			return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
 		}
 		catch (\UnexpectedValueException $e)
 		{
@@ -1015,7 +1016,7 @@ class FieldModel extends AdminModel
 
 			if (!$form->loadFile($path, false))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -1104,7 +1105,7 @@ class FieldModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -1153,7 +1154,7 @@ class FieldModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}

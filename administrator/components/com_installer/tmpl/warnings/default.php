@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <div id="installer-warnings" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings'); ?>" method="post" name="adminForm" id="adminForm">
@@ -25,8 +28,8 @@ defined('_JEXEC') or die;
 							</joomla-alert>
 						<?php endforeach; ?>
 						<joomla-alert type="info">
-							<h4 class="alert-heading"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
-							<p class="m-b-0"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
+							<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
+							<p class="m-b-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
 						</joomla-alert>
 						<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 					<?php endif; ?>

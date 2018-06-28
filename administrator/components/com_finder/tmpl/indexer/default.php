@@ -9,16 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
 JHtml::_('script', 'com_finder/indexer.min.js', array('version' => 'auto', 'relative' => true));
-JFactory::getDocument()->addScriptDeclaration('var msg = "' . JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
+JFactory::getDocument()->addScriptDeclaration('var msg = "' . Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
 
 <div class="text-center">
-	<h1 id="finder-progress-header m-t-2"><?php echo JText::_('COM_FINDER_INDEXER_HEADER_INIT'); ?></h1>
-	<p id="finder-progress-message"><?php echo JText::_('COM_FINDER_INDEXER_MESSAGE_INIT'); ?></p>
+	<h1 id="finder-progress-header m-t-2"><?php echo Text::_('COM_FINDER_INDEXER_HEADER_INIT'); ?></h1>
+	<p id="finder-progress-message"><?php echo Text::_('COM_FINDER_INDEXER_MESSAGE_INIT'); ?></p>
 	<div id="progress" class="progress">
   		<div id="progress-bar" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 	</div>
