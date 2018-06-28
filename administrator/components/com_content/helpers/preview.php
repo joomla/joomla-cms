@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Preview Link Helper
  *
@@ -40,7 +42,7 @@ class ContentHelperPreview
 			->where($db->qn('published') . '= 1')
 			->where($db->qn('client_id') . '= 0');
 
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			$query->where($db->qn('language') . ' = ' . $db->q($article->language));
 		}
@@ -53,7 +55,7 @@ class ContentHelperPreview
 
 		$Itemid = '&amp;Itemid=' . (int) $db->loadResult();
 
-		if ($article->language && JLanguageMultilang::isEnabled())
+		if ($article->language && Multilanguage::isEnabled())
 		{
 			// Get the sef prefix for the language
 			$query->clear()

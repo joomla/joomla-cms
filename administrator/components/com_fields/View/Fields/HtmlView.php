@@ -16,6 +16,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Fields View
@@ -103,7 +104,7 @@ class HtmlView extends BaseHtmlView
 			$this->addToolbar();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!\JLanguageMultilang::isEnabled())
+			if (!Multilanguage::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');

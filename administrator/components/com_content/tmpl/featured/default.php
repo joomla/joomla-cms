@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_ACCESS')));
@@ -82,7 +83,7 @@ if ($saveOrder)
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 									</th>
@@ -198,7 +199,7 @@ if ($saveOrder)
 										<?php endif; ?>
 									<?php endif; ?>
 								</td>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>

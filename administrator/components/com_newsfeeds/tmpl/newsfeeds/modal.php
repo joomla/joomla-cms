@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('NewsfeedsHelperRoute', JPATH_ROOT . '/components/com_newsfeeds/helpers/route.php');
 
@@ -71,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->language && JLanguageMultilang::isEnabled())
+					<?php if ($item->language && Multilanguage::isEnabled())
 					{
 						$tag = strlen($item->language);
 						if ($tag == 5)
@@ -86,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							$lang = '';
 						}
 					}
-					elseif (!JLanguageMultilang::isEnabled())
+					elseif (!Multilanguage::isEnabled())
 					{
 						$lang = '';
 					}

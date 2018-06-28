@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
@@ -97,7 +98,7 @@ class FieldsHelper
 			$item = (object) $item;
 		}
 
-		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language != '*')
+		if (Multilanguage::isEnabled() && isset($item->language) && $item->language != '*')
 		{
 			self::$fieldsCache->setState('filter.language', array('*', $item->language));
 		}

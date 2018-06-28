@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * View to edit a template style.
@@ -72,7 +73,7 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		if ((!\JLanguageMultilang::isEnabled()) && ($this->item->client_id == 0))
+		if ((!Multilanguage::isEnabled()) && ($this->item->client_id == 0))
 		{
 			$this->form->setFieldAttribute('home', 'type', 'radio');
 			$this->form->setFieldAttribute('home', 'class', 'switcher');

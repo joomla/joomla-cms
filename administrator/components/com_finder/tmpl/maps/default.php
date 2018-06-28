@@ -13,6 +13,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -95,7 +96,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							<label for="cb<?php echo $i; ?>" style="display:inline-block;">
 								<?php echo $this->escape($title); ?>
 							</label>
-							<?php if ($this->escape(trim($title, '**')) === 'Language' && JLanguageMultilang::isEnabled()) : ?>
+							<?php if ($this->escape(trim($title, '**')) === 'Language' && Multilanguage::isEnabled()) : ?>
 								<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 							<?php endif; ?>
 							</td>

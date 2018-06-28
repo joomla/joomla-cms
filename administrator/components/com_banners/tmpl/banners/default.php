@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -70,7 +71,7 @@ if ($saveOrder && !empty($this->items))
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
@@ -159,7 +160,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo $item->clicks; ?> -
 										<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 									</td>
-									<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<?php if (Multilanguage::isEnabled()) : ?>
 										<td class="small nowrap d-none d-md-table-cell text-center">
 											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 										</td>

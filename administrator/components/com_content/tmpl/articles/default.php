@@ -13,6 +13,7 @@ use Joomla\CMS\Button\ActionButton;
 use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
@@ -105,7 +106,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 									</th>
@@ -224,7 +225,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<?php endif; ?>
 									<?php endif; ?>
 								</td>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>

@@ -110,7 +110,7 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of menu objects.
 	 *
-	 * @deprecated  4.0  Use \JLanguageMultilang::getSiteHomePages() instead.
+	 * @deprecated  4.0  Use Multilanguage::getSiteHomePages() instead.
 	 */
 	public static function getHomepages()
 	{

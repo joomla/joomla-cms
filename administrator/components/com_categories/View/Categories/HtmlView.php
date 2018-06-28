@@ -17,6 +17,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Categories view class for the Category package.
@@ -109,7 +110,7 @@ class HtmlView extends BaseHtmlView
 			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!\JLanguageMultilang::isEnabled())
+			if (!Multilanguage::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');

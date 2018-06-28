@@ -11,7 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
+use Jouse Joomla\CMS\Language\Multilanguage;
+omla\CMS\Router\Route;
 
 $app = JFactory::getApplication();
 
@@ -85,7 +86,7 @@ if (!empty($editor))
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
-					<?php if ($item->language && JLanguageMultilang::isEnabled())
+					<?php if ($item->language && Multilanguage::isEnabled())
 					{
 						if ($item->language !== '*')
 						{
@@ -96,7 +97,7 @@ if (!empty($editor))
 							$language = '';
 						}
 					}
-					elseif (!JLanguageMultilang::isEnabled())
+					elseif (!Multilanguage::isEnabled())
 					{
 						$language = '';
 					}

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
 
 \JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
@@ -110,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
-		if (!\JLanguageMultilang::isEnabled())
+		if (!Multilanguage::isEnabled())
 		{
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');

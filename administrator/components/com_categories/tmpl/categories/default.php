@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\String\Inflector;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -121,7 +122,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo JHtml::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
@@ -255,7 +256,7 @@ if ($saveOrder && !empty($this->items))
 											<?php endif; ?>
 										</td>
 									<?php endif; ?>
-									<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<?php if (Multilanguage::isEnabled()) : ?>
 										<td class="small nowrap d-none d-md-table-cell text-center">
 											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 										</td>

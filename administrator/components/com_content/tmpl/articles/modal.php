@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 $app = JFactory::getApplication();
 
@@ -92,7 +93,7 @@ if (!empty($editor))
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->language && JLanguageMultilang::isEnabled())
+					<?php if ($item->language && Multilanguage::isEnabled())
 					{
 						$tag = strlen($item->language);
 						if ($tag == 5)
@@ -107,7 +108,7 @@ if (!empty($editor))
 							$lang = '';
 						}
 					}
-					elseif (!JLanguageMultilang::isEnabled())
+					elseif (!Multilanguage::isEnabled())
 					{
 						$lang = '';
 					}

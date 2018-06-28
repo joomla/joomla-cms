@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
 
 // Initialise related data.
 \JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -87,7 +88,7 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 										<input type="checkbox" class="novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
 										<label for="<?php echo $id . $link->value; ?>" class="">
 											<?php echo $link->text; ?> <span class="small"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
-											<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
+											<?php if (Multilanguage::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 												<?php if ($link->language_image) : ?>
 													<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
 												<?php else : ?>

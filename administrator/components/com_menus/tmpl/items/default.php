@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -88,7 +89,7 @@ if ($menuType == '')
 									<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<?php if (($this->state->get('filter.client_id') == 0) && (JLanguageMultilang::isEnabled())) : ?>
+							<?php if (($this->state->get('filter.client_id') == 0) && (Multilanguage::isEnabled())) : ?>
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
@@ -252,7 +253,7 @@ if ($menuType == '')
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<?php if ($this->state->get('filter.client_id') == 0 && JLanguageMultilang::isEnabled()) : ?>
+								<?php if ($this->state->get('filter.client_id') == 0 && Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>

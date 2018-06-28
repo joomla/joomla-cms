@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -73,7 +74,7 @@ if ($saveOrder && !empty($this->items))
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
@@ -161,7 +162,7 @@ if ($saveOrder && !empty($this->items))
 									<td class="small d-none d-md-table-cell text-center">
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
-									<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<?php if (Multilanguage::isEnabled()) : ?>
 										<td class="small nowrap d-none d-md-table-cell text-center">
 											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 										</td>
