@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\CMS\Factory;
 
 /**
  * Finder Component Controller.
@@ -33,7 +34,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$cachable = true;
 
 		// Load plugin language files.
