@@ -81,23 +81,6 @@
 				</field>
 
 				<field
-					name="opensearch"
-					type="radio"
-					class="switcher"
-					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="opensearch_title"
-					type="text"
-					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
-				/>
-
-				<field
 					name="set_itemid"
 					type="menuitem"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
