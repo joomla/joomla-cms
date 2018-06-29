@@ -881,7 +881,7 @@ class ArticleModel extends AdminModel
 		// Association content items
 		if (Associations::isEnabled())
 		{
-			$languages = LaanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
