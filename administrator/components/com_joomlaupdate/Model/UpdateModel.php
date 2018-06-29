@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserHelper;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -397,7 +398,7 @@ class UpdateModel extends BaseDatabaseModel
 	public function createRestorationFile($basename = null)
 	{
 		// Get a password
-		$password = \JUserHelper::genRandomPassword(32);
+		$password = UserHelper::genRandomPassword(32);
 		$app = \JFactory::getApplication();
 		$app->setUserState('com_joomlaupdate.password', $password);
 

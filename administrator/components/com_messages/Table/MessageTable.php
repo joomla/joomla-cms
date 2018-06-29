@@ -54,7 +54,7 @@ class MessageTable extends Table
 		}
 
 		// Check the to and from users.
-		$user = new \JUser($this->user_id_from);
+		$user = new User($this->user_id_from);
 
 		if (empty($user->id))
 		{
@@ -63,7 +63,7 @@ class MessageTable extends Table
 			return false;
 		}
 
-		$user = new \JUser($this->user_id_to);
+		$user = new User($this->user_id_to);
 
 		if (empty($user->id))
 		{

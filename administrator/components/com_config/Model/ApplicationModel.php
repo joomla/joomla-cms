@@ -20,6 +20,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Model for the global configuration
@@ -313,7 +314,7 @@ class ApplicationModel extends FormModel
 			if ($data['shared_session'] == 1 && $currentShared == 0)
 			{
 				// Generate a random shared session name
-				$data['session_name'] = \JUserHelper::genRandomPassword(16);
+				$data['session_name'] = UserHelper::genRandomPassword(16);
 			}
 
 			// Has the user disabled shared sessions?
@@ -333,7 +334,7 @@ class ApplicationModel extends FormModel
 			if ($data['shared_session'] == 1 && $currentShared == 0)
 			{
 				// Generate a random shared session name
-				$data['session_name'] = \JUserHelper::genRandomPassword(16);
+				$data['session_name'] = UserHelper::genRandomPassword(16);
 			}
 
 			// Has the user disabled shared sessions?

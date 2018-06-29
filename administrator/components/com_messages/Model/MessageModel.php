@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
 
 /**
  * Private Message model.
@@ -172,7 +173,7 @@ class MessageModel extends AdminModel
 			}
 
 			// Get the user name for an existing messasge.
-			if ($this->item->user_id_from && $fromUser = new \JUser($this->item->user_id_from))
+			if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from))
 			{
 				$this->item->set('from_user_name', $fromUser->name);
 			}
@@ -341,8 +342,8 @@ class MessageModel extends AdminModel
 		if ($config->get('mail_on_new', true))
 		{
 			// Load the user details (already valid from table check).
-			$fromUser         = \JUser::getInstance($table->user_id_from);
-			$toUser           = \JUser::getInstance($table->user_id_to);
+			$fromUser         = User::getInstance($table->user_id_from);
+			$toUser           = User::getInstance($table->user_id_to);
 			$debug            = \JFactory::getConfig()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);

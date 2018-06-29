@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
 
 /**
  * HTML View class for the Messages component
@@ -86,7 +87,7 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 			\JToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
-			$sender = \JUser::getInstance($this->item->user_id_from);
+			$sender = User::getInstance($this->item->user_id_from);
 
 			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
 			{
