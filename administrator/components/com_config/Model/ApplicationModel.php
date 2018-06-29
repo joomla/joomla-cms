@@ -30,6 +30,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Http\HttpFactory;
 
 /**
  * Model for the global configuration
@@ -158,7 +159,7 @@ class ApplicationModel extends FormModel
 						CURLOPT_PROXYUSERPWD => null,
 					)
 				);
-				$response = \JHttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', array('Host' => $host), 10);
+				$response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
 				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))

@@ -24,6 +24,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Http\HttpFactory;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -375,7 +376,7 @@ class UpdateModel extends BaseDatabaseModel
 		// Download the package
 		try
 		{
-			$result = \JHttpFactory::getHttp([], ['curl', 'stream'])->get($url);
+			$result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
 		}
 		catch (\RuntimeException $e)
 		{

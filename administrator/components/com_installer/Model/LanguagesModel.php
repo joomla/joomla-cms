@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 
 /**
  * Languages Installer Model
@@ -123,7 +124,7 @@ class LanguagesModel extends ListModel
 
 		try
 		{
-			$response = \JHttpFactory::getHttp()->get($updateSite);
+			$response = HttpFactory::getHttp()->get($updateSite);
 		}
 		catch (\RuntimeException $e)
 		{
