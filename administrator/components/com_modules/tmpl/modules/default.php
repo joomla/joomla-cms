@@ -14,6 +14,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Helper\ModuleHelper;
 
 JHtml::_('behavior.multiselect');
 
@@ -67,7 +68,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
-						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
 						<th width="10%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
@@ -176,7 +177,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td class="small d-none d-md-table-cell text-center">
 							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
 							<td class="small d-none d-md-table-cell">
 								<?php if ($item->language == ''):?>
 									<?php echo Text::_('JUNDEFINED'); ?>

@@ -11,10 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Helper\ModuleHelper;
 
 $renderer = JFactory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
-$mod      = JModuleHelper::getModule('mod_feed');
+$mod      = ModuleHelper::getModule('mod_feed');
 $param    = array(
 	'rssurl'      => 'https://www.joomla.org/announcements/release-news.feed?type=rss',
 	'rsstitle'    => 0,
