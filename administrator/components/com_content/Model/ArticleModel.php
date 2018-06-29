@@ -16,6 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Item Model for an Article.
@@ -70,7 +71,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
@@ -211,7 +212,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper

@@ -12,6 +12,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
@@ -181,7 +182,7 @@ class FieldsHelper
 
 				if ($prepareValue)
 				{
-					JPluginHelper::importPlugin('fields');
+					PluginHelper::importPlugin('fields');
 
 					/*
 					 * On before field prepare
@@ -705,7 +706,7 @@ class FieldsHelper
 	 */
 	public static function getFieldTypes()
 	{
-		JPluginHelper::importPlugin('fields');
+		PluginHelper::importPlugin('fields');
 		$eventData = JFactory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
 
 		$data = array();

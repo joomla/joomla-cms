@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Methods supporting a list of article records.
@@ -244,7 +245,7 @@ class ArticlesModel extends ListModel
 			'ua.name',
 		);
 
-		if (\JPluginHelper::isEnabled('content', 'vote'))
+		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')

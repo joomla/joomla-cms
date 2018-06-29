@@ -14,6 +14,7 @@ use Joomla\CMS\Router\Router;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Plugin\PluginHelper;
 
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
@@ -342,7 +343,7 @@ class FinderIndexerHelper
 	public static function getContentExtras(FinderIndexerResult &$item)
 	{
 		// Load the finder plugin group.
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
 		JFactory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
 
@@ -367,7 +368,7 @@ class FinderIndexerHelper
 		// Load the content plugins if necessary.
 		if (empty($loaded))
 		{
-			JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 			$loaded = true;
 		}
 
