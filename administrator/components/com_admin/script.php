@@ -507,7 +507,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_installer/models/fields/group.php',
 			'/administrator/components/com_installer/models/fields/index.html',
 			'/administrator/components/com_installer/models/fields/search.php',
-			'/administrator/components/com_installer/models/fields/type.php',
 			'/administrator/components/com_installer/models/forms/index.html',
 			'/administrator/components/com_installer/models/forms/manage.xml',
 			'/administrator/components/com_installer/views/install/tmpl/default_form.php',
