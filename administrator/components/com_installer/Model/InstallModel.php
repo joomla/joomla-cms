@@ -19,6 +19,7 @@ use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\InstallerHelper;
 
 /**
  * Extension Manager Install Model
@@ -139,7 +140,7 @@ class InstallModel extends BaseDatabaseModel
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
-				\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+				InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
 			return false;
@@ -152,7 +153,7 @@ class InstallModel extends BaseDatabaseModel
 		 * Check for a Joomla core package.
 		 * To do this we need to set the source path to find the manifest (the same first step as \JInstaller::install())
 		 *
-		 * This must be done before the unpacked check because \JInstallerHelper::detectType() returns a boolean false since the manifest
+		 * This must be done before the unpacked check because InstallerHelper::detectType() returns a boolean false since the manifest
 		 * can't be found in the expected location.
 		 */
 		if (is_array($package) && isset($package['dir']) && is_dir($package['dir']))
@@ -167,7 +168,7 @@ class InstallModel extends BaseDatabaseModel
 					// We have a Joomla package
 					if (in_array($installType, array('upload', 'url')))
 					{
-						\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+						InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 					}
 
 					$app->enqueueMessage(
@@ -185,7 +186,7 @@ class InstallModel extends BaseDatabaseModel
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
-				\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+				InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
 			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
@@ -227,7 +228,7 @@ class InstallModel extends BaseDatabaseModel
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
-		\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		// Clear the cached extension data and menu cache
 		$this->cleanCache('_system', 0);
@@ -319,7 +320,7 @@ class InstallModel extends BaseDatabaseModel
 		File::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
-		$package = \JInstallerHelper::unpack($tmp_dest, true);
+		$package = InstallerHelper::unpack($tmp_dest, true);
 
 		return $package;
 	}
@@ -348,7 +349,7 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// Detect the package type
-		$type = \JInstallerHelper::detectType($p_dir);
+		$type = InstallerHelper::detectType($p_dir);
 
 		// Did you give us a valid package?
 		if (!$type)
@@ -403,7 +404,7 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// Download the package at the URL given.
-		$p_file = \JInstallerHelper::downloadPackage($url);
+		$p_file = InstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
 		if (!$p_file)
@@ -417,7 +418,7 @@ class InstallModel extends BaseDatabaseModel
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.
-		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
+		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
 	}

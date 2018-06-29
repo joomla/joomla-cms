@@ -22,6 +22,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\InstallerHelper;
 
 /**
  * Installer Update Model
@@ -423,7 +424,7 @@ class UpdateModel extends ListModel
 
 		$mirror = 0;
 
-		while (!($p_file = \JInstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
+		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
 			$url  = $name->url;
@@ -449,7 +450,7 @@ class UpdateModel extends ListModel
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		// Get an installer instance
 		$installer = \JInstaller::getInstance();
@@ -487,7 +488,7 @@ class UpdateModel extends ListModel
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
-		\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;
 	}
