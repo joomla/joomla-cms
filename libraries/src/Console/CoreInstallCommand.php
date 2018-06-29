@@ -62,6 +62,13 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		$this->configureIO();
 
+		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+		{
+			$this->ioStyle->warning("Joomla is already installed and set up.");
+
+			return 0;
+		}
+
 		$options = $this->collectOptions();
 
 		$model = new ConfigurationModel;
