@@ -36,7 +36,7 @@ class JoomlaInstallerScript
 	 * Function to act prior to installation process begins
 	 *
 	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
-	 * @param   Installer  $installer  The class calling this method
+	 * @param   Installer   $installer  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *

@@ -549,7 +549,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Method to add parameters to the update
 	 *
-	 * @param   Update                  $update  An update definition
+	 * @param   Update                    $update  An update definition
 	 * @param   \Joomla\CMS\Table\Update  $table   The update instance from the database
 	 *
 	 * @return  void
