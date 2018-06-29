@@ -102,6 +102,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
+	 * @param   object  $options  Stores options
+	 *
 	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
@@ -556,7 +558,6 @@ class DatabaseModel extends BaseInstallationModel
 		// Check if the schema is a valid file
 		if (!is_file($schema))
 		{
-			var_dump($schema);
 			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_DB', \JText::_('INSTL_DATABASE_NO_SCHEMA')), 'error');
 
 			return false;

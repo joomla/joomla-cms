@@ -288,7 +288,7 @@ class CoreInstallCommand extends AbstractCommand
 	/**
 	 * Test if an input is integer
 	 *
-	 * @param   string  $input   The data to be tested
+	 * @param   string  $input  The data to be tested
 	 *
 	 * @return array | boolean
 	 *
