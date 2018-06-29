@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Item Model for an Article.
@@ -880,7 +881,7 @@ class ArticleModel extends AdminModel
 		// Association content items
 		if (Associations::isEnabled())
 		{
-			$languages = \JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LaanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{

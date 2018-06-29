@@ -85,14 +85,14 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of language extension objects.
 	 *
-	 * @deprecated  4.0  Use \JLanguageHelper::getInstalledLanguages(0) instead.
+	 * @deprecated  4.0  Use LaanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSitelangs()
 	{
 		try
 		{
 			\JLog::add(
-				sprintf('%s() is deprecated, use \JLanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
+				sprintf('%s() is deprecated, use LaanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
 				\JLog::WARNING,
 				'deprecated'
 			);
@@ -117,7 +117,7 @@ abstract class MultilangstatusHelper
 		try
 		{
 			\JLog::add(
-				sprintf('%s() is deprecated, use \JLanguageHelper::getSiteHomePages() instead.', __METHOD__),
+				sprintf('%s() is deprecated, use LaanguageHelper::getSiteHomePages() instead.', __METHOD__),
 				\JLog::WARNING,
 				'deprecated'
 			);
