@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
