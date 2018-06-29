@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
 
@@ -85,7 +86,7 @@ abstract class JHtmlContact
 
 			JHtml::_('bootstrap.popover');
 
-			$html = JLayoutHelper::render('joomla.content.associations', $items);
+			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;

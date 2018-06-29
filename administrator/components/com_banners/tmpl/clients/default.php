@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -39,7 +40,7 @@ $params     = $this->state->params ?? new JObject;
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>

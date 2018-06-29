@@ -13,6 +13,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('bootstrap.popover');
 
@@ -31,7 +32,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<table class="table table-striped">
 					<thead>
 						<tr>

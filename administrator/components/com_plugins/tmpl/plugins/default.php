@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -31,7 +32,7 @@ if ($saveOrder)
 ?>
 <form action="<?php echo Route::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?></joomla-alert>
 		<?php else : ?>

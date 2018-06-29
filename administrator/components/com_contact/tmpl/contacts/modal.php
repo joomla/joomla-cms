@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app = JFactory::getApplication();
 
@@ -45,7 +46,7 @@ if (!empty($editor))
 
 	<form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -132,7 +133,7 @@ if (!empty($editor))
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small d-none d-md-table-cell">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td align="text-center">
 							<?php echo (int) $item->id; ?>

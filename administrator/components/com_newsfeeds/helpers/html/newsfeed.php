@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
@@ -84,7 +85,7 @@ class JHtmlNewsfeed
 
 			JHtml::_('bootstrap.popover');
 
-			$html = JLayoutHelper::render('joomla.content.associations', $items);
+			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;

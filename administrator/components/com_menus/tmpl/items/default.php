@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -50,7 +51,7 @@ if ($menuType == '')
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
@@ -180,7 +181,7 @@ if ($menuType == '')
 									echo JHtml::_('menus.state', $published, $i, $canChange && !$item->protected, 'cb'); ?>
 								</td>
 								<td>
-									<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+									<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 									<?php echo $prefix; ?>
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
@@ -255,7 +256,7 @@ if ($menuType == '')
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0 && Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
 								<td class="d-none d-md-table-cell text-center">

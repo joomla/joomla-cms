@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('jquery.framework');
 JHtml::_('behavior.multiselect');
@@ -35,7 +36,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
@@ -96,7 +97,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 							<?php endif; ?>
 							<td class="nowrap has-context">
 								<?php if (isset($item->level)) : ?>
-									<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+									<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php endif; ?>
 								<?php if ($canCheckin && $isCheckout) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
@@ -120,7 +121,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 								<?php endif; ?>
 							</td>
 							<td class="small">
-								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 							<td>
 								<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>

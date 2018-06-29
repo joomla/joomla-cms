@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JLoader::register('NewsfeedsHelperRoute', JPATH_ROOT . '/components/com_newsfeeds/helpers/route.php');
 
@@ -30,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 	<form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -107,7 +108,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small d-none d-md-table-cell">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>

@@ -14,6 +14,7 @@ use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
@@ -74,7 +75,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -227,7 +228,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								</td>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
 								<td class="nowrap small d-none d-md-table-cell text-center">

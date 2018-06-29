@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
@@ -241,13 +242,13 @@ class FieldsHelper
 		if ($parts = self::extract($context))
 		{
 			// Trying to render the layout on the component from the context
-			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
+			$value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
 		if ($value == '')
 		{
 			// Trying to render the layout on Fields itself
-			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
+			$value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
 		return $value;

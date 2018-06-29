@@ -85,15 +85,15 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		}
 		?>
 		<div class="js-stools-container-bar">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+			<?php echo LayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
 	<div class="js-stools-container-filters clearfix<?php echo $filtersClass; ?>">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
 	</div>
 </div>
 <?php if ($data['options']['totalResults'] === 0) : ?>
-	<?php echo JLayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
+	<?php echo LayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
 <?php endif; ?>

@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 $data = $displayData;
 
 ?>
@@ -29,4 +31,4 @@ $data = $displayData;
 	<?php endif; ?>
 <?php endif; ?>
 <?php // Display the main joomla layout ?>
-<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data, null, array('component' => 'none')); ?>
+<?php echo LayoutHelper::render('joomla.searchtools.default.bar', $data, null, array('component' => 'none')); ?>

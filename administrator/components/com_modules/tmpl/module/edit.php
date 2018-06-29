@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -51,7 +52,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 <form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
@@ -84,7 +85,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							$this->fieldset    = 'description';
 							$short_description = Text::_($this->item->xml->description);
 							$this->fieldset    = 'description';
-							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
+							$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
 							if (!$long_description)
 							{
@@ -121,7 +122,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					echo $this->form->getInput($hasContentFieldName);
 				}
 				$this->fieldset = 'basic';
-				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
+				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
 				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
@@ -153,9 +154,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 						?>
 						<?php if ($this->item->client_id == 0) : ?>
-							<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+							<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 						<?php else : ?>
-							<?php echo JLayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+							<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
 						<?php endif; ?>
  					</div>
 				</div>
@@ -178,7 +179,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php
 		$this->fieldsets        = array();
 		$this->ignore_fieldsets = array('basic', 'description');
-		echo JLayoutHelper::render('joomla.edit.params', $this);
+		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>

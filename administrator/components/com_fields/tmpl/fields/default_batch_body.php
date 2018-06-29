@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('formbehavior.chosen', '.advancedSelect');
 
@@ -22,12 +23,12 @@ $context   = $this->escape($this->state->get('filter.context'));
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JLayoutHelper::render('joomla.html.batch.access', array()); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', array()); ?>
 			</div>
 		</div>
 	</div>

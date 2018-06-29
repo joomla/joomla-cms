@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('behavior.multiselect');
 
@@ -24,7 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if ($this->total > 0) : ?>
 					<table id="global-checkin" class="table table-striped">
 						<thead>

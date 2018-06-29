@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('behavior.multiselect');
 
@@ -31,7 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->ftp) : ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
 					<?php endif; ?>
-					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<joomla-alert type="warning"><?php echo Text::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
 					<?php else : ?>

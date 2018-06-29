@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app = JFactory::getApplication();
 
@@ -51,7 +52,7 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif; ?>
-<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 	<?php if (empty($this->items)) : ?>
 		<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 	<?php else : ?>
@@ -108,7 +109,7 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 					<?php endif; ?>
 					<td class="nowrap has-context">
 						<?php if (isset($item->level)) : ?>
-							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+							<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
 						<?php if (($canEdit && !$isCheckout) || ($canEdit && $canCheckin && $isCheckout)) : ?>
 							<a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">
@@ -133,7 +134,7 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 						<?php endif; ?>
 					</td>
 					<td class="small">
-						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+						<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td>
 						<?php if (true || $item->association) : ?>

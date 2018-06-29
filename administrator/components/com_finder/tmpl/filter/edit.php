@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
@@ -25,7 +26,7 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 
 <form action="<?php echo Route::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
@@ -48,7 +49,7 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 		<div class="col-md-3">
 			<div class="card card-light">
 				<div class="card-body">
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>
 		</div>
@@ -56,10 +57,10 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-	<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

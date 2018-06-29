@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -23,7 +24,7 @@ $user = JFactory::getUser();
 
 <form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
@@ -44,7 +45,7 @@ $user = JFactory::getUser();
 					<p><?php echo Text::_($this->item->xml->description); ?></p>
 					<?php
 					$this->fieldset = 'description';
-					$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+					$description = LayoutHelper::render('joomla.edit.fieldset', $this);
 					?>
 					<?php if ($description) : ?>
 						<p class="readmore">
@@ -56,7 +57,7 @@ $user = JFactory::getUser();
 				</div>
 				<?php
 				$this->fieldset = 'basic';
-				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
+				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
 				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
@@ -71,7 +72,7 @@ $user = JFactory::getUser();
 							'template'
 						);
 						?>
-						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
 				</div>
 			</div>
@@ -87,7 +88,7 @@ $user = JFactory::getUser();
 		<?php
 		$this->fieldsets = array();
 		$this->ignore_fieldsets = array('basic', 'description');
-		echo JLayoutHelper::render('joomla.edit.params', $this);
+		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
 		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>

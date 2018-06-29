@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 if (JFactory::getApplication()->isClient('site'))
 {
@@ -32,7 +33,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 	<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped" id="moduleList">
@@ -107,7 +108,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="small d-none d-md-table-cell">
-						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+						<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td class="d-none d-md-table-cell">
 						<?php echo (int) $item->id; ?>

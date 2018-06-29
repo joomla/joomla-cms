@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -28,7 +29,7 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 
 <form action="<?php echo Route::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
@@ -65,7 +66,7 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 								'note',
 							)
 					); ?>
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					<?php $this->set('fields', null); ?>
 				</div>
 			</div>
@@ -73,11 +74,11 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 	</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
-	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 	<div class="row">
 		<div class="col-md-6">
-			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+			<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 		</div>
 		<div class="col-md-6">
 		</div>

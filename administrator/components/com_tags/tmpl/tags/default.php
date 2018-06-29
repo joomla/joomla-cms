@@ -13,6 +13,7 @@ use Joomla\String\Inflector;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -60,7 +61,7 @@ if ($saveOrder && !empty($this->items))
 	<div id="j-main-container" class="j-main-container">
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -190,7 +191,7 @@ if ($saveOrder && !empty($this->items))
 								</div>
 							</td>
 							<td>
-								<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 								<?php endif; ?>
@@ -239,7 +240,7 @@ if ($saveOrder && !empty($this->items))
 						</td>
 						<?php if (Multilanguage::isEnabled()) : ?>
 							<td class="small nowrap d-none d-md-table-cell text-center">
-								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 						<?php endif; ?>
 						<td class="d-none d-md-table-cell text-center">

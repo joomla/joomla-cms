@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app = JFactory::getApplication();
 
@@ -48,7 +49,7 @@ if (!empty($editor))
 
 	<form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -136,7 +137,7 @@ if (!empty($editor))
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="nowrap small d-none d-md-table-cell">
 							<?php echo JHtml::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>

@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 if (JFactory::getApplication()->isClient('site'))
 {
@@ -29,7 +30,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 	<form action="<?php echo Route::_('index.php?option=com_fields&view=fields&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
@@ -93,7 +94,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small d-none d-md-table-cell">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>

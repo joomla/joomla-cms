@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Jouse Joomla\CMS\Language\Multilanguage;
-omla\CMS\Router\Route;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app = JFactory::getApplication();
 
@@ -45,7 +46,7 @@ if (!empty($editor))
 <div class="container-popup">
 	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -107,7 +108,7 @@ if (!empty($editor))
 							<?php echo JHtml::_('menus.state', $item->published, $i, 0); ?>
 						</td>
 						<td>
-							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
 							<?php if (!$uselessMenuItem) : ?>
 								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
@@ -154,7 +155,7 @@ if (!empty($editor))
 							<?php elseif ($item->language == '*') : ?>
 								<?php echo Text::alt('JALL', 'language'); ?>
 							<?php else : ?>
-								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							<?php endif; ?>
 						</td>
 						<td class="d-none d-md-table-cell">

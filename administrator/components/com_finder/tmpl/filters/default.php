@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
@@ -28,7 +29,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
 				<?php else : ?>

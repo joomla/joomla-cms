@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Text Filters form field.
@@ -84,7 +85,7 @@ class FiltersField extends FormField
 
 			$html[] = '	<tr>';
 			$html[] = '		<td class="acl-groups left">';
-			$html[] = '			' . \JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
+			$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '		</td>';
 			$html[] = '		<td>';
 			$html[] = '				<select'

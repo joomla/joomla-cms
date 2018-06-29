@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -64,7 +65,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							$this->fieldset    = 'description';
 							$short_description = Text::_($this->item->xml->description);
 							$this->fieldset    = 'description';
-							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
+							$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
 							if (!$long_description)
 							{
@@ -98,14 +99,14 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 
 				<?php
 				$this->fieldset = 'basic';
-				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
+				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
 				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
 			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
-						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 						<div class="form-vertical form-no-margin">
 							<div class="control-group">
 								<div class="control-label">
@@ -147,7 +148,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 		<?php
 		$this->fieldsets = array();
 		$this->ignore_fieldsets = array('basic', 'description');
-		echo JLayoutHelper::render('joomla.edit.params', $this);
+		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>

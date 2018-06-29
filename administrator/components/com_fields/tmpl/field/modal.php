@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -48,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<hr>
 
 	<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-		<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+		<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 		<div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
@@ -60,7 +61,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->getInput('description'); ?>
 				</div>
 				<div class="col-md-3">
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -68,7 +69,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('COM_FIELDS_FIELDSET_PUBLISHING', true)); ?>
 			<div class="row">
 				<div class="col-md-6">
-					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 				</div>
 				<div class="col-md-6">
 				</div>
@@ -81,7 +82,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
-			<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

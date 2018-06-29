@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 // Add javascripts
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
@@ -55,7 +57,7 @@ JFactory::getDocument()->addScriptOptions('com_media', $config);
 	<?php if ($fieldSets) : ?>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
 		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>'; ?>
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 	</form>

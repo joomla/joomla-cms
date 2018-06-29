@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('behavior.core');
 
@@ -50,7 +51,7 @@ echo JHtml::_(
 // Set main fields.
 $this->fields = array('toggle_modules_assigned','toggle_modules_published');
 
-echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
+echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
 <table class="table">
 	<thead>

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('behavior.multiselect');
 
@@ -25,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</div>
 			<div class="col-md-10">
 				<div id="j-main-container" class="j-main-container">
-					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 					<?php if (empty($this->items)) : ?>
 						<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 					<?php else : ?>

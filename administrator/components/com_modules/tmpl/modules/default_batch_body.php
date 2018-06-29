@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $clientId  = $this->state->get('client_id');
 
@@ -40,13 +41,13 @@ JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 		<?php if ($clientId != 1) : ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-					<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
                 </div>
             </div>
 		<?php elseif ($clientId == 1 && JModuleHelper::isAdminMultilang()) : ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-					<?php echo JLayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
                 </div>
             </div>
 		<?php endif; ?>

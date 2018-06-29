@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -64,7 +65,7 @@ $clientId = $this->state->get('item.client_id', 0);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
 
@@ -127,7 +128,7 @@ $clientId = $this->state->get('item.client_id', 0);
 							$this->fields = array_diff($this->fields, array('home'));
 						}
 
-						echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
 				</div>
 			</div>
@@ -137,7 +138,7 @@ $clientId = $this->state->get('item.client_id', 0);
 		<?php
 		$this->fieldsets = array();
 		$this->ignore_fieldsets = array('aliasoptions', 'request', 'item_associations');
-		echo JLayoutHelper::render('joomla.edit.params', $this);
+		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>

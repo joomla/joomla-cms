@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -23,7 +24,7 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['re
 
 <form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.item_title', $this); ?>
 
 	<fieldset>
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::_('behavior.multiselect');
 
@@ -30,7 +31,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="moduleList">
 				<thead>
@@ -172,7 +173,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						</td>
 						<?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
 						<td class="small d-none d-md-table-cell text-center">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
 							<td class="small d-none d-md-table-cell">

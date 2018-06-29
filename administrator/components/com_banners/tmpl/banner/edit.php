@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -23,7 +24,7 @@ JHtml::_('script', 'com_banners/admin-banner-edit.min.js', array('version' => 'a
 
 <form action="<?php echo Route::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
@@ -46,7 +47,7 @@ JHtml::_('script', 'com_banners/admin-banner-edit.min.js', array('version' => 'a
 			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
-						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
 				</div>
 			</div>
@@ -60,7 +61,7 @@ JHtml::_('script', 'com_banners/admin-banner-edit.min.js', array('version' => 'a
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>
 			<div class="col-md-6">
 				<?php echo $this->form->renderFieldset('metadata'); ?>
