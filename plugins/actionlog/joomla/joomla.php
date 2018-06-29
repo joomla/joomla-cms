@@ -739,16 +739,15 @@ class PlgActionlogJoomla extends JPlugin
 	}
 
 	/**
-	 * Method to log user log-in action
+	 * Method to log user login success action
 	 *
-	 * @param   array  $user     Holds the user data
-	 * @param   array  $options  Array holding options (remember, autoregister, group)
+	 * @param   array  $options  Array holding options (user, responseType)
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserLogin($user, $options = array())
+	public function onUserAfterLogin($options)
 	{
 		$context = 'com_users';
 
@@ -757,8 +756,46 @@ class PlgActionlogJoomla extends JPlugin
 			return;
 		}
 
-		$loggedInUser       = JUser::getInstance($user['username']);
+		$loggedInUser       = $options['user'];
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_IN';
+
+		$message = array(
+			'action'      => 'login',
+			'username'    => $loggedInUser->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $loggedInUser->id,
+			'app'         => strtoupper('PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->app->getName()),
+		);
+
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context, $loggedInUser->id);
+	}
+
+	/**
+	 * Method to log user login failed action
+	 *
+	 * @param   array  $response  Array of response data.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onUserLoginFailure($response)
+	{
+		$context = 'com_users';
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$loggedInUser       = JUser::getInstance($response['username']);
+
+		// Not a valid user, return
+		if (!$loggedInUser->id)
+		{
+			return;
+		}
+
+		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGIN_FAILED';
 
 		$message = array(
 			'action'      => 'login',
