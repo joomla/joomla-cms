@@ -9,12 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+
 ?>
 
 <?php if (!empty($this->msg)) : ?>
 	<?php echo $this->msg; ?>
 <?php else : ?>
-    <?php $lang      = JFactory::getLanguage(); ?>
+    <?php $lang      = Factory::getLanguage(); ?>
     <?php $myrtl     = $this->newsfeed->rtl; ?>
     <?php $direction = ' '; ?>
     <?php $isRtl     = $lang->isRtl(); ?>
@@ -40,7 +46,7 @@ defined('_JEXEC') or die;
         <?php endif; ?>
         <h2 class="<?php echo $direction; ?>">
             <?php if ($this->item->published == 0) : ?>
-                <span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+                <span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
             <?php endif; ?>
             <a href="<?php echo $this->item->link; ?>" target="_blank">
                 <?php echo str_replace('&apos;', "'", $this->item->name); ?>
@@ -48,7 +54,7 @@ defined('_JEXEC') or die;
         </h2>
 
         <?php if ($this->params->get('show_tags', 1)) : ?>
-            <?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+            <?php $this->item->tagLayout = new FileLayout('joomla.content.tags'); ?>
             <?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
         <?php endif; ?>
 
@@ -116,9 +122,9 @@ defined('_JEXEC') or die;
                         <?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
                             <div class="feed-item-description">
                                 <?php if ($this->params->get('show_feed_image', 0) == 0) : ?>
-                                    <?php $text = JFilterOutput::stripImages($text); ?>
+                                    <?php $text = OutputFilter::stripImages($text); ?>
                                 <?php endif; ?>
-                                <?php $text = JHtml::_('string.truncate', $text, $this->params->get('feed_character_count')); ?>
+                                <?php $text = HTMLHelper::_('string.truncate', $text, $this->params->get('feed_character_count')); ?>
                                 <?php echo str_replace('&apos;', "'", $text); ?>
                             </div>
                         <?php endif; ?>
