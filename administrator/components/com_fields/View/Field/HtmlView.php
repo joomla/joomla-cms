@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * Field View
@@ -58,7 +59,7 @@ class HtmlView extends BaseHtmlView
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		$this->canDo = \JHelperContent::getActions($this->state->get('field.component'), 'field', $this->item->id);
+		$this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

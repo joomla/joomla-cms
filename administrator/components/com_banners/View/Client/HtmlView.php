@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * View to edit a client.
@@ -62,7 +63,7 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = \JHelperContent::getActions('com_banners');
+		$this->canDo = ContentHelper::getActions('com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

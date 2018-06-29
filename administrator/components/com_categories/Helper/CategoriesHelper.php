@@ -84,7 +84,7 @@ class CategoriesHelper
 	 * @return  \JObject
 	 *
 	 * @since   1.6
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
+	 * @deprecated  3.2  Use ContentHelper::getActions() instead
 	 */
 	public static function getActions($extension, $categoryId = 0)
 	{

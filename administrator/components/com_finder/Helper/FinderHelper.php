@@ -91,7 +91,7 @@ class FinderHelper
 	 * @return  \JObject  A JObject containing the allowed actions.
 	 *
 	 * @since   2.5
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
+	 * @deprecated  3.2  Use ContentHelper::getActions() instead
 	 */
 	public static function getActions()
 	{

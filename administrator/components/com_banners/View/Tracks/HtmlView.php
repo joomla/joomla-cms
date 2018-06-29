@@ -15,6 +15,7 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * View class for a list of tracks.
@@ -83,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 
 		\JToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 

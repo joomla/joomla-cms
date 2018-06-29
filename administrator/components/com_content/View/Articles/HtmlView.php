@@ -17,6 +17,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Helper\ContentHelper;
 
 \JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
@@ -156,7 +157,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = \JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+		$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
 		$user  = \JFactory::getUser();
 
 		// Get the toolbar object instance

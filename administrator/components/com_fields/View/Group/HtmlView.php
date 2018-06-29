@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * Group View
@@ -76,7 +77,7 @@ class HtmlView extends BaseHtmlView
 			$component = $parts[0];
 		}
 
-		$this->canDo = \JHelperContent::getActions($component, 'fieldgroup', $this->item->id);
+		$this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

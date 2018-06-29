@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * Fields View
@@ -129,7 +130,7 @@ class HtmlView extends BaseHtmlView
 		$fieldId   = $this->state->get('filter.field_id');
 		$component = $this->state->get('filter.component');
 		$section   = $this->state->get('filter.section');
-		$canDo     = \JHelperContent::getActions($component, 'field', $fieldId);
+		$canDo     = ContentHelper::getActions($component, 'field', $fieldId);
 
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');

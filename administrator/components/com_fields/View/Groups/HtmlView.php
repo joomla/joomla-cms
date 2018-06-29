@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * Groups View
@@ -132,7 +133,7 @@ class HtmlView extends BaseHtmlView
 			$component = $parts[0];
 		}
 
-		$canDo     = \JHelperContent::getActions($component, 'fieldgroup', $groupId);
+		$canDo     = ContentHelper::getActions($component, 'fieldgroup', $groupId);
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
