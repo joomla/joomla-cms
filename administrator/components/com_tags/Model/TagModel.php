@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Date\Date;
 
 /**
  * Tags Component Tag Model
@@ -144,7 +145,7 @@ class TagModel extends AdminModel
 
 			if ((int) $result->created_time)
 			{
-				$date = new \JDate($result->created_time);
+				$date = new Date($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toSql(true);
 			}
@@ -155,7 +156,7 @@ class TagModel extends AdminModel
 
 			if ((int) $result->modified_time)
 			{
-				$date = new \JDate($result->modified_time);
+				$date = new Date($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toSql(true);
 			}

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Date\Date;
 
 /**
  * Group Model
@@ -308,7 +309,7 @@ class GroupModel extends AdminModel
 
 			if ((int) $item->created)
 			{
-				$date = new \JDate($item->created);
+				$date = new Date($item->created);
 				$date->setTimezone($tz);
 				$item->created = $date->toSql(true);
 			}
@@ -319,7 +320,7 @@ class GroupModel extends AdminModel
 
 			if ((int) $item->modified)
 			{
-				$date = new \JDate($item->modified);
+				$date = new Date($item->modified);
 				$date->setTimezone($tz);
 				$item->modified = $date->toSql(true);
 			}

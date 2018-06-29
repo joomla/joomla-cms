@@ -21,6 +21,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Date\Date;
 
 /**
  * Field Model
@@ -366,7 +367,7 @@ class FieldModel extends AdminModel
 
 			if ((int) $result->created_time)
 			{
-				$date = new \JDate($result->created_time);
+				$date = new Date($result->created_time);
 				$date->setTimezone($tz);
 
 				$result->created_time = $date->toSql(true);
@@ -378,7 +379,7 @@ class FieldModel extends AdminModel
 
 			if ((int) $result->modified_time)
 			{
-				$date = new \JDate($result->modified_time);
+				$date = new Date($result->modified_time);
 				$date->setTimezone($tz);
 
 				$result->modified_time = $date->toSql(true);

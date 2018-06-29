@@ -23,6 +23,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Date\Date;
 
 /**
  * Categories Component Category Model
@@ -203,7 +204,7 @@ class CategoryModel extends AdminModel
 
 			if ((int) $result->created_time)
 			{
-				$date = new \JDate($result->created_time);
+				$date = new Date($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toSql(true);
 			}
@@ -214,7 +215,7 @@ class CategoryModel extends AdminModel
 
 			if ((int) $result->modified_time)
 			{
-				$date = new \JDate($result->modified_time);
+				$date = new Date($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toSql(true);
 			}
