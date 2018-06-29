@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="media-action" method="upgrade">
+    <name>plg_media-action_smartcrop_title</name>
+    <author>Joomla! Project</author>
+    <creationDate>May 2018</creationDate>
+    <copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>4.0.0</version>
+    <description>PLG_MEDIA-ACTION_SMARTCROP_XML_DESCRIPTION</description>
+    <media destination="plg_media-action_smartcrop" folder="media">
+        <folder>js</folder>
+        <folder>css</folder>
+        <!--folder>responsifyjs</folder-->
+    </media>
+    <files>
+        <filename plugin="smartcrop">smartcrop.php</filename>
+        <folder>form</folder>
+        <filename>index.html</filename>
+    </files>
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_media-action_smartcrop.ini</language>
+        <language tag="en-GB">en-GB.plg_media-action_smartcrop.sys.ini</language>
+    </languages>
+</extension>

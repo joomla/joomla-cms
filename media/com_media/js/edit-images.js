@@ -99,6 +99,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		fileDirectory.pop();
 		fileDirectory = fileDirectory.join('/');
 
+		var currentTab = document.getElementsByClassName("nav-link active show")[0].hash.split('-')[1].toLowerCase();
+
 		// If we are in root add a backslash
 		if (fileDirectory.endsWith(':')) {
 			fileDirectory = fileDirectory + '/';
@@ -111,6 +113,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 				break;
 			case 'save':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
+				Joomla.MediaManager.Edit[currentTab].Deactivate();
 				window.location = pathName + '?option=com_media&path=' + fileDirectory;
 				break;
 			case 'cancel':
