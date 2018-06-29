@@ -9,9 +9,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Component\ComponentHelper;
 
 $doc    = JFactory::getDocument();
-$params = JComponentHelper::getParams('com_media');
+$params = ComponentHelper::getParams('com_media');
 
 // Make sure core.js is loaded before media scripts
 JHtml::_('behavior.core');

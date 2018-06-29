@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
@@ -187,7 +188,7 @@ abstract class FinderIndexer
 			$data = new JObject;
 
 			// Load the default configuration options.
-			$data->options = JComponentHelper::getParams('com_finder');
+			$data->options = ComponentHelper::getParams('com_finder');
 
 			// Setup the weight lookup information.
 			$data->weights = array(

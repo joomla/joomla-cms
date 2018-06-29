@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Component\ComponentHelper;
 
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -31,7 +32,7 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->renderField('id'); ?>
 				<?php echo $this->form->renderField('created_date'); ?>
 				<?php echo $this->form->renderField('modified_date'); ?>
-				<?php if (JComponentHelper::getParams('com_redirect')->get('mode')) : ?>
+				<?php if (ComponentHelper::getParams('com_redirect')->get('mode')) : ?>
 					<?php echo $this->form->renderFieldset('advanced'); ?>
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

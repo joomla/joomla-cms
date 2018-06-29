@@ -1422,7 +1422,7 @@ class TemplateModel extends FormModel
 	{
 		if (!isset($this->allowedFormats))
 		{
-			$params       = \JComponentHelper::getParams('com_templates');
+			$params       = ComponentHelper::getParams('com_templates');
 			$imageTypes   = explode(',', $params->get('image_formats'));
 			$sourceTypes  = explode(',', $params->get('source_formats'));
 			$fontTypes    = explode(',', $params->get('font_formats'));

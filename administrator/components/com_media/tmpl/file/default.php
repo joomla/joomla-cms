@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Component\ComponentHelper;
 
 // Add javascripts
 JHtml::_('behavior.core');
@@ -20,7 +21,7 @@ JHtml::_('bootstrap.framework');
 JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
 // @TODO logic to load plugins per media type
 
-$params = JComponentHelper::getParams('com_media');
+$params = ComponentHelper::getParams('com_media');
 
 // Add stylesheets
 JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
