@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $clientId  = $this->state->get('client_id');
 
 // Show only Module Positions of published Templates
 $published = 1;
-$positions = JHtml::_('modules.positions', $clientId, $published);
+$positions = HTMLHelper::_('modules.positions', $clientId, $published);
 $positions['']['items'][] = ModulesHelper::createOption('nochange', Text::_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
 $positions['']['items'][] = ModulesHelper::createOption('noposition', Text::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
 
@@ -33,7 +34,7 @@ $attr = array(
 		. 'data-placeholder="' . Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
-JHtml::_('formbehavior.chosen', '.chzn-custom-value');
+HTMLHelper::_('formbehavior.chosen', '.chzn-custom-value');
 ?>
 
 <p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>
@@ -55,12 +56,12 @@ JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 
         <div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+				<?php echo HTMLHelper::_('batch.language'); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+				<?php echo HTMLHelper::_('batch.access'); ?>
 			</div>
 		</div>
 	</div>
@@ -72,9 +73,9 @@ JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 						<?php echo Text::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
 					</label>
 					<div id="batch-choose-action" class="control-group">
-						<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
+						<?php echo HTMLHelper::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
 						<div id="batch-copy-move" class="control-group radio">
-							<?php echo JHtml::_('modules.batchOptions'); ?>
+							<?php echo HTMLHelper::_('modules.batchOptions'); ?>
 						</div>
 					</div>
 				</div>

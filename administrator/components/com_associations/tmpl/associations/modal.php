@@ -15,6 +15,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $app = Factory::getApplication();
 
@@ -23,9 +24,9 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-JHtml::_('jquery.framework');
-JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
@@ -41,7 +42,7 @@ $iconStates = array(
 );
 
 Factory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
-JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
+HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
 . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
@@ -63,30 +64,30 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
 						<th style="width:1%" class="center nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
 					<th class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:15%" class="nowrap">
 						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
 					<th style="width:5%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th style="width:10%" class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
 						<th style="width:5%" class="nowrap d-none d-sm-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
 					<th style="width:1%" class="nowrap d-none d-sm-table-cell">
-						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
 			</thead>
@@ -117,7 +118,7 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 							<a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<?php elseif ($canEdit && $isCheckout) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
+							<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
 							<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">
 							<?php echo $this->escape($item->title); ?></span>
 						<?php else : ?>
@@ -166,6 +167,6 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="forcedItemType" value="<?php echo $app->input->get('forcedItemType', '', 'string'); ?>">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

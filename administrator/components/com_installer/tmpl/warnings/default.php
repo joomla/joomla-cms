@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <div id="installer-warnings" class="clearfix">
@@ -32,11 +33,11 @@ use Joomla\CMS\Router\Route;
 							<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
 							<p class="m-b-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
 						</joomla-alert>
-						<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+						<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
 					<?php endif; ?>
 					<div>
 						<input type="hidden" name="boxchecked" value="0">
-						<?php echo JHtml::_('form.token'); ?>
+						<?php echo HTMLHelper::_('form.token'); ?>
 					</div>
 				</div>
 			</div>

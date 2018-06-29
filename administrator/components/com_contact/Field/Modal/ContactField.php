@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal contact picker.
@@ -54,8 +55,8 @@ class ContactField extends FormField
 		$modalId = 'Contact_' . $this->id;
 
 		// Add the modal field script to the document head.
-		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -139,7 +140,7 @@ class ContactField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</a>';
 		}
@@ -153,7 +154,7 @@ class ContactField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTACT_NEW_CONTACT') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_NEW_CONTACT') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</a>';
 		}
@@ -167,7 +168,7 @@ class ContactField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</a>';
 		}
@@ -192,7 +193,7 @@ class ContactField extends FormField
 		// Select contact modal
 		if ($allowSelect)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -211,7 +212,7 @@ class ContactField extends FormField
 		// New contact modal
 		if ($allowNew)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
@@ -243,7 +244,7 @@ class ContactField extends FormField
 		// Edit contact modal.
 		if ($allowEdit)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(

@@ -11,13 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
-JHtml::_('script', 'com_associations/sidebyside.js', false, true);
-JHtml::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
+HTMLHelper::_('script', 'com_associations/sidebyside.js', false, true);
+HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
 
 $options = array(
 			'layout'   => $this->app->input->get('layout', '', 'string'),
@@ -69,5 +70,5 @@ $options = array(
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="target-id" id="target-id" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

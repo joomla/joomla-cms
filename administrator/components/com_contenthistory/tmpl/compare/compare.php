@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\HTML\HTMLHelper;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
@@ -19,8 +20,8 @@ $version1 = $this->items[1];
 $object1  = $version1->data;
 $object2  = $version2->data;
 
-JHtml::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <fieldset>
 

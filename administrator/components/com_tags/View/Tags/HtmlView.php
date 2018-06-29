@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Tags view class for the Tags package.
@@ -100,16 +101,16 @@ class HtmlView extends BaseHtmlView
 
 		// Levels filter.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '1', Text::_('J1'));
-		$options[] = \JHtml::_('select.option', '2', Text::_('J2'));
-		$options[] = \JHtml::_('select.option', '3', Text::_('J3'));
-		$options[] = \JHtml::_('select.option', '4', Text::_('J4'));
-		$options[] = \JHtml::_('select.option', '5', Text::_('J5'));
-		$options[] = \JHtml::_('select.option', '6', Text::_('J6'));
-		$options[] = \JHtml::_('select.option', '7', Text::_('J7'));
-		$options[] = \JHtml::_('select.option', '8', Text::_('J8'));
-		$options[] = \JHtml::_('select.option', '9', Text::_('J9'));
-		$options[] = \JHtml::_('select.option', '10', Text::_('J10'));
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('J1'));
+		$options[] = HTMLHelper::_('select.option', '2', Text::_('J2'));
+		$options[] = HTMLHelper::_('select.option', '3', Text::_('J3'));
+		$options[] = HTMLHelper::_('select.option', '4', Text::_('J4'));
+		$options[] = HTMLHelper::_('select.option', '5', Text::_('J5'));
+		$options[] = HTMLHelper::_('select.option', '6', Text::_('J6'));
+		$options[] = HTMLHelper::_('select.option', '7', Text::_('J7'));
+		$options[] = HTMLHelper::_('select.option', '8', Text::_('J8'));
+		$options[] = HTMLHelper::_('select.option', '9', Text::_('J9'));
+		$options[] = HTMLHelper::_('select.option', '10', Text::_('J10'));
 
 		$this->f_levels = $options;
 

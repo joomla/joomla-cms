@@ -15,19 +15,20 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Add javascripts
-JHtml::_('behavior.core');
-JHtml::_('behavior.formvalidator');
-JHtml::_('bootstrap.framework');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('bootstrap.framework');
 
-JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
 // @TODO logic to load plugins per media type
 
 $params = ComponentHelper::getParams('com_media');
 
 // Add stylesheets
-JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
+HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
 
 /**
  * @var JForm $form
@@ -60,10 +61,10 @@ Factory::getDocument()->addScriptOptions('com_media', $config);
 	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-12">
 	<?php $fieldSets = $form->getFieldsets(); ?>
 	<?php if ($fieldSets) : ?>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
+		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
 		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>'; ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 	</form>
 </div>

@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -41,16 +42,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
@@ -62,10 +63,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<th class="nowrap d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:1%" class="nowrap d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -78,11 +79,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
-										<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
+										<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
 									</label>
 								</td>
 								<td>
@@ -98,7 +99,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
+									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 										<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 									</span>
 								</td>
@@ -115,7 +116,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="boxchecked" value="0">
-					<?php echo JHtml::_('form.token'); ?>
+					<?php echo HTMLHelper::_('form.token'); ?>
 				</div>
 			</div>
 		</div>

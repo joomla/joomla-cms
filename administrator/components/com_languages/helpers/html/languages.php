@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Utility class working with languages
@@ -32,7 +33,7 @@ abstract class JHtmlLanguages
 			return '&#160;';
 		}
 
-		return JHtml::_('image', 'menu/icon-16-default.png', Text::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
+		return HTMLHelper::_('image', 'menu/icon-16-default.png', Text::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
 	}
 
 	/**
@@ -63,8 +64,8 @@ abstract class JHtmlLanguages
 	public static function clients()
 	{
 		return array(
-			JHtml::_('select.option', 0, Text::_('JSITE')),
-			JHtml::_('select.option', 1, Text::_('JADMINISTRATOR'))
+			HTMLHelper::_('select.option', 0, Text::_('JSITE')),
+			HTMLHelper::_('select.option', 1, Text::_('JADMINISTRATOR'))
 		);
 	}
 
@@ -79,10 +80,10 @@ abstract class JHtmlLanguages
 	{
 		// Build the active state filter options.
 		$options   = array();
-		$options[] = JHtml::_('select.option', '1', 'JPUBLISHED');
-		$options[] = JHtml::_('select.option', '0', 'JUNPUBLISHED');
-		$options[] = JHtml::_('select.option', '-2', 'JTRASHED');
-		$options[] = JHtml::_('select.option', '*', 'JALL');
+		$options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
+		$options[] = HTMLHelper::_('select.option', '0', 'JUNPUBLISHED');
+		$options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
+		$options[] = HTMLHelper::_('select.option', '*', 'JALL');
 
 		return $options;
 	}

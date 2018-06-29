@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -35,10 +36,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<tr>
 								<th style="width:5%"></th>
 								<th class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:15%" class="text-center">
 									<?php echo Text::_('JVERSION'); ?>
@@ -99,7 +100,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<input type="hidden" id="install_url" name="install_url">
 					<input type="hidden" name="installtype" value="url">
 					<input type="hidden" name="boxchecked" value="0">
-					<?php echo JHtml::_('form.token'); ?>
+					<?php echo HTMLHelper::_('form.token'); ?>
 				</div>
 			</div>
 		</div>

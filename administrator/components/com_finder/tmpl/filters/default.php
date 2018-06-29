@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -38,25 +39,25 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 					<thead>
 						<tr>
 							<th style="width:1%" class="nowrap text-center">
-								<?php echo JHtml::_('grid.checkall'); ?>
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</th>
 							<th style="width:1%" class="nowrap">
-								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap">
-								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="nowrap d-none d-md-table-cell">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="nowrap d-none d-md-table-cell">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_ON', 'a.created', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_ON', 'a.created', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:5%" class="nowrap d-none d-md-table-cell">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:1%" class="nowrap d-none d-md-table-cell">
-								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
@@ -81,14 +82,14 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->filter_id); ?>
 							</td>
 							<td class="text-center nowrap">
-								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
+								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
 							</td>
 							<td>
 								<?php if ($item->checked_out) : ?>
-									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckIn); ?>
+									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckIn); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<a href="<?php echo Route::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
@@ -101,7 +102,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 								<?php echo $item->created_by_alias ?: $item->user_name; ?>
 							</td>
 							<td class="nowrap d-none d-md-table-cell">
-								<?php echo JHtml::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
+								<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
 							</td>
 							<td class="nowrap d-none d-md-table-cell">
 								<?php echo $item->map_count; ?>
@@ -116,7 +117,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

@@ -14,13 +14,14 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.tabstate');
 
 $input = Factory::getApplication()->input;
 
@@ -32,12 +33,12 @@ if (!Factory::getUser()->authorise('core.admin'))
 
 if ($this->type == 'image')
 {
-	JHtml::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
-	JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 }
 
-JHtml::_('script', 'com_templates/admin-templates-default.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'com_templates/admin-templates-default.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_templates/admin-templates-default.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_templates/admin-templates-default.css', array('version' => 'auto', 'relative' => true));
 
 if ($this->type == 'font')
 {
@@ -52,8 +53,8 @@ if ($this->type == 'font')
 	");
 }
 ?>
-<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
+<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
+<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
 	<div class="col-md-12">
 		<?php if($this->type == 'file') : ?>
@@ -78,7 +79,7 @@ if ($this->type == 'font')
 		<?php if ($this->type == 'home') : ?>
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 				<h2><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 				<p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
@@ -94,7 +95,7 @@ if ($this->type == 'font')
 					<?php echo $this->form->getInput('source'); ?>
 				</div>
 				<input type="hidden" name="task" value="" />
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 				<?php echo $this->form->getInput('extension_id'); ?>
 				<?php echo $this->form->getInput('filename'); ?>
 			</form>
@@ -115,7 +116,7 @@ if ($this->type == 'font')
 					<?php endforeach; ?>
 				</ul>
 				<input type="hidden" name="task" value="">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
@@ -129,7 +130,7 @@ if ($this->type == 'font')
 					<input type="hidden" id="imageWidth" value="<?php echo $this->image['width']; ?>">
 					<input type="hidden" id="imageHeight" value="<?php echo $this->image['height']; ?>">
 					<input type="hidden" name="task" value="">
-					<?php echo JHtml::_('form.token'); ?>
+					<?php echo HTMLHelper::_('form.token'); ?>
 				</fieldset>
 			</form>
 		<?php endif; ?>
@@ -182,16 +183,16 @@ if ($this->type == 'font')
 							</li>
 						</ol>
 						<input type="hidden" name="task" value="">
-						<?php echo JHtml::_('form.token'); ?>
+						<?php echo HTMLHelper::_('form.token'); ?>
 					</fieldset>
 				</form>
 			</div>
 		<?php endif; ?>
 	</div>
 </div>
-<?php echo JHtml::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
+<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row">
 	<div class="col-md-4">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
@@ -263,12 +264,12 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 </div>
-<?php echo JHtml::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
-<?php echo JHtml::_('bootstrap.endTab'); ?>
-<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 
 <?php // Collapse Modal
 $copyModalData = array(
@@ -282,7 +283,7 @@ $copyModalData = array(
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 	<?php echo LayoutHelper::render('joomla.modal.main', $copyModalData); ?>
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
 <?php if ($this->type != 'home') : ?>
 	<?php // Rename Modal
@@ -297,7 +298,7 @@ $copyModalData = array(
 	?>
 	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
 		<?php echo LayoutHelper::render('joomla.modal.main', $renameModalData); ?>
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 <?php endif; ?>
 <?php if ($this->type != 'home') : ?>
@@ -356,6 +357,6 @@ $folderModalData = array(
 	?>
 	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
 		<?php echo LayoutHelper::render('joomla.modal.main', $resizeModalData); ?>
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 <?php endif; ?>

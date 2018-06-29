@@ -19,6 +19,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View class for a list of banners.
@@ -84,7 +85,7 @@ class HtmlView extends BaseHtmlView
 		$this->addToolbar();
 
 		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->sidebar = \JHtmlSidebar::render();
 

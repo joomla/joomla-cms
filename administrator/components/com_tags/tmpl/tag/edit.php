@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.tabstate');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('jmetadata');
@@ -26,9 +27,9 @@ $this->ignore_fieldsets = array('jmetadata');
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_TAGS_FIELDSET_DETAILS')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_TAGS_FIELDSET_DETAILS')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<div class="form-vertical">
@@ -43,11 +44,11 @@ $this->ignore_fieldsets = array('jmetadata');
 				</div>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
 				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -56,10 +57,10 @@ $this->ignore_fieldsets = array('jmetadata');
 				<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 	</div>
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

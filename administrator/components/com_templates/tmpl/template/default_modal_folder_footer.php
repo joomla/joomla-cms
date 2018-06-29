@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $input = Factory::getApplication()->input;
 ?>
@@ -19,7 +20,7 @@ $input = Factory::getApplication()->input;
 	<fieldset>
 		<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 		<input type="hidden" class="address" name="address">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 		<button type="submit" class="btn btn-danger"><?php echo Text::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
 	</fieldset>
 </form>

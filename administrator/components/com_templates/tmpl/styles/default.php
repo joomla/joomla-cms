@@ -15,11 +15,12 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
 $clientId = (int) $this->state->get('client_id', 0);
@@ -43,10 +44,10 @@ $colSpan = $clientId === 1 ? 5 : 6;
 									&#160;
 								</th>
 								<th class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:12%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($clientId === 0) : ?>
 								<th style="width:12%" class="nowrap d-none d-md-table-cell text-center">
@@ -54,10 +55,10 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								</th>
 								<?php endif; ?>
 								<th style="width:12%" class="d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -76,18 +77,18 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td style="width:1%" class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td>
 									<?php if ($this->preview && $item->client_id == '0') : ?>
 										<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
-										<span class="icon-eye-open hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>"></span>
+										<span class="icon-eye-open hasTooltip" aria-hidden="true" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
 									<?php elseif ($item->client_id == '1') : ?>
-										<span class="icon-eye-close disabled hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>"></span>
+										<span class="icon-eye-close disabled hasTooltip" aria-hidden="true" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?></span>
 									<?php else: ?>
-										<span class="icon-eye-close disabled hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
+										<span class="icon-eye-close disabled hasTooltip" aria-hidden="true" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
@@ -99,18 +100,18 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								</td>
 								<td class="text-center">
 									<?php if ($item->home == '0' || $item->home == '1') : ?>
-										<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
+										<?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
 									<?php elseif ($canChange):?>
 										<a href="<?php echo Route::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
 											<?php if ($item->image) : ?>
-												<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+												<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 											<?php else : ?>
 												<span class="badge badge-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
 											<?php endif; ?>
 										</a>
 									<?php else : ?>
 										<?php if ($item->image) : ?>
-											<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+											<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 										<?php else : ?>
 											<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 										<?php endif; ?>
@@ -147,7 +148,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

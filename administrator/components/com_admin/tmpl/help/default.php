@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Help\Help;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
@@ -19,16 +20,16 @@ use Joomla\CMS\Help\Help;
 		<div id="sidebar" class="col-md-3">
 			<div class="sidebar-nav">
 				<ul class="nav flex-column">
-					<li><?php echo JHtml::_('link', Help::createUrl('JHELP_START_HERE'), Text::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')); ?></li>
-					<li><?php echo JHtml::_('link', $this->latest_version_check, Text::_('COM_ADMIN_LATEST_VERSION_CHECK'), array('target' => 'helpFrame')); ?></li>
-					<li><?php echo JHtml::_('link', 'https://www.gnu.org/licenses/gpl-2.0.html', Text::_('COM_ADMIN_LICENSE'), array('target' => 'helpFrame')); ?></li>
-					<li><?php echo JHtml::_('link', Help::createUrl('JHELP_GLOSSARY'), Text::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')); ?></li>
+					<li><?php echo HTMLHelper::_('link', Help::createUrl('JHELP_START_HERE'), Text::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')); ?></li>
+					<li><?php echo HTMLHelper::_('link', $this->latest_version_check, Text::_('COM_ADMIN_LATEST_VERSION_CHECK'), array('target' => 'helpFrame')); ?></li>
+					<li><?php echo HTMLHelper::_('link', 'https://www.gnu.org/licenses/gpl-2.0.html', Text::_('COM_ADMIN_LICENSE'), array('target' => 'helpFrame')); ?></li>
+					<li><?php echo HTMLHelper::_('link', Help::createUrl('JHELP_GLOSSARY'), Text::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')); ?></li>
 					<li class="divider"></li>
 					<li class="nav-header"><?php echo Text::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
 					<?php foreach ($this->toc as $k => $v) : ?>
 						<li>
 							<?php $url = Help::createUrl('JHELP_' . strtoupper($k)); ?>
-							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame')); ?>
+							<?php echo HTMLHelper::_('link', $url, $v, array('target' => 'helpFrame')); ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>

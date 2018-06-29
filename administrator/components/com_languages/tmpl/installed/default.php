@@ -14,9 +14,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Add specific helper files for html generation
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -40,31 +41,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								&#160;
 							</th>
 							<th style="width:15%" class="nowrap">
-								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:15%" class="d-none d-sm-table-cell">
-								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:5%" class="nowrap text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:5%" class="nowrap text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
@@ -86,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td>
-								<?php echo JHtml::_('languages.id', $i, $row->language); ?>
+								<?php echo HTMLHelper::_('languages.id', $i, $row->language); ?>
 							</td>
 							<td>
 								<label for="cb<?php echo $i; ?>">
@@ -100,7 +101,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape($row->language); ?>
 							</td>
 							<td class="text-center">
-								<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
+								<?php echo HTMLHelper::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
 							</td>
 							<td class="text-center">
                             <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
@@ -130,7 +131,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

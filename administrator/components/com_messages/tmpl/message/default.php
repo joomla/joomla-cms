@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 ?>
 <form action="<?php echo Route::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset>
@@ -29,7 +30,7 @@ JHtml::_('behavior.core');
 				<?php echo Text::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
 			</div>
 			<div class="controls">
-				<?php echo JHtml::_('date', $this->item->date_time); ?>
+				<?php echo HTMLHelper::_('date', $this->item->date_time); ?>
 			</div>
 		</div>
 		<div class="control-group">
@@ -50,6 +51,6 @@ JHtml::_('behavior.core');
 		</div>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 </form>

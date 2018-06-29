@@ -15,6 +15,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal article picker.
@@ -55,8 +56,8 @@ class ArticleField extends FormField
 		$modalId = 'Article_' . $this->id;
 
 		// Add the modal field script to the document head.
-		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -143,7 +144,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</a>';
 		}
@@ -157,7 +158,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_NEW_ARTICLE') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTENT_NEW_ARTICLE') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</a>';
 		}
@@ -171,7 +172,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</a>';
 		}
@@ -196,7 +197,7 @@ class ArticleField extends FormField
 		// Select article modal
 		if ($allowSelect)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -215,7 +216,7 @@ class ArticleField extends FormField
 		// New article modal
 		if ($allowNew)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
@@ -244,7 +245,7 @@ class ArticleField extends FormField
 		// Edit article modal
 		if ($allowEdit)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(

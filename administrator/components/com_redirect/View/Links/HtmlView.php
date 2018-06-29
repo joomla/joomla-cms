@@ -19,6 +19,7 @@ use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View class for a list of redirection links.
@@ -179,7 +180,7 @@ class HtmlView extends BaseHtmlView
 
 			$title = Text::_('JTOOLBAR_BULK_IMPORT');
 
-			\JHtml::_('bootstrap.renderModal', 'collapseModal');
+			HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
 
 			// Instantiate a new FileLayout instance and render the batch button
 			$layout = new FileLayout('toolbar.batch');

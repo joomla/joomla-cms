@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -30,16 +31,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<thead>
 						<tr>
 							<th style="width:1%" class="nowrap text-center">
-								<?php echo JHtml::_('grid.checkall'); ?>
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</th>
 							<th class="title nowrap">
-								<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="nowrap text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="nowrap text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
@@ -66,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->count; ?>
 								</td>
 								<td class="text-center">
-									<?php echo JHtml::_('number.bytes', $item->size); ?>
+									<?php echo HTMLHelper::_('number.bytes', $item->size); ?>
 								</td>
 							</tr>
 						<?php $i++; endforeach; ?>
@@ -75,7 +76,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

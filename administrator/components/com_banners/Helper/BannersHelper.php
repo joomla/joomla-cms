@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Banners component helper.
@@ -185,7 +186,7 @@ class BannersHelper extends ContentHelper
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		array_unshift($options, \JHtml::_('select.option', '0', Text::_('COM_BANNERS_NO_CLIENT')));
+		array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('COM_BANNERS_NO_CLIENT')));
 
 		return $options;
 	}

@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Filter view class for Finder.
@@ -88,8 +89,8 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		\JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();

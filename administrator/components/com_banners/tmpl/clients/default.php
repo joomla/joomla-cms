@@ -13,10 +13,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $purchaseTypes = array(
 		'1' => 'UNLIMITED',
@@ -50,16 +51,16 @@ $params     = $this->state->params ?? new JObject;
 						<thead>
 							<tr>
 								<th style="width:1%" class="text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th>
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'a.name', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'a.name', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:15%" class="d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                     <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
@@ -82,10 +83,10 @@ $params     = $this->state->params ?? new JObject;
                                     </span>
 								</th>
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:3%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -105,17 +106,17 @@ $params     = $this->state->params ?? new JObject;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
-										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
+											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
 										</div>
 									</td>
 									<td class="nowrap has-context">
 										<div>
 											<?php if ($item->checked_out) : ?>
-												<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
+												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
 												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
@@ -163,7 +164,7 @@ $params     = $this->state->params ?? new JObject;
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

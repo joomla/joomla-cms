@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Templates component helper.
@@ -51,8 +52,8 @@ class TemplatesHelper
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '0', Text::_('JSITE'));
-		$options[] = \JHtml::_('select.option', '1', Text::_('JADMINISTRATOR'));
+		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
 		return $options;
 	}

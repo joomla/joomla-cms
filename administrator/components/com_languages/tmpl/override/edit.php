@@ -12,20 +12,21 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
 
 $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
-JHtml::_('stylesheet', 'com_languages/overrider.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_languages/overrider.css', array('version' => 'auto', 'relative' => true));
 
-JHtml::_('behavior.core');
-JHtml::_('jquery.framework');
-JHtml::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
@@ -137,7 +138,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 			<input type="hidden" name="task" value="">
 			<input type="hidden" name="id" value="<?php echo $this->item->key; ?>">
 
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
 	</div>
 </form>

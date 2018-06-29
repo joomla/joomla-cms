@@ -11,6 +11,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var  array  $displayData */
 $data = $displayData;
@@ -43,7 +44,7 @@ $data['options'] = array_merge($customOptions, $data['options']);
 $formSelector = !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm';
 
 // Load search tools
-JHtml::_('searchtools.form', $formSelector, $data['options']);
+HTMLHelper::_('searchtools.form', $formSelector, $data['options']);
 
 $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
 ?>

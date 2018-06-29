@@ -13,19 +13,20 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $doc    = Factory::getDocument();
 $params = ComponentHelper::getParams('com_media');
 
 // Make sure core.js is loaded before media scripts
-JHtml::_('behavior.core');
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.keepalive');
 
 // Add javascripts
-JHtml::_('script', 'media/com_media/js/mediamanager.js');
+HTMLHelper::_('script', 'media/com_media/js/mediamanager.js');
 
 // Add stylesheets
-JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
+HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
 
 // Populate the language
 $this->loadTemplate('texts');

@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Index view class for Finder.
@@ -137,7 +138,7 @@ class HtmlView extends BaseHtmlView
 			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();

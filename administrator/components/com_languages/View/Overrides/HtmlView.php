@@ -16,6 +16,7 @@ use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View for language overrides list.
@@ -134,7 +135,7 @@ class HtmlView extends BaseHtmlView
 		\JHtmlSidebar::addFilter(
 			'',
 			'filter_language_client',
-			\JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
+			HTMLHelper::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
 			true
 		);
 

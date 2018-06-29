@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a select grouped list of finder content map.
@@ -111,7 +112,7 @@ class ContentmapField extends GroupedlistField
 						$groups[$name] = array();
 					}
 
-					$groups[$name][] = \JHtml::_('select.option', $branch->value, $levelPrefix . $text);
+					$groups[$name][] = HTMLHelper::_('select.option', $branch->value, $levelPrefix . $text);
 				}
 			}
 		}

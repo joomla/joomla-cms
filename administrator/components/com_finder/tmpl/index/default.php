@@ -15,8 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('bootstrap.popover');
+HTMLHelper::_('bootstrap.popover');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -38,25 +39,25 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 					<thead>
 						<tr>
 							<th style="width:1%" class="nowrap text-center">
-								<?php echo JHtml::_('grid.checkall'); ?>
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</th>
 							<th style="width:1%" class="nowrap text-center">
-								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap">
-								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
 							<th style="width:15%" class="nowrap text-center d-none d-md-table-cell text-center">
 								<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
 							<th style="width:30%" class="nowrap d-none d-md-table-cell">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
@@ -72,10 +73,10 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 						<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->link_id); ?>
 							</td>
 							<td class="text-center">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
+								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 							</td>
 							<td>
 								<label for="cb<?php echo $i; ?>">
@@ -89,7 +90,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 								?>
 							</td>
 							<td class="small nowrap d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('date', $item->indexdate, Text::_('DATE_FORMAT_LC4')); ?>
+								<?php echo HTMLHelper::_('date', $item->indexdate, Text::_('DATE_FORMAT_LC4')); ?>
 							</td>
 							<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
@@ -106,7 +107,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 				</table>
 				<input type="hidden" name="task" value="display">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

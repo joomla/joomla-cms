@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $renderer = Factory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
@@ -34,7 +35,7 @@ $params = array('params' => json_encode($param));
 <form action="index.php" method="post" name="adminForm" class="form-inline mb-3">
 	<input type="hidden" name="option" value="com_postinstall">
 	<label for="eid" class="mr-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
+	<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
 <?php if ($this->eid == 700) : ?>

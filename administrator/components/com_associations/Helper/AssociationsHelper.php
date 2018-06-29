@@ -19,6 +19,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Associations component helper.
@@ -329,7 +330,7 @@ class AssociationsHelper extends ContentHelper
 						. $text . '</a>';
 		}
 
-		\JHtml::_('bootstrap.popover');
+		HTMLHelper::_('bootstrap.popover');
 
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 
@@ -24,7 +25,7 @@ use Joomla\CMS\Router\Route;
 				<div class="p-3">
 					<p class="m-0"><?php echo Text::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>
 					<input type="hidden" name="task" value="">
-					<?php echo JHtml::_('form.token'); ?>
+					<?php echo HTMLHelper::_('form.token'); ?>
 				</div>
 			</div>
 		</div>

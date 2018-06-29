@@ -17,6 +17,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Groups view class for Finder.
@@ -116,7 +117,7 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Prepare the view.
 		$this->addToolbar();

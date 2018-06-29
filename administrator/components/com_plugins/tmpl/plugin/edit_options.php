@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 foreach ($this->fieldsets as $name => $fieldset)
 {
@@ -17,7 +18,7 @@ foreach ($this->fieldsets as $name => $fieldset)
 	{
 		$label = !empty($fieldset->label) ? Text::_($fieldset->label) : Text::_('COM_PLUGINS_' . $fieldset->name . '_FIELDSET_LABEL', true);
 		$optionsname = 'options-' . $fieldset->name;
-		echo JHtml::_('bootstrap.addTab', 'myTab', $optionsname,  $label);
+		echo HTMLHelper::_('bootstrap.addTab', 'myTab', $optionsname,  $label);
 
 		if (isset($fieldset->description) && trim($fieldset->description))
 		{
@@ -48,6 +49,6 @@ foreach ($this->fieldsets as $name => $fieldset)
 		}
 		echo $hidden_fields;
 
-		echo JHtml::_('bootstrap.endTab');
+		echo HTMLHelper::_('bootstrap.endTab');
 	}
 }

@@ -13,11 +13,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
@@ -32,10 +33,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<thead>
 				<tr>
 					<th class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:15%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:1%" class="nowrap text-center">
 						<?php echo Text::_('COM_SEARCH_HEADING_RESULTS'); ?>
@@ -75,6 +76,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

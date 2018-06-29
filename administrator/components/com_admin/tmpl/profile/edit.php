@@ -11,20 +11,21 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.formvalidator');
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>" method="post" name="adminForm" id="profile-form" enctype="multipart/form-data" class="form-validate">
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'account')); ?>
+	<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'account')); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'account', Text::_('COM_ADMIN_USER_ACCOUNT_DETAILS')); ?>
+	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'account', Text::_('COM_ADMIN_USER_ACCOUNT_DETAILS')); ?>
 	<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 		<div class="control-group">
 			<div class="control-label">
@@ -38,7 +39,7 @@ $fieldsets = $this->form->getFieldsets();
 			</div>
 		</div>
 	<?php endforeach; ?>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 	<?php foreach ($fieldsets as $fieldset) : ?>
 		<?php
@@ -47,7 +48,7 @@ $fieldsets = $this->form->getFieldsets();
 			continue;
 		}
 		?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, Text::_($fieldset->label)); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', $fieldset->name, Text::_($fieldset->label)); ?>
 		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
 			<?php if ($field->hidden) : ?>
 				<div class="control-group">
@@ -62,10 +63,10 @@ $fieldsets = $this->form->getFieldsets();
 				</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 	<?php endforeach; ?>
 
-	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

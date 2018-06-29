@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <fieldset class="adminform">
@@ -76,7 +77,7 @@ use Joomla\CMS\Language\Text;
 					<strong><?php echo Text::_('COM_ADMIN_WEB_SERVER'); ?></strong>
 				</td>
 				<td>
-					<?php echo JHtml::_('system.server', $this->info['server']); ?>
+					<?php echo HTMLHelper::_('system.server', $this->info['server']); ?>
 				</td>
 			</tr>
 			<tr>

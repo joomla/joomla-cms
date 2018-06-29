@@ -13,6 +13,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Administrator category HTML
@@ -78,7 +79,7 @@ abstract class JHtmlCategoriesAdministrator
 				}
 			}
 
-			JHtml::_('bootstrap.popover');
+			HTMLHelper::_('bootstrap.popover');
 
 			$html = \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.associations', $items);
 		}

@@ -16,11 +16,12 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -56,7 +57,7 @@ if ($section === 'categories')
 if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax' . Session::getFormToken() . '=1';
-	JHtml::_('draggablelist.draggable');
+	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_tags&view=tags'); ?>" method="post" name="adminForm" id="adminForm">
@@ -72,16 +73,16 @@ if ($saveOrder && !empty($this->items))
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap d-none d-md-table-cell center">
-							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th style="width:1%">
-							<?php echo JHtml::_('grid.checkall'); ?>
+							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</th>
 						<th style="width:1%" class="nowrap text-center">
-							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th>
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
@@ -110,15 +111,15 @@ if ($saveOrder && !empty($this->items))
 						<?php endif; ?>
  
 						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (Multilanguage::isEnabled()) : ?>
 							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 							</th>
 						<?php endif; ?>
 						<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
@@ -174,7 +175,7 @@ if ($saveOrder && !empty($this->items))
 								}
 								elseif (!$saveOrder)
 								{
-									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+									$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
@@ -185,17 +186,17 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 							</td>
 							<td class="text-center">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="text-center">
 								<div class="btn-group">
-									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
 								</div>
 							</td>
 							<td>
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php if ($item->checked_out) : ?>
-									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
+									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
@@ -257,7 +258,7 @@ if ($saveOrder && !empty($this->items))
 			<?php if ($user->authorise('core.create', 'com_tags')
 				&& $user->authorise('core.edit', 'com_tags')
 				&& $user->authorise('core.edit.state', 'com_tags')) : ?>
-				<?php echo JHtml::_(
+				<?php echo HTMLHelper::_(
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
@@ -271,6 +272,6 @@ if ($saveOrder && !empty($this->items))
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

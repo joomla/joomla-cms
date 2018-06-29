@@ -16,6 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -40,13 +41,13 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 					<thead>
 						<tr>
 							<th style="width:1%" class="text-center nowrap">
-								<?php echo JHtml::_('grid.checkall'); ?>
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</th>
 							<th style="width:1%" class="text-center nowrap">
-								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap">
-								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
 							<th style="width:1%" class="nowrap text-center">
@@ -75,10 +76,10 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 						<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="text-center nowrap">
-								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
+								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
 							</td>
 							<td>
 							<?php
@@ -137,7 +138,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 
 			<input type="hidden" name="task" value="display">
 			<input type="hidden" name="boxchecked" value="0">
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
 	</div>
 </form>

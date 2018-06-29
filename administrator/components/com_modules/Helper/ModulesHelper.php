@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Modules component helper.
@@ -42,10 +43,10 @@ abstract class ModulesHelper
 	{
 		// Build the filter options.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '1', Text::_('JPUBLISHED'));
-		$options[] = \JHtml::_('select.option', '0', Text::_('JUNPUBLISHED'));
-		$options[] = \JHtml::_('select.option', '-2', Text::_('JTRASHED'));
-		$options[] = \JHtml::_('select.option', '*', Text::_('JALL'));
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
+		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
+		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
+		$options[] = HTMLHelper::_('select.option', '*', Text::_('JALL'));
 
 		return $options;
 	}
@@ -59,8 +60,8 @@ abstract class ModulesHelper
 	{
 		// Build the filter options.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '0', Text::_('JSITE'));
-		$options[] = \JHtml::_('select.option', '1', Text::_('JADMINISTRATOR'));
+		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -103,11 +104,11 @@ abstract class ModulesHelper
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = \JHtml::_('select.option', 'none', Text::_('COM_MODULES_NONE'));
+				$options[] = HTMLHelper::_('select.option', 'none', Text::_('COM_MODULES_NONE'));
 			}
 			else
 			{
-				$options[] = \JHtml::_('select.option', $position, $position);
+				$options[] = HTMLHelper::_('select.option', $position, $position);
 			}
 		}
 
@@ -201,13 +202,13 @@ abstract class ModulesHelper
 	public static function getAssignmentOptions($clientId)
 	{
 		$options = array();
-		$options[] = \JHtml::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
-		$options[] = \JHtml::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
+		$options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
+		$options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
 		if ($clientId == 0)
 		{
-			$options[] = \JHtml::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
-			$options[] = \JHtml::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
+			$options[] = HTMLHelper::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
+			$options[] = HTMLHelper::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
 		}
 
 		return $options;

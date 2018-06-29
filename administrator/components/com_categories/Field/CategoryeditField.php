@@ -14,6 +14,7 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -328,7 +329,7 @@ class CategoryeditField extends \JFormFieldList
 				array_unshift($options, $parent);
 			}
 
-			array_unshift($options, \JHtml::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
+			array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
 		}
 
 		// Merge any additional options in the XML definition.
@@ -390,7 +391,7 @@ class CategoryeditField extends \JFormFieldList
 		// Create a read-only list (no name) with hidden input(s) to store the value(s).
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
-			$html[] = \JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 
 			// E.g. form field type tag sends $this->value as array
 			if ($this->multiple && is_array($this->value))
@@ -424,7 +425,7 @@ class CategoryeditField extends \JFormFieldList
 				$options[0]->lft       = '1';
 			}
 
-			$html[] = \JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 
 		return implode($html);

@@ -11,10 +11,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $options = array(
-	JHtml::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-	JHtml::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
+	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
+	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 );
 $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
@@ -30,12 +31,12 @@ endif;
     <div class="row">
         <div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+				<?php echo HTMLHelper::_('batch.language'); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+				<?php echo HTMLHelper::_('batch.access'); ?>
 			</div>
 		</div>
 	</div>
@@ -55,14 +56,14 @@ endif;
 							'checkacl'  => (int) $this->state->get('menutypeid'),
 							'clientid'  => (int) $clientId,
 						);
-						echo JHtml::_('select.options', JHtml::_('menu.menuitems', $opts));
+						echo HTMLHelper::_('select.options', HTMLHelper::_('menu.menuitems', $opts));
 						?>
 					</select>
 				</div>
 			</div>
 			<div id="batch-copy-move" class="control-group radio">
 				<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-				<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+				<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 			</div>
 		<?php endif; ?>
 

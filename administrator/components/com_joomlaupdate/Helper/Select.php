@@ -11,6 +11,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Joomla! update selection list helper.
@@ -33,10 +34,10 @@ class Select
 	public static function getMethods($default = 'hybrid', $name = 'method', $id = 'extraction_method')
 	{
 		$options = array();
-		$options[] = \JHtml::_('select.option', 'direct', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_DIRECT'));
-		$options[] = \JHtml::_('select.option', 'hybrid', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_HYBRID'));
-		$options[] = \JHtml::_('select.option', 'ftp', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_FTP'));
+		$options[] = HTMLHelper::_('select.option', 'direct', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_DIRECT'));
+		$options[] = HTMLHelper::_('select.option', 'hybrid', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_HYBRID'));
+		$options[] = HTMLHelper::_('select.option', 'ftp', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_FTP'));
 
-		return \JHtml::_('select.genericlist', $options, $name, 'class="custom-select"', 'value', 'text', $default, $id);
+		return HTMLHelper::_('select.genericlist', $options, $name, 'class="custom-select"', 'value', 'text', $default, $id);
 	}
 }

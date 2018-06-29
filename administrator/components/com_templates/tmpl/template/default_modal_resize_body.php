@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <div id="template-manager-resize" class="container-fluid">
@@ -17,7 +18,7 @@ use Joomla\CMS\Language\Text;
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
-					<label for="height" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
+					<label for="height" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_HEIGHT')?>
 					</label>
 				</div>
@@ -27,7 +28,7 @@ use Joomla\CMS\Language\Text;
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<label for="width" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_IMAGE_WIDTH'); ?>">
+					<label for="width" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_WIDTH'); ?>">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_WIDTH')?>
 					</label>
 				</div>

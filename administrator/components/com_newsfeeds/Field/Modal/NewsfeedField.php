@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal newsfeeds picker.
@@ -54,8 +55,8 @@ class NewsfeedField extends FormField
 		$modalId = 'Newsfeed_' . $this->id;
 
 		// Add the modal field script to the document head.
-		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -140,7 +141,7 @@ class NewsfeedField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</a>';
 		}
@@ -154,7 +155,7 @@ class NewsfeedField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_NEWSFEEDS_NEW_NEWSFEED') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_NEWSFEEDS_NEW_NEWSFEED') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</a>';
 		}
@@ -168,7 +169,7 @@ class NewsfeedField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</a>';
 		}
@@ -193,7 +194,7 @@ class NewsfeedField extends FormField
 		// Select newsfeed modal
 		if ($allowSelect)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -212,7 +213,7 @@ class NewsfeedField extends FormField
 		// New newsfeed modal
 		if ($allowNew)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
@@ -244,7 +245,7 @@ class NewsfeedField extends FormField
 		// Edit newsfeed modal.
 		if ($allowEdit)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(

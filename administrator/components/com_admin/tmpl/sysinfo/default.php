@@ -11,43 +11,44 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Add specific helper files for html generation
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.tabstate');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_admin&view=sysinfo'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php // Begin Content ?>
 		<div class="col-md-12">
-			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'site')); ?>
+			<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'site')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site', Text::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'site', Text::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
 			<?php echo $this->loadTemplate('system'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'phpsettings', Text::_('COM_ADMIN_PHP_SETTINGS')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'phpsettings', Text::_('COM_ADMIN_PHP_SETTINGS')); ?>
 			<?php echo $this->loadTemplate('phpsettings'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'config', Text::_('COM_ADMIN_CONFIGURATION_FILE')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'config', Text::_('COM_ADMIN_CONFIGURATION_FILE')); ?>
 			<?php echo $this->loadTemplate('config'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'directory', Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'directory', Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS')); ?>
 			<?php echo $this->loadTemplate('directory'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'phpinfo', Text::_('COM_ADMIN_PHP_INFORMATION')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'phpinfo', Text::_('COM_ADMIN_PHP_INFORMATION')); ?>
 			<?php echo $this->loadTemplate('phpinfo'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 		</div>
 		<input type="hidden" name="task" value="">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 		<?php // End Content ?>
 	</div>
 </form>

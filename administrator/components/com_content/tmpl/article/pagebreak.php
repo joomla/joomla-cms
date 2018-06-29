@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.core');
-JHtml::_('script', 'com_content/admin-article-pagebreak.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('script', 'com_content/admin-article-pagebreak.min.js', array('version' => 'auto', 'relative' => true));
 
 $document    = Factory::getDocument();
 $this->eName = Factory::getApplication()->input->getCmd('e_name', '');

@@ -11,11 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.core');
-JHtml::_('jquery.framework');
-JHtml::_('script', 'com_finder/indexer.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('script', 'com_finder/indexer.min.js', array('version' => 'auto', 'relative' => true));
 Factory::getDocument()->addScriptDeclaration('var msg = "' . Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
 

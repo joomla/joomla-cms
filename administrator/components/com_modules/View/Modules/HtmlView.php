@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View class for a list of modules.
@@ -131,7 +132,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		return parent::display($tpl);
 	}
@@ -185,7 +186,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			\JHtml::_('bootstrap.renderModal', 'collapseModal');
+			HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
 			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \FileLayout instance and render the batch button

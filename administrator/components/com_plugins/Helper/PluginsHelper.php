@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Plugins component helper.
@@ -43,8 +44,8 @@ class PluginsHelper
 	{
 		// Build the active state filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '1', 'JENABLED');
-		$options[] = \JHtml::_('select.option', '0', 'JDISABLED');
+		$options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
+		$options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
 		return $options;
 	}

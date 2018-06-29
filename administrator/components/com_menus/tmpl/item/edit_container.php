@@ -10,13 +10,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-JHtml::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <div id="menuselect-group" class="control-group">

@@ -10,15 +10,16 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
-echo JHtml::_('bootstrap.startAccordion', 'categoryOptions', array('active' => 'collapse0'));
+echo HTMLHelper::_('bootstrap.startAccordion', 'categoryOptions', array('active' => 'collapse0'));
 $fieldSets = $this->form->getFieldsets('params');
 $i = 0;
 ?>
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
-	echo JHtml::_('bootstrap.addSlide', 'categoryOptions', Text::_($label), 'collapse' . ($i++));
+	echo HTMLHelper::_('bootstrap.addSlide', 'categoryOptions', Text::_($label), 'collapse' . ($i++));
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
 		echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
@@ -45,6 +46,6 @@ $i = 0;
 			</div>
 		</div>
 	<?php endif; ?>
-	<?php echo JHtml::_('bootstrap.endSlide'); ?>
+	<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 <?php endforeach; ?>
-<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>

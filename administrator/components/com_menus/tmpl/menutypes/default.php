@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $input = Factory::getApplication()->input;
 
@@ -18,13 +19,13 @@ $input = Factory::getApplication()->input;
 $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 $tmpl = json_encode($tmpl, JSON_NUMERIC_CHECK);
 
-JHtml::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
-<?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
+<?php echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php $i = 0; ?>
 	<?php foreach ($this->types as $name => $list) : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . ($i++)); ?>
+		<?php echo HTMLHelper::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . ($i++)); ?>
 			<div class="list-group">
 				<?php foreach ($list as $title => $item) : ?>
 					<?php $menutype = array('id' => $this->recordId, 'title' => $item->type ?? $item->title, 'request' => $item->request); ?>
@@ -40,7 +41,7 @@ JHtml::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', 'relat
 					</a>
 				<?php endforeach; ?>
 			</div>
-		<?php echo JHtml::_('bootstrap.endSlide'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
-<?php echo JHtml::_('bootstrap.endSlide'); ?>
-<?php echo JHtml::_('bootstrap.endAccordion');
+<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
+<?php echo HTMLHelper::_('bootstrap.endAccordion');

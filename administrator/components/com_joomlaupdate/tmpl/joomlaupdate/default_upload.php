@@ -11,10 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Utility\Utility;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var JoomlaupdateViewDefault $this */
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 ?>
 
@@ -32,16 +33,16 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 	</legend>
 
 	<?php $i = 0; ?>
-	<?php echo JHtml::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning' . $i)); ?>
+	<?php echo HTMLHelper::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning' . $i)); ?>
 	<?php foreach ($this->warnings as $message) : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'warnings', $message['message'], 'warning' . ($i++)); ?>
+		<?php echo HTMLHelper::_('bootstrap.addSlide', 'warnings', $message['message'], 'warning' . ($i++)); ?>
 		<?php echo $message['description']; ?>
-		<?php echo JHtml::_('bootstrap.endSlide'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
-	<?php echo JHtml::_('bootstrap.addSlide', 'warnings', Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo'); ?>
+	<?php echo HTMLHelper::_('bootstrap.addSlide', 'warnings', Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo'); ?>
 	<?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?>
-	<?php echo JHtml::_('bootstrap.endSlide'); ?>
-	<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+	<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
+	<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
 </fieldset>
 <?php endif; ?>
 
@@ -56,7 +57,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 				</td>
 				<td>
 					<input class="form-control-file" id="install_package" name="install_package" type="file" size="57">
-					<?php $maxSize = JHtml::_('number.bytes', Utility::getMaxUploadSize()); ?>
+					<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize()); ?>
 					<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 				</td>
 			</tr>
@@ -122,6 +123,6 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 
 	<input type="hidden" name="task" value="update.upload">
 	<input type="hidden" name="option" value="com_joomlaupdate">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 
 </form>

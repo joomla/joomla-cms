@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Fields Modal Field
@@ -141,17 +142,17 @@ class FieldField extends FormField
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35">';
 		$html[] = '<a href="#modalCategory-' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"' . ' title="' .
-			\JHtml::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . Text::_('JSELECT') . '</a>';
+			HTMLHelper::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . Text::_('JSELECT') . '</a>';
 
 		// Edit field button
 		if ($allowEdit)
 		{
 			$html[] = '<a' . ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"' .
 					' href="index.php?option=com_fields&layout=modal&tmpl=component&task=field.edit&id=' . $value . '"' . ' target="_blank"' .
-					' title="' . \JHtml::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . Text::_('JACTION_EDIT') .
+					' title="' . HTMLHelper::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . Text::_('JACTION_EDIT') .
 					'</a>';
 
-			$html[] = \JHtml::_(
+			$html[] = HTMLHelper::_(
 				'bootstrap.renderModal', 'modalCategory-' . $this->id,
 				array(
 					'url' => $link . '&amp;' . Session::getFormToken() . '=1"',

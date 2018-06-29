@@ -16,6 +16,7 @@ use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Model class to manage postinstall messages
@@ -291,7 +292,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		foreach ($extension_ids as $eid)
 		{
-			$options[] = \JHtml::_('select.option', $eid, $this->getExtensionName($eid));
+			$options[] = HTMLHelper::_('select.option', $eid, $this->getExtensionName($eid));
 		}
 
 		return $options;

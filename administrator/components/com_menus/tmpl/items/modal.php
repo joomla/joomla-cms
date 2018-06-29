@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $app = Factory::getApplication();
 
@@ -25,11 +26,11 @@ if ($app->isClient('site'))
 	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 }
 
-JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 
-JHtml::_('behavior.core');
-JHtml::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
@@ -57,25 +58,25 @@ if (!empty($editor))
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap text-center">
-							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:5%" class="text-center nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:10%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:15%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:1%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
@@ -107,7 +108,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<?php echo JHtml::_('menus.state', $item->published, $i, 0); ?>
+							<?php echo HTMLHelper::_('menus.state', $item->published, $i, 0); ?>
 						</td>
 						<td>
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
@@ -138,10 +139,10 @@ if (!empty($editor))
 						<td class="text-center d-none d-md-table-cell">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
-									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
+									<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
 								<?php else : ?>
 									<?php if ($item->language_image) : ?>
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+										<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 									<?php else : ?>
 										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 									<?php endif; ?>
@@ -175,7 +176,7 @@ if (!empty($editor))
 		<input type="hidden" name="boxchecked" value="0">
 		<input type="hidden" name="function" value="<?php echo $function; ?>">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 
 	</form>
 </div>

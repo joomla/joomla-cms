@@ -15,11 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 // Include jQuery.
-JHtml::_('jquery.framework');
+HTMLHelper::_('jquery.framework');
 
 // Load the scripts
-JHtml::_('script', 'com_joomlaupdate/encryption.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_joomlaupdate/encryption.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'relative' => true));
 
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);

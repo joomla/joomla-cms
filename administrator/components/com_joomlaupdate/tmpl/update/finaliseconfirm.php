@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.keepalive');
 
 $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods();
 
@@ -94,6 +95,6 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 
 		<input type="hidden" name="option" value="com_joomlaupdate">
 		<input type="hidden" name="task" value="update.finaliseconfirm">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 </form>

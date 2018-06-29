@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <fieldset class="adminform">
@@ -37,7 +38,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_OPEN_BASEDIR'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.string', $this->php_settings['open_basedir']); ?>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->php_settings['open_basedir']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -45,7 +46,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_DISPLAY_ERRORS'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['display_errors']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['display_errors']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -53,7 +54,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_SHORT_OPEN_TAGS'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['short_open_tag']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['short_open_tag']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -61,7 +62,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_FILE_UPLOADS'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['file_uploads']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['file_uploads']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -69,7 +70,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_OUTPUT_BUFFERING'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['output_buffering']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['output_buffering']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -77,7 +78,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_SESSION_SAVE_PATH'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.string', $this->php_settings['session.save_path']); ?>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->php_settings['session.save_path']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -85,7 +86,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_SESSION_AUTO_START'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.integer', $this->php_settings['session.auto_start']); ?>
+					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['session.auto_start']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -93,7 +94,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_XML_ENABLED'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['xml']); ?>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['xml']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -101,7 +102,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_ZLIB_ENABLED'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['zlib']); ?>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['zlib']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -109,7 +110,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_ZIP_ENABLED'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['zip']); ?>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['zip']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -117,7 +118,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
 				</td>
 				<td class="break-word">
-					<?php echo JHtml::_('phpsetting.string', $this->php_settings['disable_functions']); ?>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->php_settings['disable_functions']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -125,7 +126,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_MBSTRING_ENABLED'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['mbstring']); ?>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['mbstring']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -133,7 +134,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_ICONV_AVAILABLE'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['iconv']); ?>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['iconv']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -141,7 +142,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
 				</td>
 				<td>
-					<?php echo JHtml::_('phpsetting.integer', $this->php_settings['max_input_vars']); ?>
+					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['max_input_vars']); ?>
 				</td>
 			</tr>
 		</tbody>

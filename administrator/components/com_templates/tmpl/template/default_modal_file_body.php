@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $input = Factory::getApplication()->input;
 ?>
@@ -48,7 +49,7 @@ $input = Factory::getApplication()->input;
 							</div>
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">
-								<?php echo JHtml::_('form.token'); ?>
+								<?php echo HTMLHelper::_('form.token'); ?>
 								<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
 							</div>
 						</form>
@@ -60,13 +61,13 @@ $input = Factory::getApplication()->input;
 							<input type="hidden" class="address" name="address">
 							<div class="input-group">
 								<input type="file" name="files" class="form-control" required>
-								<?php echo JHtml::_('form.token'); ?>
+								<?php echo HTMLHelper::_('form.token'); ?>
 								<span class="input-group-append">
 									<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
 								</span>
 							</div>
 							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
-							<?php $maxSize = JHtml::_('number.bytes', Utility::getMaxUploadSize($cMax . 'MB')); ?>
+							<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($cMax . 'MB')); ?>
 							<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></span>
 						</form>
 					</div>
@@ -77,11 +78,11 @@ $input = Factory::getApplication()->input;
 						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">
-								<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
+								<label for="new_name" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
 									<?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
 								</label>
 								<input type="text" id="new_name" name="new_name" required>
-								<?php echo JHtml::_('form.token'); ?>
+								<?php echo HTMLHelper::_('form.token'); ?>
 							</div>
 							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_COPY_FILE'); ?></button>
 						</form>

@@ -14,11 +14,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
@@ -37,7 +38,7 @@ foreach ($this->items as $item)
 }
 
 Factory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
-JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -54,10 +55,10 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 						<thead>
 							<tr>
 								<th style="width:1%">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th>
-									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
@@ -76,7 +77,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
 								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -94,7 +95,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 						?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td>
 									<?php if ($canManageItems) : ?>
@@ -164,7 +165,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 											<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 												<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-												<?php echo JHtml::_(
+												<?php echo HTMLHelper::_(
 														'bootstrap.renderModal',
 														'moduleEdit' . $module->id . 'Modal',
 														array(
@@ -193,7 +194,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 									<?php elseif ($modMenuId) : ?>
 										<?php $link = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
 										<a class="btn btn-sm btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
-										<?php echo JHtml::_(
+										<?php echo HTMLHelper::_(
 												'bootstrap.renderModal',
 												'moduleAddModal',
 												array(
@@ -230,7 +231,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

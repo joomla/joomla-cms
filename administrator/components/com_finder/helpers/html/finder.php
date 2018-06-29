@@ -13,6 +13,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML behavior class for Finder.
@@ -56,7 +57,7 @@ abstract class JHtmlFinder
 		foreach ($rows as $row)
 		{
 			$key       = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text)) ? FinderHelperLanguage::branchPlural($row->text) : $row->text;
-			$options[] = JHtml::_('select.option', $row->value, Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_($key)));
+			$options[] = HTMLHelper::_('select.option', $row->value, Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_($key)));
 		}
 
 		return $options;
@@ -103,12 +104,12 @@ abstract class JHtmlFinder
 
 		// Compile the options.
 		$options = array();
-		$options[] = JHtml::_('select.option', '', Text::_('COM_FINDER_MAPS_SELECT_BRANCH'));
+		$options[] = HTMLHelper::_('select.option', '', Text::_('COM_FINDER_MAPS_SELECT_BRANCH'));
 
 		// Convert the values to options.
 		foreach ($branches as $branch)
 		{
-			$options[] = JHtml::_('select.option', $branch->value, $branch->translatedText);
+			$options[] = HTMLHelper::_('select.option', $branch->value, $branch->translatedText);
 		}
 
 		return $options;
@@ -124,8 +125,8 @@ abstract class JHtmlFinder
 	public static function statelist()
 	{
 		return array(
-			JHtml::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
-			JHtml::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
+			HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
+			HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
 		);
 	}
 }

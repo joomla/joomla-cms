@@ -11,20 +11,21 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Initialise related data.
 \JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 \JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
-JHtml::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">
 	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 	<div id="jform_menus" class="controls">
 		<select class="custom-select" name="jform[assignment]" id="jform_assignment">
-			<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
+			<?php echo HTMLHelper::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
 		</select>
 	</div>
 </div>
@@ -90,7 +91,7 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 											<?php echo $link->text; ?> <span class="small"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias)); ?></span>
 											<?php if (Multilanguage::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 												<?php if ($link->language_image) : ?>
-													<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
+													<?php echo HTMLHelper::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
 												<?php else : ?>
 													<?php echo '<span class="badge badge-secondary" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
 												<?php endif; ?>

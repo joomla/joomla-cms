@@ -13,8 +13,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 
-JHtml::_('behavior.multiselect');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('behavior.tabstate');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -30,7 +30,7 @@ $saveOrder = $listOrder == 'a.id';
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if ($this->httpHeadersId) : ?>
 					<?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->httpHeadersId . '&tmpl=component&layout=modal'); ?>
-					<?php echo JHtml::_(
+					<?php echo HTMLHelper::_(
 						'bootstrap.renderModal',
 						'plugin' . $this->httpHeadersId . 'Modal',
 						array(
@@ -60,25 +60,25 @@ $saveOrder = $listOrder == 'a.id';
 						<thead>
 							<tr>
 								<th style="width:1%" class="text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th>
-									<?php echo JHtml::_('searchtools.sort', 'COM_CSP_HEADING_DOCUMENT_URI', 'a.document_uri', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_DOCUMENT_URI', 'a.document_uri', $listDirn, $listOrder); ?>
 								</th>
 								<th>
-									<?php echo JHtml::_('searchtools.sort', 'COM_CSP_HEADING_BLOCKED_URI', 'a.blocked_uri', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_BLOCKED_URI', 'a.blocked_uri', $listDirn, $listOrder); ?>
 								</th>
 								<th>
-									<?php echo JHtml::_('searchtools.sort', 'COM_CSP_HEADING_DIRECTIVE', 'a.directive', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_DIRECTIVE', 'a.directive', $listDirn, $listOrder); ?>
 								</th>
 								<th>
-									<?php echo JHtml::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -94,11 +94,11 @@ $saveOrder = $listOrder == 'a.id';
 								<?php $canChange  = $user->authorise('core.edit.state', 'com_csp'); ?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
-										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
+											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 										</div>
 									</td>
 									<td class="small d-none d-md-table-cell">
@@ -111,7 +111,7 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo $item->directive; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->created > 0 ? JHtml::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
+										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell text-center">
 										<?php echo $item->id; ?>
@@ -123,7 +123,7 @@ $saveOrder = $listOrder == 'a.id';
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

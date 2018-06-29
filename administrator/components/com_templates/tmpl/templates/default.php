@@ -14,11 +14,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -41,7 +42,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
 								<th style="width:30%">
-									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo Text::_('JVERSION'); ?>
@@ -65,8 +66,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center d-none d-md-table-cell">
-									<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
-									<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
+									<?php echo HTMLHelper::_('templates.thumb', $item->element, $item->client_id); ?>
+									<?php echo HTMLHelper::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
 								<td class="template-name">
 									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
@@ -79,7 +80,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php elseif ($item->client_id == '1') : ?>
 										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
 									<?php else : ?>
-										<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+										<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 									</div>
 								</td>
@@ -110,7 +111,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

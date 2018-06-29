@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.popover');
+HTMLHelper::_('bootstrap.popover');
 $document = Factory::getDocument();
 ?>
 
@@ -25,8 +26,8 @@ $document = Factory::getDocument();
 	<?php // Prepare variables for the link. ?>
 	<?php $link       = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id; ?>
 	<?php $name       = $this->escape($item->name); ?>
-	<?php $desc       = JHtml::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
-	<?php $short_desc = JHtml::_('string.truncate', $this->escape(strip_tags($item->desc)), 90); ?>
+	<?php $desc       = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+	<?php $short_desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 90); ?>
 
 	<?php if ($document->direction != 'rtl') : ?>
 	<li class="list-group-item">

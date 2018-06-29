@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.core');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.tabstate');
 
 Text::script('ERROR');
 ?>
@@ -27,9 +28,9 @@ Text::script('ERROR');
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_MENUS_MENU_DETAILS')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_MENUS_MENU_DETAILS')); ?>
 
 			<?php
 			echo $this->form->renderField('menutype');
@@ -41,16 +42,16 @@ Text::script('ERROR');
 			echo $this->form->renderField('preset');
 			?>
 
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', Text::_('COM_MENUS_FIELDSET_RULES')); ?>
+				<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'permissions', Text::_('COM_MENUS_FIELDSET_RULES')); ?>
 					<?php echo $this->form->getInput('rules'); ?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 		<input type="hidden" name="task" value="">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

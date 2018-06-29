@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $input = Factory::getApplication()->input;
 ?>
@@ -31,7 +32,7 @@ $input = Factory::getApplication()->input;
 								<label><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
 								<input type="text" name="name" class="form-control" required>
 								<input type="hidden" class="address" name="address">
-								<?php echo JHtml::_('form.token'); ?>
+								<?php echo HTMLHelper::_('form.token'); ?>
 							</div>
 							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
 						</form>

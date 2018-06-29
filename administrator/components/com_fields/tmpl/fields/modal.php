@@ -13,16 +13,17 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 if (Factory::getApplication()->isClient('site'))
 {
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-JHtml::_('behavior.core');
-JHtml::_('formbehavior.chosen', '.advancedSelect');
-JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
-JHtml::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
+HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
+HTMLHelper::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -40,25 +41,25 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap center">
-							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:15%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:10%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:10%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:10%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:1%" class="nowrap d-none d-md-table-cell">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
@@ -109,7 +110,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 
 	</form>
 </div>

@@ -13,8 +13,9 @@ use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -36,10 +37,10 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 				<div id="filter-bar" class="btn-toolbar clearfix">
 					<div class="filter-search btn-group float-left">
 						<div class="input-group">
-							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
+							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo HTMLHelper::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
 							<div class="input-group-append">
-								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
-								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
+								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
+								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
@@ -55,13 +56,13 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						<thead>
 							<tr>
 								<th style="width:1%" class="text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th style="width:30%">
-									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 								</th>
 								<th class="d-none d-md-table-cell">
-									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap d-none d-md-table-cell">
 									<?php echo Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
@@ -84,7 +85,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						<?php foreach ($this->items as $key => $text) : ?>
 							<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
 								<td class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $key); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $key); ?>
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
@@ -120,7 +121,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 				<input type="hidden" name="boxchecked" value="0">
 				<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>">
 				<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

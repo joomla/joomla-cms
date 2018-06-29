@@ -14,6 +14,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal category picker.
@@ -63,8 +64,8 @@ class CategoryField extends FormField
 		$modalId = 'Category_' . $this->id;
 
 		// Add the modal field script to the document head.
-		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -150,7 +151,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</a>';
 		}
@@ -164,7 +165,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CATEGORIES_NEW_CATEGORY') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CATEGORIES_NEW_CATEGORY') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</a>';
 		}
@@ -178,7 +179,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</a>';
 		}
@@ -203,7 +204,7 @@ class CategoryField extends FormField
 		// Select category modal.
 		if ($allowSelect)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -222,7 +223,7 @@ class CategoryField extends FormField
 		// New category modal.
 		if ($allowNew)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
@@ -251,7 +252,7 @@ class CategoryField extends FormField
 		// Edit category modal.
 		if ($allowEdit)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(

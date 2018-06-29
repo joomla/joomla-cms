@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Redirect component helper.
@@ -48,11 +49,11 @@ class RedirectHelper
 	{
 		// Build the active state filter options.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '*', 'JALL');
-		$options[] = \JHtml::_('select.option', '1', 'JENABLED');
-		$options[] = \JHtml::_('select.option', '0', 'JDISABLED');
-		$options[] = \JHtml::_('select.option', '2', 'JARCHIVED');
-		$options[] = \JHtml::_('select.option', '-2', 'JTRASHED');
+		$options[] = HTMLHelper::_('select.option', '*', 'JALL');
+		$options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
+		$options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
+		$options[] = HTMLHelper::_('select.option', '2', 'JARCHIVED');
+		$options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
 
 		return $options;
 	}
