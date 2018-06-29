@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
+			// Instantiate a new FileLayout instance and render the layout
 			$layout = new FileLayout('toolbar.delete');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'delete');

@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');
 
-		// Instantiate a new \JLayoutFile instance and render the layout
+		// Instantiate a new FileLayout instance and render the layout
 		$layout = new FileLayout('toolbar.cancelselect');
 
 		$bar->appendButton('Custom', $layout->render(array()), 'new');

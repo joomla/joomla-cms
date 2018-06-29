@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * View class for a list of tracks.
@@ -88,8 +89,8 @@ class HtmlView extends BaseHtmlView
 
 		$bar = \JToolbar::getInstance('toolbar');
 
-		// Instantiate a new \JLayoutFile instance and render the export button
-		$layout = new \JLayoutFile('joomla.toolbar.modal');
+		// Instantiate a new FileLayout instance and render the export button
+		$layout = new FileLayout('joomla.toolbar.modal');
 
 		$dhtml  = $layout->render(
 			array(

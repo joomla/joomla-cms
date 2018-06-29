@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			// Instantiate a new \JLayoutFile instance and render the layout
+			// Instantiate a new FileLayout instance and render the layout
 			$layout = new FileLayout('toolbar.newmodule');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'new');
@@ -185,7 +185,7 @@ class HtmlView extends BaseHtmlView
 			\JHtml::_('bootstrap.renderModal', 'collapseModal');
 			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new \JLayoutFile instance and render the batch button
+			// Instantiate a new \FileLayout instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
