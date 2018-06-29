@@ -22,6 +22,7 @@ use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Filesystem\Path;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -484,7 +485,7 @@ ENDDATA;
 			{
 				$FTPOptions = ClientHelper::getCredentials('ftp');
 				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-				$dest = \JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
+				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 				if (!@mkdir($tempdir . '/admintools'))
 				{
@@ -519,7 +520,7 @@ ENDDATA;
 				{
 					$FTPOptions = ClientHelper::getCredentials('ftp');
 					$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-					$dest = \JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
+					$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 					if (!@mkdir($tempdir . '/admintools'))
 					{

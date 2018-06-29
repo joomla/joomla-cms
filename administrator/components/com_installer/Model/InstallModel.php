@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Extension Manager Install Model
@@ -335,7 +336,7 @@ class InstallModel extends BaseDatabaseModel
 
 		// Get the path to the package to install.
 		$p_dir = $input->getString('install_directory');
-		$p_dir = \JPath::clean($p_dir);
+		$p_dir = Path::clean($p_dir);
 
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir))

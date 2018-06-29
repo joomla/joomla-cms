@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Module model.
@@ -126,7 +127,7 @@ class SelectModel extends ListModel
 		// and load language support.
 		foreach ($items as &$item)
 		{
-			$path = \JPath::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
+			$path = Path::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
 
 			if (file_exists($path))
 			{

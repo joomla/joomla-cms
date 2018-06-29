@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Languages Strings Model
@@ -89,7 +90,7 @@ class StringsModel extends BaseDatabaseModel
 
 				foreach ($strings as $key => $string)
 				{
-					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(\JPath::clean($file)));
+					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(Path::clean($file)));
 				}
 
 				try

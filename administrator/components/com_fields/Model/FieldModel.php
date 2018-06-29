@@ -22,6 +22,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Field Model
@@ -1001,12 +1002,12 @@ class FieldModel extends AdminModel
 		$form->setFieldAttribute('rules', 'component', $component);
 
 		// Looking in the component forms folder for a specific section forms file
-		$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/forms/fields/' . $section . '.xml');
+		$path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/forms/fields/' . $section . '.xml');
 
 		if (!file_exists($path))
 		{
 			// Looking in the component models/forms folder for a specific section forms file
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+			$path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
 		}
 
 		if (file_exists($path))

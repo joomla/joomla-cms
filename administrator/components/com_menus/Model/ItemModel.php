@@ -22,6 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Filesystem\Path;
 
 jimport('joomla.filesystem.path');
 
@@ -1121,7 +1122,7 @@ class ItemModel extends AdminModel
 					$base . '/view/' . $view . '/tmpl',
 					$base . '/tmpl/' . $view
 				);
-				$path = \JPath::find($tplFolders, $layout . '.xml');
+				$path = Path::find($tplFolders, $layout . '.xml');
 
 				if (is_file($path))
 				{
@@ -1134,7 +1135,7 @@ class ItemModel extends AdminModel
 				{
 					list($altTmpl, $altLayout) = explode(':', $layout);
 
-					$templatePath = \JPath::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
+					$templatePath = Path::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1152,9 +1153,9 @@ class ItemModel extends AdminModel
 						$base . '/view/' . $view,
 						$base . '/views/' . $view
 					);
-					$metaPath = \JPath::find($metadataFolders, 'metadata.xml');
+					$metaPath = Path::find($metadataFolders, 'metadata.xml');
 
-					if (is_file($path = \JPath::clean($metaPath)))
+					if (is_file($path = Path::clean($metaPath)))
 					{
 						$formFile = $path;
 					}
@@ -1162,7 +1163,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Now check for a component manifest file
-					$path = \JPath::clean($base . '/metadata.xml');
+					$path = Path::clean($base . '/metadata.xml');
 
 					if (is_file($path))
 					{
@@ -1194,7 +1195,7 @@ class ItemModel extends AdminModel
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = \JPath::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{

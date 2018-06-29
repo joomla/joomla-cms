@@ -10,6 +10,8 @@ namespace Joomla\Component\Plugins\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\Path;
+
 /**
  * Plugins component helper.
  *
@@ -87,7 +89,7 @@ class PluginsHelper
 		$data = new \JObject;
 
 		// Check of the xml file exists.
-		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{

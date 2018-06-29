@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Model for component configuration
@@ -47,8 +48,8 @@ class ComponentModel extends FormModel
 		// Set an alternative path for the configuration file.
 		if ($path = $input->getString('path'))
 		{
-			$path = \JPath::clean(JPATH_SITE . '/' . $path);
-			\JPath::check($path);
+			$path = Path::clean(JPATH_SITE . '/' . $path);
+			Path::check($path);
 			$this->state->set('component.path', $path);
 		}
 	}

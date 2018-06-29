@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Groups View
@@ -147,7 +148,7 @@ class HtmlView extends BaseHtmlView
 		// Load component language file
 		$lang = \JFactory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = Text::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', Text::_(strtoupper($component)));
 

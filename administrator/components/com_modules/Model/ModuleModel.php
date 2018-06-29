@@ -21,6 +21,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Module model.
@@ -762,7 +763,7 @@ class ModuleModel extends AdminModel
 
 			// Get the module XML.
 			$client = ApplicationHelper::getClientInfo($table->client_id);
-			$path   = \JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
+			$path   = Path::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
 
 			if (file_exists($path))
 			{
@@ -841,7 +842,7 @@ class ModuleModel extends AdminModel
 		$module   = $this->getState('item.module');
 
 		$client   = ApplicationHelper::getClientInfo($clientId);
-		$formFile = \JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
+		$formFile = Path::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)

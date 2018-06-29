@@ -20,6 +20,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Template style model.
@@ -369,7 +370,7 @@ class StyleModel extends AdminModel
 
 			// Get the template XML.
 			$client = ApplicationHelper::getClientInfo($table->client_id);
-			$path   = \JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
+			$path   = Path::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
 
 			if (file_exists($path))
 			{
@@ -410,7 +411,7 @@ class StyleModel extends AdminModel
 
 		jimport('joomla.filesystem.path');
 
-		$formFile = \JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
+		$formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template, $client->path, null, false, true)

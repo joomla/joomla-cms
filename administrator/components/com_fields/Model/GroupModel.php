@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Group Model
@@ -225,7 +226,7 @@ class GroupModel extends AdminModel
 		if ($section !== null)
 		{
 			// Looking first in the component models/forms folder
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+			$path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
 			if (file_exists($path))
 			{

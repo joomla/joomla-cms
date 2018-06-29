@@ -25,6 +25,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Categories Component Category Model
@@ -393,18 +394,18 @@ class CategoryModel extends AdminModel
 		$name = 'category' . ($section ? ('.' . $section) : '');
 
 		// Looking first in the component forms folder
-		$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+		$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
 
 		// Looking in the component models/forms folder (J! 3)
 		if (!file_exists($path))
 		{
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
 		}
 
 		// Old way: looking in the component folder
 		if (!file_exists($path))
 		{
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
 		}
 
 		if (file_exists($path))
@@ -420,7 +421,7 @@ class CategoryModel extends AdminModel
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
+		$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
 
 		if (file_exists($path))
 		{

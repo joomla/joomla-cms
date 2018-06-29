@@ -11,6 +11,7 @@ namespace Joomla\Component\Templates\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Templates component helper.
@@ -101,7 +102,7 @@ class TemplatesHelper
 		$data = new \JObject;
 
 		// Check of the xml file exists
-		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{
@@ -136,7 +137,7 @@ class TemplatesHelper
 		$positions = array();
 
 		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{

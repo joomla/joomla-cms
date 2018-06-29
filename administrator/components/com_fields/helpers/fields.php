@@ -13,6 +13,7 @@ use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Filesystem\Path;
 
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
@@ -671,7 +672,7 @@ class FieldsHelper
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file  = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (!file_exists($file))
 		{

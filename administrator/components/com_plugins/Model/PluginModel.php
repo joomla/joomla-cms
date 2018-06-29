@@ -17,6 +17,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Plugin model.
@@ -181,7 +182,7 @@ class PluginModel extends AdminModel
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = \JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
+			$path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
@@ -273,7 +274,7 @@ class PluginModel extends AdminModel
 			$app->redirect(Route::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = \JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		$formFile = Path::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
 
 		if (!file_exists($formFile))
 		{

@@ -16,6 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Checks if the eAccelerator caching method is enabled.
@@ -61,7 +62,7 @@ function admin_postinstall_eaccelerator_action()
 	$ftp = ClientHelper::getCredentials('ftp', true);
 
 	// Attempt to make the file writeable if using FTP.
-	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 	{
 		JFactory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 	}
@@ -77,7 +78,7 @@ function admin_postinstall_eaccelerator_action()
 	}
 
 	// Attempt to make the file unwriteable if using FTP.
-	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 	{
 		JFactory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 	}

@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Modules Component Positions Model
@@ -146,7 +147,7 @@ class PositionsModel extends ListModel
 			// Load the positions from the installed templates.
 			foreach (ModulesHelper::getTemplates($clientId) as $template)
 			{
-				$path = \JPath::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+				$path = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
 
 				if (file_exists($path))
 				{

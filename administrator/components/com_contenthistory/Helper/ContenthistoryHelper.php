@@ -15,6 +15,7 @@ use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Categories helper.
@@ -277,10 +278,10 @@ class ContenthistoryHelper
 			 * loading language file from the administrator/components/extension/language directory
 			 */
 			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+			|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 			// Force loading of backend global language file
-			$lang->load('joomla', \JPath::clean(JPATH_ADMINISTRATOR), null, false, true);
+			$lang->load('joomla', Path::clean(JPATH_ADMINISTRATOR), null, false, true);
 		}
 	}
 

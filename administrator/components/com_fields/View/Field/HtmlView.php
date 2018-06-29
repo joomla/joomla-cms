@@ -14,6 +14,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Field View
@@ -100,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		// Load component language file
 		$lang = \JFactory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = Text::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
 

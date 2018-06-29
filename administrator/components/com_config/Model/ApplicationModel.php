@@ -26,6 +26,7 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Model for the global configuration
@@ -522,7 +523,7 @@ class ApplicationModel extends FormModel
 		$app = \JFactory::getApplication();
 
 		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && \JPath::isOwner($file) && !\JPath::setPermissions($file, '0644'))
+		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
@@ -536,7 +537,7 @@ class ApplicationModel extends FormModel
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
-		if (!$ftp['enabled'] && \JPath::isOwner($file) && !\JPath::setPermissions($file, '0444'))
+		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
