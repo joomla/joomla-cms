@@ -1,12 +1,10 @@
 joomla-field-switcher {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: block;
   height: 28px; }
   joomla-field-switcher .switcher {
     position: relative;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
     display: inline-block;
     width: 62px;
     height: 28px;
@@ -20,17 +18,10 @@ joomla-field-switcher {
     background-clip: content-box;
     border: 1px solid rgba(0, 0, 0, 0.18);
     border-radius: 0;
-    -webkit-box-shadow: 0 0 0 0 #dfdfdf inset;
-            box-shadow: 0 0 0 0 #dfdfdf inset;
-    -webkit-transition: border .4s ease 0s, -webkit-box-shadow .4s ease 0s;
-    transition: border .4s ease 0s, -webkit-box-shadow .4s ease 0s;
-    transition: border .4s ease 0s, box-shadow .4s ease 0s;
-    transition: border .4s ease 0s, box-shadow .4s ease 0s, -webkit-box-shadow .4s ease 0s; }
+    box-shadow: 0 0 0 0 #dfdfdf inset;
+    transition: border .4s ease 0s, box-shadow .4s ease 0s; }
     joomla-field-switcher .switcher.active {
-      -webkit-transition: border .4s ease 0s, background-color 1.2s ease 0s, -webkit-box-shadow .4s ease 0s;
-      transition: border .4s ease 0s, background-color 1.2s ease 0s, -webkit-box-shadow .4s ease 0s;
-      transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s;
-      transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s, -webkit-box-shadow .4s ease 0s; }
+      transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s; }
       joomla-field-switcher .switcher.active .switch {
         left: calc((62px / 2) - (1px * 2)); }
   joomla-field-switcher input {
@@ -52,9 +43,7 @@ joomla-field-switcher {
     height: calc(28px - (1px * 2));
     background: #fff;
     border-radius: 0;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    -webkit-transition: left .2s ease 0s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     transition: left .2s ease 0s; }
   joomla-field-switcher .switcher:focus .switch {
     -webkit-animation: switcherPulsate 1.5s infinite;
@@ -70,62 +59,64 @@ joomla-field-switcher {
       color: #868e96;
       visibility: hidden;
       opacity: 0;
-      -webkit-transition: all .2s ease-in-out;
       transition: all .2s ease-in-out; }
       joomla-field-switcher .switcher-labels span.active {
         visibility: visible;
         opacity: 1;
-        -webkit-transition: all .2s ease-in-out;
         transition: all .2s ease-in-out; }
 
 joomla-field-switcher[type="primary"] .switcher.active {
   background-color: #1e87f0;
   border-color: #1e87f0;
-  -webkit-box-shadow: 0 0 0 calc(28px / 2) #1e87f0 inset;
-          box-shadow: 0 0 0 calc(28px / 2) #1e87f0 inset; }
+  box-shadow: 0 0 0 calc(28px / 2) #1e87f0 inset; }
 
 joomla-field-switcher[type="secondary"] .switcher.active {
   background-color: #868e96;
   border-color: #868e96;
-  -webkit-box-shadow: 0 0 0 calc(28px / 2) #868e96 inset;
-          box-shadow: 0 0 0 calc(28px / 2) #868e96 inset; }
+  box-shadow: 0 0 0 calc(28px / 2) #868e96 inset; }
 
 joomla-field-switcher[type="success"] .switcher.active {
   background-color: #32d296;
   border-color: #32d296;
-  -webkit-box-shadow: 0 0 0 calc(28px / 2) #32d296 inset;
-          box-shadow: 0 0 0 calc(28px / 2) #32d296 inset; }
+  box-shadow: 0 0 0 calc(28px / 2) #32d296 inset; }
 
 joomla-field-switcher[type="warning"] .switcher.active {
   background-color: #faa05a;
   border-color: #faa05a;
-  -webkit-box-shadow: 0 0 0 calc(28px / 2) #faa05a inset;
-          box-shadow: 0 0 0 calc(28px / 2) #faa05a inset; }
+  box-shadow: 0 0 0 calc(28px / 2) #faa05a inset; }
 
 joomla-field-switcher[type="danger"] .switcher.active {
   background-color: #f0506e;
   border-color: #f0506e;
-  -webkit-box-shadow: 0 0 0 calc(28px / 2) #f0506e inset;
-          box-shadow: 0 0 0 calc(28px / 2) #f0506e inset; }
+  box-shadow: 0 0 0 calc(28px / 2) #f0506e inset; }
+
+joomla-field-switcher[disabled="disabled"] .switcher.active {
+  opacity: 0.2; }
+
+joomla-field-switcher[disabled="disabled"] .switcher.active {
+  opacity: 0.2; }
+
+joomla-field-switcher[disabled="disabled"] .switcher.active {
+  opacity: 0.2; }
+
+joomla-field-switcher[disabled="disabled"] .switcher.active {
+  opacity: 0.2; }
+
+joomla-field-switcher[disabled="disabled"] .switcher.active {
+  opacity: 0.2; }
 
 @-webkit-keyframes switcherPulsate {
   0% {
-    -webkit-box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.55);
-            box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.55); }
+    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.55); }
   70% {
-    -webkit-box-shadow: 0 0 0 10px rgba(66, 133, 244, 0);
-            box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
+    box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
   100% {
-    -webkit-box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
-            box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); } }
+    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); } }
 
 @keyframes switcherPulsate {
   0% {
-    -webkit-box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.55);
-            box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.55); }
+    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.55); }
   70% {
-    -webkit-box-shadow: 0 0 0 10px rgba(66, 133, 244, 0);
-            box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
+    box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
   100% {
-    -webkit-box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
-            box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); } }
+    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); } }

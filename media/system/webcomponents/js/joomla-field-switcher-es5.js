@@ -129,6 +129,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		}, {
 			key: 'createMarkup',
 			value: function createMarkup() {
+				var _this3 = this;
+
 				var checked = 0;
 
 				// Create the first 'span' wrapper
@@ -147,6 +149,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 				this.inputs.forEach(function (input, index) {
 					// Remove the tab focus from the inputs
 					input.setAttribute('tabindex', '-1');
+
+					if (_this3.getAttribute('disabled') === 'disabled') {
+						input.setAttribute('disabled', 'disabled');
+					}
 
 					if (input.checked) {
 						spanFirst.setAttribute('aria-checked', true);

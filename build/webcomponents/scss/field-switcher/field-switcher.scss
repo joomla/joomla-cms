@@ -105,6 +105,13 @@ joomla-field-switcher {
   }
 }
 
+// Disabled
+@each $color, $value in $theme-colors {
+  joomla-field-switcher[disabled="disabled"] .switcher.active {
+    opacity: 0.2;
+  }
+}
+
 @keyframes switcherPulsate {
   0% {
     box-shadow: 0 0 0 0 rgba(66,133,244,.55);

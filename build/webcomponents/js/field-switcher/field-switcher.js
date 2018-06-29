@@ -97,6 +97,10 @@
 				// Remove the tab focus from the inputs
 				input.setAttribute('tabindex', '-1');
 
+				if (this.getAttribute('disabled') === 'disabled') {
+					input.setAttribute('disabled', 'disabled');
+				}
+
 				if (input.checked) {
 					spanFirst.setAttribute('aria-checked', true);
 				}
