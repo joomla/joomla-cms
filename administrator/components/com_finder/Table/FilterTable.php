@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Filter table class for the Finder package.
@@ -27,11 +28,11 @@ class FilterTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver connector object.
+	 * @param   DatabaseDriver  $db  DatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
 	}

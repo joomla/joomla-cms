@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Link Table for Redirect.
@@ -25,11 +26,11 @@ class LinkTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database object.
+	 * @param   DatabaseDriver  $db  Database object.
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}

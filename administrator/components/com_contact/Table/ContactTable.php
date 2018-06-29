@@ -17,6 +17,7 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Contact Table class.
@@ -36,11 +37,11 @@ class ContactTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_contact.contact';
 

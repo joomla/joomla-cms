@@ -13,6 +13,7 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
@@ -96,7 +97,7 @@ abstract class FinderIndexer
 	/**
 	 * Database driver cache.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.8.0
 	 */
 	protected $db;

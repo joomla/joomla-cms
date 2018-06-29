@@ -17,6 +17,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Fields Table
@@ -28,7 +29,7 @@ class FieldTable extends Table
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver object.
+	 * @param   DatabaseDriver  $db  DatabaseDriver object.
 	 *
 	 * @since   3.7.0
 	 */

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Map table class for the Finder package.
@@ -24,11 +25,11 @@ class MapTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver connector object.
+	 * @param   DatabaseDriver  $db  DatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_taxonomy', 'id', $db);
 	}

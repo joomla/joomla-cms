@@ -29,6 +29,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Model for the global configuration
@@ -128,7 +129,7 @@ class ApplicationModel extends FormModel
 
 		try
 		{
-			$revisedDbo = \JDatabaseDriver::getInstance($options);
+			$revisedDbo = DatabaseDriver::getInstance($options);
 			$revisedDbo->getVersion();
 		}
 		catch (\Exception $e)
