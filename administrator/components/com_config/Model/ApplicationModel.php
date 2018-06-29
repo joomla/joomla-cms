@@ -22,6 +22,8 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 
 /**
  * Model for the global configuration
@@ -426,7 +428,7 @@ class ApplicationModel extends FormModel
 			{
 				\JFactory::getCache()->clean();
 			}
-			catch (\JCacheExceptionConnecting $exception)
+			catch (CacheConnectingException $exception)
 			{
 				try
 				{
@@ -437,7 +439,7 @@ class ApplicationModel extends FormModel
 					$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), 'warning');
 				}
 			}
-			catch (\JCacheExceptionUnsupported $exception)
+			catch (UnsupportedCacheException $exception)
 			{
 				try
 				{

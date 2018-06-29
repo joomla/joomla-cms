@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Cache\CacheExceptionInterface;
 
 /**
  * Login Model
@@ -135,7 +136,7 @@ class LoginModel extends BaseDatabaseModel
 		$lang     = \JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		/** @var \JCacheControllerCallback $cache */
+		/** @var CallbackController $cache */
 		$cache = \JFactory::getCache('com_modules', 'callback');
 
 		$loader = function () use ($app, $lang, $module) {
@@ -166,7 +167,7 @@ class LoginModel extends BaseDatabaseModel
 		{
 			return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
 		}
-		catch (\JCacheException $cacheException)
+		catch (CacheExceptionInterface $cacheException)
 		{
 			try
 			{

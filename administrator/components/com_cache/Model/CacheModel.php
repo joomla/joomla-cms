@@ -14,6 +14,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 
 /**
  * Cache Model
@@ -155,12 +158,12 @@ class CacheModel extends ListModel
 					$this->_data = array();
 				}
 			}
-			catch (\JCacheExceptionConnecting $exception)
+			catch (CacheConnectingException $exception)
 			{
 				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
 				$this->_data = array();
 			}
-			catch (\JCacheExceptionUnsupported $exception)
+			catch (UnsupportedCacheException $exception)
 			{
 				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
 				$this->_data = array();
@@ -173,7 +176,7 @@ class CacheModel extends ListModel
 	/**
 	 * Method to get cache instance.
 	 *
-	 * @return \JCacheController
+	 * @return CacheController
 	 */
 	public function getCache()
 	{
@@ -186,7 +189,7 @@ class CacheModel extends ListModel
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
 		);
 
-		return \JCache::getInstance('', $options);
+		return Cache::getInstance('', $options);
 	}
 
 	/**
@@ -233,11 +236,11 @@ class CacheModel extends ListModel
 		{
 			return $this->getCache()->clean($group);
 		}
-		catch (\JCacheExceptionConnecting $exception)
+		catch (CacheConnectingException $exception)
 		{
 			return false;
 		}
-		catch (\JCacheExceptionUnsupported $exception)
+		catch (UnsupportedCacheException $exception)
 		{
 			return false;
 		}
@@ -276,11 +279,11 @@ class CacheModel extends ListModel
 		{
 			return \JFactory::getCache('')->gc();
 		}
-		catch (\JCacheExceptionConnecting $exception)
+		catch (CacheConnectingException $exception)
 		{
 			return false;
 		}
-		catch (\JCacheExceptionUnsupported $exception)
+		catch (UnsupportedCacheException $exception)
 		{
 			return false;
 		}
