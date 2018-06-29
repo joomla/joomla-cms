@@ -8,23 +8,26 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
+
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-$input   = JFactory::getApplication()->input;
-$context = JFactory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
+$input   = Factory::getApplication()->input;
+$context = Factory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
 $parts   = FieldsHelper::extract($context);
 
 if ($input->get('view') === 'fields' && $input->get('layout') === 'modal')
 {
-	if (!JFactory::getUser()->authorise('core.create', $parts[0])
-		|| !JFactory::getUser()->authorise('core.edit', $parts[0]))
+	if (!Factory::getUser()->authorise('core.create', $parts[0])
+		|| !Factory::getUser()->authorise('core.edit', $parts[0]))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+		Factory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 		return;
 	}
 }
 
-$controller = JControllerLegacy::getInstance('Fields');
+$controller = BaseController::getInstance('Fields');
 $controller->execute($input->get('task'));
 $controller->redirect();
