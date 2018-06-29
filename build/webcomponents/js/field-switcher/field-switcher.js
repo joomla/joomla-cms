@@ -97,14 +97,6 @@
 				// Remove the tab focus from the inputs
 				input.setAttribute('tabindex', '-1');
 
-				if (this.hasAttribute('onclick')) {
-					input.setAttribute('onclick', this.getAttribute('onclick'));
-				}
-
-				if (this.hasAttribute('onchange')) {
-					input.setAttribute('onchange', this.getAttribute('onchange'));
-				}
-
 				if (input.checked) {
 					spanFirst.setAttribute('aria-checked', true);
 				}
