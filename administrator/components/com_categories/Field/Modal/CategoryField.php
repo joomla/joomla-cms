@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Supports a modal category picker.
@@ -87,9 +88,9 @@ class CategoryField extends FormField
 		}
 
 		// Setup variables for display.
-		$linkCategories = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1'
+		$linkCategories = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1'
 			. '&amp;extension=' . $extension;
-		$linkCategory  = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1'
+		$linkCategory  = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1'
 			. '&amp;extension=' . $extension;
 		$modalTitle    = Text::_('COM_CATEGORIES_CHANGE_CATEGORY');
 

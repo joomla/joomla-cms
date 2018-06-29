@@ -13,12 +13,13 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 $app = JFactory::getApplication();
 
 if ($app->isClient('site'))
 {
-	JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
 JHtml::_('jquery.framework');
@@ -42,7 +43,7 @@ JFactory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $func
 JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
-. $function . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+. $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="col-md-2">

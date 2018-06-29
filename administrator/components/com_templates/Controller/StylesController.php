@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Template styles list controller class.
@@ -30,7 +31,7 @@ class StylesController extends AdminController
 	public function duplicate()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -81,7 +82,7 @@ class StylesController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -120,7 +121,7 @@ class StylesController extends AdminController
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->get->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);

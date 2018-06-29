@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Featured content controller class.
@@ -30,7 +31,7 @@ class FeaturedController extends ArticlesController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$user = \JFactory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');

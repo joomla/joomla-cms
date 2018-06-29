@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -194,7 +195,7 @@ if ($this->type == 'font')
 	<div class="col-md-4">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="list-unstyled">
-			<?php $token = JSession::getFormToken() . '=' . 1; ?>
+			<?php $token = Session::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['modules'] as $module) : ?>
 				<li>
 					<?php
@@ -211,7 +212,7 @@ if ($this->type == 'font')
 	<div class="col-md-4">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="list-unstyled">
-			<?php $token = JSession::getFormToken() . '=' . 1; ?>
+			<?php $token = Session::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 				<li class="component-folder">
 					<a href="#" class="component-folder-url">
@@ -237,7 +238,7 @@ if ($this->type == 'font')
 	<div class="col-md-4">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="list-unstyled">
-			<?php $token = JSession::getFormToken() . '=' . 1; ?>
+			<?php $token = Session::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
 			<li class="layout-folder">
 				<a href="#" class="layout-folder-url">

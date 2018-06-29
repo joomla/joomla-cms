@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Supports a modal newsfeeds picker.
@@ -80,8 +81,8 @@ class NewsfeedField extends FormField
 		}
 
 		// Setup variables for display.
-		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
-		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
+		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
+		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$modalTitle    = Text::_('COM_NEWSFEEDS_CHANGE_FEED');
 
 		if (isset($this->element['language']))

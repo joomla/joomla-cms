@@ -68,7 +68,7 @@ class ApplicationController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
 			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
 		}
@@ -165,7 +165,7 @@ class ApplicationController extends BaseController
 	public function removeroot()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
 			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
 		}
@@ -249,7 +249,7 @@ class ApplicationController extends BaseController
 		$this->app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
 			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new JsonResponse;

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Menu List Controller
@@ -61,7 +62,7 @@ class MenusController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$user = \JFactory::getUser();
 		$app  = \JFactory::getApplication();
@@ -117,7 +118,7 @@ class MenusController extends BaseController
 	 */
 	public function rebuild()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 

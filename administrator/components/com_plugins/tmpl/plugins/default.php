@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -26,7 +27,7 @@ $saveOrder = $listOrder == 'ordering';
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
 }
 ?>

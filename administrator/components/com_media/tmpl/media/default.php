@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Session\Session;
+
 $doc    = JFactory::getDocument();
 $params = JComponentHelper::getParams('com_media');
 
@@ -35,7 +37,7 @@ if ($tmpl == 'component')
 // Populate the media config
 $config = array(
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
-	'csrfToken'               => JSession::getFormToken(),
+	'csrfToken'               => Session::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
 	'fileBaseRelativeUrl'     => $params->get('file_path', 'images'),

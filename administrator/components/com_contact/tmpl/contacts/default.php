@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -28,7 +29,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
 }
 ?>

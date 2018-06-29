@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
 use Joomla\CMS\Language\Text;
-
+use Joomla\CMS\Session\Session;
 
 /**
  * Cache Controller
@@ -77,7 +77,7 @@ class DisplayController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
@@ -112,7 +112,7 @@ class DisplayController extends BaseController
 	public function deleteAll()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app        = $this->app;
 		$model      = $this->getModel('cache');
@@ -153,7 +153,7 @@ class DisplayController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		if (!$this->getModel('cache')->purge())
 		{

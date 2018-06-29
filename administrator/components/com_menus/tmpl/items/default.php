@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -30,7 +31,7 @@ $menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string
 
 if ($saveOrder && $menuType && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
 }
 
@@ -223,7 +224,7 @@ if ($menuType == '')
 											<?php if ($item->language == '*' || $item->home == '0') : ?>
 												<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
 											<?php elseif ($canChange) : ?>
-												<a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
+												<a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
 													<?php if ($item->language_image) : ?>
 														<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>

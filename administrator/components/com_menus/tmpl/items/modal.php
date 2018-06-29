@@ -14,12 +14,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 $app = JFactory::getApplication();
 
 if ($app->isClient('site'))
 {
-	JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 }
 
@@ -33,14 +34,14 @@ $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
 $listOrder    = $this->escape($this->state->get('list.ordering'));
 $listDirn     = $this->escape($this->state->get('list.direction'));
-$link         = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1';
+$link         = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
 
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
 	JFactory::getDocument()->addScriptOptions('xtd-menus', array('editor' => $editor));
 	$onclick = "jSelectMenuItem";
-	$link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . JSession::getFormToken() . '=1';
+	$link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1';
 }
 ?>
 <div class="container-popup">

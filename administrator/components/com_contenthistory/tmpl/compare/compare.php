@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
-JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 $version2 = $this->items[0];
 $version1 = $this->items[1];

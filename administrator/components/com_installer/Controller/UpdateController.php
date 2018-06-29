@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Installer Update Controller
@@ -33,7 +34,7 @@ class UpdateController extends BaseController
 	public function update()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
@@ -80,7 +81,7 @@ class UpdateController extends BaseController
 	 */
 	public function find()
 	{
-		(\JSession::checkToken() or \JSession::checkToken('get')) or jexit(Text::_('JINVALID_TOKEN'));
+		(Session::checkToken() or Session::checkToken('get')) or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
@@ -116,7 +117,7 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
@@ -142,7 +143,7 @@ class UpdateController extends BaseController
 	{
 		$app = $this->app;
 
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();

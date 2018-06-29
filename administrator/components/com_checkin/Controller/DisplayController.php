@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Checkin Controller
@@ -52,7 +53,7 @@ class DisplayController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->get('cid', array(), 'array');
 

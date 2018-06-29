@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 if (JFactory::getApplication()->isClient('site'))
 {
-	JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
 // Load needed scripts
@@ -31,7 +32,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 

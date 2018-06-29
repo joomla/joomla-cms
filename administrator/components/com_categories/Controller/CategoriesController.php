@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Categories List Controller
@@ -47,7 +48,7 @@ class CategoriesController extends AdminController
 	 */
 	public function rebuild()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$extension = $this->input->get('extension');
 		$this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
@@ -78,7 +79,7 @@ class CategoriesController extends AdminController
 	 */
 	public function delete()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');

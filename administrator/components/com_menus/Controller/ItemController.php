@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Menu ItemModel  Controller
@@ -141,7 +142,7 @@ class ItemController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel('Item', 'Administrator', array());
@@ -163,7 +164,7 @@ class ItemController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$result = parent::cancel();
 
@@ -256,7 +257,7 @@ class ItemController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app      = $this->app;
 
@@ -511,7 +512,7 @@ class ItemController extends FormController
 	 */
 	public function setType()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Tags List Controller
@@ -46,7 +47,7 @@ class TagsController extends AdminController
 	 */
 	public function rebuild()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 

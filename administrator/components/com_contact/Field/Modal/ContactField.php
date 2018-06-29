@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Supports a modal contact picker.
@@ -79,8 +80,8 @@ class ContactField extends FormField
 		}
 
 		// Setup variables for display.
-		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
-		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
+		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
+		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$modalTitle   = Text::_('COM_CONTACT_CHANGE_CONTACT');
 
 		if (isset($this->element['language']))

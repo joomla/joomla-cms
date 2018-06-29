@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Installer Manage Controller
@@ -52,7 +53,7 @@ class ManageController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
@@ -101,7 +102,7 @@ class ManageController extends BaseController
 	public function remove()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
 		$model = $this->getModel('manage');
@@ -124,7 +125,7 @@ class ManageController extends BaseController
 	public function refresh()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
 		$model = $this->getModel('manage');

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Tracks list controller class.
@@ -55,7 +56,7 @@ class TracksController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the model.
 		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */

@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 JHtml::_('behavior.multiselect');
 
@@ -24,7 +25,7 @@ $saveOrder = ($listOrder == 'a.ordering');
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
 }
 $colSpan = $clientId === 1 ? 8 : 10;

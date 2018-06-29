@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Session\Session;
+
 /**
  * The Joomla! update controller for the Update view
  *
@@ -29,7 +31,7 @@ class UpdateController extends BaseController
 	 */
 	public function download()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -88,7 +90,7 @@ class UpdateController extends BaseController
 	 */
 	public function install()
 	{
-		\JSession::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -127,7 +129,7 @@ class UpdateController extends BaseController
 		 * Finalize with login page. Used for pre-token check versions
 		 * to allow updates without problems but with a maximum of security.
 		 */
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
@@ -154,7 +156,7 @@ class UpdateController extends BaseController
 
 		$model->finaliseUpgrade();
 
-		$url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . \JSession::getFormToken() . '=1';
+		$url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . Session::getFormToken() . '=1';
 		$this->setRedirect($url);
 	}
 
@@ -171,7 +173,7 @@ class UpdateController extends BaseController
 		 * Cleanup with login page. Used for pre-token check versions to be able to update
 		 * from =< 3.2.7 to allow updates without problems but with a maximum of security.
 		 */
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
@@ -221,7 +223,7 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Purge updates
 		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
@@ -242,7 +244,7 @@ class UpdateController extends BaseController
 	public function upload()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		\JFactory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
@@ -262,7 +264,7 @@ class UpdateController extends BaseController
 			$this->setRedirect($url, $e->getMessage(), 'error');
 		}
 
-		$token = \JSession::getFormToken();
+		$token = Session::getFormToken();
 		$url = 'index.php?option=com_joomlaupdate&task=update.captive&' . $token . '=1';
 		$this->setRedirect($url);
 	}
@@ -277,7 +279,7 @@ class UpdateController extends BaseController
 	public function captive()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		if (!\JFactory::getUser()->authorise('core.admin'))
@@ -311,7 +313,7 @@ class UpdateController extends BaseController
 	public function confirm()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		if (!$this->app->getIdentity()->authorise('core.admin'))
@@ -361,7 +363,7 @@ class UpdateController extends BaseController
 		}
 
 		// Redirect to the actual update page
-		$url = 'index.php?option=com_joomlaupdate&task=update.install&' . \JSession::getFormToken() . '=1';
+		$url = 'index.php?option=com_joomlaupdate&task=update.install&' . Session::getFormToken() . '=1';
 		$this->setRedirect($url);
 	}
 
@@ -441,7 +443,7 @@ class UpdateController extends BaseController
 	public function finaliseconfirm()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Did a non Super User try do this?
 		if (!\JFactory::getUser()->authorise('core.admin'))
@@ -472,7 +474,7 @@ class UpdateController extends BaseController
 		}
 
 		// Redirect back to the actual finalise page
-		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . \JSession::getFormToken() . '=1');
+		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . Session::getFormToken() . '=1');
 	}
 
 	/**

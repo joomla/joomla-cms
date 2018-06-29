@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Languages Overrides Controller.
@@ -39,7 +40,7 @@ class OverridesController extends AdminController
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to dlete from the request.
 		$cid = $this->input->get('cid', array(), 'array');

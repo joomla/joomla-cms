@@ -16,6 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Articles list controller class.
@@ -60,7 +61,7 @@ class ArticlesController extends AdminController
 	public function featured()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$user   = \JFactory::getUser();
 		$ids    = $this->input->get('cid', array(), 'array');

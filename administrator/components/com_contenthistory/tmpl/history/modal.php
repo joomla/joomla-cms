@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
-JSession::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
@@ -31,7 +32,7 @@ $loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp
 $deleteUrl      = Route::_('index.php?option=com_contenthistory&task=history.delete');
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
-					. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
+					. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . Session::getFormToken() . '=1';
 
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
@@ -46,11 +47,11 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 			<span class="icon-upload" aria-hidden="true"></span>
 			<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
 		</button>
-		<button id="toolbar-preview" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
+		<button id="toolbar-preview" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1'); ?>">
 			<span class="icon-search" aria-hidden="true"></span>
 			<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span>
 		</button>
-		<button id="toolbar-compare" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
+		<button id="toolbar-compare" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . Session::getFormToken() . '=1'); ?>">
 			<span class="icon-zoom-in" aria-hidden="true"></span>
 			<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span>
 		</button>
@@ -104,7 +105,7 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 					</td>
 					<td>
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
-							href="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
+							href="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
 							<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>

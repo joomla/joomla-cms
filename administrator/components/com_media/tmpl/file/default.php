@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
 
 // Add javascripts
 JHtml::_('behavior.core');
@@ -40,7 +41,7 @@ if ($tmpl == 'component')
 // Populate the media config
 $config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
-	'csrfToken'               => JSession::getFormToken(),
+	'csrfToken'               => Session::getFormToken(),
 	'uploadPath'              => $this->file->path,
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),

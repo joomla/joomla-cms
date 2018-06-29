@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Supports a modal item picker.
@@ -53,7 +54,7 @@ class AssociationField extends FormField
 
 		$linkAssociations .= "&amp;forcedLanguage=' + document.getElementById('target-association').getAttribute('data-language') + '";
 
-		$urlSelect = $linkAssociations . '&amp;' . \JSession::getFormToken() . '=1';
+		$urlSelect = $linkAssociations . '&amp;' . Session::getFormToken() . '=1';
 
 		// Select custom association button
 		$html[] = '<a'

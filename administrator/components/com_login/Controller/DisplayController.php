@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Login Controller.
@@ -66,7 +67,7 @@ class DisplayController extends BaseController
 	public function login()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 
@@ -103,7 +104,7 @@ class DisplayController extends BaseController
 	 */
 	public function logout()
 	{
-		\JSession::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 

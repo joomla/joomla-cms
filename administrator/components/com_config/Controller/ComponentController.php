@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Note: this view is intended only to be opened in a popup
@@ -53,7 +54,7 @@ class ComponentController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
 			$this->setRedirect(Route::_('index.php'), Text::_('JINVALID_TOKEN'), 'error');
 		}

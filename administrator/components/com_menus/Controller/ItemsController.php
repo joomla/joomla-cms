@@ -1,4 +1,3 @@
-use Joomla\CMS\Router\Route;
 <?php
 /**
  * @package     Joomla.Administrator
@@ -16,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Menu Item Controller
@@ -67,7 +67,7 @@ class ItemsController extends AdminController
 	 */
 	public function rebuild()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
@@ -100,7 +100,7 @@ class ItemsController extends AdminController
 	 */
 	public function saveorder()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		try
 		{
@@ -143,7 +143,7 @@ class ItemsController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 
@@ -203,7 +203,7 @@ class ItemsController extends AdminController
 	public function publish()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -285,7 +285,7 @@ class ItemsController extends AdminController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 

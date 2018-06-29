@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Fields Modal Field
@@ -153,7 +154,7 @@ class FieldField extends FormField
 			$html[] = \JHtml::_(
 				'bootstrap.renderModal', 'modalCategory-' . $this->id,
 				array(
-					'url' => $link . '&amp;' . \JSession::getFormToken() . '=1"',
+					'url' => $link . '&amp;' . Session::getFormToken() . '=1"',
 					'title' => Text::_('COM_FIELDS_SELECT_A_FIELD'),
 					'width' => '800px',
 					'height' => '300px',

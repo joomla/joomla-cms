@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Module controller class.
@@ -148,7 +149,7 @@ class ModuleController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Module', 'Administrator', array());
@@ -200,7 +201,7 @@ class ModuleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
 			\JFactory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
 		}
@@ -253,7 +254,7 @@ class ModuleController extends FormController
 		$app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
 			$app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new  JsonResponse;
