@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a template style.
@@ -98,7 +99,7 @@ class HtmlView extends BaseHtmlView
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(
+		ToolbarHelper::title(
 			$isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
 			: Text::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
 		);
@@ -118,21 +119,21 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'style.save2copy'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('style.cancel');
+			ToolbarHelper::cancel('style.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
+		ToolbarHelper::divider();
 
 		// Get the help information for the template item.
 		$lang = \JFactory::getLanguage();
@@ -149,6 +150,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($help->key, false, $url);
+		ToolbarHelper::help($help->key, false, $url);
 	}
 }

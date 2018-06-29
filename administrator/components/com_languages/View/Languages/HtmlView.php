@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML Languages View class for the Languages component.
@@ -108,31 +109,31 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_languages');
 
-		\JToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
+		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('language.add');
+			ToolbarHelper::addNew('language.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($this->state->get('filter.published') != 2)
 			{
-				\JToolbarHelper::publishList('languages.publish');
-				\JToolbarHelper::unpublishList('languages.unpublish');
+				ToolbarHelper::publishList('languages.publish');
+				ToolbarHelper::unpublishList('languages.unpublish');
 			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
-			\JToolbarHelper::divider();
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('languages.trash');
-			\JToolbarHelper::divider();
+			ToolbarHelper::trash('languages.trash');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
@@ -140,13 +141,13 @@ class HtmlView extends BaseHtmlView
 			// Add install languages link to the lang installer component.
 			$bar = \JToolbar::getInstance('toolbar');
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-			\JToolbarHelper::divider();
+			ToolbarHelper::divider();
 
-			\JToolbarHelper::preferences('com_languages');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_languages');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
+		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
 
 		\JHtmlSidebar::setAction('index.php?option=com_languages&view=languages');
 

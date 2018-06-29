@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Languages component.
@@ -88,7 +89,7 @@ class HtmlView extends BaseHtmlView
 		$isNew = empty($this->item->lang_id);
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(
+		ToolbarHelper::title(
 			Text::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
 		);
 
@@ -106,21 +107,21 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2new', 'language.save2new'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if ($isNew)
 		{
-			\JToolbarHelper::cancel('language.cancel');
+			ToolbarHelper::cancel('language.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
 	}
 }

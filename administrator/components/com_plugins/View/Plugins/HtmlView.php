@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of plugins.
@@ -95,21 +96,21 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		\JToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
+		ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
-			\JToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
-			\JToolbarHelper::checkin('plugins.checkin');
+			ToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
+			ToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
+			ToolbarHelper::checkin('plugins.checkin');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			\JToolbarHelper::preferences('com_plugins');
+			ToolbarHelper::preferences('com_plugins');
 		}
 
-		\JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+		ToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 
 	}
 

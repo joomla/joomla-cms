@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a plugin.
@@ -78,12 +79,12 @@ class HtmlView extends BaseHtmlView
 
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		\JToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'power-cord plugin');
+		ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'power-cord plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				[
 					['apply', 'plugin.apply'],
 					['save', 'plugin.save']
@@ -92,8 +93,8 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 
-		\JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-		\JToolbarHelper::divider();
+		ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::divider();
 
 		// Get the help information for the plugin item.
 		$lang = \JFactory::getLanguage();
@@ -111,6 +112,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($help->key, false, $url);
+		ToolbarHelper::help($help->key, false, $url);
 	}
 }

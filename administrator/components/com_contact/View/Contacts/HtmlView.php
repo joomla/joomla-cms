@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of contacts.
@@ -146,21 +147,21 @@ class HtmlView extends BaseHtmlView
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
 		$user  = \JFactory::getUser();
 
-		\JToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
+		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('contact.add');
+			ToolbarHelper::addNew('contact.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-			\JToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			\JToolbarHelper::archiveList('contacts.archive');
-			\JToolbarHelper::checkin('contacts.checkin');
+			ToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			ToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+			ToolbarHelper::archiveList('contacts.archive');
+			ToolbarHelper::checkin('contacts.checkin');
 		}
 
 		// Add a batch button
@@ -179,19 +180,19 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('contacts.trash');
+			ToolbarHelper::trash('contacts.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
 		{
-			\JToolbarHelper::preferences('com_contact');
+			ToolbarHelper::preferences('com_contact');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
+		ToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 
 		\JHtmlSidebar::setAction('index.php?option=com_contact');
 	}

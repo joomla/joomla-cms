@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of newsfeeds.
@@ -126,23 +127,23 @@ class HtmlView extends BaseHtmlView
 
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');
-		\JToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('newsfeed.add');
+			ToolbarHelper::addNew('newsfeed.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::archiveList('newsfeeds.archive');
+			ToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::archiveList('newsfeeds.archive');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			\JToolbarHelper::checkin('newsfeeds.checkin');
+			ToolbarHelper::checkin('newsfeeds.checkin');
 		}
 
 		// Add a batch button
@@ -161,19 +162,19 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('newsfeeds.trash');
+			ToolbarHelper::trash('newsfeeds.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
-			\JToolbarHelper::preferences('com_newsfeeds');
+			ToolbarHelper::preferences('com_newsfeeds');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 	}
 
 	/**

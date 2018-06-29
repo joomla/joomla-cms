@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of modules.
@@ -151,11 +152,11 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('client_id') == 1)
 		{
-			\JToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
 		else
 		{
-			\JToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
 		}
 
 		if ($canDo->get('core.create'))
@@ -168,14 +169,14 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+			ToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::checkin('modules.checkin');
+			ToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::checkin('modules.checkin');
 		}
 
 		// Add a batch button
@@ -194,19 +195,19 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('modules.trash');
+			ToolbarHelper::trash('modules.trash');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			\JToolbarHelper::preferences('com_modules');
+			ToolbarHelper::preferences('com_modules');
 		}
 
-		\JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		ToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
 		if (\JHtmlSidebar::getEntries())
 		{

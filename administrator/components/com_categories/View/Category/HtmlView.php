@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Categories component
@@ -174,7 +175,7 @@ class HtmlView extends BaseHtmlView
 		\JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
-		\JToolbarHelper::title(
+		ToolbarHelper::title(
 			$title,
 			'folder category-' . ($isNew ? 'add' : 'edit')
 				. ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
@@ -183,7 +184,7 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
 		{
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				[
 					['apply', 'category.apply'],
 					['save', 'category.save'],
@@ -192,7 +193,7 @@ class HtmlView extends BaseHtmlView
 				'btn-success'
 			);
 
-			\JToolbarHelper::cancel('category.cancel');
+			ToolbarHelper::cancel('category.cancel');
 		}
 
 		// If not checked out, can save the item.
@@ -221,7 +222,7 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save2copy', 'category.save2copy'];
 			}
 
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
@@ -229,13 +230,13 @@ class HtmlView extends BaseHtmlView
 			if (ComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
-				\JToolbarHelper::versions($typeAlias, $this->item->id);
+				ToolbarHelper::versions($typeAlias, $this->item->id);
 			}
 
-			\JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
+		ToolbarHelper::divider();
 
 		// Compute the ref_key
 		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
@@ -265,6 +266,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
+		ToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
 	}
 }

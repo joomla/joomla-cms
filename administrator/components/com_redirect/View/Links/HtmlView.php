@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of redirection links.
@@ -139,33 +140,33 @@ class HtmlView extends BaseHtmlView
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_redirect');
 
-		\JToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
+		ToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('link.add');
+			ToolbarHelper::addNew('link.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($state->get('filter.state') != 2)
 			{
-				\JToolbarHelper::divider();
-				\JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
-				\JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
+				ToolbarHelper::divider();
+				ToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
+				ToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 
 			if ($state->get('filter.state') != -1)
 			{
-				\JToolbarHelper::divider();
+				ToolbarHelper::divider();
 
 				if ($state->get('filter.state') != 2)
 				{
-					\JToolbarHelper::archiveList('links.archive');
+					ToolbarHelper::archiveList('links.archive');
 				}
 				elseif ($state->get('filter.state') == 2)
 				{
-					\JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
+					ToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
 				}
 			}
 		}
@@ -188,22 +189,22 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
-			\JToolbarHelper::divider();
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
-			\JToolbarHelper::trash('links.trash');
-			\JToolbarHelper::divider();
+			ToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
+			ToolbarHelper::trash('links.trash');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_redirect');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_redirect');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+		ToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 	}
 }

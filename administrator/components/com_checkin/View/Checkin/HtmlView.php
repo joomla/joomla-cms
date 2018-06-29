@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Checkin component
@@ -101,17 +102,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'checkin');
+		ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'checkin');
 
-		\JToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		ToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 
 		if (\JFactory::getUser()->authorise('core.admin', 'com_checkin'))
 		{
-			\JToolbarHelper::divider();
-			\JToolbarHelper::preferences('com_checkin');
-			\JToolbarHelper::divider();
+			ToolbarHelper::divider();
+			ToolbarHelper::preferences('com_checkin');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_SITE_MAINTENANCE_GLOBAL_CHECK-IN');
+		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_GLOBAL_CHECK-IN');
 	}
 }

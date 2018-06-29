@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of messages.
@@ -97,21 +98,21 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_messages');
-		\JToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
+		ToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('message.add');
+			ToolbarHelper::addNew('message.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::divider();
-			\JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
-			\JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
+			ToolbarHelper::divider();
+			ToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
+			ToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
 		}
 
-		\JToolbarHelper::divider();
+		ToolbarHelper::divider();
 		$bar = \JToolbar::getInstance('toolbar');
 		$bar->appendButton(
 			'Popup',
@@ -135,21 +136,21 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::divider();
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::divider();
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::divider();
-			\JToolbarHelper::trash('messages.trash');
+			ToolbarHelper::divider();
+			ToolbarHelper::trash('messages.trash');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			\JToolbarHelper::preferences('com_messages');
+			ToolbarHelper::preferences('com_messages');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
 	}
 }

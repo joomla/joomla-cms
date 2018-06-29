@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of banners.
@@ -109,37 +110,37 @@ class HtmlView extends BaseHtmlView
 		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user  = \JFactory::getUser();
 
-		\JToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
+		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('banner.add');
+			ToolbarHelper::addNew('banner.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($this->state->get('filter.published') != 2)
 			{
-				\JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
-				\JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+				ToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
+				ToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
 			if ($this->state->get('filter.published') != -1)
 			{
 				if ($this->state->get('filter.published') != 2)
 				{
-					\JToolbarHelper::archiveList('banners.archive');
+					ToolbarHelper::archiveList('banners.archive');
 				}
 				elseif ($this->state->get('filter.published') == 2)
 				{
-					\JToolbarHelper::unarchiveList('banners.publish');
+					ToolbarHelper::unarchiveList('banners.publish');
 				}
 			}
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::checkin('banners.checkin');
+			ToolbarHelper::checkin('banners.checkin');
 		}
 
 		// Add a batch button
@@ -158,19 +159,19 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('banners.trash');
+			ToolbarHelper::trash('banners.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
 		{
-			\JToolbarHelper::preferences('com_banners');
+			ToolbarHelper::preferences('com_banners');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
+		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
 	}
 
 	/**

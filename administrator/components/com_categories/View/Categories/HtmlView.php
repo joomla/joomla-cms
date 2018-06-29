@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Categories view class for the Category package.
@@ -182,23 +183,23 @@ class HtmlView extends BaseHtmlView
 		\JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
-		\JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
+		ToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('category.add');
+			ToolbarHelper::addNew('category.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::archiveList('categories.archive');
+			ToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::archiveList('categories.archive');
 		}
 
 		if (\JFactory::getUser()->authorise('core.admin'))
 		{
-			\JToolbarHelper::checkin('categories.checkin');
+			ToolbarHelper::checkin('categories.checkin');
 		}
 
 		// Add a batch button
@@ -217,21 +218,21 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.admin'))
 		{
-			\JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+			ToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('categories.trash');
+			ToolbarHelper::trash('categories.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences($component);
+			ToolbarHelper::preferences($component);
 		}
 
 		// Compute the ref_key if it does exist in the component
@@ -257,7 +258,7 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		ToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 
 	/**
