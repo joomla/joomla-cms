@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use JoomlaCMS\Categories\Categories;
 
 /**
  * Fields Model
@@ -193,7 +194,7 @@ class FieldsModel extends ListModel
 			if ($parts)
 			{
 				// Get the category
-				$cat = \JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
 
 				if ($cat)
 				{

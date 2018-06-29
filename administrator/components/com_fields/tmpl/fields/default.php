@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use JoomlaCMS\Categories\Categories;
 
 // Include the component HTML helpers.
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -31,7 +32,7 @@ $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
 // The category object of the component
-$category = JCategories::getInstance(str_replace('com_', '', $component));
+$category = Categories::getInstance(str_replace('com_', '', $component));
 
 if ($saveOrder && !empty($this->items))
 {
