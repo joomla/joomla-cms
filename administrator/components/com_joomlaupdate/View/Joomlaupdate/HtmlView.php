@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Updater\Updater;
 
 /**
  * Joomla! Update's Default View
@@ -234,8 +235,8 @@ class HtmlView extends BaseHtmlView
 			// Allways force to check for an update!
 			$cache_timeout = 0;
 
-			$updater = \JUpdater::getInstance();
-			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, \JUpdater::STABILITY_STABLE);
+			$updater = Updater::getInstance();
+			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
 
 			// Fetch the update information from the database.
 			$query = $db->getQuery(true)

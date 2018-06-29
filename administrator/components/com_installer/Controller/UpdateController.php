@@ -16,6 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Updater\Updater;
 
 /**
  * Installer Update Controller
@@ -44,7 +45,7 @@ class UpdateController extends BaseController
 
 		// Get the minimum stability.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
+		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
 
 		$model->update($uid, $minimum_stability);
 
@@ -89,7 +90,7 @@ class UpdateController extends BaseController
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
+		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
 
 		// Find updates.
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
@@ -166,7 +167,7 @@ class UpdateController extends BaseController
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
+			$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
 		}
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */

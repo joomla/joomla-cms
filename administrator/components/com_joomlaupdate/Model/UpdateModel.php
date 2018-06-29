@@ -20,6 +20,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Updater\Updater;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -139,7 +140,7 @@ class UpdateModel extends BaseDatabaseModel
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
-		$updater = \JUpdater::getInstance();
+		$updater = Updater::getInstance();
 
 		$reflection = new \ReflectionObject($updater);
 		$reflectionMethod = $reflection->getMethod('findUpdates');
@@ -147,12 +148,12 @@ class UpdateModel extends BaseDatabaseModel
 
 		if (count($methodParameters) >= 4)
 		{
-			// Reinstall support is available in \JUpdater
-			$updater->findUpdates(700, $cache_timeout, \JUpdater::STABILITY_STABLE, true);
+			// Reinstall support is available in Updater
+			$updater->findUpdates(700, $cache_timeout, Updater::STABILITY_STABLE, true);
 		}
 		else
 		{
-			$updater->findUpdates(700, $cache_timeout, \JUpdater::STABILITY_STABLE);
+			$updater->findUpdates(700, $cache_timeout, Updater::STABILITY_STABLE);
 		}
 	}
 

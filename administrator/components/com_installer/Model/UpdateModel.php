@@ -18,6 +18,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Updater\Updater;
 
 /**
  * Installer Update Model
@@ -253,18 +254,18 @@ class UpdateModel extends ListModel
 	 *
 	 * @param   int  $eid                Extension identifier to look for
 	 * @param   int  $cache_timeout      Cache timout
-	 * @param   int  $minimum_stability  Minimum stability for updates {@see \JUpdater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
+	 * @param   int  $minimum_stability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = \JUpdater::STABILITY_STABLE)
+	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = Updater::STABILITY_STABLE)
 	{
 		// Purge the updates list
 		$this->purge();
 
-		\JUpdater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
+		Updater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
 	}
@@ -343,13 +344,13 @@ class UpdateModel extends ListModel
 	 * Sets the "result" state with the result of the operation.
 	 *
 	 * @param   array  $uids               Array[int] List of updates to apply
-	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see \JUpdater}
+	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see Updater}
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = \JUpdater::STABILITY_STABLE)
+	public function update($uids, $minimum_stability = Updater::STABILITY_STABLE)
 	{
 		$result = true;
 
