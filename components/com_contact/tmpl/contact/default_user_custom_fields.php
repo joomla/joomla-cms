@@ -40,7 +40,7 @@ $userFieldGroups    = array();
 		<?php echo '<h3>' . ($groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 	<?php endif; ?>
 
-	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
+	<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
 		<?php foreach ($fields as $field) : ?>
 			<?php if (!$field->value) : ?>

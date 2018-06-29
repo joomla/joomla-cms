@@ -33,3 +33,20 @@ legend {
   font-size: 1.2rem;
   font-weight: 700;
 }
+
+// focus-visible polyfil rule
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+// Default focus highlighting
+a,
+button,
+input,
+textarea {
+
+  &:focus,
+  &:-moz-focusring {
+    outline: auto 2px $focus-highlight-color;
+  }
+}

@@ -81,33 +81,33 @@ if ($saveOrder && !empty($this->items))
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
 									$columns++; ?>
 									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                        <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>">
-                                            <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
-                                        </span>
+										<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>">
+											<span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
+										</span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
 									$columns++; ?>
 									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                        <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>">
-                                            <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
-                                        </span>
+										<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>">
+											<span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+										</span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
 									$columns++; ?>
 									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                        <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>">
-                                            <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
-                                        </span>
+										<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>">
+											<span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
+										</span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
 									$columns++; ?>
 									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
-                                        <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
-                                            <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
-                                        </span>
+										<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
+											<span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
+										</span>
 									</th>
 								<?php endif; ?>
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
@@ -271,14 +271,14 @@ if ($saveOrder && !empty($this->items))
 						&& $user->authorise('core.edit', $extension)
 						&& $user->authorise('core.edit.state', $extension)) : ?>
 						<?php echo JHtml::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            array(
-                                'title'  => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ),
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+							'bootstrap.renderModal',
+							'collapseModal',
+							array(
+								'title'  => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
+								'footer' => $this->loadTemplate('batch_footer'),
+							),
+							$this->loadTemplate('batch_body')
+						); ?>
 					<?php endif; ?>
 				<?php endif; ?>
 

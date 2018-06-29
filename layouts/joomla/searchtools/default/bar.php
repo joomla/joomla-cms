@@ -39,7 +39,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php echo Text::_('JSEARCH_FILTER'); ?>
 			<?php endif; ?>
 		</label>
-		<div class="btn-toolbar" role="toolbar">
+		<div class="btn-toolbar">
 			<div class="btn-group mr-2">
 				<div class="input-group">
 					<?php echo $filters['filter_search']->input; ?>

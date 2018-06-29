@@ -466,6 +466,24 @@ CREATE TABLE IF NOT EXISTS "#__core_log_searches" (
 );
 
 --
+-- Table structure for table `#__csp`
+--
+
+CREATE TABLE IF NOT EXISTS "#__csp" (
+  "id" int(11) NOT NULL AUTO_INCREMENT,
+  "document_uri" varchar(500) NOT NULL DEFAULT '',
+  "blocked_uri" varchar(500) NOT NULL DEFAULT '',
+  "directive" varchar(500) NOT NULL DEFAULT '',
+  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified"  timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "published" smallint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+
+-- --------------------------------------------------------
+
+
+--
 -- Table structure for table `#__extensions`
 --
 
@@ -528,6 +546,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(35, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, 'Joomla\\Component\\Csp'),
 (102, 0, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (106, 0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -594,10 +613,10 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (424, 0, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 1, '', '{"browsercache":"0","cachetime":"15"}', 0, '1970-01-01 00:00:00', 9, 0, ''),
 (425, 0, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"1","strip-first":"1","strip-prefix":"","strip-suffix":""}', 0, '1970-01-01 00:00:00', 4, 0, ''),
 (426, 0, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 5, 0, ''),
-(427, 0, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 1, '', '', 0, '1970-01-01 00:00:00', 6, 0, ''),
+(427, 0, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 1, '', '', 0, '1970-01-01 00:00:00', 3, 0, ''),
 (428, 0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 7, 0, ''),
 (429, 0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 8, 0, ''),
-(430, 0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 3, 0, ''),
+(430, 0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 6, 0, ''),
 (431, 0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"34","autopublish":"0"}', 0, '1970-01-01 00:00:00', 1, 0, ''),
 (432, 0, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', 0, '1970-01-01 00:00:00', 2, 0, ''),
 (433, 0, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -654,6 +673,8 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (485, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (486, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (487, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(488, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(489, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -793,7 +814,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "published" smallint DEFAULT 1 NOT NULL,
   "state" integer DEFAULT 1,
   "access" integer DEFAULT 0,
-  "language" varchar(8) DEFAULT '' NOT NULL,
+  "language" varchar(7) DEFAULT '' NOT NULL,
   "publish_start_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_end_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "start_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
@@ -812,212 +833,17 @@ CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("publish
 CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
 
 --
--- Table structure for table `#__finder_links_terms0`
+-- Table structure for table `#__finder_links_terms`
 --
 
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms0" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
-CREATE INDEX "#__finder_links_terms0_idx_term_weight" on "#__finder_links_terms0" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms0_idx_link_term_weight" on "#__finder_links_terms0" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms1`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms1" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms1_idx_term_weight" on "#__finder_links_terms1" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms1_idx_link_term_weight" on "#__finder_links_terms1" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms2`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms2" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms2_idx_term_weight" on "#__finder_links_terms2" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms2_idx_link_term_weight" on "#__finder_links_terms2" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms3`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms3" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms3_idx_term_weight" on "#__finder_links_terms3" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms3_idx_link_term_weight" on "#__finder_links_terms3" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms4`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms4" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms4_idx_term_weight" on "#__finder_links_terms4" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms4_idx_link_term_weight" on "#__finder_links_terms4" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms5`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms5" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms5_idx_term_weight" on "#__finder_links_terms5" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms5_idx_link_term_weight" on "#__finder_links_terms5" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms6`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms6" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms6_idx_term_weight" on "#__finder_links_terms6" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms6_idx_link_term_weight" on "#__finder_links_terms6" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms7`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms7" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms7_idx_term_weight" on "#__finder_links_terms7" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms7_idx_link_term_weight" on "#__finder_links_terms7" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms8`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms8" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms8_idx_term_weight" on "#__finder_links_terms8" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms8_idx_link_term_weight" on "#__finder_links_terms8" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_terms9`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_terms9" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms9_idx_term_weight" on "#__finder_links_terms9" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms9_idx_link_term_weight" on "#__finder_links_terms9" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_termsa`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_termsa" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsa_idx_term_weight" on "#__finder_links_termsa" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsa_idx_link_term_weight" on "#__finder_links_termsa" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_termsb`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_termsb" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsb_idx_term_weight" on "#__finder_links_termsb" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsb_idx_link_term_weight" on "#__finder_links_termsb" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_termsc`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_termsc" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsc_idx_term_weight" on "#__finder_links_termsc" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsc_idx_link_term_weight" on "#__finder_links_termsc" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_termsd`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_termsd" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsd_idx_term_weight" on "#__finder_links_termsd" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsd_idx_link_term_weight" on "#__finder_links_termsd" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_termse`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_termse" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termse_idx_term_weight" on "#__finder_links_termse" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termse_idx_link_term_weight" on "#__finder_links_termse" ("link_id", "term_id", "weight");
-
---
--- Table structure for table `#__finder_links_termsf`
---
-
-CREATE TABLE IF NOT EXISTS "#__finder_links_termsf" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsf_idx_term_weight" on "#__finder_links_termsf" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsf_idx_link_term_weight" on "#__finder_links_termsf" ("link_id", "term_id", "weight");
+CREATE INDEX "#__finder_links_terms_idx_term_weight" on "#__finder_links_terms" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_terms" ("link_id", "term_id", "weight");
 
 --
 -- Table structure for table `#__finder_taxonomy`
@@ -1072,7 +898,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_terms" (
   "weight" numeric(8,2) DEFAULT 0 NOT NULL,
   "soundex" varchar(75) NOT NULL,
   "links" integer DEFAULT 0 NOT NULL,
-  "language" varchar(3) NOT NULL,
+  "language" varchar(7) NOT NULL,
   PRIMARY KEY ("term_id"),
   CONSTRAINT "#__finder_terms_idx_term" UNIQUE ("term")
 );
@@ -1086,7 +912,7 @@ CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex
 
 CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
-  "language" varchar(3) DEFAULT '' NOT NULL
+  "language" varchar(7) DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
@@ -1096,116 +922,116 @@ CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("lan
 --
 
 INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
-('a', 'en'),
-('about', 'en'),
-('after', 'en'),
-('ago', 'en'),
-('all', 'en'),
-('am', 'en'),
-('an', 'en'),
-('and', 'en'),
-('any', 'en'),
-('are', 'en'),
-('aren''t', 'en'),
-('as', 'en'),
-('at', 'en'),
-('be', 'en'),
-('but', 'en'),
-('by', 'en'),
-('for', 'en'),
-('from', 'en'),
-('get', 'en'),
-('go', 'en'),
-('how', 'en'),
-('if', 'en'),
-('in', 'en'),
-('into', 'en'),
-('is', 'en'),
-('isn''t', 'en'),
-('it', 'en'),
-('its', 'en'),
-('me', 'en'),
-('more', 'en'),
-('most', 'en'),
-('must', 'en'),
-('my', 'en'),
-('new', 'en'),
-('no', 'en'),
-('none', 'en'),
-('not', 'en'),
-('nothing', 'en'),
-('of', 'en'),
-('off', 'en'),
-('often', 'en'),
-('old', 'en'),
-('on', 'en'),
-('onc', 'en'),
-('once', 'en'),
-('only', 'en'),
-('or', 'en'),
-('other', 'en'),
-('our', 'en'),
-('ours', 'en'),
-('out', 'en'),
-('over', 'en'),
-('page', 'en'),
-('she', 'en'),
-('should', 'en'),
-('small', 'en'),
-('so', 'en'),
-('some', 'en'),
-('than', 'en'),
-('thank', 'en'),
-('that', 'en'),
-('the', 'en'),
-('their', 'en'),
-('theirs', 'en'),
-('them', 'en'),
-('then', 'en'),
-('there', 'en'),
-('these', 'en'),
-('they', 'en'),
-('this', 'en'),
-('those', 'en'),
-('thus', 'en'),
-('time', 'en'),
-('times', 'en'),
-('to', 'en'),
-('too', 'en'),
-('true', 'en'),
-('under', 'en'),
-('until', 'en'),
-('up', 'en'),
-('upon', 'en'),
-('use', 'en'),
-('user', 'en'),
-('users', 'en'),
-('version', 'en'),
-('very', 'en'),
-('via', 'en'),
-('want', 'en'),
-('was', 'en'),
-('way', 'en'),
-('were', 'en'),
-('what', 'en'),
-('when', 'en'),
-('where', 'en'),
-('which', 'en'),
-('who', 'en'),
-('whom', 'en'),
-('whose', 'en'),
-('why', 'en'),
-('wide', 'en'),
-('will', 'en'),
-('with', 'en'),
-('within', 'en'),
-('without', 'en'),
-('would', 'en'),
-('yes', 'en'),
-('yet', 'en'),
-('you', 'en'),
-('your', 'en'),
-('yours', 'en');
+('a', 'en-GB'),
+('about', 'en-GB'),
+('after', 'en-GB'),
+('ago', 'en-GB'),
+('all', 'en-GB'),
+('am', 'en-GB'),
+('an', 'en-GB'),
+('and', 'en-GB'),
+('any', 'en-GB'),
+('are', 'en-GB'),
+('aren''t', 'en-GB'),
+('as', 'en-GB'),
+('at', 'en-GB'),
+('be', 'en-GB'),
+('but', 'en-GB'),
+('by', 'en-GB'),
+('for', 'en-GB'),
+('from', 'en-GB'),
+('get', 'en-GB'),
+('go', 'en-GB'),
+('how', 'en-GB'),
+('if', 'en-GB'),
+('in', 'en-GB'),
+('into', 'en-GB'),
+('is', 'en-GB'),
+('isn''t', 'en-GB'),
+('it', 'en-GB'),
+('its', 'en-GB'),
+('me', 'en-GB'),
+('more', 'en-GB'),
+('most', 'en-GB'),
+('must', 'en-GB'),
+('my', 'en-GB'),
+('new', 'en-GB'),
+('no', 'en-GB'),
+('none', 'en-GB'),
+('not', 'en-GB'),
+('nothing', 'en-GB'),
+('of', 'en-GB'),
+('off', 'en-GB'),
+('often', 'en-GB'),
+('old', 'en-GB'),
+('on', 'en-GB'),
+('onc', 'en-GB'),
+('once', 'en-GB'),
+('only', 'en-GB'),
+('or', 'en-GB'),
+('other', 'en-GB'),
+('our', 'en-GB'),
+('ours', 'en-GB'),
+('out', 'en-GB'),
+('over', 'en-GB'),
+('page', 'en-GB'),
+('she', 'en-GB'),
+('should', 'en-GB'),
+('small', 'en-GB'),
+('so', 'en-GB'),
+('some', 'en-GB'),
+('than', 'en-GB'),
+('thank', 'en-GB'),
+('that', 'en-GB'),
+('the', 'en-GB'),
+('their', 'en-GB'),
+('theirs', 'en-GB'),
+('them', 'en-GB'),
+('then', 'en-GB'),
+('there', 'en-GB'),
+('these', 'en-GB'),
+('they', 'en-GB'),
+('this', 'en-GB'),
+('those', 'en-GB'),
+('thus', 'en-GB'),
+('time', 'en-GB'),
+('times', 'en-GB'),
+('to', 'en-GB'),
+('too', 'en-GB'),
+('true', 'en-GB'),
+('under', 'en-GB'),
+('until', 'en-GB'),
+('up', 'en-GB'),
+('upon', 'en-GB'),
+('use', 'en-GB'),
+('user', 'en-GB'),
+('users', 'en-GB'),
+('version', 'en-GB'),
+('very', 'en-GB'),
+('via', 'en-GB'),
+('want', 'en-GB'),
+('was', 'en-GB'),
+('way', 'en-GB'),
+('were', 'en-GB'),
+('what', 'en-GB'),
+('when', 'en-GB'),
+('where', 'en-GB'),
+('which', 'en-GB'),
+('who', 'en-GB'),
+('whom', 'en-GB'),
+('whose', 'en-GB'),
+('why', 'en-GB'),
+('wide', 'en-GB'),
+('will', 'en-GB'),
+('with', 'en-GB'),
+('within', 'en-GB'),
+('without', 'en-GB'),
+('would', 'en-GB'),
+('yes', 'en-GB'),
+('yet', 'en-GB'),
+('you', 'en-GB'),
+('your', 'en-GB'),
+('yours', 'en-GB');
 
 --
 -- Table structure for table `#__finder_tokens`
@@ -1218,7 +1044,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_tokens" (
   "phrase" smallint DEFAULT 0 NOT NULL,
   "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   "context" smallint DEFAULT 2 NOT NULL,
-  "language" varchar(3) NOT NULL
+  "language" varchar(7) NOT NULL
 );
 CREATE INDEX "#__finder_tokens_idx_word" on "#__finder_tokens" ("term");
 CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
@@ -1229,7 +1055,6 @@ CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
 
 CREATE TABLE IF NOT EXISTS "#__finder_tokens_aggregate" (
   "term_id" integer NOT NULL,
-  "map_suffix" varchar(1) NOT NULL,
   "term" varchar(75) NOT NULL,
   "stem" varchar(75) NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
@@ -1238,7 +1063,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_tokens_aggregate" (
   "context" smallint DEFAULT 2 NOT NULL,
   "context_weight" numeric(8,2) NOT NULL,
   "total_weight" numeric(8,2) NOT NULL,
-  "language" varchar(3) NOT NULL
+  "language" varchar(7) NOT NULL
 );
 CREATE INDEX "#__finder_tokens_aggregate_token" on "#__finder_tokens_aggregate" ("term");
 CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggregate" ("term_id");
@@ -1375,6 +1200,7 @@ INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link
 (20, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 1, 1, 1, 29, 0, '1970-01-01 00:00:00', 0, 1, 'class:tags', 0, '', 35, 36, 0, '', 1),
 (21, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 1, 1, 1, 32, 0, '1970-01-01 00:00:00', 0, 1, 'class:postinstall', 0, '', 37, 38, 0, '*', 1),
 (22, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations', 'component', 1, 1, 1, 34, 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 39, 40, 0, '*', 1),
+(23, 'main', 'com_csp', 'Content-Security-Policy', '', 'Content-Security-Policy', 'index.php?option=com_csp', 'component', 1, 1, 1, 35, 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 41, 42, 0, '*', 1),
 (101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0);
 
 SELECT setval('#__menu_id_seq', 102, false);
@@ -1441,7 +1267,7 @@ CREATE TABLE IF NOT EXISTS "#__modules" (
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(100) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "content" text DEFAULT '' NOT NULL,
+  "content" text,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "position" varchar(50) DEFAULT '' NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,

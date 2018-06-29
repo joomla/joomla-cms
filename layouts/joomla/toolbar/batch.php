@@ -23,7 +23,7 @@ Text::script('ERROR');
 $message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 $alert = "Joomla.renderMessages(" . $message . ")";
 ?>
-<button<?php echo $id; ?> data-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){<?php echo $alert; ?>}else{jQuery( '#collapseModal' ).modal('show'); return true;}" class="btn btn-primary">
+<button<?php echo $id; ?> data-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){<?php echo $alert; ?>}else{document.getElementById('collapseModal').open(); return true;}" class="btn btn-primary">
 	<span class="fa fa-square" aria-hidden="true"></span>
 	<?php echo $title; ?>
 </button>

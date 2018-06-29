@@ -33,10 +33,10 @@ $output = '';
 if ($params->get('show_button'))
 {
 	$output .= $label;
-	$output .= '<div class="input-group">';
+	$output .= '<div class="mod-finder__search input-group">';
 	$output .= $input;
 	$output .= '<span class="input-group-append">';
-	$output .= '<button class="btn btn-primary hasTooltip finder" type="submit" title="' . Text::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="fa fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
+	$output .= '<button class="btn btn-primary hasTooltip" type="submit" title="' . Text::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="fa fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 	$output .= '</span>';
 	$output .= '</div>';
 }
@@ -61,20 +61,17 @@ if ($params->get('show_autosuggest', 1))
 }
 ?>
 
-<form class="js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get">
-	<div class="finder">
+<form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get">
+	<?php echo $output; ?>
 
-		<?php echo $output; ?>
-
-		<?php $show_advanced = $params->get('show_advanced'); ?>
-		<?php if ($show_advanced == 2) : ?>
-			<br>
-			<a href="<?php echo Route::_($route); ?>"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
-		<?php elseif ($show_advanced == 1) : ?>
-			<div class="js-finder-advanced">
-				<?php echo HTMLHelper::_('filter.select', $query, $params); ?>
-			</div>
-		<?php endif; ?>
-		<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
-	</div>
+	<?php $show_advanced = $params->get('show_advanced'); ?>
+	<?php if ($show_advanced == 2) : ?>
+		<br>
+		<a href="<?php echo Route::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
+	<?php elseif ($show_advanced == 1) : ?>
+		<div class="mod-finder__advanced js-finder-advanced">
+			<?php echo HTMLHelper::_('filter.select', $query, $params); ?>
+		</div>
+	<?php endif; ?>
+	<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 </form>

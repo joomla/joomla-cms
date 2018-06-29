@@ -83,7 +83,7 @@ class ItemlanguageField extends \JFormFieldList
 				$itemId                    = (int) $associations[$language->lang_code]['id'];
 				$options[$langCode]->value = $language->lang_code . ':' . $itemId . ':edit';
 
-				 // Check if user does have permission to edit the associated item.
+				// Check if user does have permission to edit the associated item.
 				$canEdit = AssociationsHelper::allowEdit($extensionName, $typeName, $itemId);
 
 				// Check if item can be checked out

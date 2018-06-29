@@ -8,11 +8,18 @@
  */
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Uri\Uri;
 
 defined('_JEXEC') or die;
 
@@ -33,7 +40,7 @@ class ProfileController extends BaseController
 	public function edit()
 	{
 		$app         = $this->app;
-		$user        = \JFactory::getUser();
+		$user        = Factory::getUser();
 		$loginUserId = (int) $user->get('id');
 
 		// Get the previous user id (if any) and the current user id.
@@ -43,7 +50,7 @@ class ProfileController extends BaseController
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return false;
@@ -55,8 +62,8 @@ class ProfileController extends BaseController
 		if (!empty($cookieLogin))
 		{
 			// If so, the user must login to edit the password and other data.
-			$app->enqueueMessage(\JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
 		}
@@ -81,7 +88,7 @@ class ProfileController extends BaseController
 		}
 
 		// Redirect to the edit screen.
-		$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit', false));
+		$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit', false));
 
 		return true;
 	}
@@ -92,6 +99,7 @@ class ProfileController extends BaseController
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function save()
 	{
@@ -102,7 +110,7 @@ class ProfileController extends BaseController
 
 		/* @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model  = $this->getModel('Profile', 'Site');
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$userId = (int) $user->get('id');
 
 		// Get the user data.
@@ -149,7 +157,7 @@ class ProfileController extends BaseController
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
 			return false;
 		}
@@ -165,8 +173,8 @@ class ProfileController extends BaseController
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setMessage(\JText::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+			$this->setMessage(Text::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
 			return false;
 		}
@@ -180,12 +188,12 @@ class ProfileController extends BaseController
 				$model->checkout($return);
 
 				// Redirect back to the edit screen.
-				$this->setMessage(\JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
+				$this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 
 				$redirect = $app->getUserState('com_users.edit.profile.redirect');
 
 				// Don't redirect to an external URL.
-				if (!\JUri::isInternal($redirect))
+				if (!Uri::isInternal($redirect))
 				{
 					$redirect = null;
 				}
@@ -195,7 +203,7 @@ class ProfileController extends BaseController
 					$redirect = 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1';
 				}
 
-				$this->setRedirect(\JRoute::_($redirect, false));
+				$this->setRedirect(Route::_($redirect, false));
 				break;
 
 			default:
@@ -213,7 +221,7 @@ class ProfileController extends BaseController
 				$redirect = $app->getUserState('com_users.edit.profile.redirect');
 
 				// Don't redirect to an external URL.
-				if (!\JUri::isInternal($redirect))
+				if (!Uri::isInternal($redirect))
 				{
 					$redirect = null;
 				}
@@ -224,8 +232,8 @@ class ProfileController extends BaseController
 				}
 
 				// Redirect to the list screen.
-				$this->setMessage(\JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(\JRoute::_($redirect, false));
+				$this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
+				$this->setRedirect(Route::_($redirect, false));
 				break;
 		}
 
@@ -269,25 +277,25 @@ class ProfileController extends BaseController
 		jimport('joomla.filesystem.file');
 
 		// Set FTP credentials, if given
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{
-			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
+			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
 		}
-		elseif (!\JFile::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
+		elseif (!File::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
 		{
-			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
+			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
 		}
 
 		$options = array_merge(
 			array(
-				\JHtml::_('select.option', '', \JText::_('JOPTION_USE_DEFAULT'))
+				HTMLHelper::_('select.option', '', Text::_('JOPTION_USE_DEFAULT'))
 			),
 			Help::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml')
 		);
 
 		echo new JsonResponse($options);
-		\JFactory::getApplication()->close();
+		Factory::getApplication()->close();
 	}
 }

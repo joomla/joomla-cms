@@ -27,13 +27,11 @@
     "cropperjs": "1.2.2",
     "diff": "3.4.0",
     "dragula": "3.7.2",
-    "flying-focus-a11y": "1.5.5",
+    "focus-visible": "^4.1.4",
     "font-awesome": "4.7.0",
     "joomla-ui-custom-elements": "0.0.22",
     "jquery": "3.3.1",
     "jquery-migrate": "1.4.1",
-    "jquery-sortable": "0.9.13",
-    "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
     "tinymce": "4.7.7"
@@ -93,7 +91,8 @@
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
-      "tab"
+      "tab",
+      "toolbar-button"
     ],
     "webcomponents": {
       "field-media": {
@@ -213,16 +212,15 @@
         "dependencies": [],
         "licenseFilename": "license"
       },
-      "flying-focus-a11y": {
-        "name": "flying-focus-a11y",
+      "focus-visible": {
+        "name": "focus-visible",
         "js": {
-          "src/js/flying-focus.js": "js/flying-focus.js"
-        },
-        "filesExtra": {
-          "src/scss": "scss"
+          "dist/focus-visible.js": "js/focus-visible.js",
+          "dist/focus-visible.min.js": "js/focus-visible.min.js",
+          "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
         },
         "dependencies": [],
-        "licenseFilename": "MIT-LICENSE.txt"
+        "licenseFilename": "LICENSE.md"
       },
       "font-awesome": {
         "name": "font-awesome",
@@ -350,8 +348,7 @@
           "bundles/webcomponents-ce.js": "js/webcomponents-ce.js",
           "bundles/webcomponents-sd.js": "js/webcomponents-sd.js",
           "bundles/webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
-          "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js",
-          "webcomponents-bundle.js": "js/webcomponents-bundle.js"
+          "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md"

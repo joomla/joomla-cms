@@ -34,7 +34,7 @@ $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 
 // Add JavaScript
 HTMLHelper::_('bootstrap.framework');
-HTMLHelper::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
+HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);

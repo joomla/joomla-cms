@@ -185,12 +185,12 @@ class HtmlView extends BaseHtmlView
 
 		if ($params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $params->get('menu-meta_keywords'));
 		}
 
 		if ($params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $params->get('robots'));
+			$this->document->setMetaData('robots', $params->get('robots'));
 		}
 
 		// Built select lists
@@ -316,7 +316,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  A string.
 	 *
-	 * @since   4.0.0
+	 * @since   3.8.4
 	 */
 	public function highLight($string, $needle, $searchWords)
 	{

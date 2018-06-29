@@ -81,11 +81,11 @@ defined('_JEXEC') or die;
 				<?php endif; ?>
 				<?php	if ($this->development) : ?>
 					<div class="alert flex-column">
-						<b>We detected development mode</b>
+						<b><?php echo JText::_('INSTL_SITE_DEVMODE_LABEL'); ?></b>
 						<div class="form-check">
 							<label class="form-check-label">
 								<input type="checkbox" class="form-check-input">
-								Check if you wish to delete the installation folder on complete
+								<?php echo JText::_('INSTL_SITE_DEVMODE_DESC'); ?>
 							</label>
 						</div>
 					</div>
@@ -185,10 +185,10 @@ defined('_JEXEC') or die;
 
 		<fieldset id="installSampleData" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?>
+				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE'); ?>
 			</legend>
 			<div class="j-install-step-form">
-				<h3><?php echo JText::_('Do you want to install sample data?'); ?></h3>
+				<h3><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></h3>
 				<p><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
 
 
@@ -196,7 +196,7 @@ defined('_JEXEC') or die;
 					<div class="form-group">
 						<input type="hidden" name="sample_file" value="sample_testing.sql">
 						<?php echo JHtml::_('form.token'); ?>
-						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
+						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 						<button id="skipSampleData" class="btn btn-block btn-secondary">
 							<?php echo JText::_('JSKIP'); ?>
 						</button>

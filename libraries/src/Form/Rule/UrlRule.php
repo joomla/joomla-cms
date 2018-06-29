@@ -15,6 +15,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -78,7 +79,7 @@ class UrlRule extends FormRule
 			 */
 			if ($urlParts === false || !$element['relative'])
 			{
-				$element->addAttribute('message', \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_SCHEMA_MISSING', $value, implode(', ', $scheme)));
+				$element->addAttribute('message', Text::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_SCHEMA_MISSING', $value, implode(', ', $scheme)));
 
 				return false;
 			}

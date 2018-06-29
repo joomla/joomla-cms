@@ -9,53 +9,59 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
-JHtml::_('behavior.multiselect');
-JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-$input           = JFactory::getApplication()->input;
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
+
+$input           = Factory::getApplication()->input;
 $field           = $input->getCmd('field');
 $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));
 $enabledStates   = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $activatedStates = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $userRequired    = (int) $input->get('required', 0, 'int');
-$onClick         = "window.parent.jSelectUser(this);window.parent.jQuery('.modal.in').modal('hide');";
+$onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 
 ?>
 <div class="container-popup">
-	<form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if (!$userRequired) : ?>
 		<div class="float-left mx-2 mt-2">
-			<button type="button" class="btn btn-primary button-select" data-user-value="0" data-user-name="<?php echo $this->escape(JText::_('JLIB_FORM_SELECT_USER')); ?>"
-				data-user-field="<?php echo $this->escape($field); ?>"><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
+			<button type="button" class="btn btn-primary button-select" data-user-value="0" data-user-name="<?php echo $this->escape(Text::_('JLIB_FORM_SELECT_USER')); ?>"
+				data-user-field="<?php echo $this->escape($field); ?>"><?php echo Text::_('JOPTION_NO_USER'); ?></button>&nbsp;
 		</div>
 		<?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 		<table class="table table-sm">
 			<thead>
 				<tr>
 					<th class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:25%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:1%" class="nowrap text-center">
-						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:1%" class="nowrap text-center">
-						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
 					<th style="width:25%" class="nowrap">
-						<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
+						<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 					</th>
 					<th style="width:1%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
 			</thead>
@@ -100,6 +106,6 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.jQuery('.modal
 		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>">
 		<input type="hidden" name="boxchecked" value="0">
 		<input type="hidden" name="required" value="<?php echo $userRequired; ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>

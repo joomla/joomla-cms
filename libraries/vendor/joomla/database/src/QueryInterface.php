@@ -378,6 +378,20 @@ interface QueryInterface extends PreparableInterface
 	public function nullDate($quoted = true);
 
 	/**
+	 * Generate a SQL statement to check if column represents a zero or null datetime.
+	 *
+	 * Usage:
+	 * $query->where($query->isNullDatetime('modified_date'));
+	 *
+	 * @param   string  $column  A column name.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isNullDatetime($column);
+
+	/**
 	 * Add an ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
@@ -518,6 +532,21 @@ interface QueryInterface extends PreparableInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function where($conditions, $glue = 'AND');
+
+	/**
+	 * Add a WHERE IN statement to the query
+	 *
+	 * Usage:
+	 * $query->whereIn('id', [1, 2, 3]);
+	 *
+	 * @param   string $keyName   A string representing the key name for the where clause
+	 * @param   array  $keyValues The array of values to be matched
+	 *
+	 * @return  $this
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function whereIn($keyName, $keyValues);
 
 	/**
 	 * Extend the WHERE clause with a single condition or an array of conditions, with a potentially different logical operator from the one in the

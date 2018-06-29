@@ -84,7 +84,7 @@ $filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-vi
 // Load search tools
 HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 ?>
-<div class="js-stools">
+<div class="js-stools" role="search">
 	<?php if ($data['options']['showSelector']) : ?>
 	<div class="js-stools-container-selector">
 		<?php echo LayoutHelper::render('joomla.searchtools.default.selector', $data); ?>

@@ -31,14 +31,6 @@ defined('_JEXEC') or die;
 		<tbody>
 			<tr>
 				<td>
-					<?php echo JText::_('COM_ADMIN_SAFE_MODE'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['safe_mode']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<?php echo JText::_('COM_ADMIN_OPEN_BASEDIR'); ?>
 				</td>
 				<td>

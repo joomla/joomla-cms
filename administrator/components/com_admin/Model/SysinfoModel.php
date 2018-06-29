@@ -115,7 +115,6 @@ class SysInfoModel extends BaseDatabaseModel
 			'live_site',
 			'log_path',
 			'mailfrom',
-			'memcache_server_host',
 			'memcached_server_host',
 			'open_basedir',
 			'Origin',
@@ -127,7 +126,6 @@ class SysInfoModel extends BaseDatabaseModel
 			'secret',
 			'sendmail',
 			'session.save_path',
-			'session_memcache_server_host',
 			'session_memcached_server_host',
 			'session_redis_server_host',
 			'session_redis_server_auth',
@@ -244,7 +242,6 @@ class SysInfoModel extends BaseDatabaseModel
 		}
 
 		$this->php_settings = array(
-			'safe_mode'          => ini_get('safe_mode') == '1',
 			'display_errors'     => ini_get('display_errors') == '1',
 			'short_open_tag'     => ini_get('short_open_tag') == '1',
 			'file_uploads'       => ini_get('file_uploads') == '1',

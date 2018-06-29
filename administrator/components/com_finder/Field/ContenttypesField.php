@@ -11,18 +11,16 @@ namespace Joomla\Component\Finder\Administrator\Field;
 defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Content Types Filter field for the Finder package.
  *
  * @since  3.6.0
  */
-class ContenttypesField extends \JFormFieldList
+class ContenttypesField extends ListField
 {
 	/**
 	 * The form field type.

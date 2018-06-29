@@ -49,7 +49,7 @@ echo HTMLHelper::_(
 );
 ?>
 <button<?php echo $id ?? ''; ?>
-	onclick="jQuery('#versionsModal').modal('show')"
+    onclick="document.getElementById('versionsModal').open()"
 	class="btn btn-primary"
 	data-toggle="modal"
 	title="<?php echo $title; ?>">

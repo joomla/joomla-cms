@@ -10,10 +10,11 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Log\Log;
+use Joomla\String\Inflector;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
-
-\JLoader::import('joomla.filesystem.path');
 
 /**
  * Form's helper class.
@@ -241,7 +242,7 @@ class FormHelper
 
 		foreach ($paths as $path)
 		{
-			$file = \JPath::find($path, $type);
+			$file = Path::find($path, $type);
 
 			if (!$file)
 			{
@@ -321,16 +322,29 @@ class FormHelper
 		// Add the default entity's search path if not set.
 		if (empty($paths))
 		{
-			// While we support limited number of entities (form, field and rule)
-			// we can do this simple pluralisation:
-			$entity_plural = $entity . 's';
+			// While we support limited number of entities (form, field and rule) we can do simple pluralisation
+			$entityPlural = $entity . 's';
 
-			/*
-			 * But when someday we would want to support more entities, then we should consider adding
-			 * an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
-			 * See also: pluralization snippet by Paul Osman in JControllerForm's constructor.
-			 */
-			$paths[] = __DIR__ . '/' . $entity_plural;
+			// Relying on "simple" plurals is deprecated, use the properly inflected plural form
+			$paths[] = __DIR__ . '/' . $entityPlural;
+
+			$inflectedPlural = Inflector::getInstance()->toPlural($entity);
+
+			if ($entityPlural !== $inflectedPlural)
+			{
+				Log::add(
+					sprintf(
+						'File paths for form entity type validations should be properly inflected as of 5.0.'
+							. ' The folder for entity type "%1$s" should be renamed from "%2$s" to "%3$s".',
+						$entity,
+						$entityPlural,
+						$inflectedPlural
+					),
+					Log::WARNING,
+					'deprecated'
+				);
+				$paths[] = __DIR__ . '/' . $inflectedPlural;
+			}
 		}
 
 		// Force the new path(s) to an array.

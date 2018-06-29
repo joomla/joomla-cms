@@ -9,12 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
-$user       = JFactory::getUser();
+$user       = Factory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $saveOrder  = $listOrder == 'a.ordering';
@@ -22,39 +28,39 @@ $saveOrder  = $listOrder == 'a.ordering';
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'levelList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	HTMLHelper::_('sortablelist.sortable', 'levelList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=levels'); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_users&view=levels'); ?>" method="post" id="adminForm" name="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="levelList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th>
-									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap d-none d-md-table-cell">
-									<?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
+									<?php echo Text::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
 								</th>
 								<th style="width:1%" class="nowrap d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -83,7 +89,7 @@ if ($saveOrder)
 									}
 									elseif (!$saveOrder)
 									{
-										$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+										$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
@@ -94,11 +100,11 @@ if ($saveOrder)
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_users&task=level.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
@@ -117,7 +123,7 @@ if ($saveOrder)
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

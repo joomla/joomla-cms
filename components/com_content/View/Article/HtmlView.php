@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -227,7 +228,7 @@ class HtmlView extends BaseHtmlView
 
 		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 		{
-			$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
+			$item->associations = AssociationHelper::displayAssociations($item->id);
 		}
 
 		// Process the content plugins.
@@ -338,16 +339,16 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->item->metakey)
 		{
-			$this->document->setMetadata('keywords', $this->item->metakey);
+			$this->document->setMetaData('keywords', $this->item->metakey);
 		}
 		elseif ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		if ($app->get('MetaAuthor') == '1')
@@ -362,7 +363,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($v)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setMetaData($k, $v);
 			}
 		}
 
