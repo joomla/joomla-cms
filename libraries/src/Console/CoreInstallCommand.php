@@ -10,11 +10,9 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Console\AbstractCommand;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -26,14 +24,14 @@ class CoreInstallCommand extends AbstractCommand
 {
 	/**
 	 * Stores the Input Object
-	 * @var
+	 * @var Input
 	 * @since 4.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
-	 * @var
+	 * @var SymfonyStyle
 	 * @since 4.0
 	 */
 	private $ioStyle;
@@ -49,7 +47,6 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		$this->cliInput = $this->getApplication()->getConsoleInput();
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
-//		$site_name = $this->ioStyle->ask('What is the name of your website?');
 	}
 
 	/**
@@ -58,28 +55,30 @@ class CoreInstallCommand extends AbstractCommand
 	 * @return  integer  The exit code for the command.
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws null
 	 */
 	public function execute(): int
 	{
 		$this->configureIO();
 		$options = $this->collectOptions();
-		exit;
+		var_dump($options);
 		$model = new ConfigurationModel;
 
-		$options['site_name'] = $this->ioStyle->ask('What is the name of your website?');
-		$options['admin_user'] = $this->ioStyle->ask('Username?');
-		$options['admin_password'] = $this->ioStyle->ask('Password?');
-		$options['admin_email'] = $this->ioStyle->ask('Email?');
-		$options['db_type'] = 'mysql';
-		$options['db_host'] =  $this->ioStyle->ask('Database Host?');
-		$options['db_user'] =  $this->ioStyle->ask('Database Username?');
-		$options['db_pass'] =  $this->ioStyle->ask('Database Password?');
-		$options['db_name'] =  $this->ioStyle->ask('Database Name?');
-		$options['db_prefix'] = 'lmao_';
-		$options['helpurl'] = 'http://joomla.org';
-		$options['db_old'] = 'remove';
-		$options['language'] = 'en-GB';
-		$model->setup($options);
+//		$options['site_name'] = $this->ioStyle->ask('What is the name of your website?');
+//		$options['admin_user'] = $this->ioStyle->ask('Username?');
+//		$options['admin_password'] = $this->ioStyle->ask('Password?');
+//		$options['admin_email'] = $this->ioStyle->ask('Email?');
+//		$options['db_type'] = 'mysql';
+//		$options['db_host'] =  $this->ioStyle->ask('Database Host?');
+//		$options['db_user'] =  $this->ioStyle->ask('Database Username?');
+//		$options['db_pass'] =  $this->ioStyle->ask('Database Password?');
+//		$options['db_name'] =  $this->ioStyle->ask('Database Name?');
+//		$options['db_prefix'] = 'lmao_';
+//		$options['helpurl'] = 'http://joomla.org';
+//		$options['db_old'] = 'remove';
+//		$options['language'] = 'en-GB';
+//		$model->setup($options);
 
 		return 0;
 	}
@@ -104,7 +103,14 @@ class CoreInstallCommand extends AbstractCommand
 	}
 
 
-	public function getOptions()
+	/**
+	 * Retrieves options Template
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	public function getOptionsTemplate()
 	{
 		return $options = [
 			'site_name' => [
@@ -163,18 +169,25 @@ class CoreInstallCommand extends AbstractCommand
 		];
 	}
 
+	/**
+	 * Retrieves options from user inputs
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
 	public function collectOptions()
 	{
-		$data = $this->getOptions();
+		$data = $this->getOptionsTemplate();
 
-		$options = [];
+		$options = array();
 
 		foreach ($data as $key => $value)
 		{
 			$valid = false;
 
-
-			while(!$valid) {
+			while (!$valid)
+			{
 				$val = $this->processType($value);
 				$rules = isset($value['rules']) ?? null;
 
@@ -199,7 +212,16 @@ class CoreInstallCommand extends AbstractCommand
 		return $options;
 	}
 
-	public function processType($data, $message = null)
+	/**
+	 * Process a console input type
+	 *
+	 * @param   array  $data  The option template
+	 *
+	 * @return mixed
+	 *
+	 * @since 4.0
+	 */
+	public function processType($data)
 	{
 		switch ($data['type'])
 		{
@@ -209,6 +231,17 @@ class CoreInstallCommand extends AbstractCommand
 		}
 	}
 
+
+	/**
+	 * Validates an Input based on some rule(s)
+	 *
+	 * @param   mixed   $input      Data to be validated
+	 * @param   string  $validator  Validation rule
+	 *
+	 * @return boolean
+	 *
+	 * @since 4.0
+	 */
 	public function validateInput($input, $validator)
 	{
 		$rules = explode('|', $validator);
@@ -239,7 +272,16 @@ class CoreInstallCommand extends AbstractCommand
 		return true;
 	}
 
-	public function isInteger($input, $length = null)
+	/**
+	 * Test if an input is integer
+	 *
+	 * @param   string  $input   The data to be tested
+	 *
+	 * @return array | boolean
+	 *
+	 * @since 4.0
+	 */
+	public function isInteger($input)
 	{
 		if (!is_numeric($input))
 		{
@@ -248,4 +290,25 @@ class CoreInstallCommand extends AbstractCommand
 
 		return true;
 	}
+
+	public function maxLength($input, $length)
+	{
+		if (strlen($input) > $length)
+		{
+			return ['message' => "The input cannot be greater than $length."];
+		}
+
+		return true;
+	}
+
+	public function minLength($input, $length)
+	{
+		if (strlen($input) < $length)
+		{
+			return ['message' => "The input cannot be lesser than $length characters."];
+		}
+
+		return true;
+	}
+
 }
