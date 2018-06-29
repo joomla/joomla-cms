@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Installer Update Model
@@ -286,7 +287,7 @@ class UpdateModel extends ListModel
 		{
 			$db->truncateTable('#__updates');
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			$this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
@@ -324,7 +325,7 @@ class UpdateModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			$this->_message .= Text::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 

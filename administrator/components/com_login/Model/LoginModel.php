@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\CacheExceptionInterface;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Login Model
@@ -174,14 +175,14 @@ class LoginModel extends BaseDatabaseModel
 			{
 				return $loader();
 			}
-			catch (\JDatabaseExceptionExecuting $databaseException)
+			catch (ExecutionFailureException $databaseException)
 			{
 				\JFactory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 				return array();
 			}
 		}
-		catch (\JDatabaseExceptionExecuting $databaseException)
+		catch (ExecutionFailureException $databaseException)
 		{
 			\JFactory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 

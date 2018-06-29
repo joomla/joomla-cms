@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Installer Discover Model
@@ -246,7 +247,7 @@ class DiscoverModel extends InstallerModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 

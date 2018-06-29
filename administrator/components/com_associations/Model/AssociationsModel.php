@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Methods supporting a list of article records.
@@ -474,7 +475,7 @@ class AssociationsModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			$app->enqueueMessage(Text::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
@@ -540,7 +541,7 @@ class AssociationsModel extends ListModel
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				$app->enqueueMessage(Text::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
