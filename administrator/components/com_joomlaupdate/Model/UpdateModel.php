@@ -582,10 +582,10 @@ ENDDATA;
 			File::delete($configpath);
 		}
 
-		// Write new file. First try with \JFile.
+		// Write new file. First try with File.
 		$result = File::write($configpath, $data);
 
-		// In case \JFile used FTP but direct access could help.
+		// In case File used FTP but direct access could help.
 		if (!$result)
 		{
 			if (function_exists('file_put_contents'))
