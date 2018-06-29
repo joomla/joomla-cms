@@ -528,14 +528,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 */
 	public function execute()
 	{
-		error_log ("joomla - execute() SQL = "
-					. $this->sql . "\n",
-					3, "d:/temp/debug.log"
-		);
-
-		//$e = new Exception;
-		//error_log(var_export($e->getTraceAsString() . "\n", true), 3, "d:/temp/debug.log");
-		
 		$this->connect();
 
 		// Take a local copy so that we don't modify the original query and cause issues later

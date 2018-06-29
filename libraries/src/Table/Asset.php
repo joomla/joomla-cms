@@ -208,7 +208,7 @@ class Asset extends Nested
 			->update($this->_tbl)
 			->set('lft = ' . (int) $leftId)
 			->set('rgt = ' . (int) $rightId)
-			->set('level = ' . (int) $level)
+			->set($this->_db->quoteName('level') . ' = ' . (int) $level)
 			->where($this->_tbl_key . ' = ' . (int) $parentId);
 		$this->_db->setQuery($query)->execute();
 

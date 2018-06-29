@@ -412,7 +412,7 @@ class Nested extends Table
 		{
 			// Get the last root node as the reference node.
 			$query->clear()
-				->select($this->_tbl_key . ', parent_id, ' . $db->qn('level') . ', lft, rgt')
+				->select($this->_tbl_key . ', parent_id, ' . $this->_db->qn('level') . ', lft, rgt')
 				->from($this->_tbl)
 				->where('parent_id = 0')
 				->order('lft DESC');
@@ -468,7 +468,7 @@ class Nested extends Table
 			->update($this->_tbl)
 			->set('rgt = ' . (int) $offset . ' - rgt')
 			->set('lft = ' . (int) $offset . ' - lft')
-			->set('level = level + ' . (int) $levelOffset)
+			->set($this->_db->quoteName('level') . ' = ' . $this->_db->quoteName('level') . ' + ' . (int) $levelOffset)
 			->where('lft < 0');
 		$this->_db->setQuery($query);
 
@@ -627,7 +627,7 @@ class Nested extends Table
 				->update($this->_tbl)
 				->set('lft = lft - 1')
 				->set('rgt = rgt - 1')
-				->set('level = level - 1')
+				->set($this->_db->quoteName('level') . ' = ' . $thid->_db->quoteName('level') . ' - 1')
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
@@ -757,7 +757,7 @@ class Nested extends Table
 				{
 					// Get the last root node as the reference node.
 					$query = $this->_db->getQuery(true)
-						->select($this->_tbl_key . ', parent_id, ' . $db->qn('level') . ', lft, rgt')
+						->select($this->_tbl_key . ', parent_id, ' . $this->_db->qn('level') . ', lft, rgt')
 						->from($this->_tbl)
 						->where('parent_id = 0')
 						->order('lft DESC');
@@ -1352,7 +1352,7 @@ class Nested extends Table
 			->update($this->_tbl)
 			->set('lft = ' . (int) $leftId)
 			->set('rgt = ' . (int) $rightId)
-			->set('level = ' . (int) $level)
+			->set($this->_db->quoteName('level') . ' = ' . (int) $level)
 			->set('path = ' . $this->_db->quote($path))
 			->where($this->_tbl_key . ' = ' . (int) $parentId);
 		$this->_db->setQuery($query)->execute();
