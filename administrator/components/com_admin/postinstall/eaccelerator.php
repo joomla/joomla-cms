@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Checks if the eAccelerator caching method is enabled.
@@ -56,7 +57,7 @@ function admin_postinstall_eaccelerator_action()
 	$file = JPATH_CONFIGURATION . '/configuration.php';
 
 	// Get the new FTP credentials.
-	$ftp = JClientHelper::getCredentials('ftp', true);
+	$ftp = ClientHelper::getCredentials('ftp', true);
 
 	// Attempt to make the file writeable if using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))

@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Languages Component Languages Model
@@ -174,7 +175,7 @@ class InstalledModel extends ListModel
 	{
 		if (is_null($this->ftp))
 		{
-			$this->ftp = \JClientHelper::setCredentialsFromRequest('ftp');
+			$this->ftp = ClientHelper::setCredentialsFromRequest('ftp');
 		}
 
 		return $this->ftp;

@@ -16,6 +16,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * View for the global configuration
@@ -72,7 +73,7 @@ class HtmlView extends BaseHtmlView
 		$mediaParams = ComponentHelper::getParams('com_media');
 
 		// Load settings for the FTP layer.
-		$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = ClientHelper::setCredentialsFromRequest('ftp');
 
 		$this->form        = &$form;
 		$this->data        = &$data;

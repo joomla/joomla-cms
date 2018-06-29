@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Client\ClientHelper;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -477,7 +478,7 @@ ENDDATA;
 			// If the tempdir is not writable, create a new writable subdirectory.
 			if (!$writable)
 			{
-				$FTPOptions = \JClientHelper::getCredentials('ftp');
+				$FTPOptions = ClientHelper::getCredentials('ftp');
 				$ftp = \JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = \JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
@@ -512,7 +513,7 @@ ENDDATA;
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory.
 				if (!is_writable($tempdir))
 				{
-					$FTPOptions = \JClientHelper::getCredentials('ftp');
+					$FTPOptions = ClientHelper::getCredentials('ftp');
 					$ftp = \JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = \JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
@@ -974,7 +975,7 @@ ENDDATA;
 			return false;
 		}
 
-		// Get the global \JAuthentication object.
+		// Get the global Authentication object.
 		$authenticate = Authentication::getInstance();
 		$response     = $authenticate->authenticate($credentials);
 

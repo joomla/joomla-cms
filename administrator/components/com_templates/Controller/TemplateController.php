@@ -16,6 +16,7 @@ use Joomla\Component\Installer\Administrator\Model\InstallModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Template style controller class.
@@ -110,7 +111,7 @@ class TemplateController extends BaseController
 			}
 
 			// Set FTP credentials, if given
-			\JClientHelper::setCredentialsFromRequest('ftp');
+			ClientHelper::setCredentialsFromRequest('ftp');
 
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))

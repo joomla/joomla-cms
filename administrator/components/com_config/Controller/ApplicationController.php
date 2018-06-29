@@ -18,6 +18,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Controller for global configuration
@@ -80,7 +81,7 @@ class ApplicationController extends BaseController
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');

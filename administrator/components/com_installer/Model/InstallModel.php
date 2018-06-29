@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Extension Manager Install Model
@@ -72,7 +73,7 @@ class InstallModel extends BaseDatabaseModel
 		$this->setState('action', 'install');
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 		$app = \JFactory::getApplication();
 
 		// Load installer plugins for assistance if required:

@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * The Joomla! update controller for the Update view
@@ -417,7 +418,7 @@ class UpdateController extends BaseController
 	{
 		$this->app->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
-		if (!\JClientHelper::hasCredentials('ftp'))
+		if (!ClientHelper::hasCredentials('ftp'))
 		{
 			$user = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
 			$pass = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', null, 'raw');
@@ -425,7 +426,7 @@ class UpdateController extends BaseController
 			if ($user != '' && $pass != '')
 			{
 				// Add credentials to the session
-				if (!\JClientHelper::setCredentials('ftp', $user, $pass))
+				if (!ClientHelper::setCredentials('ftp', $user, $pass))
 				{
 					$this->app->enqueueMessage(Text::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
 				}

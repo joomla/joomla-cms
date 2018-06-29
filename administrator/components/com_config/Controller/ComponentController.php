@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Note: this view is intended only to be opened in a popup
@@ -60,7 +61,7 @@ class ComponentController extends BaseController
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		/** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
 		$model = $this->getModel('Component', 'Administrator');

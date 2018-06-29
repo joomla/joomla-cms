@@ -21,6 +21,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Model for the global configuration
@@ -512,7 +513,7 @@ class ApplicationModel extends FormModel
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 
 		// Get the new FTP credentials.
-		$ftp = \JClientHelper::getCredentials('ftp', true);
+		$ftp = ClientHelper::getCredentials('ftp', true);
 
 		$app = \JFactory::getApplication();
 

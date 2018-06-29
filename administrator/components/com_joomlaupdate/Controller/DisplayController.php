@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Installer\Administrator\Model\WarningsModel;
+use Joomla\CMS\Client\ClientHelper;
 
 /**
  * Joomla! Update Controller
@@ -43,7 +44,7 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
+			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
