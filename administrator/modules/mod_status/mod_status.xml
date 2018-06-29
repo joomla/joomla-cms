@@ -28,6 +28,7 @@
 					description="MOD_STATUS_FIELD_SHOW_VIEWSITE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -40,6 +41,7 @@
 					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -52,6 +54,7 @@
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -64,6 +67,7 @@
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -76,6 +80,7 @@
 					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -87,14 +92,15 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" 
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
 				/>
 			</fieldset>
 		</fields>

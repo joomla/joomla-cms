@@ -41,7 +41,7 @@ abstract class ModPopularHelper
 		$model->setState('list.direction', 'DESC');
 
 		// Set Category Filter
-		$categoryId = $params->get('catid');
+		$categoryId = $params->get('catid', null);
 
 		if (is_numeric($categoryId))
 		{
@@ -51,7 +51,7 @@ abstract class ModPopularHelper
 		// Set User Filter.
 		$userId = $user->get('id');
 
-		switch ($params->get('user_id'))
+		switch ($params->get('user_id', '0'))
 		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
@@ -101,8 +101,8 @@ abstract class ModPopularHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who   = $params->get('user_id');
-		$catid = (int) $params->get('catid');
+		$who   = $params->get('user_id', '0');
+		$catid = (int) $params->get('catid', null);
 
 		if ($catid)
 		{
@@ -122,6 +122,10 @@ abstract class ModPopularHelper
 			$title = '';
 		}
 
-		return JText::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return JText::plural(
+			'MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+			(int) $params->get('count', 5),
+			$title
+		);
 	}
 }
