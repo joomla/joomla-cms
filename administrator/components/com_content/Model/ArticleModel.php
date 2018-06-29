@@ -19,6 +19,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\UCM\UCMType;
 
 /**
  * Item Model for an Article.
@@ -203,7 +204,7 @@ class ArticleModel extends AdminModel
 			$this->user = JFactory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
-			$this->contentType = new JUcmType;
+			$this->contentType = new UCMType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 

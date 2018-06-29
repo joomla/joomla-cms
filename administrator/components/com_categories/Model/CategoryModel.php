@@ -24,6 +24,7 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\UCM\UCMType;
 
 /**
  * Categories Component Category Model
@@ -855,7 +856,7 @@ class CategoryModel extends AdminModel
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		$type = new \JUcmType;
+		$type = new UCMType;
 		$this->type = $type->getTypeByAlias($this->typeAlias);
 
 		// $value comes as {parent_id}.{extension}
@@ -1068,7 +1069,7 @@ class CategoryModel extends AdminModel
 	protected function batchMove($value, $pks, $contexts)
 	{
 		$parentId = (int) $value;
-		$type = new \JUcmType;
+		$type = new UCMType;
 		$this->type = $type->getTypeByAlias($this->typeAlias);
 
 		$db = $this->getDbo();
