@@ -195,7 +195,7 @@
     }
 
     keyEvents(event) {
-      if (event.keyCode === KEYCODE.ENTER || event.keyCode === KEYCODE.SPACE) {
+      if ((event.keyCode === KEYCODE.ENTER || event.keyCode === KEYCODE.SPACE) && this.getAttribute('disabled') !== 'disabled') {
         event.preventDefault();
         this.newActive = this.inputs[1].classList.contains('active') ? 0 : 1;
 

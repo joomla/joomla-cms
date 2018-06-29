@@ -91,7 +91,7 @@ joomla-field-switcher[type="danger"] .switcher.active {
   box-shadow: 0 0 0 calc(28px / 2) #f0506e inset; }
 
 joomla-field-switcher[disabled="disabled"] .switcher {
-  opacity: 0.2; }
+  opacity: .2; }
 
 @-webkit-keyframes switcherPulsate {
   0% {
