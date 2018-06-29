@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
-
+use Joomla\CMS\Response\JsonResponse;
 /**
  * The Joomla! update controller for the Update view
  *
@@ -501,7 +501,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			echo new JResponseJson($updateFileUrl);
+			echo new JsonResponse($updateFileUrl);
 		}
 		catch (Exception $e)
 		{
