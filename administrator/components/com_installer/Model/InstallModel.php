@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Updater\Update;
 
 /**
  * Extension Manager Install Model
@@ -387,7 +388,7 @@ class InstallModel extends BaseDatabaseModel
 		if (preg_match('/\.xml\s*$/', $url))
 		{
 			jimport('joomla.updater.update');
-			$update = new \JUpdate;
+			$update = new Update;
 			$update->loadFromXml($url);
 			$package_url = trim($update->get('downloadurl', false)->_data);
 

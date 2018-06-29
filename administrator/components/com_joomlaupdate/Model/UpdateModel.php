@@ -21,6 +21,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Updater\Update;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -200,7 +201,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
-		$update = new \JUpdate;
+		$update = new Update;
 		$update->loadFromXML($updateObject->detailsurl);
 
 		$this->updateInformation['object'] = $update;
@@ -1052,7 +1053,7 @@ ENDDATA;
 		$options = array();
 
 		/*
-		 * Check the PHP Version. It is already checked in JUpdate.
+		 * Check the PHP Version. It is already checked in Update.
 		 * A Joomla! Update which is not supported by current PHP
 		 * version is not shown. So this check is actually unnecessary.
 		 */

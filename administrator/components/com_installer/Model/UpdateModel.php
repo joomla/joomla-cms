@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Updater\Update;
 
 /**
  * Installer Update Model
@@ -356,7 +357,7 @@ class UpdateModel extends ListModel
 
 		foreach ($uids as $uid)
 		{
-			$update = new \JUpdate;
+			$update = new Update;
 			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
 			$instance->load($uid);
 			$update->loadFromXml($instance->detailsurl, $minimum_stability);
@@ -392,7 +393,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param   \JUpdate  $update  An update definition
+	 * @param   Update  $update  An update definition
 	 *
 	 * @return  boolean   Result of install
 	 *
@@ -544,7 +545,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Method to add parameters to the update
 	 *
-	 * @param   \JUpdate                  $update  An update definition
+	 * @param   Update                  $update  An update definition
 	 * @param   \Joomla\CMS\Table\Update  $table   The update instance from the database
 	 *
 	 * @return  void

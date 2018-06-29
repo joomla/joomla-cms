@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Updater\Update;
 
 /** @var JoomlaupdateViewDefault $this */
 ?>
@@ -19,7 +20,7 @@ use Joomla\CMS\Language\Text;
 
 	<joomla-alert type="success"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?></joomla-alert>
 
-	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)) : ?>
+	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
 		<table class="table table-striped">
 			<tbody>
 			<tr>
