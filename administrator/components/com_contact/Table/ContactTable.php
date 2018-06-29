@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Contact Table class.
@@ -64,8 +65,8 @@ class ContactTable extends Table
 			$this->params = (string) $registry;
 		}
 
-		$date   = \JFactory::getDate()->toSql();
-		$userId = \JFactory::getUser()->id;
+		$date   = Factory::getDate()->toSql();
+		$userId = Factory::getUser()->id;
 
 		if ($this->id)
 		{
@@ -269,7 +270,7 @@ class ContactTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return $this->alias;

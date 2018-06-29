@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Groups Table
@@ -89,8 +90,8 @@ class GroupTable extends Table
 			return false;
 		}
 
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{

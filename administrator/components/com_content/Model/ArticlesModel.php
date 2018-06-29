@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of article records.
@@ -85,7 +86,7 @@ class ArticlesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -185,7 +186,7 @@ class ArticlesModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -453,9 +454,9 @@ class ArticlesModel extends ListModel
 	{
 		$items = parent::getItems();
 
-		if (\JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
-			$groups = \JFactory::getUser()->getAuthorisedViewLevels();
+			$groups = Factory::getUser()->getAuthorisedViewLevels();
 
 			foreach (array_keys($items) as $x)
 			{

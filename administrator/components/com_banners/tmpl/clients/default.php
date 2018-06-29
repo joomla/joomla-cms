@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -25,7 +26,7 @@ $purchaseTypes = array(
 		'5' => 'DAILY',
 );
 
-$user       = JFactory::getUser();
+$user       = Factory::getUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));

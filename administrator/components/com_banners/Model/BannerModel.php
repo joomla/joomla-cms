@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Banner model.
@@ -68,7 +69,7 @@ class BannerModel extends AdminModel
 	protected function batchClient($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
 		$table = $this->getTable();
@@ -148,7 +149,7 @@ class BannerModel extends AdminModel
 		}
 
 		// Check that the user has create permission for the component
-		if (!\JFactory::getUser()->authorise('core.create', 'com_banners.category.' . $categoryId))
+		if (!Factory::getUser()->authorise('core.create', 'com_banners.category.' . $categoryId))
 		{
 			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
@@ -245,7 +246,7 @@ class BannerModel extends AdminModel
 
 			if (!empty($record->catid))
 			{
-				return \JFactory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+				return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
 			}
 
 			return parent::canDelete($record);
@@ -266,7 +267,7 @@ class BannerModel extends AdminModel
 		// Check against the category.
 		if (!empty($record->catid))
 		{
-			return \JFactory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
+			return Factory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
 		}
 
 		// Default to component settings if category not known.
@@ -337,7 +338,7 @@ class BannerModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app  = \JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		if (empty($data))
@@ -384,13 +385,13 @@ class BannerModel extends AdminModel
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 				}
 			}
 		}
 
 		// Attempt to change the state of the records.
-		if (!$table->stick($pks, $value, \JFactory::getUser()->id))
+		if (!$table->stick($pks, $value, Factory::getUser()->id))
 		{
 			$this->setError($table->getError());
 
@@ -428,8 +429,8 @@ class BannerModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if (empty($table->id))
 		{
@@ -494,7 +495,7 @@ class BannerModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
@@ -557,6 +558,6 @@ class BannerModel extends AdminModel
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_banners');
+		return Factory::getUser()->authorise('core.create', 'com_banners');
 	}
 }

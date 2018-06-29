@@ -11,6 +11,7 @@ namespace Joomla\Component\Plugins\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Plugins component helper.
@@ -55,7 +56,7 @@ class PluginsHelper
 	 */
 	public static function folderOptions()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(folder) AS value, folder AS text')
 			->from('#__extensions')
@@ -70,7 +71,7 @@ class PluginsHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $options;

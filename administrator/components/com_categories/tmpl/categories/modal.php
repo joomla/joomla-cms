@@ -14,8 +14,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 if ($app->isClient('site'))
 {

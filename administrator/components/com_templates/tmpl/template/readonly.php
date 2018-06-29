@@ -11,11 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'description')); ?>

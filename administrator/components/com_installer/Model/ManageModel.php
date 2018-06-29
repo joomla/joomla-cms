@@ -15,6 +15,7 @@ use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Installer Manage Model
@@ -65,7 +66,7 @@ class ManageModel extends InstallerModel
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -95,9 +96,9 @@ class ManageModel extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -127,7 +128,7 @@ class ManageModel extends InstallerModel
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
-					\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
 					unset($eid[$i]);
 					continue;
 				}
@@ -136,7 +137,7 @@ class ManageModel extends InstallerModel
 			if ($table->protected == 1)
 			{
 				$result = false;
-				\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 			}
 			else
 			{
@@ -201,9 +202,9 @@ class ManageModel extends InstallerModel
 	 */
 	public function remove($eid = array())
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -264,7 +265,7 @@ class ManageModel extends InstallerModel
 		}
 
 		$msg = implode('<br>', $msgs);
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));

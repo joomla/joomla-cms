@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View for language overrides list.
@@ -115,7 +116,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
 		}
 
-		if (\JFactory::getUser()->authorise('core.admin'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
 		}

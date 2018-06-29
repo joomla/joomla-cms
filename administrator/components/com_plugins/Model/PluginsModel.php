@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of plugin records.
@@ -183,7 +184,7 @@ class PluginsModel extends ListModel
 	 */
 	protected function translate(&$items)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($items as &$item)
 		{

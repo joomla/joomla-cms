@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Fields Model
@@ -131,8 +132,8 @@ class FieldsModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = \JFactory::getUser();
-		$app   = \JFactory::getApplication();
+		$user  = Factory::getUser();
+		$app   = Factory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -376,7 +377,7 @@ class FieldsModel extends ListModel
 	 */
 	public function getGroups()
 	{
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
 		$db    = $this->getDbo();

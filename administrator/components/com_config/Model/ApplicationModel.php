@@ -28,6 +28,7 @@ use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Model for the global configuration
@@ -91,7 +92,7 @@ class ApplicationModel extends FormModel
 		}
 
 		// Check for data in the session.
-		$temp = \JFactory::getApplication()->getUserState('com_config.config.global.data');
+		$temp = Factory::getApplication()->getUserState('com_config.config.global.data');
 
 		// Merge in the session data.
 		if (!empty($temp))
@@ -113,14 +114,14 @@ class ApplicationModel extends FormModel
 	 */
 	public function save($data)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => \JFactory::getConfig()->get('password'),
+			'password' => Factory::getConfig()->get('password'),
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
@@ -138,7 +139,7 @@ class ApplicationModel extends FormModel
 		}
 
 		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) \JFactory::getConfig()->get('force_ssl', '0'))
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) Factory::getConfig()->get('force_ssl', '0'))
 		{
 			try
 			{
@@ -183,7 +184,7 @@ class ApplicationModel extends FormModel
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
-			$myGroups      = Access::getGroupsByUser(\JFactory::getUser()->get('id'));
+			$myGroups      = Access::getGroupsByUser(Factory::getUser()->get('id'));
 			$myRules       = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -430,7 +431,7 @@ class ApplicationModel extends FormModel
 		{
 			try
 			{
-				\JFactory::getCache()->clean();
+				Factory::getCache()->clean();
 			}
 			catch (CacheConnectingException $exception)
 			{
@@ -460,7 +461,7 @@ class ApplicationModel extends FormModel
 		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
-		$temp = \JFactory::getConfig();
+		$temp = Factory::getConfig();
 		$temp->set('ftp_enable', $data['ftp_enable']);
 		$temp->set('ftp_host', $data['ftp_host']);
 		$temp->set('ftp_port', $data['ftp_port']);
@@ -521,7 +522,7 @@ class ApplicationModel extends FormModel
 		// Get the new FTP credentials.
 		$ftp = ClientHelper::getCredentials('ftp', true);
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Attempt to make the file writeable if using FTP.
 		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
@@ -560,8 +561,8 @@ class ApplicationModel extends FormModel
 	 */
 	public function storePermissions($permission = null)
 	{
-		$app  = \JFactory::getApplication();
-		$user = \JFactory::getUser();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 
 		if (is_null($permission))
 		{
@@ -926,7 +927,7 @@ class ApplicationModel extends FormModel
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$input = $app->input->json;
 
 		$app->set('smtpauth', $input->get('smtpauth'));
@@ -940,7 +941,7 @@ class ApplicationModel extends FormModel
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
 
-		$mail = \JFactory::getMailer();
+		$mail = Factory::getMailer();
 
 		// Prepare email and send try to send it
 		$mailSubject = Text::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));

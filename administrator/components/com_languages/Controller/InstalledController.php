@@ -14,6 +14,8 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Factory;
+
 /**
  * Languages Controller.
  *
@@ -39,10 +41,10 @@ class InstalledController extends BaseController
 			// Switching to the new administrator language for the message
 			if ($model->getState('client_id') == 1)
 			{
-				$language = \JFactory::getLanguage();
+				$language = Factory::getLanguage();
 				$newLang = Language::getInstance($cid);
-				\JFactory::$language = $newLang;
-				\JFactory::getApplication()->loadLanguage($language = $newLang);
+				Factory::$language = $newLang;
+				Factory::getApplication()->loadLanguage($language = $newLang);
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 			}
 
@@ -80,10 +82,10 @@ class InstalledController extends BaseController
 		if ($model->switchAdminLanguage($cid))
 		{
 			// Switching to the new language for the message
-			$language = \JFactory::getLanguage();
+			$language = Factory::getLanguage();
 			$newLang = Language::getInstance($cid);
-			\JFactory::$language = $newLang;
-			\JFactory::getApplication()->loadLanguage($language = $newLang);
+			Factory::$language = $newLang;
+			Factory::getApplication()->loadLanguage($language = $newLang);
 			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
 			$msg = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);

@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /** @var  array  $displayData */
 $data = $displayData;
@@ -30,7 +31,7 @@ if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Ht
 // Set some basic options
 $customOptions = array(
 	'filtersHidden'       => $data['options']['filtersHidden'] ?? empty($data['view']->activeFilters),
-	'defaultLimit'        => $data['options']['defaultLimit'] ?? JFactory::getApplication()->get('list_limit', 20),
+	'defaultLimit'        => $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'orderFieldSelector'  => '#list_fullordering',
 	'totalResults'        => $data['options']['totalResults'] ?? -1,

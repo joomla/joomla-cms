@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML behavior class for Finder.
@@ -30,7 +31,7 @@ abstract class JHtmlFinder
 	public static function typeslist()
 	{
 		// Load the finder types.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT t.title AS text, t.id AS value')
 			->from($db->quoteName('#__finder_types') . ' AS t')
@@ -50,7 +51,7 @@ abstract class JHtmlFinder
 		// Compile the options.
 		$options = array();
 
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($rows as $row)
 		{
@@ -71,7 +72,7 @@ abstract class JHtmlFinder
 	public static function mapslist()
 	{
 		// Load the finder types.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title', 'text'))
 			->select($db->quoteName('id', 'value'))
@@ -85,11 +86,11 @@ abstract class JHtmlFinder
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Translate.
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($branches as $branch)
 		{

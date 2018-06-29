@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Factory;
 
 /**
  * Cache Model
@@ -180,7 +181,7 @@ class CacheModel extends ListModel
 	 */
 	public function getCache()
 	{
-		$conf = \JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		$options = array(
 			'defaultgroup' => '',
@@ -277,7 +278,7 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return \JFactory::getCache('')->gc();
+			return Factory::getCache('')->gc();
 		}
 		catch (CacheConnectingException $exception)
 		{

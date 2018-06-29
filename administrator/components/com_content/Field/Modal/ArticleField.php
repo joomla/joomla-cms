@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Supports a modal article picker.
@@ -45,7 +46,7 @@ class ArticleField extends FormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
@@ -69,7 +70,7 @@ class ArticleField extends FormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				\JFactory::getDocument()->addScriptDeclaration("
+				Factory::getDocument()->addScriptDeclaration("
 				function jSelectArticle_" . $this->id . "(id, title, catid, object, url, language) {
 					window.processModalSelect('Article', '" . $this->id . "', id, title, catid, object, url, language);
 				}
@@ -100,7 +101,7 @@ class ArticleField extends FormField
 
 		if ($value)
 		{
-			$db    = \JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__content'))
@@ -113,7 +114,7 @@ class ArticleField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 

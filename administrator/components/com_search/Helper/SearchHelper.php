@@ -14,6 +14,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Transliterate;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Search component helper.
@@ -46,7 +47,7 @@ class SearchHelper
 	 */
 	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{
-		$lang          = \JFactory::getLanguage();
+		$lang          = Factory::getLanguage();
 		$tag           = $lang->getTag();
 		$search_ignore = $lang->getIgnoredSearchWords();
 		$ignored       = false;
@@ -102,7 +103,7 @@ class SearchHelper
 	{
 		$restriction = false;
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Limit searchword to a maximum of characters.
 		$upper_limit = $lang->getUpperLimitSearchWord();
@@ -256,7 +257,7 @@ class SearchHelper
 	 */
 	public static function _smartSubstr($text, $searchword)
 	{
-		$lang        = \JFactory::getLanguage();
+		$lang        = Factory::getLanguage();
 		$length      = $lang->getSearchDisplayedCharactersNumber();
 		$ltext       = self::remove_accents($text);
 		$textlen     = StringHelper::strlen($ltext);

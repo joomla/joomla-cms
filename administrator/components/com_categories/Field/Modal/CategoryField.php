@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Supports a modal category picker.
@@ -44,7 +45,7 @@ class CategoryField extends FormField
 		}
 		else
 		{
-			$extension = (string) \JFactory::getApplication()->input->get('extension', 'com_content');
+			$extension = (string) Factory::getApplication()->input->get('extension', 'com_content');
 		}
 
 		$allowNew    = ((string) $this->element['new'] == 'true');
@@ -53,7 +54,7 @@ class CategoryField extends FormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language.
-		\JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
 		// The active category id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
@@ -77,7 +78,7 @@ class CategoryField extends FormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				\JFactory::getDocument()->addScriptDeclaration("
+				Factory::getDocument()->addScriptDeclaration("
 				function jSelectCategory_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Category', '" . $this->id . "', id, title, '', object);
 				}
@@ -107,7 +108,7 @@ class CategoryField extends FormField
 
 		if ($value)
 		{
-			$db    = \JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__categories'))
@@ -120,7 +121,7 @@ class CategoryField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 

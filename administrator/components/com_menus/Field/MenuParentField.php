@@ -86,7 +86,7 @@ class MenuParentField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.

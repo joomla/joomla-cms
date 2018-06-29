@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a language override
@@ -68,7 +69,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check whether the cache has to be refreshed.
-		$cached_time = \JFactory::getApplication()->getUserState(
+		$cached_time = Factory::getApplication()->getUserState(
 			'com_languages.overrides.cachedtime.' . $this->state->get('filter.client') . '.' . $this->state->get('filter.language'),
 			0
 		);
@@ -95,7 +96,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = ContentHelper::getActions('com_languages');
 

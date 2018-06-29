@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Languages Override Model
@@ -72,7 +73,7 @@ class OverrideModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_languages.edit.override.data', array());
+		$data = Factory::getApplication()->getUserState('com_languages.edit.override.data', array());
 
 		if (empty($data))
 		{
@@ -95,7 +96,7 @@ class OverrideModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-		$input    = \JFactory::getApplication()->input;
+		$input    = Factory::getApplication()->input;
 		$pk       = (!empty($pk)) ? $pk : $input->get('id');
 		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client')))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
@@ -133,7 +134,7 @@ class OverrideModel extends AdminModel
 	{
 		jimport('joomla.filesystem.file');
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
 		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
@@ -209,7 +210,7 @@ class OverrideModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$client = $app->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int') ? 'administrator' : 'site';
 		$this->setState('filter.client', $client);

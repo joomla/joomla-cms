@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Text Filters form field.
@@ -149,7 +150,7 @@ class FiltersField extends FormField
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

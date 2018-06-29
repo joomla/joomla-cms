@@ -19,6 +19,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Item Model for a Contact.
@@ -215,7 +216,7 @@ class ContactModel extends AdminModel
 				return false;
 			}
 
-			return \JFactory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
+			return Factory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
 		}
 	}
 
@@ -233,7 +234,7 @@ class ContactModel extends AdminModel
 		// Check against the category.
 		if (!empty($record->catid))
 		{
-			return \JFactory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
+			return Factory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
 		}
 
 		// Default to component settings if category not known.
@@ -335,7 +336,7 @@ class ContactModel extends AdminModel
 	 */
 	protected function loadFormData()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_contact.edit.contact.data', array());
@@ -367,7 +368,7 @@ class ContactModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
@@ -441,7 +442,7 @@ class ContactModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
-		$date = \JFactory::getDate()->toSql();
+		$date = Factory::getDate()->toSql();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 
@@ -469,7 +470,7 @@ class ContactModel extends AdminModel
 		{
 			// Set the values
 			$table->modified = $date;
-			$table->modified_by = \JFactory::getUser()->id;
+			$table->modified_by = Factory::getUser()->id;
 		}
 
 		// Increment the content version number.
@@ -643,6 +644,6 @@ class ContactModel extends AdminModel
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_contact');
+		return Factory::getUser()->authorise('core.create', 'com_contact');
 	}
 }

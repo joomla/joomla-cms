@@ -16,6 +16,7 @@ use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Model for the display of system information.
@@ -434,7 +435,7 @@ class SysInfoModel extends BaseDatabaseModel
 	public function getExtensions()
 	{
 		$installed = array();
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__extensions'));
@@ -452,7 +453,7 @@ class SysInfoModel extends BaseDatabaseModel
 			}
 			catch (\RuntimeException $exception)
 			{
-				\JFactory::getApplication()->enqueueMessage(
+				Factory::getApplication()->enqueueMessage(
 					Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
 					'warning'
 				);
@@ -516,7 +517,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->directories = array();
 
-		$registry = \JFactory::getApplication()->getConfig();
+		$registry = Factory::getApplication()->getConfig();
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
@@ -687,7 +688,7 @@ class SysInfoModel extends BaseDatabaseModel
 			return $this->editor;
 		}
 
-		$this->editor = \JFactory::getApplication()->get('editor');
+		$this->editor = Factory::getApplication()->get('editor');
 
 		return $this->editor;
 	}

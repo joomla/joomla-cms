@@ -21,6 +21,7 @@ use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
 
 /**
  * Installer Update Model
@@ -73,7 +74,7 @@ class UpdateModel extends ListModel
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
@@ -402,11 +403,11 @@ class UpdateModel extends ListModel
 	 */
 	private function install($update)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if (!isset($update->get('downloadurl')->_data))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'), 'error');
 
 			return false;
 		}
@@ -439,7 +440,7 @@ class UpdateModel extends ListModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
 
 			return false;
 		}
@@ -538,7 +539,7 @@ class UpdateModel extends ListModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState($this->context, array());
+		$data = Factory::getApplication()->getUserState($this->context, array());
 
 		return $data;
 	}

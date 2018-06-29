@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 ?>
 <form id="deleteFolder" method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 	<fieldset>

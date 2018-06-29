@@ -78,7 +78,7 @@ class UpdateModel extends BaseDatabaseModel
 				}
 				else
 				{
-					return \JFactory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+					return Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 				}
 				break;
 
@@ -220,7 +220,7 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function getFTPOptions()
 	{
-		$config = \JFactory::getApplication()->getConfig();
+		$config = Factory::getApplication()->getConfig();
 
 		return array(
 			'host'      => $config->get('ftp_host'),
@@ -299,7 +299,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$config  = \JFactory::getConfig();
+		$config  = Factory::getConfig();
 		$tempdir = $config->get('tmp_path');
 		$target  = $tempdir . '/' . $basename;
 
@@ -406,11 +406,11 @@ class UpdateModel extends BaseDatabaseModel
 	{
 		// Get a password
 		$password = UserHelper::genRandomPassword(32);
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Do we have to use FTP?
-		$method = \JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
+		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
 		// Get the absolute path to site's root.
 		$siteroot = JPATH_SITE;
@@ -825,7 +825,7 @@ ENDDATA;
 		}
 
 		// Refresh versionable assets cache.
-		\JFactory::getApplication()->flushAssets();
+		Factory::getApplication()->flushAssets();
 
 		return true;
 	}
@@ -840,10 +840,10 @@ ENDDATA;
 	public function cleanUp()
 	{
 		// Remove the update package.
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 		$tempdir = $config->get('tmp_path');
 
-		$file = \JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir . '/' . $file;
 
 		if (!@unlink($target))
@@ -868,7 +868,7 @@ ENDDATA;
 		}
 
 		// Unset the update filename from the session.
-		\JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+		Factory::getApplication()->setUserState('com_joomlaupdate.file', null);
 	}
 
 	/**
@@ -881,7 +881,7 @@ ENDDATA;
 	public function upload()
 	{
 		// Get the uploaded file information.
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
 		$userfile = $input->files->get('install_package', null, 'raw');
@@ -930,7 +930,7 @@ ENDDATA;
 		}
 
 		// Build the appropriate paths.
-		$config   = \JFactory::getConfig();
+		$config   = Factory::getConfig();
 		$tmp_dest = tempnam($config->get('tmp_path'), 'ju');
 		$tmp_src  = $userfile['tmp_name'];
 
@@ -952,7 +952,7 @@ ENDDATA;
 			throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
 		}
 
-		\JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
+		Factory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
 	}
 
 	/**
@@ -968,7 +968,7 @@ ENDDATA;
 	{
 		// Make sure the username matches
 		$username = $credentials['username'] ?? null;
-		$user     = \JFactory::getUser();
+		$user     = Factory::getUser();
 
 		if (strtolower($user->username) != strtolower($username))
 		{
@@ -1002,7 +1002,7 @@ ENDDATA;
 	 */
 	public function captiveFileExists()
 	{
-		$file = \JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+		$file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
 		\JLoader::import('joomla.filesystem.file');
 
@@ -1024,8 +1024,8 @@ ENDDATA;
 	public function removePackageFiles()
 	{
 		$files = array(
-			\JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null),
-			\JFactory::getApplication()->getUserState('com_joomlaupdate.file', null),
+			Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null),
+			Factory::getApplication()->getUserState('com_joomlaupdate.file', null),
 		);
 
 		\JLoader::import('joomla.filesystem.file');

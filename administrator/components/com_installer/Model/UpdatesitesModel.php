@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Installer Update Sites Model
@@ -90,7 +91,7 @@ class UpdatesitesModel extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
@@ -135,7 +136,7 @@ class UpdatesitesModel extends InstallerModel
 	 */
 	public function delete($ids = array())
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
@@ -147,7 +148,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$count = 0;
 
@@ -218,13 +219,13 @@ class UpdatesitesModel extends InstallerModel
 	 */
 	public function rebuild()
 	{
-		if (!\JFactory::getUser()->authorise('core.admin', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.admin', 'com_installer'))
 		{
 			throw new \Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check if Joomla Extension plugin is enabled.
 		if (!PluginHelper::isEnabled('extension', 'joomla'))

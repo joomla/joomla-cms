@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 $options = array(
 	JHtml::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
@@ -17,7 +18,7 @@ $options = array(
 );
 $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
-$menuType  = JFactory::getApplication()->getUserState('com_menus.items.menutype');
+$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
 if ($clientId == 1) :
 	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['relative' => true, 'version' => 'auto']);
 endif;

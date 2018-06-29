@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 
@@ -40,7 +41,7 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 
 		<?php if ($this->selfUpdate) : ?>
 			<?php // If we have a self update notice to install it first! ?>
-			<?php JFactory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALL_SELF_UPDATE_FIRST'), 'error'); ?>
+			<?php Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALL_SELF_UPDATE_FIRST'), 'error'); ?>
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
 			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)

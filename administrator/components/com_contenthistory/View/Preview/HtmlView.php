@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of contenthistory.
@@ -50,7 +51,7 @@ class HtmlView extends BaseHtmlView
 
 		if (false === $this->item)
 		{
-			\JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
+			Factory::getLanguage()->load('com_content', JPATH_SITE, null, true);
 
 			throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 

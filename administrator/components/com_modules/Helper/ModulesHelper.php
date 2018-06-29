@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Modules component helper.
@@ -74,7 +75,7 @@ abstract class ModulesHelper
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(position)')
 			->from('#__modules')
@@ -90,7 +91,7 @@ abstract class ModulesHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return;
 		}
@@ -124,7 +125,7 @@ abstract class ModulesHelper
 	 */
 	public static function getTemplates($clientId = 0, $state = '', $template = '')
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);
@@ -161,7 +162,7 @@ abstract class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
@@ -173,7 +174,7 @@ abstract class ModulesHelper
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($modules as $i => $module)
 		{
@@ -226,7 +227,7 @@ abstract class ModulesHelper
 	public static function getTranslatedModulePosition($clientId, $template, $position)
 	{
 		// Template translation
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		$loaded = $lang->getPaths('tpl_' . $template . '.sys');

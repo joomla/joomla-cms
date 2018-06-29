@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Articles list controller class.
@@ -63,7 +64,7 @@ class ArticlesController extends AdminController
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
@@ -76,13 +77,13 @@ class ArticlesController extends AdminController
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -93,7 +94,7 @@ class ArticlesController extends AdminController
 			// Publish the items.
 			if (!$model->featured($ids, $value))
 			{
-				\JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
+				Factory::getApplication()->enqueueMessage($model->getError(), 'error');
 			}
 
 			if ($value == 1)

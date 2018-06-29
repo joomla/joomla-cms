@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
 
 /**
  * Installer Discover Model
@@ -62,7 +63,7 @@ class DiscoverModel extends InstallerModel
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -184,7 +185,7 @@ class DiscoverModel extends InstallerModel
 	 */
 	public function discover_install()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$input = $app->input;
 		$eid   = $input->get('cid', 0, 'array');
 

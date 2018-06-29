@@ -16,6 +16,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Module controller class.
@@ -130,7 +131,7 @@ class ModuleController extends FormController
 		}
 
 		// Check edit on the record asset (explicit or inherited)
-		if (\JFactory::getUser()->authorise('core.edit', 'com_modules.module.' . $recordId))
+		if (Factory::getUser()->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
@@ -174,7 +175,7 @@ class ModuleController extends FormController
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$task = $this->getTask();
 
 		switch ($task)
@@ -203,10 +204,10 @@ class ModuleController extends FormController
 	{
 		if (!Session::checkToken())
 		{
-			\JFactory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
+			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
 		}
 
-		if (\JFactory::getDocument()->getType() == 'json')
+		if (Factory::getDocument()->getType() == 'json')
 		{
 			$model = $this->getModel();
 			$data  = $this->input->post->get('jform', array(), 'array');
@@ -246,7 +247,7 @@ class ModuleController extends FormController
 	 */
 	public function orderPosition()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';
@@ -265,7 +266,7 @@ class ModuleController extends FormController
 		$clientId = $jinput->getValue('client_id');
 		$position = $jinput->getValue('position');
 
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
@@ -280,7 +281,7 @@ class ModuleController extends FormController
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return '';
 		}

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -21,7 +22,7 @@ JHtml::_('behavior.tabstate');
 
 $this->fieldsets = $this->form->getFieldsets('params');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 // In case of modal
 $isModal  = $input->get('layout') === 'modal' ? true : false;

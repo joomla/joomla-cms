@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Templates component helper.
@@ -66,7 +67,7 @@ class TemplatesHelper
 	public static function getTemplateOptions($clientId = '*')
 	{
 		// Build the filter options.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('element', 'value'))

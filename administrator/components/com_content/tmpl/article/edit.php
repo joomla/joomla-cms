@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Factory;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
@@ -28,7 +29,7 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 $params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 $input = $app->input;
 
 $assoc = Associations::isEnabled();

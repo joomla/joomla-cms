@@ -17,6 +17,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of articles.
@@ -79,7 +80,7 @@ class HtmlView extends BaseHtmlView
 			throw new \Exception(implode("\n", $errors), 500);
 		}
 
-		$this->app  = \JFactory::getApplication();
+		$this->app  = Factory::getApplication();
 		$this->form = $this->get('Form');
 		$input      = $this->app->input;
 		$this->referenceId = $input->get('id', 0, 'int');
@@ -180,7 +181,7 @@ class HtmlView extends BaseHtmlView
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -207,7 +208,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		// Hide main menu.
-		\JFactory::getApplication()->input->set('hidemainmenu', 1);
+		Factory::getApplication()->input->set('hidemainmenu', 1);
 
 		$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
 		$title  = $helper->getTypeTitle($this->typeName);

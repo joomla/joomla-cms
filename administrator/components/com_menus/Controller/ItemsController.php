@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * The Menu Item Controller
@@ -270,7 +271,7 @@ class ItemsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list . '&menutype=' .
-				\JFactory::getApplication()->getUserState('com_menus.items.menutype'),
+				Factory::getApplication()->getUserState('com_menus.items.menutype'),
 				false
 			)
 		);

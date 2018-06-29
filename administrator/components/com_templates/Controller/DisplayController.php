@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 /**
  * Templates manager master display controller.
@@ -43,7 +44,7 @@ class DisplayController extends BaseController
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// For JSON requests
 		if ($document->getType() == 'json')

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Sysinfo View class for the Admin component
@@ -33,7 +34,7 @@ class TextView extends AbstractView
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -63,7 +64,7 @@ class TextView extends AbstractView
 
 		echo str_replace(JPATH_ROOT, 'xxxxxx', implode("\n\n", $lines));
 
-		\JFactory::getApplication()->close();
+		Factory::getApplication()->close();
 	}
 
 	/**

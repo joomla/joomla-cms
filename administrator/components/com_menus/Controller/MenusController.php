@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * The Menu List Controller
@@ -64,8 +65,8 @@ class MenusController extends BaseController
 		// Check for request forgeries
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$user = \JFactory::getUser();
-		$app  = \JFactory::getApplication();
+		$user = Factory::getUser();
+		$app  = Factory::getApplication();
 		$cids = (array) $this->input->get('cid', array(), 'array');
 
 		if (count($cids) < 1)
@@ -150,7 +151,7 @@ class MenusController extends BaseController
 	 */
 	public function resync()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$parts = null;
 

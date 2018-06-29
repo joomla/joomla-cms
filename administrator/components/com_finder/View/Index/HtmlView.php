@@ -18,6 +18,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 /**
  * Index view class for Finder.
@@ -129,11 +130,11 @@ class HtmlView extends BaseHtmlView
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
 			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

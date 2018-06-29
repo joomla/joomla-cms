@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -21,7 +22,7 @@ JHtml::_('behavior.multiselect');
 
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
-$user      = JFactory::getUser();
+$user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
@@ -35,7 +36,7 @@ foreach ($this->items as $item)
 	}
 }
 
-JFactory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
+Factory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
 JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">

@@ -14,8 +14,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 if ($app->isClient('site'))
 {
@@ -39,7 +40,7 @@ $onclick   = $this->escape($function);
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
-	JFactory::getDocument()->addScriptOptions('xtd-contacts', array('editor' => $editor));
+	Factory::getDocument()->addScriptOptions('xtd-contacts', array('editor' => $editor));
 	$onclick = "jSelectContact";
 }
 ?>

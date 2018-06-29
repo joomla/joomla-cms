@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Sysinfo View class for the Admin component
@@ -33,7 +34,7 @@ class JsonView extends AbstractView
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -46,7 +47,7 @@ class JsonView extends AbstractView
 
 		echo json_encode($data);
 
-		\JFactory::getApplication()->close();
+		Factory::getApplication()->close();
 	}
 
 	/**

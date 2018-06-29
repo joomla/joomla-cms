@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 JLoader::register('NewsfeedsHelperRoute', JPATH_ROOT . '/components/com_newsfeeds/helpers/route.php');
 
@@ -21,7 +22,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));

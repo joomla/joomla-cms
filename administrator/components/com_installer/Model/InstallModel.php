@@ -18,6 +18,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Extension Manager Install Model
@@ -54,7 +55,7 @@ class InstallModel extends BaseDatabaseModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -77,7 +78,7 @@ class InstallModel extends BaseDatabaseModel
 
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load installer plugins for assistance if required:
 		PluginHelper::importPlugin('installer');
@@ -222,7 +223,7 @@ class InstallModel extends BaseDatabaseModel
 		// Cleanup the install files.
 		if (!is_file($package['packagefile']))
 		{
-			$config = \JFactory::getConfig();
+			$config = Factory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
@@ -249,7 +250,7 @@ class InstallModel extends BaseDatabaseModel
 	protected function _getPackageFromUpload()
 	{
 		// Get the uploaded file information.
-		$input    = \JFactory::getApplication()->input;
+		$input    = Factory::getApplication()->input;
 
 		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
 		$userfile = $input->files->get('install_package', null, 'raw');
@@ -257,7 +258,7 @@ class InstallModel extends BaseDatabaseModel
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
 			return false;
 		}
@@ -265,7 +266,7 @@ class InstallModel extends BaseDatabaseModel
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
 
 			return false;
 		}
@@ -273,7 +274,7 @@ class InstallModel extends BaseDatabaseModel
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
 
 			return false;
 		}
@@ -281,7 +282,7 @@ class InstallModel extends BaseDatabaseModel
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
-			\JFactory::getApplication()->enqueueMessage(
+			Factory::getApplication()->enqueueMessage(
 				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
 				'error'
 			);
@@ -292,7 +293,7 @@ class InstallModel extends BaseDatabaseModel
 		// Is the max upload size too small in php.ini?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
-			\JFactory::getApplication()->enqueueMessage(
+			Factory::getApplication()->enqueueMessage(
 				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 				'error'
 			);
@@ -303,13 +304,13 @@ class InstallModel extends BaseDatabaseModel
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 
 			return false;
 		}
 
 		// Build the appropriate paths.
-		$config   = \JFactory::getApplication()->getConfig();
+		$config   = Factory::getApplication()->getConfig();
 		$tmp_dest = $config->get('tmp_path') . '/' . $userfile['name'];
 		$tmp_src  = $userfile['tmp_name'];
 
@@ -332,7 +333,7 @@ class InstallModel extends BaseDatabaseModel
 	 */
 	protected function _getPackageFromFolder()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Get the path to the package to install.
 		$p_dir = $input->getString('install_directory');
@@ -341,7 +342,7 @@ class InstallModel extends BaseDatabaseModel
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir))
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'error');
 
 			return false;
 		}
@@ -352,7 +353,7 @@ class InstallModel extends BaseDatabaseModel
 		// Did you give us a valid package?
 		if (!$type)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'error');
 		}
 
 		$package['packagefile'] = null;
@@ -372,7 +373,7 @@ class InstallModel extends BaseDatabaseModel
 	 */
 	protected function _getPackageFromUrl()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Get the URL of the package to install.
 		$url = $input->getString('install_url');
@@ -380,7 +381,7 @@ class InstallModel extends BaseDatabaseModel
 		// Did you give us a URL?
 		if (!$url)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
 
 			return false;
 		}
@@ -407,12 +408,12 @@ class InstallModel extends BaseDatabaseModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
 
 			return false;
 		}
 
-		$config   = \JFactory::getConfig();
+		$config   = Factory::getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.

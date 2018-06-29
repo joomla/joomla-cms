@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Template style controller class.
@@ -43,14 +44,14 @@ class StyleController extends FormController
 	{
 		if (!Session::checkToken())
 		{
-			\JFactory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
+			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
 		}
 
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		if ($document->getType() === 'json')
 		{
-			$app   = \JFactory::getApplication();
+			$app   = Factory::getApplication();
 			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');

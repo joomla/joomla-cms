@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 FormHelper::loadFieldClass('list');
 
@@ -126,7 +127,7 @@ class CategoryeditField extends \JFormFieldList
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		// Load the category options for a given extension.
 
@@ -149,8 +150,8 @@ class CategoryeditField extends \JFormFieldList
 			? (int) reset($oldCat)
 			: (int) $oldCat;
 
-		$db   = \JFactory::getDbo();
-		$user = \JFactory::getUser();
+		$db   = Factory::getDbo();
+		$user = Factory::getUser();
 
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
@@ -226,7 +227,7 @@ class CategoryeditField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.

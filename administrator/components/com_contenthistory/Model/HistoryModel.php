@@ -19,6 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -71,7 +72,7 @@ class HistoryModel extends ListModel
 		if (!empty($record->ucm_type_id))
 		{
 			// Check that the type id matches the type alias
-			$typeAlias = \JFactory::getApplication()->input->get('type_alias');
+			$typeAlias = Factory::getApplication()->input->get('type_alias');
 
 			/** @var ContentType $contentTypeTable */
 			$contentTypeTable = $this->getTable('ContentType');
@@ -82,7 +83,7 @@ class HistoryModel extends ListModel
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user   = \JFactory::getUser();
+				$user   = Factory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
 
@@ -90,7 +91,7 @@ class HistoryModel extends ListModel
 			if (!$result)
 			{
 				$contentTypeTable->load($record->ucm_type_id);
-				$typeEditables = (array) \JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
 				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}
@@ -155,7 +156,7 @@ class HistoryModel extends ListModel
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage($error, 'warning');
+							Factory::getApplication()->enqueueMessage($error, 'warning');
 						}
 
 						return false;
@@ -168,7 +169,7 @@ class HistoryModel extends ListModel
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;
@@ -199,7 +200,7 @@ class HistoryModel extends ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($items === false)
 		{
@@ -295,7 +296,7 @@ class HistoryModel extends ListModel
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage($error, 'warning');
+							Factory::getApplication()->enqueueMessage($error, 'warning');
 						}
 
 						return false;
@@ -308,7 +309,7 @@ class HistoryModel extends ListModel
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+							Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;
@@ -343,7 +344,7 @@ class HistoryModel extends ListModel
 	 */
 	protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$itemId = $input->get('item_id', 0, 'integer');
 		$typeId = $input->get('type_id', 0, 'integer');
 		$typeAlias = $input->get('type_alias', '', 'string');
@@ -409,12 +410,12 @@ class HistoryModel extends ListModel
 	{
 		$result = false;
 		$typeTable = $this->getTable('ContentType');
-		$typeId = \JFactory::getApplication()->input->getInteger('type_id', 0);
+		$typeId = Factory::getApplication()->input->getInteger('type_id', 0);
 		$typeTable->load($typeId);
 		$typeAliasArray = explode('.', $typeTable->type_alias);
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
 		$contentTable = $typeTable->getContentTable();
-		$keyValue = \JFactory::getApplication()->input->getInteger('item_id', 0);
+		$keyValue = Factory::getApplication()->input->getInteger('item_id', 0);
 
 		if ($contentTable && $contentTable->load($keyValue))
 		{

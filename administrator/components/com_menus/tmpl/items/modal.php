@@ -15,8 +15,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 if ($app->isClient('site'))
 {
@@ -39,7 +40,7 @@ $link         = 'index.php?option=com_menus&view=items&layout=modal&tmpl=compone
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
-	JFactory::getDocument()->addScriptOptions('xtd-menus', array('editor' => $editor));
+	Factory::getDocument()->addScriptOptions('xtd-menus', array('editor' => $editor));
 	$onclick = "jSelectMenuItem";
 	$link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1';
 }

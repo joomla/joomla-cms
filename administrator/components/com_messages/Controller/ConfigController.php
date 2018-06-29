@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Messages Component Message Model
@@ -34,7 +35,7 @@ class ConfigController extends BaseController
 		// Check for request forgeries.
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$model = $this->getModel('Config', 'MessagesModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
 

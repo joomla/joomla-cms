@@ -14,6 +14,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 // Add javascripts
 JHtml::_('behavior.core');
@@ -33,7 +34,7 @@ JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
  */
 $form = $this->form;
 
-$tmpl = JFactory::getApplication()->input->getCmd('tmpl');
+$tmpl = Factory::getApplication()->input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component')
@@ -52,7 +53,7 @@ $config = [
 	'contents'                => $this->file->content,
 ];
 
-JFactory::getDocument()->addScriptOptions('com_media', $config);
+Factory::getDocument()->addScriptOptions('com_media', $config);
 
 ?>
 <div class="row">

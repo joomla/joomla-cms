@@ -79,7 +79,7 @@ class MenuOrderingField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Allow translation of custom admin menus

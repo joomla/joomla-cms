@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 JHtml::_('behavior.core');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
@@ -22,7 +23,7 @@ JHtml::_('behavior.tabstate');
 JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
 JHtml::_('script', 'com_installer/installer.js', false, true);
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 ?>
 
 <div id="installer-install" class="clearfix">

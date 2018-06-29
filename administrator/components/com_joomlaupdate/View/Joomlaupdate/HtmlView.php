@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Update's Default View
@@ -123,7 +124,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
 		{
@@ -136,7 +137,7 @@ class HtmlView extends BaseHtmlView
 		if (!is_null($this->updateInfo['object']))
 		{
 			// Show the message if an update is found.
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 
 		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
@@ -181,7 +182,7 @@ class HtmlView extends BaseHtmlView
 
 		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\MVC\Model\BaseDatabaseModel)
 		{
-			$language = \JFactory::getLanguage();
+			$language = Factory::getLanguage();
 			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
 			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
@@ -191,7 +192,7 @@ class HtmlView extends BaseHtmlView
 		$this->selfUpdate = $this->checkForSelfUpdate();
 
 		// Only Super Users have access to the Update & Install for obvious security reasons
-		$this->showUploadAndUpdate = \JFactory::getUser()->authorise('core.admin');
+		$this->showUploadAndUpdate = Factory::getUser()->authorise('core.admin');
 
 		// Remove temporary files
 		$model->removePackageFiles();
@@ -209,7 +210,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	private function checkForSelfUpdate()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -226,7 +227,7 @@ class HtmlView extends BaseHtmlView
 		{
 			// Something is wrong here!
 			$joomlaUpdateComponentId = 0;
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Try the update only if we have an extension id
@@ -253,7 +254,7 @@ class HtmlView extends BaseHtmlView
 			{
 				// Something is wrong here!
 				$joomlaUpdateComponentObject = null;
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
 			if (is_null($joomlaUpdateComponentObject))

@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a template style.
@@ -129,7 +130,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = \JFactory::getApplication();
+		$app            = Factory::getApplication();
 		$this->file     = $app->input->get('file');
 		$this->fileName = \JFilterInput::getInstance()->clean(base64_decode($this->file), 'string');
 		$explodeArray   = explode('.', $this->fileName);
@@ -185,7 +186,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			$this->setLayout('readonly');
 		}
@@ -202,8 +203,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$app   = \JFactory::getApplication();
-		$user  = \JFactory::getUser();
+		$app   = Factory::getApplication();
+		$user  = Factory::getUser();
 		$app->input->set('hidemainmenu', true);
 
 		// User is global SuperUser

@@ -10,12 +10,13 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 $data = $displayData;
 
 ?>
 <?php if ($data['view'] instanceof \Joomla\Component\Associations\Administrator\View\Associations\HtmlView) : ?>
-	<?php $app = JFactory::getApplication(); ?>
+	<?php $app = Factory::getApplication(); ?>
 	<?php // We will get the component item type and language filters & remove it from the form filters. ?>
 	<?php if ($app->input->get('forcedItemType', '', 'string') == '') : ?>
 		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>

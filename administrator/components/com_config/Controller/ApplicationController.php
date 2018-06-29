@@ -19,6 +19,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Controller for global configuration
@@ -93,7 +94,7 @@ class ApplicationController extends BaseController
 		$data = array_replace($oldData, $data);
 
 		// Get request type
-		$saveFormat = \JFactory::getDocument()->getType();
+		$saveFormat = Factory::getDocument()->getType();
 
 		// Handle service requests
 		if ($saveFormat == 'json')

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
@@ -78,7 +79,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 							</tr>
 						</tfoot>
 						<tbody>
-						<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages'); ?>
+						<?php $canEdit = Factory::getUser()->authorise('core.edit', 'com_languages'); ?>
 						<?php $i = 0; ?>
 						<?php foreach ($this->items as $key => $text) : ?>
 							<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">

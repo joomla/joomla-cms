@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 
-$input          = JFactory::getApplication()->input;
+$input          = Factory::getApplication()->input;
 $field          = $input->getCmd('field');
 $function       = 'jSelectContenthistory_' . $field;
 $listOrder      = $this->escape($this->state->get('list.ordering'));

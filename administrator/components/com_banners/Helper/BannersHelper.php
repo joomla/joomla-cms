@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Banners component helper.
@@ -67,16 +68,16 @@ class BannersHelper extends ContentHelper
 	 */
 	public static function updateReset()
 	{
-		$db       = \JFactory::getDbo();
+		$db       = Factory::getDbo();
 		$nullDate = $db->getNullDate();
 		$query    = $db->getQuery(true)
 			->select('*')
 			->from('#__banners')
-			->where($db->quote(\JFactory::getDate()) . ' >= ' . $db->quote('reset'))
+			->where($db->quote(Factory::getDate()) . ' >= ' . $db->quote('reset'))
 			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!= NULL')
 			->where(
 				'(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = '
-				. (int) $db->quote(\JFactory::getUser()->id) . ')'
+				. (int) $db->quote(Factory::getUser()->id) . ')'
 			);
 		$db->setQuery($query);
 
@@ -86,7 +87,7 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -115,19 +116,19 @@ class BannersHelper extends ContentHelper
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = \JFactory::getDate('+1 year ' . date('Y-m-d'));
+					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 3:
-					$date = \JFactory::getDate('+1 month ' . date('Y-m-d'));
+					$date = Factory::getDate('+1 month ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 4:
-					$date = \JFactory::getDate('+7 day ' . date('Y-m-d'));
+					$date = Factory::getDate('+7 day ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 5:
-					$date = \JFactory::getDate('+1 day ' . date('Y-m-d'));
+					$date = Factory::getDate('+1 day ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 			}
@@ -147,7 +148,7 @@ class BannersHelper extends ContentHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -165,7 +166,7 @@ class BannersHelper extends ContentHelper
 	{
 		$options = array();
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('id AS value, name AS text')
 			->from('#__banner_clients AS a')
@@ -181,7 +182,7 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		array_unshift($options, \JHtml::_('select.option', '0', Text::_('COM_BANNERS_NO_CLIENT')));

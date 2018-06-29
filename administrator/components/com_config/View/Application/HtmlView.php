@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View for the global configuration
@@ -51,11 +52,11 @@ class HtmlView extends BaseHtmlView
 			// Load Form and Data
 			$form = $this->get('form');
 			$data = $this->get('data');
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 		}
 		catch (\Exception $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

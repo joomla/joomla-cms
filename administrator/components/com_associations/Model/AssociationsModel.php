@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of article records.
@@ -72,7 +73,7 @@ class AssociationsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
@@ -176,7 +177,7 @@ class AssociationsModel extends ListModel
 		}
 
 		// Create a new query object.
-		$user     = \JFactory::getUser();
+		$user     = Factory::getUser();
 		$db       = $this->getDbo();
 		$query    = $db->getQuery(true);
 
@@ -453,7 +454,7 @@ class AssociationsModel extends ListModel
 	 */
 	public function purge($context = '', $key = '')
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)->delete($db->qn('#__associations'));
 
@@ -502,7 +503,7 @@ class AssociationsModel extends ListModel
 	 */
 	public function clean($context = '', $key = '')
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('key') . ', COUNT(*)')

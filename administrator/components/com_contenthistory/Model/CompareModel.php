@@ -16,6 +16,7 @@ use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -33,7 +34,7 @@ class CompareModel extends ItemModel
 	 */
 	public function getItems()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		/** @var ContentHistory $table1 */
 		$table1 = $this->getTable('ContentHistory');
@@ -58,7 +59,7 @@ class CompareModel extends ItemModel
 				return false;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Access check
 			if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table1->ucm_item_id) || $this->canEdit($table1))
@@ -146,7 +147,7 @@ class CompareModel extends ItemModel
 		if (!empty($record->ucm_type_id))
 		{
 			// Check that the type id matches the type alias
-			$typeAlias = \JFactory::getApplication()->input->get('type_alias');
+			$typeAlias = Factory::getApplication()->input->get('type_alias');
 
 			/** @var ContentType $contentTypeTable */
 			$contentTypeTable = $this->getTable('ContentType');
@@ -157,7 +158,7 @@ class CompareModel extends ItemModel
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user   = \JFactory::getUser();
+				$user   = Factory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
 
@@ -165,7 +166,7 @@ class CompareModel extends ItemModel
 			if (!$result)
 			{
 				$contentTypeTable->load($record->ucm_type_id);
-				$typeEditables = (array) \JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
 				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}

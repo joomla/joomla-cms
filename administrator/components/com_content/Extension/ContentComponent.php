@@ -24,6 +24,7 @@ use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Component class for com_content
@@ -72,7 +73,7 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function validateSection($section, $item = null)
 	{
-		if (\JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
 			// On the front end we need to map some sections
 			switch ($section)
@@ -105,7 +106,7 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function getContexts(): array
 	{
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
 			'com_content.article'    => Text::_('COM_CONTENT'),

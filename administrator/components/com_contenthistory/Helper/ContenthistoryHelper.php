@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
@@ -209,7 +210,7 @@ class ContenthistoryHelper
 
 		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn)&& isset($lookup->displayColumn))
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName($lookup->displayColumn))
 				->from($db->quoteName($lookup->targetTable))
@@ -272,7 +273,7 @@ class ContenthistoryHelper
 		if (is_array($aliasArray) && count($aliasArray) == 2)
 		{
 			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			/**
 			 * Loading language file from the administrator/language directory then

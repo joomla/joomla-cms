@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Languages Override Controller
@@ -37,7 +38,7 @@ class OverrideController extends FormController
 		// Do not cache the response to this, its a redirect
 		$this->app->allowCache(false);
 
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 

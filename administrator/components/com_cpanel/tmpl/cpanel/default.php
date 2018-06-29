@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Factory;
 
-$user = JFactory::getUser();
+$user = Factory::getUser();
 ?>
 
 <div class="row">

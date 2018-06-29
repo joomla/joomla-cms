@@ -14,6 +14,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Abstract Fields Plugin
@@ -65,12 +66,12 @@ abstract class FieldsPlugin extends CMSPlugin
 			// Needed attributes
 			$data['type'] = $layout;
 
-			if (\JFactory::getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL'))
+			if (Factory::getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL'))
 			{
 				$data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
 				// Fix wrongly set parentheses in RTL languages
-				if (\JFactory::getLanguage()->isRTL())
+				if (Factory::getLanguage()->isRTL())
 				{
 					$data['label'] = $data['label'] . '&#x200E;';
 				}
@@ -159,7 +160,7 @@ abstract class FieldsPlugin extends CMSPlugin
 			return null;
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Detect if the field should be shown at all
 		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))

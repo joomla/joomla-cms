@@ -129,7 +129,7 @@ class TagsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -260,7 +260,7 @@ class TagsModel extends ListModel
 					// Only attempt to check the row in if it exists.
 					if ($pk)
 					{
-						$user = \JFactory::getUser();
+						$user = Factory::getUser();
 
 						// Get an instance of the row to checkin.
 						$table = $this->getTable();

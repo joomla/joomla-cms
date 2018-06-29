@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Factory;
 
 \JFormHelper::loadFieldClass('List');
 
@@ -41,7 +42,7 @@ class ConfigComponentsField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('name AS text, element AS value')
 			->from('#__extensions')
@@ -52,7 +53,7 @@ class ConfigComponentsField extends \JFormFieldList
 
 		if ($items)
 		{
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($items as &$item)
 			{

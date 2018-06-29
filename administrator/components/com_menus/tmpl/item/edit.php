@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Factory;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -25,7 +26,7 @@ JHtml::_('behavior.keepalive');
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
-JFactory::getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
+Factory::getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 JHtml::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Ajax for parent items
@@ -56,7 +57,7 @@ jQuery(document).ready(function ($){
 ";
 
 $assoc = Associations::isEnabled();
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 // In case of modal
 $isModal  = $input->get('layout') == 'modal' ? true : false;

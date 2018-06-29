@@ -22,6 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Module model.
@@ -108,7 +109,7 @@ class ModuleModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -142,7 +143,7 @@ class ModuleModel extends AdminModel
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$newIds = array();
 
@@ -240,7 +241,7 @@ class ModuleModel extends AdminModel
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -298,7 +299,7 @@ class ModuleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing module.
 		if (!empty($record->id))
@@ -324,9 +325,9 @@ class ModuleModel extends AdminModel
 	 */
 	public function delete(&$pks)
 	{
-		$app        = \JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$pks        = (array) $pks;
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
@@ -341,7 +342,7 @@ class ModuleModel extends AdminModel
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
-					\JFactory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 					return;
 				}
@@ -394,7 +395,7 @@ class ModuleModel extends AdminModel
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
@@ -466,7 +467,7 @@ class ModuleModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -572,7 +573,7 @@ class ModuleModel extends AdminModel
 
 		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		/**
 		 * Check for existing module
@@ -607,7 +608,7 @@ class ModuleModel extends AdminModel
 	 */
 	protected function loadFormData()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_modules.edit.module.data', array());
@@ -623,7 +624,7 @@ class ModuleModel extends AdminModel
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access'))));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access'))));
 			}
 
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -710,7 +711,7 @@ class ModuleModel extends AdminModel
 				}
 				else
 				{
-					\JFactory::getApplication()->redirect(Route::_('index.php?option=com_modules&view=modules', false));
+					Factory::getApplication()->redirect(Route::_('index.php?option=com_modules&view=modules', false));
 
 					return false;
 				}
@@ -837,7 +838,7 @@ class ModuleModel extends AdminModel
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang     = \JFactory::getLanguage();
+		$lang     = Factory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
 
@@ -912,7 +913,7 @@ class ModuleModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input      = \JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
 		$isNew      = true;
@@ -961,7 +962,7 @@ class ModuleModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -1063,7 +1064,7 @@ class ModuleModel extends AdminModel
 		}
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query->clear()
@@ -1079,7 +1080,7 @@ class ModuleModel extends AdminModel
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

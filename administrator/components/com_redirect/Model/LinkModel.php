@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Redirect link model.
@@ -44,7 +45,7 @@ class LinkModel extends AdminModel
 			return false;
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		return $user->authorise('core.delete', 'com_redirect');
 	}
@@ -61,7 +62,7 @@ class LinkModel extends AdminModel
 	protected function canEditState($record)
 	{
 		// Check the component since there are no categories or other assets.
-		return \JFactory::getUser()->authorise('core.edit.state', 'com_redirect');
+		return Factory::getUser()->authorise('core.edit.state', 'com_redirect');
 	}
 
 	/**
@@ -116,7 +117,7 @@ class LinkModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_redirect.edit.link.data', array());
+		$data = Factory::getApplication()->getUserState('com_redirect.edit.link.data', array());
 
 		if (empty($data))
 		{
@@ -141,7 +142,7 @@ class LinkModel extends AdminModel
 	 */
 	public function activate(&$pks, $url, $comment = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -199,7 +200,7 @@ class LinkModel extends AdminModel
 	 */
 	public function duplicateUrls(&$pks, $url, $comment = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -217,7 +218,7 @@ class LinkModel extends AdminModel
 
 		if (!empty($pks))
 		{
-			$date = \JFactory::getDate()->toSql();
+			$date = Factory::getDate()->toSql();
 
 			// Update the link rows.
 			$query = $db->getQuery(true)

@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a plugin.
@@ -75,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = ContentHelper::getActions('com_plugins');
 
@@ -97,7 +98,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 
 		// Get the help information for the plugin item.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		$help = $this->get('Help');
 

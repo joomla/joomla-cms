@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Factory;
 
 /**
  * Model class to manage postinstall messages
@@ -170,7 +171,7 @@ class MessagesModel extends BaseDatabaseModel
 			$basePath = JPATH_SITE;
 		}
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
@@ -252,7 +253,7 @@ class MessagesModel extends BaseDatabaseModel
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					\JFactory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
+					Factory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
@@ -286,7 +287,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$options = array();
 
-		\JFactory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
+		Factory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
 		foreach ($extension_ids as $eid)
 		{

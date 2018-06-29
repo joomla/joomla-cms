@@ -15,10 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
-$lang          = JFactory::getLanguage();
+$lang          = Factory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
 $colSpan       = $branchFilter ? 5 : 6;
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
@@ -70,7 +71,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 						</tr>
 					</tfoot>
 					<tbody>
-						<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
+						<?php $canChange = Factory::getUser()->authorise('core.manage', 'com_finder'); ?>
 						<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">

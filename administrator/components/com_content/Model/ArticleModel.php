@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Factory;
 
 /**
  * Item Model for an Article.
@@ -201,7 +202,7 @@ class ArticleModel extends AdminModel
 		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
-			$this->user = JFactory::getUser();
+			$this->user = Factory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
 			$this->contentType = new UCMType;
@@ -314,7 +315,7 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			return \JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+			return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 		}
 
 		return false;
@@ -331,7 +332,7 @@ class ArticleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing article.
 		if (!empty($record->id))
@@ -363,7 +364,7 @@ class ArticleModel extends AdminModel
 		// Set the publish date to now
 		if ($table->state == 1 && (int) $table->publish_up == 0)
 		{
-			$table->publish_up = \JFactory::getDate()->toSql();
+			$table->publish_up = Factory::getDate()->toSql();
 		}
 
 		if ($table->state == 1 && intval($table->publish_down) == 0)
@@ -458,7 +459,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -483,7 +484,7 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -507,7 +508,7 @@ class ArticleModel extends AdminModel
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$assoc = Associations::isEnabled();
 
 		// Check if article is associated
@@ -538,7 +539,7 @@ class ArticleModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data))
@@ -559,7 +560,7 @@ class ArticleModel extends AdminModel
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
 				);
 			}
 		}
@@ -591,7 +592,7 @@ class ArticleModel extends AdminModel
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (\JFactory::getApplication()->isClient('administrator') && !\JFactory::getUser()->authorise('core.manage', 'com_users'))
+		if (Factory::getApplication()->isClient('administrator') && !Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{
@@ -618,7 +619,7 @@ class ArticleModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input  = \JFactory::getApplication()->input;
+		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
@@ -717,7 +718,7 @@ class ArticleModel extends AdminModel
 		{
 			if ($data['alias'] == null)
 			{
-				if (\JFactory::getConfig()->get('unicodeslugs') == 1)
+				if (Factory::getConfig()->get('unicodeslugs') == 1)
 				{
 					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
 				}
@@ -738,7 +739,7 @@ class ArticleModel extends AdminModel
 
 				if (isset($msg))
 				{
-					\JFactory::getApplication()->enqueueMessage($msg, 'warning');
+					Factory::getApplication()->enqueueMessage($msg, 'warning');
 				}
 			}
 		}
@@ -955,7 +956,7 @@ class ArticleModel extends AdminModel
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_content');
+		return Factory::getUser()->authorise('core.create', 'com_content');
 	}
 
 	/**

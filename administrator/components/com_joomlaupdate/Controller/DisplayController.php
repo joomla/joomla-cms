@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Update Controller
@@ -34,7 +35,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'Joomlaupdate');

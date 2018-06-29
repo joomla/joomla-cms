@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -21,12 +22,12 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 // No access if not global SuperUser
-if (!JFactory::getUser()->authorise('core.admin'))
+if (!Factory::getUser()->authorise('core.admin'))
 {
-	JFactory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
+	Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
 if ($this->type == 'image')
@@ -40,7 +41,7 @@ JHtml::_('stylesheet', 'com_templates/admin-templates-default.css', array('versi
 
 if ($this->type == 'font')
 {
-	JFactory::getDocument()->addStyleDeclaration("
+	Factory::getDocument()->addStyleDeclaration("
 		@font-face {
 			font-family: previewFont;
 			src: url('" . $this->font['address'] . "')

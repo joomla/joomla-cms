@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Extension Manager Abstract Extension Model.
@@ -148,7 +149,7 @@ class InstallerModel extends ListModel
 	 */
 	protected function translate(&$items)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($items as &$item)
 		{

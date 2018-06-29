@@ -20,6 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Languages Component Languages Model
@@ -210,7 +211,7 @@ class InstalledModel extends ListModel
 		{
 			$this->data = array();
 
-			$isCurrentLanguageRtl = \JFactory::getLanguage()->isRtl();
+			$isCurrentLanguageRtl = Factory::getLanguage()->isRtl();
 			$params               = ComponentHelper::getParams('com_languages');
 			$installedLanguages   = LanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
 
@@ -483,12 +484,12 @@ class InstalledModel extends ListModel
 
 			if ($client->name == 'administrator')
 			{
-				\JFactory::getApplication()->setUserState('application.lang', $cid);
+				Factory::getApplication()->setUserState('application.lang', $cid);
 			}
 		}
 		else
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'), 'error');
 
 			return false;
 		}

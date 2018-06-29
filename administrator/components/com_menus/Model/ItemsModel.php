@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Menu Item List Model for Menus.
@@ -82,7 +83,7 @@ class ItemsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -242,7 +243,7 @@ class ItemsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select all fields from the table.
 		$query->select(
@@ -538,7 +539,7 @@ class ItemsModel extends ListModel
 				return false;
 			}
 			// Check if menu type is valid against ACL.
-			elseif (!\JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
 				Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 
@@ -563,7 +564,7 @@ class ItemsModel extends ListModel
 		if (!isset($this->cache[$store]))
 		{
 			$items = parent::getItems();
-			$lang  = \JFactory::getLanguage();
+			$lang  = Factory::getLanguage();
 
 			if ($items)
 			{

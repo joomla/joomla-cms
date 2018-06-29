@@ -10,8 +10,9 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 
-$app       = JFactory::getApplication();
+$app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $input     = $app->input;
 $component = $input->getCmd('option', 'com_content');

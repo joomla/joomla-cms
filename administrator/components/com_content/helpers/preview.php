@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /**
  * Preview Link Helper
@@ -34,7 +35,7 @@ class ContentHelperPreview
 		$sef  = '';
 
 		// Get the home Itemid for the language
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')

@@ -16,7 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.tabstate');
 
-$user      = JFactory::getUser();
+$user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

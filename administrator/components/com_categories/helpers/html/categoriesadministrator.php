@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 /**
  * Administrator category HTML
@@ -42,7 +43,7 @@ abstract class JHtmlCategoriesAdministrator
 			$associations = ArrayHelper::toInteger($associations);
 
 			// Get the associated categories
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.title')
 				->select('l.sef as lang_sef')

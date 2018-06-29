@@ -17,6 +17,7 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of tracks.
@@ -180,7 +181,7 @@ class TracksModel extends ListModel
 	 */
 	public function delete()
 	{
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$categoryId = $this->getState('category_id');
 
 		// Access checks.
@@ -258,7 +259,7 @@ class TracksModel extends ListModel
 		}
 		else
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 		}
 
 		return true;
@@ -275,7 +276,7 @@ class TracksModel extends ListModel
 	{
 		if (!isset($this->basename))
 		{
-			$basename   = str_replace('__SITE__', \JFactory::getApplication()->get('sitename'), $this->getState('basename'));
+			$basename   = str_replace('__SITE__', Factory::getApplication()->get('sitename'), $this->getState('basename'));
 			$categoryId = $this->getState('filter.category_id');
 
 			if (is_numeric($categoryId))
@@ -487,7 +488,7 @@ class TracksModel extends ListModel
 
 			if ($this->getState('compressed'))
 			{
-				$app = \JFactory::getApplication();
+				$app = Factory::getApplication();
 
 				$files = array(
 					'track' => array(

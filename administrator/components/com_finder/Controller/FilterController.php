@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Indexer controller class for Finder.
@@ -38,7 +39,7 @@ class FilterController extends FormController
 		// Check for request forgeries.
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$input = $app->input;
 
 		/* @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
@@ -187,7 +188,7 @@ class FilterController extends FormController
 
 		$this->setMessage(
 			Text::_(
-				(\JFactory::getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
+				(Factory::getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
 				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);

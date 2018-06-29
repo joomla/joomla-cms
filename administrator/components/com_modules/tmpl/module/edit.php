@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -39,10 +40,10 @@ Text::script('JNO');
 Text::script('JALL');
 Text::script('JTRASHED');
 
-JFactory::getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
+Factory::getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 JHtml::_('script', 'com_modules/admin-module-edit.min.js', array('version' => 'auto', 'relative' => true));
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;

@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Messages component
@@ -79,7 +80,7 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() == 'edit')
 		{
-			\JFactory::getApplication()->input->set('hidemainmenu', true);
+			Factory::getApplication()->input->set('hidemainmenu', true);
 			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-opened new-privatemessage');
 			ToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
 			ToolbarHelper::cancel('message.cancel');

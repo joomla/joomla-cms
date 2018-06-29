@@ -8,14 +8,15 @@
  */
 namespace Joomla\Component\Categories\Administrator\Helper;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
@@ -64,7 +65,7 @@ class CategoriesHelper
 			{
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
-					$lang = \JFactory::getLanguage();
+					$lang = Factory::getLanguage();
 
 					// Loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory

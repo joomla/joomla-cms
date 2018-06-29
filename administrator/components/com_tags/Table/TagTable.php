@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Table\Nested;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Tags table
@@ -113,7 +114,7 @@ class TagTable extends Nested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -159,7 +160,7 @@ class TagTable extends Nested
 		}
 
 		// Not Null sanity check
-		$date = \JFactory::getDate();
+		$date = Factory::getDate();
 
 		if (empty($this->params))
 		{
@@ -230,8 +231,8 @@ class TagTable extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$this->modified_time = $date->toSql();
 

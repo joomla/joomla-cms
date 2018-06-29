@@ -14,8 +14,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 if ($app->isClient('site'))
 {
@@ -29,7 +30,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin');
+$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 $colSpan          = 4;
 
 $iconStates = array(
@@ -39,7 +40,7 @@ $iconStates = array(
 	2  => 'icon-archive',
 );
 
-JFactory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
+Factory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
 JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='

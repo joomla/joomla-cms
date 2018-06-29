@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\CacheExceptionInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
 
 /**
  * Login Model
@@ -34,7 +35,7 @@ class LoginModel extends BaseDatabaseModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$input = $app->input;
 		$method = $input->getMethod();
@@ -134,15 +135,15 @@ class LoginModel extends BaseDatabaseModel
 			return $clean;
 		}
 
-		$app      = \JFactory::getApplication();
-		$lang     = \JFactory::getLanguage()->getTag();
+		$app      = Factory::getApplication();
+		$lang     = Factory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		/** @var CallbackController $cache */
-		$cache = \JFactory::getCache('com_modules', 'callback');
+		$cache = Factory::getCache('com_modules', 'callback');
 
 		$loader = function () use ($app, $lang, $module) {
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select('m.id, m.title, m.module, m.position, m.showtitle, m.params')
@@ -177,14 +178,14 @@ class LoginModel extends BaseDatabaseModel
 			}
 			catch (ExecutionFailureException $databaseException)
 			{
-				\JFactory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 				return array();
 			}
 		}
 		catch (ExecutionFailureException $databaseException)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 			return array();
 		}

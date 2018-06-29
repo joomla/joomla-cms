@@ -18,6 +18,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of banners.
@@ -109,7 +110,7 @@ class HtmlView extends BaseHtmlView
 		\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 

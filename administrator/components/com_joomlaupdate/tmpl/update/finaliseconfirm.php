@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 JHtml::_('behavior.keepalive');
 
@@ -23,7 +24,7 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
 	</h4>
 	<p>
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', JFactory::getConfig()->get('sitename')); ?>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', Factory::getConfig()->get('sitename')); ?>
 	</p>
 </joomla-alert>
 

@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
 
 /**
  * The HTML Menus Menu Items View.
@@ -98,7 +99,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->total         = $this->get('Total');
@@ -293,7 +294,7 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 			// In menu associations modal we need to remove language filter if forcing a language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -305,7 +306,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		\JFactory::getApplication()->triggerEvent('onBeforeRenderMenuItems', array($this));
+		Factory::getApplication()->triggerEvent('onBeforeRenderMenuItems', array($this));
 
 		parent::display($tpl);
 	}
@@ -322,7 +323,7 @@ class HtmlView extends BaseHtmlView
 		$menutypeId = (int) $this->state->get('menutypeid');
 
 		$canDo = ContentHelper::getActions('com_menus', 'menu', (int) $menutypeId);
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Get the menu title
 		$menuTypeTitle = $this->get('State')->get('menutypetitle');
@@ -352,7 +353,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		if (\JFactory::getUser()->authorise('core.admin') && !$protected)
+		if (Factory::getUser()->authorise('core.admin') && !$protected)
 		{
 			ToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
@@ -362,7 +363,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
 
-		if (\JFactory::getUser()->authorise('core.admin'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
 		}

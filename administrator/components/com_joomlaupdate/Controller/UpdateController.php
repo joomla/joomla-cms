@@ -17,6 +17,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * The Joomla! update controller for the Update view
@@ -39,7 +40,7 @@ class UpdateController extends BaseController
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		try
 		{
@@ -113,7 +114,7 @@ class UpdateController extends BaseController
 		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
-		$file = \JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$model->createRestorationFile($file);
 
 		$this->display();
@@ -250,7 +251,7 @@ class UpdateController extends BaseController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		\JFactory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
+		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
 		$this->_applyCredentials();
 
@@ -285,13 +286,13 @@ class UpdateController extends BaseController
 		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Do I really have an update package?
-		$tempFile = \JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+		$tempFile = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
 		\JLoader::import('joomla.filesystem.file');
 
@@ -383,7 +384,7 @@ class UpdateController extends BaseController
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'update');
@@ -449,7 +450,7 @@ class UpdateController extends BaseController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Did a non Super User try do this?
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
@@ -498,7 +499,7 @@ class UpdateController extends BaseController
 		$model = $this->getModel('default');
 		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
-		$this->app = JFactory::getApplication();
+		$this->app = Factory::getApplication();
 		$this->app->mimeType = 'application/json';
 		$this->app->charSet = 'utf-8';
 		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);

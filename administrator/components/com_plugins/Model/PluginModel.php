@@ -18,6 +18,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Plugin model.
@@ -134,7 +135,7 @@ class PluginModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
+		$data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
 
 		if (empty($data))
 		{
@@ -225,7 +226,7 @@ class PluginModel extends AdminModel
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('extension_id');
@@ -250,7 +251,7 @@ class PluginModel extends AdminModel
 
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
-		$lang    = \JFactory::getLanguage();
+		$lang    = Factory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db    = $this->getDbo();
@@ -270,7 +271,7 @@ class PluginModel extends AdminModel
 
 		if (empty($folder) || empty($element))
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$app->redirect(Route::_('index.php?option=com_plugins&view=plugins', false));
 		}
 

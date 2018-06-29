@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Cache component
@@ -49,7 +50,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
 		ToolbarHelper::divider();
 
-		if (\JFactory::getUser()->authorise('core.admin', 'com_cache'))
+		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
 		{
 			ToolbarHelper::preferences('com_cache');
 			ToolbarHelper::divider();

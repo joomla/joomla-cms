@@ -13,8 +13,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
-if (JFactory::getApplication()->isClient('site'))
+if (Factory::getApplication()->isClient('site'))
 {
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
@@ -28,7 +29,7 @@ JHtml::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
+$editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 ?>
 <div class="container-popup">
 

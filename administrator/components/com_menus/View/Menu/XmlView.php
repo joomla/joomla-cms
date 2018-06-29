@@ -51,7 +51,7 @@ class XmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menutype = $app->input->getCmd('menutype');
 
 		if ($menutype)

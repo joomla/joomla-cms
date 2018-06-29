@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of modules.
@@ -122,7 +123,7 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->removeField('client_id', '');
 
 			// If in the frontend state and language should not activate the search tools.
-			if (\JFactory::getApplication()->isClient('site'))
+			if (Factory::getApplication()->isClient('site'))
 			{
 				unset($this->activeFilters['state']);
 				unset($this->activeFilters['language']);
@@ -146,7 +147,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_modules');
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');

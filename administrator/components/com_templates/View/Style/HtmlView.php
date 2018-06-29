@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a template style.
@@ -94,7 +95,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
@@ -136,7 +137,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 
 		// Get the help information for the template item.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))

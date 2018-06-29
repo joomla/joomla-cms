@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Admin Component Help Model
@@ -74,7 +75,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->help_search))
 		{
-			$this->help_search = \JFactory::getApplication()->input->getString('helpsearch');
+			$this->help_search = Factory::getApplication()->input->getString('helpsearch');
 		}
 
 		return $this->help_search;
@@ -91,7 +92,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->page))
 		{
-			$this->page = Help::createUrl(\JFactory::getApplication()->input->get('page', 'JHELP_START_HERE'));
+			$this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'JHELP_START_HERE'));
 		}
 
 		return $this->page;
@@ -108,7 +109,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->lang_tag))
 		{
-			$this->lang_tag = \JFactory::getLanguage()->getTag();
+			$this->lang_tag = Factory::getLanguage()->getTag();
 
 			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
 			{

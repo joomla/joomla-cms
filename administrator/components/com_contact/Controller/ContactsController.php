@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Contacts list controller class.
@@ -68,7 +69,7 @@ class ContactsController extends AdminController
 		{
 			$item = $model->getItem($id);
 
-			if (!\JFactory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid))
+			if (!Factory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);

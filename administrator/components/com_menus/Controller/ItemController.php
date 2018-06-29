@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /**
  * The Menu ItemModel  Controller
@@ -38,9 +39,9 @@ class ItemController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
-		$menuType = \JFactory::getApplication()->input->getCmd('menutype', $data['menutype'] ?? '');
+		$menuType = Factory::getApplication()->input->getCmd('menutype', $data['menutype'] ?? '');
 
 		$menutypeID = 0;
 
@@ -67,7 +68,7 @@ class ItemController extends FormController
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$menutypeID = 0;
 

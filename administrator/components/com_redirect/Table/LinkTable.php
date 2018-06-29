@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Link Table for Redirect.
@@ -133,7 +134,7 @@ class LinkTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate()->toSql();
+		$date = Factory::getDate()->toSql();
 
 		if (!$this->id)
 		{

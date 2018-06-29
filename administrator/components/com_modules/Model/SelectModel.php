@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Module model.
@@ -38,7 +39,7 @@ class SelectModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the filter state.
 		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
@@ -121,7 +122,7 @@ class SelectModel extends ListModel
 		$items = parent::getItems();
 
 		$client = ApplicationHelper::getClientInfo($this->getState('client_id', 0));
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.

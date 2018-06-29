@@ -15,7 +15,7 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Folder;
-
+use Joomla\CMS\Factory;
 
 /**
  * Script file of Joomla CMS
@@ -111,7 +111,7 @@ class JoomlaInstallerScript
 	 */
 	protected function clearStatsCache()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		try
 		{
@@ -168,7 +168,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabase()
 	{
-		if (JFactory::getDbo()->getServerType() === 'mysql')
+		if (Factory::getDbo()->getServerType() === 'mysql')
 		{
 			$this->updateDatabaseMysql();
 		}
@@ -181,7 +181,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabaseMysql()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$db->setQuery('SHOW ENGINES');
 
@@ -230,7 +230,7 @@ class JoomlaInstallerScript
 		$extensions = ExtensionHelper::getCoreExtensions();
 
 		// Attempt to refresh manifest caches
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
@@ -4024,7 +4024,7 @@ class JoomlaInstallerScript
 		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
 		 * have a valid session.
 		 */
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 
 		/**
 		 * Restarting the Session require a new login for the current user so lets check if we have an active session
@@ -4042,7 +4042,7 @@ class JoomlaInstallerScript
 			return true;
 		}
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		try
 		{
@@ -4082,7 +4082,7 @@ class JoomlaInstallerScript
 	 */
 	public function convertTablesToUtf8mb4($doDbFixMsg = false)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		if (!($db instanceof UTF8MB4SupportInterface))
 		{
@@ -4111,12 +4111,12 @@ class JoomlaInstallerScript
 		catch (Exception $e)
 		{
 			// Render the error message from the Exception object
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			if ($doDbFixMsg)
 			{
 				// Show an error message telling to check database problems
-				JFactory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 			}
 
 			return;
@@ -4173,7 +4173,7 @@ class JoomlaInstallerScript
 						$converted = 0;
 
 						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 					}
 				}
 			}
@@ -4182,7 +4182,7 @@ class JoomlaInstallerScript
 		if ($doDbFixMsg && $converted == 0)
 		{
 			// Show an error message telling to check database problems
-			JFactory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
 		// Set flag in database if the update is done.

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Installer Warnings Model
@@ -115,7 +116,7 @@ class WarningsModel extends ListModel
 			}
 		}
 
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 		$tmp_path = $config->get('tmp_path');
 
 		if (!$tmp_path)

@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Tracks list controller class.
@@ -114,7 +115,7 @@ class TracksController extends BaseController
 			$model = $this->getModel($vName);
 
 			// Load the filter state.
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			$model->setState('filter.type', $app->getUserState($this->context . '.filter.type'));
 			$model->setState('filter.begin', $app->getUserState($this->context . '.filter.begin'));
@@ -159,7 +160,7 @@ class TracksController extends BaseController
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->document = \JFactory::getDocument();
+			$view->document = Factory::getDocument();
 
 			$view->display();
 		}

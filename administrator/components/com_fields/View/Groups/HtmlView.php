@@ -20,6 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Groups View
@@ -98,7 +99,7 @@ class HtmlView extends BaseHtmlView
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
 			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
-			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
 		$this->addToolbar();
@@ -146,7 +147,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load component language file
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
 		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -167,7 +168,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::archiveList('groups.archive');
 		}
 
-		if (\JFactory::getUser()->authorise('core.admin'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::checkin('groups.checkin');
 		}

@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Fields View
@@ -98,7 +99,7 @@ class HtmlView extends BaseHtmlView
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
 			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
-			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
 		// Only add toolbar when not in modal window.
@@ -144,7 +145,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load extension language file
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
 		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -165,7 +166,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::archiveList('fields.archive');
 		}
 
-		if (\JFactory::getUser()->authorise('core.admin'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::checkin('fields.checkin');
 		}

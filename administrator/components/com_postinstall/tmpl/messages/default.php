@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Factory;
 
-$renderer = JFactory::getDocument()->loadRenderer('module');
+$renderer = Factory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = ModuleHelper::getModule('mod_feed');
 $param    = array(
@@ -64,7 +65,7 @@ $params = array('params' => json_encode($param));
 					<?php echo Text::_($item->action_key); ?>
 				</a>
 				<?php endif; ?>
-				<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
+				<?php if (Factory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
                 <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
 					<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 				</a>

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Checkin component
@@ -106,7 +107,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 
-		if (\JFactory::getUser()->authorise('core.admin', 'com_checkin'))
+		if (Factory::getUser()->authorise('core.admin', 'com_checkin'))
 		{
 			ToolbarHelper::divider();
 			ToolbarHelper::preferences('com_checkin');

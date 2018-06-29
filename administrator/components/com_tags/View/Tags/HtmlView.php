@@ -17,6 +17,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
 
 /**
  * Tags view class for the Tags package.
@@ -139,7 +140,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_tags');
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');

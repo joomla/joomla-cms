@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Banner table
@@ -37,7 +38,7 @@ class BannerTable extends Table
 
 		parent::__construct('#__banners', 'id', $db);
 
-		$this->created = \JFactory::getDate()->toSql();
+		$this->created = Factory::getDate()->toSql();
 		$this->setColumnAlias('published', 'state');
 	}
 
@@ -90,7 +91,7 @@ class BannerTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -212,19 +213,19 @@ class BannerTable extends Table
 					$this->reset = $this->_db->getNullDate();
 					break;
 				case 2:
-					$date = \JFactory::getDate('+1 year ' . date('Y-m-d'));
+					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 3:
-					$date = \JFactory::getDate('+1 month ' . date('Y-m-d'));
+					$date = Factory::getDate('+1 month ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 4:
-					$date = \JFactory::getDate('+7 day ' . date('Y-m-d'));
+					$date = Factory::getDate('+7 day ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 5:
-					$date = \JFactory::getDate('+1 day ' . date('Y-m-d'));
+					$date = Factory::getDate('+1 day ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 			}

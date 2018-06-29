@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * The article controller
@@ -67,7 +68,7 @@ class ArticleController extends FormController
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow = \JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
+			$allow = Factory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -92,7 +93,7 @@ class ArticleController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)

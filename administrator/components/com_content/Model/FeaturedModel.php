@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of featured article records.
@@ -76,7 +77,7 @@ class FeaturedModel extends ArticlesModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(

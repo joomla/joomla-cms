@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * The Group controller
@@ -98,7 +99,7 @@ class GroupController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		return \JFactory::getUser()->authorise('core.create', $this->component);
+		return Factory::getUser()->authorise('core.create', $this->component);
 	}
 
 	/**
@@ -114,7 +115,7 @@ class GroupController extends FormController
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Zero record (parent_id:0), return component edit permission by calling parent controller method
 		if (!$recordId)

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Newsfeeds component helper.
@@ -55,7 +56,7 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -110,7 +111,7 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
 

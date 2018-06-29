@@ -12,8 +12,9 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
-$doc    = JFactory::getDocument();
+$doc    = Factory::getDocument();
 $params = ComponentHelper::getParams('com_media');
 
 // Make sure core.js is loaded before media scripts
@@ -29,7 +30,7 @@ JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
 // Populate the language
 $this->loadTemplate('texts');
 
-$tmpl = JFactory::getApplication()->input->getCmd('tmpl');
+$tmpl = Factory::getApplication()->input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component')
@@ -49,7 +50,7 @@ $config = array(
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
 	'currentPath'             => $this->currentPath,
-	'isModal'                 => JFactory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
+	'isModal'                 => Factory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
 );
 $doc->addScriptOptions('com_media', $config);
 ?>

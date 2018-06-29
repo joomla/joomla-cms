@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
@@ -47,7 +48,7 @@ class MenutypesModel extends BaseDatabaseModel
 	{
 		parent::populateState();
 
-		$clientId = \JFactory::getApplication()->input->get('client_id', 0);
+		$clientId = Factory::getApplication()->input->get('client_id', 0);
 
 		$this->state->set('client_id', $clientId);
 	}
@@ -80,7 +81,7 @@ class MenutypesModel extends BaseDatabaseModel
 	{
 		jimport('joomla.filesystem.file');
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$list = array();
 
 		// Get the list of components.
@@ -121,7 +122,7 @@ class MenutypesModel extends BaseDatabaseModel
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		\JFactory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
+		Factory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
 
 		return $list;
 	}
@@ -480,7 +481,7 @@ class MenutypesModel extends BaseDatabaseModel
 		$options     = array();
 		$layouts     = array();
 		$layoutNames = array();
-		$lang        = \JFactory::getLanguage();
+		$lang        = Factory::getLanguage();
 		$client      = ApplicationHelper::getClientInfo($this->getState('client_id'));
 
 		// Get the views for this component.

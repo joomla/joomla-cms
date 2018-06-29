@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Update's Update View
@@ -38,7 +39,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load com_installer's language
-		$language = \JFactory::getLanguage();
+		$language = Factory::getLanguage();
 		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
 		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 

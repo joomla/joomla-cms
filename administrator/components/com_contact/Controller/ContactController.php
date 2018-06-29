@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * Controller for a single contact
@@ -40,7 +41,7 @@ class ContactController extends FormController
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = \JFactory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = Factory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -81,7 +82,7 @@ class ContactController extends FormController
 			return false;
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;

@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 ?>
 <form method="post" action="">
 	<input type="hidden" name="option" value="com_templates">

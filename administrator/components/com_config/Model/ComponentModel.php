@@ -19,6 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Model for component configuration
@@ -38,7 +39,7 @@ class ComponentModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Set the component (option) we are dealing with.
 		$component = $input->get('component');
@@ -94,7 +95,7 @@ class ComponentModel extends FormModel
 			return false;
 		}
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($option, JPATH_BASE, null, false, true)
 		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
@@ -114,7 +115,7 @@ class ComponentModel extends FormModel
 		$option = $state->get('component.option');
 
 		// Load common and local language files.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($option, JPATH_BASE, null, false, true)
 		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
@@ -140,7 +141,7 @@ class ComponentModel extends FormModel
 		PluginHelper::importPlugin('extension');
 
 		// Check super user group.
-		if (isset($data['params']) && !\JFactory::getUser()->authorise('core.admin'))
+		if (isset($data['params']) && !Factory::getUser()->authorise('core.admin'))
 		{
 			$form = $this->getForm(array(), false);
 
@@ -205,7 +206,7 @@ class ComponentModel extends FormModel
 			throw new \RuntimeException($table->getError());
 		}
 
-		$result = \JFactory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
+		$result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -213,7 +214,7 @@ class ComponentModel extends FormModel
 			throw new \RuntimeException($table->getError());
 		}
 
-		\JFactory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
+		Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

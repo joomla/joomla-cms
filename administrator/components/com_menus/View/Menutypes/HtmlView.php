@@ -14,6 +14,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * The HTML Menus Menu Item TYpes View.
@@ -49,7 +50,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = \JFactory::getApplication();
+		$app            = Factory::getApplication();
 		$this->recordId = $app->input->getInt('recordId');
 
 		$types = $this->get('TypeOptions');

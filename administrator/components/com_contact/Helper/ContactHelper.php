@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Contact component helper.
@@ -70,7 +71,7 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -125,7 +126,7 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
 
@@ -198,13 +199,13 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function validateSection($section, $item)
 	{
-		if (\JFactory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof \JForm)
+		if (Factory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof \JForm)
 		{
 			// The contact form needs to be the mail section
 			$section = 'mail';
 		}
 
-		if (\JFactory::getApplication()->isClient('site') && $section == 'category')
+		if (Factory::getApplication()->isClient('site') && $section == 'category')
 		{
 			// The contact form needs to be the mail section
 			$section = 'contact';
@@ -228,7 +229,7 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function getContexts()
 	{
-		\JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
 			'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),

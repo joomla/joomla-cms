@@ -21,6 +21,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Template style model.
@@ -88,7 +89,7 @@ class StyleModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -112,7 +113,7 @@ class StyleModel extends AdminModel
 	public function delete(&$pks)
 	{
 		$pks        = (array) $pks;
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
@@ -132,13 +133,13 @@ class StyleModel extends AdminModel
 				// You should not delete a default style
 				if ($table->home != '0')
 				{
-					\JFactory::getApplication()->enqueueMessage(Text::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'), 'error');
 
 					return false;
 				}
 
 				// Trigger the before delete event.
-				$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+				$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
@@ -148,7 +149,7 @@ class StyleModel extends AdminModel
 				}
 
 				// Trigger the after delete event.
-				\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+				Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 			}
 			else
 			{
@@ -175,7 +176,7 @@ class StyleModel extends AdminModel
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
@@ -210,7 +211,7 @@ class StyleModel extends AdminModel
 				}
 
 				// Trigger the before save event.
-				$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
+				$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
 
 				if (in_array(false, $result, true) || !$table->store())
 				{
@@ -218,7 +219,7 @@ class StyleModel extends AdminModel
 				}
 
 				// Trigger the after save event.
-				\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
+				Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
 			}
 			else
 			{
@@ -321,7 +322,7 @@ class StyleModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_templates.edit.style.data', array());
+		$data = Factory::getApplication()->getUserState('com_templates.edit.style.data', array());
 
 		if (empty($data))
 		{
@@ -401,7 +402,7 @@ class StyleModel extends AdminModel
 	{
 		$clientId = $this->getState('item.client_id');
 		$template = $this->getState('item.template');
-		$lang     = \JFactory::getLanguage();
+		$lang     = Factory::getLanguage();
 		$client   = ApplicationHelper::getClientInfo($clientId);
 
 		if (!$form->loadFile('style_' . $client->name, true))
@@ -475,7 +476,7 @@ class StyleModel extends AdminModel
 			return false;
 		}
 
-		$app        = \JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
 		$isNew      = true;
@@ -517,7 +518,7 @@ class StyleModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -527,13 +528,13 @@ class StyleModel extends AdminModel
 			return false;
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
 		{
 			$n    = 0;
 			$db   = $this->getDbo();
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if (!empty($data['assigned']) && is_array($data['assigned']))
 			{
@@ -579,7 +580,7 @@ class StyleModel extends AdminModel
 		$this->cleanCache();
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
+		Factory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
 
@@ -597,7 +598,7 @@ class StyleModel extends AdminModel
 	 */
 	public function setHome($id = 0)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
@@ -655,7 +656,7 @@ class StyleModel extends AdminModel
 	 */
 	public function unsetHome($id = 0)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.

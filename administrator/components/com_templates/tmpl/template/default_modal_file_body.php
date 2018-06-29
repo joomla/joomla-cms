@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
+use Joomla\CMS\Factory;
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 ?>
 <div id="#template-manager-file" class="container-fluid">
 	<div class="mt-2 p-2">

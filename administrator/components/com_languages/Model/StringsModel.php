@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Languages Strings Model
@@ -31,7 +32,7 @@ class StringsModel extends BaseDatabaseModel
 	 */
 	public function refresh()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$db  = $this->getDbo();
 
 		$app->setUserState('com_languages.overrides.cachedtime', null);
@@ -122,7 +123,7 @@ class StringsModel extends BaseDatabaseModel
 	public function search()
 	{
 		$results = array();
-		$input   = \JFactory::getApplication()->input;
+		$input   = Factory::getApplication()->input;
 		$filter  = \JFilterInput::getInstance();
 		$db      = $this->getDbo();
 		$searchTerm = $input->getString('searchstring');

@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 /**
  * Sysinfo View class for the Admin component
@@ -75,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

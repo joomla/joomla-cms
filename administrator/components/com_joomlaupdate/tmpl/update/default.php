@@ -21,10 +21,10 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'com_joomlaupdate/encryption.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'relative' => true));
 
-$password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
-$filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
+$password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
+$filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
 $ajaxUrl = Uri::base() . 'components/com_joomlaupdate/restore.php';
-$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
+$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getSession()->getFormToken() . '=1';
 
 HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['relative' => true, 'version' => 'auto']);
 

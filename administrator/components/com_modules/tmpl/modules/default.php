@@ -15,11 +15,12 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Factory;
 
 JHtml::_('behavior.multiselect');
 
 $clientId  = (int) $this->state->get('client_id', 0);
-$user      = JFactory::getUser();
+$user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering');

@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of articles.
@@ -78,11 +79,11 @@ class HtmlView extends BaseHtmlView
 		if (!Associations::isEnabled())
 		{
 			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
-			\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
 		}
 		elseif ($this->state->get('itemtype') == '' || $this->state->get('language') == '')
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
 		}
 		else
 		{
@@ -103,7 +104,7 @@ class HtmlView extends BaseHtmlView
 
 			if (is_null($type))
 			{
-				\JFactory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
 			}
 			else
 			{
@@ -202,7 +203,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (isset($this->typeName) && isset($this->extensionName))
 		{

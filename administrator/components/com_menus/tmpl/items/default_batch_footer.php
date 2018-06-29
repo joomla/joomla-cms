@@ -9,10 +9,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
-$menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype');
+$menuType = Factory::getApplication()->getUserState('com_menus.items.menutype');
 ?>
 <a class="btn btn-secondary" type="button" onclick="document.getElementById('batch-menu-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">
 	<?php echo Text::_('JCANCEL'); ?>

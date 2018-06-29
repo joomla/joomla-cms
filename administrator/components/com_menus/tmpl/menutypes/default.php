@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 // Checking if loaded via index.php or component.php
 $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';

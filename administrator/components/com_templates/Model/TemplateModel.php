@@ -20,6 +20,7 @@ use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Template model class.
@@ -81,10 +82,10 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			jimport('joomla.filesystem.folder');
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
-			$lang   = \JFactory::getLanguage();
+			$lang   = Factory::getLanguage();
 
 			// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template->element, $client->path, null, false, true) ||
@@ -165,7 +166,7 @@ class TemplateModel extends FormModel
 	protected function populateState()
 	{
 		jimport('joomla.filesystem.file');
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -189,7 +190,7 @@ class TemplateModel extends FormModel
 		{
 			$pk  = $this->getState('extension.id');
 			$db  = $this->getDbo();
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			// Get the template information.
 			$query = $db->getQuery(true)
@@ -265,7 +266,7 @@ class TemplateModel extends FormModel
 	 */
 	public function copy()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if ($template = $this->getTemplate())
 		{
@@ -312,7 +313,7 @@ class TemplateModel extends FormModel
 	public function cleanup()
 	{
 		// Clear installation messages
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
@@ -375,7 +376,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Codemirror or Editor None should be enabled
 		$db = $this->getDbo();
@@ -432,7 +433,7 @@ class TemplateModel extends FormModel
 	 */
 	public function &getSource()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$item = new \stdClass;
 
 		if (!$this->template)
@@ -442,7 +443,7 @@ class TemplateModel extends FormModel
 
 		if ($this->template)
 		{
-			$input    = \JFactory::getApplication()->input;
+			$input    = Factory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client   = ApplicationHelper::getClientInfo($this->template->client_id);
 
@@ -493,7 +494,7 @@ class TemplateModel extends FormModel
 			return false;
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$fileName = base64_decode($app->input->get('file'));
 		$client = ApplicationHelper::getClientInfo($template->client_id);
 		$filePath = Path::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
@@ -678,7 +679,7 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$explodeArray = explode(DIRECTORY_SEPARATOR, $override);
 			$name         = end($explodeArray);
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
@@ -804,7 +805,7 @@ class TemplateModel extends FormModel
 			if (File::exists($htmlFilePath))
 			{
 				// Generate new unique file name base on current time
-				$today = \JFactory::getDate();
+				$today = Factory::getDate();
 				$htmlFilePath = File::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . File::getExt($htmlFilePath);
 			}
 
@@ -827,7 +828,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
 			$filePath = $path . urldecode(base64_decode($file));
@@ -860,7 +861,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
 
@@ -907,7 +908,7 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
 			$fileName = File::makeSafe($file['name']);
@@ -956,7 +957,7 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
 
@@ -993,7 +994,7 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$path   = Path::clean($client->path . '/templates/' . $template->element . '/' . $location);
 
@@ -1031,7 +1032,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$path         = Path::clean($client->path . '/templates/' . $template->element . '/');
 			$fileName     = base64_decode($file);
@@ -1069,7 +1070,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$fileName = base64_decode($app->input->get('file'));
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
@@ -1122,7 +1123,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
@@ -1157,7 +1158,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app     = \JFactory::getApplication();
+			$app     = Factory::getApplication();
 			$client  = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
@@ -1187,7 +1188,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getPreview()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
@@ -1227,7 +1228,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($app->input->get('file'));
 			$explodeArray = explode('/', $relPath);
@@ -1279,7 +1280,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($file);
 			$explodeArray = explode('.', $relPath);
@@ -1318,7 +1319,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app     = \JFactory::getApplication();
+			$app     = Factory::getApplication();
 			$client  = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath = base64_decode($app->input->get('file'));
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
@@ -1367,7 +1368,7 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($file);
 			$explodeArray = explode('/', $relPath);

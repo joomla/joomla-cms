@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 JHtml::_('behavior.core');
 
@@ -19,7 +20,7 @@ foreach ($this->levels as $key => $value)
 	$allLevels[$value->id] = $value->title;
 }
 
-JFactory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
+Factory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
 JHtml::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
 
 // TODO: Re-remove the jQuery dependency in the admin-item-edit_modules.js file:

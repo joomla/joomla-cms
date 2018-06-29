@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Factory;
 
 /**
  * Categories view class for the Category package.
@@ -121,7 +122,7 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -148,7 +149,7 @@ class HtmlView extends BaseHtmlView
 		$component  = $this->state->get('filter.component');
 		$section    = $this->state->get('filter.section');
 		$canDo      = ContentHelper::getActions($component, 'category', $categoryId);
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
@@ -160,7 +161,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true)
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
@@ -198,7 +199,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::archiveList('categories.archive');
 		}
 
-		if (\JFactory::getUser()->authorise('core.admin'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::checkin('categories.checkin');
 		}
