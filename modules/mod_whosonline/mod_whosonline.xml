@@ -28,6 +28,7 @@
 					label="MOD_WHOSONLINE_SHOWMODE_LABEL"
 					description="MOD_WHOSONLINE_SHOWMODE_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
 					<option value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
@@ -41,6 +42,7 @@
 					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -68,6 +70,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
@@ -78,6 +81,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>
