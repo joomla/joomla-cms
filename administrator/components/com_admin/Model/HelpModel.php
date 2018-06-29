@@ -10,7 +10,7 @@ namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Help\Help as JHelp;
+use Joomla\CMS\Help\Help;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
@@ -90,7 +90,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->page))
 		{
-			$this->page = JHelp::createUrl(\JFactory::getApplication()->input->get('page', 'JHELP_START_HERE'));
+			$this->page = Help::createUrl(\JFactory::getApplication()->input->get('page', 'JHELP_START_HERE'));
 		}
 
 		return $this->page;
@@ -205,7 +205,7 @@ class HelpModel extends BaseDatabaseModel
 		{
 			$override = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:'
 				. 'Joomla_Version_{major}_{minor}_{maintenance}/{langcode}&amp;lang={langcode}';
-			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
+			$this->latest_version_check = Help::createUrl('JVERSION', false, $override);
 		}
 
 		return $this->latest_version_check;
