@@ -97,7 +97,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		$query->select($db->quoteName(array('email', 'params')))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('params') . ' LIKE ' . $db->quote('%"logs_notification_option":"1"%'));
+			->where($db->quoteName('params') . ' LIKE ' . $db->quote('%"logs_notification_option":1%'));
 
 		$db->setQuery($query);
 

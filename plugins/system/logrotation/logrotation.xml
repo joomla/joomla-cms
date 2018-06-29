@@ -49,7 +49,7 @@
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

@@ -36,6 +36,7 @@
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

@@ -41,6 +41,7 @@
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 				/>
 				<field 
 					name="messageOnRedirect" 
@@ -110,7 +111,7 @@
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>
