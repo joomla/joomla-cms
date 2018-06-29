@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 
 $doc    = JFactory::getDocument();
 $params = ComponentHelper::getParams('com_media');
@@ -32,7 +33,7 @@ $tmpl = JFactory::getApplication()->input->getCmd('tmpl');
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component')
 {
-	echo JToolbar::getInstance('toolbar')->render();
+	echo Toolbar::getInstance('toolbar')->render();
 }
 
 // Populate the media config

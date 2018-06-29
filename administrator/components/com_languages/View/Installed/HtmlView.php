@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * Displays a list of the installed languages.
@@ -143,7 +144,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.admin'))
 		{
 			// Add install languages link to the lang installer component.
-			$bar = \JToolbar::getInstance('toolbar');
+			$bar = Toolbar::getInstance('toolbar');
 
 			// Switch administrator language
 			if ($this->state->get('client_id', 0) == 1)

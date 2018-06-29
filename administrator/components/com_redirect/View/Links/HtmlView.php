@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * View class for a list of redirection links.
@@ -174,7 +175,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.create'))
 		{
 			// Get the toolbar object instance
-			$bar = \JToolbar::getInstance('toolbar');
+			$bar = Toolbar::getInstance('toolbar');
 
 			$title = Text::_('JTOOLBAR_BULK_IMPORT');
 
