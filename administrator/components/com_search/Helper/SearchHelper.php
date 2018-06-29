@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Transliterate;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Search component helper.
@@ -136,9 +137,9 @@ class SearchHelper
 	{
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated. Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}

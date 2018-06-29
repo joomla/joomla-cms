@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Log\Log;
 
 /**
  * The HTML Menus Menu Item View.
@@ -60,7 +61,7 @@ class XmlView extends BaseHtmlView
 
 		if (empty($items))
 		{
-			\JLog::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
 
 			$app->redirect(Route::_('index.php?option=com_menus&view=menus', false));
 
@@ -82,7 +83,7 @@ class XmlView extends BaseHtmlView
 
 		if (headers_sent($file, $line))
 		{
-			\JLog::add("Headers already sent at $file:$line.", \JLog::ERROR, 'jerror');
+			Log::add("Headers already sent at $file:$line.", Log::ERROR, 'jerror');
 
 			return;
 		}

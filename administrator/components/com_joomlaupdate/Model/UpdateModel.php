@@ -23,6 +23,7 @@ use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Log\Log;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -359,7 +360,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		try
 		{
-			\JLog::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), \JLog::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{

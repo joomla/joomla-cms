@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Log\Log;
 
 /**
  * The Menu Item Controller
@@ -104,9 +105,9 @@ class ItemsController extends AdminController
 
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
@@ -215,7 +216,7 @@ class ItemsController extends AdminController
 		{
 			try
 			{
-				\JLog::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), \JLog::WARNING, 'jerror');
+				Log::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), Log::WARNING, 'jerror');
 			}
 			catch (\RuntimeException $exception)
 			{

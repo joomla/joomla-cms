@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Log\Log;
 
 defined('_JEXEC') or die;
 
@@ -92,9 +93,9 @@ class CategoriesHelper
 		// Log usage of deprecated function
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}

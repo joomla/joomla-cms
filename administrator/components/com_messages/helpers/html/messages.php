@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * JHtml administrator messages class.
@@ -36,9 +37,9 @@ class JHtmlMessages
 		// Log deprecated message
 		try
 		{
-			JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated. Use JHtmlMessages::status() instead.', __METHOD__),
-				JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}

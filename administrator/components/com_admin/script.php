@@ -13,6 +13,7 @@ use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Log\Log;
 
 /**
  * Script file of Joomla CMS
@@ -74,11 +75,11 @@ class JoomlaInstallerScript
 		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 
-		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			JLog::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
 		}
 		catch (RuntimeException $exception)
 		{

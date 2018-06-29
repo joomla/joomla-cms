@@ -86,7 +86,7 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						\JLog::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{
@@ -258,7 +258,7 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						\JLog::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{

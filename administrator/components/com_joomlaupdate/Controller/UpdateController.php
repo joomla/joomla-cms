@@ -16,6 +16,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Log\Log;
 
 /**
  * The Joomla! update controller for the Update view
@@ -37,12 +38,12 @@ class UpdateController extends BaseController
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
 		$user = \JFactory::getUser();
 
 		try
 		{
-			\JLog::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), \JLog::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -65,7 +66,7 @@ class UpdateController extends BaseController
 
 			try
 			{
-				\JLog::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), \JLog::INFO, 'Update');
+				Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
 			}
 			catch (\RuntimeException $exception)
 			{
@@ -96,11 +97,11 @@ class UpdateController extends BaseController
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			\JLog::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), \JLog::INFO, 'Update');
+			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -140,11 +141,11 @@ class UpdateController extends BaseController
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			\JLog::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), \JLog::INFO, 'Update');
+			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -184,11 +185,11 @@ class UpdateController extends BaseController
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			\JLog::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), \JLog::INFO, 'Update');
+			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -207,7 +208,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			\JLog::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), \JLog::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -357,7 +358,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			\JLog::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), \JLog::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{

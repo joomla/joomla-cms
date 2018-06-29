@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Helper class for Finder.
@@ -98,9 +99,9 @@ class FinderHelper
 		// Log usage of deprecated function
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}

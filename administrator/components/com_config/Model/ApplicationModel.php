@@ -27,6 +27,7 @@ use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Log\Log;
 
 /**
  * Model for the global configuration
@@ -383,9 +384,9 @@ class ApplicationModel extends FormModel
 			{
 				try
 				{
-					\JLog::add(
+					Log::add(
 						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
-						\JLog::WARNING,
+						Log::WARNING,
 						'jerror'
 					);
 				}
@@ -407,7 +408,7 @@ class ApplicationModel extends FormModel
 			{
 				try
 				{
-					\JLog::add(Text::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
 				}
 				catch (\RuntimeException $exception)
 				{
@@ -435,7 +436,7 @@ class ApplicationModel extends FormModel
 			{
 				try
 				{
-					\JLog::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('COM_CONFIG_ERROR_CACHE_CONNECTION_FAILED'), Log::WARNING, 'jerror');
 				}
 				catch (\RuntimeException $logException)
 				{
@@ -446,7 +447,7 @@ class ApplicationModel extends FormModel
 			{
 				try
 				{
-					\JLog::add(Text::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('COM_CONFIG_ERROR_CACHE_DRIVER_UNSUPPORTED'), Log::WARNING, 'jerror');
 				}
 				catch (\RuntimeException $logException)
 				{

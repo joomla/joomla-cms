@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Model for the display of system information.
@@ -447,7 +448,7 @@ class SysInfoModel extends BaseDatabaseModel
 		{
 			try
 			{
-				\JLog::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
 			}
 			catch (\RuntimeException $exception)
 			{

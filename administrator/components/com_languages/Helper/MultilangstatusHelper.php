@@ -14,6 +14,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Multilang status helper.
@@ -91,9 +92,9 @@ abstract class MultilangstatusHelper
 	{
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated, use LanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
@@ -116,9 +117,9 @@ abstract class MultilangstatusHelper
 	{
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated, use LanguageHelper::getSiteHomePages() instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
@@ -318,7 +319,7 @@ abstract class MultilangstatusHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), Log::WARNING, 'jerror');
 		}
 
 		return $modules;
