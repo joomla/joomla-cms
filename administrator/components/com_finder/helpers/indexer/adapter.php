@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -133,7 +134,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		// Get the database object.
-		$this->db = JFactory::getDbo();
+		$this->db = Factory::getDbo();
 
 		// Call the parent constructor.
 		parent::__construct($subject, $config);
@@ -762,7 +763,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$return = null;
 
 		// Set variables
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Build a query to get the menu params.

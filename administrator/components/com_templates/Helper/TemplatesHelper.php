@@ -10,6 +10,12 @@ namespace Joomla\Component\Templates\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Installer\Installer;
+
 /**
  * Templates component helper.
  *
@@ -27,12 +33,12 @@ class TemplatesHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_TEMPLATES_SUBMENU_STYLES'),
+			Text::_('COM_TEMPLATES_SUBMENU_STYLES'),
 			'index.php?option=com_templates&view=styles',
 			$vName == 'styles'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
+			Text::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
 			'index.php?option=com_templates&view=templates',
 			$vName == 'templates'
 		);
@@ -47,8 +53,8 @@ class TemplatesHelper
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '0', \JText::_('JSITE'));
-		$options[] = \JHtml::_('select.option', '1', \JText::_('JADMINISTRATOR'));
+		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -63,7 +69,7 @@ class TemplatesHelper
 	public static function getTemplateOptions($clientId = '*')
 	{
 		// Build the filter options.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('element', 'value'))
@@ -99,11 +105,11 @@ class TemplatesHelper
 		$data = new \JObject;
 
 		// Check of the xml file exists
-		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{
-			$xml = \JInstaller::parseXMLInstallFile($filePath);
+			$xml = Installer::parseXMLInstallFile($filePath);
 
 			if ($xml['type'] != 'template')
 			{
@@ -134,7 +140,7 @@ class TemplatesHelper
 		$positions = array();
 
 		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{

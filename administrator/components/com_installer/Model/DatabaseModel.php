@@ -20,6 +20,7 @@ use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Registry\Registry;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
@@ -466,7 +467,7 @@ class DatabaseModel extends InstallerModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}

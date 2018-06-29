@@ -14,6 +14,9 @@ jimport('joomla.updater.update');
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 
 /**
  * Languages Installer Model
@@ -121,7 +124,7 @@ class LanguagesModel extends ListModel
 
 		try
 		{
-			$response = \JHttpFactory::getHttp()->get($updateSite);
+			$response = HttpFactory::getHttp()->get($updateSite);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -130,7 +133,7 @@ class LanguagesModel extends ListModel
 
 		if ($response === null || $response->code !== 200)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
 
 			return;
 		}
@@ -235,7 +238,7 @@ class LanguagesModel extends ListModel
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$this->setState('extension_message', \JFactory::getApplication()->getUserState('com_installer.extension_message'));
+		$this->setState('extension_message', Factory::getApplication()->getUserState('com_installer.extension_message'));
 
 		parent::populateState($ordering, $direction);
 	}

@@ -10,6 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
@@ -93,7 +97,7 @@ abstract class FinderIndexer
 	/**
 	 * Database driver cache.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.8.0
 	 */
 	protected $db;
@@ -113,7 +117,7 @@ abstract class FinderIndexer
 	 */
 	public function __construct()
 	{
-		$this->db = JFactory::getDbo();
+		$this->db = Factory::getDbo();
 
 		$db = $this->db;
 
@@ -143,7 +147,7 @@ abstract class FinderIndexer
 	public static function getInstance()
 	{
 		// Setup the adapter for the indexer.
-		$serverType = JFactory::getDbo()->getServerType();
+		$serverType = Factory::getDbo()->getServerType();
 
 		$path = __DIR__ . '/driver/' . $serverType . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($serverType);
@@ -158,7 +162,7 @@ abstract class FinderIndexer
 		}
 
 		// Throw invalid format exception.
-		throw new RuntimeException(JText::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
+		throw new RuntimeException(Text::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
 	}
 
 	/**
@@ -177,7 +181,7 @@ abstract class FinderIndexer
 		}
 
 		// If we couldn't load from the internal state, try the session.
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 		$data = $session->get('_finder.state', null);
 
 		// If the state is empty, load the values for the first time.
@@ -186,7 +190,7 @@ abstract class FinderIndexer
 			$data = new JObject;
 
 			// Load the default configuration options.
-			$data->options = JComponentHelper::getParams('com_finder');
+			$data->options = ComponentHelper::getParams('com_finder');
 
 			// Setup the weight lookup information.
 			$data->weights = array(
@@ -198,7 +202,7 @@ abstract class FinderIndexer
 			);
 
 			// Set the current time as the start time.
-			$data->startTime = JFactory::getDate()->toSql();
+			$data->startTime = Factory::getDate()->toSql();
 
 			// Set the remaining default values.
 			$data->batchSize   = (int) $data->options->get('batch_size', 50);
@@ -208,7 +212,7 @@ abstract class FinderIndexer
 		}
 
 		// Setup the profiler if debugging is enabled.
-		if (JFactory::getApplication()->get('debug'))
+		if (Factory::getApplication()->get('debug'))
 		{
 			static::$profiler = JProfiler::getInstance('FinderIndexer');
 		}
@@ -240,7 +244,7 @@ abstract class FinderIndexer
 		static::$state = $data;
 
 		// Set the new session state.
-		JFactory::getSession()->set('_finder.state', $data);
+		Factory::getSession()->set('_finder.state', $data);
 
 		return true;
 	}
@@ -258,7 +262,7 @@ abstract class FinderIndexer
 		self::$state = null;
 
 		// Reset the session state to null.
-		JFactory::getSession()->set('_finder.state', null);
+		Factory::getSession()->set('_finder.state', null);
 	}
 
 	/**

@@ -8,9 +8,11 @@
  */
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-use Joomla\CMS\Language\LanguageHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Finder language helper class.
@@ -71,7 +73,7 @@ class FinderHelperLanguage
 
 		if ($branchName === '*')
 		{
-			$title = \JText::_('JALL_LANGUAGE');
+			$title = Text::_('JALL_LANGUAGE');
 		}
 		else
 		{
@@ -95,7 +97,7 @@ class FinderHelperLanguage
 	 */
 	public static function loadComponentLanguage()
 	{
-		\JFactory::getLanguage()->load('com_finder', JPATH_SITE);
+		Factory::getLanguage()->load('com_finder', JPATH_SITE);
 	}
 
 	/**
@@ -118,7 +120,7 @@ class FinderHelperLanguage
 		$loaded = true;
 
 		// Get array of all the enabled Smart Search plugin names.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(array($db->qn('name'), $db->qn('element')))
 			->from($db->quoteName('#__extensions'))
@@ -134,7 +136,7 @@ class FinderHelperLanguage
 		}
 
 		// Load generic language strings.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('plg_content_finder', JPATH_ADMINISTRATOR);
 
 		// Load language file for each plugin.

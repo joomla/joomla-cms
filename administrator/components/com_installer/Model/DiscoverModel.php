@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Discover Model
@@ -60,7 +64,7 @@ class DiscoverModel extends InstallerModel
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -141,7 +145,7 @@ class DiscoverModel extends InstallerModel
 	{
 		// Purge the list of discovered extensions and fetch them again.
 		$this->purge();
-		$results = \JInstaller::getInstance()->discover();
+		$results = Installer::getInstance()->discover();
 
 		// Get all templates, including discovered ones
 		$db = $this->getDbo();
@@ -182,7 +186,7 @@ class DiscoverModel extends InstallerModel
 	 */
 	public function discover_install()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$input = $app->input;
 		$eid   = $input->get('cid', 0, 'array');
 
@@ -198,18 +202,18 @@ class DiscoverModel extends InstallerModel
 
 			foreach ($eid as $id)
 			{
-				$installer = new \JInstaller;
+				$installer = new Installer;
 
 				$result = $installer->discover_install($id);
 
 				if (!$result)
 				{
 					$failed = true;
-					$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED') . ': ' . $id);
+					$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED') . ': ' . $id);
 				}
 			}
 
-			// TODO - We are only receiving the message for the last \JInstaller instance
+			// TODO - We are only receiving the message for the last Installer instance
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
@@ -217,12 +221,12 @@ class DiscoverModel extends InstallerModel
 
 			if (!$failed)
 			{
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
+				$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
 			}
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
 		}
 	}
 
@@ -245,14 +249,14 @@ class DiscoverModel extends InstallerModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
-			$this->_message = \JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
+			$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
 			return false;
 		}
 
-		$this->_message = \JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+		$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 
 		return true;
 	}

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $notice_homes     = $this->homes == 2 || $this->homes == 1 || $this->homes - 1 != count($this->contentlangs) && ($this->language_filter || $this->switchers != 0);
 $notice_disabled  = !$this->language_filter	&& ($this->homes > 1 || $this->switchers != 0);
 $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_filter);
@@ -16,9 +18,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 <div class="mod-multilangstatus">
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
 		<?php if ($this->homes == 1) : ?>
-			<joomla-alert type="info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
+			<joomla-alert type="info"><?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
 		<?php else : ?>
-			<joomla-alert type="info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></joomla-alert>
+			<joomla-alert type="info"><?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></joomla-alert>
 		<?php endif; ?>
 	<?php else : ?>
 	<table class="table table-striped table-sm">
@@ -27,10 +29,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<tr class="table-warning">
 				<td>
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				</td>
 				<td>
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
 				</td>
 			</tr>
 		<?php endif; ?>
@@ -38,10 +40,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<tr class="table-warning">
 				<td>
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				</td>
 				<td>
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
 				</td>
 			</tr>
 		<?php endif; ?>
@@ -49,10 +51,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<tr class="table-warning">
 				<td>
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				</td>
 				<td>
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER_DISABLED'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER_DISABLED'); ?>
 				</td>
 			</tr>
 		<?php endif; ?>
@@ -60,10 +62,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<tr class="table-warning">
 				<td>
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				</td>
 				<td>
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
 				</td>
 			</tr>
 		<?php endif; ?>
@@ -72,10 +74,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<tr class="table-warning">
 					<td>
 						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					</td>
 					<td>
-						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE', $contentlang->lang_code); ?>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE', $contentlang->lang_code); ?>
 					</td>
 				</tr>
 			<?php endif; ?>
@@ -83,10 +85,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<tr class="table-warning">
 					<td>
 						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					</td>
 					<td>
-						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_LANGUAGE_TAG', $contentlang->lang_code); ?>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_LANGUAGE_TAG', $contentlang->lang_code); ?>
 					</td>
 				</tr>
 			<?php endif; ?>
@@ -95,14 +97,14 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<tr class="info">
 				<td>
 					<span class="fa fa-help" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo JText::_('JHELP'); ?></span>
+					<span class="sr-only"><?php echo Text::_('JHELP'); ?></span>
 				</td>
 				<td>
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
 					<ul>
 					<?php foreach ($this->listUsersError as $user) : ?>
 						<li>
-						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR', $user->name); ?>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR', $user->name); ?>
 						</li>
 					<?php endforeach; ?>
 					</ul>
@@ -115,52 +117,52 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<thead>
 			<tr>
 				<th>
-					<?php echo JText::_('JDETAILS'); ?>
+					<?php echo Text::_('JDETAILS'); ?>
 				</th>
 				<th class="text-center">
-					<?php echo JText::_('JSTATUS'); ?>
+					<?php echo Text::_('JSTATUS'); ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<th scope="row">
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER'); ?>
 				</th>
 				<td class="text-center">
 					<?php if ($this->language_filter) : ?>
-						<?php echo JText::_('JENABLED'); ?>
+						<?php echo Text::_('JENABLED'); ?>
 					<?php else : ?>
-						<?php echo JText::_('JDISABLED'); ?>
+						<?php echo Text::_('JDISABLED'); ?>
 					<?php endif; ?>
 				</td>
 			</tr>
 
 			<tr>
 				<th scope="row">
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_PUBLISHED'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_PUBLISHED'); ?>
 				</th>
 				<td class="text-center">
 					<?php if ($this->switchers != 0) : ?>
 						<?php echo $this->switchers; ?>
 					<?php else : ?>
-						<?php echo JText::_('JNONE'); ?>
+						<?php echo Text::_('JNONE'); ?>
 					<?php endif; ?>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
 					<?php if ($this->homes > 1) : ?>
-						<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED_INCLUDING_ALL'); ?>
+						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED_INCLUDING_ALL'); ?>
 					<?php else : ?>
-						<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
+						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
 					<?php endif; ?>
 				</th>
 				<td class="text-center">
 					<?php if ($this->homes > 1) : ?>
 						<?php echo $this->homes; ?>
 					<?php else : ?>
-						<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED_ALL'); ?>
+						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED_ALL'); ?>
 					<?php endif; ?>
 				</td>
 			</tr>
@@ -170,16 +172,16 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<thead>
 			<tr>
 				<th>
-					<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
+					<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 				</th>
 				<th class="text-center">
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_SITE_LANG_PUBLISHED'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_SITE_LANG_PUBLISHED'); ?>
 				</th>
 				<th class="text-center">
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_PUBLISHED'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_PUBLISHED'); ?>
 				</th>
 				<th class="text-center">
-					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
+					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -195,35 +197,35 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php if ($status->element) : ?>
 						<td class="text-center">
 							<span class="fa fa-check" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('JYES'); ?></span>
+							<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 						</td>
 				<?php else : ?>
 						<td class="text-center">
-							<?php echo JText::_('JNO'); ?>
+							<?php echo Text::_('JNO'); ?>
 						</td>
 				<?php endif; ?>
 				<?php // Published Content languages ?>
 				<?php if ($status->lang_code && $status->published) : ?>
 						<td class="text-center">
 							<span class="fa fa-check" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('JYES'); ?></span>
+							<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 						</td>
 				<?php else : ?>
 						<td class="text-center">
 							<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+							<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 						</td>
 				<?php endif; ?>
 				<?php // Published Home pages ?>
 				<?php if ($status->home_language) : ?>
 						<td class="text-center">
 							<span class="fa fa-check" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('JYES'); ?></span>
+							<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 						</td>
 				<?php else : ?>
 						<td class="text-center">
 							<span class="fa fa-times" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('JNO'); ?></span>
+							<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 						</td>
 				<?php endif; ?>
 				</tr>
@@ -236,27 +238,27 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 						<td class="text-center">
 							<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+							<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 						</td>
 						<td class="text-center">
 							<?php if ($contentlang->published) : ?>
 								<span class="fa fa-check" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo JText::_('JYES'); ?></span>
+								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif (!$contentlang->published && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
 								<span class="fa fa-times" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo JText::_('JNO'); ?></span>
+								<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 							<?php elseif (!$contentlang->published) : ?>
 								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php endif; ?>
 						</td>
 						<td class="text-center">
 							<?php if (!array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
 								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php else : ?>
 								<span class="fa fa-check" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo JText::_('JYES'); ?></span>
+								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php endif; ?>
 						</td>
 				<?php endif; ?>

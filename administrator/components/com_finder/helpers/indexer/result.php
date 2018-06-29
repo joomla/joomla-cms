@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 
 /**
@@ -191,7 +193,7 @@ class FinderIndexerResult
 	 */
 	public function __construct()
 	{
-		$this->defaultLanguage = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+		$this->defaultLanguage = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 	}
 
 	/**

@@ -8,21 +8,24 @@
  */
 
 defined('_JEXEC') or die;
-?>
-<fieldset title="<?php echo JText::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?>">
-	<legend><?php echo JText::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?></legend>
 
-	<?php echo JText::_('COM_INSTALLER_MSG_DESCFTP'); ?>
+use Joomla\CMS\Language\Text;
+
+?>
+<fieldset title="<?php echo Text::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?>">
+	<legend><?php echo Text::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?></legend>
+
+	<?php echo Text::_('COM_INSTALLER_MSG_DESCFTP'); ?>
 
 	<?php if ($this->ftp instanceof Exception) : ?>
-		<p><?php echo JText::_($this->ftp->getMessage()); ?></p>
+		<p><?php echo Text::_($this->ftp->getMessage()); ?></p>
 	<?php endif; ?>
 
 	<table class="adminform">
 		<tbody>
 			<tr>
 				<td style="width:120">
-					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
+					<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
 				</td>
 				<td>
 					<input type="text" id="username" name="username" class="form-control" size="70" value="">
@@ -30,7 +33,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td style="width:120">
-					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
+					<label for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 				</td>
 				<td>
 					<input type="password" id="password" name="password" class="form-control" size="70" value="">

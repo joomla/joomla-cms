@@ -19,6 +19,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Text;
 
 // Register dependent classes.
 \JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
@@ -62,7 +63,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -74,8 +75,8 @@ class IndexerController extends BaseController
 		PluginHelper::importPlugin('finder');
 
 		// Add the indexer language to \JS
-		\JText::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-		\JText::script('COM_FINDER_NO_ERROR_RETURNED');
+		Text::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+		Text::script('COM_FINDER_NO_ERROR_RETURNED');
 
 		// Start the indexer.
 		try
@@ -130,7 +131,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -246,7 +247,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -368,7 +369,7 @@ class FinderIndexerResponse
 
 			// Prepare the error response.
 			$this->error = true;
-			$this->header = \JText::_('COM_FINDER_INDEXER_HEADER_ERROR');
+			$this->header = Text::_('COM_FINDER_INDEXER_HEADER_ERROR');
 			$this->message = $state->getMessage();
 		}
 		else
@@ -387,18 +388,18 @@ class FinderIndexerResponse
 			// Set the appropriate messages.
 			if ($this->totalItems <= 0 && $this->complete)
 			{
-				$this->header = \JText::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
-				$this->message = \JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
+				$this->header = Text::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
+				$this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
 			}
 			elseif ($this->totalItems <= 0)
 			{
-				$this->header = \JText::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
-				$this->message = \JText::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
+				$this->header = Text::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
+				$this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
 			}
 			else
 			{
-				$this->header = \JText::_('COM_FINDER_INDEXER_HEADER_RUNNING');
-				$this->message = \JText::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
+				$this->header = Text::_('COM_FINDER_INDEXER_HEADER_RUNNING');
+				$this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
 			}
 		}
 	}

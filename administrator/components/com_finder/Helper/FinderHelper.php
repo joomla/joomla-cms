@@ -8,9 +8,12 @@
  */
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-use Joomla\CMS\Helper\ContentHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Helper class for Finder.
@@ -39,17 +42,17 @@ class FinderHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_INDEX'),
+			Text::_('COM_FINDER_SUBMENU_INDEX'),
 			'index.php?option=com_finder&view=index',
 			$vName === 'index'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_MAPS'),
+			Text::_('COM_FINDER_SUBMENU_MAPS'),
 			'index.php?option=com_finder&view=maps',
 			$vName === 'maps'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_FILTERS'),
+			Text::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
 			$vName === 'filters'
 		);
@@ -64,7 +67,7 @@ class FinderHelper
 	 */
 	public static function getFinderPluginId()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -78,7 +81,7 @@ class FinderHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;
@@ -90,16 +93,16 @@ class FinderHelper
 	 * @return  \JObject  A JObject containing the allowed actions.
 	 *
 	 * @since   2.5
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
+	 * @deprecated  3.2  Use ContentHelper::getActions() instead
 	 */
 	public static function getActions()
 	{
 		// Log usage of deprecated function
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}

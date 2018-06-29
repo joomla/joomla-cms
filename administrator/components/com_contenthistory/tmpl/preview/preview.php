@@ -8,20 +8,24 @@
  */
 
 defined('_JEXEC') or die;
-JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+
+Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 ?>
 <h3>
-<?php echo JText::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE_DATE', $this->item->save_date); ?>
+<?php echo Text::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE_DATE', $this->item->save_date); ?>
 <?php if ($this->item->version_note) : ?>
-	&nbsp;&nbsp;<?php echo JText::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE', $this->item->version_note); ?>
+	&nbsp;&nbsp;<?php echo Text::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE', $this->item->version_note); ?>
 <?php endif; ?>
 </h3>
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th style="width:25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-			<th><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
+			<th style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+			<th><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

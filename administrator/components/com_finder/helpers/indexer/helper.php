@@ -13,6 +13,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
@@ -155,7 +159,7 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
@@ -234,7 +238,7 @@ class FinderIndexerHelper
 	 */
 	public static function getCommonWords($lang)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Create the query to load all the common terms for the language.
 		$query = $db->getQuery(true)
@@ -322,7 +326,7 @@ class FinderIndexerHelper
 		// Build the relative route.
 		$uri = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JUri::base(true) . '/', '', $route);
+		$route = str_replace(Uri::base(true) . '/', '', $route);
 
 		return $route;
 	}
@@ -341,9 +345,9 @@ class FinderIndexerHelper
 	public static function getContentExtras(FinderIndexerResult &$item)
 	{
 		// Load the finder plugin group.
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
-		JFactory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
+		Factory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
 
 		return true;
 	}
@@ -366,7 +370,7 @@ class FinderIndexerHelper
 		// Load the content plugins if necessary.
 		if (empty($loaded))
 		{
-			JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 			$loaded = true;
 		}
 
@@ -378,7 +382,7 @@ class FinderIndexerHelper
 		}
 
 		// Create a mock content object.
-		$content = JTable::getInstance('Content');
+		$content = Table::getInstance('Content');
 		$content->text = $text;
 
 		if ($item)
@@ -393,7 +397,7 @@ class FinderIndexerHelper
 		}
 
 		// Fire the onContentPrepare event.
-		JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
+		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
 
 		return $content->text;
 	}

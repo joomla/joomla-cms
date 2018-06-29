@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Field;
 defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Search Branches field for the Finder package.
@@ -36,6 +37,6 @@ class BranchesField extends ListField
 	 */
 	public function getOptions()
 	{
-		return \JHtml::_('finder.mapslist');
+		return HTMLHelper::_('finder.mapslist');
 	}
 }

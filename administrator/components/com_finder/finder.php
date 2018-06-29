@@ -9,11 +9,15 @@
 
 defined('_JEXEC') or die;
 
-if (!\JFactory::getUser()->authorise('core.manage', 'com_finder'))
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Factory;
+
+if (!Factory::getUser()->authorise('core.manage', 'com_finder'))
 {
-	throw new \JAccessExceptionNotallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 $controller = \JControllerLegacy::getInstance('Finder');
-$controller->execute(\JFactory::getApplication()->input->get('task'));
+$controller->execute(Factory::getApplication()->input->get('task'));
 $controller->redirect();

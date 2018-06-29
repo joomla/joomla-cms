@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Statistics model class for Finder.
@@ -68,7 +69,7 @@ class StatisticsModel extends BaseDatabaseModel
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 
-		$lang  = \JFactory::getLanguage();
+		$lang  = Factory::getLanguage();
 		$plugins = PluginHelper::getPlugin('finder');
 
 		foreach ($plugins as $plugin)

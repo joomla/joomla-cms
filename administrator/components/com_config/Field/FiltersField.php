@@ -9,9 +9,12 @@
 
 namespace Joomla\Component\Config\Administrator\Field;
 
-use Joomla\CMS\Form\FormField;
-
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Text Filters form field.
@@ -52,16 +55,16 @@ class FiltersField extends FormField
 		$html[] = '	<thead>';
 		$html[] = '	<tr>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';
@@ -83,7 +86,7 @@ class FiltersField extends FormField
 
 			$html[] = '	<tr>';
 			$html[] = '		<td class="acl-groups left">';
-			$html[] = '			' . \JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
+			$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '		</td>';
 			$html[] = '		<td>';
 			$html[] = '				<select'
@@ -92,15 +95,15 @@ class FiltersField extends FormField
 				. ' class="novalidate custom-select"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
 			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
 			$html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
 			$html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
 			$html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
@@ -129,9 +132,9 @@ class FiltersField extends FormField
 
 		// Add notes
 		$html[] = '<joomla-alert type="warning">';
-		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
-		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
-		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
+		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
+		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
+		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
 		$html[] = '</joomla-alert>';
 
 		return implode("\n", $html);
@@ -147,7 +150,7 @@ class FiltersField extends FormField
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

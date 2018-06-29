@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Installer Update Sites Controller
@@ -56,7 +59,7 @@ class UpdatesitesController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
@@ -65,7 +68,7 @@ class UpdatesitesController extends BaseController
 
 		if (empty($ids))
 		{
-			throw new \Exception(\JText::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
+			throw new \Exception(Text::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
 		}
 
 		// Get the model.
@@ -80,9 +83,9 @@ class UpdatesitesController extends BaseController
 
 		$ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';
 
-		$this->setMessage(\JText::plural($ntext, count($ids)));
+		$this->setMessage(Text::plural($ntext, count($ids)));
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 	}
 
 	/**
@@ -97,19 +100,19 @@ class UpdatesitesController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->get('cid', array(), 'array');
 
 		if (empty($ids))
 		{
-			throw new \Exception(\JText::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
+			throw new \Exception(Text::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
 		}
 
 		// Delete the records.
 		$this->getModel('Updatesites')->delete($ids);
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 	}
 
 	/**
@@ -122,11 +125,11 @@ class UpdatesitesController extends BaseController
 	public function rebuild()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Rebuild the update sites.
 		$this->getModel('Updatesites')->rebuild();
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
 	}
 }
