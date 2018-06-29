@@ -22,6 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Access\Rules;
 
 /**
  * Categories Component Category Model
@@ -555,7 +556,7 @@ class CategoryModel extends AdminModel
 		// Bind the rules.
 		if (isset($data['rules']))
 		{
-			$rules = new \JAccessRules($data['rules']);
+			$rules = new Rules($data['rules']);
 			$table->setRules($rules);
 		}
 

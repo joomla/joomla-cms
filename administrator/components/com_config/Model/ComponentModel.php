@@ -11,8 +11,8 @@ namespace Joomla\Component\Config\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Access as JAccess;
-use Joomla\CMS\Access\Rules as JAccessRules;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -149,7 +149,7 @@ class ComponentModel extends FormModel
 				{
 					if ($field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
 						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
-						&& JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
+						&& Access::checkGroup($data['params'][$field->fieldname], 'core.admin'))
 					{
 						throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 					}
@@ -160,7 +160,7 @@ class ComponentModel extends FormModel
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
-			$rules = new JAccessRules($data['params']['rules']);
+			$rules = new Rules($data['params']['rules']);
 			$asset = Table::getInstance('asset');
 
 			if (!$asset->loadByName($data['option']))

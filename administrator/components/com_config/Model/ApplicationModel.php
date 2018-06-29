@@ -11,8 +11,8 @@ namespace Joomla\Component\Config\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Access as JAccess;
-use Joomla\CMS\Access\Rules as JAccessRules;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
@@ -172,11 +172,11 @@ class ApplicationModel extends FormModel
 		// Save the rules
 		if (isset($data['rules']))
 		{
-			$rules = new JAccessRules($data['rules']);
+			$rules = new Rules($data['rules']);
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
-			$myGroups      = JAccess::getGroupsByUser(\JFactory::getUser()->get('id'));
+			$myGroups      = Access::getGroupsByUser(\JFactory::getUser()->get('id'));
 			$myRules       = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -590,13 +590,13 @@ class ApplicationModel extends FormModel
 		$isGlobalConfig = $permission['component'] === 'root.1';
 
 		// Check if changed group has Super User permissions.
-		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
+		$isSuperUserGroupBefore = Access::checkGroup($permission['rule'], 'core.admin');
 
 		// Check if current user belongs to changed group.
 		$currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups) ? true : false;
 
 		// Get current user groups tree.
-		$currentUserGroupsTree = JAccess::getGroupsByUser($user->id, true);
+		$currentUserGroupsTree = Access::getGroupsByUser($user->id, true);
 
 		// Check if current user belongs to changed group.
 		$currentUserSuperUser = $user->authorise('core.admin');
@@ -643,7 +643,7 @@ class ApplicationModel extends FormModel
 			{
 				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
 
-				$rules        = new JAccessRules($data);
+				$rules        = new Rules($data);
 				$asset->rules = (string) $rules;
 				$asset->name  = (string) $permission['component'];
 				$asset->title = (string) $permission['title'];
@@ -805,27 +805,27 @@ class ApplicationModel extends FormModel
 		}
 
 		// Clear access statistics.
-		JAccess::clearStatics();
+		Access::clearStatics();
 
 		// After current group permission is changed we need to check again if the group has Super User permissions.
-		$isSuperUserGroupAfter = JAccess::checkGroup($permission['rule'], 'core.admin');
+		$isSuperUserGroupAfter = Access::checkGroup($permission['rule'], 'core.admin');
 
 		// Get the rule for just this asset (non-recursive) and get the actual setting for the action for this group.
-		$assetRule = JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
+		$assetRule = Access::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-		$inheritedGroupRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+		$inheritedGroupRule = Access::checkGroup($permission['rule'], $permission['action'], $assetId);
 
 		if (!empty($parentAssetId))
 		{
-			$inheritedGroupParentAssetRule = JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
+			$inheritedGroupParentAssetRule = Access::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
 		}
 		else
 		{
 			$inheritedGroupParentAssetRule = null;
 		}
 
-		$inheritedParentGroupRule = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
+		$inheritedParentGroupRule = !empty($parentGroupId) ? Access::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
