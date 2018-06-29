@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Associations;
 
 /**
  * Methods supporting a list of article records.
@@ -61,7 +62,7 @@ class ArticlesModel extends ListModel
 				'rating_count', 'rating',
 			);
 
-			if (\JLanguageAssociations::isEnabled())
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -255,7 +256,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Join over the associations.
-		if (\JLanguageAssociations::isEnabled())
+		if (Associations::isEnabled())
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))

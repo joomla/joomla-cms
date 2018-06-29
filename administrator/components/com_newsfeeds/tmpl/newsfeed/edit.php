@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Language\Associations;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -23,7 +24,7 @@ JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_thre
 $app   = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = JLanguageAssociations::isEnabled();
+$assoc = Associations::isEnabled();
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associations');

@@ -16,6 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Associations;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
@@ -54,7 +55,7 @@ if ($saveOrder && !empty($this->items))
 	JHtml::_('draggablelist.draggable');
 }
 
-$assoc = JLanguageAssociations::isEnabled();
+$assoc = Associations::isEnabled();
 
 // Configure content state button renderer.
 $publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);

@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Associations;
 
 /**
  * Item Model for an Article.
@@ -415,7 +416,7 @@ class ArticleModel extends AdminModel
 		}
 
 		// Load associated content items
-		$assoc = \JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -423,7 +424,7 @@ class ArticleModel extends AdminModel
 
 			if ($item->id != null)
 			{
-				$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
+				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -505,12 +506,12 @@ class ArticleModel extends AdminModel
 
 		// Prevent messing with article language and category when editing existing article with associations
 		$app = \JFactory::getApplication();
-		$assoc = \JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		// Check if article is associated
 		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
 		{
-			$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+			$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 			// Make fields read only
 			if (!empty($associations))
@@ -877,7 +878,7 @@ class ArticleModel extends AdminModel
 		}
 
 		// Association content items
-		if (\JLanguageAssociations::isEnabled())
+		if (Associations::isEnabled())
 		{
 			$languages = \JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 

@@ -14,6 +14,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Associations;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -35,7 +36,7 @@ if ($saveOrder && $menuType && !empty($this->items))
 	JHtml::_('draggablelist.draggable');
 }
 
-$assoc   = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;
+$assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
 $colSpan = $assoc ? 10 : 9;
 
 if ($menuType == '')

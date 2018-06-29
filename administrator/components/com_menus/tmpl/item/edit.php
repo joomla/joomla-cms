@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Language\Associations;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -54,7 +55,7 @@ jQuery(document).ready(function ($){
 });
 ";
 
-$assoc = JLanguageAssociations::isEnabled();
+$assoc = Associations::isEnabled();
 $input = JFactory::getApplication()->input;
 
 // In case of modal
