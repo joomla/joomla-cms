@@ -17,12 +17,10 @@ define('JOOMLA_MINIMUM_PHP', '7.0');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
-	$subFolder = ($_SERVER['REQUEST_URI'] !== '') ? $_SERVER['REQUEST_URI'] : '';
-
 	die(
 		str_replace(
-			array('{{PHP_VERSION}}', '{{BASEPATH}}'),
-			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . (!empty($subFolder) ? $subFolder : '/')),
+			'{{PHP_VERSION}}',
+			JOOMLA_MINIMUM_PHP,
 			file_get_contents(dirname(__FILE__) . '/templates/system/incompatible.html')
 		)
 	);

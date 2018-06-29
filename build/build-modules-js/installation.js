@@ -3,24 +3,17 @@ const ini = require('ini');
 const Recurs = require("recursive-readdir");
 
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
-const dir = rootPath + '/installation/language';
-const dest = rootPath + '/templates/system/js';
+const dir = `${rootPath}/installation/language`;
+const dest = `${rootPath}/templates/system/js`;
+const installationFile = `${rootPath}/templates/system/incompatible.html`;
 
 // Set the initial template
-let template = `/**
- * @package     Joomla.Installation
- * @subpackage  JavaScript
- * @copyright   Copyright (C) 2005 - ${(new Date()).getFullYear()} Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-/**
- * This file is auto generated. Please do not modify it directly, use \`node build --installer\`
- */
-window.errorLocale = {`;
-
+let template = `
+var errorLocale = {`;
 
 installation = () => {
+	let installationContent = fs.readFileSync(`${__dirname}/incompatible.html`, 'utf-8');
+
 	Recurs(dir).then(
 		(files) => {
 			files.forEach((file) => {
@@ -40,24 +33,20 @@ installation = () => {
 			template = template + `
 }`;
 
-			if (!fs.existsSync(dest)) {
-				fs.mkdirSync(dest);
-			}
+			installationContent = installationContent.replace('{{jsonContents}}', template);
 
-			// Write the file
-			fs.writeFile(`${dest}/error-locales.js`, template, (err) => {
+			fs.writeFile(installationFile, installationContent, (err) => {
 				if (err) {
 					return console.log(err);
 				}
 
-				console.log("The installation javascript error file was saved!");
+				console.log("The installation error page was saved!");
 			});
 		},
 		(error) => {
 			console.error("something exploded", error);
 		}
 	);
-
 };
 
 module.exports.installation = installation;
