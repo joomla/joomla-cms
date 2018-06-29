@@ -15,11 +15,12 @@
 			}
 
 			html {
-				background-color: #3a92c8;
-				background: radial-gradient(circle, #fdfdfd, #f1f1f1);
+				background: rgb(241,241,241);
+				background: -moz-radial-gradient(center, ellipse cover, rgba(241,241,241,1) 0%, rgba(58,146,200,1) 100%);
+				background: -webkit-radial-gradient(center, ellipse cover, rgba(241,241,241,1) 0%,rgba(58,146,200,1) 100%);
+				background: radial-gradient(ellipse at center, rgba(241,241,241,1) 0%,rgba(58,146,200,1) 100%);
 				background-repeat: no-repeat;
 				background-attachment: fixed;
-				background-image: none
 			}
 
 			ol, ul {
@@ -218,9 +219,6 @@ var errorLocale = {
 						var header = document.getElementById('headerText'),
 						    text1 = document.getElementById('descText1');
 
-						// Get the minimum PHP version
-						window.phpVersion = document.body.getAttribute('data-php-version') || '7.0';
-
 						// Create links for all the languages
 						Object.keys(errorLocale).forEach(function(key) {
 							var sel = document.getElementById('translatedLanguagesSelect');
@@ -236,7 +234,6 @@ var errorLocale = {
 								var ref = e.target.value;
 								if (ref) {
 									header.innerHTML = errorLocale[ref].header;
-									text1.innerHTML = errorLocale[ref].text1.replace('{{phpversion}}', phpVersion);
 								}
 
 								var helpLink = document.getElementById('linkHelp');
@@ -262,7 +259,6 @@ var errorLocale = {
 
 								// Append the translated strings
 								header.innerHTML = errorLocale[key].header;
-								text1.innerHTML = errorLocale[key].text1.replace('{{phpversion}}', phpVersion);
 
 								var helpLink = document.getElementById('linkHelp');
 								if (helpLink) {
