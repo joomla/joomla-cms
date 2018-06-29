@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * View class for a list of newsfeeds.
