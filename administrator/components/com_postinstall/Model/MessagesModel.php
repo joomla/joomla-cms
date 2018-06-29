@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Model class to manage postinstall messages
@@ -230,7 +231,7 @@ class MessagesModel extends BaseDatabaseModel
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->condition_file);
 
-				if (\JFile::exists($file))
+				if (File::exists($file))
 				{
 					require_once $file;
 

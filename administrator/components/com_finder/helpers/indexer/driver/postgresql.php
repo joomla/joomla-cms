@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Fileystem\File;
+
 jimport('joomla.filesystem.file');
 
 /**
@@ -204,7 +206,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 						 */
 						if ($group === static::PATH_CONTEXT)
 						{
-							$ip = JFile::stripExt($ip);
+							$ip = File::stripExt($ip);
 							$ip = str_replace('/', ' ', $ip);
 							$ip = str_replace('-', ' ', $ip);
 						}
@@ -228,7 +230,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 					 */
 					if ($group === static::PATH_CONTEXT)
 					{
-						$item->$property = JFile::stripExt($item->$property);
+						$item->$property = File::stripExt($item->$property);
 						$item->$property = str_replace('/', ' ', $item->$property);
 						$item->$property = str_replace('-', ' ', $item->$property);
 					}

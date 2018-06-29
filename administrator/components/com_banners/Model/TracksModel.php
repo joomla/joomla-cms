@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Methods supporting a list of tracks.
@@ -503,9 +504,9 @@ class TracksModel extends ListModel
 
 				if (!empty($delete))
 				{
-					if (!\JFile::delete($delete))
+					if (!File::delete($delete))
 					{
-						// \JFile::delete throws an error
+						// File::delete throws an error
 						$this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
 
 						return false;

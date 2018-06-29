@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Languages Overrides Model
@@ -71,7 +72,7 @@ class OverridesModel extends ListModel
 		// Delete the override.ini file if empty.
 		if (file_exists($filename) && empty($strings))
 		{
-			\JFile::delete($filename);
+			File::delete($filename);
 		}
 
 		// Filter the loaded strings according to the search box.

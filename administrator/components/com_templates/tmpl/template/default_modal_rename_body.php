@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 ?>
 <div id="template-manager-rename" class="container-fluid">
@@ -25,7 +26,7 @@ use Joomla\CMS\Language\Text;
 					<div class="input-group">
 						<input class="form-control" type="text" name="new_name" required>
 						<span class="input-group-append">
-							<span class="input-group-text">.<?php echo JFile::getExt($this->fileName); ?></span>
+							<span class="input-group-text">.<?php echo File::getExt($this->fileName); ?></span>
 						</span>
 					</div>
 				</div>

@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Fileystem\File;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -299,7 +300,7 @@ class UpdateModel extends BaseDatabaseModel
 		$target  = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
-		$exists = \JFile::exists($target);
+		$exists = File::exists($target);
 
 		if (!$exists)
 		{
@@ -365,7 +366,7 @@ class UpdateModel extends BaseDatabaseModel
 		jimport('joomla.filesystem.file');
 
 		// Make sure the target does not exist.
-		\JFile::delete($target);
+		File::delete($target);
 
 		// Download the package
 		try
@@ -383,7 +384,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Write the file to disk
-		\JFile::write($target, $result->body);
+		File::write($target, $result->body);
 
 		return basename($target);
 	}
@@ -508,7 +509,7 @@ ENDDATA;
 				{
 					\JFolder::create($tempdir, 511);
 					$htaccessContents = "order deny,allow\ndeny from all\nallow from none\n";
-					\JFile::write($tempdir . '/.htaccess', $htaccessContents);
+					File::write($tempdir . '/.htaccess', $htaccessContents);
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory.
@@ -576,13 +577,13 @@ ENDDATA;
 		// Remove the old file, if it's there...
 		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
 
-		if (\JFile::exists($configpath))
+		if (File::exists($configpath))
 		{
-			\JFile::delete($configpath);
+			File::delete($configpath);
 		}
 
 		// Write new file. First try with \JFile.
-		$result = \JFile::write($configpath, $data);
+		$result = File::write($configpath, $data);
 
 		// In case \JFile used FTP but direct access could help.
 		if (!$result)
@@ -843,7 +844,7 @@ ENDDATA;
 
 		if (!@unlink($target))
 		{
-			\JFile::delete($target);
+			File::delete($target);
 		}
 
 		// Remove the restoration.php file.
@@ -851,7 +852,7 @@ ENDDATA;
 
 		if (!@unlink($target))
 		{
-			\JFile::delete($target);
+			File::delete($target);
 		}
 
 		// Remove joomla.xml from the site's root.
@@ -859,7 +860,7 @@ ENDDATA;
 
 		if (!@unlink($target))
 		{
-			\JFile::delete($target);
+			File::delete($target);
 		}
 
 		// Unset the update filename from the session.
@@ -934,12 +935,12 @@ ENDDATA;
 
 		if (version_compare(\JVERSION, '3.4.0', 'ge'))
 		{
-			$result = \JFile::upload($tmp_src, $tmp_dest, false, true);
+			$result = File::upload($tmp_src, $tmp_dest, false, true);
 		}
 		else
 		{
 			// Old Joomla! versions didn't have UploadShield and don't need the fourth parameter to accept uploads
-			$result = \JFile::upload($tmp_src, $tmp_dest);
+			$result = File::upload($tmp_src, $tmp_dest);
 		}
 
 		if (!$result)
@@ -1001,7 +1002,7 @@ ENDDATA;
 
 		\JLoader::import('joomla.filesystem.file');
 
-		if (empty($file) || !\JFile::exists($file))
+		if (empty($file) || !File::exists($file))
 		{
 			return false;
 		}
@@ -1027,11 +1028,11 @@ ENDDATA;
 
 		foreach ($files as $file)
 		{
-			if (\JFile::exists($file))
+			if (File::exists($file))
 			{
 				if (!@unlink($file))
 				{
-					\JFile::delete($file);
+					File::delete($file);
 				}
 			}
 		}

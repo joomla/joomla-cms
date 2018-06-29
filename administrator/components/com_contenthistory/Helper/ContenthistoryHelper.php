@@ -14,6 +14,7 @@ use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Categories helper.
@@ -170,7 +171,7 @@ class ContenthistoryHelper
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
-		if (is_object($options) && isset($options->formFile) && \JFile::exists(JPATH_ROOT . '/' . $options->formFile))
+		if (is_object($options) && isset($options->formFile) && File::exists(JPATH_ROOT . '/' . $options->formFile))
 		{
 			$result = JPATH_ROOT . '/' . $options->formFile;
 		}
@@ -182,8 +183,8 @@ class ContenthistoryHelper
 			{
 				$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
 				$path  = \JFolder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
-				$file = \JFile::makeSafe($aliasArray[1] . '.xml');
-				$result = \JFile::exists($path . $file) ? $path . $file : false;
+				$file = File::makeSafe($aliasArray[1] . '.xml');
+				$result = File::exists($path . $file) ? $path . $file : false;
 			}
 		}
 

@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Extension Manager Install Model
@@ -312,7 +313,7 @@ class InstallModel extends BaseDatabaseModel
 
 		// Move uploaded file.
 		jimport('joomla.filesystem.file');
-		\JFile::upload($tmp_src, $tmp_dest, false, true);
+		File::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
 		$package = \JInstallerHelper::unpack($tmp_dest, true);

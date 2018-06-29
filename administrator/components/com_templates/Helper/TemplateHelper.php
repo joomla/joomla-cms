@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Template Helper class.
@@ -82,7 +83,7 @@ abstract class TemplateHelper
 
 		jimport('joomla.filesystem.file');
 
-		if ($file['name'] !== \JFile::makeSafe($file['name']) || preg_match('/\s/', \JFile::makeSafe($file['name'])))
+		if ($file['name'] !== File::makeSafe($file['name']) || preg_match('/\s/', File::makeSafe($file['name'])))
 		{
 			$app = \JFactory::getApplication();
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'error');
@@ -90,7 +91,7 @@ abstract class TemplateHelper
 			return false;
 		}
 
-		$format = strtolower(\JFile::getExt($file['name']));
+		$format = strtolower(File::getExt($file['name']));
 
 		$imageTypes   = explode(',', $params->get('image_formats'));
 		$sourceTypes  = explode(',', $params->get('source_formats'));

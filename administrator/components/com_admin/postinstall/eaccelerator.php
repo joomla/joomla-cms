@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Checks if the eAccelerator caching method is enabled.
@@ -68,7 +69,7 @@ function admin_postinstall_eaccelerator_action()
 	// Attempt to write the configuration file as a PHP class named JConfig.
 	$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
-	if (!JFile::write($file, $configuration))
+	if (!File::write($file, $configuration))
 	{
 		JFactory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 

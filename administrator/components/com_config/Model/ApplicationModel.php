@@ -24,6 +24,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Model for the global configuration
@@ -528,7 +529,7 @@ class ApplicationModel extends FormModel
 		// Attempt to write the configuration file as a PHP class named JConfig.
 		$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
-		if (!\JFile::write($file, $configuration))
+		if (!File::write($file, $configuration))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}

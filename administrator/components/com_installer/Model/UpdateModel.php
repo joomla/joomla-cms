@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Installer Update Model
@@ -563,7 +564,7 @@ class UpdateModel extends ListModel
 
 				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
 
-				if (\JFile::exists($path))
+				if (File::exists($path))
 				{
 					require_once $path;
 
@@ -580,7 +581,7 @@ class UpdateModel extends ListModel
 				$cname = str_replace('_', '', $table->element) . 'Helper';
 				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
-				if (\JFile::exists($path))
+				if (File::exists($path))
 				{
 					require_once $path;
 

@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Template model class.
@@ -339,13 +340,13 @@ class TemplateModel extends FormModel
 		foreach ($files as $file)
 		{
 			$newFile = str_replace($oldName, $newName, $file);
-			$result = \JFile::move($file, $newFile) && $result;
+			$result = File::move($file, $newFile) && $result;
 		}
 
 		// Edit XML file
 		$xmlFile = $this->getState('to_path') . '/templateDetails.xml';
 
-		if (\JFile::exists($xmlFile))
+		if (File::exists($xmlFile))
 		{
 			$contents = file_get_contents($xmlFile);
 			$pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
@@ -353,7 +354,7 @@ class TemplateModel extends FormModel
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
 			$contents = preg_replace($pattern, $replace, $contents);
-			$result = \JFile::write($xmlFile, $contents) && $result;
+			$result = File::write($xmlFile, $contents) && $result;
 		}
 
 		return $result;
@@ -518,7 +519,7 @@ class TemplateModel extends FormModel
 		// Make sure EOL is Unix
 		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
 
-		$return = \JFile::write($filePath, $data['source']);
+		$return = File::write($filePath, $data['source']);
 
 		if (!$return)
 		{
@@ -797,14 +798,14 @@ class TemplateModel extends FormModel
 			$overrideFilePath = str_replace($overridePath, '', $file);
 			$htmlFilePath = $htmlPath . $overrideFilePath;
 
-			if (\JFile::exists($htmlFilePath))
+			if (File::exists($htmlFilePath))
 			{
 				// Generate new unique file name base on current time
 				$today = \JFactory::getDate();
-				$htmlFilePath = \JFile::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . \JFile::getExt($htmlFilePath);
+				$htmlFilePath = File::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . File::getExt($htmlFilePath);
 			}
 
-			$return = \JFile::copy($file, $htmlFilePath, '', true);
+			$return = File::copy($file, $htmlFilePath, '', true);
 		}
 
 		return $return;
@@ -828,7 +829,7 @@ class TemplateModel extends FormModel
 			$path     = \JPath::clean($client->path . '/templates/' . $template->element . '/');
 			$filePath = $path . urldecode(base64_decode($file));
 
-			$return = \JFile::delete($filePath);
+			$return = File::delete($filePath);
 
 			if (!$return)
 			{
@@ -906,7 +907,7 @@ class TemplateModel extends FormModel
 			$app      = \JFactory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$path     = \JPath::clean($client->path . '/templates/' . $template->element . '/');
-			$fileName = \JFile::makeSafe($file['name']);
+			$fileName = File::makeSafe($file['name']);
 
 			$err = null;
 
@@ -923,7 +924,7 @@ class TemplateModel extends FormModel
 				return false;
 			}
 
-			if (!\JFile::upload($file['tmp_name'], \JPath::clean($path . '/' . $location . '/' . $fileName)))
+			if (!File::upload($file['tmp_name'], \JPath::clean($path . '/' . $location . '/' . $fileName)))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
@@ -1290,7 +1291,7 @@ class TemplateModel extends FormModel
 				return false;
 			}
 
-			if (\JFile::copy($path . $relPath, $newPath))
+			if (File::copy($path . $relPath, $newPath))
 			{
 				$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
 

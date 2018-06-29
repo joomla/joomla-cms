@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * The Joomla! update controller for the Update view
@@ -293,7 +294,7 @@ class UpdateController extends BaseController
 
 		\JLoader::import('joomla.filesystem.file');
 
-		if (empty($tempFile) || !\JFile::exists($tempFile))
+		if (empty($tempFile) || !File::exists($tempFile))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}

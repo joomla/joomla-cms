@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Fileystem\File;
 
 /**
  * Script file of Joomla CMS
@@ -3946,7 +3947,7 @@ class JoomlaInstallerScript
 
 		foreach ($files as $file)
 		{
-			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
 			{
 				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
 			}

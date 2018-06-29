@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
 
 \JFormHelper::loadFieldClass('List');
 
@@ -58,7 +59,7 @@ class ConfigComponentsField extends \JFormFieldList
 				// Load language
 				$extension = $item->value;
 
-				if (\JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml'))
+				if (File::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml'))
 				{
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
