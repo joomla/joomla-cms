@@ -101,7 +101,7 @@ else
 					<?php else : ?>
 						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
 					<?php  endif; ?>
-					<?php if ($params->get('rssitemdate')) : ?>
+					<?php if ($params->get('rssitemdate', 0)) : ?>
 						<div class="feed-item-date">
 							<?php echo JHtml::_('date', $feed[$i]->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
 						</div>
