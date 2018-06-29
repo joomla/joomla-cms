@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 
 JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
@@ -324,7 +325,7 @@ class FinderIndexerHelper
 		// Build the relative route.
 		$uri = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JUri::base(true) . '/', '', $route);
+		$route = str_replace(Uri::base(true) . '/', '', $route);
 
 		return $route;
 	}

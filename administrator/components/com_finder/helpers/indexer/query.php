@@ -14,11 +14,11 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
-
 
 /**
  * Query class for the Finder indexer package.
@@ -291,7 +291,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the base URI.
-		$uri = JUri::getInstance($base);
+		$uri = Uri::getInstance($base);
 
 		// Add the static taxonomy filter if present.
 		if (!empty($this->filter))

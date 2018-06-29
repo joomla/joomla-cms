@@ -25,6 +25,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Model for the global configuration
@@ -140,7 +141,7 @@ class ApplicationModel extends FormModel
 			try
 			{
 				// Make an HTTPS request to check if the site is available in HTTPS.
-				$host    = \JUri::getInstance()->getHost();
+				$host    = Uri::getInstance()->getHost();
 				$options = new Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
@@ -153,7 +154,7 @@ class ApplicationModel extends FormModel
 						CURLOPT_PROXYUSERPWD => null,
 					)
 				);
-				$response = \JHttpFactory::getHttp($options)->get('https://' . $host . \JUri::root(true) . '/', array('Host' => $host), 10);
+				$response = \JHttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
 				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))

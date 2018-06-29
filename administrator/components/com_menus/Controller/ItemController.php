@@ -16,6 +16,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * The Menu ItemModel  Controller
@@ -550,7 +551,7 @@ class ItemController extends FormController
 				$component = ComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 
-				$app->setUserState('com_menus.edit.item.link', 'index.php?' . \JUri::buildQuery((array) $type->request));
+				$app->setUserState('com_menus.edit.item.link', 'index.php?' . Uri::buildQuery((array) $type->request));
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.

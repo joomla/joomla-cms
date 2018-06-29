@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Uri\Uri;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -110,9 +111,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="break-word">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
-									<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?></a>
+									<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?></a>
 							<?php else : ?>
-									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
+									<?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>
 						</td>
 						<td class="small break-word">

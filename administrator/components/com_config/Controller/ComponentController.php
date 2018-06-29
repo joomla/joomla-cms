@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Note: this view is intended only to be opened in a popup
@@ -152,9 +153,9 @@ class ComponentController extends BaseController
 				}
 
 				// Don't redirect to an external URL.
-				if (!\JUri::isInternal($redirect))
+				if (!Uri::isInternal($redirect))
 				{
-					$redirect = \JUri::base();
+					$redirect = Uri::base();
 				}
 
 				$this->setRedirect(Route::_($redirect, false));

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\CacheExceptionInterface;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Login Model
@@ -49,7 +50,7 @@ class LoginModel extends BaseDatabaseModel
 		{
 			$return = base64_decode($return);
 
-			if (!\JUri::isInternal($return))
+			if (!Uri::isInternal($return))
 			{
 				$return = '';
 			}

@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * View to edit a template style.
@@ -248,7 +249,7 @@ class HtmlView extends BaseHtmlView
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', \JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
+			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', Uri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
 		}
 
 		// Only show file manage buttons for global SuperUser

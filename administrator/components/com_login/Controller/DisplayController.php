@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Login Controller.
@@ -80,7 +81,7 @@ class DisplayController extends BaseController
 		if ($result && !($result instanceof \Exception))
 		{
 			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if (Uri::isInternal($return))
 			{
 				// If &tmpl=component - redirect to index.php
 				if (strpos($return, 'tmpl=component') === false)
@@ -131,7 +132,7 @@ class DisplayController extends BaseController
 			$return = $model->getState('return');
 
 			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if (Uri::isInternal($return))
 			{
 				$app->redirect($return);
 			}

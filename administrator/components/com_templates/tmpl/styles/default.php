@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -78,7 +79,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								</td>
 								<td>
 									<?php if ($this->preview && $item->client_id == '0') : ?>
-										<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
+										<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
 										<span class="icon-eye-open hasTooltip" aria-hidden="true" title="<?php echo JHtml::_('tooltipText', Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
 									<?php elseif ($item->client_id == '1') : ?>

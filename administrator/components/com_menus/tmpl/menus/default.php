@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Uri\Uri;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$uri       = JUri::getInstance();
+$uri       = Uri::getInstance();
 $return    = base64_encode($uri);
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));

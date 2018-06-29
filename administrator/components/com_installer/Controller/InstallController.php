@@ -15,6 +15,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Installer controller for Joomla! installer class.
@@ -50,7 +51,7 @@ class InstallController extends BaseController
 		}
 
 		// Don't redirect to an external URL.
-		if (!\JUri::isInternal($redirect_url))
+		if (!Uri::isInternal($redirect_url))
 		{
 			$redirect_url = '';
 		}

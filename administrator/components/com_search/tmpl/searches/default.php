@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Uri\Uri;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -59,7 +60,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php if ($this->state->get('show_results')) : ?>
 					<td class="text-center btns">
-						<a class="badge <?php echo $item->returns > 0 ? ' badge-success' : ' badge-secondary'; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
+						<a class="badge <?php echo $item->returns > 0 ? ' badge-success' : ' badge-secondary'; ?>" target="_blank" href="<?php echo Uri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
 							<?php echo $item->returns; ?><span class="icon-out-2" aria-hidden="true"><span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span></span></a>
 					</td>
 					<?php else : ?>

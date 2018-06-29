@@ -21,6 +21,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 jimport('joomla.filesystem.path');
 
@@ -1562,8 +1563,8 @@ class ItemModel extends AdminModel
 
 		if (isset($data['link']))
 		{
-			$base = \JUri::base();
-			$juri = \JUri::getInstance($base . $data['link']);
+			$base = Uri::base();
+			$juri = Uri::getInstance($base . $data['link']);
 			$option = $juri->getVar('option');
 
 			// Clean the cache

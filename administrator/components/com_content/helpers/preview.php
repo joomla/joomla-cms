@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Preview Link Helper
@@ -73,7 +74,7 @@ class ContentHelperPreview
 			}
 		}
 
-		return JUri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
+		return Uri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
 		. '&amp;catid=' . (int) $article->catid . $lang . $Itemid;
 	}
 }

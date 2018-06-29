@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Uri\Uri;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -71,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
 									<?php if ($this->preview && $item->client_id == '0') : ?>
-										<a href="<?php echo Route::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
+										<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
 										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 										</a>
 									<?php elseif ($item->client_id == '1') : ?>

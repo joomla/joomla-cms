@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 // Include jQuery.
 JHtml::_('jquery.framework');
@@ -22,7 +23,7 @@ JHtml::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'rel
 
 $password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
-$ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
+$ajaxUrl = Uri::base() . 'components/com_joomlaupdate/restore.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
 
 HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['relative' => true, 'version' => 'auto']);

@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Template model class.
@@ -1080,7 +1081,7 @@ class TemplateModel extends FormModel
 				$folder = '/administrator/templates/';
 			}
 
-			$uri = \JUri::root(true) . $folder . $template->element;
+			$uri = Uri::root(true) . $folder . $template->element;
 
 			if (file_exists(\JPath::clean($path . $fileName)))
 			{
@@ -1240,7 +1241,7 @@ class TemplateModel extends FormModel
 				$folder = '/administrator/templates/';
 			}
 
-			$uri = \JUri::root(true) . $folder . $template->element;
+			$uri = Uri::root(true) . $folder . $template->element;
 
 			if (file_exists(\JPath::clean($path)))
 			{

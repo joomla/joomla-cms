@@ -13,6 +13,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 
 // Add javascripts
 JHtml::_('behavior.core');
@@ -42,10 +43,10 @@ if ($tmpl == 'component')
 
 // Populate the media config
 $config = [
-	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
+	'apiBaseUrl'              => Uri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => Session::getFormToken(),
 	'uploadPath'              => $this->file->path,
-	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
+	'editViewUrl'             => Uri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'contents'                => $this->file->content,

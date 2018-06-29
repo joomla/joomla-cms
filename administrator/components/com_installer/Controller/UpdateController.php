@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Installer Update Controller
@@ -53,7 +54,7 @@ class UpdateController extends BaseController
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 
 		// Don't redirect to an external URL.
-		if (!\JUri::isInternal($redirect_url))
+		if (!Uri::isInternal($redirect_url))
 		{
 			$redirect_url = '';
 		}
