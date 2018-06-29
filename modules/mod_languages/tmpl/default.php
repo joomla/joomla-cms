@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 'relative' => true));
 
-if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
+if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 {
 	JHtml::_('formbehavior.chosen');
 }
@@ -21,7 +21,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 	<div class="pretext"><p><?php echo $headerText; ?></p></div>
 <?php endif; ?>
 
-<?php if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0)) : ?>
+<?php if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars(JUri::current(), ENT_COMPAT, 'UTF-8'); ?>">
 	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
@@ -30,7 +30,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 	<?php endforeach; ?>
 	</select>
 	</form>
-<?php elseif ($params->get('dropdown', 1) && $params->get('dropdownimage', 0)) : ?>
+<?php elseif ($params->get('dropdown', 0) && $params->get('dropdownimage', 1)) : ?>
 	<div class="btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
@@ -43,9 +43,9 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 				</a>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul class="<?php echo $params->get('lineheight', 1) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
-			<?php if (!$language->active || $params->get('show_active', 0)) : ?>
+			<?php if (!$language->active || $params->get('show_active', 1)) : ?>
 				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
 				<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 					<?php if ($language->image) : ?>
@@ -61,7 +61,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 <?php else : ?>
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 	<?php foreach ($list as $language) : ?>
-		<?php if (!$language->active || $params->get('show_active', 0)) : ?>
+		<?php if (!$language->active || $params->get('show_active', 1)) : ?>
 			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php if ($params->get('image', 1)) : ?>
