@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 
 /**
@@ -31,27 +32,55 @@ class OpensearchView extends AbstractView
 	 */
 	public function display($tpl = null)
 	{
-		$doc = \JFactory::getDocument();
-		$app = \JFactory::getApplication();
+		$doc = Factory::getDocument();
+		$app = Factory::getApplication();
 
 		$params = ComponentHelper::getParams('com_finder');
 		$doc->setShortName($params->get('opensearch_name', $app->get('sitename')));
 		$doc->setDescription($params->get('opensearch_description', $app->get('MetaDesc')));
 
-		// Add the URL for the search
-		$searchUri = \JUri::base() . 'index.php?option=com_finder&q={searchTerms}';
-
-		// Find the menu item for the search
-		$menu  = $app->getMenu();
-		$items = $menu->getItems('link', 'index.php?option=com_finder&view=search');
-
-		if (isset($items[0]))
+		// Prevent any output when OpenSearch Support is disabled
+		if (!$params->get('opensearch', 1))
 		{
-			$searchUri .= '&Itemid=' . $items[0]->id;
+			$app->close();
 		}
 
+		// Add the URL for the search
+		$searchUri = 'index.php?option=com_finder&view=search&q={searchTerms}';
+		$suggestionsUri = 'index.php?option=com_finder&task=suggestions.opensearchsuggest&format=json&q={searchTerms}';
+		$baseUrl = \JUri::getInstance()->toString(array('host', 'port', 'scheme'));
+		$active = $app->getMenu()->getActive();
+
+		if ($active->component == 'com_finder')
+		{
+			$searchUri .= '&Itemid=' . $active->id;
+			$suggestionsUri .= '&Itemid=' . $active->id;
+		}
+
+		// Add the HTML result view
 		$htmlSearch           = new \JOpenSearchUrl;
-		$htmlSearch->template = \JRoute::_($searchUri);
+		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri, false);
 		$doc->addUrl($htmlSearch);
+
+		// Add the RSS result view
+		$htmlSearch           = new \JOpenSearchUrl;
+		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri . '&format=feed&type=rss', false);
+		$htmlSearch->type     = 'application/rss+xml';
+		$doc->addUrl($htmlSearch);
+
+		// Add the Atom result view
+		$htmlSearch           = new \JOpenSearchUrl;
+		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri . '&format=feed&type=atom', false);
+		$htmlSearch->type     = 'application/atom+xml';
+		$doc->addUrl($htmlSearch);
+
+		// Add suggestions URL
+		if ($params->get('show_autosuggest', 1))
+		{
+			$htmlSearch           = new \JOpenSearchUrl;
+			$htmlSearch->template = $baseUrl . \JRoute::_($suggestionsUri, false);
+			$htmlSearch->type     = 'application/x-suggestions+json';
+			$doc->addUrl($htmlSearch);
+		}
 	}
 }

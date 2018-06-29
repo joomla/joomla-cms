@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
@@ -26,17 +27,16 @@ if (!defined('FINDER_PATH_INDEXER'))
 
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
+$cparams = ComponentHelper::getParams('com_finder');
+
 // Check for OpenSearch
-if ($params->get('opensearch', 1))
+if ($cparams->get('opensearch', 1))
 {
-	/*
-	This code intentionally commented
-	$ostitle = $params->get('opensearch_title', Text::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . Factory::getApplication()->get('sitename'));
+	$ostitle = $cparams->get('opensearch_name', Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename'));
 	Factory::getDocument()->addHeadLink(
-		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('&option=com_finder&format=opensearch'),
+		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
 		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 	);
-	*/
 }
 
 // Get the route.

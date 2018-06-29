@@ -13,6 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\SearchHelper;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Search HTML view class for the Finder package.
@@ -314,18 +318,14 @@ class HtmlView extends BaseHtmlView
 			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
-		// Add feed link to the document head.
-		if ($this->params->get('show_feed_link', 1) == 1)
+		// Check for OpenSearch
+		if ($this->params->get('opensearch', 1))
 		{
-			// Add the RSS link.
-			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=rss');
-			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
-
-			// Add the ATOM link.
-			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=atom');
-			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
+			$ostitle = $this->params->get('opensearch_title', Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename'));
+			Factory::getDocument()->addHeadLink(
+				Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+				'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+			);
 		}
 	}
 }
