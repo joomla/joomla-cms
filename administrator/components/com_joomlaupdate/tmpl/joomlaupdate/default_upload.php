@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Utility\Utility;
 
 /** @var JoomlaupdateViewDefault $this */
 
@@ -55,7 +56,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 				</td>
 				<td>
 					<input class="form-control-file" id="install_package" name="install_package" type="file" size="57">
-					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
+					<?php $maxSize = JHtml::_('number.bytes', Utility::getMaxUploadSize()); ?>
 					<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 				</td>
 			</tr>

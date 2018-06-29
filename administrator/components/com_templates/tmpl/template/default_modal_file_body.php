@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Utility\Utility;
 
 $input = JFactory::getApplication()->input;
 ?>
@@ -64,7 +65,7 @@ $input = JFactory::getApplication()->input;
 								</span>
 							</div>
 							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
-							<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize($cMax . 'MB')); ?>
+							<?php $maxSize = JHtml::_('number.bytes', Utility::getMaxUploadSize($cMax . 'MB')); ?>
 							<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></span>
 						</form>
 					</div>
