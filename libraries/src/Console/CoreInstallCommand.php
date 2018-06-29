@@ -61,24 +61,19 @@ class CoreInstallCommand extends AbstractCommand
 	public function execute(): int
 	{
 		$this->configureIO();
+
 		$options = $this->collectOptions();
-		var_dump($options);
+
 		$model = new ConfigurationModel;
 
-//		$options['site_name'] = $this->ioStyle->ask('What is the name of your website?');
-//		$options['admin_user'] = $this->ioStyle->ask('Username?');
-//		$options['admin_password'] = $this->ioStyle->ask('Password?');
-//		$options['admin_email'] = $this->ioStyle->ask('Email?');
-//		$options['db_type'] = 'mysql';
-//		$options['db_host'] =  $this->ioStyle->ask('Database Host?');
-//		$options['db_user'] =  $this->ioStyle->ask('Database Username?');
-//		$options['db_pass'] =  $this->ioStyle->ask('Database Password?');
-//		$options['db_name'] =  $this->ioStyle->ask('Database Name?');
-//		$options['db_prefix'] = 'lmao_';
-//		$options['helpurl'] = 'http://joomla.org';
-//		$options['db_old'] = 'remove';
-//		$options['language'] = 'en-GB';
-//		$model->setup($options);
+		$completed = $model->setup($options);
+
+		if ($completed)
+		{
+			$this->ioStyle->success("Joomla installation completed successfully!");
+
+			return 0;
+		}
 
 		return 0;
 	}
@@ -112,15 +107,15 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function getOptionsTemplate()
 	{
-		return $options = [
+		return [
 			'site_name' => [
 				'question'  => "What's the name of your website?",
 				'type'      => 'question',
-//				'rules'     => 'isInteger',
 			],
 			'admin_user' => [
 				'question'  => "Enter Admin username.",
 				'type'      => 'question',
+				'rules'     => 'isAlphanumeric',
 			],
 			'admin_password' => [
 				'question'  => "Enter admin password.",
@@ -164,14 +159,14 @@ class CoreInstallCommand extends AbstractCommand
 				'default'   => 'https://joomla.org',
 			],
 			'db_old' => [
-				'question'  => "What do you want to do about old DB?",
-				'type'      => 'option',
+				'question'      => "What do you want to do about old DB?",
+				'type'          => 'select',
 				'optionData'    => ['remove', 'backup'],
 				'default'       => 'backup',
 			],
 			'language' => [
-				'question'  => "Site Language",
-				'type'      => 'option',
+				'question'      => "Site Language",
+				'type'          => 'select',
 				'optionData'    => ['en-GB', 'en-US'],
 				'default'       => 'en-GB',
 			],
@@ -208,15 +203,19 @@ class CoreInstallCommand extends AbstractCommand
 					{
 						$valid = true;
 						$options[$key] = $val;
-						break;
 					}
 
 					$this->ioStyle->error($validator['message']);
 				}
+				else
+				{
+					$valid = true;
+				}
 
-				$valid = true;
 				$options[$key] = $val;
 			}
+
+			$this->ioStyle->write(sprintf("\033\143"));
 		}
 
 		return $options;
@@ -350,7 +349,7 @@ class CoreInstallCommand extends AbstractCommand
 	 *
 	 * @param   string  $input  The string tht needs to be validated
 	 *
-	 * @return array
+	 * @return array | boolean
 	 *
 	 * @since 4.0
 	 */
@@ -360,6 +359,27 @@ class CoreInstallCommand extends AbstractCommand
 		{
 			return ['message' => "The Email is not valid."];
 		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the input is alphanumeric
+	 *
+	 * @param   string  $input  The string that needs to be validated
+	 *
+	 * @return array | boolean
+	 *
+	 * @since 4.0
+	 */
+	public function isAlphanumeric($input)
+	{
+		if (!preg_match('/^[a-z0-9]+$/i', $input))
+		{
+			return ['message' => "The input can only be alphanumeric."];
+		}
+
+		return true;
 	}
 
 }
