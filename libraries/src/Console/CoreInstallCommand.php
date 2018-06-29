@@ -116,7 +116,7 @@ class CoreInstallCommand extends AbstractCommand
 			'site_name' => [
 				'question'  => "What's the name of your website?",
 				'type'      => 'question',
-				'rules'     => 'isInteger',
+//				'rules'     => 'isInteger',
 			],
 			'admin_user' => [
 				'question'  => "Enter Admin username.",
@@ -129,10 +129,13 @@ class CoreInstallCommand extends AbstractCommand
 			'admin_email' => [
 				'question'  => "Enter admin email.",
 				'type'      => 'question',
+				'rules'     => 'isEmail',
 			],
 			'db_type' => [
 				'question'  => "What's your database type?",
 				'type'      => 'select',
+				'optionData'    => ['mysql', 'mysqli'],
+				'default'   => 'mysql',
 			],
 			'db_host' => [
 				'question'  => "Enter database host.",
@@ -153,18 +156,24 @@ class CoreInstallCommand extends AbstractCommand
 			'db_prefix' => [
 				'question'  => "Database prefix?",
 				'type'      => 'question',
+				'default'   => 'lmao_',
 			],
 			'helpurl' => [
 				'question'  => "Help URL",
 				'type'      => 'question',
+				'default'   => 'https://joomla.org',
 			],
 			'db_old' => [
 				'question'  => "What do you want to do about old DB?",
-				'type'      => 'select',
+				'type'      => 'option',
+				'optionData'    => ['remove', 'backup'],
+				'default'       => 'backup',
 			],
 			'language' => [
 				'question'  => "Site Language",
-				'type'      => 'select',
+				'type'      => 'option',
+				'optionData'    => ['en-GB', 'en-US'],
+				'default'       => 'en-GB',
 			],
 		];
 	}
@@ -205,6 +214,7 @@ class CoreInstallCommand extends AbstractCommand
 					$this->ioStyle->error($validator['message']);
 				}
 
+				$valid = true;
 				$options[$key] = $val;
 			}
 		}
@@ -227,6 +237,10 @@ class CoreInstallCommand extends AbstractCommand
 		{
 			case 'question':
 				return $this->ioStyle->ask($data['question']);
+				break;
+
+			case 'select':
+				return $this->ioStyle->choice($data['question'], $data['optionData']);
 				break;
 		}
 	}
@@ -291,6 +305,16 @@ class CoreInstallCommand extends AbstractCommand
 		return true;
 	}
 
+	/**
+	 * Validates Maximum length
+	 *
+	 * @param   string   $input   Input that needs to be validated
+	 * @param   integer  $length  Length to be matched
+	 *
+	 * @return array | bool
+	 *
+	 * @since 4.0
+	 */
 	public function maxLength($input, $length)
 	{
 		if (strlen($input) > $length)
@@ -301,6 +325,16 @@ class CoreInstallCommand extends AbstractCommand
 		return true;
 	}
 
+	/**
+	 * Validates Minimum length
+	 *
+	 * @param   string   $input   Input that needs to be validated
+	 * @param   integer  $length  Length to be matched
+	 *
+	 * @return array | bool
+	 *
+	 * @since 4.0
+	 */
 	public function minLength($input, $length)
 	{
 		if (strlen($input) < $length)
@@ -309,6 +343,23 @@ class CoreInstallCommand extends AbstractCommand
 		}
 
 		return true;
+	}
+
+	/**
+	 * Validates Email
+	 *
+	 * @param   string  $input  The string tht needs to be validated
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	public function isEmail($input)
+	{
+		if (!filter_var($input, FILTER_VALIDATE_EMAIL))
+		{
+			return ['message' => "The Email is not valid."];
+		}
 	}
 
 }
