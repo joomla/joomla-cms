@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-
+use Joomla\CMS\Language\Language;
 /**
  * Languages Controller.
  *
@@ -40,7 +40,7 @@ class InstalledController extends BaseController
 			if ($model->getState('client_id') == 1)
 			{
 				$language = \JFactory::getLanguage();
-				$newLang = \JLanguage::getInstance($cid);
+				$newLang = Language::getInstance($cid);
 				\JFactory::$language = $newLang;
 				\JFactory::getApplication()->loadLanguage($language = $newLang);
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
@@ -81,7 +81,7 @@ class InstalledController extends BaseController
 		{
 			// Switching to the new language for the message
 			$language = \JFactory::getLanguage();
-			$newLang = \JLanguage::getInstance($cid);
+			$newLang = Language::getInstance($cid);
 			\JFactory::$language = $newLang;
 			\JFactory::getApplication()->loadLanguage($language = $newLang);
 			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
