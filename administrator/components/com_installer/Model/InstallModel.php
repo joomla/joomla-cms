@@ -20,6 +20,7 @@ use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Extension Manager Install Model
@@ -147,11 +148,11 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// Get an installer instance.
-		$installer = \JInstaller::getInstance();
+		$installer = Installer::getInstance();
 
 		/*
 		 * Check for a Joomla core package.
-		 * To do this we need to set the source path to find the manifest (the same first step as \JInstaller::install())
+		 * To do this we need to set the source path to find the manifest (the same first step as Installer::install())
 		 *
 		 * This must be done before the unpacked check because InstallerHelper::detectType() returns a boolean false since the manifest
 		 * can't be found in the expected location.

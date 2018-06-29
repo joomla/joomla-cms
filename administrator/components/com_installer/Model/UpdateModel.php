@@ -23,6 +23,7 @@ use Joomla\CMS\Updater\Update;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Update Model
@@ -453,7 +454,7 @@ class UpdateModel extends ListModel
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		// Get an installer instance
-		$installer = \JInstaller::getInstance();
+		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
 
 		// Install the package

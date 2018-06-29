@@ -25,6 +25,7 @@ use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Installer\Installer;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -626,7 +627,7 @@ ENDDATA;
 	/**
 	 * Runs the schema update SQL files, the PHP update script and updates the
 	 * manifest cache and #__extensions entry. Essentially, it is identical to
-	 * \JInstallerFile::install() without the file copy.
+	 * InstallerFile::install() without the file copy.
 	 *
 	 * @return  boolean True on success.
 	 *
@@ -634,7 +635,7 @@ ENDDATA;
 	 */
 	public function finaliseUpgrade()
 	{
-		$installer = \JInstaller::getInstance();
+		$installer = Installer::getInstance();
 
 		$manifest = $installer->isManifest(JPATH_MANIFESTS . '/files/joomla.xml');
 

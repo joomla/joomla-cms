@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Plugins component helper.
@@ -95,7 +96,7 @@ class PluginsHelper
 
 		if (is_file($filePath))
 		{
-			$xml = \JInstaller::parseXMLInstallFile($filePath);
+			$xml = Installer::parseXMLInstallFile($filePath);
 
 			if ($xml['type'] != 'template')
 			{

@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Languages Controller.
@@ -76,7 +77,7 @@ class InstalledController extends BaseController
 
 		// Fetching the language name from the xx-XX.xml
 		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
-		$info = \JInstaller::parseXMLInstallFile($file);
+		$info = Installer::parseXMLInstallFile($file);
 		$languageName = $info['name'];
 
 		if ($model->switchAdminLanguage($cid))

@@ -36,7 +36,7 @@ class JoomlaInstallerScript
 	 * Function to act prior to installation process begins
 	 *
 	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   Installer  $installer  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -68,7 +68,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   Installer  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -258,7 +258,7 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		$installer = new JInstaller;
+		$installer = new Installer;
 
 		foreach ($extensions as $extension)
 		{
@@ -3970,7 +3970,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   Installer  $installer  The class calling this method
 	 *
 	 * @return  boolean
 	 *

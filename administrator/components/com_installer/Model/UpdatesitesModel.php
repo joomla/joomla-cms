@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Update Sites Model
@@ -309,7 +310,7 @@ class UpdatesitesModel extends InstallerModel
 		// Search for updateservers in manifest files inside the folders to search.
 		foreach ($pathsToSearch as $extensionFolderPath)
 		{
-			$tmpInstaller = new \JInstaller;
+			$tmpInstaller = new Installer;
 
 			$tmpInstaller->setPath('source', $extensionFolderPath);
 

@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Templates component helper.
@@ -108,7 +109,7 @@ class TemplatesHelper
 
 		if (is_file($filePath))
 		{
-			$xml = \JInstaller::parseXMLInstallFile($filePath);
+			$xml = Installer::parseXMLInstallFile($filePath);
 
 			if ($xml['type'] != 'template')
 			{

@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Discover Model
@@ -144,7 +145,7 @@ class DiscoverModel extends InstallerModel
 	{
 		// Purge the list of discovered extensions and fetch them again.
 		$this->purge();
-		$results = \JInstaller::getInstance()->discover();
+		$results = Installer::getInstance()->discover();
 
 		// Get all templates, including discovered ones
 		$db = $this->getDbo();
@@ -201,7 +202,7 @@ class DiscoverModel extends InstallerModel
 
 			foreach ($eid as $id)
 			{
-				$installer = new \JInstaller;
+				$installer = new Installer;
 
 				$result = $installer->discover_install($id);
 
@@ -212,7 +213,7 @@ class DiscoverModel extends InstallerModel
 				}
 			}
 
-			// TODO - We are only receiving the message for the last \JInstaller instance
+			// TODO - We are only receiving the message for the last Installer instance
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);

@@ -16,6 +16,7 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Manage Model
@@ -179,7 +180,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get an installer object for the extension type
-		$installer = \JInstaller::getInstance();
+		$installer = Installer::getInstance();
 		$result = 0;
 
 		// Uninstall the chosen extensions
@@ -219,7 +220,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get an installer object for the extension type
-		$installer = \JInstaller::getInstance();
+		$installer = Installer::getInstance();
 		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		// Uninstall the chosen extensions
