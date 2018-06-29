@@ -80,7 +80,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['port']     = (isset($options['port'])) ? (int) $options['port'] : null;
-		//$options['socket']   = (isset($options['socket'])) ? $options['socket'] : null;
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -159,14 +158,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!$this->connection)
 		{
-			error_log ("joomla - cubrid_connect() error:"
-					. " connect = " . $this->connection
-					. " host = " . $this->options['host']
-					. " port = " . $port
-			        . " database = " . $this->options['database']
-					. " user = " . $this->options['user']
-					. " passwd = " . $this->options['password']
-					. "\n", 3, "d:/temp/debug.log");
 			throw new JDatabaseExceptionConnecting('Could not connect to Cubrid server.');
 		}
 
@@ -258,9 +249,7 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 * @throws  RuntimeException
 	 */
 	public function dropTable($tableName, $ifExists = true)
-	{
-		error_log ("joomla - dropTable()\n", 3, "d:/temp/debug.log");
-				
+	{			
 		$this->connect();
 
 		$query = $this->getQuery(true);
@@ -296,8 +285,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 */
 	public function getCollation()
 	{
-		error_log ("joomla - getCollation()\n", 3, "d:/temp/debug.log");
-				
 		$this->connect();
 
 		// Attempt to get the database collation by accessing the server system variable.
@@ -323,8 +310,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 */
 	public function getConnectionCollation()
 	{
-		error_log ("joomla - connect()\n", 3, "d:/temp/debug.log");
-				
 		$this->connect();
 
 		// Attempt to get the database collation by accessing the server system variable.
@@ -369,8 +354,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 */
 	public function getTableCreate($tables)
 	{
-		error_log ("joomla - connect()\n", 3, "d:/temp/debug.log");
-				
 		$this->connect();
 
 		$result = array();
@@ -513,8 +496,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 */
 	public function lockTable($table)
 	{
-		//$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->execute();
-
 		return $this;
 	}
 
@@ -537,18 +518,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 		{
 			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
-
-		/*
-		if (!is_object($this->connection))
-		{
-			error_log ("joomla - execute() error is_object = " . $this->connection
-					. $this->sql . "\n",
-					3, "d:/temp/debug.log"
-			);
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
-		}
-		*/
 		
 		// Increment the query counter.
 		$this->count++;
@@ -619,9 +588,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					error_log ("joomla - execute(): cursor is null, not connected\n",
-						3, "d:/temp/debug.log"
-					);
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
 					$this->errorMsg = $this->getErrorMessage();
@@ -637,23 +603,12 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
-				error_log ("joomla - execute(): cursor is null, connected\n",
-					3, "d:/temp/debug.log"
-				);
-
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
 				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 			}
 		}
-/*
-		error_log ("joomla - execute() SQL = "
-					. $this->sql
-					. " processed."
-					. "\n",
-					3, "d:/temp/debug.log"
-		);
-*/		
+		
 		return $this->cursor;
 	}
 
@@ -952,9 +907,7 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 * @since   12.1
 	 */
 	public function getAlterDbCharacterSet($dbName)
-	{
-		error_log ("joomla - getAlterDbCharacterSet()\n", 3, "d:/temp/debug.log");
-		
+	{		
 		// CUBRID does not support ALTER DATABASE query, so this is replaced to NULL query 
 		$query = 'SELECT NULL';
 

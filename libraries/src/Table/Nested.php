@@ -627,7 +627,7 @@ class Nested extends Table
 				->update($this->_tbl)
 				->set('lft = lft - 1')
 				->set('rgt = rgt - 1')
-				->set($this->_db->quoteName('level') . ' = ' . $thid->_db->quoteName('level') . ' - 1')
+				->set($this->_db->quoteName('level') . ' = ' . $this->_db->quoteName('level') . ' - 1')
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 

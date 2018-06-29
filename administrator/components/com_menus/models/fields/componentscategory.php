@@ -40,7 +40,7 @@ class JFormFieldComponentsCategory extends JFormFieldList
 		// Initialise variable.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.name AS ' .$db->quoteName('text') . ', a.element AS ' . $db->quoteName('value'))
+			->select('DISTINCT a.name AS ' . $db->quoteName('text') . ', a.element AS ' . $db->quoteName('value'))
 			->from('#__extensions as a')
 			->where('a.enabled >= 1')
 			->where('a.type =' . $db->quote('component'))

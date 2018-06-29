@@ -187,7 +187,7 @@ class MenuType extends Table
 				->select('id')
 				->from('#__menu')
 				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND '. $db->qn('language') .'=' . $this->_db->quote('*') . ')');
+				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND ' . $db->qn('language') . '=' . $this->_db->quote('*') . ')');
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
