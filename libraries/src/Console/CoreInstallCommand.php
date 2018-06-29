@@ -61,9 +61,9 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function execute(): int
 	{
-
 		$this->configureIO();
-
+		$options = $this->collectOptions();
+		exit;
 		$model = new ConfigurationModel;
 
 		$options['site_name'] = $this->ioStyle->ask('What is the name of your website?');
@@ -103,8 +103,149 @@ class CoreInstallCommand extends AbstractCommand
 		$this->setHelp($help);
 	}
 
-	public function checkCompatibility()
+
+	public function getOptions()
 	{
-		//
+		return $options = [
+			'site_name' => [
+				'question'  => "What's the name of your website?",
+				'type'      => 'question',
+				'rules'     => 'isInteger',
+			],
+			'admin_user' => [
+				'question'  => "Enter Admin username.",
+				'type'      => 'question',
+			],
+			'admin_password' => [
+				'question'  => "Enter admin password.",
+				'type'      => 'question',
+			],
+			'admin_email' => [
+				'question'  => "Enter admin email.",
+				'type'      => 'question',
+			],
+			'db_type' => [
+				'question'  => "What's your database type?",
+				'type'      => 'select',
+			],
+			'db_host' => [
+				'question'  => "Enter database host.",
+				'type'      => 'question',
+			],
+			'db_user' => [
+				'question'  => "Enter database user",
+				'type'      => 'question',
+			],
+			'db_pass' => [
+				'question'  => "Enter database password.",
+				'type'      => 'question',
+			],
+			'db_name' => [
+				'question'  => "Enter database name.",
+				'type'      => 'question',
+			],
+			'db_prefix' => [
+				'question'  => "Database prefix?",
+				'type'      => 'question',
+			],
+			'helpurl' => [
+				'question'  => "Help URL",
+				'type'      => 'question',
+			],
+			'db_old' => [
+				'question'  => "What do you want to do about old DB?",
+				'type'      => 'select',
+			],
+			'language' => [
+				'question'  => "Site Language",
+				'type'      => 'select',
+			],
+		];
+	}
+
+	public function collectOptions()
+	{
+		$data = $this->getOptions();
+
+		$options = [];
+
+		foreach ($data as $key => $value)
+		{
+			$valid = false;
+
+
+			while(!$valid) {
+				$val = $this->processType($value);
+				$rules = isset($value['rules']) ?? null;
+
+				if ($rules)
+				{
+					$validator = $this->validateInput($val, $value['rules']);
+
+					if ($validator === true)
+					{
+						$valid = true;
+						$options[$key] = $val;
+						break;
+					}
+
+					$this->ioStyle->error($validator['message']);
+				}
+
+				$options[$key] = $val;
+			}
+		}
+
+		return $options;
+	}
+
+	public function processType($data, $message = null)
+	{
+		switch ($data['type'])
+		{
+			case 'question':
+				return $this->ioStyle->ask($data['question']);
+				break;
+		}
+	}
+
+	public function validateInput($input, $validator)
+	{
+		$rules = explode('|', $validator);
+
+		foreach ($rules as $key => $rule)
+		{
+			if (strpos($rule, ':') === false)
+			{
+				$valid = $this->{$rule}($input);
+
+				if (is_array($valid))
+				{
+					return $valid;
+				}
+			}
+			else
+			{
+				list($function, $arg) = explode(':', $rule);
+				$valid = $this->{$function}($input, $arg);
+
+				if (is_array($valid))
+				{
+					return $valid;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public function isInteger($input, $length = null)
+	{
+		if (!is_numeric($input))
+		{
+			return ['message' => 'The input must be an integer.'];
+		}
+
+		return true;
 	}
 }

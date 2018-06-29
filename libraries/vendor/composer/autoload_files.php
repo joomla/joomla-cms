@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '2fb9d6f23c8e8faefc193a4cde0cab4f' => $vendorDir . '/joomla/string/src/phputf8/utf8.php',
     'e6851e0ae7328fe5412fcec73928f3d9' => $vendorDir . '/joomla/string/src/phputf8/ord.php',
     'd9ad1b7c85c100a18c404a13824b846e' => $vendorDir . '/joomla/string/src/phputf8/str_ireplace.php',
@@ -21,7 +22,11 @@ return array(
     '05d739a990f75f0c44ebe1f032b33148' => $vendorDir . '/joomla/string/src/phputf8/ucwords.php',
     '4292e2fa66516089e6006723267587b4' => $vendorDir . '/joomla/string/src/phputf8/utils/ascii.php',
     '87465e33b7551b401bf051928f220e9a' => $vendorDir . '/joomla/string/src/phputf8/utils/validation.php',
-    '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '5255c38a0faeba867671b61dfda6d864' => $vendorDir . '/paragonie/random_compat/lib/random.php',
+    'a0edc8309cc5e1d60e3047b5df6b7052' => $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
+    'c964ee0ededf28c96ebd9db5099ef910' => $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
+    '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     '3109cb1a231dcd04bee1f9f620d46975' => $vendorDir . '/paragonie/sodium_compat/autoload.php',
+    '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+    '8e17a15e31fd1cbfb0ce89e895ac1737' => $vendorDir . '/joomla-projects/selenium-server-standalone/Selenium.php',
 );
