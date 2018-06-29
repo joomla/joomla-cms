@@ -834,8 +834,6 @@ class JDatabaseDriverCubrid extends JDatabaseDriver
 	 */
 	public function unlockTables()
 	{
-		//$this->setQuery('UNLOCK TABLES')->execute();
-
 		return $this;
 	}
 
