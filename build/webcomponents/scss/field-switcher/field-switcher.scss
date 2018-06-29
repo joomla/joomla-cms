@@ -107,7 +107,7 @@ joomla-field-switcher {
 
 // Make transparent if disabled
 joomla-field-switcher[disabled="disabled"] .switcher {
-  opacity: 0.2;
+  opacity: .2;
 }
 
 @keyframes switcherPulsate {
