@@ -28,6 +28,8 @@
 					last="120"
 					step="1"
 					default="30"
+					filter="int"
+					validate="number"
 				/>
 
 				<field
@@ -39,6 +41,8 @@
 					last="10"
 					step="1"
 					default="1"
+					filter="int"
+					validate="number"
 				/>
 
 				<field

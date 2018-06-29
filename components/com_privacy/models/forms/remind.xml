@@ -6,7 +6,7 @@
 			type="text"
 			label="JGLOBAL_EMAIL"
 			description="COM_PRIVACY_FIELD_CONFIRM_EMAIL_DESC"
-			filter="email"
+			validate="email"
 			required="true"
 			size="30"
 		/>
