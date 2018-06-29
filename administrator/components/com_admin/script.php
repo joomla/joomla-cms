@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Extension\ExtensionHelper;
 
 /**
  * Script file of Joomla CMS
@@ -222,7 +223,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateManifestCaches()
 	{
-		$extensions = JExtensionHelper::getCoreExtensions();
+		$extensions = ExtensionHelper::getCoreExtensions();
 
 		// Attempt to refresh manifest caches
 		$db    = JFactory::getDbo();

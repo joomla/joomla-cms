@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Extension\ExtensionHelper;
 
 /**
  * Installer Manage Model
@@ -339,7 +340,7 @@ class ManageModel extends InstallerModel
 
 		if ($core !== '')
 		{
-			$coreExtensions = \JExtensionHelper::getCoreExtensions();
+			$coreExtensions = ExtensionHelper::getCoreExtensions();
 			$elements       = array();
 
 			foreach ($coreExtensions as $extension)
