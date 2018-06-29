@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Template model class.
@@ -275,9 +276,9 @@ class TemplateModel extends FormModel
 			// Delete new folder if it exists
 			$toPath = $this->getState('to_path');
 
-			if (\JFolder::exists($toPath))
+			if (Folder::exists($toPath))
 			{
-				if (!\JFolder::delete($toPath))
+				if (!Folder::delete($toPath))
 				{
 					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
@@ -286,7 +287,7 @@ class TemplateModel extends FormModel
 			}
 
 			// Copy all files from $fromName template to $newName folder
-			if (!\JFolder::copy($fromPath, $toPath) || !$this->fixTemplateName())
+			if (!Folder::copy($fromPath, $toPath) || !$this->fixTemplateName())
 			{
 				return false;
 			}
@@ -316,7 +317,7 @@ class TemplateModel extends FormModel
 		$app->setUserState('com_installer.extension_message', '');
 
 		// Delete temporary directory
-		return \JFolder::delete($this->getState('to_path'));
+		return Folder::delete($this->getState('to_path'));
 	}
 
 	/**
@@ -331,7 +332,7 @@ class TemplateModel extends FormModel
 		// Rename Language files
 		// Get list of language files
 		$result   = true;
-		$files    = \JFolder::files($this->getState('to_path'), '.ini', true, true);
+		$files    = Folder::files($this->getState('to_path'), '.ini', true, true);
 		$newName  = strtolower($this->getState('new_name'));
 		$template = $this->getTemplate();
 		$oldName  = $template->element;
@@ -576,13 +577,13 @@ class TemplateModel extends FormModel
 			$componentPath = Path::clean($client->path . '/components/');
 			$modulePath    = Path::clean($client->path . '/modules/');
 			$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
-			$components    = \JFolder::folders($componentPath);
+			$components    = Folder::folders($componentPath);
 
 			foreach ($components as $component)
 			{
 				// Collect the folders with views
-				$folders = \JFolder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
-				$folders = array_merge($folders, \JFolder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
+				$folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
+				$folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
 
 				if (!$folders)
 				{
@@ -592,7 +593,7 @@ class TemplateModel extends FormModel
 				foreach ($folders as $folder)
 				{
 					// The subfolders are views
-					$views = \JFolder::folders($folder);
+					$views = Folder::folders($folder);
 
 					foreach ($views as $view)
 					{
@@ -616,19 +617,19 @@ class TemplateModel extends FormModel
 				}
 			}
 
-			$modules = \JFolder::folders($modulePath);
+			$modules = Folder::folders($modulePath);
 
 			foreach ($modules as $module)
 			{
 				$result['modules'][] = $this->getOverridesFolder($module, $modulePath);
 			}
 
-			$layoutFolders = \JFolder::folders($layoutPath);
+			$layoutFolders = Folder::folders($layoutPath);
 
 			foreach ($layoutFolders as $layoutFolder)
 			{
 				$layoutFolderPath = Path::clean($layoutPath . '/' . $layoutFolder . '/');
-				$layouts = \JFolder::folders($layoutFolderPath);
+				$layouts = Folder::folders($layoutFolderPath);
 
 				foreach ($layouts as $layout)
 				{
@@ -645,7 +646,7 @@ class TemplateModel extends FormModel
 
 					if ($componentLayoutPath)
 					{
-						$layouts = \JFolder::folders($componentLayoutPath);
+						$layouts = Folder::folders($componentLayoutPath);
 
 						foreach ($layouts as $layout)
 						{
@@ -708,9 +709,9 @@ class TemplateModel extends FormModel
 			}
 
 			// Check Html folder, create if not exist
-			if (!\JFolder::exists($htmlPath))
+			if (!Folder::exists($htmlPath))
 			{
-				if (!\JFolder::create($htmlPath))
+				if (!Folder::create($htmlPath))
 				{
 					$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
@@ -772,7 +773,7 @@ class TemplateModel extends FormModel
 		}
 
 		// Get list of template folders
-		$folders = \JFolder::folders($overridePath, null, true, true);
+		$folders = Folder::folders($overridePath, null, true, true);
 
 		if (!empty($folders))
 		{
@@ -780,15 +781,15 @@ class TemplateModel extends FormModel
 			{
 				$htmlFolder = $htmlPath . str_replace($overridePath, '', $folder);
 
-				if (!\JFolder::exists($htmlFolder))
+				if (!Folder::exists($htmlFolder))
 				{
-					\JFolder::create($htmlFolder);
+					Folder::create($htmlFolder);
 				}
 			}
 		}
 
 		// Get list of template files (Only get *.php file for template file)
-		$files = \JFolder::files($overridePath, '.php', true, true);
+		$files = Folder::files($overridePath, '.php', true, true);
 
 		if (empty($files))
 		{
@@ -966,7 +967,7 @@ class TemplateModel extends FormModel
 				return false;
 			}
 
-			if (!\JFolder::create(Path::clean($path . '/' . $location . '/' . $name)))
+			if (!Folder::create(Path::clean($path . '/' . $location . '/' . $name)))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
 
@@ -1003,7 +1004,7 @@ class TemplateModel extends FormModel
 				return false;
 			}
 
-			$return = \JFolder::delete($path);
+			$return = Folder::delete($path);
 
 			if (!$return)
 			{

@@ -14,6 +14,7 @@ use Joomla\CMS\Help\Help;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Admin Component Help Model
@@ -154,7 +155,7 @@ class HelpModel extends BaseDatabaseModel
 
 		// Get Help files
 		jimport('joomla.filesystem.folder');
-		$files = \JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+		$files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 		$this->toc = array();
 
 		foreach ($files as $file)

@@ -511,7 +511,7 @@ ENDDATA;
 				// Does the JPATH_ROOT/tmp directory exist?
 				if (!is_dir($tempdir))
 				{
-					\JFolder::create($tempdir, 511);
+					Folder::create($tempdir, 511);
 					$htaccessContents = "order deny,allow\ndeny from all\nallow from none\n";
 					File::write($tempdir . '/.htaccess', $htaccessContents);
 				}

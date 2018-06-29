@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Languages Strings Model
@@ -64,20 +65,20 @@ class StringsModel extends BaseDatabaseModel
 
 		if (is_dir($path))
 		{
-			$files = \JFolder::files($path, $language . '.*ini$', false, true);
+			$files = Folder::files($path, $language . '.*ini$', false, true);
 		}
 
 		// Parse language directories of components.
-		$files = array_merge($files, \JFolder::files($base . '/components', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/components', $language . '.*ini$', 3, true));
 
 		// Parse language directories of modules.
-		$files = array_merge($files, \JFolder::files($base . '/modules', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/modules', $language . '.*ini$', 3, true));
 
 		// Parse language directories of templates.
-		$files = array_merge($files, \JFolder::files($base . '/templates', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/templates', $language . '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, \JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files(JPATH_PLUGINS, $language . '.*ini$', 3, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)

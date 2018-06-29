@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Folder;
+
 
 /**
  * Script file of Joomla CMS
@@ -3958,7 +3960,7 @@ class JoomlaInstallerScript
 
 		foreach ($folders as $folder)
 		{
-			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
+			if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
 			{
 				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
 			}

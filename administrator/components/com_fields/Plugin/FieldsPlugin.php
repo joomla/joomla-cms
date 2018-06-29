@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Abstract Fields Plugin
@@ -45,7 +46,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		// The root of the plugin
 		$root = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
 
-		foreach (\JFolder::files($root . '/tmpl', '.php') as $layout)
+		foreach (Folder::files($root . '/tmpl', '.php') as $layout)
 		{
 			// Strip the extension
 			$layout = str_replace('.php', '', $layout);

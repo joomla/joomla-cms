@@ -19,6 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Languages Component Languages Model
@@ -424,7 +425,7 @@ class InstalledModel extends ListModel
 		{
 			$path = $this->getPath();
 			jimport('joomla.filesystem.folder');
-			$this->folders = \JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
+			$this->folders = Folder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
 		}
 
 		return $this->folders;

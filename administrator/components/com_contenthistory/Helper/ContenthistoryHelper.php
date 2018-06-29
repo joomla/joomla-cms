@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Categories helper.
@@ -183,7 +184,7 @@ class ContenthistoryHelper
 			if (count($aliasArray) == 2)
 			{
 				$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-				$path  = \JFolder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
+				$path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
 				$file = File::makeSafe($aliasArray[1] . '.xml');
 				$result = File::exists($path . $file) ? $path . $file : false;
 			}

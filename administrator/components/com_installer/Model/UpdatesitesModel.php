@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Installer Update Sites Model
@@ -312,10 +313,10 @@ class UpdatesitesModel extends InstallerModel
 			$tmpInstaller->setPath('source', $extensionFolderPath);
 
 			// Main folder manifests (higher priority)
-			$parentXmlfiles = \JFolder::files($tmpInstaller->getPath('source'), '.xml$', false, true);
+			$parentXmlfiles = Folder::files($tmpInstaller->getPath('source'), '.xml$', false, true);
 
 			// Search for children manifests (lower priority)
-			$allXmlFiles    = \JFolder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
+			$allXmlFiles    = Folder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
 
 			// Create an unique array of files ordered by priority
 			$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));

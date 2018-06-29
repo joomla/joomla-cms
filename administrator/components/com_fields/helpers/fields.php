@@ -14,8 +14,9 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
 
-JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
+JLoader::register('Folder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
  * FieldsHelper

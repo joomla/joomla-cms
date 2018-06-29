@@ -77,15 +77,15 @@ if (!class_exists('JFile'))
 	}
 }
 
-// Fake the JFolder class, mapping it to Restore's post-processing class
-if (!class_exists('JFolder'))
+// Fake the Folder class, mapping it to Restore's post-processing class
+if (!class_exists('Folder'))
 {
 	/**
-	 * JFolder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+	 * Folder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
 	 *
 	 * @since  3.5.1
 	 */
-	abstract class JFolder
+	abstract class Folder
 	{
 		/**
 		 * Proxies checking a folder exists to the native php version

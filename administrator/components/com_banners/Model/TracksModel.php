@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Methods supporting a list of tracks.
@@ -500,7 +501,7 @@ class TracksModel extends ListModel
 				// Run the packager
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
-				$delete = \JFolder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
+				$delete = Folder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete))
 				{
