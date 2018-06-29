@@ -59,15 +59,15 @@ abstract class ModArticlesNewsHelper
 		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Filer by tag
-		$model->setState('filter.tag', $params->get('tag'), array());
+		$model->setState('filter.tag', $params->get('tag', array()));
 
 		//  Featured switch
 		switch ($params->get('show_featured'))
 		{
-			case '1' :
+			case 1 :
 				$model->setState('filter.featured', 'only');
 				break;
-			case '0' :
+			case 0 :
 				$model->setState('filter.featured', 'hide');
 				break;
 			default :

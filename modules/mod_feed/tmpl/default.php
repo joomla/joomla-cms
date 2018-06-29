@@ -18,7 +18,7 @@ if (!empty($feed) && is_string($feed))
 else
 {
 	$lang      = JFactory::getLanguage();
-	$myrtl     = $params->get('rssrtl');
+	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 
 	$isRtl = $lang->isRtl();
@@ -94,10 +94,10 @@ else
 	<?php if (!empty($feed))
 	{ ?>
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
+		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
 			<?php
 				$uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-				$uri  = !$uri || stripos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
+				$uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
 				$text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
 			?>
 				<li>
@@ -113,12 +113,12 @@ else
 							<?php echo JHtml::_('date', $feed[$i]->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
 						</div>
 					<?php endif; ?>
-					<?php if ($params->get('rssitemdesc') && $text !== '') : ?>
+					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
 							$text = JFilterOutput::stripImages($text);
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+							$text = JHtml::_('string.truncate', $text, $params->get('word_count', 0));
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

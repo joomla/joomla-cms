@@ -92,7 +92,7 @@ class JAdminCssMenu
 		{
 			$items = MenusHelper::getMenuItems($menutype, true);
 
-			if ($this->enabled && $this->params->get('check'))
+			if ($this->enabled && $this->params->get('check', 1))
 			{
 				if ($this->check($items, $this->params))
 				{
@@ -256,7 +256,7 @@ class JAdminCssMenu
 			$item->icon  = isset($item->icon) ? $item->icon : '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && !$this->params->get('showhelp', 1)) || ($item->scope === 'edit' && !$this->params->get('shownew', 1)))
 			{
 				continue;
 			}

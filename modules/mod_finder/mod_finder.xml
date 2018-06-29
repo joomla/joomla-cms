@@ -36,6 +36,7 @@
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
@@ -48,6 +49,7 @@
 					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION"
 					default="0"
+					filter="integer"
 					>
 					<option value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
 					<option value="1">JSHOW</option>
@@ -70,6 +72,7 @@
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -102,6 +105,7 @@
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -127,6 +131,7 @@
 					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -145,6 +150,7 @@
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_DESCRIPTION"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>
 				</field>
