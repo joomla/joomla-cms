@@ -8,10 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
 
 /**
  * Actionlogs list controller class.
@@ -45,10 +46,8 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'Actionlogs', $prefix = 'ActionlogsModel',
-		$config = array('ignore_request' => true))
+	public function getModel($name = 'Actionlogs', $prefix = 'ActionlogsModel', $config = array('ignore_request' => true))
 	{
-
 		// Return the model
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -99,18 +98,6 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			$this->setMessage(JText::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
 			$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false));
 		}
-	}
-
-	/**
-	 * Method to delete logs
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function delete()
-	{
-		parent::delete();
 	}
 
 	/**

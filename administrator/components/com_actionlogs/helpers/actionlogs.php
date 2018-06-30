@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Actionlogs component helper.
@@ -110,7 +111,7 @@ class ActionlogsHelper
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array($idField, $field)))
 			->from($db->quoteName($table))
-			->where($db->quoteName($idField) . ' IN (' . implode(',', $pks) . ')');
+			->where($db->quoteName($idField) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		$db->setQuery($query);
 
 		try
@@ -154,12 +155,13 @@ class ActionlogsHelper
 	/**
 	 * Get link to an item of given content type
 	 *
-	 * @param   string  $component
-	 * @param   string  $contentType
-	 * @param   int     $id
-	 * @param   string  $urlVar
+	 * @param   string   $component
+	 * @param   string   $contentType
+	 * @param   integer  $id
+	 * @param   string   $urlVar
 	 *
 	 * @return  string  Link to the content item
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
@@ -191,8 +193,9 @@ class ActionlogsHelper
 	}
 
 	/**
-	 * Load both enabled and disabled actionlog plugins language file. It is used to make sure actions log is
-	 * displayed properly instead of only language items displayed when a plugin is disabled
+	 * Load both enabled and disabled actionlog plugins language file.
+	 *
+	 * It is used to make sure actions log is displayed properly instead of only language items displayed when a plugin is disabled.
 	 *
 	 * @return  void
 	 *

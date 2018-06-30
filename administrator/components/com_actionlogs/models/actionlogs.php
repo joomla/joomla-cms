@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of article records.
  *
@@ -16,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class ActionlogsModelActionlogs extends JModelList
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
@@ -238,7 +247,6 @@ class ActionlogsModelActionlogs extends JModelList
 	/**
 	 * Get logs data into JTable object
 	 *
-	 *
 	 * @return  array  All logs in the table
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -253,7 +261,7 @@ class ActionlogsModelActionlogs extends JModelList
 
 		if (is_array($pks) && count($pks) > 0)
 		{
-			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', $pks) . ')');
+			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		}
 
 		$db->setQuery($query);
@@ -275,7 +283,7 @@ class ActionlogsModelActionlogs extends JModelList
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__action_logs'))
-			->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+			->where($db->quoteName('id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		$db->setQuery($query);
 
 		try

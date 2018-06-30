@@ -27,7 +27,8 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 * @param   array    $messages            The contents of the messages to be logged
 	 * @param   string   $messageLanguageKey  The language key of the message
 	 * @param   string   $context             The context of the content passed to the plugin
-	 * @param   int      $userId              ID of user perform the action, usually ID of current logged in user
+	 * @param   integer  $userId              ID of user perform the action, usually ID of current logged in user
+	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__

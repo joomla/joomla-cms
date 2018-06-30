@@ -23,36 +23,32 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	/**
 	 * An array of items.
 	 *
-	 * @var  array
-	 *
-	 * @since __DEPLOY_VERSION__
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
-	 *
-	 * @since __DEPLOY_VERSION__
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
-	 *
-	 * @since __DEPLOY_VERSION__
+	 * @var    JPagination
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
 	/**
 	 * The active search filters
 	 *
-	 * @var  array
-	 *
-	 * @since __DEPLOY_VERSION__
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $activeFilters;
 
@@ -61,7 +57,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -88,7 +84,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 		// Load all actionlog plugins language files
 		ActionlogsHelper::loadActionLogPluginsLanguage();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
