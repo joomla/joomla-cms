@@ -13,6 +13,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Model class to manage postinstall messages
@@ -168,11 +172,11 @@ class MessagesModel extends BaseDatabaseModel
 			$basePath = JPATH_SITE;
 		}
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
-		return \JText::_(strtoupper($extension->name));
+		return Text::_(strtoupper($extension->name));
 	}
 
 	/**
@@ -229,7 +233,7 @@ class MessagesModel extends BaseDatabaseModel
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->condition_file);
 
-				if (\JFile::exists($file))
+				if (File::exists($file))
 				{
 					require_once $file;
 
@@ -250,7 +254,7 @@ class MessagesModel extends BaseDatabaseModel
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					\JFactory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
+					Factory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
@@ -284,11 +288,11 @@ class MessagesModel extends BaseDatabaseModel
 
 		$options = array();
 
-		\JFactory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
+		Factory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
 		foreach ($extension_ids as $eid)
 		{
-			$options[] = \JHtml::_('select.option', $eid, $this->getExtensionName($eid));
+			$options[] = HTMLHelper::_('select.option', $eid, $this->getExtensionName($eid));
 		}
 
 		return $options;
@@ -310,13 +314,13 @@ class MessagesModel extends BaseDatabaseModel
 	 *                         action   A PHP action takes place when the action button is clicked. You need to specify the action_file
 	 *                                  (RAD path to the PHP file) and action (PHP function name) keys. See below for more information.
 	 *
-	 * title_key           The JText language key for the title of this PIM.
+	 * title_key           The Text language key for the title of this PIM.
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_TITLE
 	 *
-	 * description_key     The JText language key for the main body (description) of this PIM
+	 * description_key     The Text language key for the main body (description) of this PIM
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_DESCRIPTION
 	 *
-	 * action_key          The JText language key for the action button. Ignored and not required when type=message
+	 * action_key          The Text language key for the action button. Ignored and not required when type=message
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_ACTION
 	 *
 	 * language_extension  The extension name which holds the language keys used above.
