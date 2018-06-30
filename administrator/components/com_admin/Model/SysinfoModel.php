@@ -14,6 +14,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Model for the display of system information.
@@ -372,7 +375,7 @@ class SysInfoModel extends BaseDatabaseModel
 	{
 		if (!$this->phpinfoEnabled())
 		{
-			$this->php_info = \JText::_('COM_ADMIN_PHPINFO_DISABLED');
+			$this->php_info = Text::_('COM_ADMIN_PHPINFO_DISABLED');
 
 			return $this->php_info;
 		}
@@ -432,7 +435,7 @@ class SysInfoModel extends BaseDatabaseModel
 	public function getExtensions()
 	{
 		$installed = array();
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__extensions'));
@@ -446,12 +449,12 @@ class SysInfoModel extends BaseDatabaseModel
 		{
 			try
 			{
-				\JLog::add(\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
 			}
 			catch (\RuntimeException $exception)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
 					'warning'
 				);
 			}
@@ -474,7 +477,7 @@ class SysInfoModel extends BaseDatabaseModel
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
-				'state'        => $extension->enabled ? \JText::_('JENABLED') : \JText::_('JDISABLED'),
+				'state'        => $extension->enabled ? Text::_('JENABLED') : Text::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
@@ -514,7 +517,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->directories = array();
 
-		$registry = \JFactory::getApplication()->getConfig();
+		$registry = Factory::getApplication()->getConfig();
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
@@ -685,7 +688,7 @@ class SysInfoModel extends BaseDatabaseModel
 			return $this->editor;
 		}
 
-		$this->editor = \JFactory::getApplication()->get('editor');
+		$this->editor = Factory::getApplication()->get('editor');
 
 		return $this->editor;
 	}
