@@ -16,6 +16,14 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Updater\Update;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Update Model
@@ -68,7 +76,7 @@ class UpdateModel extends ListModel
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
@@ -169,12 +177,12 @@ class UpdateModel extends ListModel
 	{
 		foreach ($items as &$item)
 		{
-			$item->client_translated  = $item->client_id ? \JText::_('JADMINISTRATOR') : \JText::_('JSITE');
+			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
-			$item->current_version    = $manifest->version ?? \JText::_('JLIB_UNKNOWN');
-			$item->type_translated    = \JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
-			$item->folder_translated  = $item->folder ?: \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
-			$item->install_type       = $item->extension_id ? \JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : \JText::_('COM_INSTALLER_NEW_INSTALL');
+			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
+			$item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+			$item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+			$item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');
 		}
 
 		return $items;
@@ -251,18 +259,18 @@ class UpdateModel extends ListModel
 	 *
 	 * @param   int  $eid                Extension identifier to look for
 	 * @param   int  $cache_timeout      Cache timout
-	 * @param   int  $minimum_stability  Minimum stability for updates {@see \JUpdater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
+	 * @param   int  $minimum_stability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = \JUpdater::STABILITY_STABLE)
+	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = Updater::STABILITY_STABLE)
 	{
 		// Purge the updates list
 		$this->purge();
 
-		\JUpdater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
+		Updater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
 	}
@@ -282,9 +290,9 @@ class UpdateModel extends ListModel
 		{
 			$db->truncateTable('#__updates');
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
-			$this->_message = \JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
+			$this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
 			return false;
 		}
@@ -295,7 +303,7 @@ class UpdateModel extends ListModel
 			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 		$db->setQuery($query);
 		$db->execute();
-		$this->_message = \JText::_('JLIB_INSTALLER_PURGED_UPDATES');
+		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
 
 		return true;
 	}
@@ -320,16 +328,16 @@ class UpdateModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
-			$this->_message .= \JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
+			$this->_message .= Text::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 
 			return false;
 		}
 
 		if ($rows = $db->getAffectedRows())
 		{
-			$this->_message .= \JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
+			$this->_message .= Text::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
 		}
 
 		return true;
@@ -341,19 +349,19 @@ class UpdateModel extends ListModel
 	 * Sets the "result" state with the result of the operation.
 	 *
 	 * @param   array  $uids               Array[int] List of updates to apply
-	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see \JUpdater}
+	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see Updater}
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = \JUpdater::STABILITY_STABLE)
+	public function update($uids, $minimum_stability = Updater::STABILITY_STABLE)
 	{
 		$result = true;
 
 		foreach ($uids as $uid)
 		{
-			$update = new \JUpdate;
+			$update = new Update;
 			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
 			$instance->load($uid);
 			$update->loadFromXml($instance->detailsurl, $minimum_stability);
@@ -389,7 +397,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param   \JUpdate  $update  An update definition
+	 * @param   Update  $update  An update definition
 	 *
 	 * @return  boolean   Result of install
 	 *
@@ -397,11 +405,11 @@ class UpdateModel extends ListModel
 	 */
 	private function install($update)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if (!isset($update->get('downloadurl')->_data))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'), 'error');
 
 			return false;
 		}
@@ -417,7 +425,7 @@ class UpdateModel extends ListModel
 
 		$mirror = 0;
 
-		while (!($p_file = \JInstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
+		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
 			$url  = $name->url;
@@ -434,7 +442,7 @@ class UpdateModel extends ListModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
 
 			return false;
 		}
@@ -443,23 +451,23 @@ class UpdateModel extends ListModel
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		// Get an installer instance
-		$installer = \JInstaller::getInstance();
+		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
 
 		// Install the package
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = \JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = \JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 		}
 
@@ -481,7 +489,7 @@ class UpdateModel extends ListModel
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
-		\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;
 	}
@@ -533,7 +541,7 @@ class UpdateModel extends ListModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState($this->context, array());
+		$data = Factory::getApplication()->getUserState($this->context, array());
 
 		return $data;
 	}
@@ -541,7 +549,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Method to add parameters to the update
 	 *
-	 * @param   \JUpdate                  $update  An update definition
+	 * @param   Update                    $update  An update definition
 	 * @param   \Joomla\CMS\Table\Update  $table   The update instance from the database
 	 *
 	 * @return  void
@@ -562,7 +570,7 @@ class UpdateModel extends ListModel
 
 				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
 
-				if (\JFile::exists($path))
+				if (File::exists($path))
 				{
 					require_once $path;
 
@@ -579,7 +587,7 @@ class UpdateModel extends ListModel
 				$cname = str_replace('_', '', $table->element) . 'Helper';
 				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
-				if (\JFile::exists($path))
+				if (File::exists($path))
 				{
 					require_once $path;
 

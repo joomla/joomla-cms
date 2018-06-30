@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Extension Manager Default View
@@ -57,7 +59,7 @@ class HtmlView extends BaseHtmlView
 		parent::__construct($config);
 
 		$this->_addPath('template', $this->_basePath . '/tmpl/installer');
-		$this->_addPath('template', JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/com_installer/installer');
+		$this->_addPath('template', JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/com_installer/installer');
 	}
 
 	/**
@@ -101,7 +103,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_installer');
-		ToolbarHelper::title(\JText::_('COM_INSTALLER_HEADER_' . strtoupper($this->getName())), 'puzzle install');
+		ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . strtoupper($this->getName())), 'puzzle install');
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
