@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Message Table class
@@ -23,11 +25,11 @@ class MessageTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
 	}
@@ -53,34 +55,34 @@ class MessageTable extends Table
 		}
 
 		// Check the to and from users.
-		$user = new \JUser($this->user_id_from);
+		$user = new User($this->user_id_from);
 
 		if (empty($user->id))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
 
 			return false;
 		}
 
-		$user = new \JUser($this->user_id_to);
+		$user = new User($this->user_id_to);
 
 		if (empty($user->id))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
 
 			return false;
 		}
 
 		if (empty($this->subject))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
 
 			return false;
 		}
 
 		if (empty($this->message))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
+			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
 
 			return false;
 		}
@@ -120,7 +122,7 @@ class MessageTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
