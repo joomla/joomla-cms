@@ -15,6 +15,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Template model class.
@@ -76,10 +82,10 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			jimport('joomla.filesystem.folder');
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = \JPath::clean($client->path . '/templates/' . $template->element . '/');
-			$lang   = \JFactory::getLanguage();
+			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$lang   = Factory::getLanguage();
 
 			// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template->element, $client->path, null, false, true) ||
@@ -88,7 +94,7 @@ class TemplateModel extends FormModel
 
 			if (!is_writable($path))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
 			}
 
 			if (is_dir($path))
@@ -97,7 +103,7 @@ class TemplateModel extends FormModel
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -160,7 +166,7 @@ class TemplateModel extends FormModel
 	protected function populateState()
 	{
 		jimport('joomla.filesystem.file');
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -184,7 +190,7 @@ class TemplateModel extends FormModel
 		{
 			$pk  = $this->getState('extension.id');
 			$db  = $this->getDbo();
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			// Get the template information.
 			$query = $db->getQuery(true)
@@ -208,7 +214,7 @@ class TemplateModel extends FormModel
 
 			if (empty($result))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'error');
 				$this->template = false;
 			}
 			else
@@ -260,29 +266,29 @@ class TemplateModel extends FormModel
 	 */
 	public function copy()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if ($template = $this->getTemplate())
 		{
 			jimport('joomla.filesystem.folder');
 			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$fromPath = \JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/');
 
 			// Delete new folder if it exists
 			$toPath = $this->getState('to_path');
 
-			if (\JFolder::exists($toPath))
+			if (Folder::exists($toPath))
 			{
-				if (!\JFolder::delete($toPath))
+				if (!Folder::delete($toPath))
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
 					return false;
 				}
 			}
 
 			// Copy all files from $fromName template to $newName folder
-			if (!\JFolder::copy($fromPath, $toPath) || !$this->fixTemplateName())
+			if (!Folder::copy($fromPath, $toPath) || !$this->fixTemplateName())
 			{
 				return false;
 			}
@@ -291,7 +297,7 @@ class TemplateModel extends FormModel
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 			return false;
 		}
@@ -307,12 +313,12 @@ class TemplateModel extends FormModel
 	public function cleanup()
 	{
 		// Clear installation messages
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
 		// Delete temporary directory
-		return \JFolder::delete($this->getState('to_path'));
+		return Folder::delete($this->getState('to_path'));
 	}
 
 	/**
@@ -327,7 +333,7 @@ class TemplateModel extends FormModel
 		// Rename Language files
 		// Get list of language files
 		$result   = true;
-		$files    = \JFolder::files($this->getState('to_path'), '.ini', true, true);
+		$files    = Folder::files($this->getState('to_path'), '.ini', true, true);
 		$newName  = strtolower($this->getState('new_name'));
 		$template = $this->getTemplate();
 		$oldName  = $template->element;
@@ -338,13 +344,13 @@ class TemplateModel extends FormModel
 		foreach ($files as $file)
 		{
 			$newFile = str_replace($oldName, $newName, $file);
-			$result = \JFile::move($file, $newFile) && $result;
+			$result = File::move($file, $newFile) && $result;
 		}
 
 		// Edit XML file
 		$xmlFile = $this->getState('to_path') . '/templateDetails.xml';
 
-		if (\JFile::exists($xmlFile))
+		if (File::exists($xmlFile))
 		{
 			$contents = file_get_contents($xmlFile);
 			$pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
@@ -352,7 +358,7 @@ class TemplateModel extends FormModel
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
 			$contents = preg_replace($pattern, $replace, $contents);
-			$result = \JFile::write($xmlFile, $contents) && $result;
+			$result = File::write($xmlFile, $contents) && $result;
 		}
 
 		return $result;
@@ -370,7 +376,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Codemirror or Editor None should be enabled
 		$db = $this->getDbo();
@@ -388,7 +394,7 @@ class TemplateModel extends FormModel
 
 		if ((int) $state < 1)
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
 		}
 
 		// Get the form.
@@ -427,7 +433,7 @@ class TemplateModel extends FormModel
 	 */
 	public function &getSource()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$item = new \stdClass;
 
 		if (!$this->template)
@@ -437,17 +443,17 @@ class TemplateModel extends FormModel
 
 		if ($this->template)
 		{
-			$input    = \JFactory::getApplication()->input;
+			$input    = Factory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client   = ApplicationHelper::getClientInfo($this->template->client_id);
 
 			try
 			{
-				$filePath = \JPath::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+				$filePath = Path::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
 			}
 			catch (\Exception $e)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 
 				return;
 			}
@@ -460,7 +466,7 @@ class TemplateModel extends FormModel
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 			}
 		}
 
@@ -488,27 +494,27 @@ class TemplateModel extends FormModel
 			return false;
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$fileName = base64_decode($app->input->get('file'));
 		$client = ApplicationHelper::getClientInfo($template->client_id);
-		$filePath = \JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
+		$filePath = Path::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
 
 		// Include the extension plugins for the save events.
 		PluginHelper::importPlugin('extension');
 
 		$user = get_current_user();
 		chown($filePath, $user);
-		\JPath::setPermissions($filePath, '0644');
+		Path::setPermissions($filePath, '0644');
 
 		// Try to make the template file writable.
 		if (!is_writable($filePath))
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'), 'warning');
-			$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_FILE_PERMISSIONS', \JPath::getPermissions($filePath)), 'warning');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'), 'warning');
+			$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_PERMISSIONS', Path::getPermissions($filePath)), 'warning');
 
-			if (!\JPath::isOwner($filePath))
+			if (!Path::isOwner($filePath))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_CHECK_FILE_OWNERSHIP'), 'warning');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_CHECK_FILE_OWNERSHIP'), 'warning');
 			}
 
 			return false;
@@ -517,11 +523,11 @@ class TemplateModel extends FormModel
 		// Make sure EOL is Unix
 		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
 
-		$return = \JFile::write($filePath, $data['source']);
+		$return = File::write($filePath, $data['source']);
 
 		if (!$return)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
 			return false;
 		}
@@ -532,7 +538,7 @@ class TemplateModel extends FormModel
 
 		if ($ext == 'less')
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_COMPILE_LESS', $fileName));
+			$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_COMPILE_LESS', $fileName));
 		}
 
 		return true;
@@ -569,16 +575,16 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$client        = ApplicationHelper::getClientInfo($template->client_id);
-			$componentPath = \JPath::clean($client->path . '/components/');
-			$modulePath    = \JPath::clean($client->path . '/modules/');
-			$layoutPath    = \JPath::clean(JPATH_ROOT . '/layouts/');
-			$components    = \JFolder::folders($componentPath);
+			$componentPath = Path::clean($client->path . '/components/');
+			$modulePath    = Path::clean($client->path . '/modules/');
+			$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
+			$components    = Folder::folders($componentPath);
 
 			foreach ($components as $component)
 			{
 				// Collect the folders with views
-				$folders = \JFolder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
-				$folders = array_merge($folders, \JFolder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
+				$folders = Folder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
+				$folders = array_merge($folders, Folder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
 
 				if (!$folders)
 				{
@@ -588,7 +594,7 @@ class TemplateModel extends FormModel
 				foreach ($folders as $folder)
 				{
 					// The subfolders are views
-					$views = \JFolder::folders($folder);
+					$views = Folder::folders($folder);
 
 					foreach ($views as $view)
 					{
@@ -607,24 +613,24 @@ class TemplateModel extends FormModel
 							continue;
 						}
 
-						$result['components'][$component][] = $this->getOverridesFolder($view, \JPath::clean($folder . '/'));
+						$result['components'][$component][] = $this->getOverridesFolder($view, Path::clean($folder . '/'));
 					}
 				}
 			}
 
-			$modules = \JFolder::folders($modulePath);
+			$modules = Folder::folders($modulePath);
 
 			foreach ($modules as $module)
 			{
 				$result['modules'][] = $this->getOverridesFolder($module, $modulePath);
 			}
 
-			$layoutFolders = \JFolder::folders($layoutPath);
+			$layoutFolders = Folder::folders($layoutPath);
 
 			foreach ($layoutFolders as $layoutFolder)
 			{
-				$layoutFolderPath = \JPath::clean($layoutPath . '/' . $layoutFolder . '/');
-				$layouts = \JFolder::folders($layoutFolderPath);
+				$layoutFolderPath = Path::clean($layoutPath . '/' . $layoutFolder . '/');
+				$layouts = Folder::folders($layoutFolderPath);
 
 				foreach ($layouts as $layout)
 				{
@@ -637,11 +643,11 @@ class TemplateModel extends FormModel
 			{
 				if (file_exists($componentPath . '/' . $component . '/layouts/'))
 				{
-					$componentLayoutPath = \JPath::clean($componentPath . '/' . $component . '/layouts/');
+					$componentLayoutPath = Path::clean($componentPath . '/' . $component . '/layouts/');
 
 					if ($componentLayoutPath)
 					{
-						$layouts = \JFolder::folders($componentLayoutPath);
+						$layouts = Folder::folders($componentLayoutPath);
 
 						foreach ($layouts as $layout)
 						{
@@ -673,42 +679,42 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$explodeArray = explode(DIRECTORY_SEPARATOR, $override);
 			$name         = end($explodeArray);
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 
 			if (stristr($name, 'mod_') != false)
 			{
-				$htmlPath   = \JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
 				$size = count($explodeArray);
 
-				$url = \JPath::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
+				$url = Path::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
 
 				if ($explodeArray[$size - 2] == 'layouts')
 				{
-					$htmlPath = \JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
+					$htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
 				}
 				else
 				{
-					$htmlPath = \JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
+					$htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
 				}
 			}
 			else
 			{
 				$layoutPath = implode('/', array_slice($explodeArray, -2));
-				$htmlPath   = \JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $layoutPath);
+				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $layoutPath);
 			}
 
 			// Check Html folder, create if not exist
-			if (!\JFolder::exists($htmlPath))
+			if (!Folder::exists($htmlPath))
 			{
-				if (!\JFolder::create($htmlPath))
+				if (!Folder::create($htmlPath))
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
 					return false;
 				}
@@ -716,7 +722,7 @@ class TemplateModel extends FormModel
 
 			if (stristr($name, 'mod_') != false)
 			{
-				$return = $this->createTemplateOverride(\JPath::clean($override . '/tmpl'), $htmlPath);
+				$return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
 			}
 			elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false)
 			{
@@ -728,7 +734,7 @@ class TemplateModel extends FormModel
 					$path = $override;
 				}
 
-				$return = $this->createTemplateOverride(\JPath::clean($path), $htmlPath);
+				$return = $this->createTemplateOverride(Path::clean($path), $htmlPath);
 			}
 			else
 			{
@@ -737,13 +743,13 @@ class TemplateModel extends FormModel
 
 			if ($return)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
 
 				return true;
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
 
 				return false;
 			}
@@ -768,7 +774,7 @@ class TemplateModel extends FormModel
 		}
 
 		// Get list of template folders
-		$folders = \JFolder::folders($overridePath, null, true, true);
+		$folders = Folder::folders($overridePath, null, true, true);
 
 		if (!empty($folders))
 		{
@@ -776,15 +782,15 @@ class TemplateModel extends FormModel
 			{
 				$htmlFolder = $htmlPath . str_replace($overridePath, '', $folder);
 
-				if (!\JFolder::exists($htmlFolder))
+				if (!Folder::exists($htmlFolder))
 				{
-					\JFolder::create($htmlFolder);
+					Folder::create($htmlFolder);
 				}
 			}
 		}
 
 		// Get list of template files (Only get *.php file for template file)
-		$files = \JFolder::files($overridePath, '.php', true, true);
+		$files = Folder::files($overridePath, '.php', true, true);
 
 		if (empty($files))
 		{
@@ -796,14 +802,14 @@ class TemplateModel extends FormModel
 			$overrideFilePath = str_replace($overridePath, '', $file);
 			$htmlFilePath = $htmlPath . $overrideFilePath;
 
-			if (\JFile::exists($htmlFilePath))
+			if (File::exists($htmlFilePath))
 			{
 				// Generate new unique file name base on current time
-				$today = \JFactory::getDate();
-				$htmlFilePath = \JFile::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . \JFile::getExt($htmlFilePath);
+				$today = Factory::getDate();
+				$htmlFilePath = File::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . File::getExt($htmlFilePath);
 			}
 
-			$return = \JFile::copy($file, $htmlFilePath, '', true);
+			$return = File::copy($file, $htmlFilePath, '', true);
 		}
 
 		return $return;
@@ -822,16 +828,16 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
-			$path     = \JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
 			$filePath = $path . urldecode(base64_decode($file));
 
-			$return = \JFile::delete($filePath);
+			$return = File::delete($filePath);
 
 			if (!$return)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
 
 				return false;
 			}
@@ -855,20 +861,20 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = \JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
 
-			if (file_exists(\JPath::clean($path . '/' . $location . '/' . $name . '.' . $type)))
+			if (file_exists(Path::clean($path . '/' . $location . '/' . $name . '.' . $type)))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!fopen(\JPath::clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
+			if (!fopen(Path::clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'error');
 
 				return false;
 			}
@@ -879,7 +885,7 @@ class TemplateModel extends FormModel
 			// Add a message if we are not allowed to show this file in the backend.
 			if (!$check)
 			{
-				$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
+				$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
 			}
 
 			return true;
@@ -902,10 +908,10 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
-			$path     = \JPath::clean($client->path . '/templates/' . $template->element . '/');
-			$fileName = \JFile::makeSafe($file['name']);
+			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$fileName = File::makeSafe($file['name']);
 
 			$err = null;
 
@@ -915,21 +921,21 @@ class TemplateModel extends FormModel
 				return false;
 			}
 
-			if (file_exists(\JPath::clean($path . '/' . $location . '/' . $file['name'])))
+			if (file_exists(Path::clean($path . '/' . $location . '/' . $file['name'])))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!\JFile::upload($file['tmp_name'], \JPath::clean($path . '/' . $location . '/' . $fileName)))
+			if (!File::upload($file['tmp_name'], Path::clean($path . '/' . $location . '/' . $fileName)))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
 
 				return false;
 			}
 
-			$url = \JPath::clean($location . '/' . $fileName);
+			$url = Path::clean($location . '/' . $fileName);
 
 			return $url;
 		}
@@ -951,20 +957,20 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = \JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
 
-			if (file_exists(\JPath::clean($path . '/' . $location . '/' . $name . '/')))
+			if (file_exists(Path::clean($path . '/' . $location . '/' . $name . '/')))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!\JFolder::create(\JPath::clean($path . '/' . $location . '/' . $name)))
+			if (!Folder::create(Path::clean($path . '/' . $location . '/' . $name)))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
 
 				return false;
 			}
@@ -988,22 +994,22 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app    = \JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = \JPath::clean($client->path . '/templates/' . $template->element . '/' . $location);
+			$path   = Path::clean($client->path . '/templates/' . $template->element . '/' . $location);
 
 			if (!file_exists($path))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'error');
 
 				return false;
 			}
 
-			$return = \JFolder::delete($path);
+			$return = Folder::delete($path);
 
 			if (!$return)
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
 
 				return false;
 			}
@@ -1026,9 +1032,9 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
-			$path         = \JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$path         = Path::clean($client->path . '/templates/' . $template->element . '/');
 			$fileName     = base64_decode($file);
 			$explodeArray = explode('.', $fileName);
 			$type         = end($explodeArray);
@@ -1037,14 +1043,14 @@ class TemplateModel extends FormModel
 
 			if (file_exists($path . $newName))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
 			if (!rename($path . $fileName, $path . $newName))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
 
 				return false;
 			}
@@ -1064,10 +1070,10 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$fileName = base64_decode($app->input->get('file'));
-			$path     = \JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
 
 			if (stristr($client->path, 'administrator') == false)
 			{
@@ -1078,11 +1084,11 @@ class TemplateModel extends FormModel
 				$folder = '/administrator/templates/';
 			}
 
-			$uri = \JUri::root(true) . $folder . $template->element;
+			$uri = Uri::root(true) . $folder . $template->element;
 
-			if (file_exists(\JPath::clean($path . $fileName)))
+			if (file_exists(Path::clean($path . $fileName)))
 			{
-				$JImage = new \JImage(\JPath::clean($path . $fileName));
+				$JImage = new \JImage(Path::clean($path . $fileName));
 				$image['address'] = $uri . $fileName;
 				$image['path']    = $fileName;
 				$image['height']  = $JImage->getHeight();
@@ -1091,7 +1097,7 @@ class TemplateModel extends FormModel
 
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -1117,10 +1123,10 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app      = \JFactory::getApplication();
+			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
-			$path     = \JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 			$JImage   = new \JImage($path);
 
 			try
@@ -1152,10 +1158,10 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app     = \JFactory::getApplication();
+			$app     = Factory::getApplication();
 			$client  = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath = base64_decode($file);
-			$path    = \JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
 			$JImage = new \JImage($path);
 
@@ -1182,7 +1188,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getPreview()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
@@ -1203,7 +1209,7 @@ class TemplateModel extends FormModel
 
 		if (empty($result))
 		{
-			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'warning');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'warning');
 		}
 		else
 		{
@@ -1222,12 +1228,12 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($app->input->get('file'));
 			$explodeArray = explode('/', $relPath);
 			$fileName     = end($explodeArray);
-			$path         = \JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path         = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
 			if (stristr($client->path, 'administrator') == false)
 			{
@@ -1238,9 +1244,9 @@ class TemplateModel extends FormModel
 				$folder = '/administrator/templates/';
 			}
 
-			$uri = \JUri::root(true) . $folder . $template->element;
+			$uri = Uri::root(true) . $folder . $template->element;
 
-			if (file_exists(\JPath::clean($path)))
+			if (file_exists(Path::clean($path)))
 			{
 				$font['address'] = $uri . $relPath;
 
@@ -1250,7 +1256,7 @@ class TemplateModel extends FormModel
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -1274,24 +1280,24 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($file);
 			$explodeArray = explode('.', $relPath);
 			$ext          = end($explodeArray);
-			$path         = \JPath::clean($client->path . '/templates/' . $template->element . '/');
-			$newPath      = \JPath::clean($path . '/' . $location . '/' . $newName . '.' . $ext);
+			$path         = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$newPath      = Path::clean($path . '/' . $location . '/' . $newName . '.' . $ext);
 
 			if (file_exists($newPath))
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (\JFile::copy($path . $relPath, $newPath))
+			if (File::copy($path . $relPath, $newPath))
 			{
-				$app->enqueueMessage(\JText::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
+				$app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
 
 				return true;
 			}
@@ -1313,12 +1319,12 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app     = \JFactory::getApplication();
+			$app     = Factory::getApplication();
 			$client  = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath = base64_decode($app->input->get('file'));
-			$path    = \JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			if (file_exists(\JPath::clean($path)))
+			if (file_exists(Path::clean($path)))
 			{
 				$files = array();
 				$zip = new \ZipArchive;
@@ -1333,14 +1339,14 @@ class TemplateModel extends FormModel
 				}
 				else
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
 
 					return false;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -1362,27 +1368,27 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app          = \JFactory::getApplication();
+			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($file);
 			$explodeArray = explode('/', $relPath);
 			$fileName     = end($explodeArray);
 			$folderPath   = stristr($relPath, $fileName, true);
-			$path         = \JPath::clean($client->path . '/templates/' . $template->element . '/' . $folderPath . '/');
+			$path         = Path::clean($client->path . '/templates/' . $template->element . '/' . $folderPath . '/');
 
-			if (file_exists(\JPath::clean($path . '/' . $fileName)))
+			if (file_exists(Path::clean($path . '/' . $fileName)))
 			{
 				$zip = new \ZipArchive;
 
-				if ($zip->open(\JPath::clean($path . '/' . $fileName)) === true)
+				if ($zip->open(Path::clean($path . '/' . $fileName)) === true)
 				{
 					for ($i = 0; $i < $zip->numFiles; $i++)
 					{
 						$entry = $zip->getNameIndex($i);
 
-						if (file_exists(\JPath::clean($path . '/' . $entry)))
+						if (file_exists(Path::clean($path . '/' . $entry)))
 						{
-							$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
+							$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
 
 							return false;
 						}
@@ -1394,14 +1400,14 @@ class TemplateModel extends FormModel
 				}
 				else
 				{
-					$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
 
 					return false;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -1421,7 +1427,7 @@ class TemplateModel extends FormModel
 	{
 		if (!isset($this->allowedFormats))
 		{
-			$params       = \JComponentHelper::getParams('com_templates');
+			$params       = ComponentHelper::getParams('com_templates');
 			$imageTypes   = explode(',', $params->get('image_formats'));
 			$sourceTypes  = explode(',', $params->get('source_formats'));
 			$fontTypes    = explode(',', $params->get('font_formats'));
