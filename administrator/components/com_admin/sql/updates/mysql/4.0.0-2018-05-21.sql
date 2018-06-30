@@ -12,7 +12,7 @@ ALTER TABLE `#__finder_links` MODIFY `access` int(5) NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_links` MODIFY `language` char(7) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_links` MODIFY `type_id` int(11) NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_links` ADD INDEX `idx_language` (`language`);
--- finder_links_terms tables
+-- finder_links_terms table
 ALTER TABLE `#__finder_links_terms` MODIFY `weight` float unsigned NOT NULL DEFAULT 0;
 -- finder_taxonomy table
 ALTER TABLE `#__finder_taxonomy` MODIFY `title` varchar(255) NOT NULL DEFAULT '';
@@ -35,7 +35,6 @@ ALTER TABLE `#__finder_tokens` ADD INDEX `idx_stem` (`stem`);
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_language` (`language`);
 -- finder_tokens_aggregate table
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term_id` int(10) unsigned NOT NULL DEFAULT 0;
-ALTER TABLE `#__finder_tokens_aggregate` MODIFY `map_suffix` char(1) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term_weight` float unsigned NOT NULL DEFAULT 0;
