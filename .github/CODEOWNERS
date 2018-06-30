@@ -58,3 +58,8 @@ travis-phpunit.xml  @mbabker @rdeutz
 
 # Core JS
 media/*/js/*  @dgt41
+
+# CSP Tooling
+plugins/system/httpheaders/*  @zero-24
+administrator/components/com_csp/* @zero-24
+components/com_csp/* @zero-24

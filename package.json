@@ -89,7 +89,8 @@
       "field-send-test-mail",
       "editor-codemirror",
       "hidden-mail",
-      "editor-none"
+      "editor-none",
+      "toolbar-button"
     ],
     "webcomponents": {
       "field-media": {
