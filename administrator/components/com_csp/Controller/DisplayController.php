@@ -49,11 +49,11 @@ class DisplayController extends BaseController
 			$link = HTMLHelper::_(
 				'link',
 				'#plugin' . $httpHeadersId . 'Modal',
-				\JText::_('COM_CSP_SYSTEM_PLUGIN'),
+				Text::_('COM_CSP_SYSTEM_PLUGIN'),
 				'class="alert-link" data-toggle="modal" id="title-' . $httpHeadersId . '"'
 			);
 
-			$this->app->enqueueMessage(\JText::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
+			$this->app->enqueueMessage(Text::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
 		}
 
 		parent::display();
