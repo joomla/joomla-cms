@@ -86,9 +86,9 @@ class JFormFieldprivacy extends JFormFieldRadio
 				) . '"';
 		}
 
-		$privacyarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($privacyarticle && Factory::getApplication()->isClient('site'))
+		if ($privacyArticle && Factory::getApplication()->isClient('site'))
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
@@ -100,13 +100,13 @@ class JFormFieldprivacy extends JFormFieldRadio
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $privacyarticle);
+				->where($db->quoteName('id') . ' = ' . (int) $privacyArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
+			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
 		}
 		else
 		{

@@ -86,9 +86,9 @@ class JFormFieldterms extends JFormFieldRadio
 				) . '"';
 		}
 
-		$termsarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+		$termsArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($termsarticle && Factory::getApplication()->isClient('site'))
+		if ($termsArticle && Factory::getApplication()->isClient('site'))
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
@@ -100,27 +100,31 @@ class JFormFieldterms extends JFormFieldRadio
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $termsarticle);
+				->where($db->quoteName('id') . ' = ' . (int) $termsArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
 			if (JLanguageAssociations::isEnabled())
 			{
-				$termsassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $termsarticle);
+				$termsAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
 			}
 
-			$current_lang = Factory::getLanguage()->getTag();
+			$currentLang = Factory::getLanguage()->getTag();
 
-			if (isset($termsassociated) && $current_lang !== $article->language && array_key_exists($current_lang, $termsassociated))
+			if (isset($termsAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $termsAssociated))
 			{
-				$url  = ContentHelperRoute::getArticleRoute($termsassociated[$current_lang]->id, $termsassociated[$current_lang]->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $termsassociated[$current_lang]->language), $text, $attribs);
+				$url  = ContentHelperRoute::getArticleRoute(
+					$termsAssociated[$currentLang]->id,
+					$termsAssociated[$currentLang]->catid,
+					$termsAssociated[$currentLang]->language
+				);
+				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
 			}
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
+				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
 			}
 		}
 		else
