@@ -19,6 +19,8 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Database\Event\ConnectionEvent;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Filesytem\File;
 
 JLoader::register('DebugMonitor', __DIR__ . '/debugmonitor.php');
 
@@ -575,7 +577,7 @@ class PlgSystemDebug extends CMSPlugin
 		$totalMem  = 0;
 		$marks     = array();
 
-		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
+		foreach (Profiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
 			$totalMem  += (float) $mark->memory;
@@ -1129,7 +1131,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$totalTime = 0;
 
-		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
+		foreach (Profiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
 		}
@@ -1987,12 +1989,12 @@ class PlgSystemDebug extends CMSPlugin
 			}
 		}
 
-		if (JFile::exists($file))
+		if (File::exists($file))
 		{
-			JFile::delete($file);
+			File::delete($file);
 		}
 
 		// Write new file.
-		JFile::write($file, $current);
+		File::write($file, $current);
 	}
 }
