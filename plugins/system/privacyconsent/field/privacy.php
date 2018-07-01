@@ -69,7 +69,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 		JHtml::_('behavior.modal');
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
+		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -79,11 +79,17 @@ class JFormFieldprivacy extends JFormFieldRadio
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="'
-				. htmlspecialchars(
-					trim($text, ':') . '<br />' . ($this->translateDescription ? Text::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
+			$label .= ' data-content="' . htmlspecialchars(
+				$this->translateDescription ? Text::_($this->description) : $this->description,
+				ENT_COMPAT,
+				'UTF-8'
+			) . '"';
+		}
+
+		if (Factory::getLanguage()->isRtl())
+		{
+			$label .= ' data-placement="left"';
 		}
 
 		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
