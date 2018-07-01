@@ -79,7 +79,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 						</thead>
 						<tfoot>
 							<tr>
-								<td colspan="15">
+								<td colspan="8">
 									<?php echo $this->pagination->getListFooter(); ?>
 								</td>
 							</tr>
@@ -109,7 +109,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
 											<span class="fa fa-list text-center" aria-hidden="true"></span><span class="sr-only"><?php echo JText::_('COM_MENUS_MANAGE_MENU'); ?></span>
 										</a>
-									<?php endif;?>
+									<?php endif; ?>
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
