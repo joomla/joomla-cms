@@ -21,7 +21,7 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "2.0.0",
-    "awesomplete": "1.1.2",
+    "awesomplete": "LeaVerou/awesomplete",
     "bootstrap": "4.1.1",
     "codemirror": "5.35.0",
     "cropperjs": "1.2.2",
@@ -89,7 +89,8 @@
       "field-send-test-mail",
       "editor-codemirror",
       "hidden-mail",
-      "editor-none"
+      "editor-none",
+      "toolbar-button"
     ],
     "webcomponents": {
       "field-media": {

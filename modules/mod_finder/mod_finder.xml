@@ -21,7 +21,7 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
 	<config>
-		<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
+		<fields name="params" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 			<fieldset name="basic">
 				<field
 					name="searchfilter"

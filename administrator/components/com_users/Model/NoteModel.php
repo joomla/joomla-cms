@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * User note model.
@@ -59,6 +60,7 @@ class NoteModel extends AdminModel
 	 * @return  mixed  Object on success, false on failure.
 	 *
 	 * @since   2.5
+	 * @throws  \Exception
 	 */
 	public function getItem($pk = null)
 	{
@@ -71,7 +73,7 @@ class NoteModel extends AdminModel
 		PluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.note', $result));
+		Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.note', $result));
 
 		return $result;
 	}
@@ -82,11 +84,12 @@ class NoteModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
 		// Get the application
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_users.edit.note.data', array());
@@ -122,12 +125,13 @@ class NoteModel extends AdminModel
 	 * @return  void
 	 *
 	 * @since   2.5
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		parent::populateState();
 
-		$userId = \JFactory::getApplication()->input->get('u_id', 0, 'int');
+		$userId = Factory::getApplication()->input->get('u_id', 0, 'int');
 		$this->setState('note.user_id', $userId);
 	}
 }

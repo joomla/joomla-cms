@@ -23,12 +23,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="display_name"
-					type="text"
-					label="PLG_FILESYSTEM_LOCAL_DISPLAY_NAME_LABEL"
-					default="Local"
-				/>
-				<field
 					name="directories"
 					type="subform"
 					label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_LABEL"

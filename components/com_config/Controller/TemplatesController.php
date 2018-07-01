@@ -87,17 +87,14 @@ class TemplatesController extends BaseController
 		$app = $this->app;
 
 		// Access backend com_templates
-		\JLoader::register('TemplatesControllerStyle', JPATH_ADMINISTRATOR . '/components/com_templates/controllers/style.php');
-		\JLoader::register('TemplatesModelStyle', JPATH_ADMINISTRATOR . '/components/com_templates/models/style.php');
-		\JLoader::register('TemplatesTableStyle', JPATH_ADMINISTRATOR . '/components/com_templates/tables/style.php');
-		$controllerClass = new StyleController;
+		$controllerClass = $app->bootComponent('com_templates')->createMVCFactory($app)->createController('Style', 'Administrator');
 
 		// Get a document object
-		$document = \JFactory::getDocument();
+		$document = $app->getDocument();
 
 		// Set backend required params
 		$document->setType('json');
-		$this->input->set('id', $app->getTemplate('template')->id);
+		$this->input->set('id', $app->getTemplate(true)->id);
 
 		// Execute backend controller
 		$return = $controllerClass->save();
@@ -123,8 +120,10 @@ class TemplatesController extends BaseController
 		// Set the success message.
 		$message = \JText::_('COM_CONFIG_SAVE_SUCCESS');
 
+		$this->setMessage($message);
+
 		// Redirect back to com_config display
-		$app->redirect(\JRoute::_('index.php?option=com_config&view=templates', false), $message);
+		$this->redirect(\JRoute::_('index.php?option=com_config&view=templates', false));
 
 		return true;
 	}

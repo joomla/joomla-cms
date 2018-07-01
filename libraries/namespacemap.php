@@ -8,6 +8,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class JNamespaceMap
  *
@@ -51,7 +53,7 @@ class JNamespacePsr4Map
 	{
 		// Ensure that the database is connected (because it isn't in the installer where this function gets called from
 		// CMSApplication
-		if (!$this->exists() && JFactory::getDbo()->connected())
+		if (!$this->exists() && Factory::getDbo()->connected())
 		{
 			$this->create();
 		}
@@ -72,17 +74,46 @@ class JNamespacePsr4Map
 
 		foreach ($extensions as $extension)
 		{
-			$element       = $extension->element;
-			$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
-
-			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element))
+			if ($extension->type === 'component')
 			{
-				$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element);
+				$element       = $extension->element;
+				$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
+
+				if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element))
+				{
+					// If a component has a src/ directory use it. Else just use the main component directory
+					$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element);
+
+					if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element . '/src/'))
+					{
+						$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element . '/src/');
+					}
+				}
+
+				if (file_exists(JPATH_ROOT . '/components/' . $element))
+				{
+					$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element);
+
+					if (file_exists(JPATH_ROOT . '/components/' . $element . '/src/'))
+					{
+						$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element . '/src/');
+					}
+				}
 			}
-
-			if (file_exists(JPATH_ROOT . '/components/' . $element))
+			elseif ($extension->type === 'module')
 			{
-				$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element);
+				if ($extension->client_id === 0)
+				{
+					$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
+					$element       = $extension->element;
+					$elements[$baseNamespace . '\\\\Site\\\\'] = array('/modules/' . $element);
+				}
+				else
+				{
+					$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
+					$element       = $extension->element;
+					$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/modules/' . $element);
+				}
 			}
 		}
 
@@ -103,7 +134,7 @@ class JNamespacePsr4Map
 		if (!$this->exists())
 		{
 			// We can't continue here
-			if (!JFactory::getDbo()->connected())
+			if (!Factory::getDbo()->connected())
 			{
 				return false;
 			}
@@ -148,7 +179,7 @@ class JNamespacePsr4Map
 				$pathString .= '"' . $path . '",';
 			}
 
-			$content[] = "\t'" . $namespace . "'" . ' => array(JPATH_ROOT . ' . $pathString . '),';
+			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . ' . $pathString . '],';
 		}
 
 		$content[] = ');';
@@ -165,11 +196,11 @@ class JNamespacePsr4Map
 	 */
 	protected function getNamespacedExtensions()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName(array('extension_id', 'element', 'namespace')))
+		$query->select($db->quoteName(array('extension_id', 'element', 'namespace', 'type', 'client_id')))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ' . $db->quote(""));
 

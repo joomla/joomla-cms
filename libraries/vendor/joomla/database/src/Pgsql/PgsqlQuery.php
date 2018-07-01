@@ -21,6 +21,14 @@ class PgsqlQuery extends PdoQuery
 	use PostgresqlQueryBuilder;
 
 	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = ['1970-01-01 00:00:00'];
+
+	/**
 	 * Magic function to convert the query to a string, only for PostgreSQL specific queries
 	 *
 	 * @return  string	The completed query.
