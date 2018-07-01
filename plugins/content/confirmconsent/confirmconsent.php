@@ -97,14 +97,13 @@ class PlgContentConfirmConsent extends CMSPlugin
 						name="consentbox"
 						type="checkboxes"
 						label="' . htmlspecialchars($consentboxLabel, ENT_COMPAT, 'UTF-8') . '"
-						
 						required="true"
-					>
+						>
 						<option value="0">' . htmlspecialchars($consentboxText, ENT_COMPAT, 'UTF-8') . '</option>
 					</field>
 				</fieldset>
-			</form>
-		');
+			</form>'
+		);
 
 		return true;
 	}
@@ -186,7 +185,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 			);
 		}
 
-		// Association is enabled but this article is not associated	
+		// Association is enabled but this article is not associated
 		return HTMLHelper::_(
 			'link',
 			Route::_(

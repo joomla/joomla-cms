@@ -15,15 +15,15 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
-				<field 
-					name="consentbox_text" 
-					type="textarea" 
-					label="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_LABEL" 
+				<field
+					name="consentbox_text"
+					type="textarea"
+					label="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_LABEL"
 					description="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DESC"
 					hint="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
 				/>
 

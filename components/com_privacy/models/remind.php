@@ -88,7 +88,7 @@ class PrivacyModelRemind extends JModelAdmin
 
 			return false;
 		}
-		
+
 		// Verify the token
 		if (!JUserHelper::verifyPassword($data['remind_token'], $remind->token))
 		{

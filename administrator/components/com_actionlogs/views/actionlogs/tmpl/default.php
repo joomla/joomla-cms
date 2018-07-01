@@ -84,7 +84,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td>								
+							<td>
 								<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
 							</td>
 							<td>

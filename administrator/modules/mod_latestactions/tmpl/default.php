@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php foreach ($list as $i => $item) : ?>
 			<div class="row-fluid">
 				<div class="span8 truncate">
-                    <?php echo $item->message; ?>
+					<?php echo $item->message; ?>
 				</div>
 				<div class="span4">
 					<div class="small pull-right hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGLOBAL_FIELD_CREATED_LABEL'); ?>">

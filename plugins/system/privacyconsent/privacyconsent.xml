@@ -21,17 +21,17 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
-				<field 
-					name="privacy_note" 
-					type="textarea" 
+				<field
+					name="privacy_note"
+					type="textarea"
 					label="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DESC"
 					hint="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
-				/>	
+				/>
 				<field
 					name="privacy_article"
 					type="modal_article"
@@ -43,15 +43,15 @@
 					clear="true"
 					filter="integer"
 				/>
-				<field 
-					name="messageOnRedirect" 
-					type="textarea" 
+				<field
+					name="messageOnRedirect"
+					type="textarea"
 					label="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DESC"
 					hint="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
 				/>
 			</fieldset>

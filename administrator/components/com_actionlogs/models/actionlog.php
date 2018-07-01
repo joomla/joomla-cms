@@ -66,7 +66,6 @@ class ActionlogsModelActionlog extends JModelLegacy
 			{
 				$db->insertObject('#__action_logs', $logMessage);
 				$loggedMessages[] = $logMessage;
-
 			}
 			catch (RuntimeException $e)
 			{

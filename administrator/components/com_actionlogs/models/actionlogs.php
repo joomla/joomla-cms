@@ -204,7 +204,6 @@ class ActionlogsModelActionlogs extends JModelList
 				$tz = new DateTimeZone('GMT');
 				$dStart->setTimezone($tz);
 				break;
-
 		}
 
 		return array('dNow' => $dNow, 'dStart' => $dStart);

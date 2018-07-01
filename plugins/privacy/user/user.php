@@ -267,7 +267,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		foreach ($fields as $field)
 		{
-			$fieldValue = is_array($field->value) ? implode(', ', $field->value): $field->value;
+			$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
 
 			$data = array(
 				'user_id'     => $user->id,

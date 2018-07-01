@@ -136,7 +136,6 @@ class PlgSystemLogrotation extends JPlugin
 
 		$logFiles = $this->getLogFiles($logPath);
 
-
 		// Sort log files by version number in reserve order
 		krsort($logFiles, SORT_NUMERIC);
 

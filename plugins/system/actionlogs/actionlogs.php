@@ -120,7 +120,8 @@ class PlgSystemActionLogs extends JPlugin
 			return;
 		}
 
-		$deleteFrequency = 3600 * 24; // The delete frequency will be once per day
+		// The delete frequency will be once per day
+		$deleteFrequency = 3600 * 24;
 
 		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
 		// timestamp. If the difference is greater than the cache timeout we shall not execute again.

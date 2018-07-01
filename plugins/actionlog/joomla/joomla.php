@@ -47,7 +47,7 @@ class PlgActionlogJoomla extends JPlugin
 	/**
 	 * Load plugin language file automatically so that it can be used inside component
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
@@ -491,7 +491,6 @@ class PlgActionlogJoomla extends JPlugin
 		}
 		else
 		{
-
 			$messageLanguageKey = strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED');
 			$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UPDATED';
 			$action             = 'update';
