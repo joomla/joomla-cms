@@ -8,12 +8,13 @@
  */
 namespace Joomla\Component\Cpanel\Administrator\View\System;
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-
-defined('_JEXEC') or die;
 
 /**
  * HTML View class for the Cpanel component
@@ -137,7 +138,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Access
-		//MOD_MENU_ACCESS
 		if ($user->authorise('core.manage', 'com_users'))
 		{
 			// Site
@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
 			static::$notEmpty = true;
 		}
 
-		// index.php?option=com_config#page-permissions
+		// Global Configuration - Permissions and Filters
 		if ($user->authorise('core.admin'))
 		{
 			$new = [
