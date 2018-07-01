@@ -65,7 +65,8 @@ class HtmlView extends BaseHtmlView
 		// Check that there are providers
 		if (!count($this->providers))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_MEDIA_ERROR_NO_PROVIDERS'), CMSApplication::MSG_WARNING);
+			$link = \JRoute::_('index.php?option=com_plugins&view=plugins&filter[folder]=filesystem');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
 		}
 
 		$this->currentPath = Factory::getApplication()->input->getString('path');

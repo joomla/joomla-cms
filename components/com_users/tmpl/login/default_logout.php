@@ -9,8 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+
 ?>
-<div class="logout">
+<div class="com-users-logout logout">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -20,7 +24,7 @@ defined('_JEXEC') or die;
 	<?php endif; ?>
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
-	    <div class="logout-description">
+	    <div class="com-users-logout__description logout-description">
 	<?php endif; ?>
 
     <?php if ($this->params->get('logoutdescription_show') == 1) : ?>
@@ -28,19 +32,19 @@ defined('_JEXEC') or die;
     <?php endif; ?>
 
     <?php if ($this->params->get('logout_image') != '') : ?>
-        <img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="thumbnail float-right logout-image" alt="<?php echo JText::_('COM_USER_LOGOUT_IMAGE_ALT'); ?>">
+        <img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="com-users-logout__image thumbnail float-right logout-image" alt="<?php echo Text::_('COM_USER_LOGOUT_IMAGE_ALT'); ?>">
     <?php endif; ?>
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
 	    </div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="form-horizontal well">
-		<div class="control-group">
+	<form action="<?php echo Route::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="com-users-logout__form form-horizontal well">
+		<div class="com-users-logout__submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary">
                     <span class="icon-arrow-left icon-white"></span>
-                    <?php echo JText::_('JLOGOUT'); ?>
+                    <?php echo Text::_('JLOGOUT'); ?>
                 </button>
 			</div>
 		</div>
@@ -49,6 +53,6 @@ defined('_JEXEC') or die;
 		<?php else : ?>
 			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_menuitem', $this->form->getValue('return'))); ?>">
 		<?php endif; ?>
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>
