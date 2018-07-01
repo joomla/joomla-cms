@@ -13,6 +13,8 @@ class CoreInstallCommandTest extends \PHPUnit\Framework\TestCase
 	 * @testdox Output from  `joomla help core:install` contains usage instructions
 	 *
 	 * @since 4.0
+	 *
+	 * @return void
 	 */
 	public function testIfCommandOutputContainsUsageInformation()
 	{
@@ -20,5 +22,20 @@ class CoreInstallCommandTest extends \PHPUnit\Framework\TestCase
 		$parts = array_flip($parts);
 
 		$this->assertArrayHasKey("Usage:", $parts, 'Message should contain usage instructions');
+	}
+
+	/**
+	 * @testdox Tests if command fails because configuration file already exists
+	 *
+	 * @since 4.0
+	 *
+	 * @return void
+	 */
+	public function testIfInstallFailsWhenConfigurationExists()
+	{
+		exec('php cli/joomla.php core:install', $parts);
+		$result = implode("\n", $parts);
+
+		$this->assertContains("Joomla is already installed and set up", $result);
 	}
 }

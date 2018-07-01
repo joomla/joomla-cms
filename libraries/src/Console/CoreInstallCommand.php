@@ -187,7 +187,7 @@ class CoreInstallCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	public function collectOptions()
+	private function collectOptions()
 	{
 		$data = $this->getOptionsTemplate();
 
@@ -237,7 +237,7 @@ class CoreInstallCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	public function processType($data)
+	private function processType($data)
 	{
 		switch ($data['type'])
 		{
