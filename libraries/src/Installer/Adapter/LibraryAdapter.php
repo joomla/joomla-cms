@@ -10,9 +10,14 @@ namespace Joomla\CMS\Installer\Adapter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\Manifest\LibraryManifest;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 
@@ -55,7 +60,7 @@ class LibraryAdapter extends InstallerAdapter
 			else
 			{
 				// Abort the install, no upgrade possible
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
 			}
 		}
 	}
@@ -72,7 +77,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
 		}
 	}
 
@@ -89,10 +94,10 @@ class LibraryAdapter extends InstallerAdapter
 		// Clobber any possible pending updates
 		/** @var Update $update */
 		$update = Table::getInstance('update');
-		$uid = $update->find(
+		$uid    = $update->find(
 			array(
 				'element' => $this->element,
-				'type' => $this->type,
+				'type'    => $this->type,
 			)
 		);
 
@@ -104,20 +109,20 @@ class LibraryAdapter extends InstallerAdapter
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if ($this->route !== 'discover_install')
 		{
-			$manifest = array();
-			$manifest['src'] = $this->parent->getPath('manifest');
+			$manifest         = array();
+			$manifest['src']  = $this->parent->getPath('manifest');
 			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
 			}
 
 			// If there is a manifest script, let's copy it.
 			if ($this->manifest_script)
 			{
-				$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+				$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 				$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
 				if ($this->parent->isOverwrite() || !file_exists($path['dest']))
@@ -126,9 +131,9 @@ class LibraryAdapter extends InstallerAdapter
 					{
 						// Install failed, rollback changes
 						throw new \RuntimeException(
-							\JText::sprintf(
+							Text::sprintf(
 								'JLIB_INSTALLER_ABORT_MANIFEST',
-								\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+								Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 							)
 						);
 					}
@@ -151,10 +156,9 @@ class LibraryAdapter extends InstallerAdapter
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
-		$db->setQuery($query);
-		$db->execute();
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = ' . (int) $this->extension->extension_id);
+		$db->setQuery($query)->execute();
 
 		// Clobber any possible pending updates
 		$update = Table::getInstance('update');
@@ -188,7 +192,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
+			$manifestPath = Path::clean($this->parent->getPath('manifest'));
 			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 
@@ -213,9 +217,9 @@ class LibraryAdapter extends InstallerAdapter
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->getElement());
 		}
 
-		$extension = 'lib_' . $this->getElement();
+		$extension   = 'lib_' . $this->getElement();
 		$librarypath = (string) $this->getManifest()->libraryname;
-		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
+		$source      = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
 		$this->doLoadLanguage($extension, $source, JPATH_SITE);
 	}
@@ -242,7 +246,7 @@ class LibraryAdapter extends InstallerAdapter
 	 */
 	public function prepareDiscoverInstall()
 	{
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+		$manifestPath           = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->setManifest($this->parent->getManifest());
@@ -294,7 +298,7 @@ class LibraryAdapter extends InstallerAdapter
 
 		if (!$group)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
@@ -317,7 +321,7 @@ class LibraryAdapter extends InstallerAdapter
 			// Remove this row entry since its invalid
 			$this->extension->delete($this->extension->extension_id);
 
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 		}
 
 		$manifest = new LibraryManifest($manifestFile);
@@ -333,13 +337,13 @@ class LibraryAdapter extends InstallerAdapter
 		// If we cannot load the XML file return null
 		if (!$xml)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() !== 'extension')
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
 		}
 
 		$this->setManifest($xml);
@@ -364,15 +368,15 @@ class LibraryAdapter extends InstallerAdapter
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
-			$this->extension->state = 0;
-			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = 1;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->state          = 0;
+			$this->extension->name           = $manifest_details['name'];
+			$this->extension->enabled        = 1;
+			$this->extension->params         = $this->parent->getParams();
 
 			if (!$this->extension->store())
 			{
 				// Install failed, roll back changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
 			}
 
 			return;
@@ -398,7 +402,7 @@ class LibraryAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_LIB_INSTALL_ROLLBACK',
 					$this->extension->getError()
 				)
@@ -437,8 +441,8 @@ class LibraryAdapter extends InstallerAdapter
 		 */
 
 		// Set the extensions name
-		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'string');
+		$name    = (string) $this->getManifest()->name;
+		$name    = InputFilter::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 
 		$this->name    = $name;
@@ -446,8 +450,8 @@ class LibraryAdapter extends InstallerAdapter
 
 		// We don't want to compromise this instance!
 		$installer = new Installer;
-		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true)
+		$db        = $this->parent->getDbo();
+		$query     = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
@@ -463,7 +467,7 @@ class LibraryAdapter extends InstallerAdapter
 
 			// Clear the cached data
 			$this->currentExtensionId = null;
-			$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
+			$this->extension          = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
 		}
 
 		// Now create the new files
@@ -485,8 +489,8 @@ class LibraryAdapter extends InstallerAdapter
 		foreach ($file_list as $file)
 		{
 			$manifest_details = Installer::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
-			$file = \JFile::stripExt($file);
-			$extension = Table::getInstance('extension');
+			$file             = File::stripExt($file);
+			$extension        = Table::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
 			$extension->set('element', $file);
@@ -511,13 +515,13 @@ class LibraryAdapter extends InstallerAdapter
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
+		$manifestPath           = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{
@@ -525,7 +529,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}
