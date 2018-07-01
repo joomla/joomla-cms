@@ -48,7 +48,6 @@ if (!empty($this->query->highlight)
 }
 ?>
 <dt class="result-title">
-	<?php echo $this->pagination->limitstart + $this->result->counter . '. '; ?>
 	<h4 class="result-title <?php echo $mime; ?>">
 		<?php if ($this->result->route) : ?>
 			<a href="<?php echo JRoute::_($this->result->route); ?>">
@@ -59,31 +58,27 @@ if (!empty($this->query->highlight)
 		<?php endif; ?>
 	</h4>
 </dt>
-<?php
-$type = $this->result->getTaxonomy('Type');
-$type = array_shift($type);
-?>
-<dd class="result-type">
-	<span class="small">
-		(<?php echo $type->title; ?>)
-	</span>
-</dd>
-<?php if ($this->result->category) : ?>
-	<dd class="result-category">
-		<span class="small">
-			(<?php echo $this->result->category; ?>)
-		</span>
+
+<?php $taxonomies = $this->result->getTaxonomy(); ?>
+<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
+	<dd class="result-taxonomy">
+	<?php foreach ($taxonomies as $type => $taxonomy) : ?>
+		<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', array_column($taxonomy, 'title')); ?></span>
+	<?php endforeach; ?>
 	</dd>
 <?php endif; ?>
 <?php if ($show_description && $description !== '') : ?>
 	<dd class="result-text">
-		<p class="result-text">
-			<?php echo $description; ?>
-		</p>
+		<?php echo $description; ?>
 	</dd>
 <?php endif; ?>
-<?php if ($this->result->created && $this->params->get('show_date', 1)) : ?>
-	<dd class="result-created">
-		<?php echo \JText::sprintf('JGLOBAL_CREATED_DATE_ON', \JHtml::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3'))); ?>
+<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
+	<dd class="result-date small">
+		<?php echo \JHtml::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
+	</dd>
+<?php endif; ?>
+<?php if ($this->params->get('show_url', 1)) : ?>
+	<dd class="result-url small">
+		<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
 	</dd>
 <?php endif; ?>
