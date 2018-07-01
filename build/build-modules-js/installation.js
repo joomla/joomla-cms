@@ -1,17 +1,24 @@
 const fs = require('fs');
 const ini = require('ini');
 const Recurs = require("recursive-readdir");
+const uglifyCss = require("uglifycss");
+const uglifyJs = require("uglify-es");
 
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 const dir = `${rootPath}/installation/language`;
 const installationFile = `${rootPath}/templates/system/incompatible.html`;
+const srcPath = `${rootPath}/build/incompatible_page`;
 
 // Set the initial template
-let template = `
-var errorLocale = {`;
+let template = `window.errorLocale = {`;
 
 installation = () => {
-  let installationContent = fs.readFileSync(`${__dirname}/incompatible.html`, 'utf-8');
+  let installationContent = fs.readFileSync(`${srcPath}/incompatible.html`, 'utf-8');
+  let cssContent = fs.readFileSync(`${srcPath}/incompatible.css`, 'utf-8');
+  let jsContent = fs.readFileSync(`${srcPath}/incompatible.js`, 'utf-8');
+
+  cssContent = uglifyCss.processString(cssContent, { expandVars: false });
+  jsContent = uglifyJs.minify(jsContent);
 
   Recurs(dir).then(
     (files) => {
@@ -20,19 +27,22 @@ installation = () => {
         if (languageStrings["MIN_PHP_ERROR_LANGUAGE"]) {
           const name = file.replace('.ini', '').replace(/.+\//, '');
           template += `
-  "${name}": {
-    "language": "` + languageStrings["MIN_PHP_ERROR_LANGUAGE"] + `",
-    "header": "` + languageStrings["MIN_PHP_ERROR_HEADER"] + `",
-    "text1": "` + languageStrings["MIN_PHP_ERROR_TEXT"] + `",
-    "help-url-text": "` + languageStrings["MIN_PHP_ERROR_URL_TEXT"] + `"
-  },`;
+"${name}":{"language":"${languageStrings["MIN_PHP_ERROR_LANGUAGE"]}","header":"${languageStrings["MIN_PHP_ERROR_HEADER"]}","text1":"${languageStrings["MIN_PHP_ERROR_TEXT"]}","help-url-text":"${languageStrings["MIN_PHP_ERROR_URL_TEXT"]}"},`;
         }
       });
 
-      template = template + `
+      template = `${template}
 }`;
 
       installationContent = installationContent.replace('{{jsonContents}}', template);
+
+      if (cssContent) {
+          installationContent = installationContent.replace('{{cssContents}}', cssContent);
+      }
+
+      if (jsContent) {
+          installationContent = installationContent.replace('{{jsContents}}', jsContent.code);
+      }
 
       fs.writeFile(installationFile, installationContent, (err) => {
         if (err) {
