@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserHelper;
+use Joomls\CMS\Log\Log;
 
 /**
  * Joomla! System Remember Me Plugin
@@ -95,6 +96,57 @@ class PlgSystemRemember extends CMSPlugin
 		{
 			// Make sure authentication group is loaded to process onUserAfterLogout event
 			PluginHelper::importPlugin('authentication');
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method is called before user data is stored in the database
+	 * Invalidate all existing remember-me cookies after a password change
+	 *
+	 * @param   array    $user   Holds the old user data.
+	 * @param   boolean  $isnew  True if a new user is stored.
+	 * @param   array    $data   Holds the new user data.
+	 *
+	 * @return    boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onUserBeforeSave($user, $isnew, $data)
+	{
+		// Irrelevant on new users
+		if ($isnew)
+		{
+			return true;
+		}
+
+		// Irrelevant, because password was not changed by user
+		if ($data['password_clear'] == '')
+		{
+			return true;
+		}
+
+		/*
+		 * But now, we need to do something 
+		 * Delete all tokens for this user!
+		 */
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->delete('#__user_keys')
+			->where($db->quoteName('user_id') . ' = ' . $db->quote($user['username']));
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			// Log an alert for the site admin
+			Log::add(
+				sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
+				Log::WARNING,
+				'security'
+			);
 		}
 
 		return true;

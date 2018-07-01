@@ -106,9 +106,10 @@ class DatabaseStrategy extends AbstractUsernamePasswordAuthenticationStrategy
 		{
 			$password = $this->db->setQuery(
 				$this->db->getQuery(true)
-					->select($this->dbOptions['password_column'])
-					->from($this->dbOptions['database_table'])
-					->where($this->dbOptions['username_column'] . ' = ' . $this->db->quote($username))
+					->select($this->db->quoteName($this->dbOptions['password_column']))
+					->from($this->db->quoteName($this->dbOptions['database_table']))
+					->where($this->db->quoteName($this->dbOptions['username_column']) . ' = ?')
+					->bind(1, $username)
 			)->loadResult();
 		}
 		catch (\RuntimeException $exception)
