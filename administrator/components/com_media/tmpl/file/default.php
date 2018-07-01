@@ -54,6 +54,7 @@ $config = [
 
 Factory::getDocument()->addScriptOptions('com_media', $config);
 
+$this->useCoreUI = true;
 ?>
 <div class="row">
 	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-12">

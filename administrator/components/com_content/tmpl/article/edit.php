@@ -18,6 +18,7 @@ JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_thre
 $this->configFieldsets  = array('editorConfig');
 $this->hiddenFieldsets  = array('basic-limited');
 $this->ignore_fieldsets = array('jmetadata', 'item_associations');
+$this->useCoreUI = true;
 
 // Create shortcut to parameters.
 $params = clone $this->state->get('params');

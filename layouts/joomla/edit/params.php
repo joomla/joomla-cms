@@ -109,8 +109,10 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
+	$helper = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
+
 	// Start the tab
-	echo HTMLHelper::_('uitab.addTab', $tabName, 'attrib-' . $name, $label);
+	echo HTMLHelper::_($helper . '.addTab', $tabName, 'attrib-' . $name, $label);
 
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
@@ -128,5 +130,5 @@ foreach ($fieldSets as $name => $fieldSet)
 	echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
 
 	// End the tab
-	echo HTMLHelper::_('uitab.endTab');
+	echo HTMLHelper::_($helper . '.endTab');
 }
