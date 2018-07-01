@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -144,8 +145,16 @@ class ActionlogsHelper
 			$messageData['extension_name'] = self::translateExtensionName($messageData['extension_name']);
 		}
 
+		$linkMode = JFactory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
+
 		foreach ($messageData as $key => $value)
 		{
+			// Convert relative url to absolute url so that it is clickable in action logs notification email
+			if (StringHelper::strpos($value, 'index.php?') === 0)
+			{
+				$value = JRoute::link('administrator', $value, false, $linkMode);
+			}
+
 			$message = str_replace('{' . $key . '}', JText::_($value), $message);
 		}
 
