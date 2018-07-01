@@ -53,6 +53,9 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
+								<th style="width:5%" class="nowrap text-center">
+									<?php echo JText::_('COM_MENUS_MANAGE_MENU'); ?>
+								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
@@ -83,7 +86,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
-							$canEdit        = $user->authorise('core.edit',   'com_menus.menu.' . (int) $item->id);
+							$canEdit = $user->authorise('core.edit', 'com_menus.menu.' . (int) $item->id);
 							$canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
 						?>
 							<tr class="row<?php echo $i % 2; ?>">
@@ -91,21 +94,22 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td>
-									<?php if ($canManageItems) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
+									<div class="name break-word">
+									<?php if ($canEdit) : ?>
+										<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
+											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><span class="sr-only mr-2"><?php echo JText::_('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
+										</a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<div class="small">
-										<?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
-										<?php if ($canEdit) : ?>
-											<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->description); ?>">
-											<?php echo $this->escape($item->menutype); ?></a>
-										<?php else : ?>
-											<?php echo $this->escape($item->menutype); ?>
-										<?php endif; ?>
 									</div>
+								</td>
+								<td class="text-center btns">
+									<?php if ($canManageItems) : ?>
+										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
+											<span class="fa fa-list text-center" aria-hidden="true"></span><span class="sr-only"><?php echo JText::_('COM_MENUS_MANAGE_MENU'); ?></span>
+										</a>
+									<?php endif;?>
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
