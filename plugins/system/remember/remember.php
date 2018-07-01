@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserHelper;
+use Joomls\CMS\Log\Log;
 
 /**
  * Joomla! System Remember Me Plugin
@@ -130,7 +131,7 @@ class PlgSystemRemember extends CMSPlugin
 		 * But now, we need to do something 
 		 * Delete all tokens for this user!
 		 */
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__user_keys')
 			->where($db->quoteName('user_id') . ' = ' . $db->quote($user['username']));
@@ -141,9 +142,9 @@ class PlgSystemRemember extends CMSPlugin
 		catch (RuntimeException $e)
 		{
 			// Log an alert for the site admin
-			JLog::add(
+			Log::add(
 				sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
-				JLog::WARNING,
+				Log::WARNING,
 				'security'
 			);
 		}

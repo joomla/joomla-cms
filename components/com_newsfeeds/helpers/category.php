@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+
 /**
  * Content Component Category Tree
  *
  * @since  1.6
  */
-class NewsfeedsCategories extends JCategories
+class NewsfeedsCategories extends Categories
 {
 	/**
 	 * Constructor
