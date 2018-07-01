@@ -137,7 +137,6 @@ class SuggestionsModel extends ListModel
 			$lang = \FinderIndexerHelper::getDefaultLanguage();
 		}
 
-		$lang = \FinderIndexerHelper::getPrimaryLanguage($lang);
 		$this->setState('language', $lang);
 
 		// Load the list state.
