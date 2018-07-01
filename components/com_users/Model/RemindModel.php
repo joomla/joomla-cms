@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Remind model class for Users.
@@ -69,11 +73,12 @@ class RemindModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = $app->getParams('com_users');
 
 		// Load the parameters.
@@ -93,7 +98,7 @@ class RemindModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getForm();
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if (empty($form))
@@ -138,7 +143,7 @@ class RemindModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 			return false;
 		}
@@ -146,7 +151,7 @@ class RemindModel extends FormModel
 		// Check for a user.
 		if (empty($user))
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -154,12 +159,12 @@ class RemindModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
 
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		// Assemble the login link.
 		$link = 'index.php?option=com_users&view=login';
@@ -170,14 +175,14 @@ class RemindModel extends FormModel
 		$data['fromname'] = $config->get('fromname');
 		$data['mailfrom'] = $config->get('mailfrom');
 		$data['sitename'] = $config->get('sitename');
-		$data['link_text'] = \JRoute::_($link, false, $mode);
-		$data['link_html'] = \JRoute::_($link, true, $mode);
+		$data['link_text'] = Route::_($link, false, $mode);
+		$data['link_html'] = Route::_($link, true, $mode);
 
-		$subject = \JText::sprintf(
+		$subject = Text::sprintf(
 			'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT',
 			$data['sitename']
 		);
-		$body = \JText::sprintf(
+		$body = Text::sprintf(
 			'COM_USERS_EMAIL_USERNAME_REMINDER_BODY',
 			$data['sitename'],
 			$data['username'],
@@ -185,12 +190,12 @@ class RemindModel extends FormModel
 		);
 
 		// Send the password reset request email.
-		$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(\JText::_('COM_USERS_MAIL_FAILED'), 500);
+			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
 
 			return false;
 		}
