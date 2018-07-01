@@ -70,7 +70,7 @@ if ($this->params->get('show_autosuggest', 1))
 					</div>
 				</div>
 			<?php endif; ?>
-			<div id="finder-filter-window" class="com-finder__filter>
+			<div id="finder-filter-window" class="com-finder__filter">
 				<?php echo HTMLHelper::_('filter.select', $this->query, $this->params); ?>
 			</div>
 		</div>
