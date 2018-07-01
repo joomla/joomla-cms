@@ -10,27 +10,30 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-$user = JFactory::getUser();
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+$user = Factory::getUser();
 
 HTMLHelper::_('script', 'com_config/templates-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate"  data-cancel-task="config.cancel.templates">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate"  data-cancel-task="config.cancel.templates">
 
-	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
+	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 		<div class="btn-group mr-2">
 			<button type="button" class="btn btn-primary" data-submit-task="templates.apply">
 				<span class="fa fa-check" aria-hidden="true"></span>
-				<?php echo JText::_('JSAVE') ?>
+				<?php echo Text::_('JSAVE') ?>
 			</button>
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
 				<span class="fa fa-times" aria-hidden="true"></span>
-				<?php echo JText::_('JCANCEL') ?>
+				<?php echo Text::_('JCANCEL') ?>
 			</button>
 		</div>
 	</div>
@@ -46,6 +49,6 @@ HTMLHelper::_('script', 'com_config/templates-default.js', ['relative' => true, 
 	</div>
 
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 
 </form>
