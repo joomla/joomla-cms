@@ -354,52 +354,11 @@ class Nested extends Table
 			return false;
 		}
 
-		/*
-		 * Move the sub-tree out of the nested sets by negating its left and right values.
-		 */
-		$query->clear()
-			->update($this->_tbl)
-			->set('lft = lft * (-1), rgt = rgt * (-1)')
-			->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
-		/*
-		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
-		 */
-		// Compress the left values.
-		$query->clear()
-			->update($this->_tbl)
-			->set('lft = lft - ' . (int) $node->width)
-			->where('lft > ' . (int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
-		// Compress the right values.
-		$query->clear()
-			->update($this->_tbl)
-			->set('rgt = rgt - ' . (int) $node->width)
-			->where('rgt > ' . (int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
 		// We are moving the tree relative to a reference node.
 		if ($referenceId)
 		{
 			// Get the reference node by primary key.
 			if (!$reference = $this->_getNode($referenceId))
-			{
-				// Error message set in getNode method.
-				$this->_unlock();
-
-				return false;
-			}
-
-			// Get the reposition data for shifting the tree and re-inserting the node.
-			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position))
 			{
 				// Error message set in getNode method.
 				$this->_unlock();
@@ -424,52 +383,65 @@ class Nested extends Table
 				$this->_logtable(false);
 			}
 
-			// Get the reposition data for re-inserting the node after the found root.
-			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
-			{
-				// Error message set in getNode method.
-				$this->_unlock();
-
-				return false;
-			}
+			$position = 'last-child';
 		}
 
-		/*
-		 * Create space in the nested sets at the new location for the moved sub-tree.
-		 */
+		// Get the reposition data for shifting the tree and re-inserting the node.
+		$repositionData = $this->_getTreeRepositionPiece($reference, $node, $position);
 
-		// Shift left values.
+		if (is_bool($repositionData))
+		{
+			// Error message set in getNode method.
+			$this->_unlock();
+
+			return $repositionData;
+		}
+
+		$conditions = array();
+		$orBetween  = array();
+
+		if ($repositionData->level_offset != 0)
+		{
+			$levelOffset = $repositionData->level_offset;
+
+			if ($levelOffset > 0)
+			{
+				$levelOffset = '+' . $levelOffset;
+			}
+
+			$conditions[] = "level = CASE"
+				. " WHEN lft >= {$node->lft} AND rgt <= {$node->rgt} THEN level {$levelOffset}"
+				. " ELSE level END";
+		}
+
+		foreach (array('lft', 'rgt') as $col)
+		{
+			$height   = $repositionData->height;
+			$distance = $repositionData->distance;
+
+			if ($height > 0)
+			{
+				$height = '+' . $height;
+			}
+
+			if ($distance > 0)
+			{
+				$distance = '+' . $distance;
+			}
+
+			$conditions[] = "{$col} = CASE"
+				. " WHEN {$col} BETWEEN {$node->lft} AND {$node->rgt} THEN {$col}{$distance}" // Move the node
+				. " WHEN {$col} BETWEEN {$repositionData->from} AND {$repositionData->to} THEN {$col}{$height}" // Move other nodes
+				. " ELSE {$col} END";
+
+			$orBetween[] = "{$col} BETWEEN {$repositionData->from} AND {$repositionData->to}";
+		}
+
 		$query->clear()
-			->update($this->_tbl)
-			->set('lft = lft + ' . (int) $node->width)
-			->where($repositionData->left_where);
-		$this->_db->setQuery($query);
+			->update($this->_db->qn($this->_tbl))
+			->set($conditions)
+			->where('(' . implode(' OR ', $orBetween) . ')');
 
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
-		// Shift right values.
-		$query->clear()
-			->update($this->_tbl)
-			->set('rgt = rgt + ' . (int) $node->width)
-			->where($repositionData->right_where);
-		$this->_db->setQuery($query);
-
-		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
-		/*
-		 * Calculate the offset between where the node used to be in the tree and
-		 * where it needs to be in the tree for left ids (also works for right ids).
-		 */
-		$offset = $repositionData->new_lft - $node->lft;
-		$levelOffset = $repositionData->new_level - $node->level;
-
-		// Move the nodes back into position in the tree using the calculated offsets.
-		$query->clear()
-			->update($this->_tbl)
-			->set('rgt = ' . (int) $offset . ' - rgt')
-			->set('lft = ' . (int) $offset . ' - lft')
-			->set('level = level + ' . (int) $levelOffset)
-			->where('lft < 0');
 		$this->_db->setQuery($query);
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
@@ -510,11 +482,110 @@ class Nested extends Table
 
 		// Set the object values.
 		$this->parent_id = $repositionData->new_parent_id;
-		$this->level = $repositionData->new_level;
-		$this->lft = $repositionData->new_lft;
-		$this->rgt = $repositionData->new_rgt;
+		$this->level     = $repositionData->new_level;
+		$this->lft       = $repositionData->new_lft;
+		$this->rgt       = $repositionData->new_rgt;
 
 		return true;
+	}
+
+	/**
+	 * Method to get various data necessary to move a node and its children to new location
+	 *
+	 * @param   object  $referenceNode  A node object with at least a 'lft' and 'rgt' with
+	 *                                  which to make room in the tree around for a new node.
+	 * @param   object  $node           The node for which to make room in the tree.
+	 * @param   string  $position       The position relative to the reference node where the room
+	 *                                  should be made.
+	 *
+	 * @return  mixed    Boolean false on failure or true if no action needed or data object.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function _getTreeRepositionPiece($referenceNode, $node, $position = 'before')
+	{
+		// Make sure the reference an object with a left and right id.
+		if (!is_object($referenceNode)
+			|| !(isset($referenceNode->lft) && isset($referenceNode->rgt))
+			|| !is_object($node)
+			|| !(isset($node->lft) && isset($node->rgt)))
+		{
+			return false;
+		}
+
+		// A valid node cannot have a width less than 2.
+		if (!isset($node->width) || $node->width < 2)
+		{
+			return false;
+		}
+
+		$k    = $this->_tbl_key;
+		$data = new \stdClass;
+
+		// Run the calculations and build the data object by reference position.
+		switch ($position)
+		{
+			case 'first-child':
+				$data->new_parent_id = $referenceNode->$k;
+				$data->new_level     = $referenceNode->level + 1;
+				$data->position      = $referenceNode->lft + 1;
+
+				break;
+
+			case 'last-child':
+				$data->new_parent_id = $referenceNode->$k;
+				$data->new_level     = $referenceNode->level + 1;
+				$data->position      = $referenceNode->rgt;
+
+				break;
+
+			case 'before':
+				$data->new_parent_id = $referenceNode->parent_id;
+				$data->new_level     = $referenceNode->level;
+				$data->position      = $referenceNode->lft;
+
+				break;
+
+			default:
+			case 'after':
+				$data->new_parent_id = $referenceNode->parent_id;
+				$data->new_level     = $referenceNode->level;
+				$data->position      = $referenceNode->rgt + 1;
+
+				break;
+		}
+
+		// Get boundaries of nodes that should be moved to new position
+		$data->from = min($node->lft, $data->position);
+		$data->to   = max($node->rgt, $data->position - 1);
+
+		// The height of node that is being moved
+		$data->height = $node->rgt - $node->lft + 1;
+
+		// The distance that our node will travel to reach it's destination
+		$data->distance = $data->to - $data->from + 1 - $data->height;
+
+		// If no distance to travel, just return
+		if ($data->distance === 0)
+		{
+			return true;
+		}
+
+		if ($data->position > $node->lft)
+		{
+			$data->height *= -1;
+		}
+		else
+		{
+			$data->distance *= -1;
+		}
+
+		$data->new_lft = $node->lft + $data->distance;
+		$data->new_rgt = $node->rgt + $data->distance;
+
+		$data->level_offset = $data->new_level - $node->level;
+
+		return $data;
 	}
 
 	/**
