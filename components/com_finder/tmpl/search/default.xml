@@ -87,10 +87,9 @@
 				name="description_length"
 				type="number"
 				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
+				default=""
 				size="5"
-				default="255"
-				filter="integer"
-				showon="show_description:1"
+				useglobal="true"
 			/>
 			<field
 				name="show_date"
