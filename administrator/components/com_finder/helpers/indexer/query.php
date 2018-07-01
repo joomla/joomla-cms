@@ -1259,13 +1259,6 @@ class FinderIndexerQuery
 			->select('t.term, t.term_id')
 			->from('#__finder_terms AS t');
 
-		/*
-		 * If the token is a phrase, the lookup process is fairly simple. If
-		 * the token is a word, it is a little more complicated. We have to
-		 * create two queries to lookup the term and the stem respectively,
-		 * then union the result sets together. This is MUCH faster than using
-		 * an or condition in the database query.
-		 */
 		if ($token->phrase)
 		{
 			// Add the phrase to the query.
@@ -1275,17 +1268,8 @@ class FinderIndexerQuery
 		else
 		{
 			// Add the term to the query.
-			$query->where('t.term = ' . $db->quote($token->term))
+			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')')
 				->where('t.phrase = 0');
-
-			// Clone the query, replace the WHERE clause.
-			$sub = clone $query;
-			$sub->clear('where');
-			$sub->where('t.stem = ' . $db->quote($token->stem));
-			$sub->where('t.phrase = 0');
-
-			// Union the two queries.
-			$query->union($sub);
 		}
 
 		// Get the terms.

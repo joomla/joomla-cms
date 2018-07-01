@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * User controller class.
@@ -28,7 +31,7 @@ class UserController extends FormController
 	protected $text_prefix = 'COM_USERS_USER';
 
 	/**
-	 * Overrides \JControllerForm::allowEdit
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::allowEdit
 	 *
 	 * Checks that non-Super Admins are not editing Super Admins.
 	 *
@@ -65,13 +68,13 @@ class UserController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('User', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(\JRoute::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}
@@ -79,8 +82,8 @@ class UserController extends FormController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -56,6 +57,9 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache, $tuplecount;
+		static $multilingual;
+		static $defaultLanguage;
+
 		$store = md5($input . '::' . $lang . '::' . $phrase);
 
 		// Check if the string has been tokenized already.
@@ -70,7 +74,43 @@ class FinderIndexerHelper
 			$tuplecount = $params->get('tuplecount', 1);
 		}
 
-		$language = FinderIndexerLanguage::getInstance($lang);
+		if (is_null($multilingual))
+		{
+			$multilingual = Multilanguage::isEnabled();
+			$config = ComponentHelper::getParams('com_finder');
+
+			if ($config->get('language_default', '') == '')
+			{
+				$defaultLang = '*';
+			}
+			elseif ($config->get('language_default', '') == '-1')
+			{
+				$defaultLang = self::getDefaultLanguage();
+			}
+			else
+			{
+				$defaultLang = $config->get('language_default');
+			}
+
+			/*
+			 * The default language always has the language code '*'.
+			 * In order to not overwrite the language code of the language
+			 * object that we are using, we are cloning it here.
+			 */
+			$obj = FinderIndexerLanguage::getInstance($defaultLang);
+			$defaultLanguage = clone $obj;
+			$defaultLanguage->language = '*';
+		}
+
+		if (!$multilingual || $lang == '*')
+		{
+			$language = $defaultLanguage;
+		}
+		else
+		{
+			$language = FinderIndexerLanguage::getInstance($lang);
+		}
+
 		$tokens = array();
 		$terms = $language->tokenise($input);
 		$terms = array_filter($terms);
@@ -136,7 +176,36 @@ class FinderIndexerHelper
 	 */
 	public static function stem($token, $lang)
 	{
-		$language = FinderIndexerLanguage::getInstance($lang);
+		static $multilingual;
+		static $defaultStemmer;
+
+		if (is_null($multilingual))
+		{
+			$multilingual = Multilanguage::isEnabled();
+			$config = ComponentHelper::getParams('com_finder');
+
+			if ($config->get('language_default', '') == '')
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance('*');
+			}
+			elseif ($config->get('language_default', '') == '-1')
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getDefaultLanguage());
+			}
+			else
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance($config->get('language_default'));
+			}
+		}
+
+		if (!$multilingual || $lang == '*')
+		{
+			$language = $defaultStemmer;
+		}
+		else
+		{
+			$language = FinderIndexerLanguage::getInstance($lang);
+		}
 
 		return $language->stem($token);
 	}

@@ -9,11 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 $app = JFactory::getApplication();
 
 if ($app->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 }
 
 JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
@@ -98,7 +101,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, 0); ?>
+							<?php echo JHtml::_('menus.state', $item->published, $i, 0); ?>
 						</td>
 						<td>
 							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
