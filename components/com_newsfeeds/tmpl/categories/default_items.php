@@ -15,15 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<?php $class = 'first'; ?>
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
-			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
-				<?php $class = 'last'; ?>
-			<?php endif; ?>
-			<div class="com-newsfeeds-categories__items <?php echo $class; ?>">
-				<?php $class = ''; ?>
+			<div class="com-newsfeeds-categories__items">
 				<h3 class="page-header item-title">
 					<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 						<?php echo $this->escape($item->title); ?>

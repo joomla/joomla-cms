@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
-$class  = 'first';
 $lang   = Factory::getLanguage();
 $user   = Factory::getUser();
 $groups = $user->getAuthorisedViewLevels();
@@ -24,15 +23,8 @@ $groups = $user->getAuthorisedViewLevels();
 	<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 		<?php // Check whether category access level allows access to subcategories. ?>
 		<?php if (in_array($child->access, $groups)) : ?>
-			<?php
-			if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) :
-				if (!isset($this->children[$this->category->id][$id + 1])) :
-					$class = 'last';
-				endif;
-			?>
-
-			<div class="com-content-category__children <?php echo $class; ?>"
-				<?php $class = ''; ?>
+			<?php if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) : ?>
+			<div class="com-content-category__children">
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
