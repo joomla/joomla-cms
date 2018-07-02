@@ -72,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</thead>
 							<tfoot>
 								<tr>
-									<td colspan="9">
+									<td colspan="10">
 										<?php echo $this->pagination->getListFooter(); ?>
 									</td>
 								</tr>
@@ -107,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<span class="badge badge-success"><?php echo $item->version; ?></span>
 										</td>
 										<td class="d-none d-md-table-cell text-center">
-											<?php if ($item->changelogurl != null):?>
+											<?php if ($item->changelogurl != null) : ?>
 											<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id; ?>"><?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?></button>
 
 											<?php
@@ -122,9 +122,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 												'<iframe src="' . $item->changelogurl . '"></iframe>');
 											?>
 
-											<?php else:?>
+											<?php else : ?>
 											<span>
-												<?php echo Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>
+												<?php echo Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 											</span>
 
 											<?php endif; ?>
