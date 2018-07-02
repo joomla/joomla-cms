@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 8;
+	const PATCH_VERSION = 11;
 
 	/**
 	 * Extra release version info.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '8-dev';
+	const DEV_LEVEL = '11-dev';
 
 	/**
 	 * Development status.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '18-April-2018';
+	const RELDATE = '26-June-2018';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '14:00';
+	const RELTIME = '15:45';
 
 	/**
 	 * Release timezone.

@@ -996,7 +996,7 @@ class Installer extends \JAdapter
 				if (count($queries) === 0)
 				{
 					// No queries to process
-					return 0;
+					continue;
 				}
 
 				// Process each query in the $queries array (split out of sql file).
@@ -1145,13 +1145,15 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
-					usort($files, 'version_compare');
+					$files = \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
 
-					if (!count($files))
+					if (empty($files))
 					{
 						return $update_count;
 					}
+
+					$files = str_replace('.sql', '', $files);
+					usort($files, 'version_compare');
 
 					$query = $db->getQuery(true)
 						->select('version_id')

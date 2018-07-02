@@ -62,7 +62,7 @@ if (!$isMail)
 foreach ($fields as $field)
 {
 	// If the value is empty do nothing
-	if (empty($field->value) && !$isMail)
+	if (!strlen($field->value) && !$isMail)
 	{
 		continue;
 	}

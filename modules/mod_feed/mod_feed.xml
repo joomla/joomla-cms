@@ -40,6 +40,7 @@
 					description="MOD_FEED_FIELD_RTL_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -52,6 +53,7 @@
 					description="MOD_FEED_FIELD_RSSTITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -64,6 +66,7 @@
 					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -76,6 +79,7 @@
 					description="MOD_FEED_FIELD_IMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -83,10 +87,11 @@
 
 				<field
 					name="rssitems"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
+					filter="integer"
 				/>
 
 				<field
@@ -96,6 +101,7 @@
 					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -108,6 +114,7 @@
 					description="MOD_FEED_FIELD_WORDCOUNT_DESC"
 					size="6"
 					default="0"
+					filter="integer"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -120,7 +127,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" 
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
@@ -132,6 +139,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -143,6 +151,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

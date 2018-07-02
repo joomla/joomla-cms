@@ -38,7 +38,7 @@ class PlgFieldsEditor extends FieldsPlugin
 			return $fieldNode;
 		}
 
-		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
+		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', $this->params->get('buttons', 0)) ? 'true' : 'false');
 		$fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
 
 		return $fieldNode;

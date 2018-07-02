@@ -746,6 +746,16 @@ function collapsedSpanAtSide(line, start) {
 function collapsedSpanAtStart(line) { return collapsedSpanAtSide(line, true) }
 function collapsedSpanAtEnd(line) { return collapsedSpanAtSide(line, false) }
 
+function collapsedSpanAround(line, ch) {
+  var sps = sawCollapsedSpans && line.markedSpans, found;
+  if (sps) { for (var i = 0; i < sps.length; ++i) {
+    var sp = sps[i];
+    if (sp.marker.collapsed && (sp.from == null || sp.from < ch) && (sp.to == null || sp.to > ch) &&
+        (!found || compareCollapsedMarkers(found, sp.marker) < 0)) { found = sp.marker; }
+  } }
+  return found
+}
+
 // Test whether there exists a collapsed span that partially
 // overlaps (covers the start or end, but not both) of a new span.
 // Such overlap is not allowed.
@@ -2780,12 +2790,11 @@ function coordsChar(cm, x, y) {
   var lineObj = getLine(doc, lineN);
   for (;;) {
     var found = coordsCharInner(cm, lineObj, lineN, x, y);
-    var merged = collapsedSpanAtEnd(lineObj);
-    var mergedPos = merged && merged.find(0, true);
-    if (merged && (found.ch > mergedPos.from.ch || found.ch == mergedPos.from.ch && found.xRel > 0))
-      { lineN = lineNo(lineObj = mergedPos.to.line); }
-    else
-      { return found }
+    var collapsed = collapsedSpanAround(lineObj, found.ch + (found.xRel > 0 ? 1 : 0));
+    if (!collapsed) { return found }
+    var rangeEnd = collapsed.find(1);
+    if (rangeEnd.line == lineN) { return rangeEnd }
+    lineObj = getLine(doc, lineN = rangeEnd.line);
   }
 }
 
@@ -3545,6 +3554,7 @@ var NativeScrollbars = function(place, scroll, cm) {
   this.cm = cm;
   var vert = this.vert = elt("div", [elt("div", null, null, "min-width: 1px")], "CodeMirror-vscrollbar");
   var horiz = this.horiz = elt("div", [elt("div", null, null, "height: 100%; min-height: 1px")], "CodeMirror-hscrollbar");
+  vert.tabIndex = horiz.tabIndex = -1;
   place(vert); place(horiz);
 
   on(vert, "scroll", function () {
@@ -4796,7 +4806,7 @@ function addChangeToHistory(doc, change, selAfter, opId) {
 
   if ((hist.lastOp == opId ||
        hist.lastOrigin == change.origin && change.origin &&
-       ((change.origin.charAt(0) == "+" && doc.cm && hist.lastModTime > time - doc.cm.options.historyEventDelay) ||
+       ((change.origin.charAt(0) == "+" && hist.lastModTime > time - (doc.cm ? doc.cm.options.historyEventDelay : 500)) ||
         change.origin.charAt(0) == "*")) &&
       (cur = lastChangeEvent(hist, hist.lastOp == opId))) {
     // Merge this change into the last event
@@ -5410,7 +5420,7 @@ function makeChangeSingleDocInEditor(cm, change, spans) {
 function replaceRange(doc, code, from, to, origin) {
   if (!to) { to = from; }
   if (cmp(to, from) < 0) { var assign;
-    (assign = [to, from], from = assign[0], to = assign[1], assign); }
+    (assign = [to, from], from = assign[0], to = assign[1]); }
   if (typeof code == "string") { code = doc.splitLines(code); }
   makeChange(doc, {from: from, to: to, text: code, origin: origin});
 }
@@ -5506,10 +5516,10 @@ function LeafChunk(lines) {
 }
 
 LeafChunk.prototype = {
-  chunkSize: function chunkSize() { return this.lines.length },
+  chunkSize: function() { return this.lines.length },
 
   // Remove the n lines at offset 'at'.
-  removeInner: function removeInner(at, n) {
+  removeInner: function(at, n) {
     var this$1 = this;
 
     for (var i = at, e = at + n; i < e; ++i) {
@@ -5522,13 +5532,13 @@ LeafChunk.prototype = {
   },
 
   // Helper used to collapse a small branch into a single leaf.
-  collapse: function collapse(lines) {
+  collapse: function(lines) {
     lines.push.apply(lines, this.lines);
   },
 
   // Insert the given array of lines at offset 'at', count them as
   // having the given height.
-  insertInner: function insertInner(at, lines, height) {
+  insertInner: function(at, lines, height) {
     var this$1 = this;
 
     this.height += height;
@@ -5537,7 +5547,7 @@ LeafChunk.prototype = {
   },
 
   // Used to iterate over a part of the tree.
-  iterN: function iterN(at, n, op) {
+  iterN: function(at, n, op) {
     var this$1 = this;
 
     for (var e = at + n; at < e; ++at)
@@ -5561,9 +5571,9 @@ function BranchChunk(children) {
 }
 
 BranchChunk.prototype = {
-  chunkSize: function chunkSize() { return this.size },
+  chunkSize: function() { return this.size },
 
-  removeInner: function removeInner(at, n) {
+  removeInner: function(at, n) {
     var this$1 = this;
 
     this.size -= n;
@@ -5589,13 +5599,13 @@ BranchChunk.prototype = {
     }
   },
 
-  collapse: function collapse(lines) {
+  collapse: function(lines) {
     var this$1 = this;
 
     for (var i = 0; i < this.children.length; ++i) { this$1.children[i].collapse(lines); }
   },
 
-  insertInner: function insertInner(at, lines, height) {
+  insertInner: function(at, lines, height) {
     var this$1 = this;
 
     this.size += lines.length;
@@ -5624,7 +5634,7 @@ BranchChunk.prototype = {
   },
 
   // When a node has grown, check whether it should be split.
-  maybeSpill: function maybeSpill() {
+  maybeSpill: function() {
     if (this.children.length <= 10) { return }
     var me = this;
     do {
@@ -5646,7 +5656,7 @@ BranchChunk.prototype = {
     me.parent.maybeSpill();
   },
 
-  iterN: function iterN(at, n, op) {
+  iterN: function(at, n, op) {
     var this$1 = this;
 
     for (var i = 0; i < this.children.length; ++i) {
@@ -7324,8 +7334,8 @@ function leftButtonStartDrag(cm, event, pos, behavior) {
   var dragEnd = operation(cm, function (e) {
     if (webkit) { display.scroller.draggable = false; }
     cm.state.draggingText = false;
-    off(document, "mouseup", dragEnd);
-    off(document, "mousemove", mouseMove);
+    off(display.wrapper.ownerDocument, "mouseup", dragEnd);
+    off(display.wrapper.ownerDocument, "mousemove", mouseMove);
     off(display.scroller, "dragstart", dragStart);
     off(display.scroller, "drop", dragEnd);
     if (!moved) {
@@ -7334,7 +7344,7 @@ function leftButtonStartDrag(cm, event, pos, behavior) {
         { extendSelection(cm.doc, pos, null, null, behavior.extend); }
       // Work around unexplainable focus problem in IE9 (#2127) and Chrome (#3081)
       if (webkit || ie && ie_version == 9)
-        { setTimeout(function () {document.body.focus(); display.input.focus();}, 20); }
+        { setTimeout(function () {display.wrapper.ownerDocument.body.focus(); display.input.focus();}, 20); }
       else
         { display.input.focus(); }
     }
@@ -7349,8 +7359,8 @@ function leftButtonStartDrag(cm, event, pos, behavior) {
   dragEnd.copy = !behavior.moveOnDrag;
   // IE's approach to draggable
   if (display.scroller.dragDrop) { display.scroller.dragDrop(); }
-  on(document, "mouseup", dragEnd);
-  on(document, "mousemove", mouseMove);
+  on(display.wrapper.ownerDocument, "mouseup", dragEnd);
+  on(display.wrapper.ownerDocument, "mousemove", mouseMove);
   on(display.scroller, "dragstart", dragStart);
   on(display.scroller, "drop", dragEnd);
 
@@ -7482,19 +7492,19 @@ function leftButtonSelect(cm, event, start, behavior) {
     counter = Infinity;
     e_preventDefault(e);
     display.input.focus();
-    off(document, "mousemove", move);
-    off(document, "mouseup", up);
+    off(display.wrapper.ownerDocument, "mousemove", move);
+    off(display.wrapper.ownerDocument, "mouseup", up);
     doc.history.lastSelOrigin = null;
   }
 
   var move = operation(cm, function (e) {
-    if (!e_button(e)) { done(e); }
+    if (e.buttons === 0 || !e_button(e)) { done(e); }
     else { extend(e); }
   });
   var up = operation(cm, done);
   cm.state.selectingText = up;
-  on(document, "mousemove", move);
-  on(document, "mouseup", up);
+  on(display.wrapper.ownerDocument, "mousemove", move);
+  on(display.wrapper.ownerDocument, "mouseup", up);
 }
 
 // Used when mouse-selecting to adjust the anchor to the proper side
@@ -8767,8 +8777,12 @@ ContentEditableInput.prototype.showSelection = function (info, takeFocus) {
   this.showMultipleSelections(info);
 };
 
+ContentEditableInput.prototype.getSelection = function () {
+  return this.cm.display.wrapper.ownerDocument.getSelection()
+};
+
 ContentEditableInput.prototype.showPrimarySelection = function () {
-  var sel = window.getSelection(), cm = this.cm, prim = cm.doc.sel.primary();
+  var sel = this.getSelection(), cm = this.cm, prim = cm.doc.sel.primary();
   var from = prim.from(), to = prim.to();
 
   if (cm.display.viewTo == cm.display.viewFrom || from.line >= cm.display.viewTo || to.line < cm.display.viewFrom) {
@@ -8835,13 +8849,13 @@ ContentEditableInput.prototype.showMultipleSelections = function (info) {
 };
 
 ContentEditableInput.prototype.rememberSelection = function () {
-  var sel = window.getSelection();
+  var sel = this.getSelection();
   this.lastAnchorNode = sel.anchorNode; this.lastAnchorOffset = sel.anchorOffset;
   this.lastFocusNode = sel.focusNode; this.lastFocusOffset = sel.focusOffset;
 };
 
 ContentEditableInput.prototype.selectionInEditor = function () {
-  var sel = window.getSelection();
+  var sel = this.getSelection();
   if (!sel.rangeCount) { return false }
   var node = sel.getRangeAt(0).commonAncestorContainer;
   return contains(this.div, node)
@@ -8876,14 +8890,14 @@ ContentEditableInput.prototype.receivedFocus = function () {
 };
 
 ContentEditableInput.prototype.selectionChanged = function () {
-  var sel = window.getSelection();
+  var sel = this.getSelection();
   return sel.anchorNode != this.lastAnchorNode || sel.anchorOffset != this.lastAnchorOffset ||
     sel.focusNode != this.lastFocusNode || sel.focusOffset != this.lastFocusOffset
 };
 
 ContentEditableInput.prototype.pollSelection = function () {
   if (this.readDOMTimeout != null || this.gracePeriod || !this.selectionChanged()) { return }
-  var sel = window.getSelection(), cm = this.cm;
+  var sel = this.getSelection(), cm = this.cm;
   // On Android Chrome (version 56, at least), backspacing into an
   // uneditable block element will put the cursor in that element,
   // and then, because it's not editable, hide the virtual keyboard.
@@ -9017,7 +9031,7 @@ ContentEditableInput.prototype.setUneditable = function (node) {
 };
 
 ContentEditableInput.prototype.onKeyPress = function (e) {
-  if (e.charCode == 0) { return }
+  if (e.charCode == 0 || this.composing) { return }
   e.preventDefault();
   if (!this.cm.isReadOnly())
     { operation(this.cm, applyTextInput)(this.cm, String.fromCharCode(e.charCode == null ? e.keyCode : e.charCode), 0); }
@@ -9057,12 +9071,13 @@ function isInGutter(node) {
 function badPos(pos, bad) { if (bad) { pos.bad = true; } return pos }
 
 function domTextBetween(cm, from, to, fromLine, toLine) {
-  var text = "", closing = false, lineSep = cm.doc.lineSeparator();
+  var text = "", closing = false, lineSep = cm.doc.lineSeparator(), extraLinebreak = false;
   function recognizeMarker(id) { return function (marker) { return marker.id == id; } }
   function close() {
     if (closing) {
       text += lineSep;
-      closing = false;
+      if (extraLinebreak) { text += lineSep; }
+      closing = extraLinebreak = false;
     }
   }
   function addText(str) {
@@ -9074,8 +9089,8 @@ function domTextBetween(cm, from, to, fromLine, toLine) {
   function walk(node) {
     if (node.nodeType == 1) {
       var cmText = node.getAttribute("cm-text");
-      if (cmText != null) {
-        addText(cmText || node.textContent.replace(/\u200b/g, ""));
+      if (cmText) {
+        addText(cmText);
         return
       }
       var markerID = node.getAttribute("cm-marker"), range$$1;
@@ -9086,19 +9101,24 @@ function domTextBetween(cm, from, to, fromLine, toLine) {
         return
       }
       if (node.getAttribute("contenteditable") == "false") { return }
-      var isBlock = /^(pre|div|p)$/i.test(node.nodeName);
+      var isBlock = /^(pre|div|p|li|table|br)$/i.test(node.nodeName);
+      if (!/^br$/i.test(node.nodeName) && node.textContent.length == 0) { return }
+
       if (isBlock) { close(); }
       for (var i = 0; i < node.childNodes.length; i++)
         { walk(node.childNodes[i]); }
+
+      if (/^(pre|p)$/i.test(node.nodeName)) { extraLinebreak = true; }
       if (isBlock) { closing = true; }
     } else if (node.nodeType == 3) {
-      addText(node.nodeValue);
+      addText(node.nodeValue.replace(/\u200b/g, "").replace(/\u00a0/g, " "));
     }
   }
   for (;;) {
     walk(from);
     if (from == to) { break }
     from = from.nextSibling;
+    extraLinebreak = false;
   }
   return text
 }
@@ -9199,13 +9219,10 @@ TextareaInput.prototype.init = function (display) {
     var this$1 = this;
 
   var input = this, cm = this.cm;
+  this.createField(display);
+  var te = this.textarea;
 
-  // Wraps and hides input textarea
-  var div = this.wrapper = hiddenTextarea();
-  // The semihidden textarea that is focused when the editor is
-  // focused, and receives input.
-  var te = this.textarea = div.firstChild;
-  display.wrapper.insertBefore(div, display.wrapper.firstChild);
+  display.wrapper.insertBefore(this.wrapper, display.wrapper.firstChild);
 
   // Needed to hide big blue blinking cursor on Mobile Safari (doesn't seem to work in iOS 8 anymore)
   if (ios) { te.style.width = "0px"; }
@@ -9270,6 +9287,14 @@ TextareaInput.prototype.init = function (display) {
       input.composing = null;
     }
   });
+};
+
+TextareaInput.prototype.createField = function (_display) {
+  // Wraps and hides input textarea
+  this.wrapper = hiddenTextarea();
+  // The semihidden textarea that is focused when the editor is
+  // focused, and receives input.
+  this.textarea = this.wrapper.firstChild;
 };
 
 TextareaInput.prototype.prepareSelection = function () {
@@ -9665,7 +9690,7 @@ CodeMirror$1.fromTextArea = fromTextArea;
 
 addLegacyProps(CodeMirror$1);
 
-CodeMirror$1.version = "5.35.0";
+CodeMirror$1.version = "5.38.0";
 
 return CodeMirror$1;
 
