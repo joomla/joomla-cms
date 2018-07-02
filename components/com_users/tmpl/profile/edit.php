@@ -17,26 +17,11 @@ use Joomla\CMS\Factory;
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
-
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-JFactory::getDocument()->addScriptDeclaration("
-    Joomla.twoFactorMethodChange = function(e)
-    {
-        var selectedPane = 'com_users_twofactor_' + document.getElementById('jform_twofactor_method').value;
-
-        [].slice.call(document.querySelectorAll('#com_users_twofactor_forms_container>div')).forEach(function(el) {
-            if (el.id != selectedPane) {
-                document.getElementById(el.id).style.display = 'none';
-                continue;
-            }
-
-	    document.getElementById(el.id).style.display = 'block';
-        });
-    }
-")
+HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
