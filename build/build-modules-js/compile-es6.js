@@ -35,3 +35,5 @@ glob(pattern, options, (error, files) => {
   if (error) process.exit(1);
   files.forEach(compileFile);
 });
+
+module.exports.compileFile = compileFile;
