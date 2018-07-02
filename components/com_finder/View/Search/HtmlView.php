@@ -327,5 +327,19 @@ class HtmlView extends BaseHtmlView
 				'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 			);
 		}
+
+		// Add feed link to the document head.
+		if ($this->params->get('show_feed_link', 1) == 1)
+		{
+			// Add the RSS link.
+			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=rss');
+			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
+ 
+			// Add the ATOM link.
+			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=atom');
+			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
+		}
 	}
 }

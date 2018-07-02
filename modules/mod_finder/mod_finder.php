@@ -30,9 +30,9 @@ JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 $cparams = ComponentHelper::getParams('com_finder');
 
 // Check for OpenSearch
-if ($cparams->get('opensearch', 1))
+if ($params->get('opensearch', $cparams->get('opensearch', 1)))
 {
-	$ostitle = $cparams->get('opensearch_name', Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename'));
+	$ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename')));
 	Factory::getDocument()->addHeadLink(
 		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
 		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')

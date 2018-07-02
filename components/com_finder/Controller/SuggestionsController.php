@@ -38,7 +38,6 @@ class SuggestionsController extends BaseController
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 		echo '{ "suggestions": ' . json_encode($suggestions) . ' }';
-		$app->close();
 	}
 
 	/**
@@ -61,7 +60,6 @@ class SuggestionsController extends BaseController
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 		echo json_encode($result);
-		$app->close();
 	}
 
 	/**

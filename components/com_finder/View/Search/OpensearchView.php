@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\Opensearch\OpensearchUrl;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 
@@ -42,7 +43,7 @@ class OpensearchView extends AbstractView
 		// Prevent any output when OpenSearch Support is disabled
 		if (!$params->get('opensearch', 1))
 		{
-			$app->close();
+			return;
 		}
 
 		// Add the URL for the search
@@ -58,18 +59,18 @@ class OpensearchView extends AbstractView
 		}
 
 		// Add the HTML result view
-		$htmlSearch           = new \JOpenSearchUrl;
+		$htmlSearch           = new OpenSearchUrl;
 		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri, false);
 		$doc->addUrl($htmlSearch);
 
 		// Add the RSS result view
-		$htmlSearch           = new \JOpenSearchUrl;
+		$htmlSearch           = new OpenSearchUrl;
 		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri . '&format=feed&type=rss', false);
 		$htmlSearch->type     = 'application/rss+xml';
 		$doc->addUrl($htmlSearch);
 
 		// Add the Atom result view
-		$htmlSearch           = new \JOpenSearchUrl;
+		$htmlSearch           = new OpenSearchUrl;
 		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri . '&format=feed&type=atom', false);
 		$htmlSearch->type     = 'application/atom+xml';
 		$doc->addUrl($htmlSearch);
@@ -77,7 +78,7 @@ class OpensearchView extends AbstractView
 		// Add suggestions URL
 		if ($params->get('show_autosuggest', 1))
 		{
-			$htmlSearch           = new \JOpenSearchUrl;
+			$htmlSearch           = new OpenSearchUrl;
 			$htmlSearch->template = $baseUrl . \JRoute::_($suggestionsUri, false);
 			$htmlSearch->type     = 'application/x-suggestions+json';
 			$doc->addUrl($htmlSearch);
