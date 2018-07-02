@@ -10,7 +10,6 @@ namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -33,16 +32,9 @@ class FeedView extends BaseHtmlView
 	{
 		// Get the application
 		$app = \JFactory::getApplication();
-		$params = ComponentHelper::getParams('com_finder');
 
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->get('feed_limit'));
-
-		// Prevent any output when OpenSearch Support is disabled
-		if (!$params->get('opensearch', 1))
-		{
-			$app->close();
-		}
 
 		// Get view data.
 		$state = $this->get('State');
