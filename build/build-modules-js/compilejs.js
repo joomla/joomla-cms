@@ -42,6 +42,7 @@ uglifyJs = (options, path) => {
           if (file.match(/.es6.js/)) {
             // Transpile the file
             transpileEs5.compileFile(file)
+            fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
           }
 
           if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
@@ -74,6 +75,7 @@ watchFiles = function(options, folders, compileFirst = false) {
                 if (file.match(/.es6.js/)) {
                   // Transpile the file
                   transpileEs5.compileFile(file)
+	                fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
                 }
                 fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
               }, 150)();
