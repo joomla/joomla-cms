@@ -39,16 +39,14 @@ uglifyJs = (options, path) => {
     Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
       (files) => {
         files.forEach((file) => {
-            if (file.match(/.es6.js/)) {
-              // Transpile the file
-              transpileEs5.compileFile(file)
-            }
+          if (file.match(/.es6.js/)) {
+            // Transpile the file
+            transpileEs5.compileFile(file)
+          }
 
-            if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
-              // Write the file
-              fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
-            }
-
+          if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
+            // Write the file
+            fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});}
           },
           (error) => {
             console.error("something exploded", error);
@@ -69,26 +67,26 @@ watchFiles = function(options, folders, compileFirst = false) {
     Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
       (files) => {
         files.forEach((file) => {
-            if (file.match(/.js/)) {
-              fs.watchFile(file, () => {
-                console.log('File: ' + file + ' changed.');
-                debounce(() => {
-                  if (file.match(/.es6.js/)) {
-                    // Transpile the file
-                    transpileEs5.compileFile(file)
-                  }
-                  fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
-                }, 150)();
+          if (file.match(/.js/)) {
+            fs.watchFile(file, () => {
+              console.log('File: ' + file + ' changed.');
+              debounce(() => {
+                if (file.match(/.es6.js/)) {
+                  // Transpile the file
+                  transpileEs5.compileFile(file)
+                }
+                fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
+              }, 150)();
 
-                console.log(Chalk.bgYellow(file + ' was updated.'));
-              });
-            }
-          },
-          (error) => {
-            console.error("something exploded", error);
+              console.log(Chalk.bgYellow(file + ' was updated.'));
+            });
           }
-        );
-      });
+        },
+        (error) => {
+          console.error("something exploded", error);
+        }
+      );
+    });
   });
 
   console.log('Now watching JS files...');
@@ -96,7 +94,7 @@ watchFiles = function(options, folders, compileFirst = false) {
 
 ujs = (options, path) => {
   Promise.resolve()
-  // Compile the scss files
+    // Compile the scss files
     .then(() => uglifyJs(options, path))
 
     // Handle errors
