@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Site\Model\ModulesModel;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a module.
@@ -50,12 +51,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$lang = \JFactory::getApplication()->getLanguage();
+		$lang = Factory::getApplication()->getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR, $lang->getTag());
 		$lang->load('com_modules', JPATH_ADMINISTRATOR, $lang->getTag());
 
 		// TODO Move and clean up
-		$module = (new \Joomla\Component\Modules\Administrator\Model\ModuleModel)->getItem(\JFactory::getApplication()->input->getInt('id'));
+		$module = (new \Joomla\Component\Modules\Administrator\Model\ModuleModel)->getItem(Factory::getApplication()->input->getInt('id'));
 
 		$moduleData = $module->getProperties();
 		unset($moduleData['xml']);
