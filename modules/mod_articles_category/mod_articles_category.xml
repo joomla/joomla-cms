@@ -124,6 +124,7 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_DESC"
 					default="1"
 					filter="integer"
+					showon="show_child_category_articles:1"
 				/>
 
 				<field
