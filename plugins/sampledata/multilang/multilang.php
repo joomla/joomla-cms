@@ -91,7 +91,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_DESC');
-		$data->icon        = 'broadcast';
+		$data->icon        = 'wifi';
 		$data->steps       = 8;
 
 		return $data;
