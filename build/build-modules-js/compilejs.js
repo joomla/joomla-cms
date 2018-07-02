@@ -4,6 +4,7 @@ const fsExtra = require('fs-extra');
 const Recurs = require("recursive-readdir");
 const Chalk = require('chalk');
 const UglifyJS = require('uglify-es');
+const transpileEs5 = require(`${__dirname}/compile-es6.js`);
 const debounce = require('lodash.debounce');
 
 // Various variables
@@ -38,6 +39,12 @@ uglifyJs = (options, path) => {
 		Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
 			(files) => {
 				files.forEach((file) => {
+					if (file.match(/.es6.js/)) {
+						// Transpile the file
+						transpileEs5.compileFile(file)
+					}
+					
+					transpileEs5
 					if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
 						// Write the file
 						fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
@@ -67,6 +74,10 @@ watchFiles = function(options, folders, compileFirst = false) {
 							fs.watchFile(file, () => {
 								console.log('File: ' + file + ' changed.');
 								debounce(() => {
+									if (file.match(/.es6.js/)) {
+										// Transpile the file
+										transpileEs5.compileFile(file)
+									}
 									fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
 								}, 150)();
 
