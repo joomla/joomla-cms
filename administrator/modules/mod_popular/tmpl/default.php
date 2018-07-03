@@ -49,7 +49,7 @@ use Joomla\CMS\Language\Text;
 					<span class="badge badge-secondary badge-pill">
 						<span class="small">
 							<span class="icon-calendar" aria-hidden="true"></span>
-							<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
+							<?php echo HTMLHelper::_('date', $item->published, Text::_('DATE_FORMAT_LC4')); ?>
 						</span>
 					</span>
 				</td>
