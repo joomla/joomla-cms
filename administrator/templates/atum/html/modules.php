@@ -49,7 +49,7 @@ function modChrome_well($module, &$params, &$attribs)
 	{
 		// Permission checks
 		$user           = JFactory::getUser();
-		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id) && $user->authorise('core.modules.manage', 'com_modules');
 
 		$moduleTag      = $params->get('module_tag', 'div');
 		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
