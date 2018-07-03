@@ -47,14 +47,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
-			JHtml::_('jquery.framework');
-
-			$theme	= $this->params->get('theme', 'clean');
-			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
-
-			JHtml::_('script', $file);
-			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
-				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});');
+            // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+			return true;
 		}
 		else
 		{
@@ -84,7 +78,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 	{
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
-			return '<div id="' . $id . '" ' . $class . '></div>';
+            // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+			return '';
 		}
 		else
 		{
@@ -115,9 +110,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 		switch ($version)
 		{
 			case '1.0':
-				$challenge = $input->get('recaptcha_challenge_field', '', 'string');
-				$response  = $input->get('recaptcha_response_field', '', 'string');
-				$spam      = ($challenge === '' || $response === '');
+                // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+				return true;
 				break;
 			case '2.0':
 				// Challenge Not needed in 2.0 but needed for getResponse call
@@ -172,26 +166,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		switch ($version)
 		{
-			case '1.0':
-				$response = $this->_recaptcha_http_post(
-					'www.google.com', '/recaptcha/api/verify',
-					array(
-						'privatekey' => $privatekey,
-						'remoteip'   => $remoteip,
-						'challenge'  => $challenge,
-						'response'   => $response
-					)
-				);
-
-				$answers = explode("\n", $response[1]);
-
-				if (trim($answers[0]) !== 'true')
-				{
-					// @todo use exceptions here
-					$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
-
-					return false;
-				}
+            case '1.0':
+			    // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+				return true;
 				break;
 			case '2.0':
 				require_once 'recaptchalib.php';
