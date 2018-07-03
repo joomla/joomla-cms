@@ -81,7 +81,7 @@ $attribs = [
 
 if (!empty($disabled))
 {
-	$attribs[] = 'disabled';
+	$attribs[] = 'disabled="disabled"';
 }
 
 ?>

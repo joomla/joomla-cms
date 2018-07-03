@@ -105,6 +105,11 @@ joomla-field-switcher {
   }
 }
 
+// Make transparent if disabled
+joomla-field-switcher[disabled="disabled"] .switcher {
+  opacity: .2;
+}
+
 @keyframes switcherPulsate {
   0% {
     box-shadow: 0 0 0 0 rgba(66,133,244,.55);
