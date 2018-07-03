@@ -188,5 +188,7 @@ class NoteTable extends Table
 		{
 			$this->modified_time = $this->getDbo()->getNullDate();
 		}
+
+		return true;
 	}
 }

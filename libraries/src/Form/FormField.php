@@ -900,21 +900,6 @@ abstract class FormField
 	}
 
 	/**
-	 * Method to get a control group with label and input.
-	 *
-	 * @return  string  A string containing the html for the control group
-	 *
-	 * @since      3.2
-	 * @deprecated 3.2.3 Use renderField() instead
-	 */
-	public function getControlGroup()
-	{
-		Log::add('FormField->getControlGroup() is deprecated use FormField->renderField().', Log::WARNING, 'deprecated');
-
-		return $this->renderField();
-	}
-
-	/**
 	 * Render a layout of this field
 	 *
 	 * @param   string  $layoutId  Layout identifier
