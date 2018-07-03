@@ -31,7 +31,7 @@ const settings = require('./build/build-modules-js/settings.json');
 
 // Merge Joomla's specific settings to the main package.json object
 if ('settings' in settings) {
-  options['settings'] = settings.settings;
+  options.settings = settings.settings;
 }
 
 // Initialize the CLI
