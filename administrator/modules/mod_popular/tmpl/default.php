@@ -19,9 +19,9 @@ use Joomla\CMS\Language\Text;
 	<?php endif; ?>
 	<thead>
 		<tr>
-			<th scope="col" style="width:2%">Hits</th>
-			<th scope="col" style="width:80%">Article</th>
-			<th scope="col" style="width:18%">Date</th>
+			<th scope="col" style="width:2%"><?php echo Text::_('JGLOBAL_HITS'); ?></th>
+			<th scope="col" style="width:80%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<th scope="col" style="width:18%"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
 	<?php if (count($list)) : ?>
