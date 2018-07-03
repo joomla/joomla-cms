@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installation\Model\ConfigurationModel;
+use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -69,8 +70,20 @@ class CoreInstallCommand extends AbstractCommand
 			return 0;
 		}
 
-		$options = $this->collectOptions();
+		$options = $this->getDummyOptions();
 
+		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
+
+		$setup = new SetupModel;
+		$options = $setup->validate($options);
+
+		if (!$options)
+		{
+			var_dump($this->getApplication()->getMessageQueue());
+		}
+
+		var_dump($options);
+		exit;
 		$model = new ConfigurationModel;
 
 		$completed = $model->setup($options);
@@ -177,6 +190,25 @@ class CoreInstallCommand extends AbstractCommand
 				'optionData'    => ['en-GB', 'en-US'],
 				'default'       => 'en-GB',
 			],
+		];
+	}
+
+	public function getDummyOptions()
+	{
+		return [
+			'site_name' => 'Localhost Joomla',
+			'admin_user' => 'bosunski',
+			'admin_password' => 'gabriel10',
+			'admin_email' => 'bosunskigmail.com',
+			'db_type' => 'mysql',
+			'db_host' => 'localhost',
+			'db_user' => 'root',
+			'db_pass' => 'gabriel10',
+			'db_name' => 'jtest',
+			'db_prefix' => 'lmao_',
+			'helpurl' => 'https://joomla.org',
+			'db_old' => 'remove',
+			'language' => 'en-GB',
 		];
 	}
 
