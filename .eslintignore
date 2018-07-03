@@ -1,5 +1,5 @@
 # A list of files to ignore from linting
 !*.es6.js
-!build/**/*.js
+build/**/**/*.js
 *.vue
-!build/incompatible_page/incompatible.js
+build/incompatible_page/*.js
