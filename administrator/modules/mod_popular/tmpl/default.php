@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<table class="table table-striped" id="<?php echo str_replace(' ', '',$module->title); ?>">
+<table class="table table-striped" id="<?php echo str_replace(' ', '', $module->title); ?>">
 	<?php if (!$module->showtitle) : ?>
 		<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<?php endif; ?>
@@ -44,7 +44,7 @@ use Joomla\CMS\Language\Text;
 					<?php else : ?>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					<?php endif; ?>
-				</td>
+				</th>
 				<td>
 					<span class="badge badge-secondary badge-pill">
 						<span class="small">
