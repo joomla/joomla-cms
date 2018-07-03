@@ -9,14 +9,19 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::_('behavior.core');
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::_('behavior.core');
 
 // Add strings for translations in Javascript.
-JText::script('JGLOBAL_EXPAND_CATEGORIES');
-JText::script('JGLOBAL_COLLAPSE_CATEGORIES');
+Text::script('JGLOBAL_EXPAND_CATEGORIES');
+Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
-JFactory::getDocument()->addScriptDeclaration("
+Factory::getDocument()->addScriptDeclaration("
 jQuery(function($) {
 	$('.categories-list').find('[id^=category-btn-]').each(function(index, btn) {
 		var btn = $(btn);
@@ -35,7 +40,7 @@ jQuery(function($) {
 ?>
 <div class="com-content-categories categories-list">
 	<?php
-		echo JLayoutHelper::render('joomla.content.categories_default', $this);
+		echo LayoutHelper::render('joomla.content.categories_default', $this);
 		echo $this->loadTemplate('items');
 	?>
 </div>
