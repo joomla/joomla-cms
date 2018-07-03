@@ -2,4 +2,4 @@
 !*.es6.js
 !build/**/*.js
 *.vue
-build/incompatible_page/incompatible.js
+!build/incompatible_page/incompatible.js
