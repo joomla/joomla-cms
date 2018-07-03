@@ -193,6 +193,7 @@
 			type="text"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
 			default=""
+			showon="opensearch:1"
 		/>
 
 		<field
@@ -202,6 +203,7 @@
 			default=""
 			cols="30"
 			rows="2"
+			showon="opensearch:1"
 		/>
 
 	</fieldset>

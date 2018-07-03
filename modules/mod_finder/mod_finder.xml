@@ -95,6 +95,7 @@
 					name="opensearch_name"
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
+					showon="opensearch:1"
 				/>
  
 				<field
