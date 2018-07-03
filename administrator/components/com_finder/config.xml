@@ -203,14 +203,14 @@
 
 		<field
 			name="tuplecount"
-			type="integer"
+			type="list"
 			label="COM_FINDER_CONFIG_TUPLECOUNT_LABEL"
 			default="1"
 			validate="options"
-			first="1"
-			last="10"
-			step="1"
-		/>
+		>
+			<option value="1">COM_FINDER_CONFIG_TUPLECOUNT_PHRASE_DISABLED</option>
+			<option value="3">COM_FINDER_CONFIG_TUPLECOUNT_PHRASE_ENABLED</option>
+		</field>
 
 		<field
 			name="batch_size"

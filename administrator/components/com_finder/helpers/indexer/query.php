@@ -1034,7 +1034,7 @@ class FinderIndexerQuery
 				{
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
-					$token = $this->getTokenData($token);
+					$token = $this->getTokenData(array_shift($token));
 
 					// Set the required flag.
 					$token->required = false;
@@ -1055,7 +1055,7 @@ class FinderIndexerQuery
 
 					// Tokenize the term after the next term (current plus two).
 					$other = FinderIndexerHelper::tokenize($terms[$i + 2], $lang, true);
-					$other = $this->getTokenData($other);
+					$other = $this->getTokenData(array_shift($other));
 
 					// Set the required flag.
 					$other->required = false;
@@ -1100,7 +1100,7 @@ class FinderIndexerQuery
 
 				// Tokenize the next term (current plus one).
 				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
-				$other = $this->getTokenData($other);
+				$other = $this->getTokenData(array_shift($other));
 
 				// Set the required flag.
 				$other->required = false;
