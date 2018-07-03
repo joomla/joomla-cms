@@ -104,7 +104,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 					"&box-width="+Joomla.MediaManager.Edit.smartcrop.cropper.boxWidth+
 					"&box-height="+Joomla.MediaManager.Edit.smartcrop.cropper.boxHeight;
 			var xhr = new XMLHttpRequest();
-			var url = resolveBaseUrl() +"/administrator/index.php?option=com_media&task=adaptiveimage.setfocus&path="+path;
+			var url = resolveBaseUrl() +"/administrator/index.php?option=com_media&task=AdaptiveImage.setfocus&path="+path;
 			url += data;
 			xhr.open("GET", url, true);
 			xhr.send();

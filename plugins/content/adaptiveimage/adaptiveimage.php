@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\AdaptiveImage\JSONFocusStore;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Adaptive Image Plugin
@@ -36,7 +37,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	protected $cacheDir = "./images/.cache";
+	protected $cacheDir =  "/images/.cache";
 	/**
 	 * Plugin that inserts focus points into the image.
 	 *
@@ -76,6 +77,18 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 */
 	protected function insertFocus(&$text, &$params)
 	{
+		// Check if the directory is present or not
+		if (! is_dir(JPATH_SITE . $this->cacheDir))
+		{
+			return false;
+		}
+
+		// Get all the content of the directory.
+		$cacheFolderImages = scandir(JPATH_SITE . $this->cacheDir);
+		
+		unset($cacheFolderImages[0]);
+		unset($cacheFolderImages[1]);
+
 		// Regular Expression from <img> tags in article
 		$searchImage = '(<img[^>]+>)';
 
@@ -94,12 +107,8 @@ class PlgContentAdaptiveImage extends CMSPlugin
 			$imageName = explode("/", $imgPath);
 			$imageName = $imageName[max(array_keys($imageName))];
 
-			$images = scandir($this->cacheDir);
-			unset($images[0]);
-			unset($images[1]);
-
 			$cacheImages = array();
-			foreach ($images as $key => $name)
+			foreach ($cacheFolderImages as $key => $name)
 			{
 				$imgWidth = explode("_", $name);
 				$imgName = explode(".", $imgWidth[1]);
@@ -110,7 +119,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 				if (strpos($imgName, $imageName))
 				{
 					$imgData["width"] = $imgWidth;
-					$imgData["name"]  = str_replace("./", "", $this->cacheDir) . "/" . $name;
+					$imgData["name"]  = Uri::base() . $this->cacheDir . "/" . $name;
 					array_push($cacheImages, $imgData);
 				}
 			}

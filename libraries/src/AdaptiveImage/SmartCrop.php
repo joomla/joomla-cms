@@ -19,7 +19,7 @@ use Joomla\Image\Image;
 class SmartCrop
 {
 	// Location for storing cache images
-	public $dataLocation = "../images/.cache";
+	public $dataLocation = JPATH_SITE . "/images/.cache";
 
 	// Absolute image path
 	public $imgPath;
