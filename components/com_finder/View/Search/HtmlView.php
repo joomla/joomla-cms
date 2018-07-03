@@ -13,6 +13,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\SearchHelper;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Search HTML view class for the Finder package.
@@ -112,19 +119,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = $app->getParams();
 
 		// Get view data.
 		$state = $this->get('State');
 		$query = $this->get('Query');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
 		$results = $this->get('Items');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
 		$total = $this->get('Total');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
 		$pagination = $this->get('Pagination');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -163,9 +170,9 @@ class HtmlView extends BaseHtmlView
 		SearchHelper::logSearch($this->query->input, 'com_finder');
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->suggested = \JHtml::_('query.suggested', $query);
-		$this->explained = \JHtml::_('query.explained', $query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$this->suggested = HTMLHelper::_('query.suggested', $query);
+		$this->explained = HTMLHelper::_('query.explained', $query);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -182,11 +189,11 @@ class HtmlView extends BaseHtmlView
 
 		$this->prepareDocument($query);
 
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('beforeFinderLayout') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
 		parent::display($tpl);
 
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderLayout') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderLayout') : null;
 	}
 
 	/**
@@ -202,7 +209,7 @@ class HtmlView extends BaseHtmlView
 		$fields = null;
 
 		// Get the URI.
-		$uri = \JUri::getInstance(\JRoute::_($this->query->toUri()));
+		$uri = Uri::getInstance(Route::_($this->query->toUri()));
 		$uri->delVar('q');
 		$uri->delVar('o');
 		$uri->delVar('t');
@@ -241,7 +248,7 @@ class HtmlView extends BaseHtmlView
 		// Check if the file exists.
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists     = \JPath::find($this->_path['template'], $filetofind);
+		$exists     = Path::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}
@@ -257,7 +264,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument($query)
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -271,7 +278,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -282,11 +289,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -319,12 +326,12 @@ class HtmlView extends BaseHtmlView
 		{
 			// Add the RSS link.
 			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=rss');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=rss');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
 			// Add the ATOM link.
 			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=atom');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=atom');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 		}
 	}

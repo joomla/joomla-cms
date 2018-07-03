@@ -10,6 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
@@ -32,9 +36,9 @@ abstract class JHtmlFilter
 	 */
 	public static function slider($options = array())
 	{
-		$db     = JFactory::getDbo();
+		$db     = Factory::getDbo();
 		$query  = $db->getQuery(true);
-		$user   = JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html   = '';
 		$filter = null;
@@ -106,7 +110,7 @@ abstract class JHtmlFilter
 		}
 
 		$branch_keys = array_keys($branches);
-		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
+		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
 		);
 
 		// Load plugin language files.
@@ -116,7 +120,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title === 'Language' && Multilanguage::isEnabled())
 			{
 				continue;
 			}
@@ -147,7 +151,7 @@ abstract class JHtmlFilter
 			}
 
 			// Translate node titles if possible.
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($nodes as $nk => $nv)
 			{
@@ -165,7 +169,7 @@ abstract class JHtmlFilter
 			}
 
 			// Adding slides
-			$html .= JHtml::_('bootstrap.addSlide',
+			$html .= HTMLHelper::_('bootstrap.addSlide',
 				'accordion',
 				JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL',
 					JText::_(FinderHelperLanguage::branchSingular($bv->title)) . ' - ' . count($nodes)
@@ -193,10 +197,10 @@ abstract class JHtmlFilter
 				$html .= '</div>';
 			}
 
-			$html .= JHtml::_('bootstrap.endSlide');
+			$html .= HTMLHelper::_('bootstrap.endSlide');
 		}
 
-		$html .= JHtml::_('bootstrap.endAccordion');
+		$html .= HTMLHelper::_('bootstrap.endAccordion');
 
 		return $html;
 	}
@@ -213,7 +217,7 @@ abstract class JHtmlFilter
 	 */
 	public static function select($idxQuery, $options)
 	{
-		$user   = JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$filter = null;
 
@@ -222,8 +226,8 @@ abstract class JHtmlFilter
 		$showDates   = $options->get('show_date_filters', false);
 
 		// Try to load the results from cache.
-		$cache   = JFactory::getCache('com_finder', '');
-		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
+		$cache   = Factory::getCache('com_finder', '');
+		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, Factory::getLanguage()->getTag()));
 
 		// Check the cached results.
 		if ($cache->contains($cacheId))
@@ -232,7 +236,7 @@ abstract class JHtmlFilter
 		}
 		else
 		{
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
@@ -304,7 +308,7 @@ abstract class JHtmlFilter
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plugin is enabled then drop the language branch.
-				if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
+				if ($bv->title === 'Language' && Multilanguage::isEnabled())
 				{
 					continue;
 				}
@@ -341,7 +345,7 @@ abstract class JHtmlFilter
 				}
 
 				// Translate branch nodes if possible.
-				$language = JFactory::getLanguage();
+				$language = Factory::getLanguage();
 
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
@@ -371,7 +375,7 @@ abstract class JHtmlFilter
 		// Add the dates if enabled.
 		if ($showDates)
 		{
-			$html .= JHtml::_('filter.dates', $idxQuery, $options);
+			$html .= HTMLHelper::_('filter.dates', $idxQuery, $options);
 		}
 
 		$html .= '<div class="filter-branch' . $classSuffix . '">';
@@ -380,7 +384,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title === 'Language' && Multilanguage::isEnabled())
 			{
 				continue;
 			}
@@ -391,7 +395,7 @@ abstract class JHtmlFilter
 			if (array_key_exists($bv->title, $idxQuery->filters))
 			{
 				// Get the request filters.
-				$temp   = JFactory::getApplication()->input->request->get('t', array(), 'array');
+				$temp   = Factory::getApplication()->input->request->get('t', array(), 'array');
 
 				// Search for active nodes in the branch and get the active node.
 				$active = array_intersect($temp, $idxQuery->filters[$bv->title]);
@@ -401,15 +405,15 @@ abstract class JHtmlFilter
 			// Build a node.
 			$html .= '<div class="control-group">';
 			$html .= '<div class="control-label">';
-			$html .= '<label for="tax-' . JFilterOutput::stringURLSafe($bv->title) . '">';
+			$html .= '<label for="tax-' . OutputFilter::stringURLSafe($bv->title) . '">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</div>';
 			$html .= '<div class="controls">';
-			$html .= JHtml::_(
+			$html .= HTMLHelper::_(
 				'select.genericlist',
 				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
-				'tax-' . JFilterOutput::stringURLSafe($bv->title)
+				'tax-' . OutputFilter::stringURLSafe($bv->title)
 			);
 			$html .= '</div>';
 			$html .= '</div>';
@@ -443,14 +447,14 @@ abstract class JHtmlFilter
 		{
 			// Build the date operators options.
 			$operators   = array();
-			$operators[] = JHtml::_('select.option', 'before', JText::_('COM_FINDER_FILTER_DATE_BEFORE'));
-			$operators[] = JHtml::_('select.option', 'exact', JText::_('COM_FINDER_FILTER_DATE_EXACTLY'));
-			$operators[] = JHtml::_('select.option', 'after', JText::_('COM_FINDER_FILTER_DATE_AFTER'));
+			$operators[] = HTMLHelper::_('select.option', 'before', JText::_('COM_FINDER_FILTER_DATE_BEFORE'));
+			$operators[] = HTMLHelper::_('select.option', 'exact', JText::_('COM_FINDER_FILTER_DATE_EXACTLY'));
+			$operators[] = HTMLHelper::_('select.option', 'after', JText::_('COM_FINDER_FILTER_DATE_AFTER'));
 
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
+				HTMLHelper::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.
@@ -463,11 +467,11 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
 			$html .= '<br>';
-			$html .= JHtml::_(
+			$html .= HTMLHelper::_(
 				'select.genericlist',
 				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
-			$html .= JHtml::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
+			$html .= HTMLHelper::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// End date filter.
@@ -476,11 +480,11 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
 			$html .= '<br>';
-			$html .= JHtml::_(
+			$html .= HTMLHelper::_(
 				'select.genericlist',
 				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
-			$html .= JHtml::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
+			$html .= HTMLHelper::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// Close the widget.
