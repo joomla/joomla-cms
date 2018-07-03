@@ -37,22 +37,23 @@ const uglifyJs = (options, path) => {
   folders.forEach((folder) => {
     Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
       (files) => {
-        files.forEach((file) => {
-          if (file.match(/.es6.js/)) {
-            // Transpile the file
-            transpileEs5.compileFile(file);
-            fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-          }
+        files.forEach(
+            (file) => {
+            if (file.match(/.es6.js/)) {
+              // Transpile the file
+              transpileEs5.compileFile(file);
+              fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+            }
 
-          if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
-            // Write the file
-            fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-          }
-        },
-        (error) => {
-          // eslint-disable-next-line no-console
-          console.error(`${chalk.red('something exploded', error)}`);
-        },
+            if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
+              // Write the file
+              fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+            }
+          },
+          (error) => {
+            // eslint-disable-next-line no-console
+            console.error(`${chalk.red('something exploded', error)}`);
+          },
         );
       });
   });
@@ -65,35 +66,39 @@ const watchFiles = (options, folders, compileFirst = false) => {
     uglifyJs(options);
   }
 
-  folderz.forEach((folder) => {
-    Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
-      (files) => {
-        files.forEach((file) => {
-          if (file.match(/.js/)) {
-            fs.watchFile(file, () => {
-              // eslint-disable-next-line no-console
-              console.warn(`${chalk.grey(`File: ${file} changed.`)}`);
-              debounce(() => {
-                if (file.match(/.es6.js/)) {
-                  // Transpile the file
-                  transpileEs5.compileFile(file);
-                  fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-                }
-                fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-              }, 150)();
+  folderz.forEach(
+  	(folder) => {
+      Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
+        (files) => {
+          files.forEach(
+            (file) => {
+              if (file.match(/.js/)) {
+                fs.watchFile(file, () => {
+                  // eslint-disable-next-line no-console
+                  console.warn(`${chalk.grey(`File: ${file} changed.`)}`);
+                  debounce(() => {
+                    if (file.match(/.es6.js/)) {
+                      // Transpile the file
+                      transpileEs5.compileFile(file);
+                      fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+                    }
+                    fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+                  }, 150)();
 
+                  // eslint-disable-next-line no-console
+                  console.log(chalk.bgYellow(`${file} was updated.`));
+                });
+              }
+            },
+            (error) => {
               // eslint-disable-next-line no-console
-              console.log(chalk.bgYellow(`${file} was updated.`));
-            });
-          }
-        },
-        (error) => {
-          // eslint-disable-next-line no-console
-          console.error(chalk.red('something exploded', error));
-        },
-        );
-      });
-  });
+              console.error(chalk.red('something exploded', error));
+            },
+          );
+        }
+      );
+    }
+  );
 
   // eslint-disable-next-line no-console
   console.log(chalk.magenta('Now watching JS files...'));

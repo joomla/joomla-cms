@@ -43,7 +43,8 @@ const compileFile = (filePath) => {
           console.error(`${chalk.red(fsError)}`);
           process.exit(1);
         }
-      });
+      }
+    );
   });
 };
 
