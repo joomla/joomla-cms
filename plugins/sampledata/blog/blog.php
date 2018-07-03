@@ -73,7 +73,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
-		$data->icon        = 'broadcast';
+		$data->icon        = 'wifi';
 		$data->steps       = 4;
 
 		return $data;
