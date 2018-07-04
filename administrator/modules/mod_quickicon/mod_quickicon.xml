@@ -59,7 +59,6 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-
 					default="900"
 				/>
 			</fieldset>

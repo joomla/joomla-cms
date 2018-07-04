@@ -10,6 +10,9 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
+use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
@@ -29,9 +32,9 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = \JFactory::getApplication();
-		$document       = \JFactory::getDocument();
-		$document->link = \JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app            = Factory::getApplication();
+		$document       = Factory::getDocument();
+		$document->link = Route::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -57,7 +60,7 @@ class FeedView extends BaseHtmlView
 
 				// URL link to tagged item
 				// Change to new routing once it is merged
-				$link = \JRoute::_($item->link);
+				$link = Route::_($item->link);
 
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
@@ -65,7 +68,7 @@ class FeedView extends BaseHtmlView
 				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 				// Load individual item creator class
-				$feeditem              = new \JFeedItem;
+				$feeditem              = new FeedItem;
 				$feeditem->title       = $title;
 				$feeditem->link        = $link;
 				$feeditem->description = $description;
