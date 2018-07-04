@@ -10,8 +10,10 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Installation\Model\SetupModel;
+use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -46,6 +48,8 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	private function configureIO()
 	{
+		$language = Factory::getLanguage();
+		$language->load('lib_joomla', JPATH_SITE, null, false, false) || $language->load('lib_joomla', JPATH_SITE, null, true);
 		$this->cliInput = $this->getApplication()->getConsoleInput();
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
@@ -79,7 +83,9 @@ class CoreInstallCommand extends AbstractCommand
 
 		if (!$options)
 		{
-			var_dump($this->getApplication()->getMessageQueue());
+			foreach ($this->getApplication()->getMessageQueue() as $key => $value) {
+				var_dump(Text::_($value[0]));
+			}
 		}
 
 		var_dump($options);
