@@ -79,7 +79,7 @@ class MediaHelper
 				// Check if fileinfo database was found
 				if ($finfo)
 				{
-					$mime  = finfo_file($finfo, $file);
+					$mime = finfo_file($finfo, $file);
 					finfo_close($finfo);
 				}
 			}
