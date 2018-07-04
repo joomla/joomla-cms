@@ -66,38 +66,47 @@ class MediaHelper
 
 		try
 		{
-			if ($isImage && function_exists('exif_imagetype'))
+			// Note: mime_content_type() can return false (e.g. when mime database is empty)
+			if (function_exists('mime_content_type'))
 			{
-				$mime = image_type_to_mime_type(exif_imagetype($file));
-			}
-			elseif ($isImage && function_exists('getimagesize'))
-			{
-				$imagesize = getimagesize($file);
-				$mime      = isset($imagesize['mime']) ? $imagesize['mime'] : false;
-			}
-			elseif (function_exists('mime_content_type'))
-			{
-				// We have mime magic.
 				$mime = mime_content_type($file);
 			}
-			elseif (function_exists('finfo_open'))
+
+			if (!$mime && function_exists('finfo_open'))
 			{
-				// We have fileinfo
 				$finfo = finfo_open(FILEINFO_MIME_TYPE);
-				$mime  = finfo_file($finfo, $file);
-				finfo_close($finfo);
+
+				// Check if fileinfo database was found
+				if ($finfo)
+				{
+					$mime  = finfo_file($finfo, $file);
+					finfo_close($finfo);
+				}
+			}
+
+			if (!$mime && $isImage)
+			{
+				if (function_exists('exif_imagetype'))
+				{
+					$type = exif_imagetype($file);
+
+					if ($type)
+					{
+						$mime = image_type_to_mime_type($type);
+					}
+				}
+
+				if (!$mime)
+				{
+					$imagesize = getimagesize($file);
+					$mime      = isset($imagesize['mime']) ? $imagesize['mime'] : false;
+				}
 			}
 		}
 		catch (\Exception $e)
 		{
 			// If we have any kind of error here => false;
 			return false;
-		}
-
-		// If we can't detect the mime try it again
-		if ($mime === 'application/octet-stream' && $isImage === true)
-		{
-			$mime = $this->getMimeType($file, false);
 		}
 
 		// We have a mime here
