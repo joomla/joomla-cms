@@ -75,8 +75,8 @@ class PluginsModelPlugins extends JModelList
 		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string');
 		$this->setState('filter.folder', $folder);
 
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string');
-		$this->setState('filter.language', $language);
+		$element = $this->getUserStateFromRequest($this->context . '.filter.element', 'filter_element', '', 'string');
+		$this->setState('filter.element', $element);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_plugins');
@@ -104,7 +104,7 @@ class PluginsModelPlugins extends JModelList
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
-		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.element');
 
 		return parent::getStoreId($id);
 	}
@@ -261,6 +261,12 @@ class PluginsModelPlugins extends JModelList
 		if ($folder = $this->getState('filter.folder'))
 		{
 			$query->where('a.folder = ' . $db->quote($folder));
+		}
+
+		// Filter by element.
+		if ($element = $this->getState('filter.element'))
+		{
+			$query->where('a.element = ' . $db->quote($element));
 		}
 
 		// Filter by search in name or id.

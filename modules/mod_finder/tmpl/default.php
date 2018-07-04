@@ -48,7 +48,7 @@ switch ($params->get('label_pos', 'left'))
 		break;
 }
 
-if ($params->get('show_button'))
+if ($params->get('show_button', 0))
 {
 	$button = '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span>' . JText::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 
@@ -154,7 +154,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		echo $output;
 		?>
 
-		<?php $show_advanced = $params->get('show_advanced'); ?>
+		<?php $show_advanced = $params->get('show_advanced', 0); ?>
 		<?php if ($show_advanced == 2) : ?>
 			<br />
 			<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
@@ -163,6 +163,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid', 0)); ?>
 	</div>
 </form>

@@ -52,7 +52,7 @@ class PostinstallViewMessages extends FOFViewHtml
 	 *
 	 * @return  boolean  Return true to allow rendering of the page
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	protected function onDisplay($tpl = null)
 	{

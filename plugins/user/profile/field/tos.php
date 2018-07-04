@@ -59,7 +59,7 @@ class JFormFieldTos extends JFormFieldRadio
 		JHtml::_('behavior.modal');
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
+		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -69,16 +69,17 @@ class JFormFieldTos extends JFormFieldRadio
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="'
-				. htmlspecialchars(
-					trim($text, ':') . '<br />' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
+			$label .= ' data-content="' . htmlspecialchars(
+				$this->translateDescription ? JText::_($this->description) : $this->description,
+				ENT_COMPAT,
+				'UTF-8'
+			) . '"';
 		}
 
-		$tosarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+		$tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($tosarticle)
+		if ($tosArticle)
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
@@ -90,27 +91,32 @@ class JFormFieldTos extends JFormFieldRadio
 			$query = $db->getQuery(true);
 			$query->select('id, alias, catid, language')
 				->from('#__content')
-				->where('id = ' . $tosarticle);
+				->where('id = ' . $tosArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
 			if (JLanguageAssociations::isEnabled())
 			{
-				$tosassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+				$tosAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $tosArticle);
 			}
 
-			$current_lang = JFactory::getLanguage()->getTag();
+			$currentLang = JFactory::getLanguage()->getTag();
 
-			if (isset($tosassociated) && $current_lang !== $article->language && array_key_exists($current_lang, $tosassociated))
+			if (isset($tosAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $tosAssociated))
 			{
-				$url  = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $tosassociated[$current_lang]->language), $text, $attribs);
+				$url = ContentHelperRoute::getArticleRoute(
+					$tosAssociated[$currentLang]->id,
+					$tosAssociated[$currentLang]->catid,
+					$tosAssociated[$currentLang]->language
+				);
+
+				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
 			}
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
+				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
 			}
 		}
 		else

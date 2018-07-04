@@ -164,6 +164,7 @@ if ($clientId === 1)
 				if ($this->item->type == 'url')
 				{
 					$this->form->setFieldAttribute('link', 'readonly', 'false');
+					$this->form->setFieldAttribute('link', 'required', 'true');
 				}
 
 				echo $this->form->renderField('link');

@@ -328,7 +328,7 @@ class FieldsModelField extends JModelAdmin
 				$result->context = JFactory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
-			if (property_exists($result, 'fieldparams'))
+			if (property_exists($result, 'fieldparams') && $result->fieldparams !== null)
 			{
 				$registry = new Registry;
 				$registry->loadString($result->fieldparams);
@@ -433,7 +433,7 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *

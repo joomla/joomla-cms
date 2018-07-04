@@ -78,6 +78,16 @@ if ($saveOrder)
 					$canCreate = $user->authorise('core.create',     'com_users');
 					$canEdit   = $user->authorise('core.edit',       'com_users');
 					$canChange = $user->authorise('core.edit.state', 'com_users');
+
+					// Decode level groups
+					$groups = json_decode($item->rules);
+
+					// If this group is super admin and this user is not super admin, $canEdit is false
+					if (!JFactory::getUser()->authorise('core.admin') && JAccess::checkGroup($groups[0], 'core.admin'))
+					{
+						$canEdit   = false;
+						$canChange = false;
+					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="order nowrap center hidden-phone">
@@ -100,7 +110,9 @@ if ($saveOrder)
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php if ($canEdit) : ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php endif; ?>
 						</td>
 						<td>
 							<?php if ($canEdit) : ?>

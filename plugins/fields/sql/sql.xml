@@ -30,7 +30,7 @@
 					filter="raw"
 					required="true"
 				/>
-	
+
 				<field
 					name="multiple"
 					type="radio"
@@ -38,6 +38,7 @@
 					description="PLG_FIELDS_SQL_PARAMS_MULTIPLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
