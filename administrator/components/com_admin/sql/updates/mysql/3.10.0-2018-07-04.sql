@@ -97,7 +97,7 @@ OR (`type` = 'plugin' AND
 		OR (`folder` = 'captcha' AND `element` IN ('recaptcha'))
 		OR (`folder` = 'search' AND `element` IN ('categories', 'contacts', 'content', 'newsfeeds', 'tags'))
 		OR (`folder` = 'finder' AND `element` IN ('categories', 'contacts', 'content', 'newsfeeds', 'tags'))
-		OR (`folder` = 'fields' AND `element` IN ('calendar', 'checkboxes', 'color', 'editor', 'imagelist', 'integer', 'list', 'media', 'radio', 'sql', 'text', 'textarea', 'url', 'user', 'usergrouplist'))
+		OR (`folder` = 'fields' AND `element` IN ('calendar', 'checkboxes', 'color', 'editor', 'imagelist', 'integer', 'list', 'media', 'radio', 'sql', 'text', 'textarea', 'url', 'user', 'usergrouplist', 'repeatable'))
 		OR (`folder` = 'sampledata' AND `element` IN ('blog'))
 	)
 )
