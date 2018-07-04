@@ -37,7 +37,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th style="width:1%" class="nowrap text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th style="width:1%;min-width:85px" class="nowrap text-center">
+						<th style="width:1%; min-width:85px" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
