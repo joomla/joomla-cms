@@ -67,20 +67,171 @@ class NomenuRules implements RulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		if (!is_object($active))
+		if ($active !== null)
 		{
-			$views = $this->router->getViews();
+			return;
+		}
 
-			if (isset($views[$segments[0]]))
+		$views = $this->router->getViews();
+
+		if (!isset($views[$segments[0]]))
+		{
+			return;
+		}
+
+		$vars['view'] = array_shift($segments);
+		$mainView     = $views[$vars['view']];
+
+		// Create a temporary copy of vars to use in get<View>Id
+		$vars2 = $vars;
+
+		// Total views in path
+		$totalViews = count($mainView->path);
+
+		foreach ($mainView->path as $i => $element)
+		{
+			if (!$segments)
 			{
-				$vars['view'] = array_shift($segments);
+				// Wrong URL, some segment missing
+				return;
+			}
 
-				if (isset($views[$vars['view']]->key) && isset($segments[0]))
+			$view = $views[$element];
+
+			if ($element !== $vars['view'] && $view->key)
+			{
+				$child = $views[$mainView->path[$i+1]];
+
+				if ($child->nestable && $view->key === $child->key)
 				{
-					$vars[$views[$vars['view']]->key] = preg_replace('/-/', ':', array_shift($segments), 1);
+					// Do not process this view, child will do it as they work on the same path elements
+					continue;
 				}
 			}
+
+			// Remember parent key value from parent view
+			$parentId = $view->parent_key && isset($vars2[$view->parent->key]) ? $vars2[$view->parent->key] : null;
+
+			// Generate function name
+			$func = array($this->router, 'get' . ucfirst($view->name) . 'Id');
+
+			while ($segments)
+			{
+				if ($view->nestable)
+				{
+					// Limit number of calls to get<View>Id()
+					if (count($segments) + $i >= $totalViews)
+					{
+						// If query has no key set, we assume 0.
+						if (!isset($vars2[$view->key]))
+						{
+							$vars2[$view->key] = 0;
+						}
+
+						// Required for noIDs to get id from alias
+						if (is_callable($func))
+						{
+							$key = call_user_func_array($func, array($segments[0], $vars2));
+
+							// Did we get a proper key? If not, we need to look in the next view
+							if ($key)
+							{
+								$vars2[$view->key] = $key;
+								array_shift($segments);
+
+								// Found, go to the next segment
+								continue;
+							}
+						}
+						else
+						{
+							// The router is not complete. The get<View>Id() method is missing.
+							return;
+						}
+					}
+
+					// Add parent key
+					if ($view->parent_key && isset($parentId))
+					{
+						$vars2[$view->parent_key] = $parentId;
+
+						// Do not unset own key
+						if ($view->key !== $view->parent->key)
+						{
+							unset($vars2[$view->parent->key]);
+						}
+					}
+
+					if ($element !== $vars['view'])
+					{
+						// Key not found, jump to the next view
+						break;
+					}
+
+					// Wrong URL
+					return;
+				}
+
+				if (!$view->key)
+				{
+					if ($view->name === $segments[0])
+					{
+						// Add parent key
+						if ($view->parent_key && isset($parentId))
+						{
+							$vars2[$view->parent_key] = $parentId;
+							unset($vars2[$view->parent->key]);
+						}
+
+						array_shift($segments);
+
+						// Found, jump to the next view
+						break;
+					}
+
+					// Wrong URL
+					return;
+				}
+
+				// Required for noIDs to get id from alias
+				if (is_callable($func))
+				{
+					// If query has no key set, we assume 0.
+					if (!isset($vars2[$view->key]))
+					{
+						$vars2[$view->key] = 0;
+					}
+
+					// Hand the data over to the router specific method and see if there is a content item that fits
+					$key = call_user_func_array($func, array($segments[0], $vars2));
+
+					if ($key)
+					{
+						// Add parent key
+						if ($view->parent_key && isset($parentId))
+						{
+							$vars2[$view->parent_key] = $parentId;
+							unset($vars2[$view->parent->key]);
+						}
+
+						$vars2[$view->key] = $key;
+						array_shift($segments);
+
+						// Found, jump to the next view
+						break;
+					}
+
+					// Wrong URL
+					return;
+				}
+
+				// The router is not complete. The get<View>Id() method is missing.
+				return;
+			}
 		}
+
+		// Copy all found variables
+		$vars = $vars2;
 	}
 
 	/**
@@ -95,44 +246,82 @@ class NomenuRules implements RulesInterface
 	 */
 	public function build(&$query, &$segments)
 	{
-		$menu_found = false;
-
 		if (isset($query['Itemid']))
 		{
 			$item = $this->router->menu->getItem($query['Itemid']);
 
 			if (!isset($query['option']) || ($item && $item->query['option'] === $query['option']))
 			{
-				$menu_found = true;
+				return;
 			}
 		}
 
-		if (!$menu_found && isset($query['view']))
+		// Get the path from the view of the current URL and parse it
+		$path = array_reverse($this->router->getPath($query), true);
+
+		// Check if specified view is known
+		if (!isset($query['view'], $path[$query['view']]))
 		{
-			$views = $this->router->getViews();
+			return;
+		}
 
-			if (isset($views[$query['view']]))
+		// Get all views for this component
+		$views = $this->router->getViews();
+
+		$segments[] = $query['view'];
+
+		// Requested view
+		$mainView = $views[$query['view']];
+
+		foreach ($mainView->path as $i => $element)
+		{
+			$view = $views[$element];
+			$ids  = $path[$element];
+
+			if ($element !== $query['view'] && $view->key)
 			{
-				$view = $views[$query['view']];
-				$segments[] = $query['view'];
+				$child = $views[$mainView->path[$i+1]];
 
-				if ($view->key && isset($query[$view->key]))
+				if ($child->nestable && $view->key === $child->key)
 				{
-					if (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment')))
-					{
-						$result = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
-						$segments[] = str_replace(':', '-', array_shift($result));
-					}
-					else
-					{
-						$segments[] = str_replace(':', '-', $query[$view->key]);
-					}
-
-					unset($query[$views[$query['view']]->key]);
+					// Do not process this view, child will do it as they work on the same path elements
+					continue;
 				}
+			}
 
-				unset($query['view']);
+			if ($ids)
+			{
+				if ($view->nestable)
+				{
+					// Remove 1:root
+					array_pop($ids);
+
+					foreach (array_reverse($ids, true) as $id => $segment)
+					{
+						$segments[] = str_replace(':', '-', $segment);
+					}
+				}
+				elseif ($ids === true)
+				{
+					if ($element !== $query['view'])
+					{
+						$segments[] = $element;
+					}
+				}
+				else
+				{
+					$segments[] = str_replace(':', '-', current($ids));
+				}
+			}
+
+			if ($view->parent_key)
+			{
+				// Remove parent key from query
+				unset($query[$view->parent_key]);
 			}
 		}
+
+		// Remove key and view from query
+		unset($query[$mainView->key], $query['view']);
 	}
 }
