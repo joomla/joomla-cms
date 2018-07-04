@@ -18,7 +18,7 @@ CREATE TABLE [#__action_logs](
 	[extension] [nvarchar](255) NOT NULL DEFAULT '',
 	[user_id] [bigint] NOT NULL DEFAULT 0,
 	[item_id] [bigint] NOT NULL DEFAULT 0,
-	[ip_address] [nvarchar](30) NOT NULL DEFAULT '0.0.0.0',
+	[ip_address] [nvarchar](40) NOT NULL DEFAULT '0.0.0.0',
 	CONSTRAINT [PK_#__action_logs_id] PRIMARY KEY CLUSTERED
  (
  	[id] ASC

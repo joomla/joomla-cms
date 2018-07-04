@@ -2136,7 +2136,7 @@ CREATE TABLE "#__action_logs" (
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,
   "item_id" integer DEFAULT 0 NOT NULL,
-  "ip_address" varchar(30) NOT NULL DEFAULT '0.0.0.0',
+  "ip_address" varchar(40) NOT NULL DEFAULT '0.0.0.0',
   PRIMARY KEY ("id")
 );
 
