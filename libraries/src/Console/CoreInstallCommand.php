@@ -40,16 +40,29 @@ class CoreInstallCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * SetupModel Object
+	 * @var SetupModel
+	 * @since 4.0
+	 */
+	private $setup;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
 	 *
 	 * @since 4.0
+	 *
+	 * @throws null
 	 */
 	private function configureIO()
 	{
+		$this->setup = new SetupModel;
+
 		$language = Factory::getLanguage();
-		$language->load('lib_joomla', JPATH_SITE, null, false, false) || $language->load('lib_joomla', JPATH_SITE, null, true);
+		$language->load('', JPATH_INSTALLATION, null, false, false) ||
+		$language->load('', JPATH_INSTALLATION, null, true);
+
 		$this->cliInput = $this->getApplication()->getConsoleInput();
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
@@ -65,8 +78,6 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function execute(): int
 	{
-		$this->configureIO();
-
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
 		{
 			$this->ioStyle->warning("Joomla is already installed and set up.");
@@ -74,22 +85,12 @@ class CoreInstallCommand extends AbstractCommand
 			return 0;
 		}
 
-		$options = $this->getDummyOptions();
-
 		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
 
-		$setup = new SetupModel;
-		$options = $setup->validate($options);
+		$this->configureIO();
 
-		if (!$options)
-		{
-			foreach ($this->getApplication()->getMessageQueue() as $key => $value) {
-				var_dump(Text::_($value[0]));
-			}
-		}
+		$options = $this->collectOptions();
 
-		var_dump($options);
-		exit;
 		$model = new ConfigurationModel;
 
 		$completed = $model->setup($options);
@@ -134,9 +135,20 @@ class CoreInstallCommand extends AbstractCommand
 	public function getOptionsTemplate()
 	{
 		return [
+			'language' => [
+				'question'      => "Site Language",
+				'type'          => 'select',
+				'optionData'    => ['en-GB', 'en-US'],
+				'default'       => 'en-GB',
+			],
 			'site_name' => [
 				'question'  => "What's the name of your website?",
 				'type'      => 'question',
+			],
+			'admin_email' => [
+				'question'  => "Enter admin email.",
+				'type'      => 'question',
+				'rules'     => 'isEmail',
 			],
 			'admin_user' => [
 				'question'  => "Enter Admin username.",
@@ -146,11 +158,6 @@ class CoreInstallCommand extends AbstractCommand
 			'admin_password' => [
 				'question'  => "Enter admin password.",
 				'type'      => 'question',
-			],
-			'admin_email' => [
-				'question'  => "Enter admin email.",
-				'type'      => 'question',
-				'rules'     => 'isEmail',
 			],
 			'db_type' => [
 				'question'  => "What's your database type?",
@@ -179,42 +186,43 @@ class CoreInstallCommand extends AbstractCommand
 				'type'      => 'question',
 				'default'   => 'lmao_',
 			],
-			'helpurl' => [
-				'question'  => "Help URL",
-				'type'      => 'question',
-				'default'   => 'https://joomla.org',
-			],
 			'db_old' => [
 				'question'      => "What do you want to do about old DB?",
 				'type'          => 'select',
 				'optionData'    => ['remove', 'backup'],
 				'default'       => 'backup',
 			],
-			'language' => [
-				'question'      => "Site Language",
-				'type'          => 'select',
-				'optionData'    => ['en-GB', 'en-US'],
-				'default'       => 'en-GB',
+			'helpurl' => [
+				'question'  => "Help URL",
+				'type'      => 'question',
+				'default'   => 'https://joomla.org',
 			],
 		];
 	}
 
+	/**
+	 * Defines dummy options
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
 	public function getDummyOptions()
 	{
 		return [
-			'site_name' => 'Localhost Joomla',
-			'admin_user' => 'bosunski',
-			'admin_password' => 'gabriel10',
-			'admin_email' => 'bosunskigmail.com',
+			'language' => 'en-GB',
+			'site_name' => 'Joomla',
+			'admin_email' => 'email@example.com',
+			'admin_user' => 'user',
+			'admin_password' => 'password',
 			'db_type' => 'mysql',
 			'db_host' => 'localhost',
 			'db_user' => 'root',
-			'db_pass' => 'gabriel10',
-			'db_name' => 'jtest',
+			'db_pass' => '',
+			'db_name' => 'test',
 			'db_prefix' => 'lmao_',
-			'helpurl' => 'https://joomla.org',
 			'db_old' => 'remove',
-			'language' => 'en-GB',
+			'helpurl' => 'https://joomla.org',
 		];
 	}
 
@@ -229,7 +237,7 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		$data = $this->getOptionsTemplate();
 
-		$options = array();
+		$options = $this->getDummyOptions();
 
 		foreach ($data as $key => $value)
 		{
@@ -238,32 +246,43 @@ class CoreInstallCommand extends AbstractCommand
 			while (!$valid)
 			{
 				$val = $this->processType($value);
-				$rules = isset($value['rules']) ?? null;
+				$options[$key] = $val;
+				$validator = $this->setup->validate($options);
 
-				if ($rules)
+				if (!$validator)
 				{
-					$validator = $this->validateInput($val, $value['rules']);
+					$messages = $this->getApplication()->getMessageQueue();
 
-					if ($validator === true)
+					foreach ($messages as $k => $message)
 					{
-						$valid = true;
-						$options[$key] = $val;
+						$this->displayMessage($message[0]);
 					}
-
-					$this->ioStyle->error($validator['message']);
 				}
 				else
 				{
 					$valid = true;
 				}
-
-				$options[$key] = $val;
 			}
 
+			// Clears the Line to make Console neat
 			$this->ioStyle->write(sprintf("\033\143"));
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Displays an error Message
+	 *
+	 * @param   string  $message  Message to be displayed
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
+	public function displayMessage($message)
+	{
+		$this->ioStyle->error(Text::_($message));
 	}
 
 	/**
