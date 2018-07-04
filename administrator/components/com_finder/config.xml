@@ -206,7 +206,7 @@
 			label="COM_FINDER_CONFIG_TUPLECOUNT_LABEL"
 			default="1"
 			validate="options"
-		>
+			>
 			<option value="1">COM_FINDER_CONFIG_TUPLECOUNT_PHRASE_DISABLED</option>
 			<option value="3">COM_FINDER_CONFIG_TUPLECOUNT_PHRASE_ENABLED</option>
 		</field>
