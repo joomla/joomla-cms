@@ -47,7 +47,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
-            // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+			// Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
 			return true;
 		}
 		else
@@ -78,7 +78,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	{
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
-            // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+			// Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
 			return '';
 		}
 		else
@@ -110,7 +110,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		switch ($version)
 		{
 			case '1.0':
-                // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+				// Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
 				return true;
 				break;
 			case '2.0':
@@ -166,8 +166,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		switch ($version)
 		{
-            case '1.0':
-			    // Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
+			case '1.0':
+				// Deprecated - @see https://developers.google.com/recaptcha/docs/faq#what-happens-to-recaptcha-v1
 				return true;
 				break;
 			case '2.0':
