@@ -139,14 +139,19 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		$cases[] = array(array('view' => 'categories'), array('categories' => array()));
 
 		// View with parent and children
-		$cases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array(9 => '9:uncategorised'), 'categories' => array(9 => '9:uncategorised')));
+		$cases[] = array(array('view' => 'category', 'id' => '9'),
+			array(
+				'category' => array(9 => '9:uncategorised', 0 => '1:root'),
+				'categories' => array(9 => '9:uncategorised', 0 => '1:root')
+			)
+		);
 
 		// View with parent, no children
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '9'),
 			array(
 				'article' => array(42 => '42:question-for-everything'),
-				'category' => array(9 => '9:uncategorised'),
-				'categories' => array(9 => '9:uncategorised')
+				'category' => array(9 => '9:uncategorised', 0 => '1:root'),
+				'categories' => array(9 => '9:uncategorised', 0 => '1:root')
 			)
 		);
 
@@ -156,11 +161,13 @@ class JComponentRouterViewTest extends TestCaseDatabase
 				'article' => array(42 => '42:question-for-everything'),
 				'category' => array(20 => '20:extensions',
 					19 => '19:joomla',
-					14 => '14:sample-data-articles'
+					14 => '14:sample-data-articles',
+					0 => '1:root'
 				),
 				'categories' => array(20 => '20:extensions',
 					19 => '19:joomla',
-					14 => '14:sample-data-articles'
+					14 => '14:sample-data-articles',
+					0 => '1:root'
 				)
 			)
 		);
