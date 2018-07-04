@@ -146,7 +146,6 @@
 			default="0"
 			filter="integer"
 			showon="cache_handler:redis"
-			size="4"
 		/>
 
 		<field
