@@ -24,15 +24,15 @@ defined('_JEXEC') or die;
 								<p class="m-b-0"><?php echo $message['description']; ?></p>
 							</joomla-alert>
 						<?php endforeach; ?>
-							<joomla-alert type="info">
-								<h4 class="alert-heading"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
-								<p class="m-b-0"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
-							</joomla-alert>
-						<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+						<joomla-alert type="info">
+							<h4 class="alert-heading"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
+							<p class="m-b-0"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
+						</joomla-alert>
 					<?php endif; ?>
-				<div>
-				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+					<div>
+						<input type="hidden" name="boxchecked" value="0">
+						<?php echo JHtml::_('form.token'); ?>
+					</div>
 				</div>
 			</div>
 		</div>
