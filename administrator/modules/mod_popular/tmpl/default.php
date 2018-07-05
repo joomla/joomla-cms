@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
- 
+
 ?>
 <table class="table table-striped" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<?php if (!$module->showtitle) : ?>
