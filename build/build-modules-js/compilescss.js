@@ -69,11 +69,12 @@ compileFiles = (options, path) => {
                 cleaner.process(result.css.toString()).then(function (cleaned) {
                     return prefixer.process(cleaned.css)
                 }).then(function (result) {
-                    fs.writeFileSync(cssFile, result.css.toString(), {encoding: 'UTF-8'});
-                });
+                  const cssContent = result.css.toString();
+                  fs.writeFileSync(cssFile, cssContent, {encoding: 'UTF-8'});
 
-                // Uglify it now
-                fs.writeFileSync(cssFile.replace('.css', '.min.css'), UglyCss.processFiles([cssFile], {expandVars: false }), {encoding: 'UTF-8'});
+                  // Uglify it now
+                  fs.writeFileSync(cssFile.replace('.css', '.min.css'), UglyCss.processString(cssContent, {expandVars: false }), {encoding: 'UTF-8'});
+                });
 
                 console.log(Chalk.bgYellow(cssFile.replace(/.+\//, '') + ' was updated.'));
             }
