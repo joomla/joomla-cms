@@ -9,15 +9,22 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /** @var JDocumentError $this */
 
+// Load template CSS file
+HTMLHelper::_('stylesheet', 'error.css', ['version' => 'auto', 'relative' => true]);
+
+// Set page title
+$this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta charset="utf-8">
-	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error.css" rel="stylesheet">
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 <body>
 	<table class="outline" style="margin: 0 auto; width: 550px;">
@@ -61,5 +68,7 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 	</table>
+
+	<jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>
