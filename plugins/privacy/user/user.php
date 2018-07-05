@@ -135,7 +135,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$pseudoanonymisedData = array(
 			'name'      => 'User ID ' . $user->id,
 			'username'  => bin2hex(random_bytes(12)),
-			'email'     => 'UserID' . $user->id . 'removed@email.removed',
+			'email'     => 'UserID' . $user->id . 'removed@email.invalid',
 			'block'     => true,
 		);
 
