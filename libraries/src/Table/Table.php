@@ -1978,6 +1978,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 * @param   string  $key  key to be checked
 	 *
 	 * @return  boolean
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function hasField($key)
