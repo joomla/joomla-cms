@@ -134,7 +134,7 @@
 			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
-				class="readonly"
+			class="readonly"
 			default="0"
 			readonly="true"
 		/>
