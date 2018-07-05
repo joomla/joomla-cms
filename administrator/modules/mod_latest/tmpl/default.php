@@ -13,37 +13,50 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
-<ul class="list-group list-group-flush">
-	<?php if (count($list)) : ?>
+<table class="table table-striped" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+	<?php if (!$module->showtitle) : ?>
+		<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<?php endif; ?>
+	<thead>
+		<tr>
+			<th scope="col" style="width:60%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<th scope="col" style="width:20%"><?php echo Text::_('JAUTHOR'); ?></th>
+			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
+		</tr>
+	</thead>
+		<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
-			<li class="d-flex justify-content-start list-group-item <?php echo $item->state == 1 ? 'published' : 'unpublished'; ?>">
-				<div class="fg-1">
-					<?php if ($item->checked_out) : ?>
-						<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
-					<?php endif; ?>
-					<strong class="row-title break-word mr-2" title="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
-						<?php if ($item->link) : ?>
-							<a href="<?php echo $item->link; ?>">
-								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
-						<?php else : ?>
-							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-						<?php endif; ?>
-					</strong>
-					<small class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'MOD_LATEST_CREATED_BY'); ?>">
-						<?php echo $item->author_name; ?>
-					</small>
-				</div>
+		<tr>
+			<th scope="row">
+				<?php if ($item->checked_out) : ?>
+					<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
+				<?php endif; ?>
+				<?php if ($item->link) : ?>
+					<a href="<?php echo $item->link; ?>">
+						<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+					</a>
+				<?php else : ?>
+					<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+				<?php endif; ?>
+			</th>
+			<td>
+				<?php echo $item->author_name; ?>
+			</td>
+			<td>
 				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC5')); ?>
+						<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
 					</span>
 				</span>
-			</li>
+			</td>
+		</tr>
 		<?php endforeach; ?>
-	<?php else : ?>
-		<li class="d-flex justify-content-start list-group-item">
-			<joomla-alert type="warning"><?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></joomla-alert>
-		</li>
+		<?php else : ?>
+		<tr>
+			<td colspan="3">
+				<?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?>
+			</td>
+		</tr>
 	<?php endif; ?>
-</ul>
+</table>
