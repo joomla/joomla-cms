@@ -20,11 +20,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 	<thead>
 		<tr>
 			<th scope="col" style="width:50%">
-			<?php if ($params->get('name', 1) == 0) : ?>
-				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
-			<?php else : ?>
-				<?php echo Text::_('MOD_LOGGED_NAME'); ?>
-			<?php endif; ?>
+				<?php if ($params->get('name', 1) == 0) : ?>
+					<?php echo Text::_('JGLOBAL_USERNAME'); ?>
+				<?php else : ?>
+					<?php echo Text::_('MOD_LOGGED_NAME'); ?>
+				<?php endif; ?>
 			</th>
 			<th scope="col" style="width:30%"><?php echo Text::_('JCLIENT'); ?></th>
 			<th scope="col" style="width:20%"><?php echo Text::_('MOD_LOGGED_LAST_ACTIVITY'); ?></th>
@@ -35,7 +35,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 		<tr>
 			<th scope="row">
 				<?php if (isset($user->editLink)) : ?>
-					<a href="<?php echo $item->link; ?>">
+					<a href="<?php echo $user->editLink; ?>">
 						<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
 					</a>
 				<?php else : ?>
