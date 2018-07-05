@@ -24,6 +24,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
+	<tbody>
 		<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
 		<tr>
@@ -59,4 +60,5 @@ use Joomla\CMS\HTML\HTMLHelper;
 			</td>
 		</tr>
 	<?php endif; ?>
+	</tbody>
 </table>

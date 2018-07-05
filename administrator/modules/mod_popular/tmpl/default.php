@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
+ 
 ?>
 <table class="table table-striped" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<?php if (!$module->showtitle) : ?>
@@ -24,6 +24,7 @@ use Joomla\CMS\Language\Text;
 			<th scope="col" style="width:18%"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
+	<tbody>
 	<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
 			<?php // Calculate popular items ?>
@@ -62,4 +63,5 @@ use Joomla\CMS\Language\Text;
 			</td>
 		</tr>
 	<?php endif; ?>
+	</tbody>
 </table>
