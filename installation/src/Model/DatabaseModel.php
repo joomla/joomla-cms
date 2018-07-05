@@ -553,7 +553,7 @@ class DatabaseModel extends BaseInstallationModel
 		$serverType = $db->getServerType();
 
 		// Set the appropriate schema script based on UTF-8 support.
-		$schema = '/var/www/html/joomla-cms/installation/sql/' . $serverType . '/joomla.sql';
+		$schema = JPATH_INSTALLATION . '/sql/' . $serverType . '/joomla.sql';
 
 		// Check if the schema is a valid file
 		if (!is_file($schema))
