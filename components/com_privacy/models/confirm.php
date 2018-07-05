@@ -162,7 +162,7 @@ class PrivacyModelConfirm extends JModelAdmin
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), $messageKey, 'com_privacy.request', $userId);
+		$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
 
 		return true;
 	}

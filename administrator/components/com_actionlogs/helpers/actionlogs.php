@@ -38,11 +38,12 @@ class ActionlogsHelper
 
 		foreach ($data as $log)
 		{
+			$extension = self::translateExtensionName(strtoupper(strtok($log->extension, '.')));
 			$row               = array();
 			$row['id']         = $log->id;
 			$row['message']    = strip_tags(self::getHumanReadableLogMessage($log));
 			$row['date']       = $log->log_date;
-			$row['extension']  = self::translateExtensionName(strtoupper(strtok($log->extension, '.')));
+			$row['extension']  = $extension;
 			$row['name']       = $log->name;
 			$row['ip_address'] = JText::_($log->ip_address);
 

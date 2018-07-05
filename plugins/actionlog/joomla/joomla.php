@@ -143,7 +143,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -201,7 +201,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -292,7 +292,7 @@ class PlgActionlogJoomla extends JPlugin
 			$messages[] = $message;
 		}
 
-		$this->addLogsToDb($messages, $messageLanguageKey, $context);
+		$this->addLog($messages, $messageLanguageKey, $context);
 	}
 
 	/**
@@ -342,7 +342,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -399,7 +399,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -449,7 +449,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -516,7 +516,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -557,7 +557,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -608,7 +608,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $jUser->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -646,7 +646,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $jUser->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -695,7 +695,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -734,7 +734,7 @@ class PlgActionlogJoomla extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -765,7 +765,7 @@ class PlgActionlogJoomla extends JPlugin
 			'app'         => strtoupper('PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->app->getName()),
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context, $loggedInUser->id);
+		$this->addLog(array($message), $messageLanguageKey, $context, $loggedInUser->id);
 	}
 
 	/**
@@ -804,7 +804,7 @@ class PlgActionlogJoomla extends JPlugin
 			'app'         => strtoupper('PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->app->getName()),
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context, $loggedInUser->id);
+		$this->addLog(array($message), $messageLanguageKey, $context, $loggedInUser->id);
 	}
 
 	/**
@@ -837,11 +837,11 @@ class PlgActionlogJoomla extends JPlugin
 			'app'         => strtoupper('PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->app->getName()),
 		);
 
-		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
-	 * Proxy for ActionlogsModelUserlog addLogsToDb method
+	 * Proxy for ActionlogsModelUserlog addLog method
 	 *
 	 * This method adds a record to #__action_logs contains (message_language_key, message, date, context, user)
 	 *
@@ -854,13 +854,13 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addLogsToDb($messages, $messageLanguageKey, $context, $userId = null)
+	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
 		JLoader::register('ActionlogsModelActionlog', JPATH_ADMINISTRATOR . '/components/com_actionlogs/models/actionlog.php');
 
 		/* @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb($messages, $messageLanguageKey, $context, $userId);
+		$model->addLog($messages, $messageLanguageKey, $context, $userId);
 	}
 
 	/**

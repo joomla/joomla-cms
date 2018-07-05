@@ -265,7 +265,7 @@ class PrivacyModelExport extends JModelLegacy
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
 	}
 
 	/**
@@ -294,7 +294,7 @@ class PrivacyModelExport extends JModelLegacy
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT_EMAILED', 'com_privacy.request', $user->id);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT_EMAILED', 'com_privacy.request', $user->id);
 	}
 
 	/**

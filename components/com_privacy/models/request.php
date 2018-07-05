@@ -222,7 +222,7 @@ class PrivacyModelRequest extends JModelAdmin
 
 			/** @var ActionlogsModelActionlog $model */
 			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-			$model->addLogsToDb(array($message), $messageKey, 'com_privacy.request', $userId);
+			$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
 
 			// The email sent and the record is saved, everything is good to go from here
 			return true;

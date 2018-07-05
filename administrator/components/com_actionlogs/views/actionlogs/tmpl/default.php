@@ -8,32 +8,17 @@
  */
 
 defined('_JEXEC') or die;
+
+/** @var ActionlogsViewActionlogs $this */
+
 JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
 
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "actionlogs.exportSelectedLogs" || task == "actionlogs.exportLogs")
-		{
-			var form = document.getElementById("adminForm");
-			Joomla.submitform(task, form);
-			form.task.value = "";
-		}
-		else
-		{
-			Joomla.submitform(task);
-		}
-	};
-');
-
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
@@ -45,29 +30,27 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php else : ?>
 			<table class="table table-striped table-hover" id="logsList">
 				<thead>
-					<th width="1%">
-						<input type="checkbox" name="checkall-toggle" value=""
-							title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>"
-							onclick="Joomla.checkAll(this)" />
+					<th width="1%" class="center">
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th width="15%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th width="15%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th width="10%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
 					</th>
 					<?php if ($this->showIpColumn) : ?>
-						<th>
+						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<th>
+					<th width="1%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</thead>
@@ -91,7 +74,9 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo ActionlogsHelper::translateExtensionName(strtoupper(strtok($this->escape($item->extension), '.'))); ?>
 							</td>
 							<td>
-								<?php echo $this->escape($item->log_date); ?>
+								<span class="hasTooltip" title="<?php echo JHtml::_('date', $item->log_date, JText::_('DATE_FORMAT_LC6')); ?>">
+									<?php echo JHtml::_('date.relative', $item->log_date); ?>
+								</span>
 							</td>
 							<td>
 								<?php echo $item->name; ?>
@@ -101,7 +86,7 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php echo JText::_($this->escape($item->ip_address)); ?>
 								</td>
 							<?php endif;?>
-							<td>
+							<td class="hidden-phone">
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>
