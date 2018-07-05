@@ -49,7 +49,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php echo Text::_('JADMINISTRATION'); ?>
 				<?php else : ?>
 					<?php echo Text::_('JSITE'); ?>
-					<a href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs">
+					<a href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs" role="button">
 						<span class="icon-remove icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('JLOGOUT'); ?>
 					</a>
