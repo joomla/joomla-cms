@@ -3,11 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 JLoader::register('PlgSystemStatsFormFieldBase', __DIR__ . '/base.php');
 
@@ -45,9 +48,9 @@ class PlgSystemStatsFormFieldData extends PlgSystemStatsFormFieldBase
 	{
 		$data       = parent::getLayoutData();
 
-		JPluginHelper::importPlugin('system', 'stats');
+		PluginHelper::importPlugin('system', 'stats');
 
-		$result = JFactory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
+		$result = Factory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
 
 		$data['statsData'] = $result ? reset($result) : array();
 

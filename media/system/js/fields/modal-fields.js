@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,19 +40,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				document.getElementById(fieldPrefix + '_select').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_select').classList.add('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				document.getElementById(fieldPrefix + '_new').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_new').classList.add('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				document.getElementById(fieldPrefix + '_edit').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_edit').classList.remove('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				document.getElementById(fieldPrefix + '_clear').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_clear').classList.remove('sr-only');
 			}
 		}
 		else
@@ -62,19 +62,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				document.getElementById(fieldPrefix + '_select').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_select').classList.remove('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				document.getElementById(fieldPrefix + '_new').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_new').classList.remove('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				document.getElementById(fieldPrefix + '_edit').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_edit').classList.add('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				document.getElementById(fieldPrefix + '_clear').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_clear').classList.add('sr-only');
 			}
 		}
 
@@ -122,7 +122,7 @@
 			// Submit button on child iframe so we can check out.
 			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
 
-			jQuery('#' + modalId).modal('hide');
+			Joomla.Modal.getCurrent().close();
 		}
 		// For Save (apply task) and Save & Close (save task).
 		else
@@ -146,7 +146,7 @@
 				}
 
 				// Show the iframe again for future modals or in case of error.
-				jQuery('#' + modalId + ' iframe').removeClass('element-invisible');
+				jQuery('#' + modalId + ' iframe').removeClass('sr-only');
 			});
 
 			// Submit button on child iframe.
@@ -156,7 +156,7 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					jQuery('#' + modalId + ' iframe').addClass('element-invisible');
+					jQuery('#' + modalId + ' iframe').addClass('sr-only');
 				}
 
 				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
@@ -184,7 +184,7 @@
 	 */
 	window.processModalSelect = function(itemType, fieldPrefix, id, title, catid, object, url, language) {
 		window.processModalParent(fieldPrefix, id, title, catid, url, language, object);
-		jQuery('#ModalSelect' + itemType + '_' + fieldPrefix).modal('hide');
+		Joomla.Modal.getCurrent().close();
 
 		return false;
 	};

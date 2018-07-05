@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Generic toolbar button layout to open a modal
@@ -20,14 +23,15 @@ defined('JPATH_BASE') or die;
  */
 
 $selector = $displayData['selector'];
-$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-secondary btn-sm';
+$id       = isset($displayData['id']) ? $displayData['id'] : '';
+$class    = isset($displayData['class']) ? $displayData['class'] : 'j-btn j-btn-secondary';
 $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 
 // Render the modal
-echo JHtml::_('bootstrap.renderModal',
-	'modal_'. $selector,
-	array(
+echo HTMLHelper::_('bootstrap.renderModal',
+	'modal_' . $selector,
+	[
 		'url'         => $displayData['doTask'],
 		'title'       => $text,
 		'height'      => '100%',
@@ -36,14 +40,15 @@ echo JHtml::_('bootstrap.renderModal',
 		'bodyHeight'  => 60,
 		'closeButton' => true,
 		'footer'      => '<a class="j-btn j-btn-secondary" data-dismiss="modal" type="button"'
-						. ' onclick="window.parent.jQuery(\'#modal_downloadModal\').modal(\'hide\');">'
-						. JText::_("COM_BANNERS_CANCEL") . '</a>'
+						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
+						. Text::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="jQuery(\'#modal_downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
-						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
-	)
+						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
+	]
 );
 ?>
-<button onclick="jQuery('#modal_<?php echo $selector; ?>').modal('show')" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">
-	<span class="icon-<?php echo $icon; ?>"></span><?php echo $text; ?>
+<button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">
+	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+	<?php echo $text; ?>
 </button>

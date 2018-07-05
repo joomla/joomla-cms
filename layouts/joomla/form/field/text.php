@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -52,15 +54,16 @@ if ($options)
 }
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'title="' . $description . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$list,
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
 	$required ? 'required aria-required="true"' : '',
@@ -73,12 +76,35 @@ $attributes = array(
 	// @TODO add a proper string here!!!
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
+
+$addonBeforeHtml = '<span class="input-group-prepend"><span class="input-group-text">' . Text::_($addonBefore) . '</span></span>';
+$addonAfterHtml  = '<span class="input-group-append"><span class="input-group-text">' . Text::_($addonAfter) . '</span></span>';
 ?>
-<input type="text" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" <?php
-echo $dirname; ?> value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?>>
+
+<?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>
+<div class="input-group">
+<?php endif; ?>
+
+	<?php if (!empty($addonBefore)) : ?>
+		<?php echo $addonBeforeHtml; ?>
+	<?php endif; ?>
+
+	<input
+		type="text"
+		name="<?php echo $name; ?>"
+		id="<?php echo $id; ?>"
+		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+		<?php echo $dirname; ?>
+		<?php echo implode(' ', $attributes); ?>>
+
+	<?php if (!empty($addonAfter)) : ?>
+		<?php echo $addonAfterHtml; ?>
+	<?php endif; ?>
+
+<?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>
+</div>
+<?php endif; ?>
+
 <?php if ($options) : ?>
 	<datalist id="<?php echo $id; ?>_datalist">
 		<?php foreach ($options as $option) : ?>

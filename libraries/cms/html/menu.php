@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -84,7 +84,7 @@ abstract class JHtmlMenu
 			$clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
 			$menus    = static::menus($clientId);
 
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text, a.level, a.menutype, a.client_id')
 				->from('#__menu AS a')
@@ -198,9 +198,9 @@ abstract class JHtmlMenu
 		return JHtml::_(
 			'select.genericlist', $options, $name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
-				'list.select' => (int) $selected,
+				'id'             => $config['id'] ?? 'assetgroups_' . (++$count),
+				'list.attr'      => $attribs ?? 'class="inputbox" size="1"',
+				'list.select'    => (int) $selected,
 				'list.translate' => false,
 			)
 		);
@@ -314,7 +314,7 @@ abstract class JHtmlMenu
 		}
 
 		$lastMenuType = null;
-		$tmpMenuType = null;
+		$tmpMenuType  = null;
 
 		foreach ($list as $list_a)
 		{
@@ -325,9 +325,9 @@ abstract class JHtmlMenu
 					$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
 				}
 
-				$mitems[] = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
+				$mitems[]     = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
 				$lastMenuType = $list_a->menutype;
-				$tmpMenuType = $list_a->menutype;
+				$tmpMenuType  = $list_a->menutype;
 			}
 
 			$mitems[] = JHtml::_('select.option', $list_a->id, $list_a->title);
@@ -358,22 +358,22 @@ abstract class JHtmlMenu
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if (@$children[$id] && $level <= $maxlevel)
+		if ($level <= $maxlevel && isset($children[$id]) && is_array($children[$id]))
 		{
+			if ($type)
+			{
+				$pre    = '<sup>|_</sup>&#160;';
+				$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
+			}
+			else
+			{
+				$pre    = '- ';
+				$spacer = '&#160;&#160;';
+			}
+
 			foreach ($children[$id] as $v)
 			{
 				$id = $v->id;
-
-				if ($type)
-				{
-					$pre = '<sup>|_</sup>&#160;';
-					$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
-				}
-				else
-				{
-					$pre = '- ';
-					$spacer = '&#160;&#160;';
-				}
 
 				if ($v->parent_id == 0)
 				{
@@ -384,10 +384,18 @@ abstract class JHtmlMenu
 					$txt = $pre . $v->title;
 				}
 
-				$list[$id] = $v;
+				$list[$id]           = $v;
 				$list[$id]->treename = $indent . $txt;
-				$list[$id]->children = count(@$children[$id]);
-				$list = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+
+				if (isset($children[$id]) && is_array($children[$id]))
+				{
+					$list[$id]->children = count($children[$id]);
+					$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				}
+				else
+				{
+					$list[$id]->children = 0;
+				}
 			}
 		}
 

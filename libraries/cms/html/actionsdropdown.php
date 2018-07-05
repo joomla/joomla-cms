@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -40,7 +40,7 @@ abstract class JHtmlActionsDropdown
 
 		if ($item)
 		{
-			$html[] = '<span class="element-invisible">' . JText::sprintf('JACTIONS', $item) . '</span>';
+			$html[] = '<span class="sr-only">' . JText::sprintf('JACTIONS', $item) . '</span>';
 		}
 
 		$html[] = '</button>';
@@ -224,7 +224,7 @@ abstract class JHtmlActionsDropdown
 	{
 		static::$dropDownList[] = '<li>'
 			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
-			. ($icon ? '<span class="icon-' . $icon . '"></span> ' : '')
+			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
 			. $label
 			. '</a>'
 			. '</li>';

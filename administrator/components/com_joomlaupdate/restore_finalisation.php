@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -63,7 +63,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be deleted
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -90,7 +90,7 @@ if (!class_exists('JFolder'))
 		 *
 		 * @param   string  $folderName  The path to the folder to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -164,7 +164,7 @@ if (!function_exists('finalizeRestore'))
 
 		if (file_exists($filePath))
 		{
-			require_once ($filePath);
+			require_once $filePath;
 		}
 
 		// Make sure Joomla!'s code can figure out which files exist and need be removed
@@ -181,10 +181,6 @@ if (!function_exists('finalizeRestore'))
 		if (function_exists('opcache_reset'))
 		{
 			opcache_reset();
-		}
-		elseif (function_exists('apc_clear_cache'))
-		{
-			@apc_clear_cache();
 		}
 	}
 }

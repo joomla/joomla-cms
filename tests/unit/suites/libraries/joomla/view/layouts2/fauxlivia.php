@@ -1,1 +1,0 @@
-Olivia Dunham (red hair)

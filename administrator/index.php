@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +13,17 @@
 /**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-define('JOOMLA_MINIMUM_PHP', '5.5.9');
+define('JOOMLA_MINIMUM_PHP', '7.0');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
-	die('Your host needs to use PHP ' . JOOMLA_MINIMUM_PHP . ' or higher to run this version of Joomla!');
+	die(
+		str_replace(
+			array('{{PHP_VERSION}}', '{{BASEPATH}}'),
+			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . '/'),
+			file_get_contents(dirname(__FILE__) . '/../templates/system/incompatible.html')
+		)
+	);
 }
 
 /**

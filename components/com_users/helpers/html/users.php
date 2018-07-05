@@ -3,11 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users Html Helper
@@ -34,7 +38,7 @@ abstract class JHtmlUsers
 
 		if (empty($value))
 		{
-			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
+			return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
 
 		elseif (!is_array($value))
@@ -72,35 +76,29 @@ abstract class JHtmlUsers
 		{
 			return static::value($value);
 		}
-		else
+
+		$text = $value;
+
+		if ($xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/help/helpsites.xml'))
 		{
-			$pathToXml = JPATH_ADMINISTRATOR . '/help/helpsites.xml';
-
-			$text = $value;
-
-			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
+			foreach ($xml->sites->site as $site)
 			{
-				foreach ($xml->sites->site as $site)
+				if ((string) $site->attributes()->url == $value)
 				{
-					if ((string) $site->attributes()->url == $value)
-					{
-						$text = (string) $site;
-						break;
-					}
+					$text = (string) $site;
+					break;
 				}
 			}
-
-			$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-
-			if (substr($value, 0, 4) == 'http')
-			{
-				return '<a href="' . $value . '">' . $text . '</a>';
-			}
-			else
-			{
-				return '<a href="http://' . $value . '">' . $text . '</a>';
-			}
 		}
+
+		$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+
+		if (strpos($value, 'http') === 0)
+		{
+			return '<a href="' . $value . '">' . $text . '</a>';
+		}
+
+		return '<a href="http://' . $value . '">' . $text . '</a>';
 	}
 
 	/**
@@ -120,7 +118,7 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('title')
 				->from('#__template_styles')
@@ -156,13 +154,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$file = JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
+			$file = LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
 			if (is_file($file))
 			{
-				$result = JLanguageHelper::parseXMLLanguageFile($file);
+				$result = LanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
@@ -193,13 +191,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$file = JLanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
+			$file = LanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
 			if (is_file($file))
 			{
-				$result = JLanguageHelper::parseXMLLanguageFile($file);
+				$result = LanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
@@ -230,8 +228,8 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$db = JFactory::getDbo();
-			$lang = JFactory::getLanguage();
+			$db = Factory::getDbo();
+			$lang = Factory::getLanguage();
 			$query = $db->getQuery(true)
 				->select('name')
 				->from('#__extensions')
@@ -243,10 +241,10 @@ abstract class JHtmlUsers
 			if ($title)
 			{
 				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
+				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
 				$lang->load($title . '.sys');
 
-				return JText::_($title);
+				return Text::_($title);
 			}
 			else
 			{

@@ -3,12 +3,13 @@
 	<name>mod_latest</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LATEST_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Latest</namespace>
 	<files>
 		<filename module="mod_latest">mod_latest.php</filename>
 		<filename>helper.php</filename>
@@ -24,68 +25,64 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
-					default="5"
+					type="number"
 					label="MOD_LATEST_FIELD_COUNT_LABEL"
-					description="MOD_LATEST_FIELD_COUNT_DESC" />
+					default="5"
+				/>
+
 				<field
 					name="ordering"
 					type="list"
-					default="c_dsc"
 					label="MOD_LATEST_FIELD_ORDERING_LABEL"
-					description="MOD_LATEST_FIELD_ORDERING_DESC">
-					<option
-						value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
-					<option
-						value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
+					default="c_dsc"
+					>
+					<option value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
+					<option value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
 				</field>
+
 				<field
-					id="catid"
 					name="catid"
 					type="category"
-					extension="com_content"
 					label="JCATEGORY"
-					description="MOD_LATEST_FIELD_CATEGORY_DESC"
+					id="catid"
+					extension="com_content"
 					default=""
 					>
-					<option
-						value="">JOPTION_ANY_CATEGORY</option>
+					<option value="">JOPTION_ANY_CATEGORY</option>
 				</field>
+
 				<field
 					name="user_id"
 					type="list"
-					default="0"
 					label="MOD_LATEST_FIELD_AUTHORS_LABEL"
-					description="MOD_LATEST_FIELD_AUTHORS_DESC">
-					<option
-						value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
-					<option
-						value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
-					<option
-						value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
+					default="0"
+					>
+					<option value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
+					<option value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
+					<option value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+ 				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					rows="3"
+				/>
 
 				<field
 					name="automatic_title"
 					type="radio"
+					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					class="switcher"
 					default="0"
-					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

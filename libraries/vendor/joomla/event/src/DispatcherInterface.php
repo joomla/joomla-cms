@@ -16,19 +16,6 @@ namespace Joomla\Event;
 interface DispatcherInterface
 {
 	/**
-	 * Attaches a listener to an event
-	 *
-	 * @param   string    $eventName  The event to listen to.
-	 * @param   callable  $callback   A callable function.
-	 * @param   integer   $priority   The priority at which the $callback executed.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function addListener($eventName, callable $callback, $priority = 0);
-
-	/**
 	 * Dispatches an event to all registered listeners.
 	 *
 	 * @param   string          $name   The name of the event to dispatch.
@@ -40,7 +27,45 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dispatch($name, EventInterface $event = null);
+	public function dispatch(string $name, EventInterface $event = null): EventInterface;
+
+	/**
+	 * Attaches a listener to an event
+	 *
+	 * @param   string    $eventName  The event to listen to.
+	 * @param   callable  $callback   A callable function.
+	 * @param   integer   $priority   The priority at which the $callback executed.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addListener(string $eventName, callable $callback, int $priority = 0): bool;
+
+	/**
+	 * Get the listeners registered to the given event.
+	 *
+	 * @param   string  $event  The event to fetch listeners for
+	 *
+	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getListeners($event);
+
+	/**
+	 * Tell if the given listener has been added.
+	 *
+	 * If an event is specified, it will tell if the listener is registered for that event.
+	 *
+	 * @param   callable  $callback   The callable to check is listening to the event.
+	 * @param   string    $eventName  The event to check a listener is subscribed to.
+	 *
+	 * @return  boolean  True if the listener is registered, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasListener(callable $callback, $eventName = null);
 
 	/**
 	 * Removes an event listener from the specified event.
@@ -52,5 +77,27 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener($eventName, callable $listener);
+	public function removeListener(string $eventName, callable $listener);
+
+	/**
+	 * Adds an event subscriber.
+	 *
+	 * @param   SubscriberInterface  $subscriber  The subscriber.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addSubscriber(SubscriberInterface $subscriber);
+
+	/**
+	 * Removes an event subscriber.
+	 *
+	 * @param   SubscriberInterface  $subscriber  The subscriber.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeSubscriber(SubscriberInterface $subscriber);
 }

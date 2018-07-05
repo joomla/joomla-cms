@@ -3,20 +3,23 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Sql
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Language\Text;
 
 /**
  * Fields Sql Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsSql extends FieldsListPlugin
+class PlgFieldsSql extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
@@ -29,7 +32,7 @@ class PlgFieldsSql extends FieldsListPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
@@ -65,20 +68,21 @@ class PlgFieldsSql extends FieldsListPlugin
 		}
 
 		// If we are not a super admin, don't let the user create a SQL field
-		if (!JAccess::getAssetRules(1)->allow('core.admin', JFactory::getUser()->getAuthorisedGroups()))
+		if (!Access::getAssetRules(1)->allow('core.admin', Factory::getUser()->getAuthorisedGroups()))
 		{
-			$item->setError(JText::_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
+			$item->setError(Text::_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
+
 			return false;
 		}
 
 		$rules = $item->getRules()->getData();
 
 		// Only change the edit rule and when it is empty
-		if (key_exists('core.edit', $rules) && !$rules['core.edit']->getData())
+		if (array_key_exists('core.edit', $rules) && !$rules['core.edit']->getData())
 		{
 			// Set the denied flag on the root group
 			$rules['core.edit']->mergeIdentity(1, false);
-			JFactory::getApplication()->enqueueMessage(JText::_('PLG_FIELDS_SQL_RULES_ADAPTED'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('PLG_FIELDS_SQL_RULES_ADAPTED'), 'warning');
 		}
 
 		return true;

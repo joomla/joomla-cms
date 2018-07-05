@@ -1,6 +1,9 @@
+@import "../../../../media/vendor/bootstrap/scss/functions";
+
 // Global
-$atum-template-color:              #0d1321 !default;
-$atum-template-color-light:        #1c3d5c !default;
+$atum-template-color:              #1c3d5c !default;
+$atum-template-color-light:        #2e5a84 !default;
+$atum-template-color-dark:         #0d1321 !default;
 $atum-container-main-bg:           #f2f2f2 !default;
 $atum-border-color:                #ccc !default;
 $atum-box-shadow:                  0 0 3px rgba(0,0,0,.04) !default;
@@ -10,14 +13,71 @@ $grey:                             #aaa;
 $atum-hl-grad-inner:               #59afff;
 $atum-hl-grad-outer:               #59daff;
 
-$brand-primary:                    #006898;
-$brand-success:                    #348534;
-$brand-info:                       #5bc0de;
-$brand-warning:                    #f0ad4e;
-$brand-danger:                     #d9534f;
+$white:                            #fff;
+$gray-100:                         #f8f9fa;
+$gray-200:                         #e9ecef;
+$gray-300:                         #dee2e6;
+$gray-400:                         #ced4da;
+$gray-500:                         #adb5bd;
+$gray-600:                         #868e96;
+$gray-700:                         #495057;
+$gray-800:                         #343a40;
+$gray-900:                         #212529;
+$black:                            #000;
+
+$grays: (
+  100: $gray-100,
+  200: $gray-200,
+  300: $gray-300,
+  400: $gray-400,
+  500: $gray-500,
+  600: $gray-600,
+  700: $gray-700,
+  800: $gray-800,
+  900: $gray-900
+);
+
+$blue:                             #006898;
+$indigo:                           #6610f2;
+$purple:                           #6f42c1;
+$pink:                             #e83e8c;
+$red:                              #d9534f;
+$orange:                           #fd7e14;
+$yellow:                           #f0ad4e;
+$green:                            #438243;
+$teal:                             #5bc0de;
+$cyan:                             #17a2b8;
+
+$colors: (
+  blue: $blue,
+  indigo: $indigo,
+  purple: $purple,
+  pink: $pink,
+  red: $red,
+  orange: $orange,
+  yellow: $yellow,
+  green: $green,
+  teal: $teal,
+  cyan: $cyan,
+  white: $white,
+  gray: $gray-600,
+  gray-dark: $gray-800
+);
+
+$theme-colors: (
+  primary: $blue,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-800
+);
 
 // Header
 $header-height:                    48px;
+$header-icons-bg:                  $atum-template-color-light;
 
 // Toolbar
 $atum-toolbar-line-height:         1.8rem;
@@ -37,18 +97,20 @@ $atum-sidebar-hover:               #59daff;
 $atum-sidebar-active:              #59afff;
 $atum-level-1-bg:                  rgba(0,0,0,.65);
 $atum-level-2-bg:                  rgba(0,0,0,.05);
+$atum-sidebar-child-bg:            #0f2131;
 
 // Fonts
 $font-family-base:                 Arial, sans-serif;
-$atum-inverted-text-color:         $atum-template-color;
+$atum-inverted-text-color:         $atum-template-color-dark;
 $font-size-root:                   14px;
-$font-size-h1:                     1.857rem;
-$font-size-h2:                     1.571rem;
-$font-size-h3:                     1.286rem;
-$font-size-h4:                     1rem;
-$font-size-h5:                     .9286rem;
-$font-size-h6:                     .8571rem;
-$font-size-small:                  .8rem;
+$h1-font-size:                     1.857rem;
+$h2-font-size:                     1.571rem;
+$h3-font-size:                     1.286rem;
+$h4-font-size:                     1rem;
+$h5-font-size:                     .9286rem;
+$h6-font-size:                     .8571rem;
+$font-size-sm:                     .8rem;
+$fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
 // Tables
@@ -59,40 +121,36 @@ $table-row-selected:               #d9edf7;
 // Tabs
 $atum-tabs-header-bg:              $atum-block-header-bg;
 $atum-tabs-active-bg:              rgba(0,0,0,.03);
-$atum-tabs-active-highlight:       $brand-primary;
+$atum-tabs-active-highlight:       theme-color("primary");
 
 // Cards
 $atum-card-title-bg:               $atum-block-header-bg;
 $atum-card-title-icon-bg:          $atum-block-header-bg;
 $atum-card-title-icon-bg-hover:    darken($atum-card-title-bg, 2%);
 $card-bg-color-light:              #f8f8f8;
-$card-bg-color-dark:               $atum-template-color;
+$card-bg-color-dark:               $atum-template-color-dark;
 $card-border-color:                $atum-border-color;
 
 // Alerts
-$state-success-text:               #fff !default;
-$state-success-bg:                 $brand-success !default;
-$state-success-border:             darken($brand-success, 5%) !default;
+$state-success-text:               $white !default;
+$state-success-bg:                 theme-color("success") !default;
+$state-success-border:             darken(theme-color("success"), 5%) !default;
 
-$state-info-text:                  #fff !default;
-$state-info-bg:                    $brand-info !default;
-$state-info-border:                darken($brand-info, 7%) !default;
+$state-info-text:                  $white !default;
+$state-info-bg:                    theme-color("info") !default;
+$state-info-border:                darken(theme-color("info"), 7%) !default;
 
-$state-warning-text:               #fff !default;
-$state-warning-bg:                 $brand-warning !default;
-$state-warning-border:             darken($brand-warning, 5%) !default;
+$state-warning-text:               $white !default;
+$state-warning-bg:                 theme-color("warning") !default;
+$state-warning-border:             darken(theme-color("warning"), 5%) !default;
 
-$state-danger-text:                #fff !default;
-$state-danger-bg:                  $brand-danger !default;
-$state-danger-border:              darken($brand-danger, 5%) !default;
-
-// Switchers
-$switcher-color-success:           rgb(100,189,99);
-$switcher-color-danger:            rgb(188,101,100);
-$switcher-color-primary:           rgb(100,143,186);
+$state-danger-text:                $white !default;
+$state-danger-bg:                  theme-color("danger") !default;
+$state-danger-border:              darken(theme-color("danger"), 5%) !default;
 
 // Treeselect
 $treeselect-line-height:           2.2rem;
+$treeselect-indent:                40px;
 
 // List
 $list-group-bg:                    $white-offset;
@@ -106,5 +164,15 @@ $modal-header-height:              46px;
 // Badges
 $badge-default-bg:                 #5e7082;
 
+// Quickicons
+$quickicon-bg:                     $atum-template-color;
+$quickicon-text-color:             $white;
+$quickicon-box-shadow:             0 0 5px 0 $quickicon-bg;
+$quickicon-box-shadow-success:     0 0 5px 0 lighten(theme-color("success"), 7%);
+$quickicon-box-shadow-danger:      0 0 5px 0 lighten(theme-color("danger"), 7%);
+
 // Gutter
-$grid-gutter-width-base:           15px !default;
+$grid-gutter-width:                15px !default;
+
+// A11y
+$focus-highlight-color:              #39f;

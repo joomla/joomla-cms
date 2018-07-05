@@ -18,35 +18,34 @@
 
 }
 
-.control-group::after {
-  display: table;
-  clear: both;
-  content: "";
-}
+.control-group {
+  margin-bottom: 18px;
 
-form:not(.form-no-margin) {
+  > .form-check {
+    display: inline-block;
+  }
 
-  .control-group {
-    margin-bottom: 18px;
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
 
-    .control-label {
-      float: left;
-      width: 220px;
-      padding-top: 5px;
-      padding-right: 5px;
-      text-align: left;
-    }
+  .control-label {
+    float: left;
+    width: 220px;
+    padding-top: 5px;
+    padding-right: 5px;
+    text-align: left;
+  }
 
-    .controls {
-      margin-left: 0;
-      overflow: hidden;
-    }
-
+  .controls {
+    margin-left: 220px;
   }
 
 }
 
-form .form-no-margin {
+.form-no-margin {
 
   .control-group {
 
@@ -63,15 +62,11 @@ form .form-no-margin {
 }
 
 .custom-select {
-  min-width: 240px;
+  max-width: 240px;
 }
 
 .spacer hr {
   width: 380px;
-}
-
-.card .custom-select {
-  width: 100%;
 }
 
 td .form-control {
@@ -104,25 +99,17 @@ legend {
 
 // Validation
 .invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
+  color: theme-color("danger");
+  border-color: theme-color("danger");
 }
 .valid {
-  border-color: $switcher-color-success;
+  border-color: theme-color("success");
 }
 
-// Possibly temporary until Bootstrap suport it themselves
-.custom-select[multiple] {
-  height: auto;
-  background: none;
+.form-control-feedback {
+  display: block;
 }
 
-// Validation
-.invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
-}
-
-.valid {
-  border-color: $switcher-color-success;
+[aria-grabbed="true"] {
+  box-shadow: 0 0 2px 1px theme-color("primary");
 }

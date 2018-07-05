@@ -3,7 +3,7 @@
 	<name>plg_fields_editor</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -24,50 +24,45 @@
 				<field
 					name="buttons"
 					type="radio"
+					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
 					class="switcher"
 					default="0"
-					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="hide"
 					type="plugins"
+					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
 					folder="editors-xtd"
 					multiple="true"
-					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_DESC"
 				/>
 
 				<field
 					name="width"
 					type="text"
-					default="100%"
 					label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
+					default="100%"
 					size="5"
 				/>
 
 				<field
 					name="height"
 					type="text"
-					default="250px"
 					label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
+					default="250px"
 					size="5"
 				/>
 
 				<field
 					name="filter"
 					type="list"
-					class="btn-group"
-					default="JComponentHelper::filterText"
 					label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_FILTER_DESC"
-				>
+					class="list"
+					default="JComponentHelper::filterText"
+					>
 					<option value="0">JNO</option>
 					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
 					<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>

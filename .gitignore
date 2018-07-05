@@ -12,6 +12,8 @@
 /administrator/logs
 /cache
 /installation/cache
+/installation/sessions
+/libraries/autoload_psr4.php
 /tmp
 /configuration.php
 /.htaccess
@@ -21,10 +23,15 @@
 # Test Related Files #
 /phpunit.xml
 
+# Stubs file holding mapped classes
+/stubs.php
+
 # Grunt #
 node_modules/
 /build/assets_tmp
-administrator/templates/atum/scss/scss-lint-report.xml
+/scss-lint-report.xml
+/dev/assets/packages.json
+yarn.lock
 
 # Removed in Joomla 4 #
 administrator/templates/isis
@@ -45,8 +52,15 @@ phpdoc-*
 /components/com_patchtester
 /media/com_patchtester
 
-# Install from Web plugin #
-/plugins/installer/webinstaller
+# Languages #
+administrator/language/*
+!administrator/language/en-GB
+administrator/manifests/packages/*
+!administrator/manifests/packages/pkg_en-GB.xml
+!administrator/language/overrides/index.html
+language/*
+!language/en-GB
+!language/overrides/index.html
 
 # OSX #
 ._*
@@ -67,6 +81,10 @@ Desktop.ini
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production
 # code must remain to ensure all libraries properly function
+/libraries/vendor/fig/link-util/test
+/libraries/vendor/fig/link-util/composer.json
+/libraries/vendor/fig/link-util/phpcs.xml
+/libraries/vendor/fig/link-util/README.md
 /libraries/vendor/ircmaxell/password-compat/test
 /libraries/vendor/ircmaxell/password-compat/.travis.yml
 /libraries/vendor/ircmaxell/password-compat/composer.json
@@ -82,7 +100,19 @@ Desktop.ini
 /libraries/vendor/defuse/php-encryption/.php_cs
 /libraries/vendor/defuse/php-encryption/composer.json
 /libraries/vendor/defuse/php-encryption/README.md
+/libraries/vendor/defuse/php-encryption/psalm.xml
 /libraries/vendor/defuse/php-encryption/test.sh
+/libraries/vendor/doctrine/inflector/composer.json
+/libraries/vendor/doctrine/inflector/README.md
+/libraries/vendor/google/recaptcha/examples
+/libraries/vendor/google/recaptcha/tests
+/libraries/vendor/google/recaptcha/.gitignore
+/libraries/vendor/google/recaptcha/.travis.yml
+/libraries/vendor/google/recaptcha/composer.json
+/libraries/vendor/google/recaptcha/CONTRIBUTING.md
+/libraries/vendor/google/recaptcha/phpunit.xml.dist
+/libraries/vendor/google/recaptcha/README.md
+/libraries/vendor/joomla/*/.appveyor.yml
 /libraries/vendor/joomla/*/.gitattributes
 /libraries/vendor/joomla/*/.github
 /libraries/vendor/joomla/*/.gitignore
@@ -90,6 +120,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/.travis/
 /libraries/vendor/joomla/*/docs
 /libraries/vendor/joomla/*/Tests
+/libraries/vendor/joomla/*/tests
 /libraries/vendor/joomla/*/vendor
 /libraries/vendor/joomla/*/.scrutinizer.yml
 /libraries/vendor/joomla/*/.travis.yml
@@ -97,7 +128,9 @@ Desktop.ini
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/phpunit.travis.xml
+/libraries/vendor/joomla/*/phpunit.appveyor.xml
 /libraries/vendor/joomla/*/README.md
+/libraries/vendor/joomla/*/ruleset.xml
 /libraries/vendor/leafo/lessphp/docs
 /libraries/vendor/leafo/lessphp/tests
 /libraries/vendor/leafo/lessphp/.gitignore
@@ -106,6 +139,10 @@ Desktop.ini
 /libraries/vendor/leafo/lessphp/Makefile
 /libraries/vendor/leafo/lessphp/package.sh
 /libraries/vendor/leafo/lessphp/README.md
+/libraries/vendor/mso/idna-convert/.gitattributes
+/libraries/vendor/mso/idna-convert/.gitignore
+/libraries/vendor/mso/idna-convert/composer.json
+/libraries/vendor/mso/idna-convert/README.md
 /libraries/vendor/paragonie/random_compat/.gitignore
 /libraries/vendor/paragonie/random_compat/.scrutinizer.yml
 /libraries/vendor/paragonie/random_compat/.travis.yml
@@ -113,16 +150,31 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/other
 /libraries/vendor/paragonie/random_compat/CHANGELOG.md
 /libraries/vendor/paragonie/random_compat/ERRATA.md
+/libraries/vendor/paragonie/random_compat/RATIONALE.md
 /libraries/vendor/paragonie/random_compat/README.md
 /libraries/vendor/paragonie/random_compat/SECURITY.md
 /libraries/vendor/paragonie/random_compat/build-phar.sh
 /libraries/vendor/paragonie/random_compat/composer.json
+/libraries/vendor/paragonie/random_compat/psalm-autoload.php
+/libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
+/libraries/vendor/paragonie/sodium_compat/dist
+/libraries/vendor/paragonie/sodium_compat/.gitignore
+/libraries/vendor/paragonie/sodium_compat/appveyor.yml
+/libraries/vendor/paragonie/sodium_compat/build-phar.sh
+/libraries/vendor/paragonie/sodium_compat/composer.json
+/libraries/vendor/paragonie/sodium_compat/composer.lock
+/libraries/vendor/paragonie/sodium_compat/phpunit.xml.dist
+/libraries/vendor/paragonie/sodium_compat/README.md
+/libraries/vendor/paragonie/sodium_compat/src/Core/Curve25519/README.md
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
 /libraries/vendor/phpmailer/phpmailer/language
 /libraries/vendor/phpmailer/phpmailer/test
+/libraries/vendor/phpmailer/phpmailer/.github
 /libraries/vendor/phpmailer/phpmailer/.gitignore
+/libraries/vendor/phpmailer/phpmailer/.phan
+/libraries/vendor/phpmailer/phpmailer/.php_cs
 /libraries/vendor/phpmailer/phpmailer/.scrutinizer.yml
 /libraries/vendor/phpmailer/phpmailer/.travis.yml
 /libraries/vendor/phpmailer/phpmailer/changelog.md
@@ -132,28 +184,30 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/ISSUE_TEMPLATE.md
 /libraries/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 /libraries/vendor/phpmailer/phpmailer/README.md
+/libraries/vendor/phpmailer/phpmailer/SECURITY.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
 /libraries/vendor/phpmailer/phpmailer/UPGRADING.md
+/libraries/vendor/psr/container/.gitignore
+/libraries/vendor/psr/container/composer.json
+/libraries/vendor/psr/container/README.md
 /libraries/vendor/psr/http-message/CHANGELOG.md
 /libraries/vendor/psr/http-message/composer.json
 /libraries/vendor/psr/http-message/README.md
+/libraries/vendor/psr/link/composer.json
+/libraries/vendor/psr/link/README.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
 /libraries/vendor/psr/log/README.md
-/libraries/vendor/symfony/polyfill-php55/composer.json
-/libraries/vendor/symfony/polyfill-php55/README.md
-/libraries/vendor/symfony/polyfill-php56/composer.json
-/libraries/vendor/symfony/polyfill-php56/README.md
-/libraries/vendor/symfony/polyfill-util/composer.json
-/libraries/vendor/symfony/polyfill-util/README.md
+/libraries/vendor/symfony/*/Tests
+/libraries/vendor/symfony/*/.gitignore
+/libraries/vendor/symfony/*/CHANGELOG.md
+/libraries/vendor/symfony/*/composer.json
+/libraries/vendor/symfony/*/phpunit.xml.dist
+/libraries/vendor/symfony/*/README.md
+/libraries/vendor/symfony/console/Resources/bin/hiddeninput.exe
+/libraries/vendor/symfony/debug/Resources/ext
 /libraries/vendor/symfony/polyfill-util/TestListener.php
-/libraries/vendor/symfony/yaml/Tests
-/libraries/vendor/symfony/yaml/.gitignore
-/libraries/vendor/symfony/yaml/CHANGELOG.md
-/libraries/vendor/symfony/yaml/composer.json
-/libraries/vendor/symfony/yaml/phpunit.xml.dist
-/libraries/vendor/symfony/yaml/README.md
 /libraries/vendor/simplepie/simplepie/demo
 /libraries/vendor/simplepie/simplepie/tests
 /libraries/vendor/simplepie/simplepie/README.markdown
@@ -164,6 +218,11 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+/libraries/vendor/wamania/php-stemmer/.gitignore
+/libraries/vendor/wamania/php-stemmer/README.md
+/libraries/vendor/wamania/php-stemmer/composer.json
+/libraries/vendor/wamania/php-stemmer/phpunit.xml.dist
+/libraries/vendor/wamania/php-stemmer/test
 /libraries/vendor/zendframework/zend-diactoros/.coveralls.yml
 /libraries/vendor/zendframework/zend-diactoros/CHANGELOG.md
 /libraries/vendor/zendframework/zend-diactoros/composer.json
@@ -172,3 +231,26 @@ Desktop.ini
 /libraries/vendor/zendframework/zend-diactoros/CONTRIBUTING.md
 /libraries/vendor/zendframework/zend-diactoros/mkdocs.yml
 /libraries/vendor/zendframework/zend-diactoros/README.md
+
+# System Test related files
+/libraries/vendor/codeception
+/libraries/vendor/behat
+/libraries/vendor/consolidation
+/libraries/vendor/joomla/test-system
+/libraries/vendor/league/
+/libraries/vendor/phpdocumentor/
+/libraries/vendor/phpspec/
+/libraries/vendor/phpunit/
+/libraries/vendor/sebastian/
+/libraries/vendor/squizlabs/
+
+selenium.log
+composer.phar
+/test-install
+
+# Build related
+RoboFile.ini
+
+# Media Manager
+/media/com_media/js/mediamanager.min.js.map
+/media/com_media/css/mediamanager.min.css.map

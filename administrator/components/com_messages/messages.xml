@@ -3,7 +3,7 @@
 	<name>com_messages</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -12,15 +12,19 @@
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_messages.ini</language>
 	</languages>
+	<namespace>Joomla\Component\Messages</namespace>
 	<administration>
 		<files folder="admin">
+			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>messages.php</filename>
-			<folder>controllers</folder>
+			<filename>dispatcher.php</filename>			
+			<folder>Controller</folder>
+			<folder>Helper</folder>
 			<folder>helpers</folder>
+			<folder>Model</folder>
 			<folder>models</folder>
-			<folder>tables</folder>
+			<folder>Table</folder>
+			<folder>View</folder>
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">

@@ -2,12 +2,18 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set flag that this is a parent file.
 const _JEXEC = 1;
+
+// Import namespaced classes
+use Joomla\CMS\Application\CliApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Version;
+use Joomla\Registry\Registry;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -21,25 +27,22 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-// Get the Platform without legacy libraries.
-require_once JPATH_LIBRARIES . '/import.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
+// Get the framework.
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Load the admin en-GB.ini language file to get the JHELP language keys
-JFactory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
+Factory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
 
 /**
  * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view.
  *
  * @since  3.0
  */
-class MediawikiCli extends JApplicationCli
+class MediawikiCli extends CliApplication
 {
 	/**
 	 * Entry point for CLI script
@@ -50,20 +53,32 @@ class MediawikiCli extends JApplicationCli
 	 */
 	public function doExecute()
 	{
+		if (!class_exists(\Joomla\Mediawiki\Http::class))
+		{
+			$this->out(
+				'The `joomla/mediawiki` package is not installed.  To use this script, you must run `composer install` to install development'
+				. ' dependencies not tracked in this repo.'
+			);
+
+			return;
+		}
+
 		// Get the version data for the script
-		$version     = new JVersion;
-		$helpVersion = str_replace('.', '', $version::RELEASE);
-		$namespace   = 'Help' . $helpVersion . ':';
+		$minorVersion = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
+		$namespace    = 'Help' . $minorVersion . ':';
+
+		// Set up HTTP driver for MediaWiki
+		$http = new \Joomla\Mediawiki\Http([], JHttpFactory::getAvailableDriver());
 
 		// Set up options for JMediawiki
-		$options = new Joomla\Registry\Registry;
+		$options = new Registry;
 		$options->set('api.url', 'https://docs.joomla.org');
 
-		$mediawiki = new JMediawiki($options);
+		$mediawiki = new Joomla\Mediawiki\Mediawiki($options, $http);
 
 		// Get the category members (local hack)
 		$this->out('Fetching data from docs wiki', true);
-		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . $version::RELEASE, null, 'max');
+		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . $minorVersion, null, 'max');
 
 		$members = array();
 
@@ -77,7 +92,7 @@ class MediawikiCli extends JApplicationCli
 		}
 
 		// Get the language object
-		$language = JFactory::getLanguage();
+		$language = Factory::getLanguage();
 
 		// Get the language strings via Reflection as the property is protected
 		$refl = new ReflectionClass($language);
@@ -200,5 +215,22 @@ class MediawikiCli extends JApplicationCli
 	}
 }
 
-// Instantiate the application and execute it
-JApplicationCli::getInstance('MediawikiCli')->execute();
+// Set up the container
+JFactory::getContainer()->share(
+	'MediawikiCli',
+	function (\Joomla\DI\Container $container)
+	{
+		return new MediawikiCli(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('MediawikiCli');
+JFactory::$application = $app;
+$app->execute();

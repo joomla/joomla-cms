@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ interface FormatInterface
 	 *
 	 * @since   1.5.0
 	 */
-	public function objectToString($object, $options = null);
+	public function objectToString($object, array $options = []);
 
 	/**
 	 * Converts a formatted string into an object.
@@ -37,5 +37,5 @@ interface FormatInterface
 	 *
 	 * @since   1.5.0
 	 */
-	public function stringToObject($data, array $options = array());
+	public function stringToObject($data, array $options = []);
 }

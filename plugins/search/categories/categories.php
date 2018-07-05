@@ -3,11 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -16,7 +21,7 @@ JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/he
  *
  * @since  1.6
  */
-class PlgSearchCategories extends JPlugin
+class PlgSearchCategories extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -59,18 +64,15 @@ class PlgSearchCategories extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
+		$db 	= Factory::getDbo();
+		$user 	= Factory::getUser();
+		$app 	= Factory::getApplication();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$searchText = $text;
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent = $this->params->get('search_content', 1);
@@ -95,7 +97,7 @@ class PlgSearchCategories extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -162,9 +164,9 @@ class PlgSearchCategories extends JPlugin
 			->group('a.id, a.title, a.description, a.alias, a.created_time')
 			->order($order);
 
-		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && Multilanguage::isEnabled())
 		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		$db->setQuery($query, 0, $limit);
@@ -176,7 +178,7 @@ class PlgSearchCategories extends JPlugin
 		catch (RuntimeException $e)
 		{
 			$rows = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		$return = array();
@@ -185,11 +187,10 @@ class PlgSearchCategories extends JPlugin
 		{
 			foreach ($rows as $i => $row)
 			{
-
 				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
 					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);
-					$row->section = JText::_('JCATEGORY');
+					$row->section = Text::_('JCATEGORY');
 
 					$return[] = $row;
 				}

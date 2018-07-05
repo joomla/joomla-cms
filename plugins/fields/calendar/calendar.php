@@ -3,20 +3,20 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Calendar
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Form\Form;
 
 /**
  * Fields Calendar Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsCalendar extends FieldsPlugin
+class PlgFieldsCalendar extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
@@ -29,7 +29,7 @@ class PlgFieldsCalendar extends FieldsPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 

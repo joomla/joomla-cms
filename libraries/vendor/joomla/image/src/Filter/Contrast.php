@@ -2,19 +2,19 @@
 /**
  * Part of the Joomla Framework Image Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Image\Filter;
 
 use Joomla\Image\ImageFilter;
-use InvalidArgumentException;
 
 /**
  * Image Filter class adjust the contrast of an image.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 class Contrast extends ImageFilter
 {
@@ -26,14 +26,14 @@ class Contrast extends ImageFilter
 	 * @return  void
 	 *
 	 * @since   1.0
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Validate that the contrast value exists and is an integer.
 		if (!isset($options[IMG_FILTER_CONTRAST]) || !is_int($options[IMG_FILTER_CONTRAST]))
 		{
-			throw new InvalidArgumentException('No valid contrast value was given.  Expected integer.');
+			throw new \InvalidArgumentException('No valid contrast value was given.  Expected integer.');
 		}
 
 		// Perform the contrast filter.

@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
-JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 
 /**
  * Query class for the Finder indexer package.
@@ -106,6 +107,14 @@ class FinderIndexerQuery
 	public $terms;
 
 	/**
+	 * Allow empty searches
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $empty;
+
+	/**
 	 * The static filter id.
 	 *
 	 * @var    string
@@ -172,14 +181,13 @@ class FinderIndexerQuery
 	public function __construct($options)
 	{
 		// Get the input string.
-		$this->input = isset($options['input']) ? $options['input'] : null;
+		$this->input = $options['input'] ?? null;
 
 		// Get the empty query setting.
 		$this->empty = isset($options['empty']) ? (bool) $options['empty'] : false;
 
 		// Get the input language.
 		$this->language = !empty($options['language']) ? $options['language'] : FinderIndexerHelper::getDefaultLanguage();
-		$this->language = FinderIndexerHelper::getPrimaryLanguage($this->language);
 
 		// Get the matching mode.
 		$this->mode = 'AND';
@@ -346,9 +354,10 @@ class FinderIndexerQuery
 			// Get the menu item id.
 			$query = array(
 				'view' => $uri->getVar('view'),
-				'f' => $uri->getVar('f'),
-				'q' => $uri->getVar('q')
+				'f'    => $uri->getVar('f'),
+				'q'    => $uri->getVar('q'),
 			);
+
 			$item = FinderHelperRoute::getItemid($query);
 
 			// Add the menu item id if present.
@@ -742,7 +751,7 @@ class FinderIndexerQuery
 		 */
 		$patterns = array(
 			'before' => JText::_('COM_FINDER_FILTER_WHEN_BEFORE'),
-			'after' => JText::_('COM_FINDER_FILTER_WHEN_AFTER')
+			'after'  => JText::_('COM_FINDER_FILTER_WHEN_AFTER'),
 		);
 
 		// Add the taxonomy branch titles to the possible patterns.
@@ -753,7 +762,7 @@ class FinderIndexerQuery
 		}
 
 		// Container for search terms and phrases.
-		$terms = array();
+		$terms   = array();
 		$phrases = array();
 
 		// Cleared filter branches.
@@ -785,7 +794,7 @@ class FinderIndexerQuery
 			if (preg_match('#' . $pattern . '\s*:\s*' . $suffix . '#mi', $input, $matches))
 			{
 				// Get the value given to the modifier.
-				$value = isset($matches[3]) ? $matches[3] : $matches[1];
+				$value = $matches[3] ?? $matches[1];
 
 				// Now we have to handle the filter string.
 				switch ($modifier)
@@ -844,7 +853,7 @@ class FinderIndexerQuery
 						}
 
 						break;
-						}
+					}
 				}
 
 				// Clean up the input string again.
@@ -964,8 +973,8 @@ class FinderIndexerQuery
 		// An array of our boolean operators. $operator => $translation
 		$operators = array(
 			'AND' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_AND')),
-			'OR' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
-			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT'))
+			'OR'  => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
+			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT')),
 		);
 
 		// If language debugging is enabled you need to ignore the debug strings in matching.
@@ -993,7 +1002,7 @@ class FinderIndexerQuery
 				{
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
-					$token = $this->getTokenData($token);
+					$token = $this->getTokenData(array_shift($token));
 
 					// Set the required flag.
 					$token->required = true;
@@ -1007,7 +1016,7 @@ class FinderIndexerQuery
 
 					// Tokenize the term after the next term (current plus two).
 					$other = FinderIndexerHelper::tokenize($terms[$i + 2], $lang, true);
-					$other = $this->getTokenData($other);
+					$other = $this->getTokenData(array_shift($other));
 
 					// Set the required flag.
 					$other->required = true;
@@ -1145,7 +1154,7 @@ class FinderIndexerQuery
 
 				// Tokenize the next term (current plus one).
 				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
-				$other = $this->getTokenData($other);
+				$other = $this->getTokenData(array_shift($other));
 
 				// Set the required flag.
 				$other->required = false;
@@ -1185,7 +1194,7 @@ class FinderIndexerQuery
 		{
 			// Tokenize the phrase.
 			$token = FinderIndexerHelper::tokenize($phrases[$i], $lang, true);
-			$token = $this->getTokenData($token);
+			$token = $this->getTokenData(array_shift($token));
 
 			// Set the required flag.
 			$token->required = true;
@@ -1266,13 +1275,6 @@ class FinderIndexerQuery
 			->select('t.term, t.term_id')
 			->from('#__finder_terms AS t');
 
-		/*
-		 * If the token is a phrase, the lookup process is fairly simple. If
-		 * the token is a word, it is a little more complicated. We have to
-		 * create two queries to lookup the term and the stem respectively,
-		 * then union the result sets together. This is MUCH faster than using
-		 * an or condition in the database query.
-		 */
 		if ($token->phrase)
 		{
 			// Add the phrase to the query.
@@ -1282,17 +1284,8 @@ class FinderIndexerQuery
 		else
 		{
 			// Add the term to the query.
-			$query->where('t.term = ' . $db->quote($token->term))
+			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')')
 				->where('t.phrase = 0');
-
-			// Clone the query, replace the WHERE clause.
-			$sub = clone $query;
-			$sub->clear('where');
-			$sub->where('t.stem = ' . $db->quote($token->stem));
-			$sub->where('t.phrase = 0');
-
-			// Union the two queries.
-			$query->union($sub);
 		}
 
 		// Get the terms.

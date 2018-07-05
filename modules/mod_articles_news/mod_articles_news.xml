@@ -3,12 +3,13 @@
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesNews</namespace>
 	<files>
 		<filename module="mod_articles_news">mod_articles_news.php</filename>
 		<folder>tmpl</folder>
@@ -18,7 +19,7 @@
 		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
 		<language tag="en-GB">en-GB.mod_articles_news.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH" />
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH"/>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -26,25 +27,32 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
+					class="multipleCategories"
 					default=""
 					size="10"
-					>
-					<option value="">JOPTION_ALL_CATEGORIES</option>
-				</field>
+				/>
+
+				<field
+					name="tag"
+					type="tag"
+					label="JTAG"
+					description="JTAG_DESC"
+					mode="nested"
+					multiple="true"
+					class="multipleTags"
+				/>
 
 				<field
 					name="image"
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -52,18 +60,16 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="link_titles"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
 					class="chzn-color"
 					showon="item_title:1"
 					>
@@ -76,7 +82,6 @@
 					name="item_heading"
 					type="list"
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
-					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION"
 					default="h4"
 					showon="item_title:1"
 					>
@@ -91,20 +96,7 @@
 					name="triggerevents"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="showLastSeparator"
-					type="radio"
 					class="switcher"
-					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -112,13 +104,23 @@
 				</field>
 
 				<field
+					name="showLastSeparator"
+					type="radio"
+					class="switcher"
+					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
+					default="1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="show_introtext"
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -128,7 +130,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -137,9 +138,8 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC"
 					default="5"
 				/>
 
@@ -147,7 +147,6 @@
 					name="show_featured"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_FEATURED_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_FEATURED_DESC"
 					default=""
 					>
 					<option value="">JSHOW</option>
@@ -159,7 +158,6 @@
 					name="ordering"
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC"
 					default="a.publish_up"
 					>
 					<option value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
@@ -174,7 +172,6 @@
 					name="direction"
 					type="list"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
-					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
 					showon="ordering:a.publish_up,a.created,a.modified,a.ordering,a.hits"
 					>
@@ -188,21 +185,18 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				/>
 
 				<field
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -211,9 +205,8 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 

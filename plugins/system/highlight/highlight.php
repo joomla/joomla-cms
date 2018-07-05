@@ -3,18 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * System plugin to highlight terms.
  *
  * @since  2.5
  */
-class PlgSystemHighlight extends JPlugin
+class PlgSystemHighlight extends CMSPlugin
 {
 	/**
 	 * Method to catch the onAfterDispatch event.
@@ -30,23 +36,23 @@ class PlgSystemHighlight extends JPlugin
 	public function onAfterDispatch()
 	{
 		// Check that we are in the site application.
-		if (JFactory::getApplication()->isClient('administrator'))
+		if (Factory::getApplication()->isClient('administrator'))
 		{
 			return true;
 		}
 
 		// Set the variables.
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$extension = $input->get('option', '', 'cmd');
 
 		// Check if the highlighter is enabled.
-		if (!JComponentHelper::getParams($extension)->get('highlight_terms', 1))
+		if (!ComponentHelper::getParams($extension)->get('highlight_terms', 1))
 		{
 			return true;
 		}
 
 		// Check if the highlighter should be activated in this environment.
-		if (JFactory::getDocument()->getType() !== 'html' || $input->get('tmpl', '', 'cmd') === 'component')
+		if ($input->get('tmpl', '', 'cmd') === 'component' || Factory::getDocument()->getType() !== 'html')
 		{
 			return true;
 		}
@@ -62,7 +68,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Clean the terms array.
-		$filter     = JFilterInput::getInstance();
+		$filter     = InputFilter::getInstance();
 
 		$cleanTerms = array();
 
@@ -72,10 +78,10 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		JHtml::_('behavior.highlighter', $cleanTerms);
+		HTMLHelper::_('behavior.highlighter', $cleanTerms);
 
 		// Adjust the component buffer.
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 		$buf = $doc->getBuffer('component');
 		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
 		$doc->setBuffer($buf, 'component');

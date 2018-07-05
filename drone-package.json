@@ -1,0 +1,20 @@
+{
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joomla/joomla-cms.git"
+  },
+  "scripts": {
+    "compile-js": "grunt uglify:allJs",
+    "compile-sass": "grunt sass:dist",
+    "update-dependencies": "grunt default",
+    "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "1.1.0",
+    "joomla-javascript-tests": "joomla/test-javascript#4.0-dev"
+  },
+  "license": "GPL-2.0+"
+}

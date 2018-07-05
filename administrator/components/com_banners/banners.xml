@@ -3,12 +3,13 @@
 	<name>com_banners</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_BANNERS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Banners</namespace>
 
 	<install> <!-- Runs on install -->
 		<sql>
@@ -22,11 +23,12 @@
 	</uninstall>
 
 	<files folder="site">
-		<filename>banners.php</filename>
-		<filename>controller.php</filename>
+		<filename>dispatcher.php</filename>
 		<filename>router.php</filename>
+		<folder>Controller</folder>
+		<folder>Helper</folder>
 		<folder>helpers</folder>
-		<folder>models</folder>
+		<folder>Model</folder>
 	</files>
 	<administration>
 		<menu img="class:banners">com_banners</menu>
@@ -72,11 +74,14 @@
 			<filename>access.xml</filename>
 			<filename>banners.php</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<folder>controllers</folder>
+			<filename>dispatcher.php</filename>
+			<folder>Controller</folder>
+			<folder>Helper</folder>
 			<folder>helpers</folder>
+			<folder>Model</folder>
 			<folder>models</folder>
-			<folder>tables</folder>
+			<folder>Table</folder>
+			<folder>View</folder>
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">

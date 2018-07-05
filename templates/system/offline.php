@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,21 +13,15 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-// Output as HTML5
-$this->setHtml5(true);
-
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
 // Styles
-JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
 
 if ($this->direction === 'rtl')
 {
-	JHtml::_('stylesheet', 'offline_rtl.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'templates/system/css/offline_rtl.css', ['version' => 'auto']);
 }
 
-JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'templates/system/css/general.css', ['version' => 'auto']);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -37,7 +31,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="head" />
 </head>
 <body>

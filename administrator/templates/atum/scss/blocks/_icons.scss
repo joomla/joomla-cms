@@ -13,9 +13,59 @@
 }
 
 .icon-publish {
-  color: $brand-success;
+  color: theme-color("success");
 }
 
 .icon-unpublish {
-  color: $brand-danger;
+  color: theme-color("danger");
+}
+
+.tbody-icon {
+  padding: 0 3px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+
+  span {
+    color: #ccc;
+    border: 2px solid #ccc;
+  }
+
+  [class^="icon-"]:not(.icon-checkedout),
+  [class*=" icon-"]:not(.icon-checkedout) {
+    width: 26px;
+    height: 26px;
+    font-size: 1rem;
+    line-height: 22px;
+    border-radius: 50%;
+  }
+
+  .icon-publish {
+    color: theme-color("success");
+    border-color: theme-color("success");
+  }
+
+  .icon-featured {
+    color: theme-color("warning");
+    border-color: theme-color("warning");
+  }
+
+  .icon-unpublish {
+    color: theme-color("danger");
+    border-color: theme-color("danger");
+  }
+
+  .icon-archive {
+    color: $gray-700;
+    border-color: $gray-700;
+  }
+
+  .icon-checkedout {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: $gray-700;
+    border: 0;
+  }
 }

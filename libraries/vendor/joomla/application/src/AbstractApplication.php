@@ -2,12 +2,15 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Application;
 
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\EventInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Psr\Log\LoggerAwareInterface;
@@ -20,9 +23,9 @@ use Psr\Log\NullLogger;
  *
  * @since  1.0
  */
-abstract class AbstractApplication implements LoggerAwareInterface
+abstract class AbstractApplication implements LoggerAwareInterface, DispatcherAwareInterface
 {
-	use LoggerAwareTrait;
+	use LoggerAwareTrait, DispatcherAwareTrait;
 
 	/**
 	 * The application configuration object.
@@ -80,6 +83,30 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	}
 
 	/**
+	 * Dispatches an application event if the dispatcher has been set.
+	 *
+	 * @param   string      $eventName  The event to dispatch.
+	 * @param   Event|null  $event      The event object.
+	 *
+	 * @return  EventInterface|void  The dispatched event or null if no dispatcher is set
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function dispatchEvent(string $eventName, EventInterface $event = null)
+	{
+		try
+		{
+			$dispatcher = $this->getDispatcher();
+		}
+		catch (\UnexpectedValueException $exception)
+		{
+			return;
+		}
+
+		return $dispatcher->dispatch($eventName, $event ?: new Event\ApplicationEvent($eventName, $this));
+	}
+
+	/**
 	 * Method to run the application routines.
 	 *
 	 * Most likely you will want to instantiate a controller and execute it, or perform some sort of task directly.
@@ -99,12 +126,19 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	 */
 	public function execute()
 	{
-		// @event onBeforeExecute
+		try
+		{
+			$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
 
-		// Perform application routines.
-		$this->doExecute();
+			// Perform application routines.
+			$this->doExecute();
 
-		// @event onAfterExecute
+			$this->dispatchEvent(ApplicationEvents::AFTER_EXECUTE);
+		}
+		catch (\Throwable $throwable)
+		{
+			$this->dispatchEvent(ApplicationEvents::ERROR, new Event\ApplicationErrorEvent($thrown, $this));
+		}
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -16,8 +16,7 @@ if (!key_exists('field', $displayData))
 $field = $displayData['field'];
 $label = JText::_($field->label);
 $value = $field->value;
-$class = $field->params->get('render_class');
-$showlabel = $field->params->get('showlabel');
+$showLabel = $field->params->get('showlabel');
 
 if ($value == '')
 {
@@ -25,10 +24,7 @@ if ($value == '')
 }
 
 ?>
-
-<dd class="field-entry <?php echo $class; ?>">
-	<?php if ($showlabel == 1) : ?>
+<?php if ($showLabel == 1) : ?>
 	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
-	<?php endif; ?>
-	<span class="field-value"><?php echo $value; ?></span>
-</dd>
+<?php endif; ?>
+<span class="field-value"><?php echo $value; ?></span>

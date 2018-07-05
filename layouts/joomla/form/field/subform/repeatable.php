@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Make thing clear
@@ -17,6 +20,7 @@ defined('_JEXEC') or die;
  * @var bool    $multiple         The multiple state for the form field
  * @var int     $min              Count of minimum repeating in multiple mode
  * @var int     $max              Count of maximum repeating in multiple mode
+ * @var string  $name             Name of the input field.
  * @var string  $fieldname        The field name
  * @var string  $control          The forms control
  * @var string  $label            The field label
@@ -29,22 +33,20 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	JHtml::_('jquery.ui', array('core', 'sortable'));
-	JHtml::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-subform.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 }
-
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
-<div class="row-fluid">
 	<div class="subform-repeatable-wrapper subform-layout">
-		<div class="subform-repeatable"
-			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
-			data-repeatable-element="div.subform-repeatable-group" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
+		<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
+			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
+			repeatable-element=".subform-repeatable-group" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 			<?php if (!empty($buttons['add'])) : ?>
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a class="group-add btn btn-sm button btn-success"><span class="icon-plus icon-white"></span> </a>
+					<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0">
+						<span class="fa fa-plus icon-white" aria-hidden="true"></span> </a>
 				</div>
 			</div>
 			<?php endif; ?>
@@ -54,10 +56,10 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
-		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
-		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)); ?>
-		</script>
+		<template class="subform-repeatable-template-section" style="display: none;"><?php
+			echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)));
+		?></template>
 		<?php endif; ?>
-		</div>
+		</joomla-field-subform>
 	</div>
-</div>
+

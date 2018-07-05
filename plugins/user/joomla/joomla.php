@@ -3,20 +3,29 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Joomla User plugin
  *
  * @since  1.5
  */
-class PlgUserJoomla extends JPlugin
+class PlgUserJoomla extends CMSPlugin
 {
 	/**
 	 * Application object
@@ -54,17 +63,21 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+		// Only execute this query if using the database session handler
+		if ($this->app->get('session_handler', 'database') === 'database')
+		{
+			$query = $this->db->getQuery(true)
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
 
-		try
-		{
-			$this->db->setQuery($query)->execute();
-		}
-		catch (JDatabaseExceptionExecuting $e)
-		{
-			return false;
+			try
+			{
+				$this->db->setQuery($query)->execute();
+			}
+			catch (ExecutionFailureException $e)
+			{
+				return false;
+			}
 		}
 
 		$query = $this->db->getQuery(true)
@@ -75,7 +88,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -101,77 +114,78 @@ class PlgUserJoomla extends JPlugin
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
-		if ($isnew)
+		if (!$isnew || !$mail_to_user)
 		{
-			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			// The method check here ensures that if running as a CLI Application we don't get any errors
-			if (method_exists($this->app, 'isClient') && $this->app->isClient('administrator'))
-			{
-				if ($mail_to_user)
-				{
-					$lang = JFactory::getLanguage();
-					$defaultLocale = $lang->getTag();
-
-					/**
-					 * Look for user language. Priority:
-					 * 	1. User frontend language
-					 * 	2. User backend language
-					 */
-					$userParams = new Registry($user['params']);
-					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
-
-					if ($userLocale != $defaultLocale)
-					{
-						$lang->setLanguage($userLocale);
-					}
-
-					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
-
-					// Compute the mail subject.
-					$emailSubject = JText::sprintf(
-						'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
-						$user['name'],
-						$config = $this->app->get('sitename')
-					);
-
-					// Compute the mail body.
-					$emailBody = JText::sprintf(
-						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-						$user['name'],
-						$this->app->get('sitename'),
-						JUri::root(),
-						$user['username'],
-						$user['password_clear']
-					);
-
-					// Assemble the email data...the sexy way!
-					$mail = JFactory::getMailer()
-						->setSender(
-							array(
-								$this->app->get('mailfrom'),
-								$this->app->get('fromname')
-							)
-						)
-						->addRecipient($user['email'])
-						->setSubject($emailSubject)
-						->setBody($emailBody);
-
-					// Set application language back to default if we changed it
-					if ($userLocale != $defaultLocale)
-					{
-						$lang->setLanguage($defaultLocale);
-					}
-
-					if (!$mail->Send())
-					{
-						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
-					}
-				}
-			}
+			return;
 		}
-		else
+
+		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
+		// The method check here ensures that if running as a CLI Application we don't get any errors
+		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
 		{
-			// Existing user - nothing to do...yet.
+			return;
+		}
+
+		// Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
+		if (strpos($this->app->get('mailfrom'), '@') === false)
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
+
+			return;
+		}
+
+		$lang = Factory::getLanguage();
+		$defaultLocale = $lang->getTag();
+
+		/**
+		 * Look for user language. Priority:
+		 * 	1. User frontend language
+		 * 	2. User backend language
+		 */
+		$userParams = new Registry($user['params']);
+		$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
+
+		if ($userLocale !== $defaultLocale)
+		{
+			$lang->setLanguage($userLocale);
+		}
+
+		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
+
+		// Compute the mail subject.
+		$emailSubject = Text::sprintf(
+			'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
+			$user['name'],
+			$this->app->get('sitename')
+		);
+
+		// Compute the mail body.
+		$emailBody = Text::sprintf(
+			'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
+			$user['name'],
+			$this->app->get('sitename'),
+			Uri::root(),
+			$user['username'],
+			$user['password_clear']
+		);
+
+		$res = Factory::getMailer()->sendMail(
+			$this->app->get('mailfrom'),
+			$this->app->get('fromname'),
+			$user['email'],
+			$emailSubject,
+			$emailBody
+		);
+
+		if ($res === false)
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
+		}
+
+		// Set application language back to default if we changed it
+		if ($userLocale !== $defaultLocale)
+		{
+			$lang->setLanguage($defaultLocale);
 		}
 	}
 
@@ -198,7 +212,7 @@ class PlgUserJoomla extends JPlugin
 		// If the user is blocked, redirect with an error
 		if ($instance->block == 1)
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
 
 			return false;
 		}
@@ -214,7 +228,7 @@ class PlgUserJoomla extends JPlugin
 
 		if (!$result)
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_LOGIN_DENIED'), 'warning');
 
 			return false;
 		}
@@ -225,7 +239,7 @@ class PlgUserJoomla extends JPlugin
 		// Load the logged in user to the application
 		$this->app->loadIdentity($instance);
 
-		$session = JFactory::getSession();
+		$session = $this->app->getSession();
 
 		// Grab the current session ID
 		$oldSessionId = $session->getId();
@@ -236,8 +250,11 @@ class PlgUserJoomla extends JPlugin
 		// Register the needed session variables
 		$session->set('user', $instance);
 
-		// Ensure the new session's metadata is written to the database
-		$this->app->checkSession();
+		// Update the user related fields for the Joomla sessions table if tracking session metadata.
+		if ($this->app->get('session_metadata', true))
+		{
+			$this->app->checkSession();
+		}
 
 		// Purge the old session
 		$query = $this->db->getQuery(true)
@@ -257,12 +274,17 @@ class PlgUserJoomla extends JPlugin
 		$instance->setLastVisit();
 
 		// Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		$cookie_domain = $this->app->get('cookie_domain', '');
-		$cookie_path   = $this->app->get('cookie_path', '/');
-
 		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set('joomla_user_state', 'logged_in', 0, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set(
+				'joomla_user_state',
+				'logged_in',
+				0,
+				$this->app->get('cookie_path', '/'),
+				$this->app->get('cookie_domain', ''),
+				$this->app->isHttpsForced(),
+				true
+			);
 		}
 
 		return true;
@@ -280,8 +302,8 @@ class PlgUserJoomla extends JPlugin
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		$my      = JFactory::getUser();
-		$session = JFactory::getSession();
+		$my      = Factory::getUser();
+		$session = Factory::getSession();
 
 		// Make sure we're a valid user first
 		if ($user['id'] == 0 && !$my->get('tmp_user'))
@@ -301,8 +323,8 @@ class PlgUserJoomla extends JPlugin
 			$session->destroy();
 		}
 
-		// Enable / Disable Forcing logout all users with same userid
-		$forceLogout = $this->params->get('forceLogout', 1);
+		// Enable / Disable Forcing logout all users with same userid, but only if session metadata is tracked
+		$forceLogout = $this->params->get('forceLogout', 1) && $this->app->get('session_metadata', true);
 
 		if ($forceLogout)
 		{
@@ -326,12 +348,9 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		$cookie_domain = $this->app->get('cookie_domain', '');
-		$cookie_path   = $this->app->get('cookie_path', '/');
-
 		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set('joomla_user_state', '', time() - 86400, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 		}
 
 		return true;
@@ -351,8 +370,8 @@ class PlgUserJoomla extends JPlugin
 	 */
 	protected function _getUser($user, $options = array())
 	{
-		$instance = JUser::getInstance();
-		$id = (int) JUserHelper::getUserId($user['username']);
+		$instance = User::getInstance();
+		$id = (int) UserHelper::getUserId($user['username']);
 
 		if ($id)
 		{
@@ -362,7 +381,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// TODO : move this out of the plugin
-		$config = JComponentHelper::getParams('com_users');
+		$config = ComponentHelper::getParams('com_users');
 
 		// Hard coded default to match the default value from com_users.
 		$defaultUserGroup = $config->get('new_usertype', 2);
@@ -377,13 +396,13 @@ class PlgUserJoomla extends JPlugin
 		$instance->groups = array($defaultUserGroup);
 
 		// If autoregister is set let's register the user
-		$autoregister = isset($options['autoregister']) ? $options['autoregister'] : $this->params->get('autoregister', 1);
+		$autoregister = $options['autoregister'] ?? $this->params->get('autoregister', 1);
 
 		if ($autoregister)
 		{
 			if (!$instance->save())
 			{
-				JLog::add('Error in autoregistration for user ' . $user['username'] . '.', JLog::WARNING, 'error');
+				Log::add('Error in autoregistration for user ' . $user['username'] . '.', Log::WARNING, 'error');
 			}
 		}
 		else

@@ -3,7 +3,7 @@
 	<name>plg_fields_sql</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -24,10 +24,10 @@
 				<field
 					name="query"
 					type="textarea"
-					filter="raw"
 					label="PLG_FIELDS_SQL_PARAMS_QUERY_LABEL"
 					description="PLG_FIELDS_SQL_PARAMS_QUERY_DESC"
 					rows="10"
+					filter="raw"
 					required="true"
 				/>
 	
@@ -37,8 +37,7 @@
 					class="switcher"
 					default="0"
 					label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_SQL_PARAMS_MULTIPLE_DESC"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

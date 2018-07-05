@@ -3,20 +3,21 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.User
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 
 /**
  * Fields User Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsUser extends FieldsPlugin
+class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 
 	/**
@@ -30,9 +31,9 @@ class PlgFieldsUser extends FieldsPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
-		if (JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
 			// The user field is not working on the front end
 			return;

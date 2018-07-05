@@ -1,3 +1,3 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'scss_lint', '~> 0.52.0'
+gem 'scss_lint', '~> 0.56.0'

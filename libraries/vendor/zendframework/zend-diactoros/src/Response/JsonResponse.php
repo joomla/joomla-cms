@@ -1,9 +1,7 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
@@ -12,6 +10,15 @@ namespace Zend\Diactoros\Response;
 use InvalidArgumentException;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Stream;
+
+use function is_object;
+use function is_resource;
+use function json_encode;
+use function json_last_error;
+use function json_last_error_msg;
+use function sprintf;
+
+use const JSON_ERROR_NONE;
 
 /**
  * JSON response.
@@ -34,6 +41,16 @@ class JsonResponse extends Response
      * @const int
      */
     const DEFAULT_JSON_FLAGS = 79;
+
+    /**
+     * @var mixed
+     */
+    private $payload;
+
+    /**
+     * @var int
+     */
+    private $encodingOptions;
 
     /**
      * Create a JSON response with the given data.
@@ -59,13 +76,69 @@ class JsonResponse extends Response
         array $headers = [],
         $encodingOptions = self::DEFAULT_JSON_FLAGS
     ) {
-        $body = new Stream('php://temp', 'wb+');
-        $body->write($this->jsonEncode($data, $encodingOptions));
-        $body->rewind();
+        $this->setPayload($data);
+        $this->encodingOptions = $encodingOptions;
+
+        $json = $this->jsonEncode($data, $this->encodingOptions);
+        $body = $this->createBodyFromJson($json);
 
         $headers = $this->injectContentType('application/json', $headers);
 
         parent::__construct($body, $status, $headers);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayload()
+    {
+        return $this->payload;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return JsonResponse
+     */
+    public function withPayload($data)
+    {
+        $new = clone $this;
+        $new->setPayload($data);
+        return $this->updateBodyFor($new);
+    }
+
+    /**
+     * @return int
+     */
+    public function getEncodingOptions()
+    {
+        return $this->encodingOptions;
+    }
+
+    /**
+     * @param int $encodingOptions
+     *
+     * @return JsonResponse
+     */
+    public function withEncodingOptions($encodingOptions)
+    {
+        $new = clone $this;
+        $new->encodingOptions = $encodingOptions;
+        return $this->updateBodyFor($new);
+    }
+
+    /**
+     * @param string $json
+     *
+     * @return Stream
+     */
+    private function createBodyFromJson($json)
+    {
+        $body = new Stream('php://temp', 'wb+');
+        $body->write($json);
+        $body->rewind();
+
+        return $body;
     }
 
     /**
@@ -96,5 +169,30 @@ class JsonResponse extends Response
         }
 
         return $json;
+    }
+
+    /**
+     * @param $data
+     */
+    private function setPayload($data)
+    {
+        if (is_object($data)) {
+            $data = clone $data;
+        }
+
+        $this->payload = $data;
+    }
+
+    /**
+     * Update the response body for the given instance.
+     *
+     * @param self $toUpdate Instance to update.
+     * @return JsonResponse Returns a new instance with an updated body.
+     */
+    private function updateBodyFor(self $toUpdate)
+    {
+        $json = $this->jsonEncode($toUpdate->payload, $toUpdate->encodingOptions);
+        $body = $this->createBodyFromJson($json);
+        return $toUpdate->withBody($body);
     }
 }

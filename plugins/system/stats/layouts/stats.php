@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -19,10 +21,10 @@ extract($displayData);
 
 $versionFields = array('php_version', 'db_version', 'cms_version');
 ?>
-<table class="table table-striped m-1-b js-pstats-data-details" style="display:none;">
+<table class="table table-striped mb-1 d-none" id="js-pstats-data-details">
 	<?php foreach ($statsData as $key => $value) : ?>
 	<tr>
-		<td><b><?php echo JText::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></b></td>
+		<td><b><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></b></td>
 		<td><?php echo in_array($key, $versionFields) ? (preg_match('/\d+(?:\.\d+)+/', $value, $matches) ? $matches[0] : $value) : $value; ?></td>
 	</tr>
 	<?php endforeach; ?>

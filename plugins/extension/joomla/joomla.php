@@ -3,18 +3,22 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Joomla! master extension plugin.
  *
  * @since  1.6
  */
-class PlgExtensionJoomla extends JPlugin
+class PlgExtensionJoomla extends CMSPlugin
 {
 	/**
 	 * @var    integer Extension Identifier
@@ -50,7 +54,7 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
 		$query = $db->getQuery(true)
@@ -140,7 +144,7 @@ class PlgExtensionJoomla extends JPlugin
 		// update sites for it
 		if ($eid && $removed)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__update_sites_extensions')
 				->where('extension_id = ' . $eid);
@@ -254,10 +258,10 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$data = trim((string) $updateservers);
 
-			if (strlen($data))
+			if ($data !== '')
 			{
 				// We have a single entry in the update server line, let us presume this is an extension line
-				$this->addUpdateSite(JText::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
+				$this->addUpdateSite(Text::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
 			}
 		}
 	}

@@ -3,22 +3,23 @@
 	<name>com_postinstall</name>
 	<author>Joomla! Project</author>
 	<creationDate>September 2013</creationDate>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.2.0</version>
 	<description>COM_POSTINSTALL_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Postinstall</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>fof.xml</filename>
-			<filename>postinstall.php</filename>
-			<filename>toolbar.php</filename>
-			<folder>controllers</folder>
-			<folder>models</folder>
+			<filename>dispatcher.php</filename>
+			<folder>Controller</folder>
+			<folder>Model</folder>
+			<folder>View</folder>
 			<folder>views</folder>
+			<folder>Helper</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_postinstall.ini</language>

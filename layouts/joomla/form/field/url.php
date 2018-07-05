@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\String\PunycodeHelper;
 
 extract($displayData);
 
@@ -45,13 +47,13 @@ extract($displayData);
  */
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
-	strlen($hint) ? ' placeholder="' . $hint . '"' : '',
+	strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : ' spellcheck="false"',
@@ -65,5 +67,5 @@ $attributes = array(
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
 	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars(JStringPunycode::urlToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
+	value="<?php echo htmlspecialchars(PunycodeHelper::urlToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo implode(' ', $attributes); ?>>

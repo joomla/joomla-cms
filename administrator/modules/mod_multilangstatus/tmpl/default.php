@@ -3,45 +3,36 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_multilangstatus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Include jQuery
-JHtml::_('jquery.framework');
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
-// Use javascript to remove the modal added below from the current div and add it to the end of html body tag.
-JFactory::getDocument()->addScriptDeclaration("
-	jQuery(document).ready(function($) {
-		var multilangueModal = $('#multiLangModal').clone();
-		$('#multiLangModal').remove();
-		$('body').append(multilangueModal);
-	});
-");
+HTMLHelper::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
-<li class="px-2 multilanguage">
-	<a data-toggle="modal"
-		href="#multiLangModal"
-		title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>"
-		role="button">
-		<span class="mr-1 icon-comment"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
+<li class="nav-item multilanguage">
+	<a class="nav-link" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
+		<span class="fa fa-language" aria-hidden="true"></span>
+		<span class="sr-only"><?php echo Text::_('MOD_MULTILANGSTATUS'); ?></span>
 	</a>
 </li>
 
-<?php echo JHtml::_(
+<?php echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'multiLangModal',
 	array(
-		'title'       => JText::_('MOD_MULTILANGSTATUS'),
-		'url'         => JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
-		'height'      => '400px',
-		'width'       => '800px',
-		'bodyHeight'  => '70',
-		'modalWidth'  => '80',
-		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button" aria-hidden="true">'
-				. JText::_('JTOOLBAR_CLOSE') . '</a>',
+		'title'      => Text::_('MOD_MULTILANGSTATUS'),
+		'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
+		'height'     => '400px',
+		'width'      => '800px',
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
+		'footer'     => '<a class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . Text::_('JTOOLBAR_CLOSE') . '</a>',
 	)
 );

@@ -3,7 +3,7 @@
 	<name>plg_fields_media</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -24,21 +24,19 @@
 				<field
 					name="directory"
 					type="folderlist"
+					label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
 					directory="images"
 					hide_none="true"
 					recursive="true"
-					label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_DESC"
 				/>
 	
 				<field
 					name="preview"
 					type="list"
-					class="btn-group"
-					default="tooltip"
 					label="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_DESC"
-				>
+					class="list"
+					default="tooltip"
+					>
 					<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>
 					<option value="true">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_INLINE</option>
 					<option value="false">JNO</option>
@@ -48,7 +46,6 @@
 					name="image_class"
 					type="textarea"
 					label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
-					description="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_DESC"
 					size="40"
 				/>
 			</fieldset>

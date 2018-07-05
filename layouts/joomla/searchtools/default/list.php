@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ $data = $displayData;
 $list = $data['view']->filterForm->getGroup('list');
 ?>
 <?php if ($list) : ?>
-	<div class="ordering-select hidden-sm-down">
+	<div class="ordering-select">
 		<?php foreach ($list as $fieldName => $field) : ?>
 			<div class="js-stools-field-list">
 				<?php echo $field->input; ?>

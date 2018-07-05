@@ -3,46 +3,57 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Component\Router\RouterViewConfiguration;
+use Joomla\CMS\Component\Router\Rules\MenuRules;
+use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 
 /**
  * Routing class from com_newsfeeds
  *
  * @since  3.3
  */
-class NewsfeedsRouter extends JComponentRouterView
+class NewsfeedsRouter extends RouterView
 {
 	protected $noIDs = false;
 
 	/**
 	 * Newsfeeds Component router constructor
 	 *
-	 * @param   JApplicationCms  $app   The application object
-	 * @param   JMenu            $menu  The menu object to work with
+	 * @param   CMSApplication  $app   The application object
+	 * @param   AbstractMenu    $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
-		$params = JComponentHelper::getParams('com_newsfeeds');
+		$params = ComponentHelper::getParams('com_newsfeeds');
 		$this->noIDs = (bool) $params->get('sef_ids');
-		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories = new RouterViewConfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
-		$category = new JComponentRouterViewconfiguration('category');
+		$category = new RouterViewConfiguration('category');
 		$category->setKey('id')->setParent($categories, 'catid')->setNestable();
 		$this->registerView($category);
-		$newsfeed = new JComponentRouterViewconfiguration('newsfeed');
+		$newsfeed = new RouterViewConfiguration('newsfeed');
 		$newsfeed->setKey('id')->setParent($category, 'catid');
 		$this->registerView($newsfeed);
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new JComponentRouterRulesMenu($this));
-		$this->attachRule(new JComponentRouterRulesStandard($this));
-		$this->attachRule(new JComponentRouterRulesNomenu($this));
+		$this->attachRule(new MenuRules($this));
+		$this->attachRule(new StandardRules($this));
+		$this->attachRule(new NomenuRules($this));
 	}
 
 	/**
@@ -55,7 +66,8 @@ class NewsfeedsRouter extends JComponentRouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = JCategories::getInstance($this->getName())->get($id);
+		$category = Categories::getInstance($this->getName())->get($id);
+
 		if ($category)
 		{
 			$path = array_reverse($category->getPath(), true);
@@ -100,7 +112,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	{
 		if (!strpos($id, ':'))
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('alias'))
 				->from($dbquery->qn('#__newsfeeds'))
@@ -132,22 +144,25 @@ class NewsfeedsRouter extends JComponentRouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = JCategories::getInstance($this->getName())->get($query['id']);
+			$category = Categories::getInstance($this->getName(), array('access' => false))->get($query['id']);
 
-			foreach ($category->getChildren() as $child)
+			if ($category)
 			{
-				if ($this->noIDs)
+				foreach ($category->getChildren() as $child)
 				{
-					if ($child->alias == $segment)
+					if ($this->noIDs)
 					{
-						return $child->id;
+						if ($child->alias === $segment)
+						{
+							return $child->id;
+						}
 					}
-				}
-				else
-				{
-					if ($child->id == (int) $segment)
+					else
 					{
-						return $child->id;
+						if ($child->id == (int) $segment)
+						{
+							return $child->id;
+						}
 					}
 				}
 			}
@@ -181,7 +196,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	{
 		if ($this->noIDs)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('id'))
 				->from($dbquery->qn('#__newsfeeds'))

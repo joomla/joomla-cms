@@ -3,7 +3,7 @@
 	<name>plg_fields_url</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -24,15 +24,13 @@
 				<field
 					name="schemes"
 					type="list"
-					multiple="true"
 					label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
-					description="PLG_FIELDS_URL_PARAMS_SCHEMES_DESC"
-				>
+					multiple="true"
+					>
 					<option value="http">HTTP</option>
 					<option value="https">HTTPS</option>
 					<option value="ftp">FTP</option>
 					<option value="ftps">FTPS</option>
-					<option value="url">URL</option>
 					<option value="file">FILE</option>
 					<option value="mailto">MAILTO</option>
 				</field>
@@ -40,11 +38,10 @@
 				<field
 					name="relative"
 					type="radio"
+					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 					class="switcher"
 					default="1"
-					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
-					description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

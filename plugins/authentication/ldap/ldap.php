@@ -3,20 +3,26 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Ldap\LdapClient;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Authentication\Authentication;
+use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\ConnectionException;
+use Symfony\Component\Ldap\Exception\LdapException;
+use Symfony\Component\Ldap\Ldap;
 
 /**
  * LDAP Authentication Plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationLdap extends JPlugin
+class PlgAuthenticationLdap extends CMSPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -31,10 +37,6 @@ class PlgAuthenticationLdap extends JPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
-		$userdetails = null;
-		$success = 0;
-		$userdetails = array();
-
 		// For JLog
 		$response->type = 'LDAP';
 
@@ -44,8 +46,8 @@ class PlgAuthenticationLdap extends JPlugin
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if (empty($credentials['password']))
 		{
-			$response->status = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_PASS_BLANK');
+			$response->status = Authentication::STATUS_FAILURE;
+			$response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
 			return false;
 		}
@@ -56,110 +58,163 @@ class PlgAuthenticationLdap extends JPlugin
 		$ldap_uid      = $this->params->get('ldap_uid');
 		$auth_method   = $this->params->get('auth_method');
 
-		$ldap = new LdapClient($this->params);
-
-		if (!$ldap->connect())
-		{
-			$response->status = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_NO_CONNECT');
-
-			return;
-		}
+		$ldap = Ldap::create(
+			'ext_ldap',
+			[
+				'host'       => $this->params->get('host'),
+				'port'       => (int) $this->params->get('port'),
+				'version'    => $this->params->get('use_ldapV3', '0') == '1' ? 3 : 2,
+				'referrals'  => (bool) $this->params->get('no_referrals', '0'),
+				'encryption' => $this->params->get('negotiate_tls', '0') == '1' ? 'tls' : 'none',
+			]
+		);
 
 		switch ($auth_method)
 		{
 			case 'search':
 			{
-				// Bind using Connect Username/password
-				// Force anon bind to mitigate misconfiguration like [#7119]
-				if (strlen($this->params->get('username')))
+				try
 				{
-					$bindtest = $ldap->bind();
+					$dn = str_replace('[username]', $this->params->get('username', ''), $this->params->get('users_dn', ''));
+
+					$ldap->bind($dn, $this->params->get('password', ''));
 				}
-				else
+				catch (ConnectionException $exception)
 				{
-					$bindtest = $ldap->anonymous_bind();
+					$response->status = Authentication::STATUS_FAILURE;
+					$response->error_message = Text::_('JGLOBAL_AUTH_NO_BIND');
+
+					return;
 				}
 
-				if ($bindtest)
+				// Search for users DN
+				try
 				{
-					// Search for users DN
-					$binddata = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
-
-					if (isset($binddata[0]) && isset($binddata[0]['dn']))
-					{
-						// Verify Users Credentials
-						$success = $ldap->bind($binddata[0]['dn'], $credentials['password'], 1);
-
-						// Get users details
-						$userdetails = $binddata;
-					}
-					else
-					{
-						$response->status = JAuthentication::STATUS_FAILURE;
-						$response->error_message = JText::_('JGLOBAL_AUTH_USER_NOT_FOUND');
-					}
+					$entry = $this->searchByString(
+						str_replace(
+							'[search]',
+							str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
+							$this->params->get('search_string')
+						),
+						$ldap
+					);
 				}
-				else
+				catch (LdapException $exception)
 				{
-					$response->status = JAuthentication::STATUS_FAILURE;
-					$response->error_message = JText::_('JGLOBAL_AUTH_NO_BIND');
+					$response->status = Authentication::STATUS_FAILURE;
+					$response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+
+					return;
 				}
-			}	break;
+
+				if (!$entry)
+				{
+					$response->status = Authentication::STATUS_FAILURE;
+					$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
+
+					return;
+				}
+
+				try
+				{
+					// Verify Users Credentials
+					$ldap->bind($entry->getDn(), $credentials['password']);
+				}
+				catch (ConnectionException $exception)
+				{
+					$response->status = Authentication::STATUS_FAILURE;
+					$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+
+					return;
+				}
+
+				break;
+			}
 
 			case 'bind':
 			{
 				// We just accept the result here
-				$success = $ldap->bind($credentials['username'], $credentials['password']);
-
-				if ($success)
+				try
 				{
-					$userdetails = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
+					$ldap->bind($ldap->escape($credentials['username'], null, LDAP_ESCAPE_DN), $credentials['password']);
 				}
-				else
+				catch (ConnectionException $exception)
 				{
-					$response->status = JAuthentication::STATUS_FAILURE;
-					$response->error_message = JText::_('JGLOBAL_AUTH_BIND_FAILED');
+					$response->status = Authentication::STATUS_FAILURE;
+					$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+
+					return;
 				}
-			}	break;
+
+				try
+				{
+					$entry = $this->searchByString(
+						str_replace(
+							'[search]',
+							str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
+							$this->params->get('search_string')
+						),
+						$ldap
+					);
+				}
+				catch (LdapException $exception)
+				{
+					$response->status = Authentication::STATUS_FAILURE;
+					$response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+
+					return;
+				}
+
+				break;
+			}
+
+			default:
+				// Unsupported configuration
+				$response->status = Authentication::STATUS_FAILURE;
+				$response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+
+				return;
 		}
 
-		if (!$success)
+		// Grab some details from LDAP and return them
+		$response->username = $entry->getAttribute($ldap_uid);
+		$response->email    = $entry->getAttribute($ldap_email);
+		$response->fullname = $entry->getAttribute($ldap_fullname) ?: $credentials['username'];
+
+		// Were good - So say so.
+		$response->status        = Authentication::STATUS_SUCCESS;
+		$response->error_message = '';
+
+		// The connection is no longer needed, destroy the object to close it
+		unset($ldap);
+	}
+
+	/**
+	 * Shortcut method to perform a LDAP search based on a semicolon separated string
+	 *
+	 * Note that this method requires that semicolons which should be part of the search term to be escaped
+	 * to correctly split the search string into separate lookups
+	 *
+	 * @param   string  $search  search string of search values
+	 * @param   Ldap    $ldap    The LDAP client
+	 *
+	 * @return  Entry|null The search result entry if a matching record was found
+	 *
+	 * @since   3.8.2
+	 */
+	private function searchByString($search, Ldap $ldap)
+	{
+		$dn = $this->params->get('base_dn');
+
+		// We return the first entry from the first search result which contains data
+		foreach (explode(';', $search) as $key => $result)
 		{
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$results = $ldap->query($dn, '(' . str_replace('\3b', ';', $result) . ')')->execute();
 
-			if (!strlen($response->error_message))
+			if (count($results))
 			{
-				$response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
+				return $results[0];
 			}
 		}
-		else
-		{
-			// Grab some details from LDAP and return them
-			if (isset($userdetails[0][$ldap_uid][0]))
-			{
-				$response->username = $userdetails[0][$ldap_uid][0];
-			}
-
-			if (isset($userdetails[0][$ldap_email][0]))
-			{
-				$response->email = $userdetails[0][$ldap_email][0];
-			}
-
-			if (isset($userdetails[0][$ldap_fullname][0]))
-			{
-				$response->fullname = $userdetails[0][$ldap_fullname][0];
-			}
-			else
-			{
-				$response->fullname = $credentials['username'];
-			}
-
-			// Were good - So say so.
-			$response->status        = JAuthentication::STATUS_SUCCESS;
-			$response->error_message = '';
-		}
-
-		$ldap->close();
 	}
 }

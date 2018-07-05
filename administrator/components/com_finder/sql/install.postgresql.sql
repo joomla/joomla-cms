@@ -1,7 +1,7 @@
 --
 -- Table: #__finder_filters
 --
-CREATE TABLE "#__finder_filters" (
+CREATE TABLE IF NOT EXISTS "#__finder_filters" (
   "filter_id" serial NOT NULL,
   "title" character varying(255) NOT NULL,
   "alias" character varying(255) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE "#__finder_filters" (
 --
 -- Table: #__finder_links
 --
-CREATE TABLE "#__finder_links" (
+CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "link_id" serial NOT NULL,
   "url" character varying(255) NOT NULL,
   "route" character varying(255) NOT NULL,
@@ -52,9 +52,9 @@ CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("publish
 CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
 
 --
--- Table: #__finder_links_terms0
+-- Table: #__finder_links_terms
 --
-CREATE TABLE "#__finder_links_terms0" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -64,189 +64,9 @@ CREATE INDEX "#__finder_links_terms0_idx_term_weight" on "#__finder_links_terms0
 CREATE INDEX "#__finder_links_terms0_idx_link_term_weight" on "#__finder_links_terms0" ("link_id", "term_id", "weight");
 
 --
--- Table: #__finder_links_terms1
---
-CREATE TABLE "#__finder_links_terms1" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms1_idx_term_weight" on "#__finder_links_terms1" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms1_idx_link_term_weight" on "#__finder_links_terms1" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms2
---
-CREATE TABLE "#__finder_links_terms2" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms2_idx_term_weight" on "#__finder_links_terms2" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms2_idx_link_term_weight" on "#__finder_links_terms2" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms3
---
-CREATE TABLE "#__finder_links_terms3" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms3_idx_term_weight" on "#__finder_links_terms3" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms3_idx_link_term_weight" on "#__finder_links_terms3" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms4
---
-CREATE TABLE "#__finder_links_terms4" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms4_idx_term_weight" on "#__finder_links_terms4" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms4_idx_link_term_weight" on "#__finder_links_terms4" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms5
---
-CREATE TABLE "#__finder_links_terms5" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms5_idx_term_weight" on "#__finder_links_terms5" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms5_idx_link_term_weight" on "#__finder_links_terms5" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms6
---
-CREATE TABLE "#__finder_links_terms6" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms6_idx_term_weight" on "#__finder_links_terms6" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms6_idx_link_term_weight" on "#__finder_links_terms6" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms7
---
-CREATE TABLE "#__finder_links_terms7" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms7_idx_term_weight" on "#__finder_links_terms7" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms7_idx_link_term_weight" on "#__finder_links_terms7" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms8
---
-CREATE TABLE "#__finder_links_terms8" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms8_idx_term_weight" on "#__finder_links_terms8" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms8_idx_link_term_weight" on "#__finder_links_terms8" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_terms9
---
-CREATE TABLE "#__finder_links_terms9" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_terms9_idx_term_weight" on "#__finder_links_terms9" ("term_id", "weight");
-CREATE INDEX "#__finder_links_terms9_idx_link_term_weight" on "#__finder_links_terms9" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_termsa
---
-CREATE TABLE "#__finder_links_termsa" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsa_idx_term_weight" on "#__finder_links_termsa" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsa_idx_link_term_weight" on "#__finder_links_termsa" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_termsb
---
-CREATE TABLE "#__finder_links_termsb" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsb_idx_term_weight" on "#__finder_links_termsb" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsb_idx_link_term_weight" on "#__finder_links_termsb" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_termsc
---
-CREATE TABLE "#__finder_links_termsc" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsc_idx_term_weight" on "#__finder_links_termsc" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsc_idx_link_term_weight" on "#__finder_links_termsc" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_termsd
---
-CREATE TABLE "#__finder_links_termsd" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsd_idx_term_weight" on "#__finder_links_termsd" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsd_idx_link_term_weight" on "#__finder_links_termsd" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_termse
---
-CREATE TABLE "#__finder_links_termse" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termse_idx_term_weight" on "#__finder_links_termse" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termse_idx_link_term_weight" on "#__finder_links_termse" ("link_id", "term_id", "weight");
-
---
--- Table: #__finder_links_termsf
---
-CREATE TABLE "#__finder_links_termsf" (
-  "link_id" integer NOT NULL,
-  "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
-  PRIMARY KEY ("link_id", "term_id")
-);
-CREATE INDEX "#__finder_links_termsf_idx_term_weight" on "#__finder_links_termsf" ("term_id", "weight");
-CREATE INDEX "#__finder_links_termsf_idx_link_term_weight" on "#__finder_links_termsf" ("link_id", "term_id", "weight");
-
---
 -- Table: #__finder_taxonomy
 --
-CREATE TABLE "#__finder_taxonomy" (
+CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
   "id" serial NOT NULL,
   "parent_id" integer DEFAULT 0 NOT NULL,
   "title" character varying(255) NOT NULL,
@@ -276,7 +96,7 @@ SELECT 1, 0, 'ROOT', 0, 0, 0 WHERE 1 NOT IN
 --
 -- Table: #__finder_taxonomy_map
 --
-CREATE TABLE "#__finder_taxonomy_map" (
+CREATE TABLE IF NOT EXISTS "#__finder_taxonomy_map" (
   "link_id" integer NOT NULL,
   "node_id" integer NOT NULL,
   PRIMARY KEY ("link_id", "node_id")
@@ -287,7 +107,7 @@ CREATE INDEX "#__finder_taxonomy_map_node_id" on "#__finder_taxonomy_map" ("node
 --
 -- Table: #__finder_terms
 --
-CREATE TABLE "#__finder_terms" (
+CREATE TABLE IF NOT EXISTS "#__finder_terms" (
   "term_id" serial NOT NULL,
   "term" character varying(75) NOT NULL,
   "stem" character varying(75) NOT NULL,
@@ -306,7 +126,7 @@ CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex
 --
 -- Table: #__finder_terms_common
 --
-CREATE TABLE "#__finder_terms_common" (
+CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
   "term" character varying(75) NOT NULL,
   "language" character varying(3) NOT NULL
 );
@@ -983,7 +803,7 @@ SELECT 'yours', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHER
 --
 -- Table: #__finder_tokens
 --
-CREATE TABLE "#__finder_tokens" (
+CREATE TABLE IF NOT EXISTS "#__finder_tokens" (
   "term" character varying(75) NOT NULL,
   "stem" character varying(75) NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
@@ -997,9 +817,8 @@ CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
 --
 -- Table: #__finder_tokens_aggregate
 --
-CREATE TABLE "#__finder_tokens_aggregate" (
+CREATE TABLE IF NOT EXISTS "#__finder_tokens_aggregate" (
   "term_id" integer NOT NULL,
-  "map_suffix" character(1) NOT NULL,
   "term" character varying(75) NOT NULL,
   "stem" character varying(75) NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
@@ -1015,7 +834,7 @@ CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggre
 --
 -- Table: #__finder_types
 --
-CREATE TABLE "#__finder_types" (
+CREATE TABLE IF NOT EXISTS "#__finder_types" (
   "id" serial NOT NULL,
   "title" character varying(100) NOT NULL,
   "mime" character varying(100) NOT NULL,

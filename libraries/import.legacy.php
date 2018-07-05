@@ -5,8 +5,8 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 trigger_error(
@@ -29,20 +29,12 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 if (!defined('IS_WIN'))
 {
-	define('IS_WIN', ($os === 'WIN') ? true : false);
+	define('IS_WIN', $os === 'WIN');
 }
 
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
-}
-
-/**
- * @deprecated 13.3	Use IS_UNIX instead
- */
-if (!defined('IS_MAC'))
-{
-	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
+	define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
 }
 
 // Import the library loader if necessary.
@@ -60,22 +52,11 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
-// Register classes that don't follow one file per class naming conventions.
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
-JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
-
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))
 {
 	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
-
-// Add deprecated constants
-// @deprecated 4.0
-define('JPATH_ISWIN', IS_WIN);
-define('JPATH_ISMAC', IS_MAC);
 
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');

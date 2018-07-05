@@ -3,11 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Cache\Cache;
+
+// Uncomment the following line to enable debug mode for testing purposes. Note: statistics will be sent on every page load
+// define('PLG_SYSTEM_STATS_DEBUG', 1);
 
 /**
  * Statistics system plugin. This sends anonymous data back to the Joomla! Project about the
@@ -15,7 +28,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.5
  */
-class PlgSystemStats extends JPlugin
+class PlgSystemStats extends CMSPlugin
 {
 	/**
 	 * @const  integer
@@ -86,7 +99,7 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		if (JUri::getInstance()->getVar('tmpl') === 'component')
+		if (Uri::getInstance()->getVar('tmpl') === 'component')
 		{
 			return;
 		}
@@ -94,8 +107,7 @@ class PlgSystemStats extends JPlugin
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
 
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'plg_system_stats/stats.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -112,7 +124,7 @@ class PlgSystemStats extends JPlugin
 	{
 		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
-			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+			throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
 		$this->params->set('mode', static::MODE_ALLOW_ALWAYS);
@@ -141,7 +153,7 @@ class PlgSystemStats extends JPlugin
 	{
 		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
-			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+			throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
 		$this->params->set('mode', static::MODE_ALLOW_NEVER);
@@ -168,7 +180,7 @@ class PlgSystemStats extends JPlugin
 	{
 		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
-			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+			throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
 		$this->params->set('mode', static::MODE_ALLOW_ONCE);
@@ -198,7 +210,7 @@ class PlgSystemStats extends JPlugin
 	{
 		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
-			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+			throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
 		// User has not selected the mode. Show message.
@@ -274,13 +286,13 @@ class PlgSystemStats extends JPlugin
 	/**
 	 * Get the layout paths
 	 *
-	 * @return  array()
+	 * @return  array
 	 *
 	 * @since   3.5
 	 */
 	protected function getLayoutPaths()
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 
 		return array(
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
@@ -299,7 +311,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	protected function getRenderer($layoutId = 'default')
 	{
-		$renderer = new JLayoutFile($layoutId);
+		$renderer = new FileLayout($layoutId);
 
 		$renderer->setIncludePaths($this->getLayoutPaths());
 
@@ -309,7 +321,7 @@ class PlgSystemStats extends JPlugin
 	/**
 	 * Get the data that will be sent to the stats server.
 	 *
-	 * @return  array.
+	 * @return  array
 	 *
 	 * @since   3.5
 	 */
@@ -336,7 +348,7 @@ class PlgSystemStats extends JPlugin
 	{
 		if (null === $this->uniqueId)
 		{
-			$this->uniqueId = $this->params->get('unique_id', hash('sha1', JUserHelper::genRandomPassword(28) . time()));
+			$this->uniqueId = $this->params->get('unique_id', hash('sha1', UserHelper::genRandomPassword(28) . time()));
 		}
 
 		return $this->uniqueId;
@@ -351,7 +363,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isAllowedUser()
 	{
-		return JFactory::getUser()->authorise('core.admin');
+		return Factory::getUser()->authorise('core.admin');
 	}
 
 	/**
@@ -363,7 +375,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isDebugEnabled()
 	{
-		return ((int) $this->params->get('debug', 0) === 1);
+		return defined('PLG_SYSTEM_STATS_DEBUG');
 	}
 
 	/**
@@ -435,7 +447,7 @@ class PlgSystemStats extends JPlugin
 		$this->params->set('lastrun', time());
 		$this->params->set('unique_id', $this->getUniqueId());
 		$interval = (int) $this->params->get('interval', 12);
-		$this->params->set('interval', $interval ? $interval : 12);
+		$this->params->set('interval', $interval ?: 12);
 
 		$query = $this->db->getQuery(true)
 				->update($this->db->quoteName('#__extensions'))
@@ -460,7 +472,7 @@ class PlgSystemStats extends JPlugin
 			// Update the plugin parameters
 			$result = $this->db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(array('com_plugins'));
 		}
 		catch (Exception $exc)
 		{
@@ -497,7 +509,7 @@ class PlgSystemStats extends JPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
+			$response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -528,33 +540,29 @@ class PlgSystemStats extends JPlugin
 	/**
 	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
 	 *
-	 * @param   array  $clearGroups   The cache groups to clean
-	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
+	 * @param   array  $clearGroups  The cache groups to clean
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups)
 	{
 		foreach ($clearGroups as $group)
 		{
-			foreach ($cacheClients as $client_id)
+			try
 			{
-				try
-				{
-					$options = array(
-						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
-					);
+				$options = array(
+					'defaultgroup' => $group,
+					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE)
+				);
 
-					$cache = JCache::getInstance('callback', $options);
-					$cache->clean();
-				}
-				catch (Exception $e)
-				{
-					// Ignore it
-				}
+				$cache = Cache::getInstance('callback', $options);
+				$cache->clean();
+			}
+			catch (Exception $e)
+			{
+				// Ignore it
 			}
 		}
 	}

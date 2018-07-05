@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,25 +62,25 @@ function modChrome_well($module, &$params, &$attribs)
 		$headerClass    = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
 
 		echo '<div class="' . $moduleClass . '">';
-		echo '<' . $moduleTag . ' class="card card-block mb-3' . $moduleClassSfx . '">';
+		echo '<' . $moduleTag . ' class="card mb-3' . $moduleClassSfx . '">';
+		echo '<div class="card-body">';
 
 			if ($canEdit)
 			{
-				echo '<div class="btn-group module-dropdown">';
-				echo '<a href="#" data-toggle="dropdown"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
-				echo '<div class="dropdown-menu dropdown-menu-right">';
-				echo '<a class="dropdown-item" href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) . '">' . JText::_('JACTION_EDIT') . '</a>';
-				echo '</div>';
+				echo '<div class="module-actions">';
+				echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+					. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 				echo '</div>';
 			}
 
 			if ($module->showtitle)
 			{
-				echo '<h5 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h5>';
+				echo '<h2 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h2>';
 			}
 
 			echo $module->content;
 
+		echo '</div>';
 		echo '</' . $moduleTag . '>';
 		echo '</div>';
 	}

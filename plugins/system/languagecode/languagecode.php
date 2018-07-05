@@ -3,18 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Language Code plugin class.
  *
  * @since  2.5
  */
-class PlgSystemLanguagecode extends JPlugin
+class PlgSystemLanguagecode extends CMSPlugin
 {
 	/**
 	 * Plugin that changes the language code used in the <html /> tag.
@@ -25,7 +31,7 @@ class PlgSystemLanguagecode extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Use this plugin only in site application.
 		if ($app->isClient('site'))
@@ -34,7 +40,7 @@ class PlgSystemLanguagecode extends JPlugin
 			$body = $app->getBody();
 
 			// Get the current language code.
-			$code = JFactory::getDocument()->getLanguage();
+			$code = Factory::getDocument()->getLanguage();
 
 			// Get the new code.
 			$new_code  = $this->params->get($code);
@@ -116,9 +122,9 @@ class PlgSystemLanguagecode extends JPlugin
 	public function onContentPrepareForm($form, $data)
 	{
 		// Check we have a form.
-		if (!($form instanceof JForm))
+		if (!($form instanceof Form))
 		{
-			throw new RuntimeException(JText::_('JERROR_NOT_A_FORM'), 500);
+			throw new RuntimeException(Text::_('JERROR_NOT_A_FORM'), 500);
 		}
 
 		// Check we are manipulating the languagecode plugin.
@@ -128,7 +134,7 @@ class PlgSystemLanguagecode extends JPlugin
 		}
 
 		// Get site languages.
-		if ($languages = JLanguageHelper::getKnownLanguages(JPATH_SITE))
+		if ($languages = LanguageHelper::getKnownLanguages(JPATH_SITE))
 		{
 			// Inject fields into the form.
 			foreach ($languages as $tag => $language)
@@ -144,9 +150,9 @@ class PlgSystemLanguagecode extends JPlugin
 								<field
 									name="' . strtolower($tag) . '"
 									type="text"
-									description="' . htmlspecialchars(JText::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
-									translate_description="false"
 									label="' . $tag . '"
+									description="' . htmlspecialchars(Text::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
+									translate_description="false"
 									translate_label="false"
 									size="7"
 									filter="cmd"

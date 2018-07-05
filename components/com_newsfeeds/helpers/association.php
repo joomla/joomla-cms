@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
@@ -32,15 +34,15 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 	 */
 	public static function getAssociations($id = 0, $view = null)
 	{
-		$jinput = JFactory::getApplication()->input;
-		$view   = is_null($view) ? $jinput->get('view') : $view;
+		$jinput = Factory::getApplication()->input;
+		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view == 'newsfeed')
+		if ($view === 'newsfeed')
 		{
 			if ($id)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
+				$associations = \Joomla\CMS\Language\Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
 
 				$return = array();
 
@@ -53,7 +55,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 			}
 		}
 
-		if ($view == 'category' || $view == 'categories')
+		if ($view === 'category' || $view === 'categories')
 		{
 			return self::getCategoryAssociations($id, 'com_newsfeeds');
 		}

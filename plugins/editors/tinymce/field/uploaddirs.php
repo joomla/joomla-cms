@@ -3,15 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Field\FolderlistField;
+
 jimport('joomla.form.helper');
 
-JFormHelper::loadFieldClass('folderlist');
 
 /**
  * Generates the list of directories  available for drag and drop upload.
@@ -20,7 +23,7 @@ JFormHelper::loadFieldClass('folderlist');
  * @subpackage  Editors.tinymce
  * @since       3.7.0
  */
-class JFormFieldUploaddirs extends JFormFieldFolderList
+class JFormFieldUploaddirs extends FolderlistField
 {
 	protected $type = 'uploaddirs';
 
@@ -29,7 +32,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -43,7 +46,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 		$return = parent::setup($element, $value, $group);
 
 		// Get the path in which to search for file options.
-		$this->directory   = JComponentHelper::getParams('com_media')->get('image_path');
+		$this->directory   = ComponentHelper::getParams('com_media')->get('image_path');
 		$this->recursive   = true;
 		$this->hideDefault = true;
 
@@ -83,7 +86,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 		}
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, '', 'value', 'text', $this->value, $this->id);
+		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, 'class="custom-select"', 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

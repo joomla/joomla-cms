@@ -3,17 +3,19 @@
 	<name>com_search</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_SEARCH_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Search</namespace>
 	<files folder="site">
-		<filename>controller.php</filename>
-		<filename>router.php</filename>
-		<filename>search.php</filename>
-		<folder>models</folder>
+		<filename>dispatcher.php</filename>
+		<filename>router.php</filename>		
+		<folder>Controller</folder>
+		<folder>Model</folder>
+		<folder>View</folder>
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
@@ -22,12 +24,15 @@
 	<administration>
 		<menu link="option=com_search">Search</menu>
 		<files folder="admin">
+			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>search.php</filename>
-			<folder>controllers</folder>
+			<filename>dispatcher.php</filename>			
+			<folder>Controller</folder>
+			<folder>Helper</folder>
 			<folder>helpers</folder>
+			<folder>Model</folder>
 			<folder>models</folder>
+			<folder>View</folder>
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">

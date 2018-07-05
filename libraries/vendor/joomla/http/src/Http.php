@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Http Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\Http;
 
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * HTTP client class.
@@ -55,15 +56,15 @@ class Http
 
 		$this->options = $options;
 
-		if (!isset($transport))
+		if (!$transport)
 		{
 			$transport = (new HttpFactory)->getAvailableDriver($this->options);
-		}
 
-		// Ensure the transport is a TransportInterface instance or bail out
-		if (!($transport instanceof TransportInterface))
-		{
-			throw new \InvalidArgumentException('A valid TransportInterface object was not set.');
+			// Ensure the transport is a TransportInterface instance or bail out
+			if (!($transport instanceof TransportInterface))
+			{
+				throw new \InvalidArgumentException('A valid TransportInterface object was not set.');
+			}
 		}
 
 		$this->transport = $transport;
@@ -81,7 +82,7 @@ class Http
 	 */
 	public function getOption($key, $default = null)
 	{
-		return isset($this->options[$key]) ? $this->options[$key] : $default;
+		return $this->options[$key] ?? $default;
 	}
 
 	/**
@@ -231,6 +232,27 @@ class Http
 	public function patch($url, $data, array $headers = [], $timeout = null)
 	{
 		return $this->makeTransportRequest('PATCH', $url, $data, $headers, $timeout);
+	}
+
+	/**
+	 * Send a request to a remote server based on a PSR-7 RequestInterface object.
+	 *
+	 * @param   RequestInterface  $request  The PSR-7 request object.
+	 *
+	 * @return  Response
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function sendRequest(RequestInterface $request)
+	{
+		$data = $request->getBody()->getContents();
+
+		return $this->makeTransportRequest(
+			$request->getMethod(),
+			new Uri((string) $request->getUri()),
+			empty($data) ? null : $data,
+			$request->getHeaders()
+		);
 	}
 
 	/**

@@ -1,55 +1,63 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function() {
-	"use strict";
-	/**
-	 * Javascript to insert the link
-	 * View element calls jSelectArticle when an article is clicked
-	 * jSelectArticle creates the link tag, sends it to the editor,
-	 * and closes the select frame.
-	 **/
-	window.jSelectArticle = function (id, title, catid, object, link, lang) {
-		var hreflang = '', editor, tag;
+(function () {
+  'use strict';
 
-		if (!Joomla.getOptions('xtd-articles')) {
-			// Something went wrong!
-			window.parent.jModalClose();
-			return false;
-		}
+  /**
+    * Javascript to insert the link
+    * View element calls jSelectArticle when an article is clicked
+    * jSelectArticle creates the link tag, sends it to the editor,
+    * and closes the select frame.
+    * */
 
-		editor = Joomla.getOptions('xtd-articles').editor;
+  window.jSelectArticle = function (id, title, catid, object, link, lang) {
+    var hreflang = '';
+    if (!Joomla.getOptions('xtd-articles')) {
+      // Something went wrong!
+      // @TODO Close the modal
+      return false;
+    }
 
-		if (lang !== '')
-		{
-			hreflang = ' hreflang="' + lang + '"';
-		}
+    var _Joomla$getOptions = Joomla.getOptions('xtd-articles'),
+        editor = _Joomla$getOptions.editor;
 
-		tag = '<a' + hreflang + ' href="' + link + '">' + title + '</a>';
+    if (lang !== '') {
+      hreflang = 'hreflang="' + lang + '"';
+    }
 
-		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-		window.parent.jModalClose();
-	};
+    var tag = '<a ' + hreflang + ' href="' + link + '">' + title + '</a>';
+    window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
+    // @TODO Close the modal
+    return true;
+  };
 
-	document.addEventListener('DOMContentLoaded', function(){
-		// Get the elements
-		var elements = document.querySelectorAll('.select-link');
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get the elements
+    var elements = document.querySelectorAll('.select-link');
 
-		for(var i = 0, l = elements.length; l>i; i++) {
-			// Listen for click event
-			elements[i].addEventListener('click', function (event) {
-				event.preventDefault();
-				var functionName = event.target.getAttribute('data-function');
+    for (var i = 0, l = elements.length; l > i; i += 1) {
+      // Listen for click event
+      elements[i].addEventListener('click', function (event) {
+        event.preventDefault();
+        var target = event.target;
 
-				if (functionName === 'jSelectArticle') {
-					// Used in xtd_contacts
-					window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), event.target.getAttribute('data-cat-id'), null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'));
-				} else {
-					// Used in com_menus
-					window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), event.target.getAttribute('data-cat-id'), null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'));
-				}
-			})
-		}
-	});
+        var functionName = target.getAttribute('data-function');
+
+        if (functionName === 'jSelectArticle') {
+          // Used in xtd_contacts
+          window[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
+        } else {
+          // Used in com_menus
+          window.parent[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
+        }
+      });
+    }
+  });
 })();

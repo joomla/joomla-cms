@@ -3,18 +3,26 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Joomla! Two Factor Authentication using Yubikey Plugin
  *
  * @since  3.2
  */
-class PlgTwofactorauthYubikey extends JPlugin
+class PlgTwofactorauthYubikey extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -47,7 +55,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		try
 		{
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			if ($app->isClient('administrator'))
 			{
@@ -70,7 +78,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		return (object) array(
 			'method' => $this->methodName,
-			'title'  => JText::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'),
+			'title'  => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'),
 		);
 	}
 
@@ -87,7 +95,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 */
 	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
 	{
-		if ($otpConfig->method == $this->methodName)
+		if ($otpConfig->method === $this->methodName)
 		{
 			// This method is already activated. Reuse the same Yubikey ID.
 			$yubikey = $otpConfig->config['yubikey'];
@@ -99,24 +107,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp    = $otpConfig->method != $this->methodName;
+		$new_totp    = $otpConfig->method !== $this->methodName;
 
 		// Start output buffering
 		@ob_start();
 
 		// Include the form.php from a template override. If none is found use the default.
-		$path = FOFPlatform::getInstance()->getTemplateOverridePath('plg_twofactorauth_yubikey', true);
-
-		JLoader::import('joomla.filesystem.file');
-
-		if (JFile::exists($path . '/form.php'))
-		{
-			include_once $path . '/form.php';
-		}
-		else
-		{
-			include_once __DIR__ . '/tmpl/form.php';
-		}
+		include_once PluginHelper::getLayoutPath('twofactorauth', 'yubikey', 'form');
 
 		// Stop output buffering and get the form contents
 		$html = @ob_get_clean();
@@ -141,13 +138,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 */
 	public function onUserTwofactorApplyConfiguration($method)
 	{
-		if ($method != $this->methodName)
+		if ($method !== $this->methodName)
 		{
 			return false;
 		}
 
 		// Get a reference to the input data object
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
@@ -164,7 +161,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		{
 			try
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
 			}
 			catch (Exception $exc)
 			{
@@ -180,7 +177,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		if (!$check)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
 
 			// Check failed. Do not change two factor authentication settings.
 			return false;
@@ -224,7 +221,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Check if we have the correct method
-		if ($otpConfig->method != $this->methodName)
+		if ($otpConfig->method !== $this->methodName)
 		{
 			return false;
 		}
@@ -239,7 +236,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$yubikey_valid = $otpConfig->config['yubikey'];
 		$yubikey       = substr($credentials['secretkey'], 0, -32);
 
-		$check = $yubikey == $yubikey_valid;
+		$check = $yubikey === $yubikey_valid;
 
 		if ($check)
 		{
@@ -273,14 +270,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$gotResponse = false;
 		$check       = false;
 
-		$http  = JHttpFactory::getHttp();
-		$token = JSession::getFormToken();
+		$token = Session::getFormToken();
 		$nonce = md5($token . uniqid(mt_rand()));
 
 		while (!$gotResponse && !empty($server_queue))
 		{
 			$server = array_shift($server_queue);
-			$uri    = new JUri('https://' . $server . '/wsapi/2.0/verify');
+			$uri    = new Uri('https://' . $server . '/wsapi/2.0/verify');
 
 			// I don't see where this ID is used?
 			$uri->setVar('id', 1);
@@ -301,7 +297,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 			try
 			{
-				$response = $http->get($uri->toString(), null, 6);
+				$response = HttpFactory::getHttp()->get($uri->toString(), [], 6);
 
 				if (!empty($response))
 				{
@@ -355,13 +351,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the response - The OTP must match
-		if ($data['otp'] != $otp)
+		if ($data['otp'] !== $otp)
 		{
 			return false;
 		}
 
 		// Validate the response - The token must match
-		if ($data['nonce'] != $nonce)
+		if ($data['nonce'] !== $nonce)
 		{
 			return false;
 		}

@@ -3,18 +3,25 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Encrypt\Totp;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
  *
  * @since  3.2
  */
-class PlgTwofactorauthTotp extends JPlugin
+class PlgTwofactorauthTotp extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -48,7 +55,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		try
 		{
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			if ($app->isClient('administrator'))
 			{
@@ -71,7 +78,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		return (object) array(
 			'method' => $this->methodName,
-			'title'  => JText::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE')
+			'title'  => Text::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE')
 		);
 	}
 
@@ -89,9 +96,9 @@ class PlgTwofactorauthTotp extends JPlugin
 	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
 	{
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
-		if ($otpConfig->method == $this->methodName)
+		if ($otpConfig->method === $this->methodName)
 		{
 			// This method is already activated. Reuse the same secret key.
 			$secret = $otpConfig->config['code'];
@@ -103,8 +110,8 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// These are used by Google Authenticator to tell accounts apart
-		$username = JFactory::getUser($user_id)->username;
-		$hostname = JUri::getInstance()->getHost();
+		$username = Factory::getUser($user_id)->username;
+		$hostname = Uri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
 		$url = $totp->getUrl($username, $hostname, $secret);
@@ -116,18 +123,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		@ob_start();
 
 		// Include the form.php from a template override. If none is found use the default.
-		$path = FOFPlatform::getInstance()->getTemplateOverridePath('plg_twofactorauth_totp', true);
-
-		JLoader::import('joomla.filesystem.file');
-
-		if (JFile::exists($path . '/form.php'))
-		{
-			include_once $path . '/form.php';
-		}
-		else
-		{
-			include_once __DIR__ . '/tmpl/form.php';
-		}
+		include_once PluginHelper::getLayoutPath('twofactorauth', 'totp', 'form');
 
 		// Stop output buffering and get the form contents
 		$html = @ob_get_clean();
@@ -152,13 +148,13 @@ class PlgTwofactorauthTotp extends JPlugin
 	 */
 	public function onUserTwofactorApplyConfiguration($method)
 	{
-		if ($method != $this->methodName)
+		if ($method !== $this->methodName)
 		{
 			return false;
 		}
 
 		// Get a reference to the input data object
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
@@ -175,8 +171,8 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			try
 			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 'error');
+				$app = Factory::getApplication();
+				$app->enqueueMessage(Text::_('PLG_TWOFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 'error');
 			}
 			catch (Exception $exc)
 			{
@@ -188,11 +184,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		// Check the security code entered by the user (exact time slot match)
 		$code = $totp->getCode($data['key']);
-		$check = $code == $data['securitycode'];
+		$check = $code === $data['securitycode'];
 
 		/*
 		 * If the check fails, test the previous 30 second slot. This allow the
@@ -203,7 +199,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() - 30;
 			$code = $totp->getCode($data['key'], $time);
-			$check = $code == $data['securitycode'];
+			$check = $code === $data['securitycode'];
 		}
 
 		/*
@@ -214,7 +210,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() + 30;
 			$code = $totp->getCode($data['key'], $time);
-			$check = $code == $data['securitycode'];
+			$check = $code === $data['securitycode'];
 		}
 
 		if (!$check)
@@ -258,7 +254,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Check if we have the correct method
-		if ($otpConfig->method != $this->methodName)
+		if ($otpConfig->method !== $this->methodName)
 		{
 			return false;
 		}
@@ -270,11 +266,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		// Check the code
 		$code = $totp->getCode($otpConfig->config['code']);
-		$check = $code == $credentials['secretkey'];
+		$check = $code === $credentials['secretkey'];
 
 		/*
 		 * If the check fails, test the previous 30 second slot. This allow the
@@ -285,7 +281,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() - 30;
 			$code = $totp->getCode($otpConfig->config['code'], $time);
-			$check = $code == $credentials['secretkey'];
+			$check = $code === $credentials['secretkey'];
 		}
 
 		/*
@@ -296,7 +292,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$time = time() + 30;
 			$code = $totp->getCode($otpConfig->config['code'], $time);
-			$check = $code == $credentials['secretkey'];
+			$check = $code === $credentials['secretkey'];
 		}
 
 		return $check;

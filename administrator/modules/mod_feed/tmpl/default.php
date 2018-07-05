@@ -3,11 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\OutputFilter;
+
+// Check if feed URL has been set
+if (empty ($rssurl))
+{
+	echo '<div>' . Text::_('MOD_FEED_ERR_NO_URL') . '</div>';
+
+	return;
+}
 
 if (!empty($feed) && is_string($feed))
 {
@@ -15,7 +27,7 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang      = JFactory::getLanguage();
+	$lang      = Factory::getLanguage();
 	$myrtl     = $params->get('rssrtl');
 	$direction = ' ';
 
@@ -23,18 +35,15 @@ else
 	{
 		$direction = ' redirect-rtl';
 	}
-
 	// Feed description
 	elseif ($lang->isRtl() && $myrtl == 1)
 	{
 		$direction = ' redirect-ltr';
 	}
-
 	elseif ($lang->isRtl() && $myrtl == 2)
 	{
 		$direction = ' redirect-rtl';
 	}
-
 	elseif ($myrtl == 0)
 	{
 		$direction = ' redirect-ltr';
@@ -50,10 +59,10 @@ else
 
 	if ($feed != false) :
 		// Image handling
-		$iUrl   = isset($feed->image) ? $feed->image : null;
-		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
+		$iUrl   = $feed->image ?? null;
+		$iTitle = $feed->imagetitle ?? null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important" class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
 
 		// Feed description
@@ -64,18 +73,18 @@ else
 			</h2>
 		<?php endif; ?>
 
-		<!-- Feed description -->
+		<?php // Feed description ?>
 		<?php if ($params->get('rssdesc', 1)) : ?>
 			<?php echo $feed->description; ?>
 		<?php endif; ?>
 
-		<!--  Feed image  -->
+		<?php // Feed image ?>
 		<?php if ($params->get('rssimage', 1) && $iUrl) : ?>
 			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
 		<?php endif; ?>
 
 
-	<!-- Show items -->
+	<?php // Show items ?>
 	<?php if (!empty($feed)) : ?>
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) :
@@ -93,16 +102,16 @@ else
 						<a href="<?php echo $uri; ?>" target="_blank">
 						<?php  echo $feed[$i]->title; ?></a></h5>
 					<?php else : ?>
-						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
+						<h5 class="feed-link"><?php echo $feed[$i]->title; ?></h5>
 					<?php  endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
-							$text = JFilterOutput::stripImages($text);
-
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+							$text = OutputFilter::stripImages($text);
+							// Strip HTML
+							$text = strip_tags($text);
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

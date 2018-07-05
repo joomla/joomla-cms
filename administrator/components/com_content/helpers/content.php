@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::registerNamespace('Joomla\\Component\\Content\\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
-
 /**
  * Content component helper.
  *
- * @since  1.6
+ * @since       1.6
+ *
+ * @deprecated  5.0 Use \Joomla\Component\Content\Administrator\Helper\ContentHelper instead
  */
 class ContentHelper extends \Joomla\Component\Content\Administrator\Helper\ContentHelper
 {

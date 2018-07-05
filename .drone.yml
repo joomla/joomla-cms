@@ -7,22 +7,68 @@ pipeline:
     image: joomlaprojects/docker-phpcs
     commands:
       - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .
+      - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --encoding=utf-8 --standard=build/phpcs/Joomla .
       - echo $(date)
+
+  initdb:
+    image: joomlaprojects/docker-php70:develop
+    commands:
+      - composer install --no-progress --no-suggest
+      # needed for unit testing
+      - composer update joomla/test-unit --no-progress --no-suggest
+      # needed for system testing
+      - composer update joomla/test-system --no-progress --no-suggest
+      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
+
+  php70-unit:
+    group: unit
+    image: joomlaprojects/docker-php70:develop
+    commands:
+      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+
+  php71-unit:
+    group: unit
+    image: joomlaprojects/docker-php71:develop
+    commands:
+      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+
+  php72-unit:
+    group: unit
+    image: joomlaprojects/docker-php72:develop
+    commands:
+      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
 
   javascript:
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - echo $(date)
-      - apt-get install nodejs npm
       - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
+      - mv -f drone-package.json package.json
       - fluxbox  > /dev/null 2>&1 &
-      - cd tests/javascript
       - npm install
-      - cd ../..
-      - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
-      - echo $(date)
+      - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
 
+  system-tests:
+      image: joomlaprojects/docker-systemtests:latest
+      commands:
+        - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
+  memcached:
+    image: memcached:alpine
+
+  redis:
+    image: redis:alpine
+
+  postgres:
+    image: postgres

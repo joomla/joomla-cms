@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Image Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,8 @@ use Joomla\Image\ImageFilter;
 /**
  * Image Filter class to add an edge detect effect to an image.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 class Edgedetect extends ImageFilter
 {
@@ -26,7 +27,7 @@ class Edgedetect extends ImageFilter
 	 *
 	 * @since   1.0
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Perform the edge detection filter.
 		imagefilter($this->handle, IMG_FILTER_EDGEDETECT);
