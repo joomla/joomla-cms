@@ -59,6 +59,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?>
 			</td>
 		</tr>
-	<?php endif; ?>
+		<?php endif; ?>
 	</tbody>
 </table>

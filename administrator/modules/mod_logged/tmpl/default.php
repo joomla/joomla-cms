@@ -34,7 +34,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 	<?php foreach ($users as $user) : ?>
 		<tr>
 			<th scope="row">
-			<?php if (isset($user->editLink)) : ?>
+				<?php if (isset($user->editLink)) : ?>
 					<a href="<?php echo $item->link; ?>">
 						<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
 					</a>
@@ -55,14 +55,14 @@ use Joomla\CMS\HTML\HTMLHelper;
 					</a>
 				<?php endif; ?>
 			</td>
-			<td>		
+			<td>
 				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
 						<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
 					</span>
 				</span>
-			</td>	
+			</td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
