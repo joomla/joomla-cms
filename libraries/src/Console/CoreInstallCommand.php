@@ -247,7 +247,8 @@ class CoreInstallCommand extends AbstractCommand
 			{
 				$val = $this->processType($value);
 				$options[$key] = $val;
-				$validator = $this->setup->validate($options);
+
+				$validator = $this->validate($options);
 
 				if (!$validator)
 				{
@@ -306,5 +307,19 @@ class CoreInstallCommand extends AbstractCommand
 				return $this->ioStyle->choice($data['question'], $data['optionData']);
 				break;
 		}
+	}
+
+	/**
+	 * Validates the given Data
+	 *
+	 * @param   array  $data  Data to be validated
+	 *
+	 * @return array | boolean
+	 *
+	 * @since 4.0
+	 */
+	public function validate($data)
+	{
+		return $this->setup->validate($data);
 	}
 }
