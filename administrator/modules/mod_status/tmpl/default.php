@@ -24,16 +24,16 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 // Check if the multilangstatus module is present in the site
 if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled())
 {
-    // Publish/Unpublish the module if it exists in the modules table
-    // depending on the status of the languagefilter
-    MultilangstatusAdminHelper::publish();
+	// Publish/Unpublish the module if it exists in the modules table
+	// depending on the status of the languagefilter
+	MultilangstatusAdminHelper::publish();
 }
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
 		<?php if (class_exists(MultilangstatusAdminHelper::class) && Multilanguage::isEnabled() && MultilangstatusAdminHelper::isEnabled()) : ?>
-            <?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
-            <?php echo ModuleHelper::renderModule($module); ?>
+			<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
+			<?php echo ModuleHelper::renderModule($module); ?>
 		<?php endif; ?>
 
 		<li class="nav-item">
