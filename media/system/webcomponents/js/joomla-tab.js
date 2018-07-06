@@ -325,11 +325,9 @@
 			this.querySelector('ul').addEventListener('keyup', keyBehaviour);
 		}
 
-		/*eslint-disable */
 		getStorageKey() {
 			return window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').split('#')[0];
 		}
-		/*eslint-disable */
 
 		saveState(value) {
 			const storageKey = this.getStorageKey();
@@ -386,21 +384,17 @@
 			}
 		}
 
-		/*eslint-disable */
 		findAncestor(el, tagName) {
 			while ((el = el.parentElement) && el.nodeName.toLowerCase() !== tagName);
 			return el;
 		}
-		/*eslint-enable */
 
 		/* Method to dispatch events */
-		/*eslint-disable */
 		dispatchCustomEvent(eventName, element, related) {
 			const OriginalCustomEvent = new CustomEvent(eventName, { bubbles: true, cancelable: true });
 			OriginalCustomEvent.relatedTarget = related;
 			element.dispatchEvent(OriginalCustomEvent);
 			element.removeEventListener(eventName, element);
 		}
-		/*eslint-enable */
 	});
 })();
