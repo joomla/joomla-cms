@@ -23,7 +23,6 @@
       margin: auto;
       content: "";
       background-color: rgba(0, 0, 0, .2);
-
     }
 
     &::after {
@@ -35,10 +34,10 @@
       height: 100%;
       content: "";
       background-color: rgba(0, 0, 0, .2);
-
     }
 
     &:last-child {
+
       &::after {
         height: 14px;
       }
@@ -49,7 +48,8 @@
     }
   }
 
-  > li::before, > li::after {
+  > li::before, 
+  > li::after {
     display: none;
   }
 
@@ -63,7 +63,6 @@
     margin-right: .1rem;
     text-align: center;
     cursor: pointer;
-
   }
 
   .treeselect-menu {
@@ -77,13 +76,11 @@
       position: relative;
       top: 1px;
       margin-right: .2rem;
-
     }
 
     label {
       margin-bottom: 0;
     }
-
   }
 
   .dropdown-toggle {
@@ -95,14 +92,11 @@
       font-size: 1rem;
       color: $gray-700;
     }
-
   }
-
 }
 
 .treeselect-sub {
   padding-left: 0;
-
 }
 
 .tree-holder {
@@ -112,7 +106,6 @@
     li::before, li::after {
       left: 8px;
       display: block;
-
     }
 
     li::before {
@@ -122,16 +115,12 @@
     li:last-child::after {
       height: 12px;
     }
-
   }
   li {
     line-height: 1.8rem;
 
     li {
       padding-left: 20px;
-
     }
-
   }
-
 }

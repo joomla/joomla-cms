@@ -46,7 +46,7 @@ class FiltersField extends FormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config" class="table table-striped">';
+		$html[] = '<table id="filter-config" class="table">';
 
 		// The table heading.
 		$html[] = '	<thead>';

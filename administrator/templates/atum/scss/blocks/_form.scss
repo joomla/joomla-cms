@@ -3,19 +3,6 @@
 .form-control {
   max-width: 240px;
   background-color: $white-offset;
-
-  &.input-xlarge {
-    max-width: 350px;
-  }
-
-  &.input-xxlarge {
-    max-width: 550px;
-  }
-
-  &.input-full {
-    max-width: 100%;
-  }
-
 }
 
 .control-group {
@@ -42,7 +29,6 @@
   .controls {
     margin-left: 220px;
   }
-
 }
 
 .form-no-margin {
@@ -56,9 +42,7 @@
     .control-label {
       float: none;
     }
-
   }
-
 }
 
 .custom-select {
@@ -85,7 +69,6 @@ legend {
     position: static;
     margin-left: 0;
   }
-
 }
 
 .form-check {

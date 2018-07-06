@@ -1,13 +1,14 @@
 // Toolbar
 
 .subhead {
-  position: absolute;
+  position: sticky;
+  z-index: 1040;
   top: 0;
   right: 0;
   left: 0;
   width: auto;
   min-height: 43px;
-  padding: 15px 0;
+  padding: 13px 0;
   color: #0c192e;
   background: $atum-container-main-bg;
 
@@ -20,35 +21,20 @@
     margin-bottom: 0;
 
     > * {
-      margin-left: .5rem;
+      margin-left: .75rem;
+      box-shadow: $atum-box-shadow;
+
+      &:first-of-type {
+        margin-left: 0;
+      }
     }
   }
 
-  .btn-group {
-    margin-right: .25rem;
-
-    .btn {
-      margin-left: 0;
-    }
-
-  }
-
-  > *:first-child {
-    margin: 0;
-  }
-
-  .btn-group-sm > .btn,
-  .btn-sm {
-    padding: 0 .8rem;
-    line-height: 24px;
-  }
-
-  .btn-sm {
-    padding: 0 10px;
-    font-size: .875rem;
+  .btn {
+    padding: 0 22px;
+    font-size: 1rem;
     line-height: $atum-toolbar-line-height;
-
-    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    color: white;
 
     [class^="icon-"],
     [class*=" icon-"],
@@ -56,101 +42,49 @@
     [class*=" #{$fa-css-prefix}-"] {
       z-index: -1;
       display: inline-block;
-      width: 28px;
+      width: 40px;
       height: auto;
-      margin: 0 6px 0 -10px;
+      margin: 0 16px 0 -22px;
       line-height: $atum-toolbar-line-height;
-      color: inherit;
-      background-color: $gray-200;
-      border-right: 1px solid $atum-border-color;
-      border-radius: 3px 0 0 3px;
-    }
-
-    &:hover {
-      background-color: $gray-200;
-      border-color: $atum-border-color;
-    }
-
-  }
-
-  @each $color, $value in $theme-colors {
-    .btn-outline-#{$color} {
-      color: $body-color;
-      background-color: $white-offset;
-      border-color: $atum-border-color;
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        color: theme-color($color);
-      }
-    }
-
-    .btn-#{$color}:not(.dropdown-toggle-split) {
-      color: $white-offset;
-      background-color: theme-color($color);
-      border-color: rgba(0,0,0,.2);
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        width: 16px;
-        margin-right: 0;
-        margin-left: 0;
-        color: $white-offset;
-        background-color: transparent;
-        border-right: 0 none;
-        border-left: 0 none;
-      }
-
-      &:hover {
-        background-color: darken(theme-color($color), 10%);
-      }
-
-    }
-
-    .btn-#{$color}.dropdown-toggle-split {
-      background: darken(theme-color($color), 12%);
-      border-color: darken(theme-color($color), 12%);
-
-      &::after {
-        color: $white-offset;
-      }
-
+      color: white;
+      background-color: rgba(0,0,0,.2);
     }
   }
 
-  .button-new, .button-apply, .button-wide {
-    width: 140px;
+  .btn-group {
+    margin-right: .75rem;
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      margin-right: 0;
+      background-color: transparent;
+    }
   }
 
-  > *:first-child:not(.float-sm-right) {
-    margin-left: 0;
+
+  .dropdown-toggle {
+    padding: 0 16px;
+
+    &.btn {
+      background-color: rgba(0,0,0,.2);
+    }
+
+    &.btn-primary {
+      background-color: darken(theme-color("primary"), 8%);
+    }
+
+    &.btn-success {
+      background-color: darken(theme-color("success"), 8%);
+    }
+
+    &.btn-info {
+      background-color: darken(theme-color("info"), 8%);
+    }
+
+    &.btn-danger {
+      background-color: darken(theme-color("danger"), 8%);
+    }
   }
-
-  .float-sm-right {
-    margin-left: .8rem;
-  }
-
-  &.subhead-fixed {
-    position: fixed;
-    top: 0;
-    left: 250px;
-    z-index: 9;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid $gray-500;
-  }
-
-}
-
-.closed .subhead-fixed {
-  left: 55px;
-}
-
-.btn-toolbar {
-  margin-bottom: 20px;
-  margin-left: 0;
 }

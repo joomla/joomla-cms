@@ -2,20 +2,36 @@
 
 .table {
 
-  thead th {
-    white-space: nowrap;
-    border-bottom-width: 1px;
+  thead {
+    th {
+      white-space: nowrap;
+      border-bottom-width: 0;
+    }
+    a {
+      color: $gray-800;
+      font-weight: normal;
+    }
+  }
+
+  tbody {
+    background-color: $white;
   }
 
   th,
   td {
-    padding: 8px;
     vertical-align: middle;
-
     label {
       margin-bottom: 0;
     }
 
+  }
+
+  th {
+    padding: 8px 12px;
+  }
+
+  td {
+    padding: 18px 12px;
   }
 
 }
