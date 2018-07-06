@@ -142,6 +142,37 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$user->bind($pseudoanonymisedData);
 
 		$user->save();
+
+		// Destroy all sessions for the user account
+		$sessionIds = $this->db->setQuery(
+			$this->db->getQuery(true)
+				->select('session_id')
+				->from('#__session')
+				->where('userid = ' . (int) $user->id)
+		)->loadColumn();
+
+		// If there aren't any active sessions then there's nothing to do here
+		if (empty($sessionIds))
+		{
+			return;
+		}
+
+		$storeName = JFactory::getConfig()->get('session_handler', 'none');
+		$store     = JSessionStorage::getInstance($storeName);
+		$quotedIds = array();
+
+		// Destroy the sessions and quote the IDs to purge the session table
+		foreach ($sessionIds as $sessionId)
+		{
+			$store->destroy($sessionId);
+			$quotedIds[] = $this->db->quote($sessionId);
+		}
+
+		$this->db->setQuery(
+			$this->db->getQuery(true)
+				->delete('#__session')
+				->where('session_id IN (' . implode(', ', $quotedIds))
+		)->execute();
 	}
 
 	/**
