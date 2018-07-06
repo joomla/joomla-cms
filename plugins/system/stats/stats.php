@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Cache\Cache;
 
 // Uncomment the following line to enable debug mode for testing purposes. Note: statistics will be sent on every page load
 // define('PLG_SYSTEM_STATS_DEBUG', 1);
@@ -104,7 +107,7 @@ class PlgSystemStats extends CMSPlugin
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
 
-		HTMLHelper::_('script', 'plg_system_stats/stats.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -345,7 +348,7 @@ class PlgSystemStats extends CMSPlugin
 	{
 		if (null === $this->uniqueId)
 		{
-			$this->uniqueId = $this->params->get('unique_id', hash('sha1', JUserHelper::genRandomPassword(28) . time()));
+			$this->uniqueId = $this->params->get('unique_id', hash('sha1', UserHelper::genRandomPassword(28) . time()));
 		}
 
 		return $this->uniqueId;
@@ -469,7 +472,7 @@ class PlgSystemStats extends CMSPlugin
 			// Update the plugin parameters
 			$result = $this->db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(array('com_plugins'));
 		}
 		catch (Exception $exc)
 		{
@@ -506,7 +509,7 @@ class PlgSystemStats extends CMSPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+			$response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -537,33 +540,29 @@ class PlgSystemStats extends CMSPlugin
 	/**
 	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
 	 *
-	 * @param   array  $clearGroups   The cache groups to clean
-	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
+	 * @param   array  $clearGroups  The cache groups to clean
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups)
 	{
 		foreach ($clearGroups as $group)
 		{
-			foreach ($cacheClients as $client_id)
+			try
 			{
-				try
-				{
-					$options = array(
-						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
-					);
+				$options = array(
+					'defaultgroup' => $group,
+					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE)
+				);
 
-					$cache = JCache::getInstance('callback', $options);
-					$cache->clean();
-				}
-				catch (Exception $e)
-				{
-					// Ignore it
-				}
+				$cache = Cache::getInstance('callback', $options);
+				$cache->clean();
+			}
+			catch (Exception $e)
+			{
+				// Ignore it
 			}
 		}
 	}

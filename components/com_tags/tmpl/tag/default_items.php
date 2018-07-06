@@ -3,18 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
-JHtml::_('behavior.core');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+
+HTMLHelper::_('behavior.core');
+
+HTMLHelper::_('script', 'com_tags/tag-default.js', ['relative' => true, 'version' => 'auto']);
 
 // Get the user object.
-$user = JFactory::getUser();
+$user = Factory::getUser();
 
 // Check if user is allowed to add/edit based on tags permissions.
 // Do we really have to make it so people can see unpublished tags???
@@ -23,28 +31,21 @@ $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $items        = $this->items;
 $n            = count($this->items);
-
-JFactory::getDocument()->addScriptDeclaration("
-		var resetFilter = function() {
-		document.getElementById('filter-search').value = '';
-	}
-");
-
 ?>
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-tags-tag__items">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<fieldset class="filters d-flex justify-content-between mb-3">
+		<fieldset class="com-tags-tag__filters filters d-flex justify-content-between mb-3">
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="input-group">
 					<label class="filter-search-lbl sr-only" for="filter-search">
-						<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
+						<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 					</label>
-					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
+					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo Text::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 					<span class="input-group-append">
-						<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn btn-secondary">
+						<button type="submit" name="filter-search-button" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
 							<span class="fa fa-search" aria-hidden="true"></span>
 						</button>
-						<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary" onclick="resetFilter(); document.adminForm.submit();">
+						<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
 							<span class="fa fa-times" aria-hidden="true"></span>
 						</button>
 					</span>
@@ -53,7 +54,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php if ($this->params->get('show_pagination_limit')) : ?>
 				<div class="btn-group float-right">
 					<label for="limit" class="sr-only">
-						<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
+						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 					</label>
 					<?php echo $this->pagination->getLimitBox(); ?>
 				</div>
@@ -67,9 +68,9 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php endif; ?>
 
 	<?php if ($this->items === false || $n === 0) : ?>
-		<p><?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
+		<p><?php echo Text::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
-		<ul class="category list-group">
+		<ul class="com-tags-tag__category category list-group">
 			<?php foreach ($items as $i => $item) : ?>
 				<?php if ($item->core_state == 0) : ?>
 					<li class="list-group-item-danger">
@@ -81,7 +82,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						</h3>
 					<?php else : ?>
 						<h3 class="mb-0">
-							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+							<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 						</h3>
@@ -91,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo $item->event->afterDisplayTitle; ?>
 				<?php $images  = json_decode($item->core_images); ?>
 				<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) : ?>
-					<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+					<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<img src="<?php echo htmlspecialchars($images->image_intro); ?>"
 							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
 					</a>
@@ -100,7 +101,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php // Content is generated by content plugin event "onContentBeforeDisplay" ?>
 					<?php echo $item->event->beforeDisplayContent; ?>
 					<span class="tag-body">
-						<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
+						<?php echo HTMLHelper::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 					</span>
 					<?php // Content is generated by content plugin event "onContentAfterDisplay" ?>
 					<?php echo $item->event->afterDisplayContent; ?>

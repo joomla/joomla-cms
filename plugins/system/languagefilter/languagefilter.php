@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filesystem\Folder;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
@@ -143,7 +144,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			// Attach build rules for language SEF.
 			$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
-			$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_DURING);
+			$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
 
 			if ($this->mode_sef)
 			{
@@ -648,7 +649,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				// or the related home page does not exist/has been unpublished
 				if (!array_key_exists($lang_code, $this->lang_codes)
 					|| !array_key_exists($lang_code, Multilanguage::getSiteHomePages())
-					|| !JFolder::exists(JPATH_SITE . '/language/' . $lang_code))
+					|| !Folder::exists(JPATH_SITE . '/language/' . $lang_code))
 				{
 					$lang_code = $this->current_lang;
 				}

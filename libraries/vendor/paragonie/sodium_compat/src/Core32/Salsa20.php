@@ -20,6 +20,8 @@ abstract class ParagonIE_Sodium_Core32_Salsa20 extends ParagonIE_Sodium_Core32_U
      * @param string $k
      * @param string|null $c
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function core_salsa20($in, $k, $c = null)
     {
@@ -185,6 +187,8 @@ abstract class ParagonIE_Sodium_Core32_Salsa20 extends ParagonIE_Sodium_Core32_U
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function salsa20($len, $nonce, $key)
     {
@@ -228,6 +232,8 @@ abstract class ParagonIE_Sodium_Core32_Salsa20 extends ParagonIE_Sodium_Core32_U
      * @param int $ic
      * @param string $k
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function salsa20_xor_ic($m, $n, $ic, $k)
     {
@@ -283,6 +289,8 @@ abstract class ParagonIE_Sodium_Core32_Salsa20 extends ParagonIE_Sodium_Core32_U
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function salsa20_xor($message, $nonce, $key)
     {

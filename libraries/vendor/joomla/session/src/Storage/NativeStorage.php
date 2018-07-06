@@ -141,6 +141,24 @@ class NativeStorage implements StorageInterface
 	}
 
 	/**
+	 * Aborts the current session
+	 *
+	 * @return  boolean
+	 *
+	 * @see     session_abort()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function abort()
+	{
+		if (!$this->isStarted())
+		{
+			return true;
+		}
+
+		return session_abort();
+	}
+
+	/**
 	 * Get data from the session store
 	 *
 	 * @param   string  $name     Name of a variable

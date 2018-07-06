@@ -7,9 +7,15 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
+    'Wamania\\Snowball\\' => array($vendorDir . '/wamania/php-stemmer/src'),
+    'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
+    'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\WebLink\\' => array($vendorDir . '/symfony/web-link'),
+    'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
+    'Symfony\\Component\\Ldap\\' => array($vendorDir . '/symfony/ldap'),
     'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'ReCaptcha\\' => array($vendorDir . '/google/recaptcha/src/ReCaptcha'),
@@ -27,7 +33,6 @@ return array(
     'Joomla\\OAuth2\\' => array($vendorDir . '/joomla/oauth2/src'),
     'Joomla\\OAuth1\\' => array($vendorDir . '/joomla/oauth1/src'),
     'Joomla\\Ldap\\' => array($vendorDir . '/joomla/ldap/src'),
-    'Joomla\\Input\\Tests\\' => array($vendorDir . '/joomla/input/Tests'),
     'Joomla\\Input\\' => array($vendorDir . '/joomla/input/src'),
     'Joomla\\Image\\' => array($vendorDir . '/joomla/image/src'),
     'Joomla\\Http\\' => array($vendorDir . '/joomla/http/src'),

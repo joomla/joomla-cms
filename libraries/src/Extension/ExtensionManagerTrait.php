@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,14 +10,16 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Trait for classes which can load extensions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait ExtensionManagerTrait
 {
@@ -26,7 +28,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @var array
 	 */
-	private $extensions = ['component' => []];
+	private $extensions = [ComponentInterface::class => []];
 
 	/**
 	 * Boots the component with the given name.
@@ -35,7 +37,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  ComponentInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function bootComponent($component): ComponentInterface
 	{
@@ -45,7 +47,7 @@ trait ExtensionManagerTrait
 		// Path to to look for services
 		$path = JPATH_ADMINISTRATOR . '/components/com_' . $component;
 
-		return $this->loadExtension('component', $component, $path);
+		return $this->loadExtension(ComponentInterface::class, $component, $path);
 	}
 
 	/**
@@ -57,7 +59,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  ComponentInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function loadExtension($type, $extensionName, $extensionPath)
 	{
@@ -69,6 +71,19 @@ trait ExtensionManagerTrait
 
 		// The container to get the services from
 		$container = $this->getContainer()->createChild();
+
+		$container->get(DispatcherInterface::class)->dispatch(
+			'onBeforeExtensionBoot',
+			AbstractEvent::create(
+				'onBeforeExtensionBoot',
+				[
+					'subject'       => $this,
+					'type'          => $type,
+					'extensionName' => $extensionName,
+					'container'     => $container
+				]
+			)
+		);
 
 		// The path of the loader file
 		$path = $extensionPath . '/services/provider.php';
@@ -86,15 +101,35 @@ trait ExtensionManagerTrait
 		}
 
 		// Fallback to legacy
-		if (!$container->has($type) && $type == 'component')
+		if (!$container->has($type) && $type == ComponentInterface::class)
 		{
 			$container->set($type, new LegacyComponent('com_' . $extensionName));
 		}
 
-		// Cache the extension
-		$this->extensions[$type][$extensionName] = $container->get($type);
+		$container->get(DispatcherInterface::class)->dispatch(
+			'onAfterExtensionBoot',
+			AbstractEvent::create(
+				'onAfterExtensionBoot',
+				[
+					'subject'       => $this,
+					'type'          => $type,
+					'extensionName' => $extensionName,
+					'container'     => $container
+				]
+			)
+		);
 
-		return $this->extensions[$type][$extensionName];
+		$extension = $container->get($type);
+
+		if ($extension instanceof BootableExtensionInterface)
+		{
+			$extension->boot($container);
+		}
+
+		// Cache the extension
+		$this->extensions[$type][$extensionName] = $extension;
+
+		return $extension;
 	}
 
 	/**
@@ -102,7 +137,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  Container
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  ContainerNotFoundException May be thrown if the container has not been set.
 	 */
 	abstract protected function getContainer();

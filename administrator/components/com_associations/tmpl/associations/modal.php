@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,8 +38,8 @@ $iconStates = array(
 JFactory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
 JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1');
- ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
+. $function . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="col-md-2">

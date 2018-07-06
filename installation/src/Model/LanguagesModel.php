@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class LanguagesModel extends BaseInstallationModel
 	protected $langlist;
 
 	/**
-	 * @var    Admin Id, author of all generated content.
+	 * @var    integer  Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
 	protected $adminId;
@@ -86,7 +86,7 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Generate a list of language choices to install in the Joomla CMS.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -520,7 +520,7 @@ class LanguagesModel extends BaseInstallationModel
 		}
 
 		// Get the form.
-		Form::addFormPath(JPATH_COMPONENT . '/model/forms');
+		Form::addFormPath(JPATH_COMPONENT . '/forms');
 		Form::addFieldPath(JPATH_COMPONENT . '/model/fields');
 		Form::addRulePath(JPATH_COMPONENT . '/model/rules');
 
@@ -702,31 +702,29 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Publish the Installed Content Languages.
 	 *
-	 * @return  boolean
+	 * @return  array  List of languages that failed to be published. Empty array if all successful
 	 *
 	 * @since   3.7.0
 	 */
 	public function publishContentLanguages()
 	{
-		$app = Factory::getApplication();
-
 		// Publish the Content Languages.
 		$tableLanguage = Table::getInstance('Language');
-
 		$siteLanguages = $this->getInstalledlangs('site');
+		$failedLanguages = [];
 
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$failedLanguages[] = $siteLang->name;
 
 				continue;
 			}
 		}
 
-		return true;
+		return $failedLanguages;
 	}
 
 	/**

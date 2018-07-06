@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Blog
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,8 +73,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
-		$data->icon        = 'broadcast';
-		$data->steps       = 3;
+		$data->icon        = 'wifi';
+		$data->steps       = 4;
 
 		return $data;
 	}
@@ -948,6 +948,21 @@ class PlgSampledataBlog extends CMSPlugin
 		$response            = array();
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
+
+		return $response;
+	}
+
+	/**
+	 * Final step to show completion of sampledata.
+	 *
+	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function onAjaxSampledataApplyStep4()
+	{
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 
 		return $response;
 	}

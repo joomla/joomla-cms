@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,22 +35,10 @@ if ($show_description)
 
 	$description = JHtml::_('string.truncate', StringHelper::substr($this->result->description, $start), $desc_length, true);
 }
-
-$route = $this->result->route;
-
-// Get the route with highlighting information.
-if (!empty($this->query->highlight)
-	&& empty($this->result->mime)
-	&& $this->params->get('highlight_terms', 1)
-	&& JPluginHelper::isEnabled('system', 'highlight'))
-{
-	$route .= '&highlight=' . base64_encode(json_encode($this->query->highlight));
-}
-
 ?>
-<li>
+<li class="com-finder__result">
 	<h4 class="result-title <?php echo $mime; ?>">
-		<a href="<?php echo JRoute::_($route); ?>">
+		<a href="<?php echo JRoute::_($this->result->route); ?>">
 			<?php echo $this->result->title; ?>
 		</a>
 	</h4>
@@ -61,7 +49,7 @@ if (!empty($this->query->highlight)
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
 		<div class="small result-url">
-			<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
+			<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
 		</div>
 	<?php endif; ?>
 </li>

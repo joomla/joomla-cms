@@ -3,14 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Site\Helper;
 
-use Joomla\CMS\Language\Multilanguage;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Categories\CategoryNode;
 
 /**
  * Newsfeeds Component Route Helper
@@ -56,7 +57,7 @@ abstract class Route
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
-		if ($catid instanceof \JCategoryNode)
+		if ($catid instanceof CategoryNode)
 		{
 			$id = $catid->id;
 		}

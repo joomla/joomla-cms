@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -780,6 +780,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			{
 				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
+
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
 		}
@@ -1455,16 +1456,23 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			return false;
 		}
 
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(userid)')
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $against);
-		$db->setQuery($query);
-		$checkedOut = (boolean) $db->loadResult();
+		// This last check can only be relied on if tracking session metadata
+		if (\JFactory::getConfig()->get('session_metadata', true))
+		{
+			$db = \JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('COUNT(userid)')
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = ' . (int) $against);
+			$db->setQuery($query);
+			$checkedOut = (boolean) $db->loadResult();
 
-		// If a session exists for the user then it is checked out.
-		return $checkedOut;
+			// If a session exists for the user then it is checked out.
+			return $checkedOut;
+		}
+
+		// Assume if we got here that there is a value in the checked out column but it doesn't match the given user
+		return true;
 	}
 
 	/**
@@ -1962,5 +1970,21 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		$this->_locked = false;
 
 		return true;
+	}
+
+	/**
+	 * Check if the record has a property (applying a column alias if it exists)
+	 *
+	 * @param   string  $key  key to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasField($key)
+	{
+		$key = $this->getColumnAlias($key);
+
+		return property_exists($this, $key);
 	}
 }

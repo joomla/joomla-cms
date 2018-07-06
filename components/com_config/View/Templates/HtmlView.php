@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Templates\Administrator\Model\StyleModel;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a template style.
@@ -55,10 +56,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 
 		$app->input->set('id', $app->getTemplate(true)->id);
 
@@ -68,7 +69,7 @@ class HtmlView extends BaseHtmlView
 		$model = new StyleModel;
 		$view->setModel($model, true);
 
-		$view->document = \JFactory::getDocument();
+		$view->document = Factory::getDocument();
 
 		$json = $view->display();
 

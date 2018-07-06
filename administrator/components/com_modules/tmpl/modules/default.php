@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th style="width:1%" class="nowrap text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th style="width:1%" class="nowrap text-center" style="min-width:85px">
+						<th style="width:1%; min-width:85px" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">

@@ -8,6 +8,11 @@
 
 namespace Joomla\Database;
 
+use Joomla\Database\Event\ConnectionEvent;
+use Joomla\Database\Exception\ConnectionFailureException;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\PrepareStatementFailureException;
+use Joomla\Database\Query\LimitableInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\EventInterface;
@@ -78,6 +83,14 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	protected $cursor;
 
 	/**
+	 * Contains the current query execution status
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $executed = false;
+
+	/**
 	 * The affected row limit for the current SQL statement.
 	 *
 	 * @var    integer
@@ -127,6 +140,14 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 * @since  1.0
 	 */
 	protected $sql;
+
+	/**
+	 * The prepared statement.
+	 *
+	 * @var    StatementInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $statement;
 
 	/**
 	 * The common database table prefix.
@@ -492,6 +513,16 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __destruct()
+	{
+		$this->disconnect();
+	}
+
+	/**
 	 * Alter database's character set.
 	 *
 	 * @param   string  $dbName  The database name that will be altered
@@ -545,6 +576,21 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	}
 
 	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function disconnect()
+	{
+		$this->freeResult();
+		$this->connection = null;
+
+		$this->dispatchEvent(new ConnectionEvent(DatabaseEvents::POST_DISCONNECT, $this));
+	}
+
+	/**
 	 * Dispatch an event.
 	 *
 	 * @param   EventInterface  $event  The event to dispatch
@@ -566,49 +612,167 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	}
 
 	/**
-	 * Method to fetch a row from the result set cursor as an array.
+	 * Execute the SQL statement.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function execute()
+	{
+		$this->connect();
+
+		// Take a local copy so that we don't modify the original query and cause issues later
+		$sql = $this->replacePrefix((string) $this->sql);
+
+		// Increment the query counter.
+		$this->count++;
+
+		// If there is a monitor registered, let it know we are starting this query
+		if ($this->monitor)
+		{
+			$this->monitor->startQuery($sql);
+		}
+
+		// Execute the query.
+		$this->executed = false;
+
+		// Bind the variables
+		$bounded =& $this->sql->getBounded();
+
+		foreach ($bounded as $key => $obj)
+		{
+			$this->statement->bindParam($key, $obj->value, $obj->dataType);
+		}
+
+		try
+		{
+			$this->executed = $this->statement->execute();
+
+			// If there is a monitor registered, let it know we have finished this query
+			if ($this->monitor)
+			{
+				$this->monitor->stopQuery();
+			}
+
+			return true;
+		}
+		catch (ExecutionFailureException $exception)
+		{
+			// If there is a monitor registered, let it know we have finished this query
+			if ($this->monitor)
+			{
+				$this->monitor->stopQuery();
+			}
+
+			// Check if the server was disconnected.
+			if (!$this->connected())
+			{
+				try
+				{
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
+				}
+				catch (ConnectionFailureException $e)
+				{
+					// If connect fails, ignore that exception and throw the normal exception.
+					throw $exception;
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->execute();
+			}
+
+			// Throw the normal query exception.
+			throw $exception;
+		}
+	}
+
+	/**
+	 * Method to fetch a row from the result set cursor as an array.
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
 	 * @since   1.0
 	 */
-	abstract protected function fetchArray($cursor = null);
+	protected function fetchArray()
+	{
+		if ($this->statement)
+		{
+			return $this->statement->fetch(FetchMode::NUMERIC);
+		}
+	}
 
 	/**
 	 * Method to fetch a row from the result set cursor as an associative array.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
-	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
 	 * @since   1.0
 	 */
-	abstract protected function fetchAssoc($cursor = null);
+	protected function fetchAssoc()
+	{
+		if ($this->statement)
+		{
+			return $this->statement->fetch(FetchMode::ASSOCIATIVE);
+		}
+	}
 
 	/**
 	 * Method to fetch a row from the result set cursor as an object.
 	 *
-	 * @param   mixed   $cursor  The optional result set cursor from which to fetch the row.
-	 * @param   string  $class   The class name to use for the returned row object.
+	 * @param   string  $class  The class name to use for the returned row object.
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
 	 * @since   1.0
 	 */
-	abstract protected function fetchObject($cursor = null, $class = 'stdClass');
+	protected function fetchObject($class = '\\stdClass')
+	{
+		if ($this->statement)
+		{
+			return $this->statement->fetchObject($class);
+		}
+	}
 
 	/**
 	 * Method to free up the memory used for the result set.
-	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 */
-	abstract protected function freeResult($cursor = null);
+	protected function freeResult()
+	{
+		$this->executed = false;
+
+		if ($this->statement)
+		{
+			$this->statement->closeCursor();
+			$this->statement = null;
+		}
+	}
+
+	/**
+	 * Get the number of affected rows for the previous executed SQL statement.
+	 *
+	 * @return  integer  The number of affected rows in the previous operation
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAffectedRows()
+	{
+		$this->connect();
+
+		if ($this->statement)
+		{
+			return $this->statement->rowCount();
+		}
+
+		return 0;
+	}
 
 	/**
 	 * Method that provides access to the underlying database connection.
@@ -718,6 +882,25 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		return $this->name;
+	}
+
+	/**
+	 * Get the number of returned rows for the previous executed SQL statement.
+	 *
+	 * @return  integer   The number of returned rows.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getNumRows()
+	{
+		$this->connect();
+
+		if ($this->statement)
+		{
+			return $this->statement->rowCount();
+		}
+
+		return 0;
 	}
 
 	/**
@@ -857,7 +1040,12 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 */
 	public function getIterator($column = null, $class = '\\stdClass')
 	{
-		return $this->factory->getIterator($this->name, $this, $column, $class);
+		if (!$this->executed)
+		{
+			$this->execute();
+		}
+
+		return $this->factory->getIterator($this->name, $this->statement, $column, $class);
 	}
 
 	/**
@@ -975,13 +1163,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get the first row from the result set as an associative array.
-		$array = $this->fetchAssoc($cursor);
+		$array = $this->fetchAssoc();
 
 		if ($array)
 		{
@@ -989,7 +1174,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $ret;
 	}
@@ -1018,13 +1203,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$array = [];
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get all of the rows from the result set.
-		while ($row = $this->fetchAssoc($cursor))
+		while ($row = $this->fetchAssoc())
 		{
 			$value = $column ? (isset($row[$column]) ? $row[$column] : $row) : $row;
 
@@ -1039,7 +1221,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $array;
 	}
@@ -1061,19 +1243,16 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$array = [];
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get all of the rows from the result set as arrays.
-		while ($row = $this->fetchArray($cursor))
+		while ($row = $this->fetchArray())
 		{
 			$array[] = $row[$offset];
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $array;
 	}
@@ -1095,13 +1274,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get the first row from the result set as an object of type $class.
-		$object = $this->fetchObject($cursor, $class);
+		$object = $this->fetchObject($class);
 
 		if ($object)
 		{
@@ -1109,7 +1285,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $ret;
 	}
@@ -1135,13 +1311,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$array = [];
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get all of the rows from the result set as objects of type $class.
-		while ($row = $this->fetchObject($cursor, $class))
+		while ($row = $this->fetchObject($class))
 		{
 			if ($key)
 			{
@@ -1154,7 +1327,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $array;
 	}
@@ -1174,13 +1347,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get the first row from the result set as an array.
-		$row = $this->fetchArray($cursor);
+		$row = $this->fetchArray();
 
 		if ($row)
 		{
@@ -1188,7 +1358,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $ret;
 	}
@@ -1210,13 +1380,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get the first row from the result set as an array.
-		$row = $this->fetchArray($cursor);
+		$row = $this->fetchArray();
 
 		if ($row)
 		{
@@ -1224,7 +1391,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $ret;
 	}
@@ -1237,7 +1404,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 *
 	 * @param   string  $key  The name of a field on which to key the result array.
 	 *
-	 * @return  mixed   The return value or null if the query failed.
+	 * @return  array   An array of results.
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
@@ -1249,13 +1416,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		$array = [];
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
-		{
-			return null;
-		}
+		$this->execute();
 
 		// Get all of the rows from the result set as arrays.
-		while ($row = $this->fetchArray($cursor))
+		while ($row = $this->fetchArray())
 		{
 			if ($key !== null)
 			{
@@ -1268,10 +1432,22 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult();
 
 		return $array;
 	}
+
+	/**
+	 * Prepares a SQL statement for execution
+	 *
+	 * @param   string  $query  The SQL query to be prepared.
+	 *
+	 * @return  StatementInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  PrepareStatementFailureException
+	 */
+	abstract protected function prepareStatement(string $query): StatementInterface;
 
 	/**
 	 * Alias for quote method
@@ -1538,16 +1714,69 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	/**
 	 * Sets the SQL statement string for later execution.
 	 *
-	 * @param   mixed    $query   The SQL statement to set either as a Query object or a string.
-	 * @param   integer  $offset  The affected row offset to set.
-	 * @param   integer  $limit   The maximum affected rows to set.
+	 * @param   string|QueryInterface  $query   The SQL statement to set either as a Query object or a string.
+	 * @param   integer                $offset  The affected row offset to set. {@deprecated 3.0 Use LimitableInterface::setLimit() instead}
+	 * @param   integer                $limit   The maximum affected rows to set. {@deprecated 3.0 Use LimitableInterface::setLimit() instead}
 	 *
 	 * @return  $this
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function setQuery($query, $offset = 0, $limit = 0)
 	{
+		$this->connect();
+
+		$this->freeResult();
+
+		if (is_string($query))
+		{
+			// Allows taking advantage of bound variables in a direct query:
+			$query = $this->getQuery(true)->setQuery($query);
+		}
+		elseif (!($query instanceof QueryInterface))
+		{
+			throw new \InvalidArgumentException(
+				sprintf(
+					'A query must be a string or a %s instance, a %s was given.',
+					QueryInterface::class,
+					gettype($query) === 'object' ? (get_class($query) . ' instance') : gettype($query)
+				)
+			);
+		}
+
+		if ($offset > 0 || $limit > 0)
+		{
+			@trigger_error(
+				sprintf(
+					'The "$offset" and "$limit" arguments of %1$s() are deprecated and will be removed in 3.0, use %2$s::setLimit() instead.',
+					__METHOD__,
+					get_class($query)
+				),
+				E_USER_DEPRECATED
+			);
+		}
+
+		if ($query instanceof LimitableInterface)
+		{
+			// Check for values set on the query object and use those if there is a zero value passed here
+			if ($limit === 0 && $query->limit > 0)
+			{
+				$limit = $query->limit;
+			}
+
+			if ($offset === 0 && $query->offset > 0)
+			{
+				$offset = $query->offset;
+			}
+
+			$query->setLimit($limit, $offset);
+		}
+
+		$sql = $this->replacePrefix((string) $query);
+
+		$this->statement = $this->prepareStatement($sql);
+
 		$this->sql    = $query;
 		$this->limit  = (int) max(0, $limit);
 		$this->offset = (int) max(0, $offset);

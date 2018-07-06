@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/he
 
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
-<div class="contact-articles">
+<div class="com-contact__articles contact-articles">
 	<ul class="nav nav-tabs nav-stacked">
 		<?php foreach ($this->item->articles as $article) : ?>
 			<li>

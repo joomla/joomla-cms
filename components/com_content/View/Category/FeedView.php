@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\View\Category;
@@ -11,6 +11,9 @@ namespace Joomla\Component\Content\Site\View\Category;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\CategoryFeedView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Content component
@@ -38,7 +41,7 @@ class FeedView extends CategoryFeedView
 	protected function reconcileNames($item)
 	{
 		// Get description, intro_image, author and date
-		$app               = \JFactory::getApplication();
+		$app               = Factory::getApplication();
 		$params            = $app->getParams();
 		$item->description = '';
 		$obj = json_decode($item->images);
@@ -46,7 +49,7 @@ class FeedView extends CategoryFeedView
 
 		if (isset($introImage) && ($introImage != ''))
 		{
-			$image = preg_match('/http/', $introImage)? $introImage : \JURI::root() . $introImage;
+			$image = preg_match('/http/', $introImage) ? $introImage : \JURI::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '"></p>';
 		}
 
@@ -59,9 +62,9 @@ class FeedView extends CategoryFeedView
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// URL link to article
-			$link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+			$link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
-			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . \JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 		}
 
 		$item->author = $item->created_by_alias ?: $item->author;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,14 +29,6 @@ defined('_JEXEC') or die;
 			</tr>
 		</tfoot>
 		<tbody>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_SAFE_MODE'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['safe_mode']); ?>
-				</td>
-			</tr>
 			<tr>
 				<td>
 					<?php echo JText::_('COM_ADMIN_OPEN_BASEDIR'); ?>

@@ -13,16 +13,8 @@ namespace Joomla\Database;
  *
  * @since  1.0
  */
-abstract class DatabaseIterator implements \Countable, \Iterator
+class DatabaseIterator implements \Countable, \Iterator
 {
-	/**
-	 * The database cursor.
-	 *
-	 * @var    mixed
-	 * @since  1.0
-	 */
-	protected $cursor;
-
 	/**
 	 * The class of object to create.
 	 *
@@ -64,26 +56,34 @@ abstract class DatabaseIterator implements \Countable, \Iterator
 	private $fetched = 0;
 
 	/**
+	 * The statement holding the result set to iterate.
+	 *
+	 * @var    StatementInterface
+	 * @since  1.0
+	 */
+	protected $statement;
+
+	/**
 	 * Database iterator constructor.
 	 *
-	 * @param   mixed   $cursor  The database cursor.
-	 * @param   string  $column  An option column to use as the iterator key.
-	 * @param   string  $class   The class of object that is returned.
+	 * @param   StatementInterface  $statement  The statement holding the result set to iterate.
+	 * @param   string              $column     An option column to use as the iterator key.
+	 * @param   string              $class      The class of object that is returned.
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($cursor, $column = null, $class = '\\stdClass')
+	public function __construct(StatementInterface $statement, $column = null, $class = '\\stdClass')
 	{
 		if (!class_exists($class))
 		{
 			throw new \InvalidArgumentException(sprintf('new %s(*%s*, cursor)', get_class($this), gettype($class)));
 		}
 
-		$this->cursor  = $cursor;
-		$this->class   = $class;
-		$this->column  = $column;
-		$this->fetched = 0;
+		$this->statement = $statement;
+		$this->class     = $class;
+		$this->column    = $column;
+		$this->fetched   = 0;
 		$this->next();
 	}
 
@@ -94,9 +94,9 @@ abstract class DatabaseIterator implements \Countable, \Iterator
 	 */
 	public function __destruct()
 	{
-		if ($this->cursor)
+		if ($this->statement)
 		{
-			$this->freeResult($this->cursor);
+			$this->freeResult();
 		}
 	}
 
@@ -108,7 +108,15 @@ abstract class DatabaseIterator implements \Countable, \Iterator
 	 * @see     Countable::count()
 	 * @since   1.0
 	 */
-	abstract public function count();
+	public function count()
+	{
+		if ($this->statement)
+		{
+			return $this->statement->rowCount();
+		}
+
+		return 0;
+	}
 
 	/**
 	 * The current element in the iterator.
@@ -200,7 +208,15 @@ abstract class DatabaseIterator implements \Countable, \Iterator
 	 *
 	 * @since   1.0
 	 */
-	abstract protected function fetchObject();
+	protected function fetchObject()
+	{
+		if ($this->statement)
+		{
+			return $this->statement->fetchObject($this->class);
+		}
+
+		return false;
+	}
 
 	/**
 	 * Method to free up the memory used for the result set.
@@ -209,5 +225,11 @@ abstract class DatabaseIterator implements \Countable, \Iterator
 	 *
 	 * @since   1.0
 	 */
-	abstract protected function freeResult();
+	protected function freeResult()
+	{
+		if ($this->statement)
+		{
+			$this->statement->closeCursor();
+		}
+	}
 }

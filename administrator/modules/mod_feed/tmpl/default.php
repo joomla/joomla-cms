@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,6 @@ else
 		// Feed description
 		if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
 			<h2 class="<?php echo $direction; ?>">
-			<h2>
 				<a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
 				<?php echo $feed->title; ?></a>
 			</h2>

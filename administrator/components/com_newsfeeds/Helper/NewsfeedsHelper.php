@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Helper;
@@ -30,14 +30,14 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		 \JHtmlSidebar::addEntry(
-			 \JText::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
 			'index.php?option=com_newsfeeds&view=newsfeeds',
 			$vName == 'newsfeeds'
 		);
 
-		 \JHtmlSidebar::addEntry(
-			 \JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);

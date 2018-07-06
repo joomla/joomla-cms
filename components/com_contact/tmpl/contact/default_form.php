@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
 ?>
-<div class="contact-form">
+<div class="com-contact__form contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php if ($fieldset->name === 'captcha' && !$this->captchaEnabled) : ?>

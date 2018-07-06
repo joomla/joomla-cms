@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Modules\Site\Controller;
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Modules manager master display controller.
@@ -34,12 +36,12 @@ class DisplayController extends BaseController
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		$this->input = \JFactory::getApplication()->input;
+		$this->input = Factory::getApplication()->input;
 
 		// Modules frontpage Editor Module proxying:
 		if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal')
 		{
-			\JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 

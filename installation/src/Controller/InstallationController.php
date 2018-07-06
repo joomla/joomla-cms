@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installation\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -57,10 +58,11 @@ class InstallationController extends JSONController
 		$r->view = 'setup';
 
 		// Check the form
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
-		if ($model->checkForm('setup') === false || $model->initialise('setup') === false)
+		if ($model->checkForm('setup') === false || $model->validateDbConnection() === false)
 		{
-			$r->messages = 'Check your DB credentials, db type, db name or hostname';
+			$r->messages = Text::_('INSTL_DATABASE_VALIDATION_ERROR');
 			$r->view = 'setup';
 		}
 
@@ -104,17 +106,17 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
 		$model->checkForm('setup');
-
-		// Get the options from the session
-		$options = $model->getOptions();
 
 		$r = new \stdClass;
 
 		// Attempt to create the database tables
+		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $dbModel */
 		$dbModel = $this->getModel('Database');
-		if (!$dbModel->initialise($options) || !$dbModel->installCmsData($options))
+
+		if (!$dbModel->initialise() || !$dbModel->installCmsData())
 		{
 			$r->view = 'database';
 		}
@@ -133,14 +135,14 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
-		// Get the options from the session.
-		$options = $this->getModel('Setup')->getOptions();
-
 		$r = new \stdClass;
 		$r->view = 'install';
 
+		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
+		$model = $this->getModel('Database');
+
 		// Attempt to handle the old database.
-		if (!$this->getModel('Database')->handleOldDatabase($options))
+		if (!$model->handleOldDatabase())
 		{
 			$r->view = 'database';
 		}
@@ -171,15 +173,22 @@ class InstallationController extends JSONController
 		else
 		{
 			// Get the languages model.
+			/** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
 			$model = $this->getModel('Languages');
 
 			// Install selected languages
 			$model->install($lids);
 
 			// Publish the Content Languages.
-			$model->publishContentLanguages();
+			$failedLanguages = $model->publishContentLanguages();
 
-			$this->app->enqueueMessage(\JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
+			if (!empty($failedLanguages))
+			{
+				foreach ($failedLanguages as $failedLanguage)
+				{
+					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
+				}
+			}
 		}
 
 		// Redirect to the page.
@@ -200,14 +209,14 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
-		// Get the options from the session
-		$options = $this->getModel('Setup')->getOptions();
-
 		$r = new \stdClass;
 		$r->view = 'remove';
 
+		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
+		$model = $this->getModel('Database');
+
 		// Check if the database was initialised
-		if (!$this->getModel('Database')->installSampleData($options))
+		if (!$model->installSampleData())
 		{
 			$r->view = 'remove';
 		}
@@ -226,7 +235,9 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
-		$success = $this->getModel('Cleanup')->deleteInstallationFolder();
+		/** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
+		$model = $this->getModel('Cleanup');
+		$success = $model->deleteInstallationFolder();
 
 		// If an error was encountered return an error.
 		if (!$success)

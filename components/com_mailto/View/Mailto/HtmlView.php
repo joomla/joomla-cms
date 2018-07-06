@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Mailto\Site\View\Mailto;
@@ -11,6 +11,9 @@ namespace Joomla\Component\Mailto\Site\View\Mailto;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Class for Mail.
@@ -51,8 +54,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function getData()
 	{
-		$user = \JFactory::getUser();
-		$app  = \JFactory::getApplication();
+		$user = Factory::getUser();
+		$app  = Factory::getApplication();
 		$data = new \stdClass;
 
 		$input      = $app->input;
@@ -61,7 +64,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($data->link == '')
 		{
-			throw new \Exception(\JText::_('COM_MAILTO_LINK_IS_MISSING'), 400);
+			throw new \Exception(Text::_('COM_MAILTO_LINK_IS_MISSING'), 400);
 		}
 
 		// Load with previous data, if it exists
@@ -78,11 +81,11 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 			$data->sender = $sender;
-			$data->from   = \JStringPunycode::emailToPunycode($from);
+			$data->from   = PunycodeHelper::emailToPunycode($from);
 		}
 
 		$data->subject = $subject;
-		$data->mailto  = \JStringPunycode::emailToPunycode($mailto);
+		$data->mailto  = PunycodeHelper::emailToPunycode($mailto);
 
 		return $data;
 	}

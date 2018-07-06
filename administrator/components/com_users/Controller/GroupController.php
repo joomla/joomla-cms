@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
@@ -29,7 +29,7 @@ class GroupController extends FormController
 	/**
 	 * Method to check if you can save a new or existing record.
 	 *
-	 * Overrides \JControllerForm::allowSave to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::allowSave to check the core.admin permission.
 	 *
 	 * @param   array   $data  An array of input data.
 	 * @param   string  $key   The name of the key for the primary key.
@@ -44,7 +44,7 @@ class GroupController extends FormController
 	}
 
 	/**
-	 * Overrides \JControllerForm::allowEdit
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::allowEdit
 	 *
 	 * Checks that non-Super Admins are not editing Super Admins.
 	 *

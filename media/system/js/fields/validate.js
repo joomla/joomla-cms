@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -180,7 +180,7 @@ var JFormValidator = function() {
 			if ((handler) && (handler !== 'none') && (handlers[handler]) && el.value) {
 			// Execute the validation handler and return result
 				if (handlers[handler].exec(el.value, el) !== true) {
-					handleResponse(false, el, 'value');
+					handleResponse(false, el, 'invalid_value');
 					return false;
 				}
 			}

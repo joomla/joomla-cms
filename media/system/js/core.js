@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,6 +40,39 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * jInsertEditorText() @deprecated 4.0
 	 */
+};
+
+Joomla.Modal = {
+	/**
+	 * *****************************************************************
+	 * Modals should implement
+	 * *****************************************************************
+	 *
+	 * getCurrent  Type  Function  Should return the modal element
+	 * setCurrent  Type  Function  Should set the modal element
+	 * current     Type  {node}    The modal element
+	 *
+	 * USAGE (assuming that exampleId is the modal id)
+	 *   To get the current modal element:
+	 *      Joomla.Modal.current; // Returns node element, eg: document.getElementById('exampleId')
+	 *   To set the current modal element:
+	 *      Joomla.Modal.setCurrent(document.getElementById('exampleId'));
+	 *
+	 * *************************************************************
+	 * Joomla's UI modal uses `element.close();` to close the modal
+	 * and `element.open();` to open the modal
+	 * If you are using another modal make sure the same
+	 * functionality is bound to the modal element
+	 * @see media/legacy/bootstrap.init.js
+	 * *************************************************************
+	 */
+	current: '',
+	setCurrent: function(element) {
+		this.current = element;
+	},
+	getCurrent: function() {
+		return this.current;
+	},
 };
 
 (function( Joomla, document ) {
@@ -89,27 +122,32 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Default function. Can be overriden by the component to add custom logic
 	 *
-	 * @param  {bool}  task  The given task
+	 * @param  {String}  task            The given task
+	 * @param  {String}  formSelector    The form selector eg '#adminForm'
+	 * @param  {bool}    validate        The form element
 	 *
 	 * @returns {void}
 	 */
-	Joomla.submitbutton = function( task ) {
-		var form = document.querySelectorAll( 'form.form-validate' );
+	Joomla.submitbutton = function( task, formSelector, validate ) {
+		var form = document.querySelector( formSelector || 'form.form-validate' );
 
-		if (form.length > 0) {
-			for (var i = 0, j = form.length; i < j; i++) {
+		if (form) {
+
+			if (validate === undefined || validate === null) {
 				var pressbutton = task.split('.'),
-				    cancelTask = form[i].getAttribute( 'data-cancel-task' );
+					cancelTask = form.getAttribute('data-cancel-task');
 
 				if (!cancelTask) {
 					cancelTask = pressbutton[0] + '.cancel';
 				}
 
-				if ((task == cancelTask ) || document.formvalidator.isValid( form[i] ))
-				{
-					Joomla.submitform( task, form[i] );
-				}
+				validate = task !== cancelTask;
 			}
+
+			if (!validate || document.formvalidator.isValid( form )) {
+				Joomla.submitform( task, form );
+			}
+
 		} else {
 			Joomla.submitform( task );
 		}
@@ -205,7 +243,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-				str, element, option, counter = 0;
+			    str, element, option, counter = 0;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
@@ -244,9 +282,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					} else {
 						Joomla.optionsStorage[p] = options[p];
 					}
-	            }
-            }
-        }
+				}
+			}
+		}
 	};
 
 	/**
@@ -319,6 +357,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		if ( checkbox.form.boxchecked ) {
 			checkbox.form.boxchecked.value = c;
+			Joomla.Event.dispatch(checkbox.form.boxchecked, 'change');
 		}
 
 		return true;
@@ -540,6 +579,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		form.boxchecked.value = isitchecked ? parseInt(form.boxchecked.value) + 1 : parseInt(form.boxchecked.value) - 1;
 
+		Joomla.Event.dispatch(form.boxchecked, 'change');
+
 		// If we don't have a checkall-toggle, done.
 		if ( !form.elements[ 'checkall-toggle' ] ) return;
 
@@ -601,50 +642,50 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 	};
 
-    /**
-     * USED IN: all over :)
-     *
-     * @param id
-     * @param task
-     * @return
-     *
-     * @deprecated 4.0  Use Joomla.listItemTask() instead
-     */
-    window.listItemTask = function ( id, task ) {
-        return Joomla.listItemTask( id, task );
-    };
+	/**
+	 * USED IN: all over :)
+	 *
+	 * @param id
+	 * @param task
+	 * @return
+	 *
+	 * @deprecated 4.0  Use Joomla.listItemTask() instead
+	 */
+	window.listItemTask = function ( id, task ) {
+		return Joomla.listItemTask( id, task );
+	};
 
-    /**
-     * USED IN: all over :)
-     *
-     * @param  {string}  id    The id
-     * @param  {string}  task  The task
-     *
-     * @return {boolean}
-     */
-    Joomla.listItemTask = function ( id, task ) {
-        var f = document.adminForm,
-            i = 0, cbx,
-            cb = f[ id ];
+	/**
+	 * USED IN: all over :)
+	 *
+	 * @param  {string}  id    The id
+	 * @param  {string}  task  The task
+	 *
+	 * @return {boolean}
+	 */
+	Joomla.listItemTask = function ( id, task ) {
+		var f = document.adminForm,
+		    i = 0, cbx,
+		    cb = f[ id ];
 
-        if ( !cb ) return false;
+		if ( !cb ) return false;
 
-        while ( true ) {
-            cbx = f[ 'cb' + i ];
+		while ( true ) {
+			cbx = f[ 'cb' + i ];
 
-            if ( !cbx ) break;
+			if ( !cbx ) break;
 
-            cbx.checked = false;
+			cbx.checked = false;
 
-            i++;
-        }
+			i++;
+		}
 
-        cb.checked = true;
-        f.boxchecked.value = 1;
-        window.submitform( task );
+		cb.checked = true;
+		f.boxchecked.value = 1;
+		window.submitform( task );
 
-        return false;
-    };
+		return false;
+	};
 
 	/**
 	 * Default function. Usually would be overriden by the component
@@ -728,7 +769,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		{
 			// Gets the site base path
 			var systemPaths = Joomla.getOptions('system.paths') || {},
-				basePath    = systemPaths.root || '';
+			    basePath    = systemPaths.root || '';
 
 			var loadingDiv = document.createElement('div');
 
@@ -783,7 +824,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		/**
 		 * Technically null is an object, but trying to treat the destination as one in this context will error out.
 		 * So emulate jQuery.extend(), and treat a destination null as an empty object.
- 		 */
+		 */
 		if (destination === null) {
 			destination = {};
 		}
@@ -917,11 +958,83 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Loads any needed polyfill for web components and async load any web components
 	 *
+	 * Parts of the WebComponents method belong to The Polymer Project Authors. License http://polymer.github.io/LICENSE.txt
+	 *
 	 * @since   4.0.0
 	 */
 	Joomla.WebComponents = function() {
-		var polyfills = [];
 		var wc = Joomla.getOptions('webcomponents');
+
+		// Return early
+		if (!wc || !wc.length) {
+			return;
+		}
+
+		var polyfillsLoaded = false;
+		var whenLoadedFns = [];
+		var allowUpgrades = false;
+		var flushFn;
+
+		var fireEvent = function() {
+			window.WebComponents.ready = true;
+			document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
+			loadWC();
+		};
+
+		var batchCustomElements = function() {
+			if (window.customElements && customElements.polyfillWrapFlushCallback) {
+				customElements.polyfillWrapFlushCallback(function (flushCallback) {
+					flushFn = flushCallback;
+					if (allowUpgrades) {
+						flushFn();
+					}
+				});
+			}
+		};
+
+		var asyncReady = function() {
+			batchCustomElements();
+			ready();
+		};
+
+		var ready = function() {
+			// bootstrap <template> elements before custom elements
+			if (window.HTMLTemplateElement && HTMLTemplateElement.bootstrap) {
+				HTMLTemplateElement.bootstrap(window.document);
+			}
+			polyfillsLoaded = true;
+			runWhenLoadedFns().then(fireEvent);
+		};
+
+		var runWhenLoadedFns = function() {
+			allowUpgrades = false;
+			var done = function() {
+				allowUpgrades = true;
+				whenLoadedFns.length = 0;
+				flushFn && flushFn();
+			};
+			return Promise.all(whenLoadedFns.map(function(fn) {
+				return fn instanceof Function ? fn() : fn;
+			})).then(function() {
+				done();
+			}).catch(function(err) {
+				console.error(err);
+			});
+		}
+
+		window.WebComponents = window.WebComponents || {
+			ready: false,
+			_batchCustomElements: batchCustomElements,
+			waitFor: function(waitFn) {
+				if (!waitFn) {
+					return;
+				}
+				whenLoadedFns.push(waitFn);
+				if (polyfillsLoaded) {
+					runWhenLoadedFns();
+				}
+			}
+		};
 
 		/* Check if ES6 then apply the shim */
 		var checkES6 = function () {
@@ -960,34 +1073,59 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 		};
 
-		if (!('import' in document.createElement('link'))) {
-			polyfills.push('hi');
+		// Get the core.js src attribute
+		var name = "core.min.js";
+		var script = document.querySelector('script[src*="' + name + '"]');
+
+		if (!script) {
+			name = "core.js";
+			script = document.querySelector('script[src*="' + name + '"]')
 		}
-		if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) || (window.ShadyDOM && window.ShadyDOM.force)) {
+
+		if (!script) {
+			throw new Error('core(.min).js is not registered correctly!')
+		}
+
+		// Feature detect which polyfill needs to be imported.
+		var polyfills = [];
+		if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) ||
+			(window.ShadyDOM && window.ShadyDOM.force)) {
 			polyfills.push('sd');
 		}
 		if (!window.customElements || window.customElements.forcePolyfill) {
 			polyfills.push('ce');
 		}
-		if (!('content' in document.createElement('template')) || !window.Promise || !Array.from || !(document.createDocumentFragment().cloneNode() instanceof DocumentFragment)) {
-			polyfills = ['lite'];
+
+		var needsTemplate = (function() {
+			// no real <template> because no `content` property (IE and older browsers)
+			var t = document.createElement('template');
+			if (!('content' in t)) {
+				return true;
+			}
+			// broken doc fragment (older Edge)
+			if (!(t.content.cloneNode() instanceof DocumentFragment)) {
+				return true;
+			}
+			// broken <template> cloning (Edge up to at least version 17)
+			var t2 = document.createElement('template');
+			t2.content.appendChild(document.createElement('div'));
+			t.content.appendChild(t2);
+			var clone = t.cloneNode(true);
+			return (clone.content.childNodes.length === 0 ||
+				clone.content.firstChild.content.childNodes.length === 0);
+		})();
+
+		// NOTE: any browser that does not have template or ES6 features
+		// must load the full suite of polyfills.
+		if (!window.Promise || !Array.from || !window.URL || !window.Symbol || needsTemplate) {
+			polyfills = ['sd-ce-pf'];
 		}
 
-		if (polyfills.length && wc && wc.length) {
-			var name = "core.min.js";
-			var script = document.querySelector('script[src*="' + name + '"]');
-
-			if (!script) {
-				name = "core.js";
-				script = document.querySelector('script[src*="' + name + '"]')
-			}
-
-			if (!script) {
-				throw new Error('core(.min).js is not registered correctly!')
-			}
-
+		if (polyfills.length) {
 			var newScript = document.createElement('script');
+			// Load it from the right place.
 			var replacement = 'media/vendor/webcomponentsjs/js/webcomponents-' + polyfills.join('-') + '.min.js';
+
 			var mediaVersion = script.src.match(/\?.*/)[0];
 			var base = Joomla.getOptions('system.paths');
 
@@ -996,30 +1134,33 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 
 			newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion : '');
-			document.head.appendChild(newScript);
 
-			document.addEventListener('WebComponentsReady', function () {
-				loadWC();
-			});
-		} else {
-			if (!wc || !wc.length) {
-				return;
-			}
-
-			var fire = function () {
-				requestAnimationFrame(function () {
-					document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
-					loadWC();
-				});
-			};
-
-			if (document.readyState !== 'loading') {
-				fire();
+			// if readyState is 'loading', this script is synchronous
+			if (document.readyState === 'loading') {
+				// make sure custom elements are batched whenever parser gets to the injected script
+				newScript.setAttribute('onload', 'window.WebComponents._batchCustomElements()');
+				document.write(newScript.outerHTML);
+				document.addEventListener('DOMContentLoaded', ready);
 			} else {
-				document.addEventListener('readystatechange', function wait() {
-					fire();
-					document.removeEventListener('readystatechange', wait);
+				newScript.addEventListener('load', function () {
+					asyncReady();
 				});
+				newScript.addEventListener('error', function () {
+					throw new Error('Could not load polyfill bundle' + url);
+				});
+				document.head.appendChild(newScript);
+			}
+		} else {
+			polyfillsLoaded = true;
+			if (document.readyState === 'complete') {
+				fireEvent()
+			} else {
+				// this script may come between DCL and load, so listen for both, and cancel load listener if DCL fires
+				window.addEventListener('load', ready);
+				window.addEventListener('DOMContentLoaded', function() {
+					window.removeEventListener('load', ready);
+					ready();
+				})
 			}
 		}
 	};

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds;
@@ -128,19 +128,19 @@ class HtmlView extends BaseHtmlView
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
-			 \JToolbarHelper::addNew('newsfeed.add');
+			\JToolbarHelper::addNew('newsfeed.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			 \JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
-			 \JToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			 \JToolbarHelper::archiveList('newsfeeds.archive');
+			\JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::archiveList('newsfeeds.archive');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			 \JToolbarHelper::checkin('newsfeeds.checkin');
+			\JToolbarHelper::checkin('newsfeeds.checkin');
 		}
 
 		// Add a batch button
@@ -159,19 +159,19 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			 \JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			 \JToolbarHelper::trash('newsfeeds.trash');
+			\JToolbarHelper::trash('newsfeeds.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
-			 \JToolbarHelper::preferences('com_newsfeeds');
+			\JToolbarHelper::preferences('com_newsfeeds');
 		}
 
-		 \JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		\JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 	}
 
 	/**

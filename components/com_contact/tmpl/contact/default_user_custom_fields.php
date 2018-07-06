@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ $userFieldGroups    = array();
 		<?php echo '<h3>' . ($groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 	<?php endif; ?>
 
-	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
+	<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
 		<?php foreach ($fields as $field) : ?>
 			<?php if (!$field->value) : ?>

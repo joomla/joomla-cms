@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -181,10 +181,6 @@ if (!function_exists('finalizeRestore'))
 		if (function_exists('opcache_reset'))
 		{
 			opcache_reset();
-		}
-		elseif (function_exists('apc_clear_cache'))
-		{
-			@apc_clear_cache();
 		}
 	}
 }
