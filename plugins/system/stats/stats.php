@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Helper\UserHelper;
+use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Cache\Cache;
 

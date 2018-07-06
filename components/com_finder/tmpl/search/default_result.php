@@ -35,17 +35,6 @@ if ($show_description)
 
 	$description = JHtml::_('string.truncate', StringHelper::substr($this->result->description, $start), $desc_length, true);
 }
-
-$route = $this->result->route;
-
-// Get the route with highlighting information.
-if (!empty($this->query->highlight)
-	&& empty($this->result->mime)
-	&& $this->params->get('highlight_terms', 1)
-	&& JPluginHelper::isEnabled('system', 'highlight'))
-{
-	$route .= '&highlight=' . base64_encode(json_encode($this->query->highlight));
-}
 ?>
 <dt class="result-title">
 	<h4 class="result-title <?php echo $mime; ?>">
@@ -79,6 +68,6 @@ if (!empty($this->query->highlight)
 <?php endif; ?>
 <?php if ($this->params->get('show_url', 1)) : ?>
 	<dd class="result-url small">
-		<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
+		<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
 	</dd>
 <?php endif; ?>
