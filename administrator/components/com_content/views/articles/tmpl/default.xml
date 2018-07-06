@@ -65,7 +65,7 @@
 				description="COM_MENUS_ADMIN_ACCESS_DESC"
 				multiple="true"
 				filter="int_array"
-			/>	
+			/>
 
 			<field
 				name="filter_language"
