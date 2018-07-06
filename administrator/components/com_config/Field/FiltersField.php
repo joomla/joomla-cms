@@ -114,7 +114,8 @@ class FiltersField extends FormField
 				. '>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '			<label for="' . $this->id . $group->value . '_filter_attributes" class="sr-only">' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_attributes"'
+				. ' class="sr-only">' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'
