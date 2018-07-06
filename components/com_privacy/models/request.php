@@ -65,14 +65,6 @@ class PrivacyModelRequest extends JModelAdmin
 		if (!$user->guest)
 		{
 			$data['user_id'] = $user->id;
-
-			if ($data['email'] !== $user->email)
-			{
-				// Can't check same email, so don't proceed the request
-				$this->setError(JText::_('COM_PRIVACY_ERROR_CHECKING_FOR_SAME_EMAIL'));
-
-				return false;
-			}
 		}
 
 		// Search for an open information request matching the email and type
