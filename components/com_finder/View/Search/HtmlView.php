@@ -11,7 +11,11 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\SearchHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -112,19 +116,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
-		$params = $app->getParams();
+		$app = Factory::getApplication();
+		$this->params = $app->getParams();
 
 		// Get view data.
-		$state = $this->get('State');
-		$query = $this->get('Query');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
-		$results = $this->get('Items');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
-		$total = $this->get('Total');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
-		$pagination = $this->get('Pagination');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
+		$this->state = $this->get('State');
+		$this->query = $this->get('Query');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
+		$this->results = $this->get('Items');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
+		$this->total = $this->get('Total');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
+		$this->pagination = $this->get('Pagination');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -133,24 +137,16 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Configure the pathway.
-		if (!empty($query->input))
+		if (!empty($this->query->input))
 		{
-			$app->getPathway()->addItem($this->escape($query->input));
+			$app->getPathway()->addItem($this->escape($this->query->input));
 		}
-
-		// Push out the view data.
-		$this->state      = &$state;
-		$this->params     = &$params;
-		$this->query      = &$query;
-		$this->results    = &$results;
-		$this->total      = &$total;
-		$this->pagination = &$pagination;
 
 		// Check for a double quote in the query string.
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router = &$app::getRouter();
+			$router = $app->getRouter();
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)
@@ -159,16 +155,28 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		// Run an event on each result item
+		if (is_array($this->results))
+		{
+			// Import Finder plugins
+			PluginHelper::importPlugin('finder');
+
+			foreach ($this->results as $result)
+			{
+				$app->triggerEvent('onFinderResult', array(&$result, &$this->query));
+			}
+		}
+
 		// Log the search
 		SearchHelper::logSearch($this->query->input, 'com_finder');
 
 		// Push out the query data.
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->suggested = \JHtml::_('query.suggested', $query);
-		$this->explained = \JHtml::_('query.explained', $query);
+		$this->suggested = \JHtml::_('query.suggested', $this->query);
+		$this->explained = \JHtml::_('query.explained', $this->query);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
@@ -180,13 +188,13 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout($active->query['layout']);
 		}
 
-		$this->prepareDocument($query);
+		$this->prepareDocument($this->query);
 
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('beforeFinderLayout') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
 		parent::display($tpl);
 
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderLayout') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderLayout') : null;
 	}
 
 	/**
@@ -239,9 +247,8 @@ class HtmlView extends BaseHtmlView
 		$file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
 
 		// Check if the file exists.
-		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists     = \JPath::find($this->_path['template'], $filetofind);
+		$exists     = Path::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}
@@ -257,9 +264,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument($query)
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
-		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
