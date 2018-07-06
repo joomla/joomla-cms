@@ -1,5 +1,58 @@
 // com_cpanel
 
+.com-cpanel {
+
+  &-help {
+
+    &__header {
+      color: $atum-template-color-dark;
+    }
+    
+    a {
+      color: $gray-800;
+    }
+
+    .list-group {
+      box-shadow: $atum-box-shadow;
+    }
+  }
+
+  &-system {
+    column-count: 4;
+
+    &__category {
+      margin-bottom: 1.5em;
+      webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    &__header {
+      color: $atum-template-color-dark;
+
+      span {
+        margin-right: 5px;
+      }
+    }
+
+    a {
+      color: $gray-800;
+    }
+
+    .list-group {
+      box-shadow: $atum-box-shadow;
+    }
+
+    @include media-breakpoint-down(md) {
+      column-count: 2;
+    }
+
+    @include media-breakpoint-down(sm) {
+      column-count: 1;
+    }
+  }
+}
+
 .com_cpanel {
 
   .content {

@@ -1476,6 +1476,41 @@ iframe {
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
 
+.com-cpanel-help__header {
+  color: #2b5c91; }
+
+.com-cpanel-help a {
+  color: #343a40; }
+
+.com-cpanel-help .list-group {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+
+.com-cpanel-system {
+  -webkit-column-count: 4;
+          column-count: 4; }
+  .com-cpanel-system__category {
+    margin-bottom: 1.5em;
+    webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+            break-inside: avoid; }
+  .com-cpanel-system__header {
+    color: #2b5c91; }
+    .com-cpanel-system__header span {
+      margin-right: 5px; }
+  .com-cpanel-system a {
+    color: #343a40; }
+  .com-cpanel-system .list-group {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+  @media (max-width: 991.98px) {
+    .com-cpanel-system {
+      -webkit-column-count: 2;
+              column-count: 2; } }
+  @media (max-width: 767.98px) {
+    .com-cpanel-system {
+      -webkit-column-count: 1;
+              column-count: 1; } }
+
 .com_cpanel .content {
   margin-top: 0; }
 

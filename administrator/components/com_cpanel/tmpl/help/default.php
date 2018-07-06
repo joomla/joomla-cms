@@ -11,17 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 ?>
-<h3><?php echo Text::_('MOD_MENU_HELP'); ?></h3>
-<div class="card-columns">
 
-	<?php foreach ($this->links as $link) : ?>
-		<div class="card">
-			<div class="card-block">
-				<h4 class="card-title"><?php echo Text::_($link['label']); ?></h4>
-				<span class="fa fa-<?php echo $link['icon']; ?> fa-5x"></span>
-				<p class="card-text"><?php echo Text::_($link['desc']); ?></p>
-				<a href="<?php echo $link['link']; ?>" class="btn btn-primary"><?php echo Text::_($link['title']); ?></a>
-			</div>
-		</div>
-	<?php endforeach; ?>
+<div class="com-cpanel-help">
+	<h4 class="com-cpanel-help__header"><?php echo Text::_('MOD_MENU_HELP'); ?></h4>
+	<ul class="list-group list-group-flush">
+		<?php foreach ($this->links as $link) : ?>
+			<li class="list-group-item">
+				<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
+			</li>
+		<?php endforeach; ?>
+	</ul>
 </div>
