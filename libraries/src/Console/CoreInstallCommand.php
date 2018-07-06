@@ -73,9 +73,6 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	private function configureIO()
 	{
-		$this->setup = new SetupModel;
-		$this->check = new ChecksModel;
-
 		$language = Factory::getLanguage();
 		$language->load('', JPATH_INSTALLATION, null, false, false) ||
 		$language->load('', JPATH_INSTALLATION, null, true);
@@ -95,6 +92,10 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function execute(): int
 	{
+		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
+
+		$this->configureIO();
+
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
 		{
 			$this->ioStyle->warning("Joomla is already installed and set up.");
@@ -102,9 +103,8 @@ class CoreInstallCommand extends AbstractCommand
 			return 0;
 		}
 
-		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
-
-		$this->configureIO();
+		$this->setup = new SetupModel;
+		$this->check = new ChecksModel;
 
 		$passed = $this->runChecks();
 
