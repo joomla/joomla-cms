@@ -66,8 +66,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			_this.tabs = [];
 			return _this;
 		}
-		/*eslint-enable */
-
 
 		/* Lifecycle, element appended to the DOM */
 
@@ -387,14 +385,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 				this.querySelector('ul').addEventListener('keyup', keyBehaviour);
 			}
 
-			/*eslint-disable */
-
 		}, {
 			key: 'getStorageKey',
 			value: function getStorageKey() {
 				return window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').split('#')[0];
 			}
-			/*eslint-disable */
 
 		}, {
 			key: 'saveState',
@@ -455,18 +450,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 				}
 			}
 
-			/*eslint-disable */
-
 		}, {
 			key: 'findAncestor',
 			value: function findAncestor(el, tagName) {
 				while ((el = el.parentElement) && el.nodeName.toLowerCase() !== tagName) {}
 				return el;
 			}
-			/*eslint-enable */
 
 			/* Method to dispatch events */
-			/*eslint-disable */
 
 		}, {
 			key: 'dispatchCustomEvent',
