@@ -11,10 +11,12 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
+use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -47,6 +49,20 @@ class CoreInstallCommand extends AbstractCommand
 	private $setup;
 
 	/**
+	 * ChecksModel Object
+	 * @var ChecksModel
+	 * @since 4.0
+	 */
+	private $check;
+
+	/**
+	 * Environment Options
+	 * @var array
+	 * @since 4.0
+	 */
+	private $envOptions;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -58,6 +74,7 @@ class CoreInstallCommand extends AbstractCommand
 	private function configureIO()
 	{
 		$this->setup = new SetupModel;
+		$this->check = new ChecksModel;
 
 		$language = Factory::getLanguage();
 		$language->load('', JPATH_INSTALLATION, null, false, false) ||
@@ -89,6 +106,17 @@ class CoreInstallCommand extends AbstractCommand
 
 		$this->configureIO();
 
+		$passed = $this->runChecks();
+
+		if (!$passed)
+		{
+			$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
+
+			$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
+
+			return 0;
+		}
+
 		$options = $this->collectOptions();
 
 		$model = new ConfigurationModel;
@@ -103,6 +131,35 @@ class CoreInstallCommand extends AbstractCommand
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Performs environment checks before installation
+	 *
+	 * @return boolean
+	 *
+	 * @since 4.0
+	 */
+	public function runChecks()
+	{
+		$pass = $this->check->getPhpOptionsSufficient();
+
+		if ($pass)
+		{
+			return true;
+		}
+
+		$phpoptions = $this->check->getPhpOptions();
+
+		foreach ($phpoptions as $option)
+		{
+			$option->notice = $option->notice ? $option->notice : "OK";
+			$options[] = (array) $option;
+		}
+
+		$this->envOptions = $options;
+
+		return false;
 	}
 
 	/**
