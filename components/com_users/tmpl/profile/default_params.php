@@ -14,7 +14,11 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+$user = $this->data;
 ?>
+
+<span>Timezone: </span> <?php echo $user->params['timezone']; ?>
+
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)) : ?>
 	<fieldset id="users-profile-custom" class="com-users-profile__params">
