@@ -47,7 +47,7 @@
 				filter="int_array"
 				>
 				<option value="0">JNONE</option>
-			</field>			
+			</field>
 
 			<field
 				name="filter_tag"
