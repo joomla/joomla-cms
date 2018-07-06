@@ -207,7 +207,6 @@
 				name="num_leading_articles" 
 				type="number"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
-				size="3"
 				useglobal="true"
 			/>
 
@@ -215,7 +214,6 @@
 				name="num_intro_articles" 
 				type="number"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
-				size="3"
 				useglobal="true"
 			/>
 
@@ -223,7 +221,6 @@
 				name="num_columns" 
 				type="number"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
-				size="3"
 				useglobal="true"
 			/>
 
@@ -231,7 +228,6 @@
 				name="num_links" 
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"
-				size="3"
 				useglobal="true"
 			/>
 
