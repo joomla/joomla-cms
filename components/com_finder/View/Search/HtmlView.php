@@ -17,6 +17,10 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Search HTML view class for the Finder package.
@@ -318,6 +322,16 @@ class HtmlView extends BaseHtmlView
 		if ($this->params->get('robots'))
 		{
 			$this->document->setMetaData('robots', $this->params->get('robots'));
+		}
+
+		// Check for OpenSearch
+		if ($this->params->get('opensearch', 1))
+		{
+			$ostitle = $this->params->get('opensearch_name', Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename'));
+			Factory::getDocument()->addHeadLink(
+				Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+				'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+			);
 		}
 
 		// Add feed link to the document head.
