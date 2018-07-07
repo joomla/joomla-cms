@@ -146,9 +146,9 @@ class PlgPrivacyUser extends PrivacyPlugin
 		// Destroy all sessions for the user account
 		$sessionIds = $this->db->setQuery(
 			$this->db->getQuery(true)
-				->select('session_id')
-				->from('#__session')
-				->where('userid = ' . (int) $user->id)
+				->select($this->db->quoteName('session_id'))
+				->from($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user->id)
 		)->loadColumn();
 
 		// If there aren't any active sessions then there's nothing to do here
@@ -170,8 +170,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$this->db->setQuery(
 			$this->db->getQuery(true)
-				->delete('#__session')
-				->where('session_id IN (' . implode(', ', $quotedIds))
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
 		)->execute();
 	}
 
