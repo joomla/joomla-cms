@@ -2,46 +2,46 @@
 // Header
 
 .header {
-  position: relative;
-  z-index: 1060;
   background: $white;
   box-shadow: $atum-box-shadow;
+  position: relative;
+  z-index: 1060;
 
   .logo {
     display: inline-block;
-    width: $sidebar-width-closed;
-    text-align: center;
     line-height: $header-height;
+    text-align: center;
+    width: $sidebar-width-closed;
   }
 
   .page-title {
-    margin: 0 5px;
+    color: $atum-template-color-dark;
     font-size: 1.2rem;
     line-height: $header-height;
-    color: $atum-template-color-dark;
+    margin: 0 5px;
 
-    [class^="icon-"] {
+    [class^='icon-'] {
       margin-right: 10px;
     }
   }
 
   .nav-link {
-    position: relative;
-    padding: 0;
     line-height: $header-height;
+    padding: 0;
+    position: relative;
 
     .fa {
-      width: $header-height + 2px;
-      font-size: 1.2rem;
       color: $atum-template-color-dark;
-      vertical-align: middle;
+      font-size: 1.2rem;
       transition: all .2s ease-in-out;
+      vertical-align: middle;
+      width: $header-height + 2px;
     }
 
     .badge {
       position: absolute;
-      top: 7px;
       right: 7px;
+      top: 7px;
     }
 
     &.dropdown-toggle::after {
@@ -55,9 +55,9 @@
   }
 
   .dropdown-notifications {
+    border: 0;
     min-width: 280px;
     padding: 0;
-    border: 0;
 
     h2 {
       font-size: $h5-font-size;
@@ -75,8 +75,8 @@
   }
 
   .dropdown-menu-right::after {
-    right: .65rem;
     left: auto;
+    right: .65rem;
   }
 
   .header-profile {
@@ -91,11 +91,11 @@
   }
 
   .dropdown-header {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
     background-color: $atum-template-color-dark;
-    color: $white;
     box-shadow: $atum-box-shadow;
+    color: $white;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
   }
 
   .list-group-item-text:last-child {
@@ -103,10 +103,10 @@
   }
 
   .joomla-version {
-    margin-right: .9rem;
-    margin-bottom: 0;
-    font-size: $h5-font-size;
     color: $atum-template-color-dark;
+    font-size: $h5-font-size;
+    margin-bottom: 0;
+    margin-right: .9rem;
   }
 }
 

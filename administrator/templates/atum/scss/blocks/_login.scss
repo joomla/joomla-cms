@@ -2,17 +2,17 @@
 
 .view-login {
   background: $atum-template-color;
-  background-image: url('../images/joomla-pattern.svg');
+  background-image: url('../../images/joomla-pattern.svg');
   background-size: 200px;
 
   .login-bg-grad {
-    position: fixed;
-    z-index: -1;
+    background-image: linear-gradient(45deg,
+            rgba($atum-template-color-dark, .9) 30%,
+            rgba($atum-template-color-light, .2) 100%);
     height: 100vh;
+    position: fixed;
     width: 100vw;
-    background-image: linear-gradient(45deg, 
-    rgba($atum-template-color-dark, .9) 30%, 
-    rgba($atum-template-color-light, .2) 100%);;
+    z-index: -1;
   }
 
   .login-initial {
@@ -20,9 +20,9 @@
   }
 
   .login-logo {
-    width: 200px;
     margin: 0 auto 2rem;
     text-align: center;
+    width: 200px;
 
     @include media-breakpoint-down(sm) {
       margin: 1rem 0;
@@ -47,8 +47,8 @@
   }
 
   .login-box-header {
-    padding: 15px 0;
     background: $white;
+    padding: 15px 0;
 
     h2 {
       color: $atum-template-color-dark;
@@ -66,30 +66,30 @@
 
   .form-group {
     label {
+      align-items: flex-end;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
 
       span {
-        font-size: .9rem;
         color: #c6d2de;
+        font-size: .9rem;
       }
     }
   }
 
   h1 {
-    text-align: center;
     margin: 0;
+    text-align: center;
   }
 
   .btn {
 
     @include media-breakpoint-only(xs) {
-      padding: 8px 10px;
       font-size: 14px;
+      padding: 8px 10px;
     }
   }
-  
+
   .form-control,
   .custom-select {
     max-width: none;

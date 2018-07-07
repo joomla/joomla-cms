@@ -20,19 +20,19 @@
   padding: 0 15px;
 
   .close {
-    width: $modal-header-height;
-    height: $modal-header-height;
-    margin-top: 0;
-    margin-right: -15px;
-    font-size: 2rem;
-    line-height: 1rem;
     border-left: 1px solid $atum-border-color;
+    font-size: 2rem;
+    height: $modal-header-height;
+    line-height: 1rem;
+    margin-right: -15px;
+    margin-top: 0;
+    width: $modal-header-height;
   }
 }
 
 .modal-body {
-  padding: 0;
   overflow-y: auto;
+  padding: 0;
 }
 
 .modal-title {

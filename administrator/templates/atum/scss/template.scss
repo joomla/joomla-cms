@@ -1,57 +1,57 @@
 // Bootstrap functions
-@import "../../../../media/vendor/bootstrap/scss/functions";
+@import '../../../../media/vendor/bootstrap/scss/functions';
 
 // Atum Variables
-@import "variables";
+@import 'variables';
 
 // Bootstrap other
-@import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/custom-forms";
+@import '../../../../media/vendor/bootstrap/scss/mixins';
+@import '../../../../media/vendor/bootstrap/scss/variables';
+@import '../../../../media/vendor/bootstrap/scss/custom-forms';
 
 // Alert
-@import "../../../../media/system/scss/jalert";
+@import '../../../../media/system/scss/jalert';
 
 // Blocks
-@import "blocks/global"; // Leave this first
-@import "blocks/alerts";
-@import "blocks/form";
-@import "blocks/header";
-@import "blocks/icons";
-@import "blocks/iframe";
-@import "blocks/login";
-@import "blocks/modals";
-@import "blocks/quickicons";
-@import "blocks/searchtools";
-@import "blocks/sidebar";
-@import "blocks/sidebar-nav";
-@import "blocks/toolbar";
-@import "blocks/treeselect";
-@import "blocks/utilities";
+@import 'blocks/global'; // Leave this first
+@import 'blocks/alerts';
+@import 'blocks/form';
+@import 'blocks/header';
+@import 'blocks/icons';
+@import 'blocks/iframe';
+@import 'blocks/login';
+@import 'blocks/modals';
+@import 'blocks/quickicons';
+@import 'blocks/searchtools';
+@import 'blocks/sidebar';
+@import 'blocks/sidebar-nav';
+@import 'blocks/toolbar';
+@import 'blocks/treeselect';
+@import 'blocks/utilities';
 
 // Vendor overrides
-@import "vendor/awesomplete";
-@import "vendor/bootstrap/badge";
-@import "vendor/bootstrap/buttons";
-@import "vendor/bootstrap/card";
-@import "vendor/bootstrap/custom-forms";
-@import "vendor/bootstrap/collapse";
-@import "vendor/bootstrap/dropdown";
-@import "vendor/bootstrap/lists";
-@import "vendor/bootstrap/modal";
-@import "vendor/bootstrap/nav";
-@import "vendor/bootstrap/pagination";
-@import "vendor/bootstrap/table";
-@import "vendor/chosen";
-@import "vendor/dragula";
-@import "vendor/minicolors";
-@import "vendor/tinymce";
+@import 'vendor/awesomplete';
+@import 'vendor/bootstrap/badge';
+@import 'vendor/bootstrap/buttons';
+@import 'vendor/bootstrap/card';
+@import 'vendor/bootstrap/custom-forms';
+@import 'vendor/bootstrap/collapse';
+@import 'vendor/bootstrap/dropdown';
+@import 'vendor/bootstrap/lists';
+@import 'vendor/bootstrap/modal';
+@import 'vendor/bootstrap/nav';
+@import 'vendor/bootstrap/pagination';
+@import 'vendor/bootstrap/table';
+@import 'vendor/chosen';
+@import 'vendor/dragula';
+@import 'vendor/minicolors';
+@import 'vendor/tinymce';
 
 // Page specifics
-@import "pages/com_config";
-@import "pages/com_cpanel";
-@import "pages/com_templates";
-@import "pages/com_users";
+@import 'pages/com_config';
+@import 'pages/com_cpanel';
+@import 'pages/com_templates';
+@import 'pages/com_users';
 
 .container-main,
 .system-debug {

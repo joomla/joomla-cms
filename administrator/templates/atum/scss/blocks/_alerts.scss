@@ -8,24 +8,24 @@
 }
 
 .notify-alerts {
+  left: 50%;
+  margin-left: 125px;
   position: fixed;
   top: 15px;
-  left: 50%;
-  z-index: 1080;
-  margin-left: 125px;
-  transition: all .5s ease;
   transform: translateX(-50%);
+  transition: all .5s ease;
+  z-index: 1080;
 
   .alert {
-    width: 100%;
-    min-width: 280px;
-    max-width: 400px;
-    margin-bottom: .5rem;
-    opacity: 0;
     animation: fadeIn ease-in 1;
-    animation-duration: .35s;
     animation-delay: 0s;
+    animation-duration: .35s;
     animation-fill-mode: forwards;
+    margin-bottom: .5rem;
+    max-width: 400px;
+    min-width: 280px;
+    opacity: 0;
+    width: 100%;
 
     &:first-of-type {
       animation-delay: .3s;
@@ -36,20 +36,20 @@
     left: 265px;
 
     .alert {
-      width: auto;
-      min-width: none;
-      max-width: none;
       margin-left: 0;
+      max-width: none;
+      min-width: none;
+      width: auto;
     }
   }
 
   .close {
+    color: $black;
+    line-height: 1rem;
+    opacity: 1;
+    padding: .5rem;
     position: relative;
     right: -.5rem;
-    padding: .5rem;
-    line-height: 1rem;
-    color: $black;
-    opacity: 1;
   }
 }
 

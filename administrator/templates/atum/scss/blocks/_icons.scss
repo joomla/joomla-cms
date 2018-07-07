@@ -1,11 +1,11 @@
 // Icons
 
 .icon-back::before {
-  content: "\e008";
+  content: '\e008';
 }
 
 .icon-crop::before {
-  content: "\f125";
+  content: '\f125';
 }
 
 .icon-white {
@@ -13,57 +13,57 @@
 }
 
 .icon-publish {
-  color: theme-color("success");
+  color: theme-color('success');
 }
 
 .icon-unpublish {
-  color: theme-color("danger");
+  color: theme-color('danger');
 }
 
 
 .tbody-icon {
-  padding: 0 3px;
-  text-align: center;
   background-color: transparent;
   border: 0;
+  padding: 0 3px;
+  text-align: center;
 
-  span[class^="icon-"]:not(.icon-checkedout),
-  span[class*=" icon-"]:not(.icon-checkedout) {
-    width: 26px;
-    height: 26px;
-    font-size: 1rem;
-    line-height: 22px;
-    color: #ccc;
+  span[class^='icon-']:not(.icon-checkedout),
+  span[class*=' icon-']:not(.icon-checkedout) {
     border: 2px solid #ccc;
     border-radius: 50%;
+    color: #ccc;
+    font-size: 1rem;
+    height: 26px;
+    line-height: 22px;
+    width: 26px;
   }
 
   .icon-publish {
-    color: theme-color("success");
-    border-color: theme-color("success");
+    border-color: theme-color('success');
+    color: theme-color('success');
   }
 
   .icon-featured {
-    color: theme-color("warning");
-    border-color: theme-color("warning");
+    border-color: theme-color('warning');
+    color: theme-color('warning');
   }
 
   .icon-unpublish {
-    color: theme-color("danger");
-    border-color: theme-color("danger");
+    border-color: theme-color('danger');
+    color: theme-color('danger');
   }
 
   .icon-archive {
-    color: $gray-700;
     border-color: $gray-700;
+    color: $gray-700;
   }
 
   .icon-checkedout {
-    width: auto;
-    height: auto;
-    font-size: 1.2rem;
-    line-height: 1rem;
-    color: $gray-700;
     border: 0;
+    color: $gray-700;
+    font-size: 1.2rem;
+    height: auto;
+    line-height: 1rem;
+    width: auto;
   }
 }

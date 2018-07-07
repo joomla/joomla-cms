@@ -2,15 +2,15 @@
 
 .nav.nav-tabs {
   align-items: stretch;
-  justify-content: space-around;
-  flex-wrap: unset;
-  padding: 0;
-  margin: 0 0 1rem;
-  text-align: center;
   background-color: $atum-template-color;
+  flex-wrap: unset;
+  justify-content: space-around;
+  margin: 0 0 1rem;
+  padding: 0;
+  text-align: center;
 
   @include media-breakpoint-down(sm) {
-    flex-direction: column;  
+    flex-direction: column;
   }
 
   .nav-item {
@@ -20,16 +20,16 @@
   }
 
   .nav-link {
-    position: relative;
-    padding: .75em 1em;
-    height: 100%;
+    box-shadow: -1px 0 0 rgba(0, 0, 0, .1);
     color: $white;
-    box-shadow: -1px 0 0 rgba(0,0,0,.1);
+    height: 100%;
+    padding: .75em 1em;
+    position: relative;
   }
 }
 
 .nav-tabs + .tab-content {
-  padding: 0;
   background: transparent;
   border: 0;
+  padding: 0;
 }

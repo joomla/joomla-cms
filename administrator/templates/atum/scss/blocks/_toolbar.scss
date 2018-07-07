@@ -36,10 +36,10 @@
     line-height: $atum-toolbar-line-height;
     color: white;
 
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
+    [class^='icon-'],
+    [class*=' icon-'],
+    [class^='#{$fa-css-prefix}-'],
+    [class*=' #{$fa-css-prefix}-'] {
       z-index: -1;
       display: inline-block;
       width: 40px;
@@ -47,17 +47,17 @@
       margin: 0 16px 0 -22px;
       line-height: $atum-toolbar-line-height;
       color: white;
-      background-color: rgba(0,0,0,.2);
+      background-color: rgba(0, 0, 0, .2);
     }
   }
 
   .btn-group {
     margin-right: .75rem;
 
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
+    [class^='icon-'],
+    [class*=' icon-'],
+    [class^='#{$fa-css-prefix}-'],
+    [class*=' #{$fa-css-prefix}-'] {
       margin-right: 0;
       background-color: transparent;
     }
@@ -68,23 +68,23 @@
     padding: 0 16px;
 
     &.btn {
-      background-color: rgba(0,0,0,.2);
+      background-color: rgba(0, 0, 0, .2);
     }
 
     &.btn-primary {
-      background-color: darken(theme-color("primary"), 8%);
+      background-color: darken(theme-color('primary'), 8%);
     }
 
     &.btn-success {
-      background-color: darken(theme-color("success"), 8%);
+      background-color: darken(theme-color('success'), 8%);
     }
 
     &.btn-info {
-      background-color: darken(theme-color("info"), 8%);
+      background-color: darken(theme-color('info'), 8%);
     }
 
     &.btn-danger {
-      background-color: darken(theme-color("danger"), 8%);
+      background-color: darken(theme-color('danger'), 8%);
     }
   }
 }

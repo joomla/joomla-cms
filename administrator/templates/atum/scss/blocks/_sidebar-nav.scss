@@ -7,16 +7,16 @@
   }
 
   li {
-    padding-bottom: 3px;
     font-size: .9rem;
     font-weight: bold;
+    padding-bottom: 3px;
 
     &.nav-header {
-      padding: .5rem 0 .2rem;
-      margin-bottom: .2rem;
-      font-size: .9rem;
-      color: $gray-700;
       border-bottom: 1px solid $gray-400;
+      color: $gray-700;
+      font-size: .9rem;
+      margin-bottom: .2rem;
+      padding: .5rem 0 .2rem;
     }
 
     &.divider {
@@ -24,7 +24,7 @@
     }
 
     a {
-      color: darken(theme-color("primary"), 12%);
+      color: darken(theme-color('primary'), 12%);
     }
   }
 }

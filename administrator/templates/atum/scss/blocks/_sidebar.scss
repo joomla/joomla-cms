@@ -9,16 +9,16 @@
 }
 
 .sidebar-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: $sidebar-width;
   background-color: $atum-template-color-dark;
   box-shadow: $atum-box-shadow;
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
   transition: all .3s ease;
-  position:sticky;
-  top:0;
-  max-height:100vh;
-  z-index:1041;
+  width: $sidebar-width;
+  z-index: 1041;
 
   @include media-breakpoint-down(md) {
 
@@ -28,42 +28,43 @@
   }
 
   .main-brand {
-    padding: 15px;
     margin-top: auto;
+    padding: 15px;
   }
-  .main-nav-container{
-	max-height:calc(100vh - 60px);
-	overflow-y:auto;
-	overflow-x: hidden;
-	
-	&::-webkit-scrollbar {
+
+  .main-nav-container {
+    max-height: calc(100vh - 60px);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
       width: 5px;
     }
-    
+
     &::-webkit-scrollbar-track {
-      background:$atum-template-color-dark;
-      box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+      background: $atum-template-color-dark;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, .5);
     }
-    
+
     &::-webkit-scrollbar-thumb {
       background-color: #fff;
-      box-shadow: inset 0 0 2px rgba(0,0,0,.3);
-      border-radius:2px;
+      border-radius: 2px;
+      box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
     }
   }
 }
 
 .menu-toggle-icon {
-  width: $header-height;
   font-size: 1.7rem;
+  width: $header-height;
 }
 
 // Sidebar navigation
 .main-nav {
-  width: $sidebar-width;
-  list-style: none;
   background-color: $atum-template-color-dark;
+  list-style: none;
   opacity: 1;
+  width: $sidebar-width;
 
   // Parent items
   > li {
@@ -79,60 +80,60 @@
   li {
 
     a {
-      position: relative;
-      display: block;
-      padding: 15px 0;
-      overflow: hidden;
       color: $white;
-      text-decoration: none;
       cursor: pointer;
+      display: block;
       opacity: 1;
+      overflow: hidden;
+      padding: 15px 0;
+      position: relative;
+      text-decoration: none;
 
       &:hover {
+        background-color: rgba($black, .2);
         color: $white;
         text-decoration: none;
-        background-color: rgba($black, .2);
       }
 
       &:active,
       &:focus {
+        box-shadow: inset 0 0 0 1px #78aeda;
         text-decoration: none;
         outline: 0;
-        box-shadow: inset 0 0 0 1px #78aeda;
       }
 
     }
 
     // Parent arrow indicator
     .collapse-arrow::after {
-      position: absolute;
-      top: 50%;
-      right: 15px;
+      color: $white;
+      content: '\f0da';
       font-family: FontAwesome;
       font-size: .75rem;
-      color: $white;
-      content: "\f0da";
+      position: absolute;
+      right: 15px;
+      top: 50%;
       transform: translateY(-50%);
     }
 
     &.menuitem-group a:hover {
-      cursor: text;
       background: none;
+      cursor: text;
     }
 
     ul {
+      background-color: $atum-sidebar-child-bg;
+      bottom: 0;
+      display: block;
+      left: 50px;
+      opacity: 0;
+      padding: 0;
       position: absolute;
       top: 0;
-      bottom: 0;
-      left: 50px;
-      z-index: -3;
-      display: block;
-      width: $sidebar-width;
-      padding: 0;
-      background-color: $atum-sidebar-child-bg;
-      opacity: 0;
       transition: left .2s ease, opacity .2s ease;
       transition-delay: 0;
+      width: $sidebar-width;
+      z-index: -3;
 
       ul {
         display: none;
@@ -146,9 +147,9 @@
   }
 
   .close {
-    padding: 2px 10px;
-    font-size: 1.7rem;
     color: rgba($white, .8);
+    font-size: 1.7rem;
+    padding: 2px 10px;
     text-indent: 0;
     text-shadow: none;
 
@@ -161,19 +162,19 @@
 
     > a + ul {
       left: 60px;
-      z-index: 1080;
       opacity: 1;
+      z-index: 1080;
     }
   }
 
   li li {
-    line-height: 2.2rem;
     border: 0;
     box-shadow: none;
+    line-height: 2.2rem;
 
     a {
-      padding: 7px 0;
       box-shadow: none;
+      padding: 7px 0;
 
       &:hover {
         background-color: $atum-template-color;
@@ -192,12 +193,12 @@
 
   // Parent icons
   .fa {
-    position: relative;
-    top: -2px;
     display: inline-block;
-    margin: 0 18px;
     font-size: 20px;
+    margin: 0 18px;
+    position: relative;
     text-align: center;
+    top: -2px;
     vertical-align: middle;
   }
 
@@ -214,15 +215,15 @@
 
     .menuitem-group,
     > li:first-of-type {
-      margin: 6px 0 0;
       color: rgba($white, .7);
-      text-transform: uppercase;
       letter-spacing: 1px;
+      margin: 6px 0 0;
+      text-transform: uppercase;
     }
 
     li {
+      overflow: visible;
       position: relative;
-      overflow:visible;
 
       &:hover ul {
         display: block !important;
@@ -232,14 +233,14 @@
 
   // 3rd level items
   .collapse-level-2 {
+    background-color: darken($atum-template-color, 6%);
+    bottom:auto;
+    box-shadow: 0 0 8px rgba($black, .2);
+    height: auto;
+    left: 100% !important;
+    padding: 2px 0;
     position: absolute;
     top: 0;
-    bottom:auto;
-    left: 100% !important;
-    height: auto;
-    padding: 2px 0;
-    background-color: darken($atum-template-color, 6%);
-    box-shadow: 0 0 8px rgba($black, .2);
 
     > li > a {
       color: $white;
@@ -257,13 +258,13 @@
 .child-open > li.open {
 
   a::before {
+    background-color: $atum-sidebar-active;
+    bottom: 1px;
+    content: '';
+    left: 0;
     position: absolute;
     top: 1px;
-    bottom: 1px;
-    left: 0;
     width: 3px;
-    content: "";
-    background-color: $atum-sidebar-active;
   }
 }
 
@@ -280,23 +281,23 @@
   }
 
   .parent .collapse-arrow::after {
-    visibility: hidden;
     transition-delay: 0s !important;
+    visibility: hidden;
   }
 
   .menu-toggle-icon::before {
-    content: "\f054";
+    content: '\f054';
   }
 }
 
 // Edit view
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
+  background: none;
   color: $white;
   cursor: not-allowed;
-  background: none;
 }
 
 .sidebar-item-title {
-  visibility: visible !important;
   opacity: 1 !important;
+  visibility: visible !important;
 }

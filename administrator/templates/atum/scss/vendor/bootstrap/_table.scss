@@ -4,9 +4,10 @@
 
   thead {
     th {
-      white-space: nowrap;
       border-bottom-width: 0;
+      white-space: nowrap;
     }
+
     a {
       color: $gray-800;
       font-weight: normal;
@@ -20,6 +21,7 @@
   th,
   td {
     vertical-align: middle;
+
     label {
       margin-bottom: 0;
     }

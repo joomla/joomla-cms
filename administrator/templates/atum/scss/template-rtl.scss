@@ -1,7 +1,9 @@
-@import "template";
+@import 'template';
 
 // Global
-dl, ol, ul {
+dl,
+ol,
+ul {
   padding-right: 0;
 }
 
@@ -27,8 +29,8 @@ th {
 }
 
 .dropdown-menu-right {
-  right: auto;
   left: 0;
+  right: auto;
 
   &::after {
     right: auto;
@@ -43,21 +45,21 @@ th {
     padding-right: 50px;
 
     .main-brand img {
-      position: relative;
       left: 151px;
+      position: relative;
     }
   }
 }
 
 .sidebar-wrapper {
-  right: 0;
   left: auto;
+  right: 0;
 }
 
 // Alerts
 .notify-alerts {
-  margin-right: 125px;
   margin-left: 0;
+  margin-right: 125px;
 
   .closed & {
     margin-right: 0;
@@ -65,23 +67,23 @@ th {
 }
 
 // Header
-.header .page-title [class^="icon-"] {
-  margin-right: 0;
+.header .page-title [class^='icon-'] {
   margin-left: 15px;
+  margin-right: 0;
 }
 
 .menu-collapse {
-  right: 0;
   left: auto;
-  margin-right: -7.5px;
   margin-left: 0;
+  margin-right: -7.5px;
+  right: 0;
 }
 
 .menu-toggle-icon::before {
-  content: "\f054";
+  content: '\f054';
 
   .closed & {
-    content: "\f053";
+    content: '\f053';
   }
 }
 
@@ -91,14 +93,14 @@ th {
   a {
 
     &::before {
-      right: auto;
       left: -40px;
+      right: auto;
     }
 
-    [class*=" icon-"],
-    [class^="icon-"] {
-      border-right: 0;
+    [class*=' icon-'],
+    [class^='icon-'] {
       border-left: 1px solid rgba($white,.15);
+      border-right: 0;
     }
   }
 }
@@ -113,15 +115,15 @@ th {
   .open > a {
 
     + ul {
-      right: 50px;
       left: auto;
+      right: 50px;
     }
   }
 
   .collapse-level-2 {
-    right: 100%;
-    left: auto;
     border-radius: $border-radius 0 0 $border-radius;
+    left: auto;
+    right: 100%;
   }
 
   .close {
@@ -129,29 +131,29 @@ th {
   }
 
   .parent .collapse-arrow::after {
-    right: auto;
+    content: '\f0d9';
     left: 15px;
-    content: "\f0d9";
+    right: auto;
   }
 }
 
 .child-open > .open > a::before {
-  right: 0;
   left: auto;
+  right: 0;
 }
 
 // Status
 .status {
-  margin-right: 250px;
   margin-left: 0;
+  margin-right: 250px;
 
   .closed & {
-    margin-right: 50px;
     margin-left: 0;
+    margin-right: 50px;
   }
 }
 
-.sidebar-wrapper[data-hidden="1"] ~ .status {
+.sidebar-wrapper[data-hidden='1'] ~ .status {
   margin-right: 0;
 }
 
@@ -159,14 +161,14 @@ th {
 .subhead {
 
   .btn-group-sm > .btn {
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      margin: 0 -10px 0 6px;
-      border-right: 0;
+    [class^='icon-'],
+    [class*=' icon-'],
+    [class^='#{$fa-css-prefix}-'],
+    [class*=' #{$fa-css-prefix}-'] {
       border-left: 1px solid $atum-border-color;
       border-radius: 0 3px 3px 0;
+      border-right: 0;
+      margin: 0 -10px 0 6px;
     }
   }
 
@@ -177,18 +179,18 @@ th {
     }
   }
 
-  .btn-group-sm > .btn [class*=" fa-"],
-  .btn-group-sm > .btn [class*=" icon-"],
-  .btn-group-sm > .btn [class^="fa-"],
-  .btn-group-sm > .btn [class^="icon-"],
-  .btn-sm [class*=" fa-"],
-  .btn-sm [class*=" icon-"],
-  .btn-sm [class^="fa-"],
-  .btn-sm [class^="icon-"] {
-    margin: 0 -10px 0 6px;
-    border-right: 0;
+  .btn-group-sm > .btn [class*=' fa-'],
+  .btn-group-sm > .btn [class*=' icon-'],
+  .btn-group-sm > .btn [class^='fa-'],
+  .btn-group-sm > .btn [class^='icon-'],
+  .btn-sm [class*=' fa-'],
+  .btn-sm [class*=' icon-'],
+  .btn-sm [class^='fa-'],
+  .btn-sm [class^='icon-'] {
     border-left: 1px solid $atum-border-color;
     border-radius: 0 3px 3px 0;
+    border-right: 0;
+    margin: 0 -10px 0 6px;
   }
 }
 
@@ -201,23 +203,23 @@ th {
     .list-group {
 
       > .published {
-        border-right: 5px solid theme-color("success");
         border-left: 0;
+        border-right: 5px solid theme-color('success');
       }
 
       > .unpublished {
-        border-right: 5px solid theme-color("danger");
         border-left: 0;
+        border-right: 5px solid theme-color('danger');
       }
     }
 
     .module-dropdown {
-      right: auto;
       left: 0;
+      right: auto;
 
       > a {
-        border-right: 1px solid #ccc;
         border-left: 0;
+        border-right: 1px solid #ccc;
         border-top-left-radius: $border-radius;
         border-top-right-radius: 0;
       }

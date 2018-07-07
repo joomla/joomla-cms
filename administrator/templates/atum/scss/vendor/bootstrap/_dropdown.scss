@@ -1,29 +1,34 @@
 // Dropdown
 
-.btn-group .dropdown-menu  {
-  width: 100%;
+.btn-group .dropdown-menu {
   box-shadow: $atum-box-shadow;
-  [class^="icon-"], [class*=" icon-"] {
+  width: 100%;
+
+  [class^='icon-'],
+  [class*=' icon-'] {
     margin-right: .25rem;
   }
 }
 
-.dropdown-item:hover, 
+.dropdown-item:hover,
 .dropdown-item:focus {
   .btn-primary + .dropdown-menu  & {
-    background-color: theme-color("primary");
+    background-color: theme-color('primary');
   }
+
   .btn-success + .dropdown-menu  & {
-    background-color: theme-color("success");
+    background-color: theme-color('success');
   }
+
   .btn-danger + .dropdown-menu  & {
-    background-color: theme-color("danger");
+    background-color: theme-color('danger');
   }
+
   .btn-info + .dropdown-menu  & {
-    background-color: theme-color("info");
+    background-color: theme-color('info');
   }
 }
 
 .dropdown-item + .dropdown-item {
-  border-top: 1px solid rgba(0,0,0,.1);
+  border-top: 1px solid rgba(0, 0, 0, .1);
 }

@@ -1,39 +1,39 @@
 .treeselect {
   display: block;
-  padding-left: 0;
   list-style: none;
+  padding-left: 0;
 
   .nav-header {
-    font-weight: $font-weight-bold;
     color: $gray-900;
+    font-weight: $font-weight-bold;
   }
 
   li {
-    position: relative;
     display: block;
     line-height: $treeselect-line-height;
     list-style: none;
+    position: relative;
 
     &::before {
+      background-color: rgba(0, 0, 0, .2);
+      content: '';
+      height: 1px;
+      left: ($treeselect-indent - 15px);
+      margin: auto;
       position: absolute;
       top: 14px;
-      left: ($treeselect-indent - 15px);
       width: 10px;
-      height: 1px;
-      margin: auto;
-      content: "";
-      background-color: rgba(0, 0, 0, .2);
     }
 
     &::after {
+      background-color: rgba(0, 0, 0, .2);
+      bottom: 0;
+      content: '';
+      height: 100%;
+      left: ($treeselect-indent - 15px);
       position: absolute;
       top: 0;
-      bottom: 0;
-      left: ($treeselect-indent - 15px);
       width: 1px;
-      height: 100%;
-      content: "";
-      background-color: rgba(0, 0, 0, .2);
     }
 
     &:last-child {
@@ -59,10 +59,10 @@
 
   .treeselect-toggle {
     display: inline-block;
-    padding: 0;
-    margin-right: .1rem;
-    text-align: center;
     cursor: pointer;
+    margin-right: .1rem;
+    padding: 0;
+    text-align: center;
   }
 
   .treeselect-menu {
@@ -73,9 +73,9 @@
     display: inline-block;
 
     input {
+      margin-right: .2rem;
       position: relative;
       top: 1px;
-      margin-right: .2rem;
     }
 
     label {
@@ -84,13 +84,13 @@
   }
 
   .dropdown-toggle {
-    padding: 0 .5rem .3rem;
     margin-left: .5rem;
+    padding: 0 .5rem .3rem;
 
     &::after {
-      margin-left: 0;
-      font-size: 1rem;
       color: $gray-700;
+      font-size: 1rem;
+      margin-left: 0;
     }
   }
 }
@@ -103,9 +103,10 @@
 
   ul ul {
 
-    li::before, li::after {
-      left: 8px;
+    li::before,
+    li::after {
       display: block;
+      left: 8px;
     }
 
     li::before {

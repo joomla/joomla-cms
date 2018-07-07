@@ -1,12 +1,13 @@
 // Dragula
+@import '../variables';
 
 .gu-mirror {
+  background-color: $teal #90ee90;
+  cursor: move;
+  margin: 0 !important;
+  opacity: .8;
   position: fixed !important;
   z-index: 9999 !important;
-  margin: 0 !important;
-  cursor: move;
-  background-color: #90ee90;
-  opacity: .8;
 
   &.table {
     display: table;
