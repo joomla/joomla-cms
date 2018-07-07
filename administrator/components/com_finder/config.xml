@@ -177,10 +177,22 @@
 		</field>
 
 		<field
+			name="opensearch"
+			type="radio"
+			label="COM_FINDER_CONFIG_OPENSEARCH_LABEL"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="opensearch_name"
 			type="text"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
 			default=""
+			showon="opensearch:1"
 		/>
 
 		<field
@@ -190,6 +202,7 @@
 			default=""
 			cols="30"
 			rows="2"
+			showon="opensearch:1"
 		/>
 
 	</fieldset>
