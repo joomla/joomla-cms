@@ -227,7 +227,7 @@ class HtmlDocument extends Document
 				break;
 
 			case 'scriptOptions':
-				$this->{$realType} = array();
+				$this->{$type} = array();
 				break;
 		}
 	}
