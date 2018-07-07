@@ -10,7 +10,7 @@
 			type="integer"
 			label="COM_PRIVACY_NOTIFY_LABEL"
 			description="COM_PRIVACY_NOTIFY_DESC"
-			first="10"
+			first="1"
 			last="29"
 			step="1"
 			default="14"
