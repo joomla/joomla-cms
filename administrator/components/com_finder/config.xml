@@ -7,14 +7,14 @@
 		>
 
 		<field
-			name="logging_enabled"
+			name="show_taxonomy"
 			type="radio"
-			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
 			class="switcher"
-			default="0"
+			default="1"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -37,16 +37,15 @@
 			showon="show_description:1"
 		/>
 
-
 		<field
-			name="allow_empty_query"
+			name="show_date"
 			type="radio"
-			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
+			label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
 			class="switcher"
-			default="0"
+			default="1"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -58,6 +57,28 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="logging_enabled"
+			type="radio"
+			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="allow_empty_query"
+			type="radio"
+			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
