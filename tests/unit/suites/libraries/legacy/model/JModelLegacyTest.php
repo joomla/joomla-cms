@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/lead.php';
@@ -210,7 +210,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 */
 	public function testReturningAnInstanceOfAnExistingClassWorks()
 	{
-		$this->assertTrue($this->fixture instanceof TestModelLead);
+		$this->assertInstanceOf('\\TestModelLead', $this->fixture);
 	}
 
 	/**
@@ -288,7 +288,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		$this->fixture->getState();
 		$stateSet = TestReflection::getValue($this->fixture, '__state_set');
-		$this->assertTrue($stateSet === true);
+		$this->assertTrue($stateSet);
 	}
 
 	/**
@@ -348,7 +348,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	public function testSetDbo()
 	{
 		$this->fixture->setDbo(new stdClass);
-		$this->assertTrue($this->fixture->getDbo() instanceof stdClass);
+		$this->assertInstanceOf('\\stdClass', $this->fixture->getDbo());
 	}
 
 	/**

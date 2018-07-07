@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,6 +81,7 @@ JHtml::_('behavior.caption');
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
+		<?php // Todo: for Joomla4 joomla.content.info_block.block can be changed to joomla.content.info_block ?>
 		<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 	<?php endif; ?>
 
@@ -113,6 +114,7 @@ JHtml::_('behavior.caption');
 
 	<?php if ($info == 1 || $info == 2) : ?>
 		<?php if ($useDefList) : ?>
+				<?php // Todo: for Joomla4 joomla.content.info_block.block can be changed to joomla.content.info_block ?>
 			<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
 		<?php endif; ?>
 		<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +79,7 @@ class InstallerModelManage extends InstallerModel
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  $eid    Extension ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
@@ -145,6 +145,14 @@ class InstallerModelManage extends InstallerModel
 				$result = false;
 			}
 		}
+
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
 
 		return $result;
 	}
@@ -260,6 +268,16 @@ class InstallerModelManage extends InstallerModel
 		$this->setState('name', $installer->get('name'));
 		$app->setUserState('com_installer.message', $installer->message);
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
 
 		return $result;
 	}

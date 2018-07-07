@@ -154,7 +154,29 @@ ALTER TABLE [#__session] DROP COLUMN [usertype];
 
 ALTER TABLE [#__ucm_content] ALTER COLUMN [core_metadata] [nvarchar](2048) NOT NULL;
 
+CREATE PROCEDURE "#removeDefault"
+(
+	@table NVARCHAR(100),
+	@column NVARCHAR(100)
+)
+AS
+BEGIN
+	DECLARE @constraintName AS nvarchar(100)
+	DECLARE @constraintQuery AS nvarchar(1000)
+	SELECT @constraintName = name FROM sys.default_constraints
+		WHERE parent_object_id = object_id(@table)
+		AND parent_column_id = columnproperty(object_id(@table), @column, 'ColumnId')
+	SET @constraintQuery = 'ALTER TABLE [' + @table + '] DROP CONSTRAINT [' + @constraintName + ']'
+	EXECUTE sp_executesql @constraintQuery
+END;
+
+EXECUTE "#removeDefault" "#__ucm_content", 'core_content_item_id';
+EXECUTE "#removeDefault" "#__ucm_content", 'asset_id';
+EXECUTE "#removeDefault" "#__ucm_content", 'core_type_id';
+
+EXECUTE "#removeDefault" "#__updates", 'categoryid';
 ALTER TABLE [#__updates] DROP COLUMN [categoryid];
+
 ALTER TABLE [#__updates] ALTER COLUMN [infourl] [nvarchar](max) NOT NULL;
 
 /* Update bad params for two cpanel modules */

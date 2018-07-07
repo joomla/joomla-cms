@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,7 +13,7 @@
  * @subpackage  Session
  * @since       11.1
  */
-class JSessionStorageTest extends PHPUnit_Framework_TestCase
+class JSessionStorageTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorage
@@ -154,5 +154,4 @@ class JSessionStorageTest extends PHPUnit_Framework_TestCase
 			'This test has not been implemented yet.'
 		);
 	}
-
 }

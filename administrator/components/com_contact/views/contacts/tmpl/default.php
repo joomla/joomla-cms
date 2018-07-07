@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,15 +107,15 @@ if ($saveOrder)
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
-								<span class="icon-menu"></span>
+								<span class="icon-menu" aria-hidden="true"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5"
-									value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+									value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
 						<td class="center">
@@ -187,8 +187,8 @@ if ($saveOrder)
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_CONTACT_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_CONTACT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>

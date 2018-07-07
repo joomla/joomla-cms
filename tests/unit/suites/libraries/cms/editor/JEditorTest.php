@@ -3,8 +3,8 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/EditorObserver.php';
@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/EditorObserver.php';
  * @subpackage  Editor
  * @since       3.0
  */
-class JEditorTest extends PHPUnit_Framework_TestCase
+class JEditorTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Object under test
@@ -44,7 +44,7 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

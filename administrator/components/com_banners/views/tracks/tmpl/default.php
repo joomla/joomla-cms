@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo $item->count; ?>
 							</td>
 							<td class="hidden-phone">
-								<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4') . ' H:i'); ?>
+								<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC5')); ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>

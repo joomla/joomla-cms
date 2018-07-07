@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,18 +16,22 @@ JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_cont
 $input = JFactory::getApplication()->input;
 $user  = JFactory::getUser();
 
-if ($input->get('view') === 'article' && $input->get('layout') === 'pagebreak')
-{
-	if (!$user->authorise('core.create', 'com_content'))
-	{
-		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+$checkCreateEdit = ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
+	|| ($input->get('view') === 'article' && $input->get('layout') === 'pagebreak');
 
-		return;
-	}
-}
-elseif ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
+if ($checkCreateEdit)
 {
-	if (!$user->authorise('core.create', 'com_content'))
+	// Can create in any category (component permission) or at least in one category
+	$canCreateRecords = $user->authorise('core.create', 'com_content')
+		|| count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
+
+	// Instead of checking edit on all records, we can use **same** check as the form editing view
+	$values = (array) JFactory::getApplication()->getUserState('com_content.edit.article.id');
+	$isEditingRecords = count($values);
+
+	$hasAccess = $canCreateRecords || $isEditingRecords;
+
+	if (!$hasAccess)
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 

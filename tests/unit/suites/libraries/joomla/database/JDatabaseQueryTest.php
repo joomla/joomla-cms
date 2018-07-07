@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1642,8 +1642,8 @@ class JDatabaseQueryTest extends TestCase
 
 		$baseElement->testArray[] = 'test';
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertTrue(count($cloneElement->testArray) == 0);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertCount(0, $cloneElement->testArray);
 	}
 
 	/**
@@ -1661,9 +1661,9 @@ class JDatabaseQueryTest extends TestCase
 
 		$cloneElement = clone($baseElement);
 
-		$this->assertFalse($baseElement === $cloneElement);
+		$this->assertNotSame($baseElement, $cloneElement);
 
-		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
+		$this->assertNotSame($baseElement->testObject, $cloneElement->testObject);
 	}
 
 	/**
@@ -1995,13 +1995,12 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->dbo);
-		unset($this->_instance);
+		unset($this->dbo, $this->_instance);
 		parent::tearDown();
 	}
 
@@ -2015,7 +2014,7 @@ class JDatabaseQueryTest extends TestCase
 	public function seedDateAdd()
 	{
 		return array(
-			// date, interval, datepart, expected
+			// Elements: date, interval, datepart, expected
 			'Add date'		=> array('2008-12-31', '1', 'DAY', "DATE_ADD('2008-12-31', INTERVAL 1 DAY)"),
 			'Subtract date'	=> array('2008-12-31', '-1', 'DAY', "DATE_ADD('2008-12-31', INTERVAL -1 DAY)"),
 			'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'DAY', "DATE_ADD('2008-12-31 23:59:59', INTERVAL 1 DAY)"),

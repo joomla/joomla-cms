@@ -37,6 +37,14 @@
     }
   }
 
+  // MENU SEPARATOR
+  // --------------
+  // Reset background
+  .dropdown-menu .menuitem-group {
+    background-color: #10223e;
+    color: #eee;
+  }
+ 
   // GRID & CONTAINERS
   // -----------------
   // Remove width from containers
@@ -151,6 +159,16 @@
       padding-left: 10px;
       padding-right: 10px;
     }
+  }
+
+  // Gracefully displays the filter-search fields and buttons
+  .tag-category input#filter-search,
+  .newsfeed-category input#filter-search {
+    width: auto;
+    margin-bottom: @baseLineHeight / 2;
+  }
+  .category-list input#filter-search {
+    width: auto;
   }
 
   // Medias

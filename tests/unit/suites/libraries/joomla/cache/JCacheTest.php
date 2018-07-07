@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -346,7 +346,7 @@ class JCacheTest extends TestCase
 	}
 
 	/**
-	 * Testing store() and get()
+	 * Testing store(), contains(), and get()
 	 *
 	 * @param   string  $handler   cache handler
 	 * @param   array   $options   options for cache handler
@@ -359,13 +359,17 @@ class JCacheTest extends TestCase
 	 *
 	 * @dataProvider casesStore
 	 */
-	public function testStoreAndGet($handler, $options, $id, $group, $data, $expected)
+	public function testStoreContainsAndGet($handler, $options, $id, $group, $data, $expected)
 	{
 		$this->object = JCache::getInstance($handler, $options);
 		$this->object->setCaching(true);
 
 		$this->assertTrue(
 			$this->object->store($data, $id, $group)
+		);
+
+		$this->assertTrue(
+			$this->object->contains($id, $group)
 		);
 
 		$this->assertEquals(
@@ -457,70 +461,11 @@ class JCacheTest extends TestCase
 		// Collect Garbage
 		$this->object->gc();
 
-		$this->assertFalse(file_exists($path), "Cache file should not exist.");
+		$this->assertFileNotExists($path, "Cache file should not exist.");
 
 		$this->assertFalse($this->object->get(42, ''));
 
 		// To be sure that cache is working
 		$this->assertEquals($this->testData_B, $this->object->get(43, ''));
-	}
-
-	/**
-	 * Test Cases for getStorage
-	 *
-	 * @return array
-	 */
-	public function casesGetStorage()
-	{
-		$this->setDefaultOptions();
-
-		$storages = array(
-			'apc'          => 'JCacheStorageApc',
-			'apcu'         => 'JCacheStorageApcu',
-			'cachelite'    => 'JCacheStorageCachelite',
-			'file'         => 'JCacheStorageFile',
-			'memcache'     => 'JCacheStorageMemcache',
-			'memcached'    => 'JCacheStorageMemcached',
-			'redis'        => 'JCacheStorageRedis',
-			'wincache'     => 'JCacheStorageWincache',
-			'xcache'       => 'JCacheStorageXcache',
-		);
-
-		$cases = array();
-
-		foreach ($storages as $key => $class)
-		{
-			$options = $this->defaultOptions;
-			$options['storage'] = $key;
-			$cases[$key] = array('output', $options, $class);
-		}
-
-		return $cases;
-	}
-
-	/**
-	 * Testing getStorage
-	 *
-	 * @param   string  $handler   cache handler
-	 * @param   array   $options   options for cache handler
-	 * @param   string  $expected  expected storage class
-	 *
-	 * @return void
-	 *
-	 * @dataProvider casesGetStorage
-	 */
-	public function testGetStorage($handler, $options, $expected)
-	{
-		if (!$this->available[$options['storage']])
-		{
-			$this->markTestSkipped("The {$options['storage']} storage handler is currently not available");
-		}
-
-		$this->object = JCache::getInstance($handler, $options);
-
-		$this->assertThat(
-			$this->object->cache->_getStorage(),
-			$this->isInstanceOf($expected)
-		);
 	}
 }

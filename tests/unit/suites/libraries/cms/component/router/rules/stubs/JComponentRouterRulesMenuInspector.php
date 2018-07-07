@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -18,7 +18,7 @@ class JComponentRouterRulesMenuInspector extends JComponentRouterRulesMenu
 {
 	/**
 	 * Gets an attribute of the object
-	 * 
+	 *
 	 * @param   string   $key  Attributename to return
 	 *
 	 * @return  mixed  Attributes of the object
@@ -32,7 +32,7 @@ class JComponentRouterRulesMenuInspector extends JComponentRouterRulesMenu
 
 	/**
 	 * Sets an attribute of the object
-	 * 
+	 *
 	 * @param   string   $key    Attributename to return
 	 * @param   mixed    $value  Value to be set
 	 *
@@ -44,7 +44,7 @@ class JComponentRouterRulesMenuInspector extends JComponentRouterRulesMenu
 	{
 		$this->$key = $value;
 	}
-	
+
 	public function runBuildLookup($language = '*')
 	{
 		return $this->buildLookup($language);

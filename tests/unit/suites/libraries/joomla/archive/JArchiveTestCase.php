@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Archive
  * @since       3.1
  */
-abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
+abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Output path
@@ -36,11 +36,11 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->outputPath = __DIR__ . '/output';
+		$this->outputPath = __DIR__ . '/output/' . uniqid();
 
 		if (!is_dir($this->outputPath))
 		{
-			mkdir($this->outputPath, 0777);
+			mkdir($this->outputPath, 0777, true);
 		}
 
 		if (! is_dir($this->outputPath))
@@ -61,7 +61,7 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	{
 		if (is_dir($this->outputPath))
 		{
-			// delete files in output directory
+			// Delete files in output directory
 			foreach (glob("{$this->outputPath}/*") as $file)
 			{
 				unlink($file);

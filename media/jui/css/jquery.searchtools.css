@@ -19,6 +19,17 @@
 	display: inline-block;
 	margin: 0 5px 0 0;
 }
+/* Fixed filter fields (selector) */
+.js-stools .js-stools-container-selector {
+	float: left;
+	margin-right: 10px;
+	min-width: 220px;
+}
+html[dir=rtl] .js-stools .js-stools-container-selector {
+	float: right;
+	margin-left: 10px;
+	margin-right: 0;
+}
 .js-stools .js-stools-container-bar {
 	float: left;
 }
@@ -58,16 +69,6 @@ html[dir=rtl] .js-stools .chzn-container {
 	margin-right: 0;
 }
 
-/* Fix for IE8 */
-@media all\0 {
-	.js-stools .js-stools-field-list,
-	.js-stools .js-stools-field-filter {
-		display:  block;
-		width: 180px;
-		float:left;
-	}
-}
-
 /* Media queries */
 @media (max-width: 480px) {
 	.js-stools-container-filters {
@@ -88,6 +89,5 @@ html[dir=rtl] .js-stools .chzn-container {
 	.js-stools .js-stools-container-list {
 		float: none;
 		display: block;
-		margin-top: 10px;
 	}
 }

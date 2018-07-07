@@ -104,7 +104,7 @@ class FOFFormHeaderFielddate extends FOFFormHeaderField
 				{
 					// Get a date object based on the correct timezone.
 					$date = FOFPlatform::getInstance()->getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					$date->setTimezone($user->getTimezone());
 
 					// Transform the date string.
 					$searchvalue = $date->format('Y-m-d H:i:s', true, false);

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -39,7 +39,7 @@ class JInstallerTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -129,7 +129,7 @@ class JInstallerTest extends TestCaseDatabase
 		$this->assertEquals(
 			$this->object->getRedirectUrl(),
 			'http://www.example.com',
-			'Get or Set Redirect Url failed'
+			'Get or Set Redirect URL failed'
 		);
 	}
 
@@ -196,8 +196,8 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		// Build the mock object.
 		$adapterMock  = $this->getMockBuilder('test')
-					->setMethods(array('_rollback_testtype'))
-					->getMock();
+			->setMethods(array('_rollback_testtype'))
+			->getMock();
 
 		$adapterMock->expects($this->once())
 			->method('_rollback_testtype')

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,8 +45,11 @@ extract($displayData);
  * @var   mixed    $excluded        The users to exclude from the list of users
  */
 
-JHtml::_('behavior.modal', 'a.modal_' . $id);
-JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+if (!$readonly)
+{
+	JHtml::_('behavior.modal', 'a.modal_' . $id);
+	JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+}
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
@@ -103,4 +106,6 @@ $anchorAttributes = array(
 		<?php echo JHtml::_('link', (string) $uri, '<span class="icon-user"></span>', $anchorAttributes); ?>
 	<?php endif; ?>
 </div>
-<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
+<?php if (!$readonly) : ?>
+	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
+<?php endif; ?>

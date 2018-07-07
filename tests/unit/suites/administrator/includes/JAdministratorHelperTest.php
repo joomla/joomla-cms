@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/includes/helper.php';
@@ -29,7 +29,6 @@ class JAdministratorHelperTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		//$this->object = new JErrorPage;
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
@@ -53,6 +52,8 @@ class JAdministratorHelperTest extends TestCase
 
 	/**
 	 * Tests the findOption() method simulating a guest.
+	 *
+	 * @covers  JAdministratorHelper::findOption
 	 */
 	public function testFindOptionGuest()
 	{
@@ -77,6 +78,8 @@ class JAdministratorHelperTest extends TestCase
 
 	/**
 	 * Tests the findOption() method simulating a user without login admin permissions.
+	 *
+	 * @covers  JAdministratorHelper::findOption
 	 */
 	public function testFindOptionCanNotLoginAdmin()
 	{
@@ -103,6 +106,8 @@ class JAdministratorHelperTest extends TestCase
 
 	/**
 	 * Tests the findOption() method simulating a user who is able to log in to admin.
+	 *
+	 * @covers  JAdministratorHelper::findOption
 	 */
 	public function testFindOptionCanLoginAdmin()
 	{
@@ -129,6 +134,8 @@ class JAdministratorHelperTest extends TestCase
 
 	/**
 	 * Tests the findOption() method simulating the option at a special value.
+	 *
+	 * @covers  JAdministratorHelper::findOption
 	 */
 	public function testFindOptionCanLoginAdminOptionSet()
 	{

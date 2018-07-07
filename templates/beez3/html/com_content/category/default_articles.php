@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,9 +154,8 @@ if (!empty($this->items))
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
 					<td class="list-author">
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
-							<?php $author = $article->author ?>
-							<?php $author = ($article->created_by_alias ?: $author); ?>
-							<?php if (!empty($article->contact_link) &&  $this->params->get('link_author') == true):?>
+							<?php $author = $article->created_by_alias ?: $article->author; ?>
+							<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true):?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
 							<?php else :?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>

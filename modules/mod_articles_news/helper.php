@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,9 @@ abstract class ModArticlesNewsHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
 
+		// This module does not use tags data
+		$model->setState('load_tags', false);
+
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
@@ -55,20 +58,23 @@ abstract class ModArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
+		// Filer by tag
+		$model->setState('filter.tag', $params->get('tag', array()));
+
 		//  Featured switch
 		switch ($params->get('show_featured'))
 		{
-			case '1' :
+			case 1 :
 				$model->setState('filter.featured', 'only');
 				break;
-			case '0' :
+			case 0 :
 				$model->setState('filter.featured', 'hide');
 				break;
 			default :
 				$model->setState('filter.featured', 'show');
 				break;
 		}
-		
+
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
@@ -84,6 +90,9 @@ abstract class ModArticlesNewsHelper
 			$model->setState('list.ordering', $ordering);
 		}
 
+		// Check if we should trigger additional plugin events
+		$triggerEvents = $params->get('triggerevents', 1);
+
 		// Retrieve Content
 		$items = $model->getItems();
 
@@ -92,7 +101,7 @@ abstract class ModArticlesNewsHelper
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -115,14 +124,26 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayTitle = trim(implode("\n", $results));
+			if ($triggerEvents)
+			{
+				$item->text = '';
+				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 0));
 
-			$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->beforeDisplayContent = trim(implode("\n", $results));
+				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
+				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayContent = trim(implode("\n", $results));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
+				$item->beforeDisplayContent = trim(implode("\n", $results));
+
+				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
+				$item->afterDisplayContent = trim(implode("\n", $results));
+			}
+			else
+			{
+				$item->afterDisplayTitle    = '';
+				$item->beforeDisplayContent = '';
+				$item->afterDisplayContent  = '';
+			}
 		}
 
 		return $items;

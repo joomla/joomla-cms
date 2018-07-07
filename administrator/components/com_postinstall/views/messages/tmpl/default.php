@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,8 +27,9 @@ $params = array('params' => json_encode($param));
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<form action="index.php" method="post" name="adminForm" class="form-inline">
+<form action="index.php" method="post" name="adminForm" class="form-inline" id="adminForm">
 	<input type="hidden" name="option" value="com_postinstall">
+	<input type="hidden" name="task" value="">
 	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
 	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'input-xlarge'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
@@ -42,7 +43,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
 				<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
 				<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=reset&amp;eid=<?php echo $this->eid; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-warning btn-large">
-					<span class="icon icon-eye-open"></span>
+					<span class="icon icon-eye-open" aria-hidden="true"></span>
 					<?php echo JText::_('COM_POSTINSTALL_BTN_RESET'); ?>
 				</a>
 			</div>
@@ -53,8 +54,8 @@ JHtml::_('formbehavior.chosen', 'select');
 				<p class="small">
 					<?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
 				</p>
-				<p><?php echo JText::_($item->description_key); ?></p>
 				<div>
+					<?php echo JText::_($item->description_key); ?>
 					<?php if ($item->type !== 'message') : ?>
 					<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=action&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-primary">
 						<?php echo JText::_($item->action_key); ?>

@@ -4,8 +4,8 @@
 		<field
 			name="email"
 			type="email"
-			description="COM_USERS_FIELD_REMIND_EMAIL_DESC"
 			label="COM_USERS_FIELD_REMIND_EMAIL_LABEL"
+			description="COM_USERS_FIELD_REMIND_EMAIL_DESC"
 			required="true"
 			size="30"
 			validate="email"

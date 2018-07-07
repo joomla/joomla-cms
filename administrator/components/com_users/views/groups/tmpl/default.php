@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,10 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user       = JFactory::getUser();
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
+$user        = JFactory::getUser();
+$listOrder   = $this->escape($this->state->get('list.ordering'));
+$listDirn    = $this->escape($this->state->get('list.direction'));
+$debugGroups = $this->state->get('params')->get('debugGroups', 1);
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
@@ -67,12 +68,14 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap center">
-							<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></i>
-							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
+							<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>">
+								<span class="element-invisible"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
+							</span>
 						</th>
 						<th width="1%" class="nowrap center">
-							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></i>
-							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+							<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>">
+								<span class="element-invisible"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+							</span>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -92,7 +95,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canEdit   = $user->authorise('core.edit', 'com_users');
 
 					// If this group is super admin and this user is not super admin, $canEdit is false
-					if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+					if (!$user->authorise('core.admin') && JAccess::checkGroup($item->id, 'core.admin'))
 					{
 						$canEdit = false;
 					}
@@ -112,7 +115,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
-							<?php if (JDEBUG) : ?>
+							<?php if ($debugGroups) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 							<?php endif; ?>

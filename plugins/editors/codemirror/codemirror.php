@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,11 +30,7 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @var array
 	 */
-	protected $modeAlias = array(
-			'html' => 'htmlmixed',
-			'ini'  => 'properties',
-			'json' => array('name' => 'javascript', 'json' => true),
-		);
+	protected $modeAlias = array();
 
 	/**
 	 * Initialises the Editor.
@@ -77,7 +73,7 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			if (isset($fontInfo->url))
 			{
-				$doc->addStylesheet($fontInfo->url);
+				$doc->addStyleSheet($fontInfo->url);
 			}
 
 			if (isset($fontInfo->css))
@@ -100,6 +96,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Code executes directly on submit
 	 */
 	public function onSave($id)
 	{
@@ -112,6 +110,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
 	{
@@ -125,6 +125,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $content  The content to set.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -134,7 +136,9 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @return  boolean
+	 * @return  void
+	 *
+	 * @deprecated 4.0 Code is loaded in the init script
 	 */
 	public function onGetInsertMethod()
 	{
@@ -148,9 +152,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		JFactory::getDocument()->addScriptDeclaration('
+		JFactory::getDocument()->addScriptDeclaration("
 		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
-		');
+		");
 
 		return true;
 	}
@@ -175,6 +179,9 @@ class PlgEditorCodemirror extends JPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
+		// True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
+		static $autofocused;
+
 		$id = empty($id) ? $name : $id;
 
 		// Must pass the field id to the buttons in this editor.
@@ -187,8 +194,18 @@ class PlgEditorCodemirror extends JPlugin
 		// Options for the CodeMirror constructor.
 		$options = new stdClass;
 
+		// Is field readonly?
+		if (!empty($params['readonly']))
+		{
+			$options->readOnly = 'nocursor';
+		}
+
 		// Should we focus on the editor on load?
-		$options->autofocus = (boolean) $this->params->get('autoFocus', true);
+		if (!$autofocused)
+		{
+			$options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
+			$autofocused = $options->autofocus;
+		}
 
 		// Until there's a fix for the overflow problem, always wrap lines.
 		$options->lineWrapping = true;
@@ -224,7 +241,9 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Load the syntax mode.
-		$syntax = $this->params->get('syntax', 'html');
+		$syntax = !empty($params['syntax'])
+			? $params['syntax']
+			: $this->params->get('syntax', 'html');
 		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
 
 		// Load the theme if specified.
@@ -235,7 +254,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Special options for tagged modes (xml/html).
-		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
+		if (in_array($options->mode, array('xml', 'html', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
 			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
@@ -245,7 +264,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Special options for non-tagged modes.
-		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
+		if (!in_array($options->mode, array('xml', 'html')))
 		{
 			// Autogenerate closing brackets.
 			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);
@@ -256,8 +275,19 @@ class PlgEditorCodemirror extends JPlugin
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
-		// Vim Keybindings.
-		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
+		// KeyMap settings.
+		$options->keyMap = $this->params->get('keyMap', false);
+
+		// Support for older settings.
+		if ($options->keyMap === false)
+		{
+			$options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
+		}
+
+		if ($options->keyMap && $options->keyMap != 'default')
+		{
+			$this->loadKeyMap($options->keyMap);
+		}
 
 		$displayData = (object) array(
 				'options' => $options,
@@ -344,5 +374,19 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
+	}
+
+	/**
+	 * Loads a keyMap file
+	 *
+	 * @param   string  $keyMap  The name of a keyMap file to load.
+	 *
+	 * @return  void
+	 */
+	protected function loadKeyMap($keyMap)
+	{
+		$basePath = $this->params->get('basePath', 'media/editors/codemirror/');
+		$ext = JDEBUG ? '.js' : '.min.js';
+		JHtml::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
 	}
 }

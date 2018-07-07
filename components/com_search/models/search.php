@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,35 +19,35 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Search data array
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $_data = null;
 
 	/**
 	 * Search total
 	 *
-	 * @var integer
+	 * @var   integer
 	 */
 	protected $_total = null;
 
 	/**
 	 * Search areas
 	 *
-	 * @var integer
+	 * @var   integer
 	 */
-	protected  $_areas = null;
+	protected $_areas = null;
 
 	/**
 	 * Pagination object
 	 *
-	 * @var object
+	 * @var   object
 	 */
 	protected $_pagination = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.5
+	 * @since  1.5
 	 */
 	public function __construct()
 	{
@@ -95,9 +95,9 @@ class SearchModelSearch extends JModelLegacy
 	 * @param   string  $match     matching option, exact|any|all
 	 * @param   string  $ordering  option, newest|oldest|popular|alpha|category
 	 *
-	 * @return  void
+	 * @access  public
 	 *
-	 * @access	public
+	 * @return  void
 	 */
 	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
@@ -107,7 +107,7 @@ class SearchModelSearch extends JModelLegacy
 
 			if ($match !== 'exact')
 			{
-				$keyword = preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
+				$keyword = preg_replace('#\xE3\x80\x80#', ' ', $keyword);
 			}
 
 			$this->setState('keyword', $keyword);
@@ -127,8 +127,8 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Method to get weblink item data for the category
 	 *
-	 * @access public
-	 * @return array
+	 * @access  public
+	 * @return  array
 	 */
 	public function getData()
 	{
@@ -199,7 +199,7 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Method to get a pagination object of the weblink items for the category
 	 *
-	 * @access public
+	 * @access  public
 	 * @return  integer
 	 */
 	public function getPagination()
@@ -216,9 +216,9 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Method to get the search areas
 	 *
-	 * @return int
+	 * @return  integer
 	 *
-	 * @since 1.5
+	 * @since   1.5
 	 */
 	public function getAreas()
 	{

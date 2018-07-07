@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,6 +78,16 @@ if ($saveOrder)
 					$canCreate = $user->authorise('core.create',     'com_users');
 					$canEdit   = $user->authorise('core.edit',       'com_users');
 					$canChange = $user->authorise('core.edit.state', 'com_users');
+
+					// Decode level groups
+					$groups = json_decode($item->rules);
+
+					// If this group is super admin and this user is not super admin, $canEdit is false
+					if (!JFactory::getUser()->authorise('core.admin') && JAccess::checkGroup($groups[0], 'core.admin'))
+					{
+						$canEdit   = false;
+						$canChange = false;
+					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="order nowrap center hidden-phone">
@@ -89,18 +99,20 @@ if ($saveOrder)
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
-								<span class="icon-menu"></span>
+								<span class="icon-menu" aria-hidden="true"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php if ($canEdit) : ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php endif; ?>
 						</td>
 						<td>
 							<?php if ($canEdit) : ?>

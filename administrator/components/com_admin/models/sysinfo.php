@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,11 +118,15 @@ class AdminModelSysInfo extends JModelLegacy
 			'proxy_host',
 			'proxy_user',
 			'proxy_pass',
+			'redis_server_host',
+			'redis_server_auth',
 			'secret',
 			'sendmail',
 			'session.save_path',
 			'session_memcache_server_host',
 			'session_memcached_server_host',
+			'session_redis_server_host',
+			'session_redis_server_auth',
 			'sitename',
 			'smtphost',
 			'tmp_path',
@@ -159,7 +163,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Remove sections of data marked as private in the privateSettings
 	 *
 	 * @param   array   $dataArray  Array with data tha may contain private informati
-	 * @param   string  $dataType   Type of data to search for an specific section in the privateSettings array
+	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
 	 *
@@ -193,7 +197,7 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * Offuscate section values
+	 * Obfuscate section values
 	 *
 	 * @param   mixed  $sectionValues  Section data
 	 *
@@ -242,7 +246,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'file_uploads'       => ini_get('file_uploads') == '1',
 			'magic_quotes_gpc'   => ini_get('magic_quotes_gpc') == '1',
 			'register_globals'   => ini_get('register_globals') == '1',
-			'output_buffering'   => (bool) ini_get('output_buffering'),
+			'output_buffering'   => (int) ini_get('output_buffering') !== 0,
 			'open_basedir'       => ini_get('open_basedir'),
 			'session.save_path'  => ini_get('session.save_path'),
 			'session.auto_start' => ini_get('session.auto_start'),
@@ -252,7 +256,6 @@ class AdminModelSysInfo extends JModelLegacy
 			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'           => extension_loaded('mbstring'),
 			'iconv'              => function_exists('iconv'),
-			'mcrypt'             => extension_loaded('mcrypt'),
 			'max_input_vars'     => ini_get('max_input_vars'),
 		);
 
@@ -305,6 +308,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		$this->info = array(
 			'php'                   => php_uname(),
+			'dbserver'		=> $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
@@ -445,7 +449,17 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 		catch (Exception $e)
 		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			try
+			{
+				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			}
+			catch (RuntimeException $exception)
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+					'warning'
+				);
+			}
 
 			return $installed;
 		}
@@ -472,18 +486,13 @@ class AdminModelSysInfo extends JModelLegacy
 				'authorUrl'    => 'unknown',
 			);
 
-			$manifest = json_decode($extension->manifest_cache);
-
-			if (!$manifest instanceof stdClass)
-			{
-				continue;
-			}
+			$manifest = new Registry($extension->manifest_cache);
 
 			$extraData = array(
-				'author'       => $manifest->author,
-				'version'      => $manifest->version,
-				'creationDate' => $manifest->creationDate,
-				'authorUrl'    => $manifest->authorUrl,
+				'author'       => $manifest->get('author', ''),
+				'version'      => $manifest->get('version', ''),
+				'creationDate' => $manifest->get('creationDate', ''),
+				'authorUrl'    => $manifest->get('authorUrl', '')
 			);
 
 			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);

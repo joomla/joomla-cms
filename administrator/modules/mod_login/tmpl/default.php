@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ if ($langs)
 	JHtml::_('formbehavior.chosen', '.advancedSelect');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login" class="form-inline">
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="form-login" class="form-inline">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">
@@ -75,7 +75,7 @@ if ($langs)
 				<div class="controls">
 					<div class="input-prepend">
 						<span class="add-on">
-							<span class="icon-comment hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGIN_LANGUAGE'); ?>"></span>
+							<span class="icon-comment hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGIN_LANGUAGE'); ?>"></span>
 							<label for="lang" class="element-invisible">
 								<?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?>
 							</label>
@@ -88,7 +88,7 @@ if ($langs)
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<button tabindex="3" class="btn btn-primary btn-block btn-large">
+					<button tabindex="5" class="btn btn-primary btn-block btn-large login-button">
 						<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>

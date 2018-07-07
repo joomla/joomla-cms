@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ $options  = array(
 );
 
 JHtml::_('behavior.core');
+JHtml::_('jquery.framework');
 JText::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
 JText::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
 JFactory::getDocument()->addScriptOptions('system.associations.edit', $options);

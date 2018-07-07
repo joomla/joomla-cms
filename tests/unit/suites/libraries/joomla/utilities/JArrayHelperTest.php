@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
@@ -19,7 +19,7 @@ require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
  * @subpackage  Utilities
  * @since       11.1
  */
-class JArrayHelperTest extends PHPUnit_Framework_TestCase
+class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for testArrayUnique.
@@ -784,6 +784,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				false,
 				array(5, 6)
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
 			'by casesensitive string ascending' => array(
 				$input2,
 				'string',
@@ -1008,6 +1009,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'Should be sorted by the string,integer field in descending,ascending order with casesensitive comparisons',
 				false
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
 			'by casesensitive string ascending' => array(
 				$input3,
 				'string',

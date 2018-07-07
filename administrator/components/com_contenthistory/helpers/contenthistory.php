@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,11 @@ class ContenthistoryHelper
 	public static function createObjectArray($object)
 	{
 		$result = array();
+
+		if ($object === null)
+		{
+			return $result;
+		}
 
 		foreach ($object as $name => $value)
 		{
@@ -288,6 +293,11 @@ class ContenthistoryHelper
 	public static function mergeLabels($object, $formValues)
 	{
 		$result = new stdClass;
+
+		if ($object === null)
+		{
+			return $result;
+		}
 
 		$labelsArray = $formValues->labels;
 		$valuesArray = $formValues->values;

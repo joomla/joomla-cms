@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,10 +29,14 @@ class ContenthistoryModelHistory extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-					'version_id', 'h.version_id',
-					'version_note', 'h.version_note',
-					'save_date', 'h.save_date',
-					'editor_user_id', 'h.editor_user_id',
+				'version_id',
+				'h.version_id',
+				'version_note',
+				'h.version_note',
+				'save_date',
+				'h.save_date',
+				'editor_user_id',
+				'h.editor_user_id',
 			);
 		}
 
@@ -100,7 +104,7 @@ class ContenthistoryModelHistory extends JModelList
 	/**
 	 * Method to delete one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -116,6 +120,12 @@ class ContenthistoryModelHistory extends JModelList
 		{
 			if ($table->load($pk))
 			{
+				if ($table->keep_forever === "1")
+				{
+					unset($pks[$i]);
+					continue;
+				}
+
 				if ($this->canEdit($table))
 				{
 					if (!$table->delete($pk))
@@ -133,13 +143,27 @@ class ContenthistoryModelHistory extends JModelList
 
 					if ($error)
 					{
-						JLog::add($error, JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add($error, JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage($error, 'warning');
+						}
 
 						return false;
 					}
 					else
 					{
-						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+						}
 
 						return false;
 					}
@@ -225,7 +249,7 @@ class ContenthistoryModelHistory extends JModelList
 	/**
 	 * Method to toggle on and off the keep forever value for one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -260,13 +284,27 @@ class ContenthistoryModelHistory extends JModelList
 
 					if ($error)
 					{
-						JLog::add($error, JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add($error, JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage($error, 'warning');
+						}
 
 						return false;
 					}
 					else
 					{
-						JLog::add(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						try
+						{
+							JLog::add(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						}
+						catch (RuntimeException $exception)
+						{
+							JFactory::getApplication()->enqueueMessage(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+						}
 
 						return false;
 					}

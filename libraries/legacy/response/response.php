@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -256,7 +256,7 @@ class JResponse
 		self::setHeader('Content-Encoding', $encoding);
 
 		// Header will be removed at 4.0
-		if (JFactory::getConfig()->get('MetaVersion', 0) && defined('JVERSION'))
+		if (defined('JVERSION') && JFactory::getConfig()->get('MetaVersion', 0))
 		{
 			self::setHeader('X-Content-Encoded-By', 'Joomla! ' . JVERSION);
 		}

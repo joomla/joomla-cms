@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
 
 // Special case for the search field tooltip.
@@ -69,9 +70,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php
 				$iconStates = array(
 					-2 => 'icon-trash',
-					0 => 'icon-unpublish',
-					1 => 'icon-publish',
-					2 => 'icon-archive',
+					0  => 'icon-unpublish',
+					1  => 'icon-publish',
+					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -97,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</td>
 						<td>
 							<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(NewsfeedsHelperRoute::getNewsfeedRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">

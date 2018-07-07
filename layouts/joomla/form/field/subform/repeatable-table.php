@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,7 @@ else
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
 			data-repeatable-element="tr.subform-repeatable-group"
-			data-rows-container="tbody" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
+			data-rows-container="tbody.subform-repeatable-container" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
 
 		<table class="adminlist table table-striped table-bordered">
 			<thead>
@@ -83,14 +83,14 @@ else
 					<th style="width:8%;">
 					<?php if (!empty($buttons['add'])) : ?>
 						<div class="btn-group">
-							<a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a>
+							<a class="group-add btn btn-mini button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus" aria-hidden="true"></span> </a>
 						</div>
 					<?php endif; ?>
 					</th>
 					<?php endif; ?>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="subform-repeatable-container">
 			<?php
 			foreach ($forms as $k => $form) :
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));

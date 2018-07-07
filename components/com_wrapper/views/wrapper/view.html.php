@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Wrapper view class.
- * 
+ *
  * @since  1.5
  */
 class WrapperViewWrapper extends JViewLegacy
@@ -81,24 +81,24 @@ class WrapperViewWrapper extends JViewLegacy
 		if ($params->def('add_scheme', 1))
 		{
 			// Adds 'http://' or 'https://' if none is set
-			if (substr($url, 0, 2) == '//')
+			if (strpos($url, '//') === 0)
 			{
-				// Url without scheme in component. Prepend current scheme.
+				// URL without scheme in component. Prepend current scheme.
 				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . substr($url, 2);
 			}
-			elseif (substr($url, 0, 1) == '/')
+			elseif (strpos($url, '/') === 0)
 			{
-				// Relative url in component. Use scheme + host + port.
+				// Relative URL in component. Use scheme + host + port.
 				$wrapper->url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
 			}
 			elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0)
 			{
-				// Url doesn't start with either 'http://' or 'https://'. Add current scheme.
+				// URL doesn't start with either 'http://' or 'https://'. Add current scheme.
 				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . $url;
 			}
 			else
 			{
-				// Url starts with either 'http://' or 'https://'. Do not change it.
+				// URL starts with either 'http://' or 'https://'. Do not change it.
 				$wrapper->url = $url;
 			}
 		}

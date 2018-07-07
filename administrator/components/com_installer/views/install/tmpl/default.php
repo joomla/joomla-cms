@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
+			JoomlaInstaller.showLoading();
 			
 			form.installtype.value = "url";
 			form.submit();
@@ -43,14 +43,26 @@ JFactory::getDocument()->addScriptDeclaration(
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
 		
-		$("#loading")
-		.css("top", outerDiv.position().top - $(window).scrollTop())
-		.css("left", "0")
-		.css("width", "100%")
-		.css("height", "100%")
-		.css("display", "none")
-		.css("margin-top", "-10px");
+		JoomlaInstaller.getLoadingOverlay()
+			.css("top", outerDiv.position().top - $(window).scrollTop())
+			.css("left", "0")
+			.css("width", "100%")
+			.css("height", "100%")
+			.css("display", "none")
+			.css("margin-top", "-10px");
 	});
+	
+	var JoomlaInstaller = {
+		getLoadingOverlay: function () {
+			return jQuery("#loading");
+		},
+		showLoading: function () {
+			this.getLoadingOverlay().css("display", "block");
+		},
+		hideLoading: function () {
+			this.getLoadingOverlay().css("display", "none");
+		}
+	};
 	'
 );
 
@@ -104,7 +116,7 @@ JFactory::getDocument()->addStyleDeclaration(
 						<?php echo JHtml::_(
 							'link',
 							JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
-							'',
+							'<span class="element-invisible">' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '</span>',
 							'class="alert-options hasTooltip icon-options" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
 						);
 						?>

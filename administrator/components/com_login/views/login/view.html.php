@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  */
 class LoginViewLogin extends JViewLegacy
 {
-  	/**
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
@@ -30,9 +30,9 @@ class LoginViewLogin extends JViewLegacy
 		/**
 		 * To prevent clickjacking, only allow the login form to be used inside a frame in the same origin.
 		 * So send a X-Frame-Options HTTP Header with the SAMEORIGIN value.
-		 * 
-		 * @see https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
-		 *      https://tools.ietf.org/html/rfc7034
+		 *
+		 * @link https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
+		 * @link https://tools.ietf.org/html/rfc7034
 		 */
 		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 

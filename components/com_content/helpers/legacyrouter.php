@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,9 +91,9 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Are we dealing with an article or category that is attached to a menu item?
-		if (($menuItem instanceof stdClass)
+		if ($menuItem !== null
+			&& isset($menuItem->query['view'], $query['view'], $menuItem->query['id'], $query['id'])
 			&& $menuItem->query['view'] == $query['view']
-			&& isset($query['id'])
 			&& $menuItem->query['id'] == (int) $query['id'])
 		{
 			unset($query['view']);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,18 +18,60 @@ use Joomla\Registry\Registry;
  */
 class TagsViewTag extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var    \Joomla\Registry\Registry
+	 * @since  3.1
+	 */
 	protected $state;
 
+	/**
+	 * An array of items.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
 	protected $items;
 
+	/**
+	 * The active JObject (on success, false on failure)
+	 *
+	 * @var    JObject|boolean
+	 * @since  3.1
+	 */
 	protected $item;
 
+	/**
+	 * Array of Children objects
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
 	protected $children;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var    JPagination
+	 * @since  3.1
+	 */
 	protected $pagination;
 
+	/**
+	 * The application parameters
+	 *
+	 * @var    \Joomla\Registry\Registry  The parameters object
+	 * @since  3.1
+	 */
 	protected $params;
 
+	/**
+	 * Array of tags title
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
 	protected $tags_title;
 
 	/**
@@ -92,7 +134,7 @@ class TagsViewTag extends JViewLegacy
 				$itemElement->event = new stdClass;
 
 				// For some plugins.
-				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+				!empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
 				$dispatcher = JEventDispatcher::getInstance();
 
@@ -111,6 +153,13 @@ class TagsViewTag extends JViewLegacy
 				if (!empty($itemElement->core_body))
 				{
 					$itemElement->core_body = $itemElement->text;
+				}
+
+				// Categories store the images differently so lets re-map it so the display is correct
+				if ($itemElement->type_alias === 'com_content.category')
+				{
+					$coreParams = json_decode($itemElement->core_params);
+					$itemElement->core_images = json_encode(array('image_intro' => $coreParams->image, 'image_intro_alt' => $coreParams->image_alt));
 				}
 			}
 		}
@@ -132,17 +181,20 @@ class TagsViewTag extends JViewLegacy
 		$active       = $app->getMenu()->getActive();
 		$temp         = clone $this->params;
 
+		// Convert item params to a Registry object
+		$item[0]->params = new Registry($item[0]->params);
+
 		// Check to see which parameters should take priority
 		if ($active)
 		{
 			$currentLink = $active->link;
 
-			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
+			// If the current view is the active item and a tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id))
 			{
-				// $item->params are the article params, $temp are the menu item params
+				// $item[0]->params are the tag params, $temp are the menu item params
 				// Merge so that the menu item params take priority
-				$this->params->merge($temp);
+				$item[0]->params->merge($temp);
 
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
@@ -152,14 +204,14 @@ class TagsViewTag extends JViewLegacy
 			}
 			else
 			{
-				// Current view is not tags, so the global params take priority since tags is not an item.
-				// Merge the menu item params with the global params so that the article params take priority
-				$temp->merge($this->state->params);
-				$this->params = $temp;
+				// Current menuitem is not a single tag view, so the tag params take priority.
+				// Merge the menu item params with the tag params so that the tag params take priority
+				$temp->merge($item[0]->params);
+				$item[0]->params = $temp;
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $this->params->get('tags_layout'))
+				if ($layout = $item[0]->params->get('tag_layout'))
 				{
 					$this->setLayout($layout);
 				}
@@ -191,32 +243,32 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
-		// Generate the tags title to use for page title, page heading and show tags title option
+		$app              = JFactory::getApplication();
+		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
+		$title            = '';
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		// Highest priority for "Browser Page Title".
+		if ($menu)
+		{
+			$title = $menu->params->get('page_title', '');
+		}
 
 		if ($this->tags_title)
 		{
 			$this->params->def('page_heading', $this->tags_title);
-			$title = $this->tags_title;
+			$title = $title ?: $this->tags_title;
 		}
 		elseif ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-			$title = $this->params->get('page_title', $menu->title);
+			$title = $title ?: $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] != 'com_tags')
+			if ($menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}
@@ -279,7 +331,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Creates the tags title for the output
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function getTagsTitle()
 	{

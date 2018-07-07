@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
@@ -60,7 +60,7 @@
 			id="published"
 			class="chzn-color-state"
 			size="1"
-		>
+			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -117,7 +117,8 @@
 			label="COM_CONTACT_FIELD_CREATED_LABEL"
 			description="COM_CONTACT_FIELD_CREATED_DESC"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			filter="user_utc"
 		/>
 
@@ -129,7 +130,8 @@
 			class="readonly"
 			size="22"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			filter="user_utc"
 		/>
 
@@ -168,7 +170,9 @@
 			type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL"
 			description="COM_CONTACT_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc"
 		/>
 
@@ -177,7 +181,9 @@
 			type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL"
 			description="COM_CONTACT_FIELD_PUBLISH_DOWN_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc"
 		/>
 
@@ -424,7 +430,8 @@
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
-		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS"
+			 addfieldpath="/administrator/components/com_fields/models/fields">
 
 			<field
 				name="show_contact_category"
@@ -494,6 +501,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -506,6 +514,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -518,9 +527,23 @@
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="add_mailto_link"
+				type="list"
+				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
+				description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
+				class="chzn-color"
+				useglobal="true"
+				showon="show_info:1"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -530,6 +553,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -542,6 +566,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -554,6 +579,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -566,6 +592,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -578,6 +605,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -590,6 +618,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -602,6 +631,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -614,6 +644,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -626,6 +657,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -638,6 +670,7 @@
 				description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -717,11 +750,11 @@
 			
 			<field
 				name="show_user_custom_fields"
-				type="category"
-				multiple="true"
-				extension="com_users.user.fields"
+				type="fieldgroups"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+				multiple="true"
+				context="com_users.user"
 				>
 				<option value="-1">JALL</option>
 			</field>
@@ -950,7 +983,7 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
 		description="COM_CONTACT_HITS_DESC"
 		class="readonly"

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,15 +103,15 @@ if ($saveOrder)
 								}
 								elseif (!$saveOrder)
 								{
-									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 								}
 								?>
 								<span class="sortable-handler <?php echo $iconClass ?>">
-									<span class="icon-menu"></span>
+									<span class="icon-menu" aria-hidden="true"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5"
-										value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+										value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 								<?php endif; ?>
 							</td>
 							<td class="center">
@@ -130,8 +130,8 @@ if ($saveOrder)
 									?>
 								</div>
 							</td>
-							<td class="nowrap has-context">
-								<div class="pull-left">
+							<td class="has-context">
+								<div class="pull-left break-word">
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
 									<?php endif; ?>
@@ -141,7 +141,7 @@ if ($saveOrder)
 									<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>
-									<span class="small">
+									<span class="small break-word">
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									</span>
 									<div class="small">
@@ -156,7 +156,7 @@ if ($saveOrder)
 								<?php echo $item->client_name; ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED')); ?>
+								<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: JText::_('COM_BANNERS_UNLIMITED')); ?>
 							</td>
 							<td class="small hidden-phone">
 								<?php echo $item->clicks; ?> -
@@ -180,8 +180,8 @@ if ($saveOrder)
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_BANNERS_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_BANNERS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>

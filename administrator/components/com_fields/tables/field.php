@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -78,7 +78,7 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link    https://docs.joomla.org/JTable/check
+	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/check
 	 * @since   3.7.0
 	 */
 	public function check()
@@ -91,19 +91,31 @@ class FieldsTableField extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
+		if (empty($this->name))
 		{
-			$this->alias = $this->title;
+			$this->name = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->name = JApplicationHelper::stringURLSafe($this->name, $this->language);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		if (trim(str_replace('-', '', $this->name)) == '')
 		{
-			$this->alias = Joomla\String\StringHelper::increment($this->alias, 'dash');
+			$this->name = Joomla\String\StringHelper::increment($this->name, 'dash');
 		}
 
-		$this->alias = str_replace(',', '-', $this->alias);
+		$this->name = str_replace(',', '-', $this->name);
+
+		// Verify that the name is unique
+		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
+
+		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+
+			return false;
+		}
+
+		$this->name = str_replace(',', '-', $this->name);
 
 		if (empty($this->type))
 		{
@@ -135,7 +147,7 @@ class FieldsTableField extends JTable
 		if (empty($this->group_id))
 		{
 			$this->group_id = 0;
-		}	
+		}
 
 		return true;
 	}
@@ -165,7 +177,7 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
-	 * @link    https://docs.joomla.org/JTable/getAssetTitle
+	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/getAssetTitle
 	 * @since   3.7.0
 	 */
 	protected function _getAssetTitle()
@@ -177,7 +189,7 @@ class FieldsTableField extends JTable
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID,
 	 * which will default to 1 if none exists.
- 	 * The extended class can define a table and id to lookup.  If the
+	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
 	 * @param   JTable   $table  A JTable object for the asset parent.

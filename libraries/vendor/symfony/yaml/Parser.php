@@ -34,8 +34,6 @@ class Parser
     private $locallySkippedLineNumbers = array();
 
     /**
-     * Constructor.
-     *
      * @param int      $offset             The offset of YAML document (used for line numbers in error messages)
      * @param int|null $totalNumberOfLines The overall number of lines being parsed
      * @param int[]    $skippedLineNumbers Number of comment lines that have been skipped by the parser
@@ -51,9 +49,9 @@ class Parser
      * Parses a YAML string to a PHP value.
      *
      * @param string $value                  A YAML string
-     * @param bool   $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool   $objectSupport          true if object support is enabled, false otherwise
-     * @param bool   $objectForMap           true if maps should return a stdClass instead of array()
+     * @param bool   $exceptionOnInvalidType True if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool   $objectSupport          True if object support is enabled, false otherwise
+     * @param bool   $objectForMap           True if maps should return a stdClass instead of array()
      *
      * @return mixed A PHP value
      *
@@ -61,26 +59,60 @@ class Parser
      */
     public function parse($value, $exceptionOnInvalidType = false, $objectSupport = false, $objectForMap = false)
     {
-        if (!preg_match('//u', $value)) {
+        if (false === preg_match('//u', $value)) {
             throw new ParseException('The YAML value does not appear to be valid UTF-8.');
         }
-        $this->currentLineNb = -1;
-        $this->currentLine = '';
-        $value = $this->cleanup($value);
-        $this->lines = explode("\n", $value);
 
-        if (null === $this->totalNumberOfLines) {
-            $this->totalNumberOfLines = count($this->lines);
-        }
+        $this->refs = array();
+
+        $mbEncoding = null;
+        $e = null;
+        $data = null;
 
         if (2 /* MB_OVERLOAD_STRING */ & (int) ini_get('mbstring.func_overload')) {
             $mbEncoding = mb_internal_encoding();
             mb_internal_encoding('UTF-8');
         }
 
+        try {
+            $data = $this->doParse($value, $exceptionOnInvalidType, $objectSupport, $objectForMap);
+        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+        }
+
+        if (null !== $mbEncoding) {
+            mb_internal_encoding($mbEncoding);
+        }
+
+        $this->lines = array();
+        $this->currentLine = '';
+        $this->refs = array();
+        $this->skippedLineNumbers = array();
+        $this->locallySkippedLineNumbers = array();
+
+        if (null !== $e) {
+            throw $e;
+        }
+
+        return $data;
+    }
+
+    private function doParse($value, $exceptionOnInvalidType = false, $objectSupport = false, $objectForMap = false)
+    {
+        $this->currentLineNb = -1;
+        $this->currentLine = '';
+        $value = $this->cleanup($value);
+        $this->lines = explode("\n", $value);
+        $this->locallySkippedLineNumbers = array();
+
+        if (null === $this->totalNumberOfLines) {
+            $this->totalNumberOfLines = count($this->lines);
+        }
+
         $data = array();
         $context = null;
         $allowOverwrite = false;
+
         while ($this->moveToNextLine()) {
             if ($this->isCurrentLineEmpty()) {
                 continue;
@@ -92,13 +124,13 @@ class Parser
             }
 
             $isRef = $mergeNode = false;
-            if (preg_match('#^\-((?P<leadspaces>\s+)(?P<value>.+?))?\s*$#u', $this->currentLine, $values)) {
+            if (self::preg_match('#^\-((?P<leadspaces>\s+)(?P<value>.+))?$#u', rtrim($this->currentLine), $values)) {
                 if ($context && 'mapping' == $context) {
                     throw new ParseException('You cannot define a sequence item when in a mapping', $this->getRealCurrentLineNb() + 1, $this->currentLine);
                 }
                 $context = 'sequence';
 
-                if (isset($values['value']) && preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#u', $values['value'], $matches)) {
+                if (isset($values['value']) && self::preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#u', $values['value'], $matches)) {
                     $isRef = $matches['ref'];
                     $values['value'] = $matches['value'];
                 }
@@ -108,7 +140,7 @@ class Parser
                     $data[] = $this->parseBlock($this->getRealCurrentLineNb() + 1, $this->getNextEmbedBlock(null, true), $exceptionOnInvalidType, $objectSupport, $objectForMap);
                 } else {
                     if (isset($values['leadspaces'])
-                        && preg_match('#^(?P<key>'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches)
+                        && self::preg_match('#^(?P<key>'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\{\[].*?) *\:(\s+(?P<value>.+))?$#u', rtrim($values['value']), $matches)
                     ) {
                         // this is a compact notation element, add to next block and parse
                         $block = $values['value'];
@@ -124,7 +156,10 @@ class Parser
                 if ($isRef) {
                     $this->refs[$isRef] = end($data);
                 }
-            } elseif (preg_match('#^(?P<key>'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\[\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values) && (false === strpos($values['key'], ' #') || in_array($values['key'][0], array('"', "'")))) {
+            } elseif (
+                self::preg_match('#^(?P<key>'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\[\{].*?) *\:(\s+(?P<value>.+))?$#u', rtrim($this->currentLine), $values)
+                && (false === strpos($values['key'], ' #') || in_array($values['key'][0], array('"', "'")))
+            ) {
                 if ($context && 'sequence' == $context) {
                     throw new ParseException('You cannot define a mapping item when in a sequence', $this->currentLineNb + 1, $this->currentLine);
                 }
@@ -146,7 +181,7 @@ class Parser
                     $key = (string) $key;
                 }
 
-                if ('<<' === $key) {
+                if ('<<' === $key && (!isset($values['value']) || !self::preg_match('#^&(?P<ref>[^ ]+)#u', $values['value'], $refMatches))) {
                     $mergeNode = true;
                     $allowOverwrite = true;
                     if (isset($values['value']) && 0 === strpos($values['value'], '*')) {
@@ -161,13 +196,9 @@ class Parser
                             throw new ParseException('YAML merge keys used with a scalar value instead of an array.', $this->getRealCurrentLineNb() + 1, $this->currentLine);
                         }
 
-                        foreach ($refValue as $key => $value) {
-                            if (!isset($data[$key])) {
-                                $data[$key] = $value;
-                            }
-                        }
+                        $data += $refValue; // array union
                     } else {
-                        if (isset($values['value']) && $values['value'] !== '') {
+                        if (isset($values['value']) && '' !== $values['value']) {
                             $value = $values['value'];
                         } else {
                             $value = $this->getNextEmbedBlock();
@@ -187,30 +218,22 @@ class Parser
                                     throw new ParseException('Merge items must be arrays.', $this->getRealCurrentLineNb() + 1, $parsedItem);
                                 }
 
-                                foreach ($parsedItem as $key => $value) {
-                                    if (!isset($data[$key])) {
-                                        $data[$key] = $value;
-                                    }
-                                }
+                                $data += $parsedItem; // array union
                             }
                         } else {
                             // If the value associated with the key is a single mapping node, each of its key/value pairs is inserted into the
                             // current mapping, unless the key already exists in it.
-                            foreach ($parsed as $key => $value) {
-                                if (!isset($data[$key])) {
-                                    $data[$key] = $value;
-                                }
-                            }
+                            $data += $parsed; // array union
                         }
                     }
-                } elseif (isset($values['value']) && preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#u', $values['value'], $matches)) {
+                } elseif ('<<' !== $key && isset($values['value']) && self::preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#u', $values['value'], $matches)) {
                     $isRef = $matches['ref'];
                     $values['value'] = $matches['value'];
                 }
 
                 if ($mergeNode) {
                     // Merge keys
-                } elseif (!isset($values['value']) || '' == trim($values['value'], ' ') || 0 === strpos(ltrim($values['value'], ' '), '#')) {
+                } elseif (!isset($values['value']) || '' == trim($values['value'], ' ') || 0 === strpos(ltrim($values['value'], ' '), '#') || '<<' === $key) {
                     // hash
                     // if next line is less indented or equal, then it means that the current value is null
                     if (!$this->isNextLineIndented() && !$this->isNextLineUnIndentedCollection()) {
@@ -221,9 +244,13 @@ class Parser
                         }
                     } else {
                         $value = $this->parseBlock($this->getRealCurrentLineNb() + 1, $this->getNextEmbedBlock(), $exceptionOnInvalidType, $objectSupport, $objectForMap);
-                        // Spec: Keys MUST be unique; first one wins.
-                        // But overwriting is allowed when a merge node is used in current block.
-                        if ($allowOverwrite || !isset($data[$key])) {
+
+                        if ('<<' === $key) {
+                            $this->refs[$refMatches['ref']] = $value;
+                            $data += $value;
+                        } elseif ($allowOverwrite || !isset($data[$key])) {
+                            // Spec: Keys MUST be unique; first one wins.
+                            // But overwriting is allowed when a merge node is used in current block.
                             $data[$key] = $value;
                         }
                     }
@@ -255,39 +282,11 @@ class Parser
                         throw $e;
                     }
 
-                    if (isset($mbEncoding)) {
-                        mb_internal_encoding($mbEncoding);
-                    }
-
                     return $value;
                 }
 
-                switch (preg_last_error()) {
-                    case PREG_INTERNAL_ERROR:
-                        $error = 'Internal PCRE error.';
-                        break;
-                    case PREG_BACKTRACK_LIMIT_ERROR:
-                        $error = 'pcre.backtrack_limit reached.';
-                        break;
-                    case PREG_RECURSION_LIMIT_ERROR:
-                        $error = 'pcre.recursion_limit reached.';
-                        break;
-                    case PREG_BAD_UTF8_ERROR:
-                        $error = 'Malformed UTF-8 data.';
-                        break;
-                    case PREG_BAD_UTF8_OFFSET_ERROR:
-                        $error = 'Offset doesn\'t correspond to the begin of a valid UTF-8 code point.';
-                        break;
-                    default:
-                        $error = 'Unable to parse.';
-                }
-
-                throw new ParseException($error, $this->getRealCurrentLineNb() + 1, $this->currentLine);
+                throw new ParseException('Unable to parse.', $this->getRealCurrentLineNb() + 1, $this->currentLine);
             }
-        }
-
-        if (isset($mbEncoding)) {
-            mb_internal_encoding($mbEncoding);
         }
 
         if ($objectForMap && !is_object($data) && 'mapping' === $context) {
@@ -318,7 +317,7 @@ class Parser
         $parser = new self($offset, $this->totalNumberOfLines, $skippedLineNumbers);
         $parser->refs = &$this->refs;
 
-        return $parser->parse($yaml, $exceptionOnInvalidType, $objectSupport, $objectForMap);
+        return $parser->doParse($yaml, $exceptionOnInvalidType, $objectSupport, $objectForMap);
     }
 
     /**
@@ -415,7 +414,7 @@ class Parser
             $indent = $this->getCurrentLineIndentation();
 
             // terminate all block scalars that are more indented than the current line
-            if (!empty($blockScalarIndentations) && $indent < $previousLineIndentation && trim($this->currentLine) !== '') {
+            if (!empty($blockScalarIndentations) && $indent < $previousLineIndentation && '' !== trim($this->currentLine)) {
                 foreach ($blockScalarIndentations as $key => $blockScalarIndentation) {
                     if ($blockScalarIndentation >= $this->getCurrentLineIndentation()) {
                         unset($blockScalarIndentations[$key]);
@@ -429,7 +428,7 @@ class Parser
 
             $previousLineIndentation = $indent;
 
-            if ($isItUnindentedCollection && !$this->isStringUnIndentedCollectionItem() && $newIndent === $indent) {
+            if ($isItUnindentedCollection && !$this->isCurrentLineEmpty() && !$this->isStringUnIndentedCollectionItem() && $newIndent === $indent) {
                 $this->moveToPreviousLine();
                 break;
             }
@@ -504,7 +503,7 @@ class Parser
      * @param string $value                  A YAML value
      * @param bool   $exceptionOnInvalidType True if an exception must be thrown on invalid types false otherwise
      * @param bool   $objectSupport          True if object support is enabled, false otherwise
-     * @param bool   $objectForMap           true if maps should return a stdClass instead of array()
+     * @param bool   $objectForMap           True if maps should return a stdClass instead of array()
      * @param string $context                The parser context (either sequence or mapping)
      *
      * @return mixed A PHP value
@@ -527,7 +526,7 @@ class Parser
             return $this->refs[$value];
         }
 
-        if (preg_match('/^'.self::BLOCK_SCALAR_HEADER_PATTERN.'$/', $value, $matches)) {
+        if (self::preg_match('/^'.self::BLOCK_SCALAR_HEADER_PATTERN.'$/', $value, $matches)) {
             $modifiers = isset($matches['modifiers']) ? $matches['modifiers'] : '';
 
             return $this->parseBlockScalar($matches['separator'], preg_replace('#\d+#', '', $modifiers), (int) abs($modifiers));
@@ -582,7 +581,7 @@ class Parser
 
         // determine indentation if not specified
         if (0 === $indentation) {
-            if (preg_match('/^ +/', $this->currentLine, $matches)) {
+            if (self::preg_match('/^ +/', $this->currentLine, $matches)) {
                 $indentation = strlen($matches[0]);
             }
         }
@@ -593,7 +592,7 @@ class Parser
             while (
                 $notEOF && (
                     $isCurrentLineBlank ||
-                    preg_match($pattern, $this->currentLine, $matches)
+                    self::preg_match($pattern, $this->currentLine, $matches)
                 )
             ) {
                 if ($isCurrentLineBlank && strlen($this->currentLine) > $indentation) {
@@ -626,7 +625,7 @@ class Parser
             $previousLineIndented = false;
             $previousLineBlank = false;
 
-            for ($i = 0; $i < count($blockLines); ++$i) {
+            for ($i = 0, $blockLinesCount = count($blockLines); $i < $blockLinesCount; ++$i) {
                 if ('' === $blockLines[$i]) {
                     $text .= "\n";
                     $previousLineIndented = false;
@@ -681,10 +680,7 @@ class Parser
             return false;
         }
 
-        $ret = false;
-        if ($this->getCurrentLineIndentation() > $currentIndentation) {
-            $ret = true;
-        }
+        $ret = $this->getCurrentLineIndentation() > $currentIndentation;
 
         $this->moveToPreviousLine();
 
@@ -721,7 +717,7 @@ class Parser
         //checking explicitly the first char of the trim is faster than loops or strpos
         $ltrimmedLine = ltrim($this->currentLine, ' ');
 
-        return '' !== $ltrimmedLine && $ltrimmedLine[0] === '#';
+        return '' !== $ltrimmedLine && '#' === $ltrimmedLine[0];
     }
 
     private function isCurrentLineLastLineInDocument()
@@ -747,7 +743,7 @@ class Parser
 
         // remove leading comments
         $trimmedValue = preg_replace('#^(\#.*?\n)+#s', '', $value, -1, $count);
-        if ($count == 1) {
+        if (1 == $count) {
             // items have been removed, update the offset
             $this->offset += substr_count($value, "\n") - substr_count($trimmedValue, "\n");
             $value = $trimmedValue;
@@ -755,7 +751,7 @@ class Parser
 
         // remove start of the document marker (---)
         $trimmedValue = preg_replace('#^\-\-\-.*?\n#s', '', $value, -1, $count);
-        if ($count == 1) {
+        if (1 == $count) {
             // items have been removed, update the offset
             $this->offset += substr_count($value, "\n") - substr_count($trimmedValue, "\n");
             $value = $trimmedValue;
@@ -785,14 +781,7 @@ class Parser
             return false;
         }
 
-        $ret = false;
-        if (
-            $this->getCurrentLineIndentation() == $currentIndentation
-            &&
-            $this->isStringUnIndentedCollectionItem()
-        ) {
-            $ret = true;
-        }
+        $ret = $this->getCurrentLineIndentation() === $currentIndentation && $this->isStringUnIndentedCollectionItem();
 
         $this->moveToPreviousLine();
 
@@ -816,6 +805,48 @@ class Parser
      */
     private function isBlockScalarHeader()
     {
-        return (bool) preg_match('~'.self::BLOCK_SCALAR_HEADER_PATTERN.'$~', $this->currentLine);
+        return (bool) self::preg_match('~'.self::BLOCK_SCALAR_HEADER_PATTERN.'$~', $this->currentLine);
+    }
+
+    /**
+     * A local wrapper for `preg_match` which will throw a ParseException if there
+     * is an internal error in the PCRE engine.
+     *
+     * This avoids us needing to check for "false" every time PCRE is used
+     * in the YAML engine
+     *
+     * @throws ParseException on a PCRE internal error
+     *
+     * @see preg_last_error()
+     *
+     * @internal
+     */
+    public static function preg_match($pattern, $subject, &$matches = null, $flags = 0, $offset = 0)
+    {
+        if (false === $ret = preg_match($pattern, $subject, $matches, $flags, $offset)) {
+            switch (preg_last_error()) {
+                case PREG_INTERNAL_ERROR:
+                    $error = 'Internal PCRE error.';
+                    break;
+                case PREG_BACKTRACK_LIMIT_ERROR:
+                    $error = 'pcre.backtrack_limit reached.';
+                    break;
+                case PREG_RECURSION_LIMIT_ERROR:
+                    $error = 'pcre.recursion_limit reached.';
+                    break;
+                case PREG_BAD_UTF8_ERROR:
+                    $error = 'Malformed UTF-8 data.';
+                    break;
+                case PREG_BAD_UTF8_OFFSET_ERROR:
+                    $error = 'Offset doesn\'t correspond to the begin of a valid UTF-8 code point.';
+                    break;
+                default:
+                    $error = 'Error.';
+            }
+
+            throw new ParseException($error);
+        }
+
+        return $ret;
     }
 }

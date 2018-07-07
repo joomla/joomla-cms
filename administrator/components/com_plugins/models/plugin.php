@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -297,8 +297,8 @@ class PluginsModelPlugin extends JModelAdmin
 			$helpKey = trim((string) $help[0]['key']);
 			$helpURL = trim((string) $help[0]['url']);
 
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpKey = $helpKey ?: $this->helpKey;
+			$this->helpURL = $helpURL ?: $this->helpURL;
 		}
 
 		// Trigger the default form events.

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => 
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	JHtml::_('stylesheet', '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	JHtml::_('stylesheet', 'https://fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
 	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
 		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
@@ -92,15 +92,18 @@ JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Adjusting content width
-if ($this->countModules('position-7') && $this->countModules('position-8'))
+$position7ModuleCount = $this->countModules('position-7');
+$position8ModuleCount = $this->countModules('position-8');
+
+if ($position7ModuleCount && $position8ModuleCount)
 {
 	$span = 'span6';
 }
-elseif ($this->countModules('position-7') && !$this->countModules('position-8'))
+elseif ($position7ModuleCount && !$position8ModuleCount)
 {
 	$span = 'span9';
 }
-elseif (!$this->countModules('position-7') && $this->countModules('position-8'))
+elseif (!$position7ModuleCount && $position8ModuleCount)
 {
 	$span = 'span9';
 }
@@ -134,8 +137,8 @@ else
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ($params->get('fluidContainer') ? ' fluid' : '');
-	echo ($this->direction === 'rtl' ? ' rtl' : '');
+	. ($params->get('fluidContainer') ? ' fluid' : '')
+	. ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
 	<div class="body" id="top">
@@ -171,7 +174,7 @@ else
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
-				<?php if ($this->countModules('position-8')) : ?>
+				<?php if ($position8ModuleCount) : ?>
 					<!-- Begin Sidebar -->
 					<div id="sidebar" class="span3">
 						<div class="sidebar-nav">
@@ -185,10 +188,11 @@ else
 					<jdoc:include type="modules" name="position-3" style="xhtml" />
 					<jdoc:include type="message" />
 					<jdoc:include type="component" />
+					<div class="clearfix"></div>
 					<jdoc:include type="modules" name="position-2" style="none" />
 					<!-- End Content -->
 				</main>
-				<?php if ($this->countModules('position-7')) : ?>
+				<?php if ($position7ModuleCount) : ?>
 					<div id="aside" class="span3">
 						<!-- Begin Right Sidebar -->
 						<jdoc:include type="modules" name="position-7" style="well" />

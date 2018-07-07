@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/textarea.html#textarea
  * @since  11.1
  */
-class JFormFieldTextarea extends JFormField implements JFormDomfieldinterface
+class JFormFieldTextarea extends JFormField
 {
 	/**
 	 * The form field type.
@@ -61,7 +61,7 @@ class JFormFieldTextarea extends JFormField implements JFormDomfieldinterface
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -83,7 +83,7 @@ class JFormFieldTextarea extends JFormField implements JFormDomfieldinterface
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -110,7 +110,7 @@ class JFormFieldTextarea extends JFormField implements JFormDomfieldinterface
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -170,24 +170,5 @@ class JFormFieldTextarea extends JFormField implements JFormDomfieldinterface
 		);
 
 		return array_merge($data, $extraData);
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

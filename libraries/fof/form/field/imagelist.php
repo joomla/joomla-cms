@@ -135,7 +135,7 @@ class FOFFormFieldImagelist extends JFormFieldImageList implements FOFFormField
 			$src = '';
 		}
 
-		return JHtml::image($src, $alt, $imgattr);
+		return JHtml::_('image', $src, $alt, $imgattr);
 	}
 
 	/**

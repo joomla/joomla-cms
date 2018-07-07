@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,18 @@ class CategoriesHelper
 	public static function getActions($extension, $categoryId = 0)
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
 		return JHelperContent::getActions($extension, 'category', $categoryId);
@@ -100,11 +111,30 @@ class CategoriesHelper
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-		$associations = array();
+		$associations     = array();
+		$user             = JFactory::getUser();
+		$groups           = implode(',', $user->getAuthorisedViewLevels());
 
 		foreach ($langAssociations as $langAssociation)
 		{
-			$associations[$langAssociation->language] = $langAssociation->id;
+			// Include only published categories with user access
+			$arrId    = explode(':', $langAssociation->id);
+			$assocId  = $arrId[0];
+
+			$db    = \JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->qn('published'))
+				->from($db->qn('#__categories'))
+				->where('access IN (' . $groups . ')')
+				->where($db->qn('id') . ' = ' . (int) $assocId);
+
+			$result = (int) $db->setQuery($query)->loadResult();
+
+			if ($result === 1)
+			{
+				$associations[$langAssociation->language] = $langAssociation->id;
+			}
 		}
 
 		return $associations;
@@ -116,7 +146,7 @@ class CategoriesHelper
 	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
-	 * @return int $catid  Category ID.
+	 * @return  integer  $catid  Category ID.
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{
@@ -141,7 +171,7 @@ class CategoriesHelper
 	 *
 	 * @param   array  $data  Array of data for new category.
 	 *
-	 * @return  integer.
+	 * @return  integer
 	 */
 	public static function createCategory($data)
 	{

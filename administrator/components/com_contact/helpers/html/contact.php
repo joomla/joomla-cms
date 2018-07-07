@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,6 +51,7 @@ abstract class JHtmlContact
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
 				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
+				->where('c.id != ' . $contactid)
 				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
@@ -114,12 +115,13 @@ abstract class JHtmlContact
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3])
+				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[2])
-				. '"><span class="icon-' . $icon . '"></span></a>';
+			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
+			. JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;

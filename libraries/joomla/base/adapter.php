@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,6 +126,24 @@ class JAdapter extends JObject
 		if (is_object($adapter))
 		{
 			$this->_adapters[$name] = &$adapter;
+
+			return true;
+		}
+
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name);
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
 
 			return true;
 		}

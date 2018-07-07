@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => t
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	JHtml::_('stylesheet', '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	JHtml::_('stylesheet', 'https://fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
 	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
 		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
@@ -109,7 +109,7 @@ else
 				<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
 					<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>" />
 				<?php endif; ?>
-				<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
+				<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) !== '') : ?>
 					<p><?php echo $app->get('offline_message'); ?></p>
 				<?php elseif ($app->get('display_offline_message', 1) == 2) : ?>
 					<p><?php echo JText::_('JOFFLINE_MESSAGE'); ?></p>

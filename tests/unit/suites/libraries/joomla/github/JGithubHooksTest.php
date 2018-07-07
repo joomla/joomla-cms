@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Github
  * @since       12.3
  */
-class JGithubHooksTest extends PHPUnit_Framework_TestCase
+class JGithubHooksTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -76,15 +76,12 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->response);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->response, $this->client, $this->object);
 		parent::tearDown();
 	}
 

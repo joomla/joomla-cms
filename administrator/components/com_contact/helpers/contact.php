@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class ContactHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The contact category objects
+	 * @param   stdClass[]  $items  The contact category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -111,7 +111,7 @@ class ContactHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  &$items     The banner tag objects
+	 * @param   stdClass[]  $items      The banner tag objects
 	 * @param   string      $extension  The name of the active view.
 	 *
 	 * @return  stdClass[]
@@ -123,15 +123,19 @@ class ContactHelper extends JHelperContent
 		$db = JFactory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
+
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
+
 		$join = $db->qn('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
+
 		if ($section === 'category')
 		{
 			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
 		}
+
 		foreach ($items as $item)
 		{
 			$item->count_trashed = 0;
@@ -177,6 +181,40 @@ class ContactHelper extends JHelperContent
 	}
 
 	/**
+	 * Returns a valid section for contacts. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 * @param   object  $item     optional item object
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   3.7.0
+	 */
+	public static function validateSection($section, $item)
+	{
+		if (JFactory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof JForm)
+		{
+			// The contact form needs to be the mail section
+			$section = 'mail';
+		}
+
+		if (JFactory::getApplication()->isClient('site') && $section == 'category')
+		{
+			// The contact form needs to be the mail section
+			$section = 'contact';
+		}
+
+		if ($section != 'mail' && $section != 'contact')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
 	 * Returns valid contexts
 	 *
 	 * @return  array
@@ -188,8 +226,9 @@ class ContactHelper extends JHelperContent
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
-			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.contact'    => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail'       => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.categories' => JText::_('JCATEGORY')
 		);
 
 		return $contexts;

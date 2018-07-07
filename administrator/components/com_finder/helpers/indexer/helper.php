@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -31,6 +31,14 @@ class FinderIndexerHelper
 	 * @since	2.5
 	 */
 	public static $stemmer;
+
+	/**
+	 * A state flag, in order to not constantly check if the stemmer is an instance of FinderIndexerStemmer
+	 *
+	 * @var		boolean
+	 * @since	3.7.0
+	 */
+	protected static $stemmerOK;
 
 	/**
 	 * Method to parse input into plain text.
@@ -99,7 +107,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
 		$input = preg_replace('#\s+#mui', ' ', $input);
-		$input = StringHelper::trim($input);
+		$input = trim($input);
 
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
@@ -216,18 +224,27 @@ class FinderIndexerHelper
 	public static function stem($token, $lang)
 	{
 		// Trim apostrophes at either end of the token.
-		$token = StringHelper::trim($token, '\'');
+		$token = trim($token, '\'');
 
 		// Trim everything after any apostrophe in the token.
-		if (($pos = StringHelper::strpos($token, '\'')) !== false)
+		if ($res = explode('\'', $token))
 		{
-			$token = StringHelper::substr($token, 0, $pos);
+			$token = $res[0];
 		}
 
-		// Stem the token if we have a valid stemmer to use.
-		if (static::$stemmer instanceof FinderIndexerStemmer)
+		if (static::$stemmerOK === true)
 		{
 			return static::$stemmer->stem($token, $lang);
+		}
+		else
+		{
+			// Stem the token if we have a valid stemmer to use.
+			if (static::$stemmer instanceof FinderIndexerStemmer)
+			{
+				static::$stemmerOK = true;
+
+				return static::$stemmer->stem($token, $lang);
+			}
 		}
 
 		return $token;
@@ -294,15 +311,25 @@ class FinderIndexerHelper
 	public static function isCommon($token, $lang)
 	{
 		static $data;
+		static $default;
+
+		$langCode = $lang;
+
+		// If language requested is wildcard, use the default language.
+		if ($lang == '*')
+		{
+			$default = $default === null ? substr(self::getDefaultLanguage(), 0, 2) : $default;
+			$langCode = $default;
+		}
 
 		// Load the common tokens for the language if necessary.
-		if (!isset($data[$lang]))
+		if (!isset($data[$langCode]))
 		{
-			$data[$lang] = self::getCommonWords($lang);
+			$data[$langCode] = self::getCommonWords($langCode);
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$lang]);
+		return in_array($token, $data[$langCode], true);
 	}
 
 	/**
@@ -416,7 +443,7 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  &$item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -447,14 +474,15 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string    $text    The content to process.
-	 * @param   Registry  $params  The parameters object. [optional]
+	 * @param   string               $text    The content to process.
+	 * @param   Registry             $params  The parameters object. [optional]
+	 * @param   FinderIndexerResult  $item    The item which get prepared. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
 	 * @since   2.5
 	 */
-	public static function prepareContent($text, $params = null)
+	public static function prepareContent($text, $params = null, FinderIndexerResult $item = null)
 	{
 		static $loaded;
 
@@ -478,6 +506,17 @@ class FinderIndexerHelper
 		// Create a mock content object.
 		$content = JTable::getInstance('Content');
 		$content->text = $text;
+
+		if ($item)
+		{
+			$content->bind((array) $item);
+			$content->bind($item->getElements());
+		}
+
+		if ($item && !empty($item->context))
+		{
+			$content->context = $item->context;
+		}
 
 		// Fire the onContentPrepare event.
 		$dispatcher->trigger('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));

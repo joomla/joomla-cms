@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class TagsViewTag extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != 'none')
+		if ($feedEmail !== 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -51,10 +51,6 @@ class TagsViewTag extends JViewLegacy
 				$title = $this->escape($item->core_title);
 				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-				// URL link to tagged item
-				// Change to new routing once it is merged
-				$link = JRoute::_($item->link);
-
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
 				$author      = $item->core_created_by_alias ?: $item->author;
@@ -63,13 +59,13 @@ class TagsViewTag extends JViewLegacy
 				// Load individual item creator class
 				$feeditem              = new JFeedItem;
 				$feeditem->title       = $title;
-				$feeditem->link        = $link;
+				$feeditem->link        = JRoute::_($item->link);
 				$feeditem->description = $description;
 				$feeditem->date        = $date;
 				$feeditem->category    = $title;
 				$feeditem->author      = $author;
 
-				if ($feedEmail == 'site')
+				if ($feedEmail === 'site')
 				{
 					$item->authorEmail = $siteEmail;
 				}

@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -95,19 +95,13 @@ class JGoogleDataPlusTest extends TestCase
 	 *
 	 * @access protected
 	 * @return void
-	 * 
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 */
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->http);
-		unset($this->input);
-		unset($this->auth);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->http, $this->input, $this->auth, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 

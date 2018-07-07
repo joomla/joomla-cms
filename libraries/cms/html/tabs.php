@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -84,14 +84,14 @@ abstract class JHtmlTabs
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
-			$opt['onActive']            = (isset($params['onActive'])) ? '\\' . $params['onActive'] : null;
-			$opt['onBackground']        = (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
-			$opt['display']             = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
+			$opt['onActive']            = isset($params['onActive']) ? '\\' . $params['onActive'] : null;
+			$opt['onBackground']        = isset($params['onBackground']) ? '\\' . $params['onBackground'] : null;
+			$opt['display']             = isset($params['startOffset']) ? (int) $params['startOffset'] : null;
 			$opt['titleSelector']       = 'dt.tabs';
 			$opt['descriptionSelector'] = 'dd.tabs';
 
 			// When use storage is set and value is false - By default we allow to use storage
-			$opt['useStorage'] = (isset($params['useCookie']) && !$params['useCookie']) ? false : true;
+			$opt['useStorage'] = !(isset($params['useCookie']) && !$params['useCookie']);
 
 			$options = JHtml::getJSObject($opt);
 

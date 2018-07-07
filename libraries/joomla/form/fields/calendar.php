@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
+class JFormFieldCalendar extends JFormField
 {
 	/**
 	 * The form field type.
@@ -78,7 +78,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -108,7 +108,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -145,7 +145,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -163,14 +163,19 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
 			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
-			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : "true";
-			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : "false";
-			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : "true";
-			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : "true";
+			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
+			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'true';
+			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : 'false';
+			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
-			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : "false";
-			$this->minyear      = (string) $this->element['minyear'] ? (string) $this->element['minyear'] : null;
-			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
+			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
+			$this->minyear      = strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
+			$this->maxyear      = strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
+
+			if ($this->maxyear < 0 || $this->minyear > 0)
+			{
+				$this->todaybutton = 'false';
+			}
 		}
 
 		return $return;
@@ -226,7 +231,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					$date->setTimezone($user->getTimezone());
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);
@@ -279,6 +284,10 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
 		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
+		}
 		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
@@ -289,12 +298,12 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'maxLength'    => $this->maxlength,
 			'format'       => $this->format,
 			'filter'       => $this->filter,
-			'todaybutton'  => ($this->todaybutton === "true") ? 1 : 0,
-			'weeknumbers'  => ($this->weeknumbers === "true") ? 1 : 0,
-			'showtime'     => ($this->showtime === "true") ? 1 : 0,
-			'filltable'    => ($this->filltable === "true") ? 1 : 0,
+			'todaybutton'  => ($this->todaybutton === 'true') ? 1 : 0,
+			'weeknumbers'  => ($this->weeknumbers === 'true') ? 1 : 0,
+			'showtime'     => ($this->showtime === 'true') ? 1 : 0,
+			'filltable'    => ($this->filltable === 'true') ? 1 : 0,
 			'timeformat'   => $this->timeformat,
-			'singleheader' => ($this->singleheader === "true") ? 1 : 0,
+			'singleheader' => ($this->singleheader === 'true') ? 1 : 0,
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
 			'minYear'      => $this->minyear,

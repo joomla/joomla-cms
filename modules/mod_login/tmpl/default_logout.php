@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,17 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-vertical">
-<?php if ($params->get('greeting')) : ?>
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure', 0)); ?>" method="post" id="login-form" class="form-vertical">
+<?php if ($params->get('greeting', 1)) : ?>
 	<div class="login-greeting">
-	<?php if ($params->get('name') == 0) : ?>
+	<?php if (!$params->get('name', 0)) : ?>
 		<?php echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('name'), ENT_COMPAT, 'UTF-8')); ?>
 	<?php else : ?>
 		<?php echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username'), ENT_COMPAT, 'UTF-8')); ?>
 	<?php endif; ?>
 	</div>
 <?php endif; ?>
-<?php if ($params->get('profilelink')) : ?>
+<?php if ($params->get('profilelink', 0)) : ?>
 	<ul class="unstyled">
 		<li>
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>">

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgSystemSef extends JPlugin
 			return;
 		}
 
-		$sefDomain = $this->params->get('domain', '');
+		$sefDomain = $this->params->get('domain', false);
 
 		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))
@@ -117,7 +117,7 @@ class PlgSystemSef extends JPlugin
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
+		$attributes = array('href=', 'src=', 'poster=');
 
 		foreach ($attributes as $attribute)
 		{
@@ -127,6 +127,29 @@ class PlgSystemSef extends JPlugin
 				$buffer = preg_replace($regex, ' ' . $attribute . '"' . $base . '$1"', $buffer);
 				$this->checkBuffer($buffer);
 			}
+		}
+
+		if (strpos($buffer, 'srcset=') !== false)
+		{
+			$regex = '#\s+srcset="([^"]+)"#m';
+
+			$buffer = preg_replace_callback(
+				$regex,
+				function ($match) use ($base, $protocols)
+				{
+					preg_match_all('#(?:[^\s]+)\s*(?:[\d\.]+[wx])?(?:\,\s*)?#i', $match[1], $matches);
+
+					foreach ($matches[0] as &$src)
+					{
+						$src = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', $src);
+					}
+
+					return ' srcset="' . implode($matches[0]) . '"';
+				},
+				$buffer
+			);
+
+			$this->checkBuffer($buffer);
 		}
 
 		// Replace all unknown protocals in javascript window open events.
@@ -153,8 +176,9 @@ class PlgSystemSef extends JPlugin
 		// Replace all unknown protocols in CSS background image.
 		if (strpos($buffer, 'style=') !== false)
 		{
-			$regex  = '#style=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
-			$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
+			$regex_url  = '\s*url\s*\(([\'\"]|\&\#0?3[49];)?(?!/|\&\#0?3[49];|' . $protocols . '|\#)([^\)\'\"]+)([\'\"]|\&\#0?3[49];)?\)';
+			$regex  = '#style=\s*([\'\"])(.*):' . $regex_url . '#m';
+			$buffer = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5)', $buffer);
 			$this->checkBuffer($buffer);
 		}
 

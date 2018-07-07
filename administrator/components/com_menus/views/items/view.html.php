@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,10 +47,10 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
@@ -64,9 +64,7 @@ class MenusViewItems extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$this->ordering = array();
@@ -93,6 +91,10 @@ class MenusViewItems extends JViewLegacy
 
 				case 'heading':
 					$value = JText::_('COM_MENUS_TYPE_HEADING');
+					break;
+
+				case 'container':
+					$value = JText::_('COM_MENUS_TYPE_CONTAINER');
 					break;
 
 				case 'component':
@@ -187,8 +189,8 @@ class MenusViewItems extends JViewLegacy
 							{
 								$titleParts[] = $vars['view'];
 							}
-
 						}
+
 						$value = implode(' » ', $titleParts);
 					}
 					else
@@ -206,6 +208,7 @@ class MenusViewItems extends JViewLegacy
 			}
 
 			$item->item_type = $value;
+			$item->protected = $item->menutype == 'main';
 		}
 
 		// Levels filter.
@@ -231,10 +234,10 @@ class MenusViewItems extends JViewLegacy
 		}
 		else
 		{
-			// In menu items associations modal we need to remove language filter if forcing a language.
+			// In menu associations modal we need to remove language filter if forcing a language.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
@@ -283,23 +286,25 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::addNew('item.add');
 		}
 
-		if ($canDo->get('core.edit'))
+		$protected = $this->state->get('filter.menutype') == 'main';
+
+		if ($canDo->get('core.edit') && !$protected)
 		{
 			JToolbarHelper::editList('item.edit');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && !$protected)
 		{
 			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		if (JFactory::getUser()->authorise('core.admin'))
+		if (JFactory::getUser()->authorise('core.admin') && !$protected)
 		{
 			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
 			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
@@ -310,7 +315,7 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_menus')
+		if (!$protected && $user->authorise('core.create', 'com_menus')
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
@@ -323,11 +328,11 @@ class MenusViewItems extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state'))
+		elseif (!$protected && $canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
 		}
@@ -350,15 +355,29 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.title'     => JText::_('JGLOBAL_TITLE'),
-			'a.home'      => JText::_('COM_MENUS_HEADING_HOME'),
-			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
-			'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
-			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => JText::_('JGRID_HEADING_ID')
-		);
+		$this->state = $this->get('State');
+
+		if ($this->state->get('filter.client_id') == 0)
+		{
+			return array(
+				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => JText::_('JSTATUS'),
+				'a.title'     => JText::_('JGLOBAL_TITLE'),
+				'a.home'      => JText::_('COM_MENUS_HEADING_HOME'),
+				'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
+				'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
+				'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'        => JText::_('JGRID_HEADING_ID')
+			);
+		}
+		else
+		{
+			return array(
+				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => JText::_('JSTATUS'),
+				'a.title'     => JText::_('JGLOBAL_TITLE'),
+				'a.id'        => JText::_('JGRID_HEADING_ID')
+			);
+		}
 	}
 }

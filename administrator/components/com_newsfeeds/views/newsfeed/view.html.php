@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,9 +58,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -107,10 +105,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			JToolbarHelper::apply('newsfeed.apply');
 			JToolbarHelper::save('newsfeed.save');
 		}
+
 		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
 			JToolbarHelper::save2new('newsfeed.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{

@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@
  * 			<thead>
  * 				<tr>
  * 					<th>Field label 1</th>
- * 					<th>Field lable 2</th>
+ * 					<th>Field label 2</th>
  * 					<th><a href="#" class="add">Add new</a></th>
  * 				</tr>
  * 			</thead>
@@ -436,7 +436,13 @@
         self.clearScripts = function($row){
         	// destroy chosen if any
         	if($.fn.chosen){
-        		$row.find('select.chzn-done').chosen('destroy');
+                $row.find('select').each(function(){
+					var $el = $(this);
+					if ($el.data('chosen')) {
+						$el.chosen('destroy');
+						$el.addClass('here-was-chosen');
+					}
+				});
         	}
         	// colorpicker
         	if($.fn.minicolors){
@@ -449,10 +455,11 @@
         // method for hack the scripts that can be related
         // to the one of field that in given $row
         self.fixScripts = function($row){
-        	// chosen hack
-        	if($.fn.chosen){
-        		$row.find('select').chosen()
-        	}
+
+			// Chosen.js
+			if ($.fn.chosen) {
+				$row.find('select.here-was-chosen').removeClass('here-was-chosen').chosen();
+			}
 
         	//color picker
         	$row.find('.minicolors').each(function() {
@@ -476,9 +483,15 @@
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 				jMediaRefreshPreview(inputId);
         	});
+		
+		// fix media field in ISIS Template
+		$row.find('.field-media-wrapper').each(function(){
+			var $el = $(this);
+			$el.fieldMedia();
+		});
 
         	// another modals
-        	if(window.SqueezeBox){
+        	if(window.SqueezeBox && window.SqueezeBox.assign){
         		SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
         	}
         };
