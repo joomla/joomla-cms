@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -53,7 +53,7 @@ class JPaginationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.1
 	 */
 	protected function tearDown()
@@ -192,7 +192,7 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
-	 * This method tests the getAdditionalUrlParam function by setting a url with Reflection then retrieving it.
+	 * This method tests the getAdditionalUrlParam function by setting a URL with Reflection then retrieving it.
 	 *
 	 * @return  void
 	 *
@@ -447,7 +447,7 @@ class JPaginationTest extends TestCase
 
 		$result = $pagination->getPagesLinks();
 
-		$this->assertEquals($result, $expected, 'The expected output of the pagination is incorrect');
+		$this->assertXmlStringEqualsXmlString($result, $expected, 'The expected output of the pagination is incorrect');
 
 		unset($pagination);
 	}
@@ -510,7 +510,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
@@ -529,8 +529,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderUpIcon()
 	{
 		return array(
-			array(0, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
-			array(2, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(0, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow" aria-hidden="true"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(2, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow" aria-hidden="true"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 			array(2, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 		);
 	}
@@ -570,8 +570,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderDownIcon()
 	{
 		return array(
-			array(0, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
-			array(2, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(0, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow" aria-hidden="true"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(2, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow" aria-hidden="true"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 			array(2, 100, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 		);
 	}
@@ -651,7 +651,7 @@ class JPaginationTest extends TestCase
 
 		$string = TestReflection::invoke($pagination, '_list_render', $list);
 
-		$this->assertEquals($string, $expected, 'The list render method is not outputting the expected results');
+		$this->assertXmlStringEqualsXmlString($string, $expected, 'The list render method is not outputting the expected results');
 
 		unset($pagination);
 	}
@@ -692,7 +692,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
@@ -739,7 +739,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
@@ -832,7 +832,7 @@ class JPaginationTest extends TestCase
 		{
 			$result = TestReflection::getValue($pagination, $property);
 		}
-		elseif(strpos($property, '.'))
+		elseif (strpos($property, '.'))
 		{
 			$prop = explode('.', $property);
 			$prop[1] = ucfirst($prop[1]);

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class JDatabaseExporterMysqlTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverMysql  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * This method is called before the first test of this test class is run.
@@ -64,27 +64,27 @@ class JDatabaseExporterMysqlTest extends TestCase
 			->method('getTableColumns')
 			->willReturn(
 				array(
-					'id' => (object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+				'id' => (object) array(
+					'Field'      => 'id',
+					'Type'       => 'int(11) unsigned',
+					'Collation'  => null,
+					'Null'       => 'NO',
+					'Key'        => 'PRI',
+					'Default'    => '',
+					'Extra'      => 'auto_increment',
+					'Privileges' => 'select,insert,update,references',
+					'Comment'    => '',
 					),
-					'title' => (object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+				'title' => (object) array(
+					'Field'      => 'title',
+					'Type'       => 'varchar(255)',
+					'Collation'  => 'utf8_general_ci',
+					'Null'       => 'NO',
+					'Key'        => '',
+					'Default'    => '',
+					'Extra'      => '',
+					'Privileges' => 'select,insert,update,references',
+					'Comment'    => '',
 					),
 				)
 			);
@@ -95,19 +95,19 @@ class JDatabaseExporterMysqlTest extends TestCase
 			->willReturn(
 				array(
 				(object) array(
-					'Table' => 'jos_test',
-					'Non_unique' => '0',
-					'Key_name' => 'PRIMARY',
+					'Table'        => 'jos_test',
+					'Non_unique'   => '0',
+					'Key_name'     => 'PRIMARY',
 					'Seq_in_index' => '1',
-					'Column_name' => 'id',
-					'Collation' => 'A',
-					'Cardinality' => '2695',
-					'Sub_part' => '',
-					'Packed' => '',
-					'Null' => '',
-					'Index_type' => 'BTREE',
-					'Comment' => '',
-				)
+					'Column_name'  => 'id',
+					'Collation'    => 'A',
+					'Cardinality'  => '2695',
+					'Sub_part'     => '',
+					'Packed'       => '',
+					'Null'         => '',
+					'Index_type'   => 'BTREE',
+					'Comment'      => '',
+					)
 				)
 			);
 
@@ -125,7 +125,7 @@ class JDatabaseExporterMysqlTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

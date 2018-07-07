@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,7 @@ class ContentModelCategory extends JModelList
 	 * @param   string  $ordering   The field to order on.
 	 * @param   string  $direction  The direction to order on.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -113,9 +113,6 @@ class ContentModelCategory extends JModelList
 		$pk  = $app->input->getInt('id');
 
 		$this->setState('category.id', $pk);
-
-		$value = $app->input->get('filter_tag', 0, 'uint');
-		$this->setState('filter.tag', $value);
 
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
@@ -161,6 +158,9 @@ class ContentModelCategory extends JModelList
 
 		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 
+		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
+		$this->setState('filter.tag', $value);
+
 		// Optional filter text
 		$search = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $search);
@@ -187,7 +187,7 @@ class ContentModelCategory extends JModelList
 		$this->setState('list.start', $app->input->get('limitstart', 0, 'uint'));
 
 		// Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-		if (($app->input->get('layout') == 'blog') || $params->get('layout_type') == 'blog')
+		if (($app->input->get('layout') === 'blog') || $params->get('layout_type') === 'blog')
 		{
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 			$this->setState('list.links', $params->get('num_links'));
@@ -339,11 +339,12 @@ class ContentModelCategory extends JModelList
 	{
 		if (!is_object($this->_item))
 		{
-			if (isset( $this->state->params))
+			if (isset($this->state->params))
 			{
 				$params = $this->state->params;
 				$options = array();
 				$options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
+				$options['access']     = $params->get('check_access_rights', 1);
 			}
 			else
 			{
@@ -453,13 +454,15 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (count($this->_children))
+		if ($this->_children)
 		{
 			$params = $this->getState()->get('params');
 
-			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha')
+			$orderByPri = $params->get('orderby_pri');
+
+			if ($orderByPri === 'alpha' || $orderByPri === 'ralpha')
 			{
-				$this->_children = ArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
+				$this->_children = ArrayHelper::sortObjects($this->_children, 'title', ($orderByPri === 'alpha') ? 1 : (-1));
 			}
 		}
 

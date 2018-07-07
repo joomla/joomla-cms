@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Custom session storage handler for PHP
  *
- * @see    https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @todo   When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
- * @since  11.1
+ * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @since       11.1
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 abstract class JSessionStorage
 {
@@ -65,7 +65,7 @@ abstract class JSessionStorage
 					throw new JSessionExceptionUnsupported('Unable to load session storage class: ' . $name);
 				}
 
-				require_once $path;
+				JLoader::register($class, $path);
 
 				// The class should now be loaded
 				if (!class_exists($class))
@@ -95,11 +95,17 @@ abstract class JSessionStorage
 	 */
 	public function register()
 	{
-		// Use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
-			array($this, 'destroy'), array($this, 'gc')
-		);
+		if (!headers_sent())
+		{
+			session_set_save_handler(
+				array($this, 'open'),
+				array($this, 'close'),
+				array($this, 'read'),
+				array($this, 'write'),
+				array($this, 'destroy'),
+				array($this, 'gc')
+			);
+		}
 	}
 
 	/**

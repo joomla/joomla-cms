@@ -160,24 +160,6 @@ textarea {
 		page-break-after: avoid;
 	}
 }
-.rtl .navigation .nav-child {
-	left: auto;
-	right: 0;
-}
-.rtl .navigation .nav > li > .nav-child:before {
-	left: auto;
-	right: 12px;
-}
-.rtl .navigation .nav > li > .nav-child:after {
-	left: auto;
-	right: 13px;
-}
-.rtl .categories-list .collapse {
-	margin: 0 20px 0 0;
-}
-.rtl .modal-footer button {
-	float: left;
-}
 .clearfix {
 	*zoom: 1;
 }
@@ -1472,11 +1454,6 @@ select:focus:invalid:focus {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-.input-append .active,
-.input-prepend .active {
-	background-color: #a9dba9;
-	border-color: #46a546;
-}
 .input-prepend .add-on,
 .input-prepend .btn {
 	margin-right: -1px;
@@ -1579,6 +1556,10 @@ input.search-query {
 	-webkit-border-radius: 14px 0 0 14px;
 	-moz-border-radius: 14px 0 0 14px;
 	border-radius: 14px 0 0 14px;
+}
+.js-stools-field-filter .input-prepend,
+.js-stools-field-filter .input-append {
+	margin-bottom: 0;
 }
 .form-search input,
 .form-search textarea,
@@ -1701,6 +1682,14 @@ legend + .control-group {
 }
 .subform-repeatable-wrapper tr.ui-sortable-helper {
 	display: table;
+}
+@media (min-width: 980px) and (max-width: 1215px) {
+	.float-cols .control-label {
+		float: none;
+	}
+	.float-cols .controls {
+		margin-left: 0;
+	}
 }
 table {
 	max-width: 100%;
@@ -1938,6 +1927,12 @@ table th[class*="span"],
 .table-hover tbody tr.info:hover > td {
 	background-color: #c4e3f3;
 }
+.table-noheader {
+	border-collapse: collapse;
+}
+.table-noheader thead {
+	display: none;
+}
 .dropup,
 .dropdown {
 	position: relative;
@@ -2001,6 +1996,17 @@ table th[class*="span"],
 	overflow: hidden;
 	background-color: #e5e5e5;
 	border-bottom: 1px solid #fff;
+}
+.dropdown-menu .menuitem-group {
+	margin: 4px 1px;
+	overflow: hidden;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	background-color: #eee;
+	color: #555;
+	text-transform: capitalize;
+	font-size: 95%;
+	padding: 3px 20px;
 }
 .dropdown-menu > li > a {
 	display: block;
@@ -2841,6 +2847,7 @@ input[type="submit"].btn.btn-mini {
 	top: -2px;
 	right: -21px;
 	line-height: 18px;
+	cursor: pointer;
 }
 .alert-success {
 	background-color: #dff0d8;
@@ -4805,6 +4812,10 @@ a.badge:focus {
 	.dl-horizontal dd {
 		margin-left: 0;
 	}
+	.dropdown-menu .menuitem-group {
+		background-color: #10223e;
+		color: #eee;
+	}
 	.container {
 		width: auto;
 	}
@@ -4892,6 +4903,14 @@ a.badge:focus {
 	.form-horizontal .form-actions {
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+	.tag-category input#filter-search,
+	.newsfeed-category input#filter-search {
+		width: auto;
+		margin-bottom: 9px;
+	}
+	.category-list input#filter-search {
+		width: auto;
 	}
 	.media .pull-left,
 	.media .pull-right {
@@ -6021,6 +6040,12 @@ hr.hr-condensed {
 .radio.btn-group input[type=radio] {
 	display: none;
 }
+.radio.btn-group > label {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 .radio.btn-group > label:first-of-type {
 	margin-left: 0;
 	-webkit-border-bottom-left-radius: 4px;
@@ -6078,18 +6103,6 @@ fieldset.radio.btn-group {
 .page-header {
 	margin: 2px 0px 10px 0px;
 	padding-bottom: 5px;
-}
-.input-prepend .chzn-container-single .chzn-single,
-.input-append .chzn-container-single .chzn-single {
-	border-color: #ccc;
-	height: 26px;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-.input-prepend .chzn-container-single .chzn-drop,
-.input-append .chzn-container-single .chzn-drop {
-	border-color: #ccc;
 }
 .input-prepend > .add-on,
 .input-append > .add-on {
@@ -6163,6 +6176,7 @@ fieldset.radio.btn-group {
 }
 input.invalid {
 	border: 1px solid #9d261d;
+	background: #f2dede;
 }
 select.chzn-done.invalid + .chzn-container.chzn-container-single > a.chzn-single,
 select.chzn-done.invalid + .chzn-container.chzn-container-multi > ul.chzn-choices {
@@ -7131,8 +7145,14 @@ body.site.fluid {
 }
 .site-title {
 	font-size: 40px;
+	font-size: calc(16px + 2.16vw);
 	line-height: 48px;
 	font-weight: bold;
+}
+@media (min-width: 1024px) {
+	.site-title {
+		font-size: 40px;
+	}
 }
 .brand {
 	color: #001a27;
@@ -7272,6 +7292,13 @@ p {
 .breadcrumb > .active {
 	color: #515151;
 }
+#login-form {
+	margin-top: 8px;
+}
+.add-on + #modlgn-username,
+.add-on + #modlgn-passwd {
+	width: 132px;
+}
 .img_caption .left {
 	float: left;
 	margin-right: 1em;
@@ -7368,6 +7395,14 @@ figcaption {
 .navigation .nav li li:hover > .nav-child,
 .navigation .nav li li > a:focus + .nav-child {
 	display: block;
+}
+.navigation .nav > li:before {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	left: 0;
+	height: 6px;
+	content: '';
 }
 .navigation .nav > li > .nav-child:before {
 	position: absolute;
@@ -7566,6 +7601,12 @@ figcaption {
 		height: 0;
 		z-index: 100;
 	}
+	.nav-collapse .nav > li.active > a {
+		color: #fff;
+	}
+	.nav-collapse .nav > li.active > a:hover {
+		color: #555;
+	}
 }
 @media (min-width: 768px) and (max-width: 979px) {
 	#login-form .input-small {
@@ -7635,7 +7676,7 @@ code {
 .search span.highlight {
 	background-color: #FFFFCC;
 	font-weight: bold;
-	padding: 1px 4px;
+	padding: 1px 0;
 }
 dt.result-title {
 	word-wrap: break-word;
@@ -7649,6 +7690,17 @@ body.modal-open {
 }
 #users-profile-custom label {
 	display: inline;
+}
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0;
+}
+.form-horizontal .controls > .radio:first-child,
+.form-horizontal .controls > .checkbox:first-child {
+	padding-top: 5px;
+}
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0;
 }
 .field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
@@ -7672,4 +7724,37 @@ body.modal-open {
 }
 li {
 	word-wrap: break-word;
+}
+ul.manager .height-50 .icon-folder-2 {
+	height: 35px;
+	width: 35px;
+	line-height: 35px;
+	font-size: 30px;
+}
+.popover-content {
+	min-height: 33px;
+}
+.finder-selects {
+	margin: 0 15px 15px 0;
+}
+.rtl .navigation .nav-child {
+	left: auto;
+	right: 0;
+}
+.rtl .navigation .nav > li > .nav-child:before {
+	left: auto;
+	right: 12px;
+}
+.rtl .navigation .nav > li > .nav-child:after {
+	left: auto;
+	right: 13px;
+}
+.rtl .categories-list .collapse {
+	margin: 0 20px 0 0;
+}
+.rtl .modal-footer button {
+	float: left;
+}
+.rtl .finder-selects {
+	margin: 0 0 15px 15px;
 }

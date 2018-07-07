@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/controller.php';
@@ -73,9 +73,6 @@ class JControllerLegacyTest extends TestCase
 	{
 		$path = JPath::clean(JPATH_ROOT . '/addmodelpath');
 		JControllerLegacy::addModelPath($path);
-
-		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM . '/joomla/form/fields';
 
 		$this->assertTrue(
 			in_array($path, JModelLegacy::addIncludePath()),
@@ -207,7 +204,7 @@ class JControllerLegacyTest extends TestCase
 	 */
 	public function testGetName()
 	{
-		$this->assertEquals($this->class->getName(), 'j');
+		$this->assertEquals($this->class->getName(), 'joomla\\cms\\mvc\\controller\\base');
 
 		TestReflection::setValue($this->class, 'name', 'inspector');
 

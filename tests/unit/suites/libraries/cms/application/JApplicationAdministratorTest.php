@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -112,7 +112,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -122,9 +122,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		TestReflection::setValue('JApplicationCms', 'instances', array());
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -158,6 +156,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getClientId
 	 */
 	public function testGetClientId()
 	{
@@ -170,6 +169,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getName
 	 */
 	public function testGetName()
 	{
@@ -182,6 +182,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getMenu
 	 */
 	public function testGetMenu()
 	{
@@ -194,6 +195,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -206,10 +208,11 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getRouter
 	 */
 	public function testGetRouter()
 	{
-		$this->assertInstanceOf('JRouterAdministrator', $this->class->getRouter());
+		$this->assertInstanceOf('JRouterAdministrator', JApplicationAdministrator::getRouter());
 	}
 
 	/**
@@ -218,6 +221,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getTemplate
 	 */
 	public function testGetTemplate()
 	{
@@ -236,6 +240,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::isAdmin
 	 */
 	public function testIsAdmin()
 	{
@@ -248,10 +253,25 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::isSite
 	 */
 	public function testIsSite()
 	{
 		$this->assertFalse($this->class->isSite());
+	}
+
+	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 * @covers  JApplicationAdministrator::isClient
+	 */
+	public function testIsClient()
+	{
+		$this->assertTrue($this->class->isClient('administrator'));
+		$this->assertFalse($this->class->isClient('site'));
 	}
 
 	/**
@@ -260,6 +280,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::render
 	 */
 	public function testRender()
 	{

@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.gmail
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Registry\Registry;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Authentication\AuthenticationResponse;
+use Joomla\Registry\Registry;
 
 /**
  * GMail Authentication Plugin
@@ -21,11 +22,11 @@ class PlgAuthenticationGMail extends JPlugin
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
-	 * @param   array   $credentials  Array holding the user credentials
-	 * @param   array   $options      Array of extra options
-	 * @param   object  &$response    Authentication response object
+	 * @param   array                   $credentials  Array holding the user credentials
+	 * @param   array                   $options      Array of extra options
+	 * @param   AuthenticationResponse  &$response    Authentication response object
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -35,7 +36,7 @@ class PlgAuthenticationGMail extends JPlugin
 		$this->loadLanguage();
 
 		// No backend authentication
-		if (JFactory::getApplication()->isAdmin() && !$this->params->get('backendLogin', 0))
+		if (JFactory::getApplication()->isClient('administrator') && !$this->params->get('backendLogin', 0))
 		{
 			return;
 		}
@@ -65,7 +66,7 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 
 		// Check if we have a username and password
-		if (strlen($credentials['username']) == 0 || strlen($credentials['password']) == 0)
+		if ($credentials['username'] === '' || $credentials['password'] === '')
 		{
 			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;
@@ -121,9 +122,11 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			// If there was an error in the request then create a 'false' dummy response.
-			$result = new JHttpResponse;
-			$result->code = false;
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->type          = 'GMail';
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED'));
+
+			return;
 		}
 
 		$code = $result->code;
@@ -191,7 +194,7 @@ class PlgAuthenticationGMail extends JPlugin
 			foreach ($localUsers as $localUser)
 			{
 				// Local user exists with same username but different email address
-				if ($email != $localUser->email)
+				if ($email !== $localUser->email)
 				{
 					$response->status        = JAuthentication::STATUS_FAILURE;
 					$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_GMAIL_ERROR_LOCAL_USERNAME_CONFLICT'));
@@ -216,7 +219,7 @@ class PlgAuthenticationGMail extends JPlugin
 				}
 			}
 		}
-		elseif (JFactory::getApplication()->isAdmin())
+		elseif (JFactory::getApplication()->isClient('administrator'))
 		{
 			// We wont' allow backend access without local account
 			$response->status        = JAuthentication::STATUS_FAILURE;

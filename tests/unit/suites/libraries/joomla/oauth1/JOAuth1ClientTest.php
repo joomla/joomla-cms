@@ -3,13 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
+include_once __DIR__ . '/../session/handler/array.php';
 
 /**
  * Test class for JOAuth1Client.
@@ -91,10 +92,9 @@ class JOAuth1ClientTest extends TestCase
 
 		$key = "TEST_KEY";
 		$secret = "TEST_SECRET";
-		$my_url = "TEST_URL";
 
 		$this->options = new Registry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput(array());
 		$this->application = $this->getMockWeb();
 
@@ -114,11 +114,7 @@ class JOAuth1ClientTest extends TestCase
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		$this->restoreFactoryState();
-		unset($this->options);
-		unset($this->client);
-		unset($this->input);
-		unset($this->application);
-		unset($this->object);
+		unset($this->options, $this->client, $this->input, $this->application, $this->object);
 	}
 
 	/**
@@ -204,8 +200,13 @@ class JOAuth1ClientTest extends TestCase
 			}
 			TestReflection::setValue($input, 'data', $data);
 
+			$memoryHandler = new JSessionHandlerArray;
+
 			// Get mock session
-			$mockSession = $this->getMock('JSession', array( '_start', 'get'));
+			$mockSession = $this->getMockBuilder('JSession')
+				->setMethods(array( '_start', 'get'))
+				->setConstructorArgs(array('none', array(), $memoryHandler))
+				->getMock();
 
 			if ($fail)
 			{
@@ -222,7 +223,7 @@ class JOAuth1ClientTest extends TestCase
 				JFactory::$session = $mockSession;
 
 				$this->setExpectedException('DomainException');
-				$result = $this->object->authenticate();
+				$this->object->authenticate();
 			}
 
 			$mockSession->expects($this->at(0))

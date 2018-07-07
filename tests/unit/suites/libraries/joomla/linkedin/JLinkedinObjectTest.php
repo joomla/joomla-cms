@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
@@ -60,7 +60,7 @@ class JLinkedinObjectTest extends TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->object = new JLinkedinObjectMock($this->options, $this->client);
 	}
@@ -75,9 +75,7 @@ class JLinkedinObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->client);
-		unset($this->options);
-		unset($this->object);
+		unset($this->client, $this->options, $this->object);
 	}
 
 	/**

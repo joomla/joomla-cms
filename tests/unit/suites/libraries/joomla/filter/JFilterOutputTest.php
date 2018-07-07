@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -41,17 +41,22 @@ class FilterTestObject
  * @subpackage  Filter
  * @since       11.1
  */
-class JFilterOutputTest extends PHPUnit_Framework_TestCase
+class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * @var JFilterOutput
+	 * @var  JFilterOutput
 	 */
 	protected $object;
 
 	/**
-	 * @var beforeObject
+	 * @var  FilterTestObject
 	 */
 	protected $safeObject;
+
+	/**
+	 * @var  FilterTestObject
+	 */
+	protected $safeObjectArrayTest;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -63,7 +68,6 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->object = new JFilterOutput;
 		$this->safeObject = new FilterTestObject;
 		$this->safeObjectArrayTest = new FilterTestObject;
 	}
@@ -74,14 +78,12 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->object);
-		unset($this->safeObject);
-		unset($this->safeObjectArrayTest);
+		unset($this->object, $this->safeObject, $this->safeObjectArrayTest);
 		parent::tearDown();
 	}
 
@@ -92,7 +94,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectHTMLSafe()
 	{
-		$this->object->objectHTMLSafe($this->safeObject, null, 'string3');
+		JFilterOutput::objectHTMLSafe($this->safeObject, null, 'string3');
 		$this->assertEquals('&lt;script&gt;alert();&lt;/script&gt;', $this->safeObject->string1, "Script tag should be defused");
 		$this->assertEquals('This is a test.', $this->safeObject->string2, "Plain text should pass");
 		$this->assertEquals('<script>alert(3);</script>', $this->safeObject->string3, "This Script tag should be passed");
@@ -105,7 +107,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectHTMLSafeWithArray()
 	{
-		$this->object->objectHTMLSafe($this->safeObject, null, array('string1', 'string3'));
+		JFilterOutput::objectHTMLSafe($this->safeObject, null, array('string1', 'string3'));
 		$this->assertEquals('<script>alert();</script>', $this->safeObject->string1, "Script tag should pass array test");
 		$this->assertEquals('This is a test.', $this->safeObject->string2, "Plain text should pass array test");
 		$this->assertEquals('<script>alert(3);</script>', $this->safeObject->string3, "This Script tag should pass array test");
@@ -120,7 +122,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'<a href="http://www.example.com/index.frd?one=1&amp;two=2&amp;three=3">This & That</a>',
-			$this->object->linkXHTMLSafe('<a href="http://www.example.com/index.frd?one=1&two=2&three=3">This & That</a>'),
+			JFilterOutput::linkXHTMLSafe('<a href="http://www.example.com/index.frd?one=1&two=2&three=3">This & That</a>'),
 			'Should clean ampersands only out of link, not out of link text'
 		);
 	}
@@ -134,7 +136,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'1234567890-qwertyuiop-qwertyuiop-asdfghjkl-asdfghjkl-zxcvbnm-zxcvbnm',
-			$this->object->stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
+			JFilterOutput::stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
 			'Should clean keyboard string down to ASCII-7'
 		);
 	}
@@ -150,7 +152,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'what-if-i-do-not-get_this-right',
-			$this->object->stringURLUnicodeSlug('What-if I do.not get_this right?'),
+			JFilterOutput::stringURLUnicodeSlug('What-if I do.not get_this right?'),
 			'Should be URL unicoded'
 		);
 	}
@@ -165,7 +167,31 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'&&george&amp;mary&#3son',
-			$this->object->ampReplace('&&george&mary&#3son'),
+			JFilterOutput::ampReplace('&&george&mary&#3son'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&&george&amp;mary&#3son&amp;this=that',
+			JFilterOutput::ampReplace('index.php?&&george&mary&#3son&this=that'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&&george&amp;mary&#3son&&&this=that',
+			JFilterOutput::ampReplace('index.php?&&george&mary&#3son&&&this=that'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&amp;this="this &amp; and that"',
+			JFilterOutput::ampReplace('index.php?&this="this & and that"'),
+			'Should replace single ampersands with HTML entity'
+		);
+
+		$this->assertEquals(
+			'index.php?&amp;this="this &amp; &amp; &&amp; and that"',
+			JFilterOutput::ampReplace('index.php?&this="this &amp; & &&amp; and that"'),
 			'Should replace single ampersands with HTML entity'
 		);
 	}
@@ -221,7 +247,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'Hello  I am waving at you.',
-			$this->object->stripImages('Hello <img src="wave.jpg"> I am waving at you.'),
+			JFilterOutput::stripImages('Hello <img src="wave.jpg"> I am waving at you.'),
 			'Should remove img tags'
 		);
 	}
@@ -237,7 +263,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'Hello  I am waving at you.',
-			$this->object->stripIframes('Hello <iframe src="http://player.vimeo.com/video/37576499" width="500"' .
+			JFilterOutput::stripIframes('Hello <iframe src="http://player.vimeo.com/video/37576499" width="500"' .
 				' height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> I am waving at you.'),
 				'Should remove iFrame tags'
 		);

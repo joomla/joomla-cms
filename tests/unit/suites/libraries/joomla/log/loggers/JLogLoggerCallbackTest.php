@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/callback/inspector.php';
@@ -17,7 +17,7 @@ require_once __DIR__ . '/stubs/callback/helper.php';
  * @subpackage  Log
  * @since       12.2
  */
-class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
+class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerCallback::__construct method.
@@ -29,7 +29,9 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	public function testConstructor01()
 	{
 		// Create a callback function
-		$callback = create_function('$entry', 'return;');
+		$callback = function ($entry)
+		{
+		};
 
 		// Setup the basic configuration.
 		$config = array(
@@ -56,7 +58,6 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		// Create a callback function (since php 5.3)
 		$callback = function ($entry)
 		{
-			return;
 		};
 
 		// Setup the basic configuration.

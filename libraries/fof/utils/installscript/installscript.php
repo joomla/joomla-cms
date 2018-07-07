@@ -1622,13 +1622,14 @@ abstract class FOFUtilsInstallscript
 		$table = JTable::getInstance('menu');
 		$option = $parent->get('element');
 
-		// If a component exists with this option in the table then we don't need to add menus
+		// If a component exists with this option in the table then we don't need to add menus - check only 'main' menutype
 		$query = $db->getQuery(true)
 			->select('m.id, e.extension_id')
 			->from('#__menu AS m')
 			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 			->where('m.parent_id = 1')
 			->where('m.client_id = 1')
+			->where('m.menutype = ' . $db->q('main'))
 			->where($db->qn('e') . '.' . $db->qn('type') . ' = ' . $db->q('component'))
 			->where('e.element = ' . $db->quote($option));
 
@@ -1947,6 +1948,7 @@ abstract class FOFUtilsInstallscript
 			->set($db->qn('published') . ' = ' . $db->q(1))
 			->where('m.parent_id = 1')
 			->where('m.client_id = 1')
+			->where('m.menutype = ' . $db->quote('main'))
 			->where('e.type = ' . $db->quote('component'))
 			->where('e.element = ' . $db->quote($option));
 

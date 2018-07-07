@@ -1,13 +1,14 @@
-function iFrameHeight()
+function iFrameHeight(iframe)
 {
-	var h = 0;
-	if (!document.all)
-	{
-		h = document.getElementById('blockrandom').height;
-		document.getElementById('blockrandom').style.height = parseInt(h) + 60 + 'px';
-	} else if (document.all)
-	{
-		h = document.frames('blockrandom').document.body.scrollHeight;
-		document.all.blockrandom.style.height = parseInt(h) + 20 + 'px';
-	}
+    var doc    = 'contentDocument' in iframe ? iframe.contentDocument : iframe.contentWindow.document;
+    var height = parseInt(doc.body.scrollHeight);
+
+    if (!document.all)
+    {
+        iframe.style.height = parseInt(height) + 60 + 'px';
+    }
+    else if (document.all && iframe.id)
+    {
+        document.all[iframe.id].style.height = parseInt(height) + 20 + 'px';
+    }
 }

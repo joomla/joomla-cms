@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,7 +154,7 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param   array  &$items  The array of objects
+	 * @param   array  $items  The array of objects
 	 *
 	 * @return  array The array of translated objects
 	 *
@@ -168,7 +168,7 @@ class InstallerModelUpdate extends JModelList
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
 			$item->type_translated    = JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
-			$item->folder_translated  = $item->folder ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+			$item->folder_translated  = $item->folder ?: JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 			$item->install_type       = $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL');
 		}
 
@@ -207,7 +207,7 @@ class InstallerModelUpdate extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 		else
 		{
@@ -358,6 +358,8 @@ class InstallerModelUpdate extends JModelList
 			$update->loadFromXml($instance->detailsurl, $minimum_stability);
 			$update->set('extra_query', $instance->extra_query);
 
+			$this->preparePreUpdate($update, $instance);
+
 			// Install sets state and enqueues messages
 			$res = $this->install($update);
 
@@ -368,6 +370,16 @@ class InstallerModelUpdate extends JModelList
 
 			$result = $res & $result;
 		}
+
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
 
 		// Set the final state
 		$this->setState('result', $result);
@@ -393,7 +405,8 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$url = $update->downloadurl->_data;
+		$url     = $update->downloadurl->_data;
+		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
 		{
@@ -401,7 +414,21 @@ class InstallerModelUpdate extends JModelList
 			$url .= $extra_query;
 		}
 
-		$p_file = JInstallerHelper::downloadPackage($url);
+		$mirror = 0;
+
+		while (!($p_file = JInstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
+		{
+			$name = $sources[$mirror];
+			$url  = $name->url;
+
+			if ($extra_query)
+			{
+				$url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+				$url .= $extra_query;
+			}
+
+			$mirror++;
+		}
 
 		// Was the package downloaded?
 		if (!$p_file)
@@ -483,6 +510,7 @@ class InstallerModelUpdate extends JModelList
 
 			return false;
 		}
+
 		// Check the session for previously entered form data.
 		$data = $this->loadFormData();
 
@@ -508,5 +536,67 @@ class InstallerModelUpdate extends JModelList
 		$data = JFactory::getApplication()->getUserState($this->context, array());
 
 		return $data;
+	}
+
+	/**
+	 * Method to add parameters to the update
+	 *
+	 * @param   JUpdate       $update  An update definition
+	 * @param   JTableUpdate  $table   The update instance from the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function preparePreUpdate($update, $table)
+	{
+		jimport('joomla.filesystem.file');
+
+		switch ($table->type)
+		{
+			// Components could have a helper which adds additional data
+			case 'component':
+				$ename = str_replace('com_', '', $table->element);
+				$fname = $ename . '.php';
+				$cname = ucfirst($ename) . 'Helper';
+
+				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
+
+				if (JFile::exists($path))
+				{
+					require_once $path;
+
+					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					{
+						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+					}
+				}
+
+				break;
+
+			// Modules could have a helper which adds additional data
+			case 'module':
+				$cname = str_replace('_', '', $table->element) . 'Helper';
+				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
+
+				if (JFile::exists($path))
+				{
+					require_once $path;
+
+					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					{
+						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+					}
+				}
+
+				break;
+
+			// If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+			// But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
+			case 'plugin':
+				$cname = str_replace('plg_', '', $table->element);
+				JPluginHelper::importPlugin($table->folder, $cname);
+				break;
+		}
 	}
 }

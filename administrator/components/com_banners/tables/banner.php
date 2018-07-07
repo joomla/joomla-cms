@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class BannersTableBanner extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
+	 * @param   JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
@@ -74,7 +74,7 @@ class BannersTableBanner extends JTable
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -129,8 +129,7 @@ class BannersTableBanner extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 
 			if ((int) $registry->get('width', 0) < 0)
 			{
@@ -151,8 +150,8 @@ class BannersTableBanner extends JTable
 			$height = abs((int) $registry->get('height', 0));
 
 			// Sets the width and height to an empty string if = 0
-			$registry->set('width', ($width ? $width : ''));
-			$registry->set('height', ($height ? $height : ''));
+			$registry->set('width', $width ?: '');
+			$registry->set('height', $height ?: '');
 
 			$array['params'] = (string) $registry;
 		}
@@ -174,42 +173,44 @@ class BannersTableBanner extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
+		$db = $this->getDbo();
+
 		if (empty($this->id))
 		{
-			$purchase_type = $this->purchase_type;
+			$purchaseType = $this->purchase_type;
 
-			if ($purchase_type < 0 && $this->cid)
+			if ($purchaseType < 0 && $this->cid)
 			{
 				/** @var BannersTableClient $client */
-				$client = JTable::getInstance('Client', 'BannersTable');
+				$client = JTable::getInstance('Client', 'BannersTable', array('dbo' => $db));
 				$client->load($this->cid);
-				$purchase_type = $client->purchase_type;
+				$purchaseType = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0)
+			if ($purchaseType < 0)
 			{
-				$purchase_type = JComponentHelper::getParams('com_banners')->get('purchase_type');
+				$purchaseType = JComponentHelper::getParams('com_banners')->get('purchase_type');
 			}
 
-			switch ($purchase_type)
+			switch ($purchaseType)
 			{
 				case 1:
 					$this->reset = $this->_db->getNullDate();
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 year ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 month ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+7 day ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 day ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 			}
@@ -221,7 +222,7 @@ class BannersTableBanner extends JTable
 		{
 			// Get the old row
 			/** @var BannersTableBanner $oldrow */
-			$oldrow = JTable::getInstance('Banner', 'BannersTable');
+			$oldrow = JTable::getInstance('Banner', 'BannersTable', array('dbo' => $db));
 
 			if (!$oldrow->load($this->id) && $oldrow->getError())
 			{
@@ -230,7 +231,7 @@ class BannersTableBanner extends JTable
 
 			// Verify that the alias is unique
 			/** @var BannersTableBanner $table */
-			$table = JTable::getInstance('Banner', 'BannersTable');
+			$table = JTable::getInstance('Banner', 'BannersTable', array('dbo' => $db));
 
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 			{

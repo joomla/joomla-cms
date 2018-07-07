@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function initialise($options)
 	{
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
@@ -98,7 +98,7 @@ class InstallationModelDatabase extends JModelBase
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
-		if (JLanguage::exists($currentLang, JPATH_ADMINISTRATOR))
+		if (JLanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
 			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
 		}
@@ -157,13 +157,119 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Workaround for UPPERCASE table prefix for postgresql
-		if ($options->db_type == 'postgresql')
+		if ($options->db_type === 'postgresql' && strtolower($options->db_prefix) !== $options->db_prefix)
 		{
-			if (strtolower($options->db_prefix) != $options->db_prefix)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
-				return false;
+			return false;
+		}
+
+		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
+
+		// Per Default allowed DB Hosts
+		$localhost = array(
+			'localhost',
+			'127.0.0.1',
+			'::1',
+		);
+
+		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
+		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
+		{
+			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
+
+			// When all checks have been passed we don't need to do this here again.
+			if ($remoteDbFileTestsPassed === false)
+			{
+				$generalRemoteDatabaseMessage = JText::sprintf(
+					'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_GENERAL_MESSAGE',
+					'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
+				);
+
+				$remoteDbFile = JFactory::getSession()->get('remoteDbFile', false);
+
+				if ($remoteDbFile === false)
+				{
+					// Add the general message
+					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					// This is the file you need to remove if you want to use a remote database
+					$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
+					JFactory::getSession()->set('remoteDbFile', $remoteDbFile);
+
+					// Get the path
+					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+
+					// When the path is not writable the user needs to create the file manually
+					if (!JFile::write($remoteDbPath, ''))
+					{
+						// Request to create the file manually
+						JFactory::getApplication()->enqueueMessage(
+							JText::sprintf(
+								'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+								$remoteDbFile,
+								'installation'
+							),
+							'error'
+						);
+
+						JFactory::getSession()->set('remoteDbFileUnwritable', true);
+
+						return false;
+					}
+
+					// Save the file name to the session
+					JFactory::getSession()->set('remoteDbFileWrittenByJoomla', true);
+
+					// Request to delete that file
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (JFactory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				{
+					// Add the general message
+					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (JFactory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				{
+					// Add the general message
+					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
+
+					JFactory::getApplication()->enqueueMessage(
+						JText::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+							$remoteDbFile,
+							'installation'
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				// All tests for this session passed set it to the session
+				JFactory::getSession()->set('remoteDbFileTestsPassed', true);
 			}
 		}
 
@@ -174,7 +280,7 @@ class InstallationModelDatabase extends JModelBase
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
 				$options->db_select
@@ -214,7 +320,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database version.
@@ -244,7 +350,7 @@ class InstallationModelDatabase extends JModelBase
 					'driver'   => $options->db_type,
 					'host'     => $options->db_host,
 					'user'     => $options->db_user,
-					'password' => $options->db_pass,
+					'password' => $options->db_pass_plain,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
 				);
@@ -299,10 +405,10 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($db->getServerType() === 'mysql')
 		{
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
+			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
 				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'error');
 
@@ -327,7 +433,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
+		if ($db->getServerType() === 'postgresql' && !version_compare($db_version, '9.0.0', '>='))
 		{
 			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
 
@@ -346,7 +452,7 @@ class InstallationModelDatabase extends JModelBase
 
 			if ($column != 't')
 			{
-				$db->setQuery("CREATE LANGUAGE plpgsql");
+				$db->setQuery('CREATE LANGUAGE plpgsql');
 
 				try
 				{
@@ -428,7 +534,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
@@ -477,7 +583,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Check database type.
@@ -487,11 +593,11 @@ class InstallationModelDatabase extends JModelBase
 		$this->setDatabaseCharset($db, $options->db_name);
 
 		// Set the appropriate schema script based on UTF-8 support.
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($db->getServerType() === 'mysql')
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($db->getServerType() === 'mssql')
 		{
 			$schema = 'sql/sqlazure/joomla.sql';
 		}
@@ -542,11 +648,11 @@ class InstallationModelDatabase extends JModelBase
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($serverType === 'mysql')
 		{
 			$pathPart .= 'mysql/';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($serverType === 'mssql')
 		{
 			$pathPart .= 'sqlazure/';
 		}
@@ -628,11 +734,11 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		if ($serverType === 'mysql')
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		elseif ($serverType === 'mssql')
 		{
 			$dblocalise = 'sql/sqlazure/localise.sql';
 		}
@@ -641,12 +747,9 @@ class InstallationModelDatabase extends JModelBase
 			$dblocalise = 'sql/' . $type . '/localise.sql';
 		}
 
-		if (is_file($dblocalise))
+		if (is_file($dblocalise) && !$this->populateDatabase($db, $dblocalise))
 		{
-			if (!$this->populateDatabase($db, $dblocalise))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
@@ -716,17 +819,17 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
 		$type = $options->db_type;
 
-		if ($type == 'mysqli' || $type == 'pdomysql')
+		if ($db->getServerType() === 'mysql')
 		{
 			$type = 'mysql';
 		}
-		elseif ($type == 'sqlsrv')
+		elseif ($db->getServerType() === 'mssql')
 		{
 			$type = 'sqlazure';
 		}
@@ -747,7 +850,7 @@ class InstallationModelDatabase extends JModelBase
 				return false;
 			}
 
-			$this->postInstallSampleData($db);
+			$this->postInstallSampleData($db, $options->sample_file);
 		}
 
 		return true;
@@ -756,16 +859,23 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Sample data tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   JDatabaseDriver  $db              Database connector object $db*.
+	 * @param   string           $sampleFileName  The sample dats filename.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postInstallSampleData($db)
+	protected function postInstallSampleData($db, $sampleFileName = '')
 	{
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
+
+		// If not joomla sample data for testing, update the sample data dates.
+		if ($sampleFileName !== 'sample_testing.sql')
+		{
+			$this->updateDates($db);
+		}
 	}
 
 	/**
@@ -805,8 +915,11 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallCmsData($db)
 	{
-		// Update the sample data user ids.
+		// Update the cms data user ids.
 		$this->updateUserIds($db);
+
+		// Update the cms data dates.
+		$this->updateDates($db);
 	}
 
 	/**
@@ -814,7 +927,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
@@ -823,33 +936,101 @@ class InstallationModelDatabase extends JModelBase
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
-		// Update all created_by field of the tables with the random user id
-		// categories (created_user_id), contact_details, content, newsfeeds.
-		$updates_array = array(
-			'categories'      => 'created_user_id',
-			'contact_details' => 'created_by',
-			'content'         => 'created_by',
-			'newsfeeds'       => 'created_by',
-			'tags'            => 'created_user_id',
-			'ucm_content'     => 'core_created_user_id',
-			'ucm_history'     => 'editor_user_id',
+		// Update all core tables created_by fields of the tables with the random user id.
+		$updatesArray = array(
+			'#__banners'         => array('created_by', 'modified_by'),
+			'#__categories'      => array('created_user_id', 'modified_user_id'),
+			'#__contact_details' => array('created_by', 'modified_by'),
+			'#__content'         => array('created_by', 'modified_by'),
+			'#__fields'          => array('created_user_id', 'modified_by'),
+			'#__finder_filters'  => array('created_by', 'modified_by'),
+			'#__newsfeeds'       => array('created_by', 'modified_by'),
+			'#__tags'            => array('created_user_id', 'modified_user_id'),
+			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
+			'#__ucm_history'     => array('editor_user_id'),
+			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
 		);
 
-		foreach ($updates_array as $table => $field)
+		foreach ($updatesArray as $table => $fields)
 		{
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__' . $table))
-				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
-
-			$db->setQuery($query);
-
-			try
+			foreach ($fields as $field)
 			{
-				$db->execute();
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($userId))
+					->where($db->quoteName($field) . ' != 0')
+					->where($db->quoteName($field) . ' IS NOT NULL');
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
-			catch (RuntimeException $e)
+		}
+	}
+
+	/**
+	 * Method to update the dates of sql data content to the current date.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function updateDates($db)
+	{
+		// Get the current date.
+		$currentDate = JFactory::getDate()->toSql();
+		$nullDate    = $db->getNullDate();
+
+		// Update all core tables date fields of the tables with the current date.
+		$updatesArray = array(
+			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
+			'#__banner_tracks'       => array('track_date'),
+			'#__categories'          => array('created_time', 'modified_time'),
+			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__contentitem_tag_map' => array('tag_date'),
+			'#__fields'              => array('created_time', 'modified_time'),
+			'#__finder_filters'      => array('created', 'modified'),
+			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
+			'#__messages'            => array('date_time'),
+			'#__modules'             => array('publish_up', 'publish_down'),
+			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__redirect_links'      => array('created_date', 'modified_date'),
+			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
+			'#__ucm_history'         => array('save_date'),
+			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
+			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+		);
+
+		foreach ($updatesArray as $table => $fields)
+		{
+			foreach ($fields as $field)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
+					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
 			}
 		}
 	}
@@ -1028,7 +1209,7 @@ class InstallationModelDatabase extends JModelBase
 				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
 				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
 				 */
-				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				if (!$db->hasUTF8mb4Support() && stripos($query, 'CONVERT TO CHARACTER SET utf8 ') !== false)
 				{
 					continue;
 				}
@@ -1112,18 +1293,18 @@ class InstallationModelDatabase extends JModelBase
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($query[$i] == ";" && !$in_string)
+			if (!$in_string && $query[$i] === ';')
 			{
 				$queries[] = substr($query, 0, $i);
 				$query     = substr($query, $i + 1);
 				$i         = 0;
 			}
 
-			if ($in_string && ($query[$i] == $in_string) && $buffer[1] != "\\")
+			if ($in_string && $query[$i] == $in_string && $buffer[1] !== '\\')
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] === '"' || $query[$i] === "'") && (!isset($buffer[0]) || $buffer[0] !== '\\'))
 			{
 				$in_string = $query[$i];
 			}
@@ -1143,7 +1324,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Add function part as is.
-		for ($f = 1; $f < count($funct); $f++)
+		for ($f = 1, $fMax = count($funct); $f < $fMax; $f++)
 		{
 			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}

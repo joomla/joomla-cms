@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('ContentViewArticle', __DIR__ . '/stubs/ContentViewArticle.php');
@@ -55,7 +55,7 @@ class JViewLegacyTest extends TestCase
 
 	/**
 	 * $_SERVER variable
-	 * 
+	 *
 	 * @var   array
 	 */
 	protected $server;

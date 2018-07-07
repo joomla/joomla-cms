@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/data/TestRouter.php';
@@ -18,7 +18,7 @@ jimport('cms.router.router');
  * @group       Router
  * @since       3.0
  */
-class JRouterSiteTest extends TestCase
+class JRouterSiteTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the $_SERVER variable
@@ -27,6 +27,22 @@ class JRouterSiteTest extends TestCase
 	 * @since  3.4
 	 */
 	private $server;
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   3.2
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+
+		return $dataSet;
+	}
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -52,7 +68,7 @@ class JRouterSiteTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -143,7 +159,7 @@ class JRouterSiteTest extends TestCase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test.json'
+				'expUrl'  => 'joomla/blog/test'
 			),
 			array(
 				'url'     => '/joomla/blog/test.json/',
@@ -151,7 +167,7 @@ class JRouterSiteTest extends TestCase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test.json'
+				'expUrl'  => 'joomla/blog/test'
 			),
 			array(
 				'url'     => '/joomla/blog/test%202',
@@ -233,7 +249,7 @@ class JRouterSiteTest extends TestCase
 		$vars = $object->parse($uri);
 
 		$this->assertEquals($expectedVars, $vars);
-		$this->assertEquals($expectedUris, (string)$uri);
+		$this->assertEquals($expectedUris, (string) $uri);
 	}
 
 	/**
@@ -484,7 +500,7 @@ class JRouterSiteTest extends TestCase
 		$object->setMode($mode);
 
 		// Check the expected values
-		$this->assertEquals($expected, (string)($object->build($url)));
+		$this->assertEquals($expected, (string) ($object->build($url)));
 	}
 
 	/**
@@ -676,8 +692,8 @@ class JRouterSiteTest extends TestCase
 				'url'          => '?testvar=testvalue',
 				'mode'         => JROUTER_MODE_RAW,
 				'appConfig'    => array(),
-				'expParseVars' => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
-				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
+				'expParseVars' => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
+				'expObjVars'   => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
 			),
 			'abs-raw-path.ext-no_qs-no_sfx' => array(
 				'url'          => '/test/path.json',
@@ -880,6 +896,7 @@ class JRouterSiteTest extends TestCase
 				->will($this->returnValue(true));
 			unset($appConfig['languagefilter']);
 		}
+
 		$app->expects($this->any())
 			->method('get')
 			->will($this->returnValueMap($appConfig));
@@ -942,7 +959,7 @@ class JRouterSiteTest extends TestCase
 		$buildRawRouteMethod->setAccessible(true);
 
 		$buildRawRouteMethod->invokeArgs($object, array(&$uri));
-		$this->assertEquals('index.php', (string)$uri);
+		$this->assertEquals('index.php', (string) $uri);
 	}
 
 	/**
@@ -967,7 +984,7 @@ class JRouterSiteTest extends TestCase
 
 		$uri->setVar('option', 'com_test');
 		$buildRawRouteMethod->invokeArgs($object, array(&$uri));
-		$this->assertEquals('index.php?option=com_test&testvar=testvalue', (string)$uri);
+		$this->assertEquals('index.php?option=com_test&testvar=testvalue', (string) $uri);
 	}
 
 	/**
@@ -993,7 +1010,7 @@ class JRouterSiteTest extends TestCase
 		$uri->setVar('option', 'com_ te?st');
 		$uri->delVar('testvar');
 		$buildRawRouteMethod->invokeArgs($object, array(&$uri));
-		$this->assertEquals('index.php?option=com_ te?st&testvar=testvalue', (string)$uri);
+		$this->assertEquals('index.php?option=com_ te?st&testvar=testvalue', (string) $uri);
 	}
 
 	/**
@@ -1019,7 +1036,7 @@ class JRouterSiteTest extends TestCase
 		$uri->setVar('option', 'com_test3');
 		$uri->delVar('testvar');
 		$buildRawRouteMethod->invokeArgs($object, array(&$uri));
-		$this->assertEquals('index.php?option=com_test3', (string)$uri);
+		$this->assertEquals('index.php?option=com_test3', (string) $uri);
 	}
 
 	/**
@@ -1101,7 +1118,7 @@ class JRouterSiteTest extends TestCase
 		$buildSefRouteMethod->setAccessible(true);
 		$buildSefRouteMethod->invokeArgs($object, array(&$uri));
 
-		$this->assertEquals($expected, (string)$uri);
+		$this->assertEquals($expected, (string) $uri);
 	}
 
 	/**
@@ -1175,6 +1192,11 @@ class JRouterSiteTest extends TestCase
 				'mode'     => JROUTER_MODE_SEF,
 				'expected' => 'test?start=42'
 			),
+			'limitstart_zero' => array(
+				'url'      => 'test?limitstart=0',
+				'mode'     => JROUTER_MODE_SEF,
+				'expected' => 'test?start=0'
+			),
 		);
 	}
 
@@ -1205,7 +1227,7 @@ class JRouterSiteTest extends TestCase
 
 		$processBuildRulesMethod->invokeArgs($object, array(&$uri));
 
-		$this->assertEquals($expected, (string)$uri);
+		$this->assertEquals($expected, (string) $uri);
 	}
 
 	/**
@@ -1297,7 +1319,7 @@ class JRouterSiteTest extends TestCase
 		$uri = $createUriMethod->invoke($object, $url);
 
 		$this->assertInstanceOf('JUri', $uri);
-		$this->assertEquals($expected, (string)$uri);
+		$this->assertEquals($expected, (string) $uri);
 	}
 
 	/**
@@ -1326,9 +1348,9 @@ class JRouterSiteTest extends TestCase
 
 		/**
 		 * Check if a proper router is automatically loaded
-		 * by loading the router of com_content
+		 * by loading the router of com_search
 		 */
-		$this->assertInstanceOf('ContentRouter', $object->getComponentRouter('com_content'));
+		$this->assertInstanceOf('SearchRouter', $object->getComponentRouter('com_search'));
 
 		/**
 		 * Check if an instance of JComponentRouterLegacy

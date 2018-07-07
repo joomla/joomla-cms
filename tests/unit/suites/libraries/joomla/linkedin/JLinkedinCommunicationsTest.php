@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -88,7 +88,7 @@ class JLinkedinCommunicationsTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->oauth = new JLinkedinOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken(array('key' => $key, 'secret' => $secret));
 
@@ -105,18 +105,13 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->client);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 
@@ -319,9 +314,6 @@ class JLinkedinCommunicationsTest extends TestCase
 		$subject = 'Subject';
 		$body = 'body';
 		$connection = 'friend';
-
-		$name = 'NAME_SEARCH';
-		$value = 'mwjY';
 
 		$path = '/v1/people-search:(people:(api-standard-profile-request))';
 

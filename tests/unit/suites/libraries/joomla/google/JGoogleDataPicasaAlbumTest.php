@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -73,11 +73,14 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
-		$this->xml = new SimpleXMLElement(file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'album.txt'));
+		$this->xml = new SimpleXMLElement(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'album.txt'));
 		$this->object = new JGoogleDataPicasaAlbum($this->xml, $this->options, $this->auth);
 
 		$this->object->setOption('clientid', '01234567891011.apps.googleusercontent.com');
@@ -101,14 +104,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->http);
-		unset($this->input);
-		unset($this->auth);
-		unset($this->oauth);
-		unset($this->xml);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->http, $this->input, $this->auth, $this->oauth, $this->xml, $this->object);
 		parent::tearDown();
 	}
 
@@ -321,7 +317,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaPhotolistCallback'));
 		$results = $this->object->listPhotos();
 
-		$this->assertEquals(count($results), 2);
+		$this->assertCount(2, $results);
 		$i = 1;
 
 		foreach ($results as $result)
@@ -354,16 +350,16 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	public function testUpload()
 	{
 		$this->http->expects($this->exactly(4))->method('post')->will($this->returnCallback('dataPicasaUploadCallback'));
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.png');
+		$result = $this->object->upload(__DIR__ . DIRECTORY_SEPARATOR . 'logo.png');
 		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
 
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.gif');
+		$result = $this->object->upload(__DIR__ . DIRECTORY_SEPARATOR . 'logo.gif');
 		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
 
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.jpg');
+		$result = $this->object->upload(__DIR__ . DIRECTORY_SEPARATOR . 'logo.jpg');
 		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
 
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.bmp');
+		$result = $this->object->upload(__DIR__ . DIRECTORY_SEPARATOR . 'logo.bmp');
 		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
 	}
 
@@ -376,7 +372,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	 */
 	public function testUploadUnknown()
 	{
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
+		$this->object->upload(__DIR__ . DIRECTORY_SEPARATOR . 'photo.txt');
 	}
 
 	/**
@@ -388,7 +384,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	 */
 	public function testUploadFake()
 	{
-		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fakephoto.png');
+		$this->object->upload(__DIR__ . DIRECTORY_SEPARATOR . 'fakephoto.png');
 	}
 
 	/**
@@ -437,7 +433,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 		$functions['save'] = array();
 		$functions['refresh'] = array();
 		$functions['listPhotos'] = array();
-		$functions['upload'] = array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.png');
+		$functions['upload'] = array(__DIR__ . DIRECTORY_SEPARATOR . 'logo.png');
 
 		foreach ($functions as $function => $params)
 		{
@@ -462,7 +458,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 		$functions['save'] = array();
 		$functions['refresh'] = array();
 		$functions['listPhotos'] = array();
-		$functions['upload'] = array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.png');
+		$functions['upload'] = array(__DIR__ . DIRECTORY_SEPARATOR . 'logo.png');
 
 		foreach ($functions as $function => $params)
 		{
@@ -521,7 +517,7 @@ function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
-	$response->body = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photolist.txt');
+	$response->body = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'photolist.txt');
 
 	return $response;
 }
@@ -544,7 +540,7 @@ function dataPicasaUploadCallback($url, $data, array $headers = null, $timeout =
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
-	$response->body = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
+	$response->body = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'photo.txt');
 
 	return $response;
 }

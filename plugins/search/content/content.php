@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,23 +48,21 @@ class PlgSearchContent extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db     = JFactory::getDbo();
-		$app    = JFactory::getApplication();
-		$user   = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$tag    = JFactory::getLanguage()->getTag();
+		$db         = JFactory::getDbo();
+		$serverType = $db->getServerType();
+		$app        = JFactory::getApplication();
+		$user       = JFactory::getUser();
+		$groups     = implode(',', $user->getAuthorisedViewLevels());
+		$tag        = JFactory::getLanguage()->getTag();
 
 		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
 
 		$searchText = $text;
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent  = $this->params->get('search_content', 1);
@@ -77,7 +75,7 @@ class PlgSearchContent extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -92,7 +90,45 @@ class PlgSearchContent extends JPlugin
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
-				$where     = '(' . implode(') OR (', $wheres2) . ')';
+
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
+
+				// Join over Fields.
+				$subQuery = $db->getQuery(true);
+				$subQuery->select("cfv.item_id")
+					->from("#__fields_values AS cfv")
+					->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
+					->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+					->where('(f.state IS NULL OR f.state = 1)')
+					->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
+					->where('cfv.value LIKE ' . $text);
+
+				// Filter by language.
+				if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+				{
+					$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
+				}
+
+				if ($serverType == "mysql")
+				{
+					/* This generates a dependent sub-query so do no use in MySQL prior to version 6.0 !
+					* $wheres2[] = 'a.id IN( '. (string) $subQuery.')';
+					*/
+
+					$db->setQuery($subQuery);
+					$fieldids = $db->loadColumn();
+
+					if (count($fieldids))
+					{
+						$wheres2[] = 'a.id IN(' . implode(",", $fieldids) . ')';
+					}
+				}
+				else
+				{
+					$wheres2[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
+				}
+
+				$where = '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
 			case 'all':
@@ -100,6 +136,7 @@ class PlgSearchContent extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+				$cfwhere = array();
 
 				foreach ($words as $word)
 				{
@@ -110,10 +147,85 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
-					$wheres[]  = implode(' OR ', $wheres2);
+
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
+
+					if ($phrase === 'all')
+					{
+						// Join over Fields.
+						$subQuery = $db->getQuery(true);
+						$subQuery->select("cfv.item_id")
+							->from("#__fields_values AS cfv")
+							->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
+							->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+							->where('(f.state IS NULL OR f.state = 1)')
+							->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
+							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
+
+						// Filter by language.
+						if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+						{
+							$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
+						}
+
+						if ($serverType == "mysql")
+						{
+							$db->setQuery($subQuery);
+							$fieldids = $db->loadColumn();
+
+							if (count($fieldids))
+							{
+								$wheres2[] = 'a.id IN(' . implode(",", $fieldids) . ')';
+							}
+						}
+						else
+						{
+							$wheres2[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
+						}
+					}
+					else
+					{
+						$cfwhere[] = 'LOWER(cfv.value) LIKE LOWER(' . $word . ')';
+					}
+
+					$wheres[] = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				if ($phrase === 'any')
+				{
+					// Join over Fields.
+					$subQuery = $db->getQuery(true);
+					$subQuery->select("cfv.item_id")
+						->from("#__fields_values AS cfv")
+						->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
+						->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+						->where('(f.state IS NULL OR f.state = 1)')
+						->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
+						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');
+
+					// Filter by language.
+					if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+					{
+						$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
+					}
+
+					if ($serverType == "mysql")
+					{
+						$db->setQuery($subQuery);
+						$fieldids = $db->loadColumn();
+
+						if (count($fieldids))
+						{
+							$wheres[] = 'a.id IN(' . implode(",", $fieldids) . ')';
+						}
+					}
+					else
+					{
+						$wheres[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
+					}
+				}
+
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -161,20 +273,25 @@ class PlgSearchContent extends JPlugin
 			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
+			$c_id        = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
-
 				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid')
 				->where(
 					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
-						. 'AND c.access IN (' . $groups . ') '
+						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
@@ -182,7 +299,7 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Filter by language.
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -199,6 +316,7 @@ class PlgSearchContent extends JPlugin
 				$list = array();
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
+
 			$limit -= count($list);
 
 			if (isset($list))
@@ -234,11 +352,17 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
-					. $query->concatenate(array("a.introtext", "a.fulltext")) . ' AS text,'
-					. $case_when . ',' . $case_when1 . ', '
-					. 'c.title AS section, \'2\' AS browsernav'
+				. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
+				. $case_when . ',' . $case_when1 . ', '
+				. 'c.title AS section, \'2\' AS browsernav'
 			);
 
 			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
@@ -252,8 +376,10 @@ class PlgSearchContent extends JPlugin
 				)
 				->order($order);
 
+			// Join over Fields is no longer neded
+
 			// Filter by language.
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -281,8 +407,8 @@ class PlgSearchContent extends JPlugin
 				{
 					$date = JFactory::getDate($item->created);
 
-					$created_month = $date->format("n");
-					$created_year  = $date->format("Y");
+					$created_month = $date->format('n');
+					$created_year = $date->format('Y');
 
 					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
 				}
@@ -301,7 +427,18 @@ class PlgSearchContent extends JPlugin
 
 				foreach ($row as $article)
 				{
-					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
+					// Not efficient to get these ONE article at a TIME
+					// Lookup field values so they can be checked, GROUP_CONCAT would work in above queries, but isn't supported by non-MySQL DBs.
+					$query = $db->getQuery(true);
+					$query->select('fv.value')
+						->from('#__fields_values as fv')
+						->join('left', '#__fields as f on fv.field_id = f.id')
+						->where('f.context = ' . $db->quote('com_content.article'))
+						->where('fv.item_id = ' . $db->quote((int) $article->slug));
+					$db->setQuery($query);
+					$article->jcfields = implode(',', $db->loadColumn());
+
+					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'jcfields', 'metadesc', 'metakey')))
 					{
 						$new_row[] = $article;
 					}
@@ -313,4 +450,5 @@ class PlgSearchContent extends JPlugin
 
 		return $results;
 	}
+
 }

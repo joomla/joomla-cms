@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  */
-class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -31,46 +31,46 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	public function setup()
 	{
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPostgresql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'getTableSequences',
-				'getAddSequenceSQL',
-				'getChangeSequenceSQL',
-				'getDropSequenceSQL',
-				'getAddIndexSQL',
-				'getVersion',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('getPrefix')
-		->will(
-			$this->returnValue(
-				'jos_'
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPostgresql')
+			->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'getTableSequences',
+						'getAddSequenceSQL',
+						'getChangeSequenceSQL',
+						'getDropSequenceSQL',
+						'getAddIndexSQL',
+						'getVersion',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+				)
 			)
-		);
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableColumns')
-		->will(
-			$this->returnValue(
-				array(
+			->method('getPrefix')
+			->will(
+				$this->returnValue(
+					'jos_'
+				)
+			);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+			->method('getTableColumns')
+			->will(
+				$this->returnValue(
+					array(
 					'id' => (object) array(
 						'Field' => 'id',
 						'Type' => 'integer',
@@ -85,17 +85,17 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 						'Default' => 'NULL',
 						'Comments' => '',
 					),
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableKeys')
-		->will(
-			$this->returnValue(
-				array(
+			->method('getTableKeys')
+			->will(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Index' => 'jos_dbtest_pkey',
 						'is_primary' => 'TRUE',
@@ -108,20 +108,20 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 						'is_unique' => 'FALSE',
 						'Query' => 'CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		// Check if database is at least 9.1.0
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getVersion')
-		->will(
-			$this->returnValue(
-				'7.1.2'
-			)
-		);
+			->method('getVersion')
+			->will(
+				$this->returnValue(
+					'7.1.2'
+				)
+			);
 
 		if (version_compare($this->dbo->getVersion(), '9.1.0') >= 0)
 		{
@@ -129,17 +129,18 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		}
 		else
 		{
-			/* Older version */
+			// Older version
+
 			$start_val = null;
 		}
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableSequences')
-		->will(
-			$this->returnValue(
-			array(
+			->method('getTableSequences')
+			->will(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Name' => 'jos_dbtest_id_seq',
 						'Schema' => 'public',
@@ -152,49 +153,49 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 						'Increment' => '1',
 						'Cycle_option' => 'NO',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('quoteName')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
+			->method('quoteName')
+			->will(
+				$this->returnCallback(
+					array($this, 'callbackQuoteName')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('quote')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackQuote')
-			)
-		);
+			->method('quote')
+			->will(
+				$this->returnCallback(
+					array($this, 'callbackQuote')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('setQuery')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
+			->method('setQuery')
+			->will(
+				$this->returnCallback(
+					array($this, 'callbackSetQuery')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('loadObjectList')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+			->method('loadObjectList')
+			->will(
+				$this->returnCallback(
+					array($this, 'callbackLoadObjectList')
+				)
+			);
 	}
 
 	/**
@@ -203,7 +204,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

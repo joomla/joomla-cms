@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,8 +145,8 @@ class PlgSystemUpdatenotification extends JPlugin
 		// Get the available update
 		$update = array_pop($updates);
 
-		// Check the available version. If it's the same as the installed version we have no updates to notify about.
-		if (version_compare($update->version, JVERSION, 'eq'))
+		// Check the available version. If it's the same or less than the installed version we have no updates to notify about.
+		if (version_compare($update->version, JVERSION, 'le'))
 		{
 			return;
 		}
@@ -154,7 +154,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
 		$baseURL  = JUri::base();
 		$baseURL  = rtrim($baseURL, '/');
-		$baseURL .= (substr($baseURL, -13) != 'administrator') ? '/administrator/' : '/';
+		$baseURL .= (substr($baseURL, -13) !== 'administrator') ? '/administrator/' : '/';
 		$baseURL .= 'index.php?option=com_joomlaupdate';
 		$uri      = new JUri($baseURL);
 
@@ -192,11 +192,13 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
+		/*
+		 * Load the appropriate language. We try to load English (UK), the current user's language and the forced
 		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		 * solution! */
+		 * solution! 
+		 */
 		$jLanguage = JFactory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
@@ -226,12 +228,13 @@ class PlgSystemUpdatenotification extends JPlugin
 		$fromName = $jConfig->get('fromname');
 
 		$substitutions = array(
-			'[NEWVERSION]' => $newVersion,
-			'[CURVERSION]' => $currentVersion,
-			'[SITENAME]'   => $sitename,
-			'[URL]'        => JUri::base(),
-			'[LINK]'       => $uri->toString(),
-			'\\n'          => "\n",
+			'[NEWVERSION]'  => $newVersion,
+			'[CURVERSION]'  => $currentVersion,
+			'[SITENAME]'    => $sitename,
+			'[URL]'         => JUri::base(),
+			'[LINK]'        => $uri->toString(),
+			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
+			'\\n'           => "\n",
 		);
 
 		foreach ($substitutions as $k => $v)
@@ -292,10 +295,9 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		try
 		{
-			$assets = JTable::getInstance('Asset', 'JTable');
-			$rootId = $assets->getRootId();
-			$rules = JAccess::getAssetRules($rootId)->getData();
-			$rawGroups = $rules['core.admin'];
+			$rootId    = JTable::getInstance('Asset', 'JTable')->getRootId();
+			$rules     = JAccess::getAssetRules($rootId)->getData();
+			$rawGroups = $rules['core.admin']->getData();
 			$groups    = array();
 
 			if (empty($rawGroups))
@@ -360,6 +362,7 @@ class PlgSystemUpdatenotification extends JPlugin
 							)
 						)->from($db->qn('#__users'))
 						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
+						->where($db->qn('block') . ' = 0')
 						->where($db->qn('sendEmail') . ' = ' . $db->q('1'));
 
 			if (!empty($emails))
@@ -400,7 +403,7 @@ class PlgSystemUpdatenotification extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' :
+						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					);
 

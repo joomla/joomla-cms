@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Database
  * @since       3.4
  */
-class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -55,40 +55,40 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPdomysql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPdomysql')
+			->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+				)
+			)
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getPrefix')
 			->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
+				$this->returnValue(
+					'jos_'
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableColumns')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					'id' => (object) array(
 						'Field' => 'id',
 						'Type' => 'int(11) unsigned',
@@ -111,17 +111,17 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 						'Privileges' => 'select,insert,update,references',
 						'Comment' => '',
 					),
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableKeys')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Table' => 'jos_test',
 						'Non_unique' => '0',
@@ -136,49 +136,49 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 						'Index_type' => 'BTREE',
 						'Comment' => '',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quoteName')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuoteName')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quote')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuote')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuote')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('setQuery')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackSetQuery')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('loadObjectList')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackLoadObjectList')
+				)
+			);
 	}
 
 	/**
@@ -187,7 +187,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -799,7 +799,6 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 				$this->identicalTo($instance),
 				'setDbo must return an object to support chaining.'
 			);
-
 		}
 		catch (PHPUnit_Framework_Error $e)
 		{

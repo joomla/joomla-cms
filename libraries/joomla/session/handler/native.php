@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @since  3.5
+ * @since       3.5
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionHandlerNative implements JSessionHandlerInterface
 {
@@ -142,7 +143,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 */
 	public function regenerate($destroy = false, $lifetime = null)
 	{
-		if (null !== $lifetime)
+		if (!headers_sent() && null !== $lifetime)
 		{
 			ini_set('session.cookie_lifetime', $lifetime);
 		}
@@ -187,7 +188,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 			$session = JFactory::getSession();
 			$data    = $session->getData();
 
-			// Before storing it, let's serialize and encode the JRegistry object
+			// Before storing it, let's serialize and encode the Registry object
 			$_SESSION['joomla'] = base64_encode(serialize($data));
 
 			session_write_close();

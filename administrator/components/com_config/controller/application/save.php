@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -71,15 +71,15 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
-		// Save the data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
-
 		// Check for validation errors.
 		if ($return === false)
 		{
 			/*
 			 * The validate method enqueued all messages for us, so we just need to redirect back.
 			 */
+
+			// Save the posted data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
@@ -96,7 +96,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 			 * The save method enqueued all messages for us, so we just need to redirect back.
 			 */
 
-			// Save the data in the session.
+			// Save the validated data in the session.
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
@@ -105,6 +105,9 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 		// Set the success message.
 		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
+
+		// Clear the data from the session.
+		$this->app->setUserState('com_config.config.global.data', null);
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])

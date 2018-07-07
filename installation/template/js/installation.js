@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Installation
  * @subpackage  JavaScript
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ var Installation = function(_container, _base) {
 
         // Create and append the loading layer.
         Joomla.loadingLayer("load");
-    }
+    };
 
     /**
      * Method to submit a form from the installer via AJAX
@@ -67,7 +67,7 @@ var Installation = function(_container, _base) {
         });
 
         return false;
-    }
+    };
 
     /**
      * Method to set the language for the installation UI via AJAX
@@ -115,7 +115,7 @@ var Installation = function(_container, _base) {
         });
 
         return false;
-    }
+    };
 
     /**
      * Method to request a different page via AJAX
@@ -149,7 +149,7 @@ var Installation = function(_container, _base) {
         });
 
         return false;
-    }
+    };
 
     /**
      * Executes the required tasks to complete site installation
@@ -209,7 +209,7 @@ var Installation = function(_container, _base) {
             } catch (e) {
             }
         });
-    }
+    };
 
     /**
      * Method to detect the FTP root via AJAX request.
@@ -227,7 +227,7 @@ var Installation = function(_container, _base) {
             dataType : 'json'
         }).done(function(r) {
             if (r) {
-                Joomla.replaceTokens(r.token)
+                Joomla.replaceTokens(r.token);
                 if (r.error == false) {
                     $('#jform_ftp_root').val(r.data.root);
                 } else {
@@ -244,7 +244,7 @@ var Installation = function(_container, _base) {
                 alert(xhr.status + ': ' + xhr.statusText);
             }
         });
-    }
+    };
 
     /**
      * Method to verify the supplied FTP settings are valid via AJAX request.
@@ -264,7 +264,7 @@ var Installation = function(_container, _base) {
             dataType : 'json'
         }).done(function(r) {
             if (r) {
-                Joomla.replaceTokens(r.token)
+                Joomla.replaceTokens(r.token);
                 if (r.error == false) {
                     alert(Joomla.JText._('INSTL_FTP_SETTINGS_CORRECT', 'Settings correct'));
                 } else {
@@ -281,7 +281,7 @@ var Installation = function(_container, _base) {
                 alert(xhr.status + ': ' + xhr.statusText);
             }
         });
-    }
+    };
 
     /**
      * Method to remove the installation Folder after a successful installation.
@@ -333,7 +333,7 @@ var Installation = function(_container, _base) {
             }
             $el.removeAttr('disabled');
         });
-    }
+    };
 
     var toggle = function(id, el, value) {
         var val = $('input[name="jform[' + el + ']"]:checked').val(), $id = $('#' + id);
@@ -342,7 +342,7 @@ var Installation = function(_container, _base) {
         } else {
             $id.hide();
         }
-    }
+    };
 
     /**
      * Initializes the Installation class
@@ -358,7 +358,7 @@ var Installation = function(_container, _base) {
         view = '';
 
         pageInit();
-    }
+    };
     initialize(_container, _base);
 
     return {
@@ -371,4 +371,116 @@ var Installation = function(_container, _base) {
         removeFolder : removeFolder,
         toggle : toggle
     }
+};
+
+/**
+ * Initializes the elements
+ */
+function initElements()
+{
+	(function($){
+		$('.hasTooltip').tooltip();
+
+		// Chosen select boxes
+		$('select').chosen({
+			disable_search_threshold : 10,
+			allow_single_deselect : true
+		});
+
+		// Turn radios into btn-group
+		$('.radio.btn-group label').addClass('btn');
+
+		$('.btn-group label:not(.active)').click(function()
+		{
+			var label = $(this);
+			var input = $('#' + label.attr('for'));
+
+			if (!input.prop('checked'))
+			{
+				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
+
+				if (label.closest('.btn-group').hasClass('btn-group-reverse'))
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-danger');
+					}
+					else
+					{
+						label.addClass('active btn-success');
+					}
+				}
+				else
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-success');
+					}
+					else
+					{
+						label.addClass('active btn-danger');
+					}
+				}
+				input.prop('checked', true);
+			}
+		});
+
+		$('.btn-group input[checked="checked"]').each(function()
+		{
+			var $self  = $(this);
+			var attrId = $self.attr('id');
+
+			if ($self.hasClass('btn-group-reverse'))
+			{
+				if ($self.val() == '')
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+				}
+				else
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
+				}
+			}
+			else
+			{
+				if ($self.val() == '')
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
+				}
+				else
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+				}
+			}
+		});
+	})(jQuery);
 }
+
+// Init on dom content loaded event
+document.addEventListener('DOMContentLoaded', function() {
+
+	// Init the elements
+	initElements();
+
+	// Init installation
+	var installOptions  = Joomla.getOptions('system.installation'),
+	    installurl = installOptions.url ? installOptions.url.replace(/&amp;/g, '&') : 'index.php';
+
+	window.Install = new Installation('container-installation', installurl);
+});

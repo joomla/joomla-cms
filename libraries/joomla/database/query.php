@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -147,14 +147,22 @@ abstract class JDatabaseQuery
 	/**
 	 * @var    JDatabaseQueryElement  The union element.
 	 * @since  12.1
+	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $union = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The unionAll element.
 	 * @since  13.1
+	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $unionAll = null;
+
+	/**
+	 * @var    array  Details of window function.
+	 * @since  3.7.0
+	 */
+	protected $selectRowNumber = null;
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
@@ -241,24 +249,32 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->where;
 				}
 
-				if ($this->group)
+				if ($this->selectRowNumber === null)
 				{
-					$query .= (string) $this->group;
-				}
+					if ($this->group)
+					{
+						$query .= (string) $this->group;
+					}
 
-				if ($this->having)
-				{
-					$query .= (string) $this->having;
+					if ($this->having)
+					{
+						$query .= (string) $this->having;
+					}
+
+					if ($this->union)
+					{
+						$query .= (string) $this->union;
+					}
+
+					if ($this->unionAll)
+					{
+						$query .= (string) $this->unionAll;
+					}
 				}
 
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
-				}
-
-				if ($this->union)
-				{
-					$query .= (string) $this->union;
 				}
 
 				break;
@@ -463,6 +479,7 @@ abstract class JDatabaseQuery
 			case 'select':
 				$this->select = null;
 				$this->type = null;
+				$this->selectRowNumber = null;
 				break;
 
 			case 'delete':
@@ -547,6 +564,7 @@ abstract class JDatabaseQuery
 			default:
 				$this->type = null;
 				$this->select = null;
+				$this->selectRowNumber = null;
 				$this->delete = null;
 				$this->update = null;
 				$this->insert = null;
@@ -1481,15 +1499,18 @@ abstract class JDatabaseQuery
 	 * Usage (the $query base query MUST be a select query):
 	 * $query->union('SELECT name FROM  #__foo')
 	 * $query->union('SELECT name FROM  #__foo', true)
-	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 * $query->union($query2)->union($query3)
+	 *
+	 * The $query attribute as an array is deprecated and will not be supported in 4.0.
+	 *
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 * $query->union(array($query2, $query3))
 	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
 	 * @param   boolean  $distinct  True to only return distinct rows from the union.
 	 * @param   string   $glue      The glue by which to join the conditions.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
@@ -1507,6 +1528,11 @@ abstract class JDatabaseQuery
 		{
 			$glue = ')' . PHP_EOL . 'UNION (';
 			$name = 'UNION ()';
+		}
+
+		if (is_array($query))
+		{
+			JLog::add('Query attribute as an array is deprecated.', JLog::WARNING, 'deprecated');
 		}
 
 		// Get the JDatabaseQueryElement if it does not exist
@@ -1532,11 +1558,12 @@ abstract class JDatabaseQuery
 	 * @param   mixed   $query  The JDatabaseQuery object or string to union.
 	 * @param   string  $glue   The glue by which to join the conditions.
 	 *
-	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *
 	 * @since   12.1
+	 * @deprecated  4.0  Use union() instead.
 	 */
 	public function unionDistinct($query, $glue = '')
 	{
@@ -1720,7 +1747,7 @@ abstract class JDatabaseQuery
 		};
 
 		/**
-		 * Regexp to find an replace all tokens.
+		 * Regexp to find and replace all tokens.
 		 * Matched fields:
 		 * 0: Full token
 		 * 1: Everything following '%'
@@ -1740,13 +1767,13 @@ abstract class JDatabaseQuery
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 * Note: Not all drivers support all units.
 	 *
-	 * @param   datetime  $date      The date to add to. May be date or datetime
-	 * @param   string    $interval  The string representation of the appropriate number of units
-	 * @param   string    $datePart  The part of the date to perform the addition on
+	 * @param   mixed   $date      The date to add to. May be date or datetime
+	 * @param   string  $interval  The string representation of the appropriate number of units
+	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
+	 * @link    http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 * @since   13.1
 	 */
 	public function dateAdd($date, $interval, $datePart)
@@ -1760,13 +1787,16 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->union('SELECT name FROM  #__foo')
+	 *
+	 * The $query attribute as an array is deprecated and will not be supported in 4.0.
+	 *
 	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
 	 * @param   boolean  $distinct  Not used - ignored.
 	 * @param   string   $glue      Not used - ignored.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *
@@ -1776,6 +1806,11 @@ abstract class JDatabaseQuery
 	{
 		$glue = ')' . PHP_EOL . 'UNION ALL (';
 		$name = 'UNION ALL ()';
+
+		if (is_array($query))
+		{
+			JLog::add('Query attribute as an array is deprecated.', JLog::WARNING, 'deprecated');
+		}
 
 		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->unionAll))
@@ -1788,6 +1823,56 @@ abstract class JDatabaseQuery
 		{
 			$this->unionAll->append($query);
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Validate arguments which are passed to selectRowNumber method and set up common variables.
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 * @throws  RuntimeException
+	 */
+	protected function validateRowNumber($orderBy, $orderColumnAlias)
+	{
+		if ($this->selectRowNumber)
+		{
+			throw new RuntimeException("Method 'selectRowNumber' can be called only once per instance.");
+		}
+
+		$this->type = 'select';
+
+		$this->selectRowNumber = array(
+			'orderBy' => $orderBy,
+			'orderColumnAlias' => $orderColumnAlias,
+		);
+	}
+
+	/**
+	 * Return the number of the current row.
+	 *
+	 * Usage:
+	 * $query->select('id');
+	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
+	 * $query->from('#__content');
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.7.0
+	 * @throws  RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias);
+		$this->select("ROW_NUMBER() OVER (ORDER BY $orderBy) AS $orderColumnAlias");
 
 		return $this;
 	}

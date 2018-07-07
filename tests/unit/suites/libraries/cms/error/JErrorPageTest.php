@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -136,6 +136,6 @@ class JErrorPageTest extends TestCaseDatabase
 		JErrorPage::render($object);
 		$output = ob_get_clean();
 
-		$this->assertEquals('Error displaying the error page', $output);
+		$this->assertEquals('Error', $output);
 	}
 }

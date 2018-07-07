@@ -367,12 +367,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'and', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='and');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('ani', 'en') WHERE "term"='ani';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'ani', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='ani');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('any', 'en') WHERE "term"='any';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")
@@ -547,12 +541,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'not', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='not');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('noth', 'en') WHERE "term"='noth';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'noth', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='noth');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('nothing', 'en') WHERE "term"='nothing';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")
@@ -599,12 +587,6 @@ UPDATE "#__finder_terms_common" SET ("term", "language") = ('once', 'en') WHERE 
 
 INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'once', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='once');
-
---
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('onli', 'en') WHERE "term"='onli';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'onli', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='onli');
 
 --
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('only', 'en') WHERE "term"='only';
@@ -841,12 +823,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'users', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='users');
 
 --
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('veri', 'en') WHERE "term"='veri';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'veri', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='veri');
-
---
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('version', 'en') WHERE "term"='version';
 
 INSERT INTO "#__finder_terms_common" ("term", "language")
@@ -905,12 +881,6 @@ UPDATE "#__finder_terms_common" SET ("term", "language") = ('where', 'en') WHERE
 
 INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'where', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='where');
-
---
-UPDATE "#__finder_terms_common" SET ("term", "language") = ('whi', 'en') WHERE "term"='whi';
-
-INSERT INTO "#__finder_terms_common" ("term", "language")
-SELECT 'whi', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='whi');
 
 --
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('which', 'en') WHERE "term"='which';

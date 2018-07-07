@@ -3,11 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
+require_once JPATH_TESTS . '/suites/libraries/joomla/database/stubs/nosqldriver.php';
 
 use Joomla\Registry\Registry;
 
@@ -75,6 +76,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -90,10 +92,11 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getInstance
 	 */
 	public function testGetInstanceSqlazure()
 	{
-		JFactory::$database->name = 'sqlazure';
+		JFactory::$database = $this->getMockDatabase('Sqlazure');
 
 		$this->assertInstanceOf(
 			'FinderIndexerDriverSqlsrv',
@@ -107,11 +110,12 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getInstance
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetInstanceException()
 	{
-		JFactory::$database->name = 'nosql';
+		JFactory::$database = $this->getMockDatabase('Nosql');
 
 		FinderIndexer::getInstance();
 	}
@@ -122,6 +126,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getState
 	 */
 	public function testGetState()
 	{
@@ -137,6 +142,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::setState
 	 */
 	public function testSetState()
 	{
@@ -165,6 +171,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::setState
 	 */
 	public function testSetStateBadData()
 	{
@@ -185,6 +192,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::resetState
 	 */
 	public function testResetState()
 	{

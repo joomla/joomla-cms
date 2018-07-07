@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo $item->count;?>
 					</td>
 					<td>
-						<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4').' H:i');?>
+						<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC5'));?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -131,10 +131,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				'height'      => '300px',
 				'footer'      => '<a class="btn" data-dismiss="modal" type="button"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_("COM_BANNERS_CANCEL") . '</a>'
+						. JText::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
-						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
+						. JText::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 			)
 		); ?>
 

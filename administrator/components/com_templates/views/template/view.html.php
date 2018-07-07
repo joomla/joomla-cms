@@ -1,19 +1,19 @@
 <?php
 /**
-* @package     Joomla.Administrator
-* @subpackage  com_templates
-*
-* @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
-* @license     GNU General Public License version 2 or later; see LICENSE.txt
-*/
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 defined('_JEXEC') or die;
 
 /**
-* View to edit a template style.
-*
-* @since  1.6
-*/
+ * View to edit a template style.
+ *
+ * @since  1.6
+ */
 class TemplatesViewTemplate extends JViewLegacy
 {
 	/**
@@ -97,7 +97,7 @@ class TemplatesViewTemplate extends JViewLegacy
 	{
 		$app            = JFactory::getApplication();
 		$this->file     = $app->input->get('file');
-		$this->fileName = base64_decode($this->file);
+		$this->fileName = JFilterInput::getInstance()->clean(base64_decode($this->file), 'string');
 		$explodeArray   = explode('.', $this->fileName);
 		$ext            = end($explodeArray);
 		$this->files    = $this->get('Files');

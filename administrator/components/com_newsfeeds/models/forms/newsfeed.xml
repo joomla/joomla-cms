@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
@@ -109,22 +109,20 @@
 
 		<field
 			name="numarticles"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 			default="5"
 			size="2"
-			required="true"
 		/>
 
 		<field
 			name="cache_time"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			default="3600"
 			size="4"
-			required="true"
 		/>
 
 		<field
@@ -140,8 +138,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL"
 			description="JGLOBAL_FIELD_CREATED_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -166,9 +165,10 @@
 			label="JGLOBAL_FIELD_Modified_Label"
 			description="COM_NEWSFEEDS_FIELD_MODIFIED_DESC"
 			class="readonly"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -218,8 +218,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -228,8 +229,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -283,8 +285,8 @@
 					type="list"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					description="COM_NEWSFEEDS_FLOAT_DESC"
+					useglobal="true"
 					>
-					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
 					<option value="none">COM_NEWSFEEDS_NONE</option>
@@ -324,8 +326,8 @@
 					type="list"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					description="COM_NEWSFEEDS_FLOAT_DESC"
+					useglobal="true"
 					>
-					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
 					<option value="none">COM_NEWSFEEDS_NONE</option>
@@ -354,22 +356,20 @@
 
 		<field
 			name="numarticles"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 			default="5"
 			size="2"
-			required="true"
 		/>
 
 		<field
 			name="cache_time"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			default="3600"
 			size="4"
-			required="true"
 		/>
 
 		<field
@@ -391,8 +391,8 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+				useglobal="true"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -402,8 +402,8 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+				useglobal="true"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -413,19 +413,19 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+				useglobal="true"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="feed_character_count"
-				type="text"
+				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
-				default="0"
 				size="6"
+				useglobal="true"
 			/>
 
 			<field
@@ -443,16 +443,13 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
+				useglobal="true"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>
 		</fields>
 	</fieldset>
-
-	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
@@ -476,22 +473,21 @@
 				type="text"
 				label="JFIELD_META_RIGHTS_LABEL"
 				description="JFIELD_META_RIGHTS_DESC"
-				required="false"
 				rows="2"
 				cols="30"
 				filter="string"
 			/>
-		</fieldset>
 
-		<field
-			name="hits"
-			type="text"
-			label="JGLOBAL_HITS"
-			description="COM_WEBLINKS_HITS_DESC"
-			class="readonly"
-			size="6"
-			readonly="true"
-			filter="unset"
-		/>
+			<field
+				name="hits"
+				type="number"
+				label="JGLOBAL_HITS"
+				description="COM_NEWSFEEDS_HITS_DESC"
+				class="readonly"
+				size="6"
+				readonly="true"
+				filter="unset"
+			/>
+		</fieldset>
 	</fields>
 </form>

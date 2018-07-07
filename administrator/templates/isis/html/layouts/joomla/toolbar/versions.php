@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,11 +33,11 @@ echo JHtml::_(
 		'height' => '300px',
 		'width'  => '800px',
 		'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JTOOLBAR_CLOSE") . '</a>'
+			. JText::_('JTOOLBAR_CLOSE') . '</a>'
 	)
 );
 ?>
-<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal" title="<?php echo $title; ?>">
-	<span class="icon-archive"></span><?php echo $title; ?>
+<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal">
+	<span class="icon-archive" aria-hidden="true"></span><?php echo $title; ?>
 </button>
 
