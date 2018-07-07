@@ -66,14 +66,7 @@ class PlgActionlogJoomla extends JPlugin
 
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
-		if (is_array($params->get('loggable_extensions')))
-		{
-			$this->loggableExtensions = $params->get('loggable_extensions');
-		}
-		else
-		{
-			$this->loggableExtensions = explode(',', $params->get('loggable_extensions'));
-		}
+		$this->loggableExtensions = $params->get('loggable_extensions', array());
 	}
 
 	/**
