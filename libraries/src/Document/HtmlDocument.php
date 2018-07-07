@@ -145,7 +145,10 @@ class HtmlDocument extends Document
 		$data['scripts']       = $this->_scripts;
 		$data['script']        = $this->_script;
 		$data['custom']        = $this->_custom;
-		$data['scriptText']    = \JText::getScriptStrings(); // This is for b.c. and can be safely removed in future
+
+		// This is for b.c. and can be safely removed in future
+		$data['scriptText']    = \JText::getScriptStrings();
+
 		$data['scriptOptions'] = $this->scriptOptions;
 
 		return $data;
@@ -257,7 +260,6 @@ class HtmlDocument extends Document
 		$this->_custom       = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
 		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
-
 		return $this;
 	}
 
@@ -337,7 +339,8 @@ class HtmlDocument extends Document
 
 		if (!empty($data['scriptOptions']))
 		{
-			foreach ($data['scriptOptions'] as $key => $scriptOptions) {
+			foreach ($data['scriptOptions'] as $key => $scriptOptions)
+			{
 				$this->addScriptOptions($key, $scriptOptions, true);
 			}
 		}
