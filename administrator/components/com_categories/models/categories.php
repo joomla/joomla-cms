@@ -47,6 +47,11 @@ class CategoriesModelCategories extends JModelList
 			);
 		}
 
+		if (JLanguageAssociations::isEnabled())
+		{
+			$config['filter_fields'][] = 'association';
+		}
+
 		parent::__construct($config);
 	}
 
@@ -361,7 +366,7 @@ class CategoriesModelCategories extends JModelList
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   stdClass[]  &$items     The category items
+	 * @param   stdClass[]  $items      The category items
 	 * @param   string      $extension  The category extension
 	 *
 	 * @return  void

@@ -91,14 +91,15 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		$this->app = JFactory::getApplication();
 
+		// Setup language data.
+		$this->mode_sef     = $this->app->get('sef', 0);
+		$this->sefs         = JLanguageHelper::getLanguages('sef');
+		$this->lang_codes   = JLanguageHelper::getLanguages('lang_code');
+		$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+
+		// If language filter plugin is executed in a site page.
 		if ($this->app->isClient('site'))
 		{
-			// Setup language data.
-			$this->mode_sef     = $this->app->get('sef', 0);
-			$this->sefs         = JLanguageHelper::getLanguages('sef');
-			$this->lang_codes   = JLanguageHelper::getLanguages('lang_code');
-			$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 
 			foreach ($this->sefs as $sef => $language)
@@ -109,6 +110,21 @@ class PlgSystemLanguageFilter extends JPlugin
 					|| (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0))))
 				{
 					unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
+				}
+			}
+		}
+		// If language filter plugin is executed in a admin page (ex: JRoute site).
+		else
+		{
+			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
+			$this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
+
+			foreach ($this->sefs as $sef => $language)
+			{
+				if (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0)))
+				{
+					unset($this->lang_codes[$language->lang_code]);
+					unset($this->sefs[$language->sef]);
 				}
 			}
 		}
@@ -125,26 +141,24 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$this->app->item_associations = $this->params->get('item_associations', 0);
 
-		if ($this->app->isClient('site'))
+		// We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
+		$router = JApplicationCms::getInstance('site')->getRouter('site');
+
+		// Attach build rules for language SEF.
+		$router->attachBuildRule(array($this, 'preprocessBuildRule'), JRouter::PROCESS_BEFORE);
+		$router->attachBuildRule(array($this, 'buildRule'), JRouter::PROCESS_DURING);
+
+		if ($this->mode_sef)
 		{
-			$router = $this->app->getRouter();
-
-			// Attach build rules for language SEF.
-			$router->attachBuildRule(array($this, 'preprocessBuildRule'), JRouter::PROCESS_BEFORE);
-			$router->attachBuildRule(array($this, 'buildRule'), JRouter::PROCESS_DURING);
-
-			if ($this->mode_sef)
-			{
-				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), JRouter::PROCESS_AFTER);
-			}
-			else
-			{
-				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), JRouter::PROCESS_AFTER);
-			}
-
-			// Attach parse rules for language SEF.
-			$router->attachParseRule(array($this, 'parseRule'), JRouter::PROCESS_DURING);
+			$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), JRouter::PROCESS_AFTER);
 		}
+		else
+		{
+			$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), JRouter::PROCESS_AFTER);
+		}
+
+		// Attach parse rules for language SEF.
+		$router->attachParseRule(array($this, 'parseRule'), JRouter::PROCESS_DURING);
 	}
 
 	/**
@@ -157,7 +171,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	public function onAfterRoute()
 	{
 		// Add custom site name.
-		if (isset($this->lang_codes[$this->current_lang]) && $this->lang_codes[$this->current_lang]->sitename)
+		if ($this->app->isClient('site') && isset($this->lang_codes[$this->current_lang]) && $this->lang_codes[$this->current_lang]->sitename)
 		{
 			$this->app->set('sitename', $this->lang_codes[$this->current_lang]->sitename);
 		}
@@ -519,7 +533,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
-		if (array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if (array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$this->user_lang_code = $registry->get('language');
@@ -547,7 +561,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$lang_code = $registry->get('language');
@@ -597,6 +611,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			if ($this->params->get('automatic_change', 1))
 			{
+				$assoc = JLanguageAssociations::isEnabled();
 				$lang_code = $user['language'];
 
 				// If no language is specified for this user, we set it to the site default language
@@ -624,56 +639,48 @@ class PlgSystemLanguageFilter extends JPlugin
 				/**
 				 * Looking for associations.
 				 * If the login menu item form contains an internal URL redirection,
-				 * this will override the automatic change to the user preferred site language.
+				 * This will override the automatic change to the user preferred site language.
 				 * In that case we use the redirect as defined in the menu item.
-				 * Otherwise we redirect, when available, to the user preferred site language.
+				 *  Otherwise we redirect, when available, to the user preferred site language.
 				 */
-				if (!$active || !$active->params['login_redirect_url'])
+				if ($active && !$active->params['login_redirect_url'])
 				{
-					if (JLanguageAssociations::isEnabled())
+					if ($assoc)
 					{
-						// Retrieves the Itemid from a login form.
-						$uri = new JUri($this->app->getUserState('users.login.form.return'));
-
-						$Itemid = $uri->getVar('Itemid');
-
-						if (!$Itemid && $this->mode_sef)
-						{
-							// Workaround to not use current active item id
-							$activeId = $this->app->input->get('Itemid');
-							$this->app->input->set('Itemid', null);
-
-							// Get Itemid from SEF or home page
-							$query  = $this->app->getRouter()->parse($uri);
-							$Itemid = isset($query['Itemid']) ? $query['Itemid'] : null;
-
-							// Restore active item id
-							$this->app->input->set('Itemid', $activeId);
-						}
-
-						if ($Itemid)
-						{
-							// Assign the active item from previous page to check for home page below
-							$active = $menu->getItem($Itemid);
-
-							// The login form contains a menu item redirection. Try to get associations from that menu item.
-							$associations = MenusHelper::getAssociations($Itemid);
-						}
-						else
-						{
-							// Return URL does not have any Itemid
-							$active = null;
-						}
+						$associations = MenusHelper::getAssociations($active->id);
 					}
 
-					// If any association set to the user preferred site language, redirect to that page.
-					if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
+					// Retrieves the Itemid from a login form.
+					$uri = new JUri($this->app->getUserState('users.login.form.return'));
+
+					if ($uri->getVar('Itemid'))
 					{
+						// The login form contains a menu item redirection. Try to get associations from that menu item.
+						// If any association set to the user preferred site language, redirect to that page.
+						if ($assoc)
+						{
+							$associations = MenusHelper::getAssociations($uri->getVar('Itemid'));
+						}
+
+						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
+						{
+							$associationItemid = $associations[$lang_code];
+							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+							$foundAssociation = true;
+						}
+					}
+					elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
+					{
+						/**
+						 * The login form does not contain a menu item redirection.
+						 * The active menu item has associations.
+						 * We redirect to the user preferred site language associated page.
+						 */
 						$associationItemid = $associations[$lang_code];
 						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
 						$foundAssociation = true;
 					}
-					elseif ($active && $active->home)
+					elseif ($active->home)
 					{
 						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);

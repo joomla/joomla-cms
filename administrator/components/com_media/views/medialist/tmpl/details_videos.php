@@ -30,19 +30,19 @@ jQuery(document).ready(function($){
 	<tr>
 		<?php if ($this->canDelete) : ?>
 			<td>
-				<?php echo JHtml::_('grid.id', $i, $video->name, false, 'rm', 'cb-video'); ?>
+				<?php echo JHtml::_('grid.id', $i, $this->escape($video->name), false, 'rm', 'cb-video'); ?>
 			</td>
 		<?php endif; ?>
 
 		<td>
-			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', $video->name; ?>" title="<?php echo $video->title; ?>">
-				<?php JHtml::_('image', $video->icon_16, $video->title, null, true); ?>
+			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($video->name); ?>" title="<?php echo $this->escape($video->title); ?>">
+				<?php JHtml::_('image', $video->icon_16, $this->escape($video->title), null, true); ?>
 			</a>
 		</td>
 
 		<td class="description">
-			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', $video->name; ?>" title="<?php echo $video->name; ?>">
-				<?php echo JHtml::_('string.truncate', $video->name, 10, false); ?>
+			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($video->name); ?>" title="<?php echo $this->escape($video->name); ?>">
+				<?php echo JHtml::_('string.truncate', $this->escape($video->name), 10, false); ?>
 			</a>
 		</td>
 
@@ -56,7 +56,7 @@ jQuery(document).ready(function($){
 
 		<?php if ($this->canDelete) : ?>
 			<td>
-				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $video->name; ?>" rel="<?php echo $video->name; ?>">
+				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo rawurlencode($this->state->folder); ?>&amp;rm[]=<?php echo $this->escape($video->name); ?>" rel="<?php echo $this->escape($video->name); ?>">
 					<span class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE'); ?>"></span>
 				</a>
 			</td>

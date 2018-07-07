@@ -44,7 +44,7 @@ class ConfigControllerTemplatesDisplay extends ConfigControllerDisplay
 
 		// Set backend required params
 		$document->setType('json');
-		$this->input->set('id', $app->getTemplate('template')->id);
+		$this->input->set('id', $app->getTemplate(true)->id);
 
 		// Execute backend controller
 		$serviceData = json_decode($displayClass->display(), true);

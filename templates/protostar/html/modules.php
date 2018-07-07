@@ -36,10 +36,10 @@ function modChrome_no($module, &$params, &$attribs)
 
 function modChrome_well($module, &$params, &$attribs)
 {
-	$moduleTag     = $params->get('module_tag', 'div');
+	$moduleTag     = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
 	$bootstrapSize = (int) $params->get('bootstrap_size', 0);
 	$moduleClass   = $bootstrapSize !== 0 ? ' span' . $bootstrapSize : '';
-	$headerTag     = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
+	$headerTag     = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
 	$headerClass   = htmlspecialchars($params->get('header_class', 'page-header'), ENT_COMPAT, 'UTF-8');
 
 	if ($module->content)

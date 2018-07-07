@@ -59,15 +59,15 @@ abstract class ModArticlesNewsHelper
 		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Filer by tag
-		$model->setState('filter.tag', $params->get('tag'), array());
+		$model->setState('filter.tag', $params->get('tag', array()));
 
 		//  Featured switch
 		switch ($params->get('show_featured'))
 		{
-			case '1' :
+			case 1 :
 				$model->setState('filter.featured', 'only');
 				break;
-			case '0' :
+			case 0 :
 				$model->setState('filter.featured', 'hide');
 				break;
 			default :
@@ -101,7 +101,7 @@ abstract class ModArticlesNewsHelper
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -119,9 +119,40 @@ abstract class ModArticlesNewsHelper
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
+			// Remove any images belongs to the text
 			if (!$params->get('image'))
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+			}
+
+			// Show the Intro/Full image field of the article
+			if ($params->get('img_intro_full') !== 'none')
+			{
+				$images = json_decode($item->images);
+				$item->imageSrc = '';
+				$item->imageAlt = '';
+				$item->imageCaption = '';
+
+				if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
+
+					if ($images->image_intro_caption) 
+					{
+						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
+				elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
+
+					if ($images->image_intro_caption) 
+					{
+						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
 			}
 
 			if ($triggerEvents)

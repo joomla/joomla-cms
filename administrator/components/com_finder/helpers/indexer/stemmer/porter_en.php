@@ -350,7 +350,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	 * Replaces the first string with the second, at the end of the string. If third
 	 * arg is given, then the preceding string must match that m count at least.
 	 *
-	 * @param   string   &$str   String to check
+	 * @param   string   $str    String to check
 	 * @param   string   $check  Ending to check for
 	 * @param   string   $repl   Replacement string
 	 * @param   integer  $m      Optional minimum number of m() to meet

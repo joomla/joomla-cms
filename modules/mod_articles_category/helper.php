@@ -69,8 +69,6 @@ abstract class ModArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($app->input->getInt('id'));
 							break;
@@ -191,16 +189,13 @@ abstract class ModArticlesCategoryHelper
 				break;
 		}
 
-		// New Parameters
-		if ($params->get('filter_tag', ''))
-		{
-			$articles->setState('filter.tag', $params->get('filter_tag', ''));
-		}
+		// Filter by multiple tags
+		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', ''));
+		$articles->setState('filter.author_id', $params->get('created_by', array()));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', ''));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
@@ -257,7 +252,7 @@ abstract class ModArticlesCategoryHelper
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

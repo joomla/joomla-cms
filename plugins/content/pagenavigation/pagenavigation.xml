@@ -27,6 +27,7 @@
 					label="PLG_PAGENAVIGATION_FIELD_POSITION_LABEL"
 					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_BELOW</option>
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_ABOVE</option>
@@ -38,6 +39,7 @@
 					label="PLG_PAGENAVIGATION_FIELD_RELATIVE_LABEL"
 					description="PLG_PAGENAVIGATION_FIELD_RELATIVE_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_ARTICLE</option>
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_TEXT</option>
@@ -49,6 +51,7 @@
 					label="PLG_PAGENAVIGATION_FIELD_DISPLAY_LABEL"
 					description="PLG_PAGENAVIGATION_FIELD_DISPLAY_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_NEXTPREV</option>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_TITLE</option>

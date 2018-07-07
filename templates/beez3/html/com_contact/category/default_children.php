@@ -32,15 +32,15 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 					<?php echo JHtml::_('content.prepare', $child->description, '', 'com_contact.category'); ?>
 				</div>
 			<?php endif; ?>
-            <?php endif; ?>
+			<?php endif; ?>
 
-            <?php if ($this->params->get('show_cat_items') == 1) :?>
-			<dl><dt>
-				<?php echo JText::_('COM_CONTACT_CAT_NUM'); ?></dt>
-				<dd><?php echo $child->numitems; ?></dd>
-			</dl>
+			<?php if ($this->params->get('show_cat_items') == 1) :?>
+				<dl><dt>
+					<?php echo JText::_('COM_CONTACT_CAT_NUM'); ?></dt>
+					<dd><?php echo $child->numitems; ?></dd>
+				</dl>
 		<?php endif; ?>
-            <?php if (count($child->getChildren()) > 0 ) :
+			<?php if (count($child->getChildren()) > 0 ) :
 				$this->children[$child->id] = $child->getChildren();
 				$this->category = $child;
 				$this->maxLevel--;

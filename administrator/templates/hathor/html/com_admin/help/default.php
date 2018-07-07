@@ -29,7 +29,7 @@ jimport('joomla.language.help');
 				<ul class="subext">
 					<?php foreach ($this->toc as $k => $v):?>
 						<li>
-						    <?php $url = JHelp::createUrl('JHELP_'.strtoupper($k)); ?>
+							<?php $url = JHelp::createUrl('JHELP_'.strtoupper($k)); ?>
 							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame'));?>
 						</li>
 					<?php endforeach;?>

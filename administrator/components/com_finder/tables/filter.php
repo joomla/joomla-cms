@@ -22,7 +22,7 @@ class FinderTableFilter extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  JDatabaseDriver connector object.
+	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
@@ -240,7 +240,7 @@ class FinderTableFilter extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Filter', 'FinderTable');
+		$table = JTable::getInstance('Filter', 'FinderTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0))
 		{

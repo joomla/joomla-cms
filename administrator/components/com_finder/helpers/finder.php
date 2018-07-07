@@ -55,7 +55,7 @@ class FinderHelper
 	/**
 	 * Gets the finder system plugin extension id.
 	 *
-	 * @return  int  The finder system plugin extension id.
+	 * @return  integer  The finder system plugin extension id.
 	 *
 	 * @since   3.6.0
 	 */
