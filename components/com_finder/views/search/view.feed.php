@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,9 @@ class FinderViewSearch extends JViewLegacy
 			$item->title       = $result->title;
 			$item->link        = JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date        = (int) $result->start_date ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
+
+			// Use Unix date to cope for non-english languages
+			$item->date        = (int) $result->start_date ? JHtml::_('date', $result->start_date, 'U') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();

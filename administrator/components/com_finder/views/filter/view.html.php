@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -16,6 +16,51 @@ defined('_JEXEC') or die;
  */
 class FinderViewFilter extends JViewLegacy
 {
+	/**
+	 * The filter object
+	 *
+	 * @var  FinderTableFilter
+	 *
+	 * @since  3.6.2
+	 */
+	protected $filter;
+
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 *
+	 * @since  3.6.2
+	 */
+	protected $form;
+
+	/**
+	 * The active item
+	 *
+	 * @var  JObject|boolean
+	 *
+	 * @since  3.6.2
+	 */
+	protected $item;
+
+	/**
+	 * The model state
+	 *
+	 * @var  mixed
+	 *
+	 * @since  3.6.2
+	 */
+	protected $state;
+
+	/**
+	 * The total indexed items
+	 *
+	 * @var  integer
+	 *
+	 * @since  3.8.0
+	 */
+	protected $total;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -32,13 +77,12 @@ class FinderViewFilter extends JViewLegacy
 		$this->item = $this->get('Item');
 		$this->form = $this->get('Form');
 		$this->state = $this->get('State');
+		$this->total = $this->get('Total');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -47,7 +91,7 @@ class FinderViewFilter extends JViewLegacy
 		// Configure the toolbar.
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -61,10 +105,8 @@ class FinderViewFilter extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user = JFactory::getUser();
-		$userId = $user->get('id');
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == JFactory::getUser()->id);
 		$canDo = JHelperContent::getActions('com_finder');
 
 		// Configure the toolbar.
@@ -89,19 +131,16 @@ class FinderViewFilter extends JViewLegacy
 		else
 		{
 			// Can't save the record if it's checked out.
-			if (!$checkedOut)
+			// Since it's an existing record, check the edit permission.
+			if (!$checkedOut && $canDo->get('core.edit'))
 			{
-				// Since it's an existing record, check the edit permission.
-				if ($canDo->get('core.edit'))
-				{
-					JToolbarHelper::apply('filter.apply');
-					JToolbarHelper::save('filter.save');
+				JToolbarHelper::apply('filter.apply');
+				JToolbarHelper::save('filter.save');
 
-					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create'))
-					{
-						JToolbarHelper::save2new('filter.save2new');
-					}
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('filter.save2new');
 				}
 			}
 

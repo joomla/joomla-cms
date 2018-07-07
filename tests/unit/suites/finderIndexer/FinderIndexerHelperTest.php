@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
@@ -39,6 +39,7 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerHelper::parse
 	 */
 	public function testParse()
 	{
@@ -49,6 +50,14 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 		);
 	}
 
+	/**
+	 * Tests the stem method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 * @covers  FinderIndexerHelper::stem
+	 */
 	public function testStem()
 	{
 		$this->assertEquals(
@@ -63,6 +72,7 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerHelper::addContentType
 	 */
 	public function testAddContentType()
 	{
@@ -87,6 +97,7 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerHelper::isCommon
 	 */
 	public function testIsCommon()
 	{
@@ -107,6 +118,7 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerHelper::getDefaultLanguage
 	 */
 	public function testGetDefaultLanguage()
 	{
@@ -123,6 +135,7 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerHelper::getPrimaryLanguage
 	 */
 	public function testGetPrimaryLanguage()
 	{

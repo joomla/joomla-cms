@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/w3c/inspector.php';
@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/w3c/inspector.php';
  * @subpackage  Log
  * @since       11.1
  */
-class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
+class JLogLoggerW3CTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerW3C::addEntry method.

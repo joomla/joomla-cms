@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,13 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 {
 	/**
 	 * Method to display module editing.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -55,7 +55,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$redirect = JUri::base();
 		}
 
-		// Access back-end com_module
+		// Access backend com_module
 		JLoader::register('ModulesController', JPATH_ADMINISTRATOR . '/components/com_modules/controller.php');
 		JLoader::register('ModulesViewModule', JPATH_ADMINISTRATOR . '/components/com_modules/views/module/view.json.php');
 		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
@@ -65,7 +65,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		// Get the parameters of the module with Id
 		$document->setType('json');
 
-		// Execute back-end controller
+		// Execute backend controller
 		if (!($serviceData = json_decode($displayClass->display(), true)))
 		{
 			$app->redirect($redirect);
@@ -84,7 +84,6 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 
 		if (class_exists($viewClass))
 		{
-
 			$model = new $modelClass;
 
 			// Access check.
@@ -95,7 +94,6 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->redirect($redirect);
-
 			}
 
 			// Need to add module name to the state of model
@@ -123,7 +121,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			// Render view.
 			echo $view->render();
 		}
+
 		return true;
 	}
-
 }

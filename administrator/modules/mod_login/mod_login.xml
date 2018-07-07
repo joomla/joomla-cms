@@ -3,7 +3,7 @@
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,37 +25,31 @@
 				<field
 					name="usesecure"
 					type="radio"
+					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
+					description="MOD_LOGIN_FIELD_USESECURE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
-					description="MOD_LOGIN_FIELD_USESECURE_DESC">
+					filter="integer"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
-				<field
-					name="cache"
-					type="list"
-					default="0"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				 	rows="3"
+				/>
 			</fieldset>
 		</fields>
 	</config>

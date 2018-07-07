@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,6 +41,38 @@ class UsersViewUsers extends JViewLegacy
 	protected $state;
 
 	/**
+	 * A JForm instance with filter fields.
+	 *
+	 * @var    JForm
+	 * @since  3.6.3
+	 */
+	public $filterForm;
+
+	/**
+	 * An array with active filters.
+	 *
+	 * @var    array
+	 * @since  3.6.3
+	 */
+	public $activeFilters;
+
+	/**
+	 * An ACL object to verify user rights.
+	 *
+	 * @var    JObject
+	 * @since  3.6.3
+	 */
+	protected $canDo;
+
+	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	protected $db;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -55,15 +87,14 @@ class UsersViewUsers extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = JHelperContent::getActions('com_users');
+		$this->db            = JFactory::getDbo();
 
 		UsersHelper::addSubmenu('users');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Include the component HTML helpers.
@@ -113,7 +144,7 @@ class UsersViewUsers extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'users.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'users.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 
@@ -150,14 +181,14 @@ class UsersViewUsers extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'a.name' => JText::_('COM_USERS_HEADING_NAME'),
-				'a.username' => JText::_('JGLOBAL_USERNAME'),
-				'a.block' => JText::_('COM_USERS_HEADING_ENABLED'),
-				'a.activation' => JText::_('COM_USERS_HEADING_ACTIVATED'),
-				'a.email' => JText::_('JGLOBAL_EMAIL'),
-				'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
-				'a.registerDate' => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
-				'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.name'          => JText::_('COM_USERS_HEADING_NAME'),
+			'a.username'      => JText::_('JGLOBAL_USERNAME'),
+			'a.block'         => JText::_('COM_USERS_HEADING_ENABLED'),
+			'a.activation'    => JText::_('COM_USERS_HEADING_ACTIVATED'),
+			'a.email'         => JText::_('JGLOBAL_EMAIL'),
+			'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
+			'a.registerDate'  => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
+			'a.id'            => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

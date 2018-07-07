@@ -3,13 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+use Joomla\Registry\Registry;
+
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Frontpage Component Model
@@ -33,7 +35,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 * @param   string  $ordering   The field to order on.
 	 * @param   string  $direction  The direction to order on.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -43,12 +45,25 @@ class ContentModelFeatured extends ContentModelArticles
 
 		$input = JFactory::getApplication()->input;
 		$user  = JFactory::getUser();
+		$app   = JFactory::getApplication('site');
 
 		// List state information
 		$limitstart = $input->getUInt('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
+		$menuParams = new Registry;
+
+		if ($menu = $app->getMenu()->getActive())
+		{
+			$menuParams->loadString($menu->params);
+		}
+
+		$mergedParams = clone $menuParams;
+		$mergedParams->merge($params);
+
+		$this->setState('params', $mergedParams);
+
 		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
@@ -65,12 +80,32 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->setState('filter.published', array(0, 1, 2));
 		}
 
+		// Process show_noauth parameter
+		if (!$params->get('show_noauth'))
+		{
+			$this->setState('filter.access', true);
+		}
+		else
+		{
+			$this->setState('filter.access', false);
+		}
+
 		// Check for category selection
 		if ($params->get('featured_categories') && implode(',', $params->get('featured_categories')) == true)
 		{
 			$featuredCategories = $params->get('featured_categories');
 			$this->setState('filter.frontpage.categories', $featuredCategories);
 		}
+
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+		$categoryOrderby  = $params->def('orderby_pri', '');
+
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+		$primary   = ContentHelperQuery::orderbyPrimary($categoryOrderby);
+
+		$this->setState('list.ordering', $primary . $secondary . ', a.created DESC');
+		$this->setState('list.direction', '');
 	}
 
 	/**
@@ -119,26 +154,8 @@ class ContentModelFeatured extends ContentModelArticles
 	 */
 	protected function getListQuery()
 	{
-		// Set the blog ordering
-		$params = $this->state->params;
-		$articleOrderby = $params->get('orderby_sec', 'rdate');
-		$articleOrderDate = $params->get('order_date');
-		$categoryOrderby = $params->def('orderby_pri', '');
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
-
-		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
-		$this->setState('list.ordering', $orderby);
-		$this->setState('list.direction', '');
-
 		// Create a new query object.
 		$query = parent::getListQuery();
-
-		// Filter by frontpage.
-		if ($this->getState('filter.frontpage'))
-		{
-			$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
-		}
 
 		// Filter by categories
 		$featuredCategories = $this->getState('filter.frontpage.categories');

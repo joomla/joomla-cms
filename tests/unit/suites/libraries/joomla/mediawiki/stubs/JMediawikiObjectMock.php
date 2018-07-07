@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -42,7 +42,7 @@ class JMediawikiObjectMock extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function buildParameter($params)
+	public function buildParameter(array $params)
 	{
 		return parent::buildParameter($params);
 	}

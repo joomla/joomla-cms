@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/listmodeltest.php';
@@ -40,6 +40,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session = $this->getMockSession();
 
 		$this->object = new JModelList(array("filter_fields" => array("field1", "field2")));
 	}
@@ -51,7 +52,7 @@ class JModelListTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -80,7 +81,7 @@ class JModelListTest extends TestCaseDatabase
 	 */
 	public function testContextIsSetInConstructor()
 	{
-		$this->assertSame("com_j.list", TestReflection::getValue($this->object, 'context'));
+		$this->assertSame("com_joomla\cms\mvc\model\list.\listmodel", TestReflection::getValue($this->object, 'context'));
 	}
 
 	/**
@@ -133,7 +134,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->object->setState('list.ordering', 'enabled');
 		$this->object->setState('list.direction', 'ASC');
 
-		$expectedString = "com_j.list:1:0:100:enabled:ASC";
+		$expectedString = "com_joomla\cms\mvc\model\list.\listmodel:1:0:100:enabled:ASC";
 
 		$this->assertSame(md5($expectedString), $method->invokeArgs($this->object, array('1')));
 	}
@@ -196,92 +197,6 @@ class JModelListTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the getStart method.
-	 *
-	 * @since   3.4
-	 *
-	 * @return  void
-	 *
-	 * @testdox getStart() reads from object cache
-	 */
-	public function testGetStartReadsFromCache()
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		// Write value in "getStart" cache
-		TestReflection::setValue($this->object, 'cache', array('cf97226bf7fdca1fe5579e6d96dca3c3' => 123));
-
-		$this->assertSame(123, $this->object->getStart());
-	}
-
-	/**
-	 * Tests the getStart method.
-	 *
-	 * @param   int     $start          start int
-	 * @param   int     $limit          limit int
-	 * @param   int     $total          total int
-	 * @param   string  $totalCacheKey  cache key
-	 * @param   int     $expected       expected result
-	 *
-	 * @since   3.4
-	 *
-	 * @dataProvider getStartDataProvider
-	 *
-	 * @return  void
-	 *
-	 * @testdox getStart() makes correct calculations
-	 */
-	public function testGetStartCalculatesCorrectly($start, $limit, $total, $totalCacheKey, $expected)
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		// Write value for "total" into the cache object to work around the getTotal call
-		TestReflection::setValue($this->object, 'cache', array($totalCacheKey => $total));
-
-		$this->object->setState('list.start', $start);
-		$this->object->setState('list.limit', $limit);
-
-		$this->assertSame($expected, $this->object->getStart());
-	}
-
-	/**
-	 * Tests the getStart method.
-	 *
-	 * @since   3.4
-	 *
-	 * @return  void
-	 *
-	 * @testdox getStart() stores result in object cache
-	 */
-	public function testGetStartWritesToCache()
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		$this->object->getStart();
-
-		$this->assertArrayHasKey('cf97226bf7fdca1fe5579e6d96dca3c3', TestReflection::getValue($this->object, 'cache'));
-	}
-
-	/**
-	 * Tests the getTotal method.
-	 *
-	 * @since   3.4
-	 *
-	 * @return  void
-	 *
-	 * @testdox getTotal() reads from object cache
-	 */
-	public function testGetTotalReadsFromCache()
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		// Write value in "getTotal" cache
-		TestReflection::setValue($this->object, 'cache', array('ccfb8bb6ff97e9d0d01febabbed622c9' => 123));
-
-		$this->assertSame(123, $this->object->getTotal());
-	}
-
-	/**
 	 * Tests the getTotal method.
 	 *
 	 * @since   3.4
@@ -341,88 +256,6 @@ class JModelListTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the getPagination method.
-	 *
-	 * @since   3.4
-	 *
-	 * @return  void
-	 *
-	 * @testdox getPagination() reads data from object cache
-	 */
-	public function testGetPaginationReadsFromCache()
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		// Write value in "getPagination" cache
-		TestReflection::setValue($this->object, 'cache', array('0b072c19169b805b8ecca41340f0e20a' => new stdClass));
-
-		$this->assertInstanceOf('stdClass', $this->object->getPagination());
-	}
-
-	/**
-	 * Tests the getPagination method.
-	 *
-	 * @since   3.4
-	 *
-	 * @return  void
-	 *
-	 * @testdox getPagination() creates an instance of JPagination with the correct total, limit and limitstart
-	 */
-	public function testGetPaginationReturnsProperPaginationObject()
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		// Write value for "total" into the cache object to work around the getTotal call
-		TestReflection::setValue($this->object, 'cache', array('30e29215b4fac06b4ea59894161c5b70' => 100));
-		$this->object->setState('list.start', 0);
-		$this->object->setState('list.limit', 30);
-
-		$paginationObject = $this->object->getPagination();
-
-		$this->assertInstanceOf('JPagination', $paginationObject);
-		$this->assertSame(100, $paginationObject->total);
-		$this->assertSame(0, $paginationObject->limitstart);
-		$this->assertSame(30, $paginationObject->limit);
-	}
-
-	/**
-	 * Tests the getPagination method.
-	 *
-	 * @since   3.4
-	 *
-	 * @return  void
-	 *
-	 * @testdox getPagination() stores JPagination object in object cache
-	 */
-	public function testGetPaginationSavesPaginationObjectInCache()
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		$this->object->getPagination();
-
-		$this->assertArrayHasKey('0b072c19169b805b8ecca41340f0e20a', TestReflection::getValue($this->object, 'cache'));
-	}
-
-	/**
-	 * Tests the getItems method.
-	 *
-	 * @since   3.4
-	 *
-	 * @return  void
-	 *
-	 * @testdox getItems() reads from object cache
-	 */
-	public function testGetItemsReadsFromCache()
-	{
-		TestReflection::setValue($this->object, '__state_set', true);
-
-		// Write value in "getItems" cache
-		TestReflection::setValue($this->object, 'cache', array('8ca32876bd8539c7d3eb54bda89b5ac7' => array()));
-
-		$this->assertSame(array(), $this->object->getItems());
-	}
-
-	/**
 	 * Tests the getItems method.
 	 *
 	 * @since   3.4
@@ -437,7 +270,7 @@ class JModelListTest extends TestCaseDatabase
 
 		TestReflection::setValue($object, '__state_set', true);
 
-		$this->assertSame(false, $object->getItems());
+		$this->assertFalse($object->getItems());
 	}
 
 	/**
@@ -568,7 +401,7 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock->expects($this->once())
 			->method('getUserState')
 			->with(
-				$this->equalTo('com_j.list'),
+				$this->equalTo('com_joomla\cms\mvc\model\list.\listmodel'),
 				$this->equalTo(new stdClass)
 			)
 			->will(
@@ -591,6 +424,9 @@ class JModelListTest extends TestCaseDatabase
 				'start' => 0
 			)
 		);
+
+		// We've set the state manually, populateState call will overwrite it.
+		TestReflection::setValue($this->object, '__state_set', true);
 
 		$this->assertEquals($expected, $method->invoke($this->object));
 	}
@@ -615,7 +451,7 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock->expects($this->once())
 			->method('getUserState')
 			->with(
-				$this->equalTo('com_j.list'),
+				$this->equalTo('com_joomla\cms\mvc\model\list.\listmodel'),
 				$this->equalTo(new stdClass)
 			)
 			->will($this->returnValue($data));
@@ -649,12 +485,12 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -703,19 +539,19 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('inwhitelist'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('inwhitelist'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
 					array(),
 					false,
 					30,
-					// Returning a column name that is not on the white list
+					// Returning a column name that is not on the whitelist
 					'notinwhitelist',
 					'ASC',
 					0
@@ -724,7 +560,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Set up the white list of valid order columns
+		// Set up the whitelist of valid order columns
 		TestReflection::setValue($this->object, 'filter_fields', array('inwhitelist'));
 
 		// Call the actual method and pass default values for ordering and order direction
@@ -755,12 +591,12 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -803,12 +639,12 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
 				array($this->equalTo('global.list.limit'), $this->equalTo('limit'), $this->equalTo(null), $this->equalTo('uint')),
-				array($this->equalTo('com_j.list.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.ordercol'), $this->equalTo('filter_order'), $this->equalTo('col'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.orderdirn'), $this->equalTo('filter_order_Dir'), $this->equalTo('ASC'), $this->equalTo('none')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -828,7 +664,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the usercol to the column white list
+		// Add the usercol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('usercol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));
@@ -859,16 +695,17 @@ class JModelListTest extends TestCaseDatabase
 			"ordering" => "listcol",
 			"direction" => "DESC",
 			"limit" => "100",
-			"foo" => "bar"
+			"foo" => "bar",
+			"select" => "foo"
 		);
 
 		// Set up a quite complex mock object that checks if the correct calls are made and simulates the user output
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -880,7 +717,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the usercol to the column white list
+		// Add the usercol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('listcol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));
@@ -893,6 +730,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->assertEquals('listcol', $this->object->getState('list.ordering'));
 		$this->assertEquals('bar', $this->object->getState('list.foo'));
 		$this->assertEquals('100', $this->object->getState('list.limit'));
+		$this->assertNull($this->object->getState('list.select'), 'The list blacklist does not allow this variable to be set.');
 	}
 
 	/**
@@ -918,9 +756,9 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -932,7 +770,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the listcol to the column white list
+		// Add the listcol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('listcol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));
@@ -968,9 +806,9 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -1016,9 +854,9 @@ class JModelListTest extends TestCaseDatabase
 		$applicationMock = $this->getMockCmsApp();
 		$applicationMock->method('getUserStateFromRequest')
 			->withConsecutive(
-				array($this->equalTo('com_j.list.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
-				array($this->equalTo('com_j.list.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.filter'), $this->equalTo('filter'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.list'), $this->equalTo('list'), $this->equalTo(array()), $this->equalTo('array')),
+				array($this->equalTo('com_joomla\cms\mvc\model\list.\listmodel.limitstart'), $this->equalTo('limitstart'), $this->equalTo(0))
 			)
 			->will(
 				$this->onConsecutiveCalls(

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class InstallationControllerInstallDatabase extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
@@ -42,7 +42,7 @@ class InstallationControllerInstallDatabase extends JControllerBase
 		$db = new InstallationModelDatabase;
 
 		// Attempt to create the database tables.
-		$return = $db->createTables($options);
+		$return = $db->installCmsData($options);
 
 		$r = new stdClass;
 		$r->view = 'install';

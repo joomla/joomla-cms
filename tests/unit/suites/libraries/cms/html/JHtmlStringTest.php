@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  HTML
  * @since       3.1
  */
-class JHtmlStringTest extends PHPUnit_Framework_TestCase
+class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for truncate.
@@ -136,6 +136,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				true,
 				'...',
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
 			// Don't return invalid HTML
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
@@ -144,6 +145,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				true,
 				'...',
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
 			// Don't return invalid HTML
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
@@ -173,6 +175,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'Plain te...',
 			),
+			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				4,
@@ -187,6 +190,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'...',
 			),
+			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				5,
@@ -201,6 +205,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				true,
 				'...',
 			),
+			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => array(
 				'<div><span><i>Plain</i></span></div>',
 				5,
@@ -208,6 +213,14 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'Plain',
 			),
+			'Do not split within a tag' => array(
+				'Some text is <div class="test"><span><i>Plain</i></span></div>',
+				20,
+				true,
+				true,
+				'Some text is...',
+			),
+
 		);
 	}
 
@@ -307,12 +320,15 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				true,
 				'<span>Plain</span>...'
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
+			// TODO: Check this test: When the key is renamed and the test runs, it fails.
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
 				4,
 				false,
 				'<span>P</span>...'
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
 				1,
@@ -400,10 +416,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAbridge($text, $length, $intro, $expected)
 	{
-		$this->assertThat(
-			JHtml::_('string.abridge', $text, $length, $intro),
-			$this->equalTo($expected)
-		);
+		$this->assertEquals($expected, JHtmlString::abridge($text, $length, $intro));
 	}
 
 	/**
@@ -422,10 +435,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
 	{
-		$this->assertThat(
-			JHtml::_('string.truncate', $text, $length, $noSplit, $allowedHtml),
-			$this->equalTo($expected)
-		);
+		$this->assertEquals($expected, JHtmlString::truncate($text, $length, $noSplit, $allowedHtml));
 	}
 
 	/**
@@ -443,9 +453,6 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
 	{
-		$this->assertThat(
-			JHtml::_('string.truncateComplex', $html, $maxLength, $noSplit),
-			$this->equalTo($expected)
-		);
+		$this->assertEquals($expected, JHtmlString::truncateComplex($html, $maxLength, $noSplit));
 	}
 }

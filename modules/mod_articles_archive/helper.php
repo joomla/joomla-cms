@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_articles_archive
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_archive
- * @since       1.5
+ * @since  1.5
  */
 class ModArchiveHelper
 {
@@ -47,6 +45,7 @@ class ModArchiveHelper
 		}
 
 		$db->setQuery($query, 0, (int) $params->get('count'));
+
 		try
 		{
 			$rows = (array) $db->loadObjectList();
@@ -54,7 +53,8 @@ class ModArchiveHelper
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-			return;
+
+			return array();
 		}
 
 		$app    = JFactory::getApplication();
@@ -69,16 +69,16 @@ class ModArchiveHelper
 		{
 			$date = JFactory::getDate($row->created);
 
-			$created_month = $date->format('n');
-			$created_year  = $date->format('Y');
+			$createdMonth = $date->format('n');
+			$createdYear  = $date->format('Y');
 
-			$created_year_cal = JHtml::_('date', $row->created, 'Y');
-			$month_name_cal   = JHtml::_('date', $row->created, 'F');
+			$createdYearCal = JHtml::_('date', $row->created, 'Y');
+			$monthNameCal   = JHtml::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 
-			$lists[$i]->link = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
-			$lists[$i]->text = JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
+			$lists[$i]->link = JRoute::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $itemid);
+			$lists[$i]->text = JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
 
 			$i++;
 		}

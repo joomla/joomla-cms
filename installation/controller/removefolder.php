@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 	public function execute()
 	{
 		// Get the application.
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
@@ -37,13 +37,13 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// Check whether the folder still exists.
 		if (!file_exists($path))
 		{
-			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED', 'installation'), 500));
 		}
 
 		// Check whether we need to use FTP.
 		$useFTP = false;
 
-		if ((file_exists($path) && !is_writable($path)))
+		if (file_exists($path) && !is_writable($path))
 		{
 			$useFTP = true;
 		}
@@ -64,10 +64,10 @@ class InstallationControllerRemovefolder extends JControllerBase
 		{
 			// Connect the FTP client.
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
-			$ftp->login($options->ftp_user, $options->ftp_pass);
+			$ftp->login($options->ftp_user, $options->ftp_pass_plain);
 
 			// Translate path for the FTP account.
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			$file   = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 			$return = $ftp->delete($file);
 
 			// Delete the extra XML file while we're at it.
@@ -85,7 +85,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 			if ($return)
 			{
 				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
-				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
+				$distFile   = JPath::clean($options->ftp_root . '/robots.txt.dist');
 
 				if (!file_exists($robotsFile) && file_exists($distFile))
 				{
@@ -117,12 +117,12 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// If an error was encountered return an error.
 		if (!$return)
 		{
-			$app->sendJsonResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 500));
 		}
 
 		// Create a response body.
 		$r = new stdClass;
-		$r->text = JText::_('INSTL_COMPLETE_FOLDER_REMOVED');
+		$r->text = JText::sprintf('INSTL_COMPLETE_FOLDER_REMOVED', 'installation');
 
 		/*
 		 * Send the response.
@@ -133,7 +133,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 
 	/**
 	 * Method to send a JSON response. The data parameter
-	 * can be a Exception object for when an error has occurred or
+	 * can be an Exception object for when an error has occurred or
 	 * a stdClass for a good response.
 	 *
 	 * @param   mixed  $response  stdClass on success, Exception on failure.
@@ -155,6 +155,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 
 		// Send the JSON response.
 		JLoader::register('InstallationResponseJson', __FILE__);
+
 		echo json_encode(new InstallationResponseJson($response));
 
 		// Close the application.
@@ -192,7 +193,7 @@ class InstallationResponseJson
 		{
 			foreach ($messages as $msg)
 			{
-				if (isset($msg['type']) && isset($msg['message']))
+				if (isset($msg['type'], $msg['message']))
 				{
 					$lists[$msg['type']][] = $msg['message'];
 				}

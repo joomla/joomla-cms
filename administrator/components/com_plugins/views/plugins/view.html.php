@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,24 +27,25 @@ class PluginsViewPlugins extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
+		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
+		$this->state = $this->get('State');
+		$this->filterForm = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -79,27 +80,6 @@ class PluginsViewPlugins extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 
-		JHtmlSidebar::setAction('index.php?option=com_plugins&view=plugins');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_enabled',
-			JHtml::_('select.options', PluginsHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.enabled'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_PLUGINS_OPTION_FOLDER'),
-			'filter_folder',
-			JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		$this->sidebar = JHtmlSidebar::render();
 	}
 
 	/**
@@ -112,13 +92,13 @@ class PluginsViewPlugins extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'enabled' => JText::_('JSTATUS'),
-				'name' => JText::_('JGLOBAL_TITLE'),
-				'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
-				'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
-				'access' => JText::_('JGRID_HEADING_ACCESS'),
-				'extension_id' => JText::_('JGRID_HEADING_ID')
+			'ordering'     => JText::_('JGRID_HEADING_ORDERING'),
+			'enabled'      => JText::_('JSTATUS'),
+			'name'         => JText::_('JGLOBAL_TITLE'),
+			'folder'       => JText::_('COM_PLUGINS_FOLDER_HEADING'),
+			'element'      => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
+			'access'       => JText::_('JGRID_HEADING_ACCESS'),
+			'extension_id' => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

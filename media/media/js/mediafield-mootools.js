@@ -12,24 +12,24 @@ function jInsertFieldValue(value, id) {
 	}
 }
 
-	function jMediaRefreshPreview(id) {
-		var $ = jQuery.noConflict();
-		var value = $("#" + id).val();
-		var $img = $("#" + id + "_preview");
-		var basepath = $("#" + id).data("basepath");
+function jMediaRefreshPreview(id) {
+	var $ = jQuery.noConflict();
+	var value = $("#" + id).val();
+	var $img = $("#" + id + "_preview");
+	var basepath = $("#" + id).data("basepath");
 
-		if ($img.length) {
-			if (value) {
-				$img.attr("src", basepath + value);
-				$("#" + id + "_preview_empty").hide();
-				$("#" + id + "_preview_img").show()
-			} else { 
-				$img.attr("src", "");
-				$("#" + id + "_preview_empty").show();
-				$("#" + id + "_preview_img").hide();
-			} 
-		} 
+	if ($img.length) {
+		if (value) {
+			$img.attr("src", basepath + value);
+			$("#" + id + "_preview_empty").hide();
+			$("#" + id + "_preview_img").show()
+		} else {
+			$img.attr("src", "");
+			$("#" + id + "_preview_empty").show();
+			$("#" + id + "_preview_img").hide();
+		}
 	}
+}
 
 function jMediaRefreshPreviewTip(tip)
 {
@@ -43,7 +43,7 @@ function jMediaRefreshPreviewTip(tip)
 		id = id.substring(0, id.length - "_preview".length);
 		jMediaRefreshPreview(id);
 		$tip.show(this);
-   });
+	});
 }
 
 // JQuery for tooltip for INPUT showing whole image path

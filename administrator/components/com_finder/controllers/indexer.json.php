@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Register dependent classes.
-JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/indexer.php');
+JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 /**
  * Indexer controller class for Finder.
@@ -28,30 +28,34 @@ class FinderControllerIndexer extends JControllerLegacy
 	 */
 	public function start()
 	{
-		static $log;
-
 		$params = JComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			JLog::addLogger($options);
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer', JLog::INFO);
+		try
+		{
+			JLog::add('Starting the indexer', JLog::INFO);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// We don't want this form to be cached.
-		header('Pragma: no-cache');
-		header('Cache-Control: no-cache');
-		header('Expires: -1');
+		$app = JFactory::getApplication();
+		$app->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+		$app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+		$app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -77,12 +81,13 @@ class FinderControllerIndexer extends JControllerLegacy
 			$state->start = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -95,30 +100,34 @@ class FinderControllerIndexer extends JControllerLegacy
 	 */
 	public function batch()
 	{
-		static $log;
-
 		$params = JComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			JLog::addLogger($options);
 		}
 
 		// Log the start
-		JLog::add('Starting the indexer batch process', JLog::INFO);
+		try
+		{
+			JLog::add('Starting the indexer batch process', JLog::INFO);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// We don't want this form to be cached.
-		header('Pragma: no-cache');
-		header('Cache-Control: no-cache');
-		header('Expires: -1');
+		$app = JFactory::getApplication();
+		$app->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+		$app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+		$app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -157,6 +166,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Get the HTML document.
 		$html = JDocument::getInstance('html', $attributes);
+
+		// Todo: Why is this document fetched and immediately overwritten?
 		$doc = JFactory::getDocument();
 
 		// Swap the documents.
@@ -170,6 +181,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Swap the app.
 		$app = JFactory::getApplication();
+
+		// Todo: Why is the app fetched and immediately overwritten?
 		$app = $site;
 
 		// Start the indexer.
@@ -192,9 +205,20 @@ class FinderControllerIndexer extends JControllerLegacy
 			// Swap the applications back.
 			$app = $admin;
 
+			// Log batch completion and memory high-water mark.
+			try
+			{
+				JLog::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', JLog::INFO);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
@@ -202,7 +226,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			$doc = $raw;
 
 			// Send the response.
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -216,12 +240,14 @@ class FinderControllerIndexer extends JControllerLegacy
 	public function optimize()
 	{
 		// We don't want this form to be cached.
-		header('Pragma: no-cache');
-		header('Cache-Control: no-cache');
-		header('Expires: -1');
+		$app = JFactory::getApplication();
+		$app->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+		$app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+		$app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -240,18 +266,19 @@ class FinderControllerIndexer extends JControllerLegacy
 			$state->complete = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
+
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
 	/**
 	 * Method to handle a send a JSON response. The body parameter
-	 * can be a Exception object for when an error has occurred or
+	 * can be an Exception object for when an error has occurred or
 	 * a JObject for a good response.
 	 *
 	 * @param   mixed  $data  JObject on success, Exception on error. [optional]
@@ -262,27 +289,32 @@ class FinderControllerIndexer extends JControllerLegacy
 	 */
 	public static function sendResponse($data = null)
 	{
-		static $log;
+		// This method always sends a JSON response
+		$app = JFactory::getApplication();
+		$app->mimeType = 'application/json';
 
 		$params = JComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			JLog::addLogger($options);
 		}
 
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
 		{
-			$app = JFactory::getApplication();
-			JLog::add($data->getMessage(), JLog::ERROR);
+			try
+			{
+				JLog::add($data->getMessage(), JLog::ERROR);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+
 			$app->setHeader('status', $data->getCode());
-			$app->sendHeaders();
 		}
 
 		// Create the response object.
@@ -292,10 +324,12 @@ class FinderControllerIndexer extends JControllerLegacy
 		$response->buffer = JDEBUG ? ob_get_contents() : ob_end_clean();
 
 		// Send the JSON response.
+		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$app->sendHeaders();
 		echo json_encode($response);
 
 		// Close the application.
-		JFactory::getApplication()->close();
+		$app->close();
 	}
 }
 
@@ -315,18 +349,13 @@ class FinderIndexerResponse
 	 */
 	public function __construct($state)
 	{
-		static $log;
-
 		$params = JComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			JLog::addLogger($options);
 		}
 
 		// The old token is invalid so send a new one.
@@ -336,7 +365,14 @@ class FinderIndexerResponse
 		if ($state instanceof Exception)
 		{
 			// Log the error
-			JLog::add($state->getMessage(), JLog::ERROR);
+			try
+			{
+				JLog::add($state->getMessage(), JLog::ERROR);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
 
 			// Prepare the error response.
 			$this->error = true;

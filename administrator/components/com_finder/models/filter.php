@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -50,7 +50,7 @@ class FinderModelFilter extends JModelAdmin
 	/**
 	 * Method to get the filter data.
 	 *
-	 * @return  mixed  The filter data.
+	 * @return  FinderTableFilter|boolean  The filter data or false on a failure.
 	 *
 	 * @since   2.5
 	 */
@@ -99,7 +99,7 @@ class FinderModelFilter extends JModelAdmin
 	 * @param   array    $data      Data for the form. [optional]
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   2.5
 	 */
@@ -152,5 +152,22 @@ class FinderModelFilter extends JModelAdmin
 		$this->preprocessData('com_finder.filter', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to get the total indexed items
+	 *
+	 * @return  number the number of indexed items
+	 *
+	 * @since  3.5
+	 */
+	public function getTotal()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('MAX(link_id)')
+			->from('#__finder_links');
+
+		return $db->setQuery($query)->loadResult();
 	}
 }

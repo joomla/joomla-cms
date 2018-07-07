@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
  * @subpackage  Log
  * @since       11.1
  */
-class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
+class JLogLoggerMessageQueueTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var   mixed  The main application object from JFactory while we mock it out.
@@ -45,6 +45,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 	public function tearDown()
 	{
 		JFactory::$application = $this->app;
+		parent::tearDown();
 	}
 
 	/**

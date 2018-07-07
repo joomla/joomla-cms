@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -50,7 +50,7 @@ class JImageInspector extends JImage
 	 * @param   string  $name   The name of the property.
 	 * @param   mixed   $value  The value of the property.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   11.3
 	 * @throws  Exception

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/result.php';
@@ -33,6 +33,21 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
@@ -54,6 +69,8 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::__get
+	 * @covers  FinderIndexerResult::__set
 	 */
 	public function test__getAndSet()
 	{
@@ -71,6 +88,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::__get
 	 */
 	public function test__getNull()
 	{
@@ -86,6 +104,8 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::__isset
+	 * @covers  FinderIndexerResult::__unset
 	 */
 	public function testMagicSetters()
 	{
@@ -111,6 +131,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::getElement
 	 */
 	public function testGetElementNull()
 	{
@@ -126,6 +147,8 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::getElement
+	 * @covers  FinderIndexerResult::setElement
 	 */
 	public function testGetAndSetElement()
 	{
@@ -143,6 +166,9 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::addInstruction
+	 * @covers  FinderIndexerResult::getInstructions
+	 * @covers  FinderIndexerResult::removeInstruction
 	 */
 	public function testManipulateInstructions()
 	{
@@ -177,6 +203,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::getTaxonomy
 	 */
 	public function testGetTaxonomy()
 	{
@@ -192,6 +219,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::addTaxonomy
 	 */
 	public function testTaxonomy()
 	{
@@ -214,6 +242,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerResult::setLanguage
 	 */
 	public function testSetLanguage()
 	{

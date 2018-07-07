@@ -2,11 +2,18 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
+
+if (version_compare(JVERSION, '2.5.0', 'lt'))
+{
+	jimport('joomla.form.form');
+	jimport('joomla.form.formfield');
+	jimport('joomla.form.formrule');
+}
 
 /**
  * FOFForm is an extension to JForm which support not only edit views but also
@@ -511,6 +518,39 @@ class FOFForm extends JForm
 		{
 			return false;
 		}
+	}
+	
+	/**
+	 * Method to remove a header from the form definition.
+	 *
+	 * @param   string  $name   The name of the form field for which remove.
+	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @throws  UnexpectedValueException
+	 */
+	public function removeHeader($name, $group = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!($this->xml instanceof SimpleXMLElement))
+		{
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+		}
+
+		// Find the form field element from the definition.
+		$element = $this->findHeader($name, $group);
+
+		// If the element exists remove it from the form definition.
+		if ($element instanceof SimpleXMLElement)
+		{
+			$dom = dom_import_simplexml($element);
+			$dom->parentNode->removeChild($dom);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

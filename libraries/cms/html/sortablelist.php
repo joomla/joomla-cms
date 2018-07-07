@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -47,32 +47,21 @@ abstract class JHtmlSortablelist
 		}
 
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if (null === $saveOrderingUrl)
+		if ($saveOrderingUrl === null)
 		{
-			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
+			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
 		}
 
-		// Depends on jQuery UI
-		JHtml::_('jquery.ui', array('core', 'sortable'));
-
-		JHtml::_('script', 'jui/sortablelist.js', false, true);
-		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
-
-		// Attach sortable to document
-		JFactory::getDocument()->addScriptDeclaration("
-			(function ($){
-				$(document).ready(function (){
-					var sortableList = new $.JSortableList('#"
-						. $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
-				});
-			})(jQuery);
-			"
+		$displayData = array(
+			'tableId'                => $tableId,
+			'formId'                 => $formId,
+			'sortDir'                => $sortDir,
+			'saveOrderingUrl'        => $saveOrderingUrl,
+			'nestedList'             => $nestedList,
+			'proceedSaveOrderButton' => $proceedSaveOrderButton,
 		);
 
-		if ($proceedSaveOrderButton)
-		{
-			static::_proceedSaveOrderButton();
-		}
+		JLayoutHelper::render('joomla.html.sortablelist', $displayData);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
@@ -87,6 +76,8 @@ abstract class JHtmlSortablelist
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated 4.0 The logic is merged in the JLayout file
 	 */
 	public static function _proceedSaveOrderButton()
 	{

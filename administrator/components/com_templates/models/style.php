@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template style model.
@@ -118,7 +120,7 @@ class TemplatesModelStyle extends JModelAdmin
 				// You should not delete a default style
 				if ($table->home != '0')
 				{
-					JError::raiseWarning(SOME_ERROR_NUMBER, JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
+					JError::raiseWarning(500, JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
 
 					return false;
 				}
@@ -237,7 +239,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 		while ($table->load(array('title' => $title)))
 		{
-			$title = JString::increment($title);
+			$title = StringHelper::increment($title);
 		}
 
 		return $title;
@@ -264,9 +266,13 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 		else
 		{
-			$clientId  = JArrayHelper::getValue($data, 'client_id');
-			$template  = JArrayHelper::getValue($data, 'template');
+			$clientId  = ArrayHelper::getValue($data, 'client_id');
+			$template  = ArrayHelper::getValue($data, 'template');
 		}
+
+		// Add the default fields directory
+		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -345,11 +351,10 @@ class TemplatesModelStyle extends JModelAdmin
 
 			// Convert to the JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($table->params);
+			$registry = new Registry($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the template XML.
@@ -377,7 +382,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A database object
-	*/
+	 */
 	public function getTable($type = 'Style', $prefix = 'TemplatesTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -427,7 +432,7 @@ class TemplatesModelStyle extends JModelAdmin
 		// Disable home field if it is default style
 
 		if ((is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
-			|| ((is_object($data) && isset($data->home) && $data->home == '1')))
+			|| (is_object($data) && isset($data->home) && $data->home == '1'))
 		{
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
@@ -446,8 +451,8 @@ class TemplatesModelStyle extends JModelAdmin
 			$helpKey = trim((string) $help[0]['key']);
 			$helpURL = trim((string) $help[0]['url']);
 
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpKey = $helpKey ?: $this->helpKey;
+			$this->helpURL = $helpURL ?: $this->helpURL;
 		}
 
 		// Trigger the default form events.
@@ -536,7 +541,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 			if (!empty($data['assigned']) && is_array($data['assigned']))
 			{
-				JArrayHelper::toInteger($data['assigned']);
+				$data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
 				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true)
@@ -621,20 +626,20 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Reset the home fields for the client_id.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE client_id = ' . (int) $style->client_id .
-			' AND home = \'1\''
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' .  $db->q('0'))
+			->where('client_id = ' . (int) $style->client_id)
+			->where('home = ' . $db->q('1'));
+		$db->setQuery($query);
 		$db->execute();
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'1\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->q('1'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.
@@ -664,11 +669,11 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Lookup the client_id.
-		$db->setQuery(
-			'SELECT client_id, home' .
-			' FROM #__template_styles' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->select('client_id, home')
+			->from('#__template_styles')
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$style = $db->loadObject();
 
 		if (!is_numeric($style->client_id))
@@ -681,11 +686,11 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->q('0'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.

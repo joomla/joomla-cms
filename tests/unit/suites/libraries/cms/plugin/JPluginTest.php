@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/PlgSystemBase.php';
@@ -47,6 +47,8 @@ class JPluginTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

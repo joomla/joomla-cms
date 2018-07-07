@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -133,7 +133,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
-		$this->assertEquals($expected,iterator_to_array($iterator));
+		$this->assertEquals($expected, iterator_to_array($iterator));
 	}
 
 	/**

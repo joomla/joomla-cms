@@ -3,14 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Test class for JDocument.
  */
-class JDocumentTest extends PHPUnit_Framework_TestCase
+class JDocumentTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var  JDocument
@@ -35,7 +35,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	protected function tearDown()
 	{
 		JDocument::$_buffer = null;
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -69,7 +69,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 					'tab' => "\11",
 					'link' => '',
 					'base' => '',
-				    'mediaversion' => '1a2b3c4d'
+					'mediaversion' => '1a2b3c4d'
 				)
 			),
 			array(
@@ -109,11 +109,11 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @testdox  Test retrieving an instance of JDocumentHTML
+	 * @testdox  Test retrieving an instance of JDocumentHtml
 	 */
 	public function testRetrievingAnInstanceOfTheHtmlDocument()
 	{
-		$this->assertInstanceOf('JDocumentHTML', JDocument::getInstance());
+		$this->assertInstanceOf('JDocumentHtml', JDocument::getInstance());
 	}
 
 	/**
@@ -559,7 +559,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	public function testEnsureLoadRendererReturnsCorrectObject()
 	{
 		$this->object->setType('html');
-		$this->assertInstanceOf('JDocumentRendererHead', $this->object->loadRenderer('head'));
+		$this->assertInstanceOf('JDocumentRendererHtmlHead', $this->object->loadRenderer('head'));
 	}
 
 	/**
@@ -572,7 +572,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	public function testEnsureLoadRendererThrowsException()
 	{
 		$this->object->setType('html');
-		$this->assertInstanceOf('JDocumentRendererHead', $this->object->loadRenderer('unknown'));
+		$this->object->loadRenderer('unknown');
 	}
 
 	/**

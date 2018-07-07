@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  */
-class JCacheTest extends PHPUnit_Framework_TestCase
+class JCacheTest extends TestCase
 {
 	/** @var JCache */
 	protected $object;
@@ -34,11 +34,25 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/controller.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
 
 		$this->checkAvailability();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -48,19 +62,17 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	private function checkAvailability()
 	{
-		$config = JFactory::getConfig();
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
-		$memcacheServerAvailable = @fsockopen($host, $port, $errNo, $errStr, 0.01);
-
-		$this->available['file'] = true;
-		$this->available['apc'] = extension_loaded('apc');
-		$this->available['eaccelerator'] = extension_loaded('eaccelerator') && function_exists('eaccelerator_get');
-		$this->available['memcache'] =
-			extension_loaded('memcache')
-			&& class_exists('Memcache')
-			&& $memcacheServerAvailable;
-		$this->available['xcache'] = extension_loaded('xcache');
+		$this->available = array(
+			'apc'       => JCacheStorageApc::isSupported(),
+			'apcu'      => JCacheStorageApcu::isSupported(),
+			'cachelite' => JCacheStorageCachelite::isSupported(),
+			'file'      => true,
+			'memcache'  => JCacheStorageMemcache::isSupported(),
+			'memcached' => JCacheStorageMemcached::isSupported(),
+			'redis'     => JCacheStorageRedis::isSupported(),
+			'wincache'  => JCacheStorageWincache::isSupported(),
+			'xcache'    => JCacheStorageXcache::isSupported(),
+		);
 	}
 
 	private function setDefaultOptions()
@@ -334,7 +346,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing store() and get()
+	 * Testing store(), contains(), and get()
 	 *
 	 * @param   string  $handler   cache handler
 	 * @param   array   $options   options for cache handler
@@ -347,13 +359,17 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider casesStore
 	 */
-	public function testStoreAndGet($handler, $options, $id, $group, $data, $expected)
+	public function testStoreContainsAndGet($handler, $options, $id, $group, $data, $expected)
 	{
 		$this->object = JCache::getInstance($handler, $options);
 		$this->object->setCaching(true);
 
 		$this->assertTrue(
 			$this->object->store($data, $id, $group)
+		);
+
+		$this->assertTrue(
+			$this->object->contains($id, $group)
 		);
 
 		$this->assertEquals(
@@ -430,73 +446,26 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGc()
 	{
-		$this->object = JCache::getInstance('output', array('lifetime' => 2, 'defaultgroup' => ''));
+		$this->object = JCache::getInstance('output', array('storage' => 'file', 'lifetime' => 5/60, 'defaultgroup' => ''));
+		$this->object->setCaching(true);
 
 		$this->object->store($this->testData_A, 42, '');
 		$this->object->store($this->testData_B, 43, '');
 
-		sleep(5);
+		$handler = $this->object->cache->_getStorage();
+		$path    = TestReflection::invoke($handler, '_getFilePath', 42, '');
 
+		// Changing the time of last modification to the past
+		$this->assertTrue(touch($path, $handler->_now - $handler->_lifetime - 1));
+
+		// Collect Garbage
 		$this->object->gc();
 
-		$this->assertFalse(
-			$this->object->get(42, '')
-		);
-		$this->assertFalse(
-			$this->object->get(43, '')
-		);
-	}
+		$this->assertFileNotExists($path, "Cache file should not exist.");
 
-	/**
-	 * Test Cases for getStorage
-	 *
-	 * @return array
-	 */
-	public function casesGetStorage()
-	{
-		$this->setDefaultOptions();
+		$this->assertFalse($this->object->get(42, ''));
 
-		$storages = array(
-			'file'         => 'JCacheStorageFile',
-			'apc'          => 'JCacheStorageApc',
-			'xcache'       => 'JCacheStorageXcache',
-			'memcache'     => 'JCacheStorageMemcache',
-			'eaccelerator' => 'JCacheStorageEaccelerator',
-		);
-
-		$cases = array();
-		foreach ($storages as $key => $class)
-		{
-			$options = $this->defaultOptions;
-			$options['storage'] = $key;
-			$cases[$key] = array('output', $options, $class);
-		}
-
-		return $cases;
-	}
-
-	/**
-	 * Testing getStorage
-	 *
-	 * @param   string  $handler   cache handler
-	 * @param   array   $options   options for cache handler
-	 * @param   string  $expected  expected storage class
-	 *
-	 * @return void
-	 *
-	 * @dataProvider casesGetStorage
-	 */
-	public function testGetStorage($handler, $options, $expected)
-	{
-		if (!$this->available[$options['storage']])
-		{
-			$this->markTestSkipped("The {$options['storage']} storage handler is currently not available");
-		}
-		$this->object = JCache::getInstance($handler, $options);
-
-		$this->assertThat(
-			$this->object->cache->_getStorage(),
-			$this->isInstanceOf($expected)
-		);
+		// To be sure that cache is working
+		$this->assertEquals($this->testData_B, $this->object->get(43, ''));
 	}
 }

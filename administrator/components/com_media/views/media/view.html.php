@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class MediaViewMedia extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.0
 	 */
@@ -30,7 +30,7 @@ class MediaViewMedia extends JViewLegacy
 		$app    = JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
-		if (!$app->isAdmin())
+		if (!$app->isClient('administrator'))
 		{
 			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 		}
@@ -49,6 +49,8 @@ class MediaViewMedia extends JViewLegacy
 		$this->require_ftp = $ftp;
 		$this->folders_id  = ' id="media-tree"';
 		$this->folders     = $this->get('folderTree');
+
+		$this->sidebar = JHtmlSidebar::render();
 
 		// Set the toolbar
 		$this->addToolbar();
@@ -72,7 +74,7 @@ class MediaViewMedia extends JViewLegacy
 		// Set the titlebar text
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
-		// Add a upload button
+		// Add an upload button
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
@@ -88,7 +90,7 @@ class MediaViewMedia extends JViewLegacy
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.newfolder');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render(array()), 'create');
 			JToolbarHelper::divider();
 		}
 
@@ -98,7 +100,7 @@ class MediaViewMedia extends JViewLegacy
 			// Instantiate a new JLayoutFile instance and render the layout
 			$layout = new JLayoutFile('toolbar.deletemedia');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render(array()), 'delete');
 			JToolbarHelper::divider();
 		}
 

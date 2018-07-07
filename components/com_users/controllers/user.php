@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('UsersController', JPATH_COMPONENT . '/controller.php');
 
 /**
  * Registration controller class for Users.
@@ -27,24 +27,65 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
-		$app    = JFactory::getApplication();
-		$input  = $app->input;
-		$method = $input->getMethod();
+		$app   = JFactory::getApplication();
+		$input = $app->input->getInputForRequestMethod();
 
 		// Populate the data array:
 		$data = array();
 
-		$data['return']    = base64_decode($app->input->post->get('return', '', 'BASE64'));
-		$data['username']  = $input->$method->get('username', '', 'USERNAME');
-		$data['password']  = $input->$method->get('password', '', 'RAW');
-		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
+		$data['return']    = base64_decode($input->get('return', '', 'BASE64'));
+		$data['username']  = $input->get('username', '', 'USERNAME');
+		$data['password']  = $input->get('password', '', 'RAW');
+		$data['secretkey'] = $input->get('secretkey', '', 'RAW');
 
-		// Don't redirect to an external URL.
-		if (!JUri::isInternal($data['return']))
+		// Check for a simple menu item id
+		if (is_numeric($data['return']))
 		{
-			$data['return'] = '';
+			if (JLanguageMultilang::isEnabled())
+			{
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('language')
+					->from($db->quoteName('#__menu'))
+					->where('client_id = 0')
+					->where('id =' . $data['return']);
+
+				$db->setQuery($query);
+
+				try
+				{
+					$language = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					return;
+				}
+
+				if ($language !== '*')
+				{
+					$lang = '&lang=' . $language;
+				}
+				else
+				{
+					$lang = '';
+				}
+			}
+			else
+			{
+				$lang = '';
+			}
+
+			$data['return'] = 'index.php?Itemid=' . $data['return'] . $lang;
+		}
+		else
+		{
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($data['return']))
+			{
+				$data['return'] = '';
+			}
 		}
 
 		// Set the return URL if empty.
@@ -68,24 +109,26 @@ class UsersControllerUser extends UsersController
 		$credentials['secretkey'] = $data['secretkey'];
 
 		// Perform the log in.
-		if (true === $app->login($credentials, $options))
-		{
-			// Success
-			if ($options['remember'] == true)
-			{
-				$app->setUserState('rememberLogin', true);
-			}
-
-			$app->setUserState('users.login.form.data', array());
-			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
-		}
-		else
+		if (true !== $app->login($credentials, $options))
 		{
 			// Login failed !
+			// Clear user name, password and secret key before sending the login form back to the user.
 			$data['remember'] = (int) $options['remember'];
+			$data['username'] = '';
+			$data['password'] = '';
+			$data['secretkey'] = '';
 			$app->setUserState('users.login.form.data', $data);
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
+
+		// Success
+		if ($options['remember'] == true)
+		{
+			$app->setUserState('rememberLogin', true);
+		}
+
+		$app->setUserState('users.login.form.data', array());
+		$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
 	}
 
 	/**
@@ -97,119 +140,158 @@ class UsersControllerUser extends UsersController
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = JFactory::getApplication();
 
+		// Prepare the logout options.
+		$options = array(
+			'clientid' => $app->get('shared_session', '0') ? null : 0,
+		);
+
 		// Perform the log out.
-		$error  = $app->logout();
-		$input  = $app->input;
-		$method = $input->getMethod();
+		$error = $app->logout(null, $options);
+		$input = $app->input->getInputForRequestMethod();
 
 		// Check if the log out succeeded.
-		if (!($error instanceof Exception))
+		if ($error instanceof Exception)
 		{
-			// Get the return url from the request and validate that it is internal.
-			$return = $input->$method->get('return', '', 'BASE64');
-			$return = base64_decode($return);
+			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
+		}
 
+		// Get the return URL from the request and validate that it is internal.
+		$return = $input->get('return', '', 'BASE64');
+		$return = base64_decode($return);
+
+		// Check for a simple menu item id
+		if (is_numeric($return))
+		{
+			if (JLanguageMultilang::isEnabled())
+			{
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('language')
+					->from($db->quoteName('#__menu'))
+					->where('client_id = 0')
+					->where('id =' . $return);
+
+				$db->setQuery($query);
+
+				try
+				{
+					$language = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					return;
+				}
+
+				if ($language !== '*')
+				{
+					$lang = '&lang=' . $language;
+				}
+				else
+				{
+					$lang = '';
+				}
+			}
+			else
+			{
+				$lang = '';
+			}
+
+			$return = 'index.php?Itemid=' . $return . $lang;
+		}
+		else
+		{
+			// Don't redirect to an external URL.
 			if (!JUri::isInternal($return))
 			{
 				$return = '';
 			}
+		}
 
-			// Redirect the user.
-			$app->redirect(JRoute::_($return, false));
-		}
-		else
+		// In case redirect url is not set, redirect user to homepage
+		if (empty($return))
 		{
-			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
+			$return = JUri::root();
 		}
+
+		// Redirect the user.
+		$app->redirect(JRoute::_($return, false));
 	}
 
 	/**
-	 * Method to register a user.
+	 * Method to logout directly and redirect to page.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
-	public function register()
+	public function menulogout()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		// Get the ItemID of the page to redirect after logout
+		$app    = JFactory::getApplication();
+		$itemid = $app->getMenu()->getActive()->params->get('logout');
 
-		// Get the application
-		$app = JFactory::getApplication();
-
-		// Get the form data.
-		$data = $this->input->post->get('user', array(), 'array');
-
-		// Get the model and validate the data.
-		$model  = $this->getModel('Registration', 'UsersModel');
-
-		$form = $model->getForm();
-
-		if (!$form)
+		// Get the language of the page when multilang is on
+		if (JLanguageMultilang::isEnabled())
 		{
-			JError::raiseError(500, $model->getError());
-
-			return false;
-		}
-
-		$return = $model->validate($form, $data);
-
-		// Check for errors.
-		if ($return === false)
-		{
-			// Get the validation messages.
-			$errors = $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			if ($itemid)
 			{
-				if ($errors[$i] instanceof Exception)
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('language')
+					->from($db->quoteName('#__menu'))
+					->where('client_id = 0')
+					->where('id =' . $itemid);
+
+				$db->setQuery($query);
+
+				try
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+					$language = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					return;
+				}
+
+				if ($language !== '*')
+				{
+					$lang = '&lang=' . $language;
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'notice');
+					$lang = '';
 				}
+
+				// URL to redirect after logout
+				$url = 'index.php?Itemid=' . $itemid . $lang;
 			}
+			else
+			{
+				// Logout is set to default. Get the home page ItemID
+				$lang_code = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
+				$item      = $app->getMenu()->getDefault($lang_code);
+				$itemid    = $item->id;
 
-			// Save the data in the session.
-			$app->setUserState('users.registration.form.data', $data);
-
-			// Redirect back to the registration form.
-			$this->setRedirect('index.php?option=com_users&view=registration');
-
-			return false;
+				// Redirect to Home page after logout
+				$url = 'index.php?Itemid=' . $itemid;
+			}
 		}
-
-		// Finish the registration.
-		$return = $model->register($data);
-
-		// Check for errors.
-		if ($return === false)
+		else
 		{
-			// Save the data in the session.
-			$app->setUserState('users.registration.form.data', $data);
-
-			// Redirect back to the registration form.
-			$message = JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_users&view=registration', $message, 'error');
-
-			return false;
+			// URL to redirect after logout, default page if no ItemID is set
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : JUri::root();
 		}
 
-		// Flush the data from the session.
-		$app->setUserState('users.registration.form.data', null);
-
-		return true;
+		// Logout and redirect
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));
 	}
 
 	/**
-	 * Method to login a user.
+	 * Method to request a username reminder.
 	 *
 	 * @return  boolean
 	 *
@@ -218,7 +300,7 @@ class UsersControllerUser extends UsersController
 	public function remind()
 	{
 		// Check the request token.
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('User', 'UsersModel');
@@ -231,14 +313,9 @@ class UsersControllerUser extends UsersController
 		if ($return instanceof Exception)
 		{
 			// Get the error message to display.
-			if ($app->get('error_reporting'))
-			{
-				$message = $return->getMessage();
-			}
-			else
-			{
-				$message = JText::_('COM_USERS_REMIND_REQUEST_ERROR');
-			}
+			$message = $app->get('error_reporting')
+				? $return->getMessage()
+				: JText::_('COM_USERS_REMIND_REQUEST_ERROR');
 
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
@@ -250,7 +327,8 @@ class UsersControllerUser extends UsersController
 
 			return false;
 		}
-		elseif ($return === false)
+
+		if ($return === false)
 		{
 			// Complete failed.
 			// Get the route to the next page.
@@ -264,24 +342,22 @@ class UsersControllerUser extends UsersController
 
 			return false;
 		}
-		else
-		{
-			// Complete succeeded.
-			// Get the route to the next page.
-			$itemid = UsersHelperRoute::getLoginRoute();
-			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route  = 'index.php?option=com_users&view=login' . $itemid;
 
-			// Proceed to the login form.
-			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-			$this->setRedirect(JRoute::_($route, false), $message);
+		// Complete succeeded.
+		// Get the route to the next page.
+		$itemid = UsersHelperRoute::getLoginRoute();
+		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
+		$route	= 'index.php?option=com_users&view=login' . $itemid;
 
-			return true;
-		}
+		// Proceed to the login form.
+		$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
+		$this->setRedirect(JRoute::_($route, false), $message);
+
+		return true;
 	}
 
 	/**
-	 * Method to login a user.
+	 * Method to resend a user.
 	 *
 	 * @return  void
 	 *
@@ -290,6 +366,6 @@ class UsersControllerUser extends UsersController
 	public function resend()
 	{
 		// Check for request forgeries
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		// $this->checkToken('post');
 	}
 }

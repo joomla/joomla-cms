@@ -8,7 +8,8 @@
 			description="COM_LANGUAGES_OVERRIDE_FIELD_KEY_DESC"
 			size="60"
 			required="true"
-			filter="LanguagesHelper::filterKey" />
+			filter="LanguagesHelper::filterKey" 
+		/>
 
 		<field
 			name="override"
@@ -17,7 +18,8 @@
 			description="COM_LANGUAGES_OVERRIDE_FIELD_OVERRIDE_DESC"
 			cols="50"
 			rows="5"
-			filter="LanguagesHelper::filterText" />
+			filter="LanguagesHelper::filterText" 
+		/>
 
 		<field
 			name="both"
@@ -25,26 +27,31 @@
 			label="COM_LANGUAGES_OVERRIDE_FIELD_BOTH_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_BOTH_DESC"
 			value="true"
-			filter="boolean" />
+			filter="boolean" 
+		/>
 
 		<field
 			name="searchstring"
 			type="text"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_DESC"
-			size="50" />
+			size="50"
+		/>
 
 		<field
 			name="searchtype"
 			type="list"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_DESC"
-			default="value">
+			default="value"
+			>
 			<option value="constant">COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_CONSTANT</option>
 			<option value="value">COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_TEXT</option>
 		</field>
 
-		<field name="language" type="text"
+		<field 
+			name="language" 
+			type="text"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_LANGUAGE_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_LANGUAGE_DESC"
 			filter="unset"
@@ -53,7 +60,9 @@
 			size="50"
 		/>
 
-		<field name="client" type="text"
+		<field 
+			name="client" 
+			type="text"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_CLIENT_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_CLIENT_DESC"
 			filter="unset"
@@ -62,7 +71,9 @@
 			size="50"
 		/>
 
-		<field name="file" type="text"
+		<field 
+			name="file" 
+			type="text"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_FILE_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_FILE_DESC"
 			filter="unset"
@@ -73,6 +84,7 @@
 
 		<field
 			name="id"
-			type="hidden" />
+			type="hidden"
+		/>
 	</fieldset>
 </form>

@@ -3,13 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
+include_once __DIR__ . '/../session/handler/array.php';
 
 /**
  * Test class for JOAuth1Client.
@@ -65,6 +66,14 @@ class JOAuth1ClientTest extends TestCase
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -73,7 +82,7 @@ class JOAuth1ClientTest extends TestCase
 	protected function setUp()
 	{
 		$this->saveFactoryState();
-
+		$this->backupServer = $_SERVER;
 		JFactory::$session = $this->getMockSession();
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
@@ -83,10 +92,9 @@ class JOAuth1ClientTest extends TestCase
 
 		$key = "TEST_KEY";
 		$secret = "TEST_SECRET";
-		$my_url = "TEST_URL";
 
 		$this->options = new Registry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput(array());
 		$this->application = $this->getMockWeb();
 
@@ -103,7 +111,10 @@ class JOAuth1ClientTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
 		$this->restoreFactoryState();
+		unset($this->options, $this->client, $this->input, $this->application, $this->object);
 	}
 
 	/**
@@ -189,8 +200,13 @@ class JOAuth1ClientTest extends TestCase
 			}
 			TestReflection::setValue($input, 'data', $data);
 
+			$memoryHandler = new JSessionHandlerArray;
+
 			// Get mock session
-			$mockSession = $this->getMock('JSession', array( '_start', 'get'));
+			$mockSession = $this->getMockBuilder('JSession')
+				->setMethods(array( '_start', 'get'))
+				->setConstructorArgs(array('none', array(), $memoryHandler))
+				->getMock();
 
 			if ($fail)
 			{
@@ -207,7 +223,7 @@ class JOAuth1ClientTest extends TestCase
 				JFactory::$session = $mockSession;
 
 				$this->setExpectedException('DomainException');
-				$result = $this->object->authenticate();
+				$this->object->authenticate();
 			}
 
 			$mockSession->expects($this->at(0))

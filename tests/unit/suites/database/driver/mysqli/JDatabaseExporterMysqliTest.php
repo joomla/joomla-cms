@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ class JDatabaseExporterMysqliTest extends TestCase
 	/**
 	 * @var    JDatabaseDriverMysqli  The mocked database object for use by test methods.
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * Sets up the testing conditions
@@ -37,27 +37,27 @@ class JDatabaseExporterMysqliTest extends TestCase
 			->method('getTableColumns')
 			->willReturn(
 				array(
-					'id' => (object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+				'id' => (object) array(
+					'Field'      => 'id',
+					'Type'       => 'int(11) unsigned',
+					'Collation'  => null,
+					'Null'       => 'NO',
+					'Key'        => 'PRI',
+					'Default'    => '',
+					'Extra'      => 'auto_increment',
+					'Privileges' => 'select,insert,update,references',
+					'Comment'    => '',
 					),
-					'title' => (object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+				'title' => (object) array(
+					'Field'      => 'title',
+					'Type'       => 'varchar(255)',
+					'Collation'  => 'utf8_general_ci',
+					'Null'       => 'NO',
+					'Key'        => '',
+					'Default'    => '',
+					'Extra'      => '',
+					'Privileges' => 'select,insert,update,references',
+					'Comment'    => '',
 					),
 				)
 			);
@@ -66,24 +66,39 @@ class JDatabaseExporterMysqliTest extends TestCase
 			->method('getTableKeys')
 			->willReturn(array(
 				(object) array(
-					'Table' => 'jos_test',
-					'Non_unique' => '0',
-					'Key_name' => 'PRIMARY',
+					'Table'        => 'jos_test',
+					'Non_unique'   => '0',
+					'Key_name'     => 'PRIMARY',
 					'Seq_in_index' => '1',
-					'Column_name' => 'id',
-					'Collation' => 'A',
-					'Cardinality' => '2695',
-					'Sub_part' => '',
-					'Packed' => '',
-					'Null' => '',
-					'Index_type' => 'BTREE',
-					'Comment' => '',
+					'Column_name'  => 'id',
+					'Collation'    => 'A',
+					'Cardinality'  => '2695',
+					'Sub_part'     => '',
+					'Packed'       => '',
+					'Null'         => '',
+					'Index_type'   => 'BTREE',
+					'Comment'      => '',
+					)
 				)
-			));
+			);
 
 		$this->dbo->expects($this->any())
 			->method('loadObjectList')
 			->willReturnCallback(array($this, 'callbackLoadObjectList'));
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
 	}
 
 	/**

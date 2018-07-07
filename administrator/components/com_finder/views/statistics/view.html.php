@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -16,6 +16,15 @@ defined('_JEXEC') or die;
  */
 class FinderViewStatistics extends JViewLegacy
 {
+	/**
+	 * The index statistics
+	 *
+	 * @var  JObject
+	 *
+	 * @since  3.6.1
+	 */
+	protected $data;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -33,11 +42,9 @@ class FinderViewStatistics extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 }

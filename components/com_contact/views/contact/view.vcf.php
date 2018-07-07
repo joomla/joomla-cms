@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class ContactViewContact extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -47,6 +47,7 @@ class ContactViewContact extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -59,13 +60,14 @@ class ContactViewContact extends JViewLegacy
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
 
-		if (count($namearray) > 1 )
+		if (count($namearray) > 1)
 		{
 			$lastname = $namearray[0];
 			$card_name = $lastname;
 			$name_and_midname = trim($namearray[1]);
 
 			$firstname = '';
+
 			if (!empty($name_and_midname))
 			{
 				$namearray = explode(' ', $name_and_midname);

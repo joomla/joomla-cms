@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filesystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Event
  * @since       11.1
  */
-class JFilesystemHelperTest extends PHPUnit_Framework_TestCase
+class JFilesystemHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JFilesystemHelper
@@ -32,6 +32,21 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->object = new JFilesystemHelper;
+	}
+
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

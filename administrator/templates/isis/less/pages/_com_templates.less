@@ -1,0 +1,35 @@
+// Template Menu Assignment
+
+#menu-assignment {
+	position: relative;
+	.menu-links {
+		margin-top: 15px;
+		margin-left: 0;
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		column-count: 3;
+		-moz-column-gap: 15px;
+		-webkit-column-gap: 15px;
+		column-gap: 15px;
+		> li {
+			display: inline-block;
+			vertical-align: top;
+			margin-bottom: 15px;
+			width: 100%;
+			list-style: none;
+		}
+	}
+	.menu-links-block {
+		background-color: #fafafa;
+	    border: 1px solid #ddd;
+	    border-radius: 3px;
+	    padding: 15px;
+	}
+}
+@media (max-width: @md-max) {
+	#menu-assignment .menu-links {
+		-webkit-column-count: auto;
+		-moz-column-count: auto;
+		column-count: auto;
+	}
+}

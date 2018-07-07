@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -112,7 +112,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -122,7 +122,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 		TestReflection::setValue('JApplicationCms', 'instances', array());
 
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -156,6 +156,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getClientId
 	 */
 	public function testGetClientId()
 	{
@@ -168,6 +169,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getName
 	 */
 	public function testGetName()
 	{
@@ -180,6 +182,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getMenu
 	 */
 	public function testGetMenu()
 	{
@@ -192,6 +195,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getParams
 	 */
 	public function testGetParams()
 	{
@@ -212,6 +216,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -224,10 +229,11 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getRouter
 	 */
 	public function testGetRouter()
 	{
-		$this->assertInstanceOf('JRouterSite', $this->class->getRouter());
+		$this->assertInstanceOf('JRouterSite', JApplicationSite::getRouter());
 	}
 
 	/**
@@ -236,6 +242,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getTemplate
 	 */
 	public function testGetTemplate()
 	{
@@ -252,6 +259,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::isAdmin
 	 */
 	public function testIsAdmin()
 	{
@@ -264,10 +272,25 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::isSite
 	 */
 	public function testIsSite()
 	{
 		$this->assertTrue($this->class->isSite());
+	}
+
+	/**
+	 * Tests the JApplicationCms::isClient method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 * @covers  JApplicationSite::isClient
+	 */
+	public function testIsClient()
+	{
+		$this->assertFalse($this->class->isClient('administrator'));
+		$this->assertTrue($this->class->isClient('site'));
 	}
 
 	/**
@@ -276,6 +299,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::render
 	 */
 	public function testRender()
 	{
@@ -299,6 +323,8 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getDetectBrowser
+	 * @covers  JApplicationSite::setDetectBrowser
 	 */
 	public function testSetGetDetectBrowser()
 	{
@@ -313,6 +339,8 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getLanguageFilter
+	 * @covers  JApplicationSite::setLanguageFilter
 	 */
 	public function testSetGetLanguageFilter()
 	{
@@ -327,6 +355,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::setTemplate
 	 */
 	public function testSetTemplate()
 	{

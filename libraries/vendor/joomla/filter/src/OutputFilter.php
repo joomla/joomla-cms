@@ -2,14 +2,14 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Filter;
 
 use Joomla\Language\Language;
-use Joomla\String\String;
+use Joomla\String\StringHelper;
 
 /**
  * OutputFilter
@@ -24,15 +24,15 @@ class OutputFilter
 	 * Object parameters that are non-string, array, object or start with underscore
 	 * will be converted
 	 *
-	 * @param   object   &$mixed        An object to be parsed
-	 * @param   integer  $quote_style   The optional quote style for the htmlspecialchars function
-	 * @param   mixed    $exclude_keys  An optional string single field name or array of field names not to be parsed (eg, for a textarea)
+	 * @param   object   $mixed        An object to be parsed
+	 * @param   integer  $quoteStyle   The optional quote style for the htmlspecialchars function
+	 * @param   mixed    $excludeKeys  An optional string single field name or array of field names not to be parsed (eg, for a textarea)
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 */
-	public static function objectHTMLSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
+	public static function objectHtmlSafe(&$mixed, $quoteStyle = ENT_QUOTES, $excludeKeys = '')
 	{
 		if (is_object($mixed))
 		{
@@ -43,16 +43,16 @@ class OutputFilter
 					continue;
 				}
 
-				if (is_string($exclude_keys) && $k == $exclude_keys)
+				if (is_string($excludeKeys) && $k == $excludeKeys)
 				{
 					continue;
 				}
-				elseif (is_array($exclude_keys) && in_array($k, $exclude_keys))
+				elseif (is_array($excludeKeys) && in_array($k, $excludeKeys))
 				{
 					continue;
 				}
 
-				$mixed->$k = htmlspecialchars($v, $quote_style, 'UTF-8');
+				$mixed->$k = htmlspecialchars($v, $quoteStyle, 'UTF-8');
 			}
 		}
 	}
@@ -66,17 +66,15 @@ class OutputFilter
 	 *
 	 * @since   1.0
 	 */
-	public static function linkXHTMLSafe($input)
+	public static function linkXhtmlSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
 		return preg_replace_callback(
 			"#$regex#i",
-			function($m)
+			function ($m)
 			{
-				$rx = '&(?!amp;)';
-
-				return preg_replace('#' . $rx . '#', '&amp;', $m[0]);
+				return preg_replace('#&(?!amp;)#', '&amp;', $m[0]);
 			},
 			$input
 		);
@@ -86,22 +84,24 @@ class OutputFilter
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
-	 * @param   string  $string  String to process
+	 * @param   string  $string    String to process
+	 * @param   string  $language  Language to transliterate to
 	 *
 	 * @return  string  Processed string
 	 *
 	 * @since   1.0
 	 */
-	public static function stringURLSafe($string)
+	public static function stringUrlSafe($string, $language = '')
 	{
 		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
-		$lang = Language::getInstance();
+		// Transliterate on the language requested (fallback to current language if not specified)
+		$lang = empty($language) ? Language::getInstance() : Language::getInstance($language);
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
-		$str = trim(String::strtolower($str));
+		$str = trim(StringHelper::strtolower($str));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
@@ -121,7 +121,7 @@ class OutputFilter
 	 *
 	 * @since   1.0
 	 */
-	public static function stringURLUnicodeSlug($string)
+	public static function stringUrlUnicodeSlug($string)
 	{
 		// Replace double byte whitespaces by single byte (East Asian languages)
 		$str = preg_replace('/\xE3\x80\x80/', ' ', $string);
@@ -138,7 +138,7 @@ class OutputFilter
 		$str = str_replace('?', '', $str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
-		$str = trim(String::strtolower($str));
+		$str = trim(StringHelper::strtolower($str));
 
 		// Remove any duplicate whitespace and replace whitespaces by hyphens
 		$str = preg_replace('#\x20+#', '-', $str);
@@ -154,25 +154,16 @@ class OutputFilter
 	 * @return  string  Processed string.
 	 *
 	 * @since   1.0
-	 *
-	 * @todo There must be a better way???
 	 */
 	public static function ampReplace($text)
 	{
-		$text = str_replace('&&', '*--*', $text);
-		$text = str_replace('&#', '*-*', $text);
-		$text = str_replace('&amp;', '&', $text);
-		$text = preg_replace('|&(?![\w]+;)|', '&amp;', $text);
-		$text = str_replace('*-*', '&#', $text);
-		$text = str_replace('*--*', '&&', $text);
-
-		return $text;
+		return preg_replace('/(?<!&)&(?!&|#|[\w]+;)/', '&amp;', $text);
 	}
 
 	/**
 	 * Cleans text of all formatting and scripting code
 	 *
-	 * @param   string  &$text  Text to clean
+	 * @param   string  $text  Text to clean
 	 *
 	 * @return  string  Cleaned text.
 	 *

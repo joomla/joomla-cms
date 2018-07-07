@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  utils
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,17 +37,130 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 	protected static $test_url = 'http://update.joomla.org/core/test/list_test.xml';
 
 	/**
+	 * Reads an "extension" XML update source and returns all listed update entries.
+	 *
+	 * If you have a "collection" XML update source you should do something like this:
+	 * $collection = new CmsupdateHelperCollection();
+	 * $extensionUpdateURL = $collection->getExtensionUpdateSource($url, 'component', 'com_foobar', JVERSION);
+	 * $extension = new CmsupdateHelperExtension();
+	 * $updates = $extension->getUpdatesFromExtension($extensionUpdateURL);
+	 *
+	 * @param   string $url The extension XML update source URL to read from
+	 *
+	 * @return  array  An array of update entries
+	 */
+	public function getUpdatesFromExtension($url)
+	{
+		// Initialise
+		$ret = array();
+
+		// Get and parse the XML source
+		$downloader = new FOFDownload();
+		$xmlSource  = $downloader->getFromURL($url);
+
+		try
+		{
+			$xml = new SimpleXMLElement($xmlSource, LIBXML_NONET);
+		}
+		catch (Exception $e)
+		{
+			return $ret;
+		}
+
+		// Sanity check
+		if (($xml->getName() != 'updates'))
+		{
+			unset($xml);
+
+			return $ret;
+		}
+
+		// Let's populate the list of updates
+		/** @var SimpleXMLElement $update */
+		foreach ($xml->children() as $update)
+		{
+			// Sanity check
+			if ($update->getName() != 'update')
+			{
+				continue;
+			}
+
+			$entry = array(
+				'infourl'        => array('title' => '', 'url' => ''),
+				'downloads'      => array(),
+				'tags'           => array(),
+				'targetplatform' => array(),
+			);
+
+			$properties = get_object_vars($update);
+
+			foreach ($properties as $nodeName => $nodeContent)
+			{
+				switch ($nodeName)
+				{
+					default:
+						$entry[ $nodeName ] = $nodeContent;
+						break;
+
+					case 'infourl':
+					case 'downloads':
+					case 'tags':
+					case 'targetplatform':
+						break;
+				}
+			}
+
+			$infourlNode               = $update->xpath('infourl');
+			$entry['infourl']['title'] = (string) $infourlNode[0]['title'];
+			$entry['infourl']['url']   = (string) $infourlNode[0];
+
+			$downloadNodes = $update->xpath('downloads/downloadurl');
+			foreach ($downloadNodes as $downloadNode)
+			{
+				$entry['downloads'][] = array(
+					'type'   => (string) $downloadNode['type'],
+					'format' => (string) $downloadNode['format'],
+					'url'    => (string) $downloadNode,
+				);
+			}
+
+			$tagNodes = $update->xpath('tags/tag');
+			foreach ($tagNodes as $tagNode)
+			{
+				$entry['tags'][] = (string) $tagNode;
+			}
+
+			/** @var SimpleXMLElement[] $targetPlatformNode */
+			$targetPlatformNode = $update->xpath('targetplatform');
+
+			$entry['targetplatform']['name']    = (string) $targetPlatformNode[0]['name'];
+			$entry['targetplatform']['version'] = (string) $targetPlatformNode[0]['version'];
+			$client                             = $targetPlatformNode[0]->xpath('client');
+			$entry['targetplatform']['client']  = (is_array($client) && count($client)) ? (string) $client[0] : '';
+			$folder                             = $targetPlatformNode[0]->xpath('folder');
+			$entry['targetplatform']['folder']  = is_array($folder) && count($folder) ? (string) $folder[0] : '';
+
+			$ret[] = $entry;
+		}
+
+		unset($xml);
+
+		return $ret;
+	}
+
+	/**
 	 * Reads a "collection" XML update source and picks the correct source URL
 	 * for the extension update source.
 	 *
-	 * @param   string  $url       The collection XML update source URL to read from
-	 * @param   string  $jVersion  Joomla! version to fetch updates for, or null to use JVERSION
+	 * @param   string $url      The collection XML update source URL to read from
+	 * @param   string $jVersion Joomla! version to fetch updates for, or null to use JVERSION
 	 *
 	 * @return  string  The URL of the extension update source, or empty if no updates are provided / fetching failed
 	 */
 	public function getUpdateSourceFromCollection($url, $jVersion = null)
 	{
-		$provider = new FOFUtilsUpdateCollection;
+		$provider = new FOFUtilsUpdateCollection();
+
 		return $provider->getExtensionUpdateSource($url, 'file', 'joomla', $jVersion);
 	}
 
@@ -63,10 +176,14 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 	{
 		// Initialise
 		$ret = array(
-			'lts'     => true, // Is this an LTS release? False means STS.
-			'current' => false, // Is this a release in the $currentVersion branch?
-			'upgrade' => 'none', // Upgrade relation of $jVersion to $currentVersion: 'none' (can't upgrade), 'lts' (next or current LTS), 'sts' (next or current STS) or 'current' (same release, no upgrade available)
-			'testing' => false, // Is this a testing (alpha, beta, RC) release?
+			'lts'     => true,
+			// Is this an LTS release? False means STS.
+			'current' => false,
+			// Is this a release in the $currentVersion branch?
+			'upgrade' => 'none',
+			// Upgrade relation of $jVersion to $currentVersion: 'none' (can't upgrade), 'lts' (next or current LTS), 'sts' (next or current STS) or 'current' (same release, no upgrade available)
+			'testing' => false,
+			// Is this a testing (alpha, beta, RC) release?
 		);
 
 		// Get the current version if none is defined
@@ -76,8 +193,10 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 		}
 
 		// Sanitise version numbers
-		$jVersion = $this->sanitiseVersion($jVersion);
+		$sameVersion    = $jVersion == $currentVersion;
+		$jVersion       = $this->sanitiseVersion($jVersion);
 		$currentVersion = $this->sanitiseVersion($currentVersion);
+		$sameVersion    = $sameVersion || ($jVersion == $currentVersion);
 
 		// Get the base version
 		$baseVersion = substr($jVersion, 0, 3);
@@ -99,40 +218,31 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 				break;
 
 			case '1.6':
-				$ret['lts'] = false;
+				$ret['lts']  = false;
 				$sts_minimum = '1.7';
 				$sts_maximum = '1.7.999';
 				$lts_minimum = '2.5';
 				break;
 
 			case '1.7':
-				$ret['lts'] = false;
+				$ret['lts']  = false;
+				$sts_minimum = false;
+				$lts_minimum = '2.5';
+				break;
+
+			case '2.5':
+				$ret['lts']  = true;
 				$sts_minimum = false;
 				$lts_minimum = '2.5';
 				break;
 
 			default:
-				$majorVersion = (int)substr($jVersion, 0, 1);
-				$minorVersion = (int)substr($jVersion, 2, 1);
+				$majorVersion = (int) substr($jVersion, 0, 1);
+				//$minorVersion = (int) substr($jVersion, 2, 1);
 
-				if ($minorVersion == 5)
-				{
-					$ret['lts'] = true;
-					// This is an LTS release, it can be superseded by .0 through .4 STS releases on the next branch...
-					$sts_minimum = ($majorVersion + 1) . '.0';
-					$sts_maximum = ($majorVersion + 1) . '.4.9999';
-					// ...or a .5 LTS on the next branch
-					$lts_minimum = ($majorVersion + 1) . '.5';
-				}
-				else
-				{
-					$ret['lts'] = false;
-					// This is an STS release, it can be superseded by a .1/.2/.3/.4 STS release on the same branch...
-					$sts_minimum = $majorVersion . '.1';
-					$sts_maximum = $majorVersion . '.4.9999';
-					// ...or a .5 LTS on the same branch
-					$lts_minimum = $majorVersion . '.5';
-				}
+				$ret['lts']  = true;
+				$sts_minimum = false;
+				$lts_minimum = $majorVersion . '.0';
 				break;
 		}
 
@@ -143,7 +253,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 		}
 
 		// Is this a testing release?
-		$versionParts = explode('.', $jVersion);
+		$versionParts    = explode('.', $jVersion);
 		$lastVersionPart = array_pop($versionParts);
 
 		if (in_array(substr($lastVersionPart, 0, 1), array('a', 'b')))
@@ -164,19 +274,24 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 		{
 			$ret['upgrade'] = 'current';
 		}
-		elseif(($sts_minimum !== false) && version_compare($jVersion, $sts_minimum, 'ge') && version_compare($jVersion, $sts_maximum, 'le'))
+		elseif (($sts_minimum !== false) && version_compare($jVersion, $sts_minimum, 'ge') && version_compare($jVersion, $sts_maximum, 'le'))
 		{
 			$ret['upgrade'] = 'sts';
 		}
-		elseif(($lts_minimum !== false) && version_compare($jVersion, $lts_minimum, 'ge'))
+		elseif (($lts_minimum !== false) && version_compare($jVersion, $lts_minimum, 'ge'))
 		{
 			$ret['upgrade'] = 'lts';
 		}
-		elseif($baseVersion == $current_minimum)
+		elseif ($baseVersion == $current_minimum)
 		{
 			$ret['upgrade'] = $ret['lts'] ? 'lts' : 'sts';
 		}
 		else
+		{
+			$ret['upgrade'] = 'none';
+		}
+
+		if ($sameVersion)
 		{
 			$ret['upgrade'] = 'none';
 		}
@@ -189,8 +304,8 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 	 * Filters a list of updates, making sure they apply to the specifed CMS
 	 * release.
 	 *
-	 * @param   array   $updates   A list of update records returned by the getUpdatesFromExtension method
-	 * @param   string  $jVersion  The current Joomla! version number
+	 * @param   array  $updates  A list of update records returned by the getUpdatesFromExtension method
+	 * @param   string $jVersion The current Joomla! version number
 	 *
 	 * @return  array  A filtered list of updates. Each update record also includes version relevance information.
 	 */
@@ -201,11 +316,11 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 			$jVersion = JVERSION;
 		}
 
-		$versionParts = explode('.', $jVersion, 4);
-		$platformVersionMajor = $versionParts[0];
-		$platformVersionMinor = $platformVersionMajor . '.' . $versionParts[1];
+		$versionParts          = explode('.', $jVersion, 4);
+		$platformVersionMajor  = $versionParts[0];
+		$platformVersionMinor  = $platformVersionMajor . '.' . $versionParts[1];
 		$platformVersionNormal = $platformVersionMinor . '.' . $versionParts[2];
-		$platformVersionFull = (count($versionParts) > 3) ? $platformVersionNormal . '.' . $versionParts[3] : $platformVersionNormal;
+		//$platformVersionFull   = (count($versionParts) > 3) ? $platformVersionNormal . '.' . $versionParts[3] : $platformVersionNormal;
 
 		$ret = array();
 
@@ -219,13 +334,13 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 
 			$targetPlatformVersion = $update['targetplatform']['version'];
 
-			if (($targetPlatformVersion !== $platformVersionMajor) && ($targetPlatformVersion !== $platformVersionMinor) && ($targetPlatformVersion !== $platformVersionNormal) && ($targetPlatformVersion !== $platformVersionFull))
+			if (!preg_match('/' . $targetPlatformVersion . '/', $platformVersionMinor))
 			{
 				continue;
 			}
 
 			// Get some information from the version number
-			$updateVersion = $update['version'];
+			$updateVersion     = $update['version'];
 			$versionProperties = $this->getVersionProperties($updateVersion, $jVersion);
 
 			if ($versionProperties['upgrade'] == 'none')
@@ -236,7 +351,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 			// The XML files are ill-maintained. Maybe we already have this update?
 			if (!array_key_exists($updateVersion, $ret))
 			{
-				$ret[$updateVersion] = array_merge($update, $versionProperties);
+				$ret[ $updateVersion ] = array_merge($update, $versionProperties);
 			}
 		}
 
@@ -250,18 +365,20 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 	 * figure out what was in the mind of the maintainer and translate the
 	 * funky version number to an actual PHP-format version string.
 	 *
-	 * @param   string  $version  The whatever-format version number
+	 * @param   string $version The whatever-format version number
 	 *
 	 * @return  string  A standard formatted version number
 	 */
 	public function sanitiseVersion($version)
 	{
-		$test = strtolower($version);
+		$test                   = strtolower($version);
 		$alphaQualifierPosition = strpos($test, 'alpha-');
-		$betaQualifierPosition = strpos($test, 'beta-');
-		$rcQualifierPosition = strpos($test, 'rc-');
-		$rcQualifierPosition2 = strpos($test, 'rc');
-		$devQualifiedPosition = strpos($test, 'dev');
+		$betaQualifierPosition  = strpos($test, 'beta-');
+		$betaQualifierPosition2 = strpos($test, '-beta');
+		$rcQualifierPosition    = strpos($test, 'rc-');
+		$rcQualifierPosition2 = strpos($test, '-rc');
+		$rcQualifierPosition3 = strpos($test, 'rc');
+		$devQualifiedPosition   = strpos($test, 'dev');
 
 		if ($alphaQualifierPosition !== false)
 		{
@@ -281,6 +398,17 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 			}
 			$test = substr($test, 0, $betaQualifierPosition) . '.b' . $betaRevision;
 		}
+		elseif ($betaQualifierPosition2 !== false)
+		{
+			$betaRevision = substr($test, $betaQualifierPosition2 + 5);
+
+			if (!$betaRevision)
+			{
+				$betaRevision = 1;
+			}
+
+			$test = substr($test, 0, $betaQualifierPosition2) . '.b' . $betaRevision;
+		}
 		elseif ($rcQualifierPosition !== false)
 		{
 			$betaRevision = substr($test, $rcQualifierPosition + 5);
@@ -292,12 +420,25 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 		}
 		elseif ($rcQualifierPosition2 !== false)
 		{
-			$betaRevision = substr($test, $rcQualifierPosition2 + 5);
+			$betaRevision = substr($test, $rcQualifierPosition2 + 3);
+
 			if (!$betaRevision)
 			{
 				$betaRevision = 1;
 			}
+
 			$test = substr($test, 0, $rcQualifierPosition2) . '.rc' . $betaRevision;
+		}
+		elseif ($rcQualifierPosition3 !== false)
+		{
+			$betaRevision = substr($test, $rcQualifierPosition3 + 5);
+
+			if (!$betaRevision)
+			{
+				$betaRevision = 1;
+			}
+
+			$test = substr($test, 0, $rcQualifierPosition3) . '.rc' . $betaRevision;
 		}
 		elseif ($devQualifiedPosition !== false)
 		{
@@ -316,8 +457,8 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 	 * Reloads the list of all updates available for the specified Joomla! version
 	 * from the network.
 	 *
-	 * @param    array   $sources   The enabled sources to look into
-	 * @param    string  $jVersion  The Joomla! version we are checking updates for
+	 * @param    array  $sources  The enabled sources to look into
+	 * @param    string $jVersion The Joomla! version we are checking updates for
 	 *
 	 * @return   array  A list of updates for the installed, current, lts and sts versions
 	 */
@@ -340,13 +481,14 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 		}
 
 		// Get the current branch' min/max versions
-		$versionParts = explode('.', $jVersion, 4);
+		$versionParts      = explode('.', $jVersion, 4);
 		$currentMinVersion = $versionParts[0] . '.' . $versionParts[1];
 		$currentMaxVersion = $versionParts[0] . '.' . $versionParts[1] . '.9999';
 
 
 		// Retrieve all updates
 		$allUpdates = array();
+
 		foreach ($sources as $source => $value)
 		{
 			if (($value === false) || empty($value))
@@ -368,6 +510,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 					$url = self::$test_url;
 					break;
 
+				default:
 				case 'custom':
 					$url = $value;
 					break;
@@ -417,7 +560,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 				'infourl' => '',
 			),
 			// Upgrade to LTS release
-			'test'       => array(
+			'test'      => array(
 				'version' => '',
 				'package' => '',
 				'infourl' => '',
@@ -432,7 +575,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 			{
 				$sections[0] = 'installed';
 			}
-			elseif(version_compare($update['version'], $currentMinVersion, 'ge') && version_compare($update['version'], $currentMaxVersion, 'le'))
+			elseif (version_compare($update['version'], $currentMinVersion, 'ge') && version_compare($update['version'], $currentMaxVersion, 'le'))
 			{
 				$sections[0] = 'current';
 			}
@@ -455,7 +598,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 					continue;
 				}
 
-				$existingVersionForSection = $ret[$section]['version'];
+				$existingVersionForSection = $ret[ $section ]['version'];
 
 				if (empty($existingVersionForSection))
 				{
@@ -464,9 +607,9 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 
 				if (version_compare($update['version'], $existingVersionForSection, 'ge'))
 				{
-					$ret[$section]['version'] = $update['version'];
-					$ret[$section]['package'] = $update['downloads'][0]['url'];
-					$ret[$section]['infourl'] = $update['infourl']['url'];
+					$ret[ $section ]['version'] = $update['version'];
+					$ret[ $section ]['package'] = $update['downloads'][0]['url'];
+					$ret[ $section ]['infourl'] = $update['infourl']['url'];
 				}
 			}
 		}

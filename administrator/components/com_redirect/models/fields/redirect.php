@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * A drop down containing all valid HTTP 1.1 response codes.
+ * A dropdown containing all valid HTTP 1.1 response codes.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
@@ -33,7 +33,7 @@ class JFormFieldRedirect extends JFormFieldList
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @see    http://www.iana.org/assignments/http-status-codes/
+	 * @link   http://www.iana.org/assignments/http-status-codes/
 	 */
 	protected $responseMap = array(
 		100 => 'HTTP/1.1 100 Continue',
@@ -85,6 +85,7 @@ class JFormFieldRedirect extends JFormFieldList
 		428 => 'HTTP/1.1 428 Precondition Required',
 		429 => 'HTTP/1.1 429 Too Many Requests',
 		431 => 'HTTP/1.1 431 Request Header Fields Too Large',
+		451 => 'HTTP/1.1 451 Unavailable For Legal Reasons',
 		500 => 'HTTP/1.1 500 Internal Server Error',
 		501 => 'HTTP/1.1 501 Not Implemented',
 		502 => 'HTTP/1.1 502 Bad Gateway',

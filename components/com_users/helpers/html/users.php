@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ abstract class JHtmlUsers
 
 		elseif (!is_array($value))
 		{
-			return htmlspecialchars($value);
+			return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 		}
 	}
 
@@ -72,35 +72,29 @@ abstract class JHtmlUsers
 		{
 			return static::value($value);
 		}
-		else
+
+		$text = $value;
+
+		if ($xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/help/helpsites.xml'))
 		{
-			$pathToXml = JPATH_ADMINISTRATOR . '/help/helpsites.xml';
-
-			$text = $value;
-
-			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
+			foreach ($xml->sites->site as $site)
 			{
-				foreach ($xml->sites->site as $site)
+				if ((string) $site->attributes()->url == $value)
 				{
-					if ((string) $site->attributes()->url == $value)
-					{
-						$text = (string) $site;
-						break;
-					}
+					$text = (string) $site;
+					break;
 				}
 			}
-
-			$value = htmlspecialchars($value);
-
-			if (substr($value, 0, 4) == "http")
-			{
-				return '<a href="' . $value . '">' . $text . '</a>';
-			}
-			else
-			{
-				return '<a href="http://' . $value . '">' . $text . '</a>';
-			}
 		}
+
+		$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+
+		if (strpos($value, 'http') === 0)
+		{
+			return '<a href="' . $value . '">' . $text . '</a>';
+		}
+
+		return '<a href="http://' . $value . '">' . $text . '</a>';
 	}
 
 	/**
@@ -130,7 +124,7 @@ abstract class JHtmlUsers
 
 			if ($title)
 			{
-				return htmlspecialchars($title);
+				return htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 			}
 			else
 			{
@@ -156,19 +150,18 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR, $value);
-			$file = "$value.xml";
+			$file = JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
-			if (is_file("$path/$file"))
+			if (is_file($file))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
 			{
-				return htmlspecialchars($result['name']);
+				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
 			}
 			else
 			{
@@ -194,19 +187,18 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$path = JLanguage::getLanguagePath(JPATH_SITE, $value);
-			$file = "$value.xml";
+			$file = JLanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
-			if (is_file("$path/$file"))
+			if (is_file($file))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
 			{
-				return htmlspecialchars($result['name']);
+				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
 			}
 			else
 			{

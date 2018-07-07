@@ -3,15 +3,15 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  */
-class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
+class JCacheControllerCallbackTest_Callback extends \PHPUnit\Framework\TestCase
 {
 
 	/**
@@ -21,8 +21,6 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.cache.cache');
-
 		require_once dirname(__DIR__) . '/storage/JCacheStorageMock.php';
 
 		require_once __DIR__ . '/JCacheControllerCallback.helper.php';
@@ -61,7 +59,7 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	 */
 	public function testCallbackInstance()
 	{
-		$cache =& JCache::getInstance('callback', array('storage' => 'mock'));
+		$cache = JCache::getInstance('callback', array('storage' => 'mock'));
 		$arg1 = 'e1';
 		$arg2 = 'e2';
 		$this->expectOutputString('e1e1e1e1e1');

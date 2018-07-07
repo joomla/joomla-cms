@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,32 @@ defined('_JEXEC') or die;
  */
 class BannersViewBanners extends JViewLegacy
 {
+	/**
+	 * Category data
+	 *
+	 * @var  array
+	 */
 	protected $categories;
 
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
@@ -45,21 +65,19 @@ class BannersViewBanners extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		BannersHelper::addSubmenu('banners');
 
 		$this->addToolbar();
-		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -71,13 +89,10 @@ class BannersViewBanners extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
+		JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 		$canDo = JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-		$user = JFactory::getUser();
-
-		// Get the toolbar object instance
-		$bar = JToolbar::getInstance('toolbar');
+		$user  = JFactory::getUser();
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
@@ -86,26 +101,26 @@ class BannersViewBanners extends JViewLegacy
 			JToolbarHelper::addNew('banner.add');
 		}
 
-		if (($canDo->get('core.edit')))
+		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('banner.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($this->state->get('filter.state') != 2)
+			if ($this->state->get('filter.published') != 2)
 			{
 				JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
 				JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
-			if ($this->state->get('filter.state') != -1)
+			if ($this->state->get('filter.published') != -1)
 			{
-				if ($this->state->get('filter.state') != 2)
+				if ($this->state->get('filter.published') != 2)
 				{
 					JToolbarHelper::archiveList('banners.archive');
 				}
-				elseif ($this->state->get('filter.state') == 2)
+				elseif ($this->state->get('filter.published') == 2)
 				{
 					JToolbarHelper::unarchiveList('banners.publish');
 				}
@@ -128,12 +143,12 @@ class BannersViewBanners extends JViewLegacy
 			$layout = new JLayoutFile('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
@@ -158,15 +173,15 @@ class BannersViewBanners extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
-			'a.name' => JText::_('COM_BANNERS_HEADING_NAME'),
-			'a.sticky' => JText::_('COM_BANNERS_HEADING_STICKY'),
+			'ordering'    => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'     => JText::_('JSTATUS'),
+			'a.name'      => JText::_('COM_BANNERS_HEADING_NAME'),
+			'a.sticky'    => JText::_('COM_BANNERS_HEADING_STICKY'),
 			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'impmade' => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
-			'clicks' => JText::_('COM_BANNERS_HEADING_CLICKS'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'impmade'     => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
+			'clicks'      => JText::_('COM_BANNERS_HEADING_CLICKS'),
+			'a.language'  => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

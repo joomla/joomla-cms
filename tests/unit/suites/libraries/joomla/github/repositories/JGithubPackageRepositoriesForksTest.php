@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 /*
 require_once JPATH_PLATFORM . '/joomla/github/github.php';
@@ -19,7 +19,7 @@ require_once JPATH_PLATFORM . '/joomla/github/forks.php';
  *
  * @since       11.1
  */
-class JGithubPackageRepositoriesForksTest extends PHPUnit_Framework_TestCase
+class JGithubPackageRepositoriesForksTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -64,7 +64,7 @@ class JGithubPackageRepositoriesForksTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JGithubPackageRepositoriesForks($this->options, $this->client);
 	}

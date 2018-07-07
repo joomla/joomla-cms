@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('BaseController', __DIR__ . '/stubs/tbase.php');
@@ -171,7 +171,7 @@ class JControllerBaseTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
-		parent::teardown();
+		unset($this->_instance);
+		parent::tearDown();
 	}
 }

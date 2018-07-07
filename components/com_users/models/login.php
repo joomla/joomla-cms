@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,11 +55,10 @@ class UsersModelLogin extends JModelForm
 		$app  = JFactory::getApplication();
 		$data = $app->getUserState('users.login.form.data', array());
 
-		$input = $app->input;
-		$method = $input->getMethod();
+		$input = $app->input->getInputForRequestMethod();
 
 		// Check for return URL from the request first
-		if ($return = $input->$method->get('return', '', 'BASE64'))
+		if ($return = $input->get('return', '', 'BASE64'))
 		{
 			$data['return'] = base64_decode($return);
 
@@ -67,12 +66,6 @@ class UsersModelLogin extends JModelForm
 			{
 				$data['return'] = '';
 			}
-		}
-
-		// Set the return URL if empty.
-		if (!isset($data['return']) || empty($data['return']))
-		{
-			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 
 		$app->setUserState('users.login.form.data', $data);

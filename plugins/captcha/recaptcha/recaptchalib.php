@@ -41,23 +41,24 @@ class JReCaptchaResponse
 
 class JReCaptcha
 {
-	private static $_signupUrl = "https://www.google.com/recaptcha/admin";
-	private static $_siteVerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+	private static $_signupUrl = 'https://www.google.com/recaptcha/admin';
+	private static $_siteVerifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
 	private $_secret;
-	private static $_version = "php_1.0";
+	private static $_version = 'php_1.0';
 
 	/**
 	 * Constructor.
 	 *
 	 * @param string $secret shared secret between site and ReCAPTCHA server.
 	 */
-	function JReCaptcha($secret)
+	public function __construct($secret)
 	{
-		if ($secret == null || $secret == "")
+		if ($secret === null || $secret === '')
 		{
 			die("To use reCAPTCHA you must get an API key from <a href='"
 				. self::$_signupUrl . "'>" . self::$_signupUrl . "</a>");
 		}
+
 		$this->_secret = $secret;
 	}
 
@@ -70,33 +71,40 @@ class JReCaptcha
 	 */
 	private function _encodeQS($data)
 	{
-		$req = "";
+		$req = '';
+
 		foreach ($data as $key => $value)
 		{
 			$req .= $key . '=' . urlencode(stripslashes($value)) . '&';
 		}
 
 		// Cut the last '&'
-		$req = substr($req, 0, strlen($req) - 1);
-
-		return $req;
+		return substr($req, 0, strlen($req) - 1);
 	}
 
 	/**
 	 * Submits an HTTP GET to a reCAPTCHA server.
 	 *
-	 * @param string $path url path to recaptcha server.
+	 * @param string $path URL path to recaptcha server.
 	 * @param array  $data array of parameters to be sent.
 	 *
-	 * @return array response
+	 * @return mixed JSON string or false on error
 	 */
 	private function _submitHTTPGet($path, $data)
 	{
 		$req = $this->_encodeQS($data);
-		$http = JHttpFactory::getHttp();
-		$response = $http->get($path . '?' . $req)->body;
 
-		return $response;
+		try
+		{
+			$http   = JHttpFactory::getHttp();
+			$result = $http->get($path . '?' . $req)->body;
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -111,7 +119,7 @@ class JReCaptcha
 	public function verifyResponse($remoteIp, $response)
 	{
 		// Discard empty solution submissions
-		if ($response == null || strlen($response) == 0)
+		if ($response === null || $response === '')
 		{
 			$recaptchaResponse = new JReCaptchaResponse();
 			$recaptchaResponse->success = false;
@@ -129,10 +137,17 @@ class JReCaptcha
 				'response' => $response
 			)
 		);
+
+		// Something is broken in submiting the http get request
+		if ($getResponse === false)
+		{
+			$recaptchaResponse->success = false;
+		}
+
 		$answers = json_decode($getResponse, true);
 		$recaptchaResponse = new JReCaptchaResponse();
 
-		if (trim($answers['success']) == true)
+		if (trim($answers['success']) !== '')
 		{
 			$recaptchaResponse->success = true;
 		}

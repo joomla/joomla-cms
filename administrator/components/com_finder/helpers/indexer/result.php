@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -40,10 +40,10 @@ class FinderIndexerResult
 	 */
 	protected $instructions = array(
 		FinderIndexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-		FinderIndexer::TEXT_CONTEXT => array('summary', 'body'),
-		FinderIndexer::META_CONTEXT => array('meta', 'list_price', 'sale_price'),
-		FinderIndexer::PATH_CONTEXT => array('path', 'alias'),
-		FinderIndexer::MISC_CONTEXT => array('comments')
+		FinderIndexer::TEXT_CONTEXT  => array('summary', 'body'),
+		FinderIndexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
+		FinderIndexer::PATH_CONTEXT  => array('path', 'alias'),
+		FinderIndexer::MISC_CONTEXT  => array('comments'),
 	);
 
 	/**
@@ -207,12 +207,11 @@ class FinderIndexerResult
 	 */
 	public function __set($name, $value)
 	{
-		$this->elements[$name] = $value;
+		$this->setElement($name, $value);
 	}
 
 	/**
-	 * The magic get method is used to retrieve additional element values
-	 * from the elements array.
+	 * The magic get method is used to retrieve additional element values from the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -222,20 +221,11 @@ class FinderIndexerResult
 	 */
 	public function __get($name)
 	{
-		// Get the element value if set.
-		if (array_key_exists($name, $this->elements))
-		{
-			return $this->elements[$name];
-		}
-		else
-		{
-			return null;
-		}
+		return $this->getElement($name);
 	}
 
 	/**
-	 * The magic isset method is used to check the state of additional element
-	 * values in the elements array.
+	 * The magic isset method is used to check the state of additional element values in the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -249,8 +239,7 @@ class FinderIndexerResult
 	}
 
 	/**
-	 * The magic unset method is used to unset additional element values in the
-	 * elements array.
+	 * The magic unset method is used to unset additional element values in the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -279,10 +268,20 @@ class FinderIndexerResult
 		{
 			return $this->elements[$name];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
+	}
+
+	/**
+	 * Method to retrieve all elements.
+	 *
+	 * @return  array  The elements
+	 *
+	 * @since   3.8.3
+	 */
+	public function getElements()
+	{
+		return $this->elements;
 	}
 
 	/**

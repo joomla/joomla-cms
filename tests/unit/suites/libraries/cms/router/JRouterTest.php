@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -62,12 +62,13 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   4.0
 	 */
 	protected function tearDown()
 	{
 		$_SERVER = $this->server;
+		unset($this->server, $this->object);
 
 		parent::tearDown();
 	}
@@ -97,7 +98,7 @@ class JRouterTest extends TestCase
 		$cache->setAccessible(true);
 		$cache->setValue(array());
 
-		#$this->markTestSkipped('Untestable due to global instance cache not clearable.');
+		// $this->markTestSkipped('Untestable due to global instance cache not clearable.');
 
 		$object = JRouter::getInstance($client, array('mode' => 'test'));
 
@@ -130,7 +131,8 @@ class JRouterTest extends TestCase
 			'id'   => 3,
 			'name' => 'tester',
 			'path' => __DIR__ . '/data'
-		));
+			)
+		);
 
 		$this->assertInstanceOf('JRouter', JRouter::getInstance('tester'));
 	}
@@ -214,10 +216,12 @@ class JRouterTest extends TestCase
 	{
 		$uri    = new JUri('index.php?var1=value1');
 		$object = new JRouter;
+
 		if (!empty($mode))
 		{
 			$object->setMode($mode);
 		}
+
 		$result = $this->object->build('index.php?var1=value1');
 		$this->assertEquals($uri, $result);
 	}
@@ -250,7 +254,7 @@ class JRouterTest extends TestCase
 	}
 
 	/**
-	 * @see     https://github.com/joomla-projects/joomla-pythagoras/issues/3
+	 * @link    https://github.com/joomla-projects/joomla-pythagoras/issues/3
 	 * @since   3.4
 	 */
 	public function testMultipleVariablesCanBeAddedAtOnceAndOptionallyReplaceExistingVariables()
@@ -389,12 +393,13 @@ class JRouterTest extends TestCase
 	public function testParseRulesCanReplacePresetVariables($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -452,12 +457,13 @@ class JRouterTest extends TestCase
 	public function testParseRulesCanAddVariables($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -527,12 +533,13 @@ class JRouterTest extends TestCase
 	public function testFirstParseRuleTakesPrecedence($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -651,7 +658,7 @@ class JRouterTest extends TestCase
 			$this->object->attachBuildRule($function, $stage);
 		}
 
-		$this->assertEquals($expected, (string)$this->object->build($url));
+		$this->assertEquals($expected, (string) $this->object->build($url));
 	}
 
 	/**
@@ -726,7 +733,7 @@ class JRouterTest extends TestCase
 			JRouter::PROCESS_AFTER
 		);
 
-		$this->assertEquals($expected, (string)$this->object->build($url));
+		$this->assertEquals($expected, (string) $this->object->build($url));
 	}
 
 	/**
@@ -809,7 +816,7 @@ class JRouterTest extends TestCase
 
 		$createUriMethod = new ReflectionMethod('JRouter', 'createUri');
 		$createUriMethod->setAccessible(true);
-		$this->assertEquals($expected, (string)($createUriMethod->invoke($this->object, $url)));
+		$this->assertEquals($expected, (string) ($createUriMethod->invoke($this->object, $url)));
 	}
 
 	/**

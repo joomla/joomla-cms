@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -19,6 +19,60 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 class FinderViewIndex extends JViewLegacy
 {
 	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 *
+	 * @since  3.6.1
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 *
+	 * @since  3.6.1
+	 */
+	protected $pagination;
+
+	/**
+	 * The state of core Smart Search plugins
+	 *
+	 * @var  array
+	 *
+	 * @since  3.6.1
+	 */
+	protected $pluginState;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 *
+	 * @since  3.6.1
+	 */
+	protected $sidebar;
+
+	/**
+	 * The model state
+	 *
+	 * @var  mixed
+	 *
+	 * @since  3.6.1
+	 */
+	protected $state;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var  integer
+	 *
+	 * @since  3.6.1
+	 */
+	protected $total;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -29,14 +83,16 @@ class FinderViewIndex extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Load plug-in language files.
+		// Load plugin language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
-		$this->items       = $this->get('Items');
-		$this->total       = $this->get('Total');
-		$this->pagination  = $this->get('Pagination');
-		$this->state       = $this->get('State');
-		$this->pluginState = $this->get('pluginState');
+		$this->items         = $this->get('Items');
+		$this->total         = $this->get('Total');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->pluginState   = $this->get('pluginState');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('index');
 
@@ -48,12 +104,23 @@ class FinderViewIndex extends JViewLegacy
 			return false;
 		}
 
+		if (!$this->pluginState['plg_content_finder']->enabled)
+		{
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
+		}
+		elseif ($this->get('TotalIndexed') === 0)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP'), 'notice');
+		}
+
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -99,19 +166,5 @@ class FinderViewIndex extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
-
-		JHtmlSidebar::setAction('index.php?option=com_finder&view=index');
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_TYPE_FILTER'),
-			'filter_type',
-			JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text', $this->state->get('filter.type'))
-		);
 	}
 }

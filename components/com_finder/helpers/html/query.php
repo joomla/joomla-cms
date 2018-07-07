@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ abstract class JHtmlQuery
 		// Process the excluded tokens.
 		foreach ($query->excluded as $token)
 		{
-			if (!isset($token->derived) || $token->derived == false)
+			if (!isset($token->derived) || $token->derived === false)
 			{
 				$parts[] = '<span class="query-excluded">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_EXCLUDED', $token->term) . '</span>';
 			}
@@ -83,10 +83,12 @@ abstract class JHtmlQuery
 			{
 				// Process the taxonomy nodes.
 				$lang = JFactory::getLanguage();
+
 				foreach ($nodes as $title => $id)
 				{
 					// Translate the title for Types
 					$key = FinderHelperLanguage::branchPlural($title);
+
 					if ($lang->hasKey($key))
 					{
 						$title = JText::_($key);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,18 +49,18 @@ class UsersViewGroups extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		UsersHelper::addSubmenu('groups');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -94,7 +94,7 @@ class UsersViewGroups extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'groups.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'groups.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 
@@ -117,8 +117,8 @@ class UsersViewGroups extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'a.title' => JText::_('COM_USERS_HEADING_GROUP_TITLE'),
-				'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.title' => JText::_('COM_USERS_HEADING_GROUP_TITLE'),
+			'a.id'    => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

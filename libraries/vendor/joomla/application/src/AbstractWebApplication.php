@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\Application;
 
 use Joomla\Uri\Uri;
 use Joomla\Input\Input;
-use Joomla\String\String;
 use Joomla\Session\Session;
 use Joomla\Registry\Registry;
 
@@ -36,6 +35,14 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * @since  1.0
 	 */
 	public $mimeType = 'text/html';
+
+	/**
+	 * HTTP protocol version.
+	 *
+	 * @var    string
+	 * @since  1.9.0
+	 */
+	public $httpVersion = '1.1';
 
 	/**
 	 * The body modified date for response headers.
@@ -66,22 +73,92 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @var    Session
 	 * @since  1.0
-	 * @deprecated  2.0  The joomla/session package will no longer be required by this class
 	 */
 	private $session;
 
 	/**
+	 * A map of integer HTTP response codes to the full HTTP Status for the headers.
+	 *
+	 * @var    array
+	 * @since  1.6.0
+	 * @link   https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+	 */
+	private $responseMap = array(
+		100 => 'HTTP/{version} 100 Continue',
+		101 => 'HTTP/{version} 101 Switching Protocols',
+		102 => 'HTTP/{version} 102 Processing',
+		200 => 'HTTP/{version} 200 OK',
+		201 => 'HTTP/{version} 201 Created',
+		202 => 'HTTP/{version} 202 Accepted',
+		203 => 'HTTP/{version} 203 Non-Authoritative Information',
+		204 => 'HTTP/{version} 204 No Content',
+		205 => 'HTTP/{version} 205 Reset Content',
+		206 => 'HTTP/{version} 206 Partial Content',
+		207 => 'HTTP/{version} 207 Multi-Status',
+		208 => 'HTTP/{version} 208 Already Reported',
+		226 => 'HTTP/{version} 226 IM Used',
+		300 => 'HTTP/{version} 300 Multiple Choices',
+		301 => 'HTTP/{version} 301 Moved Permanently',
+		302 => 'HTTP/{version} 302 Found',
+		303 => 'HTTP/{version} 303 See other',
+		304 => 'HTTP/{version} 304 Not Modified',
+		305 => 'HTTP/{version} 305 Use Proxy',
+		306 => 'HTTP/{version} 306 (Unused)',
+		307 => 'HTTP/{version} 307 Temporary Redirect',
+		308 => 'HTTP/{version} 308 Permanent Redirect',
+		400 => 'HTTP/{version} 400 Bad Request',
+		401 => 'HTTP/{version} 401 Unauthorized',
+		402 => 'HTTP/{version} 402 Payment Required',
+		403 => 'HTTP/{version} 403 Forbidden',
+		404 => 'HTTP/{version} 404 Not Found',
+		405 => 'HTTP/{version} 405 Method Not Allowed',
+		406 => 'HTTP/{version} 406 Not Acceptable',
+		407 => 'HTTP/{version} 407 Proxy Authentication Required',
+		408 => 'HTTP/{version} 408 Request Timeout',
+		409 => 'HTTP/{version} 409 Conflict',
+		410 => 'HTTP/{version} 410 Gone',
+		411 => 'HTTP/{version} 411 Length Required',
+		412 => 'HTTP/{version} 412 Precondition Failed',
+		413 => 'HTTP/{version} 413 Payload Too Large',
+		414 => 'HTTP/{version} 414 URI Too Long',
+		415 => 'HTTP/{version} 415 Unsupported Media Type',
+		416 => 'HTTP/{version} 416 Range Not Satisfiable',
+		417 => 'HTTP/{version} 417 Expectation Failed',
+		418 => 'HTTP/{version} 418 I\'m a teapot',
+		421 => 'HTTP/{version} 421 Misdirected Request',
+		422 => 'HTTP/{version} 422 Unprocessable Entity',
+		423 => 'HTTP/{version} 423 Locked',
+		424 => 'HTTP/{version} 424 Failed Dependency',
+		426 => 'HTTP/{version} 426 Upgrade Required',
+		428 => 'HTTP/{version} 428 Precondition Required',
+		429 => 'HTTP/{version} 429 Too Many Requests',
+		431 => 'HTTP/{version} 431 Request Header Fields Too Large',
+		451 => 'HTTP/{version} 451 Unavailable For Legal Reasons',
+		500 => 'HTTP/{version} 500 Internal Server Error',
+		501 => 'HTTP/{version} 501 Not Implemented',
+		502 => 'HTTP/{version} 502 Bad Gateway',
+		503 => 'HTTP/{version} 503 Service Unavailable',
+		504 => 'HTTP/{version} 504 Gateway Timeout',
+		505 => 'HTTP/{version} 505 HTTP Version Not Supported',
+		506 => 'HTTP/{version} 506 Variant Also Negotiates',
+		507 => 'HTTP/{version} 507 Insufficient Storage',
+		508 => 'HTTP/{version} 508 Loop Detected',
+		510 => 'HTTP/{version} 510 Not Extended',
+		511 => 'HTTP/{version} 511 Network Authentication Required',
+	);
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param   Input          $input   An optional argument to provide dependency injection for the application's
-	 *                                  input object.  If the argument is a Input object that object will become
-	 *                                  the application's input object, otherwise a default input object is created.
-	 * @param   Registry       $config  An optional argument to provide dependency injection for the application's
-	 *                                  config object.  If the argument is a Registry object that object will become
-	 *                                  the application's config object, otherwise a default config object is created.
-	 * @param   Web\WebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                  client object.  If the argument is a Web\WebClient object that object will become
-	 *                                  the application's client object, otherwise a default client object is created.
+	 * @param   Input          $input   An optional argument to provide dependency injection for the application's input object.  If the argument
+	 *                                  is an Input object that object will become the application's input object, otherwise a default input
+	 *                                  object is created.
+	 * @param   Registry       $config  An optional argument to provide dependency injection for the application's config object.  If the argument
+	 *                                  is a Registry object that object will become the application's config object, otherwise a default config
+	 *                                  object is created.
+	 * @param   Web\WebClient  $client  An optional argument to provide dependency injection for the application's client object.  If the argument
+	 *                                  is a Web\WebClient object that object will become the application's client object, otherwise a default client
+	 *                                  object is created.
 	 *
 	 * @since   1.0
 	 */
@@ -100,10 +177,6 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 		// Set the system URIs.
 		$this->loadSystemUris();
-
-		// Set the execution datetime and timestamp;
-		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
-		$this->set('execution.timestamp', time());
 	}
 
 	/**
@@ -197,6 +270,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('Vary', 'Accept-Encoding');
 				$this->setHeader('X-Content-Encoded-By', 'Joomla');
 
 				// Replace the output with the encoded data.
@@ -222,10 +296,10 @@ abstract class AbstractWebApplication extends AbstractApplication
 		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
 
 		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
-		if (!$this->response->cachable)
+		if (!$this->allowCache())
 		{
 			// Expires in the past.
-			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -259,14 +333,15 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string   $url    The URL to redirect to. Can only be http/https URL
-	 * @param   boolean  $moved  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 * @param   string   $url     The URL to redirect to. Can only be http/https URL
+	 * @param   integer  $status  The HTTP status code to be provided. 303 is assumed by default.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
-	public function redirect($url, $moved = false)
+	public function redirect($url, $status = 303)
 	{
 		// Check for relative internal links.
 		if (preg_match('#^index\.php#', $url))
@@ -285,7 +360,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		 */
 		if (!preg_match('#^[a-z]+\://#i', $url))
 		{
-			// Get a JURI instance for the requested URI.
+			// Get a Uri instance for the requested URI.
 			$uri = new Uri($this->get('uri.request'));
 
 			// Get a base URL to prepend from the requested URI.
@@ -309,31 +384,42 @@ abstract class AbstractWebApplication extends AbstractApplication
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='$url';</script>\n";
+			echo "<script>document.location.href=" . json_encode($url) . ";</script>\n";
 		}
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == Web\WebClient::TRIDENT) && !String::is_ascii($url))
+			if (($this->client->engine == Web\WebClient::TRIDENT) && !static::isAscii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . $url . '\';</script>';
+				$html .= '<script>document.location.href=' . json_encode($url) . ';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
 			}
 			else
 			{
-				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
-				$this->header('Location: ' . $url);
-				$this->header('Content-Type: text/html; charset=' . $this->charSet);
+				// Check if we have a boolean for the status variable for compatability with v1 of the framework
+				// @deprecated 3.0
+				if (is_bool($status))
+				{
+					$status = $status ? 301 : 303;
+				}
 
-				// Send other headers that may have been set.
-				$this->sendHeaders();
+				if (!is_int($status) && !$this->isRedirectState($status))
+				{
+					throw new \InvalidArgumentException('You have not supplied a valid HTTP status code');
+				}
+
+				// All other cases use the more efficient HTTP header for redirection.
+				$this->setHeader('Status', $status, true);
+				$this->setHeader('Location', $url, true);
 			}
 		}
+
+		// Set appropriate headers
+		$this->respond();
 
 		// Close the application after the redirect.
 		$this->close();
@@ -442,7 +528,9 @@ abstract class AbstractWebApplication extends AbstractApplication
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
+					$status = $this->getHttpStatusValue($header['value']);
+
+					$this->header($status, true, (int) $header['value']);
 				}
 				else
 				{
@@ -497,7 +585,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	public function appendBody($content)
 	{
-		array_push($this->response->body, (string) $content);
+		$this->response->body[] = (string) $content;
 
 		return $this;
 	}
@@ -522,15 +610,58 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * @return  Session  The session object
 	 *
 	 * @since   1.0
-	 * @deprecated  2.0  The joomla/session package will no longer be required by this class
 	 */
 	public function getSession()
 	{
+		if ($this->session === null)
+		{
+			throw new \RuntimeException('A \Joomla\Session\Session object has not been set.');
+		}
+
 		return $this->session;
 	}
 
 	/**
-	 * Method to check the current client connnection status to ensure that it is alive.  We are
+	 * Check if a given value can be successfully mapped to a valid http status value
+	 *
+	 * @param   string|int  $value  The given status as int or string
+	 *
+	 * @return  string
+	 *
+	 * @since   1.8.0
+	 */
+	protected function getHttpStatusValue($value)
+	{
+		$code = (int) $value;
+
+		if (array_key_exists($code, $this->responseMap))
+		{
+			$value = $this->responseMap[$code];
+		}
+		else
+		{
+			$value = 'HTTP/{version} ' . $code;
+		}
+
+		return str_replace('{version}', $this->httpVersion, $value);
+	}
+
+	/**
+	 * Check if the value is a valid HTTP status code
+	 *
+	 * @param   integer  $code  The potential status code
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.8.1
+	 */
+	public function isValidHttpStatus($code)
+	{
+		return array_key_exists($code, $this->responseMap);
+	}
+
+	/**
+	 * Method to check the current client connection status to ensure that it is alive.  We are
 	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
 	 *
 	 * @return  boolean  True if the connection is valid and normal.
@@ -569,7 +700,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	protected function detectRequestUri()
 	{
 		// First we need to detect the URI scheme.
-		if ($this->isSSLConnection())
+		if ($this->isSslConnection())
 		{
 			$scheme = 'https://';
 		}
@@ -584,22 +715,26 @@ abstract class AbstractWebApplication extends AbstractApplication
 		 * information from Apache or IIS.
 		 */
 
+		$phpSelf = $this->input->server->getString('PHP_SELF', '');
+		$requestUri = $this->input->server->getString('REQUEST_URI', '');
+
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
-		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
+		if (!empty($phpSelf) && !empty($requestUri))
 		{
 			// The URI is built from the HTTP_HOST and REQUEST_URI environment variables in an Apache environment.
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$uri = $scheme . $this->input->server->getString('HTTP_HOST') . $requestUri;
 		}
 		else
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+			$uri = $scheme . $this->input->server->getString('HTTP_HOST') . $this->input->server->getString('SCRIPT_NAME');
+			$queryHost = $this->input->server->getString('QUERY_STRING', '');
 
 			// If the QUERY_STRING variable exists append it to the URI string.
-			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
+			if (!empty($queryHost))
 			{
-				$uri .= '?' . $_SERVER['QUERY_STRING'];
+				$uri .= '?' . $queryHost;
 			}
 		}
 
@@ -624,7 +759,23 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	protected function header($string, $replace = true, $code = null)
 	{
-		header($string, $replace, $code);
+		header(str_replace(chr(0), '', $string), $replace, $code);
+	}
+
+	/**
+	 * Checks if a state is a redirect state
+	 *
+	 * @param   integer  $state  The HTTP status code.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.8.0
+	 */
+	protected function isRedirectState($state)
+	{
+		$state = (int) $state;
+
+		return ($state > 299 && $state < 400 && array_key_exists($state, $this->responseMap));
 	}
 
 	/**
@@ -634,9 +785,18 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @since   1.0
 	 */
-	public function isSSLConnection()
+	public function isSslConnection()
 	{
-		return (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off');
+		$serverSSLVar = $this->input->server->getString('HTTPS', '');
+
+		if (!empty($serverSSLVar) && strtolower($serverSSLVar) !== 'off')
+		{
+			return true;
+		}
+
+		$serverForwarderProtoVar = $this->input->server->getString('HTTP_X_FORWARDED_PROTO', '');
+
+		return !empty($serverForwarderProtoVar) && strtolower($serverForwarderProtoVar) === 'https';
 	}
 
 	/**
@@ -647,7 +807,6 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * @return  AbstractWebApplication  Returns itself to support chaining.
 	 *
 	 * @since   1.0
-	 * @deprecated  2.0  The joomla/session package will no longer be required by this class
 	 */
 	public function setSession(Session $session)
 	{
@@ -695,16 +854,18 @@ abstract class AbstractWebApplication extends AbstractApplication
 			// Start with the requested URI.
 			$uri = new Uri($this->get('uri.request'));
 
+			$requestUri = $this->input->server->getString('REQUEST_URI', '');
+
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$path = dirname($_SERVER['PHP_SELF']);
+				$path = dirname($this->input->server->getString('PHP_SELF', ''));
 			}
 			else
 			// Pretty much everything else should be handled with SCRIPT_NAME.
 			{
-				$path = dirname($_SERVER['SCRIPT_NAME']);
+				$path = dirname($this->input->server->getString('SCRIPT_NAME', ''));
 			}
 		}
 
@@ -768,7 +929,6 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
 	 * @since   1.0
-	 * @deprecated  2.0  Deprecated without replacement
 	 */
 	public function checkToken($method = 'post')
 	{
@@ -776,7 +936,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 		if (!$this->input->$method->get($token, '', 'alnum'))
 		{
-			if ($this->session->isNew())
+			if ($this->getSession()->isNew())
 			{
 				// Redirect to login screen.
 				$this->redirect('index.php');
@@ -801,13 +961,31 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * @return  string  Hashed var name
 	 *
 	 * @since   1.0
-	 * @deprecated  2.0  Deprecated without replacement
 	 */
 	public function getFormToken($forceNew = false)
 	{
 		// @todo we need the user id somehow here
 		$userId  = 0;
 
-		return md5($this->get('secret') . $userId . $this->session->getToken($forceNew));
+		return md5($this->get('secret') . $userId . $this->getSession()->getToken($forceNew));
+	}
+
+	/**
+	 * Tests whether a string contains only 7bit ASCII bytes.
+	 *
+	 * You might use this to conditionally check whether a string
+	 * needs handling as UTF-8 or not, potentially offering performance
+	 * benefits by using the native PHP equivalent if it's just ASCII e.g.;
+	 *
+	 * @param   string  $str  The string to test.
+	 *
+	 * @return  boolean True if the string is all ASCII
+	 *
+	 * @since   1.4.0
+	 */
+	public static function isAscii($str)
+	{
+		// Search for any bytes which are outside the ASCII range...
+		return (preg_match('/(?:[^\x00-\x7F])/', $str) !== 1);
 	}
 }

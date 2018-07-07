@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Input
  * @since       11.1
  */
-class JInputTest extends PHPUnit_Framework_TestCase
+class JInputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * The test class.
@@ -329,6 +329,22 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test the JInput::get method disallows access to non-whitelisted globals.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetDoesNotSupportNonWhitelistedGlobals()
+	{
+		$this->assertThat(
+			$this->class->_phpunit_configuration_file,
+			$this->isNull(),
+			'Access to library defined globals is restricted'
+		);
+	}
+
 	/*
 	 * Protected methods.
 	 */
@@ -350,5 +366,20 @@ class JInputTest extends PHPUnit_Framework_TestCase
 
 		$array = null;
 		$this->class = new JInputInspector($array, array('filter' => new JFilterInputMock));
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->class);
+		parent::tearDown();
 	}
 }

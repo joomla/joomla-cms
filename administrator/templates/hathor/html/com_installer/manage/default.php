@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,11 +61,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<th class="width-10">
 					<?php echo JText::_('JDATE'); ?>
 				</th>
-                <th class="width-15 center">
-                	<?php echo JText::_('JAUTHOR'); ?>
-                </th>
+				<th class="width-15 center">
+					<?php echo JText::_('JAUTHOR'); ?>
+				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
+				</th>
+				<th>
+					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap id-col">
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
@@ -80,7 +83,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 				</td>
 				<td>
-					<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
+					<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
 						<?php echo $item->name; ?>
 					</span>
 				</td>
@@ -104,12 +107,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 				</td>
 				<td class="center">
-					<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
+					<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 						<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 					</span>
 				</td>
 				<td class="center">
 					<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+				</td>
+				<td class="center">
+					<?php echo $item->package_id ?: JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 				</td>
 				<td>
 					<?php echo $item->extension_id ?>

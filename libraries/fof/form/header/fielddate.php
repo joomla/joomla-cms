@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -104,7 +104,7 @@ class FOFFormHeaderFielddate extends FOFFormHeaderField
 				{
 					// Get a date object based on the correct timezone.
 					$date = FOFPlatform::getInstance()->getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					$date->setTimezone($user->getTimezone());
 
 					// Transform the date string.
 					$searchvalue = $date->format('Y-m-d H:i:s', true, false);

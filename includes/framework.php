@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
 // System includes
 require_once JPATH_LIBRARIES . '/import.legacy.php';
 
+// Bootstrap the CMS libraries.
+require_once JPATH_LIBRARIES . '/cms.php';
+
 // Set system error handling
 JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
 JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
 
 $version = new JVersion;
 
@@ -96,5 +96,6 @@ unset($config);
 // System profiler
 if (JDEBUG)
 {
+	// @deprecated 4.0 - The $_PROFILER global will be removed
 	$_PROFILER = JProfiler::getInstance('Application');
 }

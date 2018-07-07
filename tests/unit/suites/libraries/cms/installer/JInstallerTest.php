@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -33,6 +33,22 @@ class JInstallerTest extends TestCaseDatabase
 
 		$this->object = new JInstaller;
 	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+
+		parent::tearDown();
+	}
+
 
 	/**
 	 * Gets the data set to be loaded into the database during setup
@@ -113,7 +129,7 @@ class JInstallerTest extends TestCaseDatabase
 		$this->assertEquals(
 			$this->object->getRedirectUrl(),
 			'http://www.example.com',
-			'Get or Set Redirect Url failed'
+			'Get or Set Redirect URL failed'
 		);
 	}
 
@@ -176,25 +192,12 @@ class JInstallerTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function testAbortQuery()
-	{
-		$this->object->pushStep(array('type' => 'query'));
-
-		$this->assertFalse(
-			$this->object->abort()
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers  JInstaller::abort
-	 *
-	 * @return void
-	 */
 	public function testAbortDefault()
 	{
-		$adapterMock = $this->getMock('test', array('_rollback_testtype'));
+		// Build the mock object.
+		$adapterMock  = $this->getMockBuilder('test')
+			->setMethods(array('_rollback_testtype'))
+			->getMock();
 
 		$adapterMock->expects($this->once())
 			->method('_rollback_testtype')

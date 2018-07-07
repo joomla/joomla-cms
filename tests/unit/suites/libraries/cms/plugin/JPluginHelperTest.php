@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -99,7 +99,7 @@ class JPluginHelperTest extends TestCaseDatabase
 			'plg_content_loadmodule should return loadmodule as the name'
 		);
 	}
-	
+
 	/**
 	 * Test JPluginHelper::getPlugin with a whole plugin group
 	 *
@@ -112,7 +112,7 @@ class JPluginHelperTest extends TestCaseDatabase
 	{
 		$plugins = JPluginHelper::getPlugin('content');
 		$this->assertInternalType('array', $plugins, 'Method should return all plugins in a group');
-		$this->assertEquals(7, count($plugins), 'Method should return all plugins in a group');
+		$this->assertCount(7, $plugins, 'Method should return all plugins in a group');
 	}
 
 	/**

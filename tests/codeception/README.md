@@ -1,46 +1,70 @@
-Testing Joomla CMS
-==========
+[Browser Automated Tests for Joomla! CMS(covering Users and Content features - GSoC 16)](https://summerofcode.withgoogle.com/projects/#5724182314745856)
+===
 
-## System testing
-This folder contains a System Tests suite based on Codeception Testing Framework. For more information see: https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception
+Abstract
+---
+System development nowadays more than ever starts to look for automated test methods. There are several main drivers for this trend:
++ Need for faster design‐develop‐test‐analysis cycle
++ Push for higher quality
++ Increasing complexity of systems and their integration and last but not least
++ Ever‐rising costs of manual testing
+ 
+Automation Testing means using an automation tool to execute test case suite. The automation software can also enter test data into the System Under Test, compare expected and actual results and generate detailed test reports.
 
-### Getting Joomla
-The first step to execute the System tests at Joomla-CMS a Joomla website. To do it automatically you can execute the following commands:
+Test Automation demands considerable investments of money and resources. Successive development cycles will require execution of same test suite repeatedly. Using a test automation tool it's possible to record this test suite and re-play it as required. Once the test suite is automated, no human intervention is required.
 
+### Installation
+
+1. Clone this repository
+
+2. Install `composer` in your system. Read more about [how to install composer](https://getcomposer.org/doc/00-intro.md) here.
+
+3. Install composer packages using the following steps from root directory of this project.
+We are using `composer.json` file for `tests/codeception` folder, so that you will have to run composer install from the tests directory.
+
+    ```bash
+    $ cd tests/codeception && composer install
+    ```
+
+4. Copy `tests/codeception/acceptance.suite.dist.yml` to `tests/codeception/acceptance.suite.yml` and change the settings according to your webserver.
+
+    ```
+    $ cp acceptance.suite.dist.yml acceptance.suite.yml
+    ```
+
+5. Get back to project root directory using `$ cd ..` twice.
+
+### Run tests
+
+To run the tests please execute the following commands. We are using [Robo.li](http://robo.li/) to execute 
+[PhpUnit](https://phpunit.de/) and Selenium based [Codeception](http://codeception.com/for/joomla) test suits.
+
+#### To execute all the test features you should use.
+
+```bash
+$ tests/codeception/vendor/bin/robo run:tests
 ```
-cd tests/codeception
-composer install
-# The following comand uses a Joomla Framework App that downloads the latests Joomla
-php cli/getjoomlacli.php
+
+#### You can individual run `feature` using following command.
+
+**_Linux & Mac_**
+```bash
+$ tests/codeception/vendor/bin/robo run:test
 ```
 
-note: to execute the previous commands you will need Composer in your system. See https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception#Testing_with_Codeception.
-
-
-### Running the tests
-
-Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml
-
-Modify the configuration at tests/acceptance.suite.yml to fit your server details. Find the instructions in the same file: https://github.com/joomla/joomla-cms/tests/codeception/acceptance.suite.dist.yml#L3
-
-Run Selenium server (is the software that drives your Firefox browser):
-
-```
-# Download Selenium Server
-curl -O http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
-
-# Go to the folder were you have downloaded the file and start the Selenium Server
-java -Xms40m -Xmx256m -jar ./selenium-server-standalone-2.41.0.jar
+**_Windows_**
+```cmd
+$ tests\codeception\vendor\bin\robo run:test
 ```
 
+If you want to see the steps then you can use `--steps` option of codeception. 
+Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)
 
-Execute the tests:
+**Note**: You can modify the timeout time by setting the value of the **TIMEOUT** constant lower for fast machines and higher for slow computers.
+The constant located in the file `tests/codeception/acceptance/_bootstrap.php`
 
-```
-php vendor/bin/codecept build
-php vendor/bin/codecept run tests/acceptance/installation/ --steps 
-php vendor/bin/codecept run tests/acceptance/administrator/ --steps 
-```
+Changing the browser the tests are running with?
+---
+In your acceptance.suite.yml just change the browser name. Possible values are firefox, chrome, internet explorer and MicrosoftEdge. 
 
-You can also execute the tests using runsystemtests.sh file
-
+Note: If you are running Windows Insiders builds, then you need to set MicrosoftEdgeInsiders to true. 

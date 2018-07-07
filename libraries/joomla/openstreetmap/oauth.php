@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Openstreetmap API access token.
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapOauth extends JOAuth1Client
 {
@@ -39,14 +40,14 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	{
 		$this->options = isset($options) ? $options : new Registry;
 
-		$this->options->def('accessTokenURL', 'http://www.openstreetmap.org/oauth/access_token');
-		$this->options->def('authoriseURL', 'http://www.openstreetmap.org/oauth/authorize');
-		$this->options->def('requestTokenURL', 'http://www.openstreetmap.org/oauth/request_token');
+		$this->options->def('accessTokenURL', 'https://www.openstreetmap.org/oauth/access_token');
+		$this->options->def('authoriseURL', 'https://www.openstreetmap.org/oauth/authorize');
+		$this->options->def('requestTokenURL', 'https://www.openstreetmap.org/oauth/request_token');
 
 		/*
-		$this->options->def('accessTokenURL', 'http://api06.dev.openstreetmap.org/oauth/access_token');
-		$this->options->def('authoriseURL', 'http://api06.dev.openstreetmap.org/oauth/authorize');
-		$this->options->def('requestTokenURL', 'http://api06.dev.openstreetmap.org/oauth/request_token');
+		$this->options->def('accessTokenURL', 'https://api06.dev.openstreetmap.org/oauth/access_token');
+		$this->options->def('authoriseURL', 'https://api06.dev.openstreetmap.org/oauth/authorize');
+		$this->options->def('requestTokenURL', 'https://api06.dev.openstreetmap.org/oauth/request_token');
 		*/
 
 		// Call the JOauth1Client constructor to setup the object.
@@ -80,7 +81,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	{
 		if ($response->code != 200)
 		{
-			$error = htmlspecialchars($response->body);
+			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 
 			throw new DomainException($error, $response->code);
 		}

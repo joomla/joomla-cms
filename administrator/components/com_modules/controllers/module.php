@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,16 +117,20 @@ class ModulesControllerModule extends JControllerForm
 		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
 
-		// Check general edit permission first.
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
+		{
+			return parent::allowEdit($data, $key);
+		}
+
+		// Check edit on the record asset (explicit or inherited)
 		if ($user->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
 
-		// Since there is no asset tracking, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		return false;
 	}
 
 	/**
@@ -204,6 +208,11 @@ class ModulesControllerModule extends JControllerForm
 			$item = $model->getItem($this->input->get('id'));
 			$properties = $item->getProperties();
 
+			if (isset($data['params']))
+			{
+				unset($properties['params']);
+			}
+
 			// Replace changed properties
 			$data = array_replace_recursive($properties, $data);
 
@@ -217,11 +226,85 @@ class ModulesControllerModule extends JControllerForm
 
 			// Add path of forms directory
 			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-
 		}
 
 		parent::save($key, $urlVar);
 
 	}
 
+	/**
+	 * Method to get the other modules in the same position
+	 *
+	 * @return  string  The data for the Ajax request.
+	 *
+	 * @since   3.6.3
+	 */
+	public function orderPosition()
+	{
+		$app = JFactory::getApplication();
+
+		// Send json mime type.
+		$app->mimeType = 'application/json';
+		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$app->sendHeaders();
+
+		// Check if user token is valid.
+		if (!JSession::checkToken('get'))
+		{
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
+			echo new JResponseJson;
+			$app->close();
+		}
+
+		$jinput   = $app->input;
+		$clientId = $jinput->getValue('client_id');
+		$position = $jinput->getValue('position');
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('position, ordering, title')
+			->from('#__modules')
+			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->q($position))
+			->order('ordering');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$orders = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+
+			return '';
+		}
+
+		$orders2 = array();
+		$n = count($orders);
+
+		if ($n > 0)
+		{
+			for ($i = 0, $n; $i < $n; $i++)
+			{
+				if (!isset($orders2[$orders[$i]->position]))
+				{
+					$orders2[$orders[$i]->position] = 0;
+				}
+
+				$orders2[$orders[$i]->position]++;
+				$ord = $orders2[$orders[$i]->position];
+				$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+
+				$html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
+			}
+		}
+		else
+		{
+			$html[] = $position . ',' . 1 . ',' . JText::_('JNONE');
+		}
+
+		echo new JResponseJson($html);
+		$app->close();
+	}
 }

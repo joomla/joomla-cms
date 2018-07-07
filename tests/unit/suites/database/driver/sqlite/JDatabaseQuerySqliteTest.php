@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,21 @@ class JDatabaseQuerySqliteTest extends TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo, $this->_instance);
+		parent::tearDown();
+	}
+
+	/**
 	 * Data for the testDateAdd test.
 	 *
 	 * @return  array
@@ -58,7 +73,7 @@ class JDatabaseQuerySqliteTest extends TestCase
 	public function seedDateAdd()
 	{
 		return array(
-			// date, interval, datepart, expected
+			// Elements: date, interval, datepart, expected
 			'Add date'			=> array('2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"),
 			'Subtract date'		=> array('2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"),
 			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"),
@@ -100,6 +115,69 @@ class JDatabaseQuerySqliteTest extends TestCase
 		$this->assertEquals(
 			'CURRENT_TIMESTAMP',
 			$this->_instance->currentTimestamp()
+		);
+	}
+
+	/**
+	 * Test for the JDatabaseQuerySqlite::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER() AS new_ordering" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER() AS `ordering`" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering DESC" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT ROW_NUMBER() AS `ordering`" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT 1" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering DESC" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
 		);
 	}
 }

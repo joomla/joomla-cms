@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/stemmer/fr.php';
@@ -12,7 +12,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/stemm
 /**
  * Test class for FinderIndexerStemmerFr.
  */
-class FinderIndexerStemmerFrTest extends PHPUnit_Framework_TestCase
+class FinderIndexerStemmerFrTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var FinderIndexerStemmerFr
@@ -29,11 +29,26 @@ class FinderIndexerStemmerFrTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+	}
+
+	/**
 	 * Tests the stem method of the French language stemmer
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStem()
 	{
@@ -49,6 +64,7 @@ class FinderIndexerStemmerFrTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStemShort()
 	{
@@ -64,6 +80,7 @@ class FinderIndexerStemmerFrTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStemWrongLanguage()
 	{

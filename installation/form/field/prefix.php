@@ -2,14 +2,14 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
 /**
- * Form Field class for the Joomla Framework.
+ * Database Prefix field.
  *
  * @since  1.6
  */
@@ -18,15 +18,15 @@ class InstallationFormFieldPrefix extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Prefix';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string   The field input markup.
 	 *
 	 * @since   1.6
 	 */
@@ -36,8 +36,8 @@ class InstallationFormFieldPrefix extends JFormField
 		$size      = $this->element['size'] ? abs((int) $this->element['size']) : 5;
 		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
 		$class     = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$readonly  = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$disabled  = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$readonly  = (string) $this->element['readonly'] === 'true' ? ' readonly="readonly"' : '';
+		$disabled  = (string) $this->element['disabled'] === 'true' ? ' disabled="disabled"' : '';
 
 		// Make sure somebody doesn't put in a too large prefix size value.
 		if ($size > 10)

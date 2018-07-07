@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  dispatcher
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -81,7 +81,7 @@ class FOFDownloadAdapterFopen extends FOFDownloadAdapterAbstract implements FOFD
 				),
 				'ssl' => array(
 					'verify_peer'   => true,
-					'cafile'        => JPATH_LIBRARIES . 'joomla/http/transport/cacert.pem',
+					'cafile'        => __DIR__ . '/cacert.pem',
 					'verify_depth'  => 5,
 				)
 			);
@@ -99,7 +99,7 @@ class FOFDownloadAdapterFopen extends FOFDownloadAdapterAbstract implements FOFD
 				),
 				'ssl' => array(
 					'verify_peer'   => true,
-					'cafile'        => JPATH_LIBRARIES . 'joomla/http/transport/cacert.pem',
+					'cafile'        => __DIR__ . '/cacert.pem',
 					'verify_depth'  => 5,
 				)
 			);

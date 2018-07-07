@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -15,7 +15,7 @@
  * @subpackage  Crypt
  * @since       11.1
  */
-class JCryptTest extends PHPUnit_Framework_TestCase
+class JCryptTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JCrypt
@@ -36,13 +36,27 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Test...
 	 *
 	 * @return void
 	 */
 	public function testGenRandomBytes()
 	{
-		// We're just testing wether the value has the expected length.
+		// We're just testing whether the value has the expected length.
 		// We obviously can't test the result since it's random.
 
 		$randomBytes16 = JCrypt::genRandomBytes();

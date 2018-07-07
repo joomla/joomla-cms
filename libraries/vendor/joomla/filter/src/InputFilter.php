@@ -2,11 +2,13 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Filter;
+
+use Joomla\String\StringHelper;
 
 /**
  * InputFilter is a class for filtering input from any data source
@@ -19,15 +21,48 @@ namespace Joomla\Filter;
 class InputFilter
 {
 	/**
+	 * Defines the InputFilter instance should use a whitelist method for sanitising tags.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const TAGS_WHITELIST = 0;
+
+	/**
+	 * Defines the InputFilter instance should use a blacklist method for sanitising tags.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const TAGS_BLACKLIST = 1;
+
+	/**
+	 * Defines the InputFilter instance should use a whitelist method for sanitising attributes.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const ATTR_WHITELIST = 0;
+
+	/**
+	 * Defines the InputFilter instance should use a blacklist method for sanitising attributes.
+	 *
+	 * @var    integer
+	 * @since  1.3.0
+	 */
+	const ATTR_BLACKLIST = 1;
+
+	/**
 	 * A container for InputFilter instances.
 	 *
 	 * @var    InputFilter[]
 	 * @since  1.0
+	 * @deprecated  1.2.0
 	 */
 	protected static $instances = array();
 
 	/**
-	 * The array of permitted tags (white list).
+	 * The array of permitted tags (whitelist).
 	 *
 	 * @var    array
 	 * @since  1.0
@@ -35,7 +70,7 @@ class InputFilter
 	public $tagsArray;
 
 	/**
-	 * The array of permitted tag attributes (white list).
+	 * The array of permitted tag attributes (whitelist).
 	 *
 	 * @var    array
 	 * @since  1.0
@@ -43,7 +78,7 @@ class InputFilter
 	public $attrArray;
 
 	/**
-	 * The method for sanitising tags: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising tags
 	 *
 	 * @var    integer
 	 * @since  1.0
@@ -51,7 +86,7 @@ class InputFilter
 	public $tagsMethod;
 
 	/**
-	 * The method for sanitising attributes: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising attributes
 	 *
 	 * @var    integer
 	 * @since  1.0
@@ -78,6 +113,7 @@ class InputFilter
 		'bgsound',
 		'base',
 		'basefont',
+		'canvas',
 		'embed',
 		'frame',
 		'frameset',
@@ -94,7 +130,7 @@ class InputFilter
 		'script',
 		'style',
 		'title',
-		'xml'
+		'xml',
 	);
 
 	/**
@@ -108,11 +144,25 @@ class InputFilter
 		'background',
 		'codebase',
 		'dynsrc',
-		'lowsrc'
+		'formaction',
+		'lowsrc',
 	);
 
 	/**
-	 * Constructor for inputFilter class. Only first parameter is required.
+	 * A special list of blacklisted chars
+	 *
+	 * @var    array
+	 * @since  1.3.3
+	 */
+	private $blacklistedChars = array(
+		'&tab;',
+		'&space;',
+		'&colon;',
+		'&column;',
+	);
+
+	/**
+	 * Constructor for InputFilter class.
 	 *
 	 * @param   array    $tagsArray   List of user-defined tags
 	 * @param   array    $attrArray   List of user-defined attributes
@@ -122,18 +172,20 @@ class InputFilter
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = self::TAGS_WHITELIST, $attrMethod = self::ATTR_WHITELIST,
+		$xssAuto = 1
+	)
 	{
 		// Make sure user defined arrays are in lowercase
 		$tagsArray = array_map('strtolower', (array) $tagsArray);
 		$attrArray = array_map('strtolower', (array) $attrArray);
 
 		// Assign member variables
-		$this->tagsArray = $tagsArray;
-		$this->attrArray = $attrArray;
+		$this->tagsArray  = $tagsArray;
+		$this->attrArray  = $attrArray;
 		$this->tagsMethod = $tagsMethod;
 		$this->attrMethod = $attrMethod;
-		$this->xssAuto = $xssAuto;
+		$this->xssAuto    = $xssAuto;
 	}
 
 	/**
@@ -142,9 +194,9 @@ class InputFilter
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
 	 * @param   string  $type    The return type for the variable:
-	 *                           INT:       An integer,
-	 *                           UINT:      An unsigned integer,
-	 *                           FLOAT:     A floating point number,
+	 *                           INT:       An integer, or an array of integers,
+	 *                           UINT:      An unsigned integer, or an array of unsigned integers,
+	 *                           FLOAT:     A floating point number, or an array of floating point numbers,
 	 *                           BOOLEAN:   A boolean value,
 	 *                           WORD:      A string containing A-Z or underscores only (not case sensitive),
 	 *                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive),
@@ -153,7 +205,7 @@ class InputFilter
 	 *                           STRING:    A fully decoded and sanitised string (default),
 	 *                           HTML:      A sanitised string,
 	 *                           ARRAY:     An array,
-	 *                           PATH:      A sanitised file path,
+	 *                           PATH:      A sanitised file path, or an array of sanitised file paths,
 	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
 	 *                           USERNAME:  Do not use (use an application specific filter),
 	 *                           RAW:       The raw string is returned with no filtering,
@@ -166,57 +218,213 @@ class InputFilter
 	 */
 	public function clean($source, $type = 'string')
 	{
-		// Handle the type constraint
+		// Handle the type constraint cases
 		switch (strtoupper($type))
 		{
 			case 'INT':
 			case 'INTEGER':
-				// Only use the first integer value
-				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = isset($matches[0]) ? (int) $matches[0] : 0;
+				$pattern = '/[-+]?[0-9]+/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (int) $matches[0] : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? (int) $matches[0] : 0;
+				}
+
 				break;
 
 			case 'UINT':
-				// Only use the first integer value
-				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+				$pattern = '/[-+]?[0-9]+/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+				}
+
 				break;
 
 			case 'FLOAT':
 			case 'DOUBLE':
-				// Only use the first floating point value
-				preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $source, $matches);
-				$result = isset($matches[0]) ? (float) $matches[0] : 0;
+				$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (float) $matches[0] : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? (float) $matches[0] : 0;
+				}
+
 				break;
 
 			case 'BOOL':
 			case 'BOOLEAN':
-				$result = (bool) $source;
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (bool) $eachString;
+					}
+				}
+				else
+				{
+					$result = (bool) $source;
+				}
+
 				break;
 
 			case 'WORD':
-				$result = (string) preg_replace('/[^A-Z_]/i', '', $source);
+				$pattern = '/[^A-Z_]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'ALNUM':
-				$result = (string) preg_replace('/[^A-Z0-9]/i', '', $source);
+				$pattern = '/[^A-Z0-9]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'CMD':
-				$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
-				$result = ltrim($result, '.');
+				$pattern = '/[^A-Z0-9_\.-]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) preg_replace($pattern, '', $eachString);
+						$result[] = ltrim($cleaned, '.');
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+					$result = ltrim($result, '.');
+				}
+
 				break;
 
 			case 'BASE64':
-				$result = (string) preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
+				$pattern = '/[^A-Z0-9\/+=]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'STRING':
-				$result = (string) $this->remove($this->decode((string) $source));
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove($this->decode((string) $eachString));
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove($this->decode((string) $source));
+				}
+
 				break;
 
 			case 'HTML':
-				$result = (string) $this->remove((string) $source);
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove((string) $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove((string) $source);
+				}
+
 				break;
 
 			case 'ARRAY':
@@ -224,19 +432,67 @@ class InputFilter
 				break;
 
 			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-				preg_match($pattern, (string) $source, $matches);
-				$result = isset($matches[0]) ? (string) $matches[0] : '';
+				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (string) $matches[0] : '';
+					}
+				}
+				else
+				{
+					preg_match($pattern, $source, $matches);
+					$result = isset($matches[0]) ? (string) $matches[0] : '';
+				}
+
 				break;
 
 			case 'TRIM':
-				$result = (string) trim($source);
-				$result = trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
-				$result = trim($result, chr(0xC2) . chr(0xA0));
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) trim($eachString);
+						$cleaned  = StringHelper::trim($cleaned, chr(0xE3) . chr(0x80) . chr(0x80));
+						$result[] = StringHelper::trim($cleaned, chr(0xC2) . chr(0xA0));
+					}
+				}
+				else
+				{
+					$result = (string) trim($source);
+					$result = StringHelper::trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+					$result = StringHelper::trim($result, chr(0xC2) . chr(0xA0));
+				}
+
 				break;
 
 			case 'USERNAME':
-				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
+				$pattern = '/[\x00-\x1F\x7F<>"\'%&]/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'RAW':
@@ -268,7 +524,7 @@ class InputFilter
 					}
 					else
 					{
-						// Not an array or string.. return the passed parameter
+						// Not an array or string... return the passed parameter
 						$result = $source;
 					}
 				}
@@ -290,12 +546,13 @@ class InputFilter
 	 */
 	public static function checkAttribute($attrSubSet)
 	{
-		$attrSubSet[0] = strtolower($attrSubSet[0]);
-		$attrSubSet[1] = strtolower($attrSubSet[1]);
+		$quoteStyle = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_QUOTES | ENT_HTML401 : ENT_QUOTES;
 
-		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) ||
-			(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
-			(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+		$attrSubSet[0] = strtolower($attrSubSet[0]);
+		$attrSubSet[1] = html_entity_decode(strtolower($attrSubSet[1]), $quoteStyle, 'UTF-8');
+
+		return ((strpos($attrSubSet[1], 'expression') !== false && $attrSubSet[0] === 'style')
+			|| preg_match('/(?:(?:java|vb|live)script|behaviour|mocha)(?::|&colon;|&column;)/', $attrSubSet[1]) !== 0);
 	}
 
 	/**
@@ -309,14 +566,13 @@ class InputFilter
 	 */
 	protected function remove($source)
 	{
-		$loopCounter = 0;
-
 		// Iteration provides nested tag protection
-		while ($source != $this->cleanTags($source))
+		do
 		{
+			$temp = $source;
 			$source = $this->cleanTags($source);
-			$loopCounter++;
 		}
+		while ($temp !== $source);
 
 		return $source;
 	}
@@ -344,61 +600,61 @@ class InputFilter
 		$attr = '';
 
 		// Is there a tag? If so it will certainly start with a '<'.
-		$tagOpen_start = strpos($source, '<');
+		$tagOpenStart = StringHelper::strpos($source, '<');
 
-		while ($tagOpen_start !== false)
+		while ($tagOpenStart !== false)
 		{
 			// Get some information about the tag we are processing
-			$preTag .= substr($postTag, 0, $tagOpen_start);
-			$postTag = substr($postTag, $tagOpen_start);
-			$fromTagOpen = substr($postTag, 1);
-			$tagOpen_end = strpos($fromTagOpen, '>');
+			$preTag .= StringHelper::substr($postTag, 0, $tagOpenStart);
+			$postTag = StringHelper::substr($postTag, $tagOpenStart);
+			$fromTagOpen = StringHelper::substr($postTag, 1);
+			$tagOpenEnd = StringHelper::strpos($fromTagOpen, '>');
 
 			// Check for mal-formed tag where we have a second '<' before the first '>'
-			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
+			$nextOpenTag = (StringHelper::strlen($postTag) > $tagOpenStart) ? StringHelper::strpos($postTag, '<', $tagOpenStart + 1) : false;
 
-			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end))
+			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpenEnd))
 			{
 				// At this point we have a mal-formed tag -- remove the offending open
-				$postTag = substr($postTag, 0, $tagOpen_start) . substr($postTag, $tagOpen_start + 1);
-				$tagOpen_start = strpos($postTag, '<');
+				$postTag = StringHelper::substr($postTag, 0, $tagOpenStart) . StringHelper::substr($postTag, $tagOpenStart + 1);
+				$tagOpenStart = StringHelper::strpos($postTag, '<');
 				continue;
 			}
 
 			// Let's catch any non-terminated tags and skip over them
-			if ($tagOpen_end === false)
+			if ($tagOpenEnd === false)
 			{
-				$postTag = substr($postTag, $tagOpen_start + 1);
-				$tagOpen_start = strpos($postTag, '<');
+				$postTag = StringHelper::substr($postTag, $tagOpenStart + 1);
+				$tagOpenStart = StringHelper::strpos($postTag, '<');
 				continue;
 			}
 
 			// Do we have a nested tag?
-			$tagOpen_nested = strpos($fromTagOpen, '<');
+			$tagOpenNested = StringHelper::strpos($fromTagOpen, '<');
 
-			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
+			if (($tagOpenNested !== false) && ($tagOpenNested < $tagOpenEnd))
 			{
-				$preTag .= substr($postTag, 0, ($tagOpen_nested + 1));
-				$postTag = substr($postTag, ($tagOpen_nested + 1));
-				$tagOpen_start = strpos($postTag, '<');
+				$preTag .= StringHelper::substr($postTag, 0, ($tagOpenNested + 1));
+				$postTag = StringHelper::substr($postTag, ($tagOpenNested + 1));
+				$tagOpenStart = StringHelper::strpos($postTag, '<');
 				continue;
 			}
 
 			// Let's get some information about our tag and setup attribute pairs
-			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
-			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
-			$tagLength = strlen($currentTag);
+			$tagOpenNested = (StringHelper::strpos($fromTagOpen, '<') + $tagOpenStart + 1);
+			$currentTag = StringHelper::substr($fromTagOpen, 0, $tagOpenEnd);
+			$tagLength = StringHelper::strlen($currentTag);
 			$tagLeft = $currentTag;
 			$attrSet = array();
-			$currentSpace = strpos($tagLeft, ' ');
+			$currentSpace = StringHelper::strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (substr($currentTag, 0, 1) == '/')
+			if (StringHelper::substr($currentTag, 0, 1) === '/')
 			{
 				// Close Tag
 				$isCloseTag = true;
 				list ($tagName) = explode(' ', $currentTag);
-				$tagName = substr($tagName, 1);
+				$tagName = StringHelper::substr($tagName, 1);
 			}
 			else
 			{
@@ -412,10 +668,12 @@ class InputFilter
 			 * OR no tagname
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
+			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName))
+				|| (!$tagName)
+				|| ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
 			{
-				$postTag = substr($postTag, ($tagLength + 2));
-				$tagOpen_start = strpos($postTag, '<');
+				$postTag = StringHelper::substr($postTag, ($tagLength + 2));
+				$tagOpenStart = StringHelper::strpos($postTag, '<');
 
 				// Strip tag
 				continue;
@@ -428,11 +686,11 @@ class InputFilter
 			while ($currentSpace !== false)
 			{
 				$attr = '';
-				$fromSpace = substr($tagLeft, ($currentSpace + 1));
-				$nextEqual = strpos($fromSpace, '=');
-				$nextSpace = strpos($fromSpace, ' ');
-				$openQuotes = strpos($fromSpace, '"');
-				$closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
+				$fromSpace = StringHelper::substr($tagLeft, ($currentSpace + 1));
+				$nextEqual = StringHelper::strpos($fromSpace, '=');
+				$nextSpace = StringHelper::strpos($fromSpace, ' ');
+				$openQuotes = StringHelper::strpos($fromSpace, '"');
+				$closeQuotes = StringHelper::strpos(StringHelper::substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
 
 				$startAtt = '';
 				$startAttPosition = 0;
@@ -440,20 +698,25 @@ class InputFilter
 				// Find position of equal and open quotes ignoring
 				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))
 				{
+					// We have found an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+					$stringBeforeAttr = substr($fromSpace, 0, $matches[0][1]);
+					$startAttPosition = StringHelper::strlen($stringBeforeAttr);
 					$startAtt = $matches[0][0];
-					$startAttPosition = $matches[0][1];
-					$closeQuotes = strpos(substr($fromSpace, ($startAttPosition + strlen($startAtt))), '"') + $startAttPosition + strlen($startAtt);
-					$nextEqual = $startAttPosition + strpos($startAtt, '=');
-					$openQuotes = $startAttPosition + strpos($startAtt, '"');
-					$nextSpace = strpos(substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
+					$closeQuotePos = StringHelper::strpos(
+						StringHelper::substr($fromSpace, ($startAttPosition + StringHelper::strlen($startAtt))), '"'
+					);
+					$closeQuotes = $closeQuotePos + $startAttPosition + StringHelper::strlen($startAtt);
+					$nextEqual = $startAttPosition + StringHelper::strpos($startAtt, '=');
+					$openQuotes = $startAttPosition + StringHelper::strpos($startAtt, '"');
+					$nextSpace = StringHelper::strpos(StringHelper::substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
 				}
 
 				// Do we have an attribute to process? [check for equal sign]
-				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
+				if ($fromSpace !== '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
 				{
 					if (!$nextEqual)
 					{
-						$attribEnd = strpos($fromSpace, '/') - 1;
+						$attribEnd = StringHelper::strpos($fromSpace, '/') - 1;
 					}
 					else
 					{
@@ -463,34 +726,37 @@ class InputFilter
 					// If there is an ending, use this, if not, do not worry.
 					if ($attribEnd > 0)
 					{
-						$fromSpace = substr($fromSpace, $attribEnd + 1);
+						$fromSpace = StringHelper::substr($fromSpace, $attribEnd + 1);
 					}
 				}
 
-				if (strpos($fromSpace, '=') !== false)
+				if (StringHelper::strpos($fromSpace, '=') !== false)
 				{
-					// If the attribute value is wrapped in quotes we need to grab the substring from
-					// the closing quote, otherwise grab until the next space.
-					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false))
+					/*
+					 * If the attribute value is wrapped in quotes we need to grab the substring from the closing quote,
+					 * otherwise grab until the next space.
+					 */
+					if (($openQuotes !== false)
+						&& (StringHelper::strpos(StringHelper::substr($fromSpace, ($openQuotes + 1)), '"') !== false))
 					{
-						$attr = substr($fromSpace, 0, ($closeQuotes + 1));
+						$attr = StringHelper::substr($fromSpace, 0, ($closeQuotes + 1));
 					}
 					else
 					{
-						$attr = substr($fromSpace, 0, $nextSpace);
+						$attr = StringHelper::substr($fromSpace, 0, $nextSpace);
 					}
 				}
 				else
 				// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
 				{
-					if ($fromSpace != '/')
+					if ($fromSpace !== '/')
 					{
-						$attr = substr($fromSpace, 0, $nextSpace);
+						$attr = StringHelper::substr($fromSpace, 0, $nextSpace);
 					}
 				}
 
 				// Last Attribute Pair
-				if (!$attr && $fromSpace != '/')
+				if (!$attr && $fromSpace !== '/')
 				{
 					$attr = $fromSpace;
 				}
@@ -499,8 +765,8 @@ class InputFilter
 				$attrSet[] = $attr;
 
 				// Move search point and continue iteration
-				$tagLeft = substr($fromSpace, strlen($attr));
-				$currentSpace = strpos($tagLeft, ' ');
+				$tagLeft = StringHelper::substr($fromSpace, StringHelper::strlen($attr));
+				$currentSpace = StringHelper::strpos($tagLeft, ' ');
 			}
 
 			// Is our tag in the user input array?
@@ -522,7 +788,7 @@ class InputFilter
 					}
 
 					// Reformat single tags to XHTML
-					if (strpos($fromTagOpen, '</' . $tagName))
+					if (StringHelper::strpos($fromTagOpen, '</' . $tagName))
 					{
 						$preTag .= '>';
 					}
@@ -539,12 +805,12 @@ class InputFilter
 			}
 
 			// Find next tag's start and continue iteration
-			$postTag = substr($postTag, ($tagLength + 2));
-			$tagOpen_start = strpos($postTag, '<');
+			$postTag = StringHelper::substr($postTag, ($tagLength + 2));
+			$tagOpenStart = StringHelper::strpos($postTag, '<');
 		}
 
 		// Append any code after the end of tags and return
-		if ($postTag != '<')
+		if ($postTag !== '<')
 		{
 			$preTag .= $postTag;
 		}
@@ -580,8 +846,25 @@ class InputFilter
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
 
 			// Take the last attribute in case there is an attribute with no value
-			$attrSubSet_0 = explode(' ', trim($attrSubSet[0]));
-			$attrSubSet[0] = array_pop($attrSubSet_0);
+			$attrSubSet0   = explode(' ', trim($attrSubSet[0]));
+			$attrSubSet[0] = array_pop($attrSubSet0);
+
+			$attrSubSet[0] = strtolower($attrSubSet[0]);
+			$quoteStyle = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_QUOTES | ENT_HTML401 : ENT_QUOTES;
+
+			// Remove all spaces as valid attributes does not have spaces.
+			$attrSubSet[0] = html_entity_decode($attrSubSet[0], $quoteStyle, 'UTF-8');
+			$attrSubSet[0] = preg_replace('/^[\pZ\pC]+|[\pZ\pC]+$/u', '', $attrSubSet[0]);
+			$attrSubSet[0] = preg_replace('/\s+/u', '', $attrSubSet[0]);
+
+			// Remove blacklisted chars from the attribute name
+			foreach ($this->blacklistedChars as $blacklistedChar)
+			{
+				$attrSubSet[0] = str_ireplace($blacklistedChar, '', $attrSubSet[0]);
+			}
+
+			// Remove all symbols
+			$attrSubSet[0] = preg_replace('/[^\p{L}\p{N}\-\s]/u', '', $attrSubSet[0]);
 
 			// Remove all "non-regular" attribute names
 			// AND blacklisted attributes
@@ -593,36 +876,40 @@ class InputFilter
 			}
 
 			// XSS attribute value filtering
-			if (isset($attrSubSet[1]))
-			{
-				// Trim leading and trailing spaces
-				$attrSubSet[1] = trim($attrSubSet[1]);
-
-				// Strips unicode, hex, etc
-				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
-
-				// Strip normal newline within attr value
-				$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
-
-				// Strip double quotes
-				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
-
-				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
-				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
-				{
-					$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
-				}
-
-				// Strip slashes
-				$attrSubSet[1] = stripslashes($attrSubSet[1]);
-			}
-			else
+			if (!isset($attrSubSet[1]))
 			{
 				continue;
 			}
 
+			// Remove blacklisted chars from the attribute value
+			foreach ($this->blacklistedChars as $blacklistedChar)
+			{
+				$attrSubSet[1] = str_ireplace($blacklistedChar, '', $attrSubSet[1]);
+			}
+
+			// Trim leading and trailing spaces
+			$attrSubSet[1] = trim($attrSubSet[1]);
+
+			// Strips unicode, hex, etc
+			$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
+
+			// Strip normal newline within attr value
+			$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
+
+			// Strip double quotes
+			$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
+
+			// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
+			if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
+			{
+				$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
+			}
+
+			// Strip slashes
+			$attrSubSet[1] = stripslashes($attrSubSet[1]);
+
 			// Autostrip script tags
-			if (self::checkAttribute($attrSubSet))
+			if (static::checkAttribute($attrSubSet))
 			{
 				continue;
 			}
@@ -690,35 +977,42 @@ class InputFilter
 		// See if there are any more attributes to process
 		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
-			// Get the portion before the attribute value
-			$quotePosition = $matches[0][1];
-			$nextBefore = $quotePosition + strlen($matches[0][0]);
+			// We have found a tag with an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+			$stringBeforeTag = substr($remainder, 0, $matches[0][1]);
+			$tagPosition = StringHelper::strlen($stringBeforeTag);
+
+			// Get the character length before the attribute value
+			$nextBefore = $tagPosition + StringHelper::strlen($matches[0][0]);
 
 			// Figure out if we have a single or double quote and look for the matching closing quote
 			// Closing quote should be "/>, ">, "<space>, or " at the end of the string
-			$quote = substr($matches[0][0], -1);
+			$quote = StringHelper::substr($matches[0][0], -1);
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
 			// Get the portion after attribute value
-			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
+			$attributeValueRemainder = StringHelper::substr($remainder, $nextBefore);
+
+			if (preg_match($pregMatch, $attributeValueRemainder, $matches, PREG_OFFSET_CAPTURE))
 			{
-				// We have a closing quote
+				// We have a closing quote, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+				$stringBeforeQuote = substr($attributeValueRemainder, 0, $matches[0][1]);
+				$closeQuoteChars = StringHelper::strlen($stringBeforeQuote);
 				$nextAfter = $nextBefore + $matches[0][1];
 			}
 			else
 			{
 				// No closing quote
-				$nextAfter = strlen($remainder);
+				$nextAfter = StringHelper::strlen($remainder);
 			}
 
 			// Get the actual attribute value
-			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
+			$attributeValue = StringHelper::substr($remainder, $nextBefore, $nextAfter - $nextBefore);
 
 			// Escape bad chars
 			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
 			$attributeValue = $this->stripCssExpressions($attributeValue);
-			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
-			$remainder = substr($remainder, $nextAfter + 1);
+			$alreadyFiltered .= StringHelper::substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
+			$remainder = StringHelper::substr($remainder, $nextAfter + 1);
 		}
 
 		// At this point, we just have to return the $alreadyFiltered and the $remainder
@@ -743,20 +1037,17 @@ class InputFilter
 		if (!stripos($test, ':expression'))
 		{
 			// Not found, so we are done
-			$return = $source;
-		}
-		else
-		{
-			// At this point, we have stripped out the comments and have found :expression
-			// Test stripped string for :expression followed by a '('
-			if (preg_match_all('#:expression\s*\(#', $test, $matches))
-			{
-				// If found, remove :expression
-				$test = str_ireplace(':expression', '', $test);
-				$return = $test;
-			}
+			return $source;
 		}
 
-		return $return;
+		// At this point, we have stripped out the comments and have found :expression
+		// Test stripped string for :expression followed by a '('
+		if (preg_match_all('#:expression\s*\(#', $test, $matches))
+		{
+			// If found, remove :expression
+			return str_ireplace(':expression', '', $test);
+		}
+
+		return $source;
 	}
 }

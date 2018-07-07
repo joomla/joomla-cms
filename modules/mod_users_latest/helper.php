@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,20 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_users_latest
  *
- * @package     Joomla.Site
- * @subpackage  mod_users_latest
- *
- * @since       1.6
+ * @since  1.6
  */
 class ModUsersLatestHelper
 {
 	/**
 	 * Get users sorted by activation date
-	 * 
+	 *
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 * 
+	 *
 	 * @return  array  The array of users
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	public static function getUsers($params)
@@ -52,7 +49,7 @@ class ModUsersLatestHelper
 				->where('ug.id <> 1');
 		}
 
-		$db->setQuery($query, 0, $params->get('shownumber'));
+		$db->setQuery($query, 0, $params->get('shownumber', 5));
 
 		try
 		{

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Http
  * @since       3.4
  */
-class JHttpTest extends PHPUnit_Framework_TestCase
+class JHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    \Joomla\Registry\Registry  Options for the JHttp object.
@@ -47,10 +47,34 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		static $classNumber = 1;
-		$this->options = $this->getMock('\\Joomla\\Registry\\Registry', array('get', 'set'));
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport' . $classNumber ++, false);
 
+		// Build the mock object.
+		$this->options  = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
+					->setMethods(array('get', 'set'))
+					->getMock();
+
+		$this->transport = $this->getMockBuilder('JHttpTransportStream')
+					->setMethods(array('request'))
+					->setConstructorArgs(array($this->options))
+					->setMockClassName('CustomTransport' . $classNumber ++)
+					->disableOriginalConstructor()
+					->getMock();
 		$this->object = new JHttp($this->options, $this->transport);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options, $this->transport, $this->object);
+		parent::tearDown();
 	}
 
 	/**

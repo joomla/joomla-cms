@@ -3,11 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('jquery.token');
+JHtml::_('script', 'system/sendtestmail.js', array('version' => 'auto', 'relative' => true));
+
+JFactory::getDocument()->addScriptDeclaration('
+	var sendtestmail_url = "' . addslashes(JUri::base()) . 'index.php?option=com_config&task=config.sendtestmail.application&format=json";
+ ');
 ?>
 <div class="width-100">
 	<fieldset class="adminform">
@@ -20,5 +27,8 @@ defined('_JEXEC') or die;
 				</li>
 			<?php endforeach; ?>
 		</ul>
+		<button type="button" class="btn btn-small" id="sendtestmail">
+			<span><?php echo JText::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON'); ?></span>
+		</button>
 	</fieldset>
 </div>

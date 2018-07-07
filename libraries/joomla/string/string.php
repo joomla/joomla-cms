@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\String\String;
+use Joomla\String\StringHelper;
 
 /**
  * String handling class for utf-8 data
@@ -17,9 +17,9 @@ use Joomla\String\String;
  * All functions assume the validity of utf-8 strings.
  *
  * @since       11.1
- * @deprecated  4.0  Use {@link \Joomla\String\String} instead unless otherwise noted.
+ * @deprecated  4.0  Use {@link \Joomla\String\StringHelper} instead unless otherwise noted.
  */
-abstract class JString extends String
+abstract class JString extends StringHelper
 {
 	/**
 	 * Split a string in camel case format
@@ -53,7 +53,7 @@ abstract class JString extends String
 	 *
 	 * @return  mixed  Associative array or false if badly formed URL.
 	 *
-	 * @see     http://us3.php.net/manual/en/function.parse-url.php
+	 * @link    http://us3.php.net/manual/en/function.parse-url.php
 	 * @since   11.1
 	 * @deprecated  4.0 (CMS) - Use {@link \Joomla\Uri\UriHelper::parse_url()} instead.
 	 */

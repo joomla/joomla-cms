@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -36,6 +36,9 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		// Clear JAccess static caches.
+		JAccess::clearStatics();
+
 		$this->saveFactoryState();
 
 		$this->object = new JUser('42');
@@ -49,13 +52,13 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.1
 	 */
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -243,7 +246,7 @@ class JUserTest extends TestCaseDatabase
 	public function testAuthorise($userId, $action, $asset, $expected)
 	{
 		// Set up user 99 to be root_user from configuration
-		$testConfig = $this->getMock('JConfig', array('get'));
+		$testConfig = $this->getMockBuilder('JConfig')->setMethods(array('get'))->getMock();
 		$testConfig->expects(
 			$this->any()
 		)
@@ -391,6 +394,11 @@ class JUserTest extends TestCaseDatabase
 			),
 			'existing' => array(
 				42,
+				true,
+				false
+			),
+			'empty-params' => array(
+				101,
 				true,
 				false
 			),

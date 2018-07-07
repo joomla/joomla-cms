@@ -1,0 +1,35 @@
+<div id="validatejs">
+	<form id="validatejs-form" onsubmit="return false" class="form-validate">
+		<div id="attach-to-form">
+			<input class="required" type="text" name="testname"><br>
+			<textarea class="required" rows="4" cols="50">Test</textarea><br>
+			<select class="required" name="test"></select><br>
+			<fieldset class="required"></fieldset>
+		</div>
+
+		<div id="validate-test">
+			<input id="validate-disabled" type="text" disabled><br>
+			<label for="validate-disabled"></label>
+			<fieldset id="validate-required-unchecked" class="checkboxes required">
+				<input type="checkbox">
+			</fieldset><br>
+			<fieldset id="validate-required-checked" class="checkboxes" required>
+				<input type="checkbox" checked>
+			</fieldset><br>
+
+			<input id="validate-numeric-number" class="validate-numeric" type="text" value="12345"><br>
+			<label id="validate-numeric-number-lbl"></label>
+
+			<input id="validate-numeric-nan" class="validate-numeric" type="text" value="NotANumber"><br>
+			<label id="validate-numeric-nan-label"></label>
+
+			<input id="validate-no-options" type="text"><br>
+		</div>
+
+		<div id="isvalid-test">
+			<input id="isvalid-numeric-nan" class="validate-numeric" type="text" value="NotANumber">
+			<input id="isvalid-novalidate" class="novalidate" type="text" value="test123">
+			<input id="button" class="validate" type="submit" value="Submit"><br>
+		</div>
+	</form>
+</div>

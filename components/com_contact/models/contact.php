@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,15 +52,10 @@ class ContactModelContact extends JModelForm
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 
-		// Load state from the request.
-		$pk = $app->input->getInt('id');
-		$this->setState('contact.id', $pk);
-
-		// Load the parameters.
-		$params = $app->getParams();
-		$this->setState('params', $params);
+		$this->setState('contact.id', $app->input->getInt('id'));
+		$this->setState('params', $app->getParams());
 
 		$user = JFactory::getUser();
 
@@ -84,7 +79,6 @@ class ContactModelContact extends JModelForm
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Get the form.
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => true));
 
 		if (empty($form))
@@ -92,12 +86,37 @@ class ContactModelContact extends JModelForm
 			return false;
 		}
 
-		$id = $this->getState('contact.id');
-		$params = $this->getState('params');
-		$contact = $this->_item[$id];
-		$params->merge($contact->params);
+		$temp = clone $this->getState('params');
 
-		if (!$params->get('show_email_copy', 0))
+		$contact = $this->_item[$this->getState('contact.id')];
+
+		$active = JFactory::getApplication()->getMenu()->getActive();
+
+		if ($active)
+		{
+			// If the current view is the active item and a contact view for this contact, then the menu item params take priority
+			if (strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id))
+			{
+				// $contact->params are the contact params, $temp are the menu item params
+				// Merge so that the menu item params take priority
+				$contact->params->merge($temp);
+			}
+			else
+			{
+				// Current view is not a single contact, so the contact params take priority here
+				// Merge the menu item params with the contact params so that the contact params take priority
+				$temp->merge($contact->params);
+				$contact->params = $temp;
+			}
+		}
+		else
+		{
+			// Merge so that contact params take priority
+			$temp->merge($contact->params);
+			$contact->params = $temp;
+		}
+
+		if (!$contact->params->get('show_email_copy', 0))
 		{
 			$form->removeField('contact_email_copy');
 		}
@@ -115,6 +134,17 @@ class ContactModelContact extends JModelForm
 	protected function loadFormData()
 	{
 		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+
+		if (empty($data['language']) && JLanguageMultilang::isEnabled())
+		{
+			$data['language'] = JFactory::getLanguage()->getTag();
+		}
+
+		// Add contact id to contact form data, so fields plugin can work properly
+		if (empty($data['catid']))
+		{
+			$data['catid'] = $this->getItem()->catid;
+		}
 
 		$this->preprocessData('com_contact.contact', $data);
 
@@ -166,11 +196,11 @@ class ContactModelContact extends JModelForm
 				$query->select($this->getState('item.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
 					->from('#__contact_details AS a')
 
-				// Join on category table.
+					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->join('LEFT', '#__categories AS c on c.id = a.catid')
 
-				// Join over the categories to get parent category titles
+					// Join over the categories to get parent category titles
 					->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
 
@@ -183,6 +213,7 @@ class ContactModelContact extends JModelForm
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
+
 				if (is_numeric($published))
 				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
@@ -199,28 +230,34 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
 					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 
-				// Convert parameter fields to objects.
-				$registry = new Registry;
-				$registry->loadString($data->params);
+				/**
+				 * In case some entity params have been set to "use global", those are
+				 * represented as an empty string and must be "overridden" by merging
+				 * the component and / or menu params here.
+				 */
+				$registry = new Registry($data->params);
+
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
-				$registry->loadString($data->metadata);
+				$registry = new Registry($data->metadata);
 				$data->metadata = $registry;
 
-				$data->tags = new JHelperTags;
-				$data->tags->getItemTags('com_contact.contact', $data->id);
+				// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+				if ($this->getState('load_tags', true))
+				{
+					$data->tags = new JHelperTags;
+					$data->tags->getItemTags('com_contact.contact', $data->id);
+				}
 
 				// Compute access permissions.
-				if ($access = $this->getState('filter.access'))
+				if (($access = $this->getState('filter.access')))
 				{
-
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
@@ -273,20 +310,16 @@ class ContactModelContact extends JModelForm
 		$groups    = implode(',', $user->getAuthorisedViewLevels());
 		$published = $this->getState('filter.published');
 
-		$contactParams = new Registry;
-		$contactParams->loadString($contact->params);
-
 		// If we are showing a contact list, then the contact parameters take priority
 		// So merge the contact parameters with the merged parameters
 		if ($this->getState('params')->get('show_contact_list'))
 		{
-			$this->getState('params')->merge($contactParams);
+			$this->getState('params')->merge($contact->params);
 		}
 
 		// Get the com_content articles by the linked user
 		if ((int) $contact->user_id && $this->getState('params')->get('show_articles'))
 		{
-
 			$query = $db->getQuery(true)
 				->select('a.id')
 				->select('a.title')
@@ -294,7 +327,8 @@ class ContactModelContact extends JModelForm
 				->select('a.access')
 				->select('a.catid')
 				->select('a.created')
-				->select('a.language');
+				->select('a.language')
+				->select('a.publish_up');
 
 			// SQL Server changes
 			$case_when = ' CASE WHEN ';
@@ -316,15 +350,12 @@ class ContactModelContact extends JModelForm
 				->join('LEFT', '#__categories as c on a.catid=c.id')
 				->where('a.created_by = ' . (int) $contact->user_id)
 				->where('a.access IN (' . $groups . ')')
-				->order('a.state DESC, a.created DESC');
+				->order('a.publish_up DESC');
 
 			// Filter per language if plugin published
 			if (JLanguageMultilang::isEnabled())
 			{
-				$query->where(
-					('a.created_by = ' . (int) $contact->user_id) . ' AND ' .
-					('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
-				);
+				$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 
 			if (is_numeric($published))
@@ -340,7 +371,7 @@ class ContactModelContact extends JModelForm
 			// Use contact setting?
 			if ($articles_display_num === 'use_contact')
 			{
-				$articles_display_num = $contactParams->get('articles_display_num', 10);
+				$articles_display_num = $contact->params->get('articles_display_num', 10);
 
 				// Use global?
 				if ((string) $articles_display_num === '')
@@ -359,12 +390,19 @@ class ContactModelContact extends JModelForm
 		}
 
 		// Get the profile information for the linked user
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 		$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		JPluginHelper::importPlugin('user');
-		$form = new JForm('com_users.profile');
+
+		// Get the form.
+		JForm::addFormPath(JPATH_SITE . '/components/com_users/models/forms');
+		JForm::addFieldPath(JPATH_SITE . '/components/com_users/models/fields');
+		JForm::addFormPath(JPATH_SITE . '/components/com_users/model/form');
+		JForm::addFieldPath(JPATH_SITE . '/components/com_users/model/field');
+
+		$form = JForm::getInstance('com_users.profile', 'profile');
 
 		// Get the dispatcher.
 		$dispatcher = JEventDispatcher::getInstance();
@@ -446,7 +484,7 @@ class ContactModelContact extends JModelForm
 
 				if (empty($result))
 				{
-					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					return false;
 				}
 			}
 			catch (Exception $e)
@@ -458,9 +496,7 @@ class ContactModelContact extends JModelForm
 
 			if ($result)
 			{
-
-				$contactParams = new Registry;
-				$contactParams->loadString($result->params);
+				$contactParams = new Registry($result->params);
 
 				// If we are showing a contact list, then the contact parameters take priority
 				// So merge the contact parameters with the merged parameters
@@ -472,7 +508,6 @@ class ContactModelContact extends JModelForm
 				// Get the com_content articles by the linked user
 				if ((int) $result->user_id && $this->getState('params')->get('show_articles'))
 				{
-
 					$query = $db->getQuery(true)
 						->select('a.id')
 						->select('a.title')
@@ -480,7 +515,8 @@ class ContactModelContact extends JModelForm
 						->select('a.access')
 						->select('a.catid')
 						->select('a.created')
-						->select('a.language');
+						->select('a.language')
+						->select('a.publish_up');
 
 					// SQL Server changes
 					$case_when = ' CASE WHEN ';
@@ -502,15 +538,12 @@ class ContactModelContact extends JModelForm
 						->join('LEFT', '#__categories as c on a.catid=c.id')
 						->where('a.created_by = ' . (int) $result->user_id)
 						->where('a.access IN (' . $groups . ')')
-						->order('a.state DESC, a.created DESC');
+						->order('a.publish_up DESC');
 
 					// Filter per language if plugin published
 					if (JLanguageMultilang::isEnabled())
 					{
-						$query->where(
-							('a.created_by = ' . (int) $result->user_id) . ' AND ' .
-							('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
-						);
+						$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}
 
 					if (is_numeric($published))
@@ -545,7 +578,7 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Get the profile information for the linked user
-				require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
 

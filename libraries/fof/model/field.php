@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ abstract class FOFModelField
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db           The database object
+	 * @param   FOFDatabaseDriver  $db           The database object
 	 * @param   object           $field        The field informations as taken from the db
 	 * @param   string           $table_alias  The table alias to use when filtering
 	 */

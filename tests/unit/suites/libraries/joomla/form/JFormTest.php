@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_TESTS . '/stubs/FormInspectors.php';
@@ -60,7 +60,7 @@ class JFormTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -78,8 +78,8 @@ class JFormTest extends TestCaseDatabase
 		$dom = new DOMDocument('1.0');
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput = true;
-		$dom->loadXml($form->getXml()->asXml());
-		echo $dom->saveXml();
+		$dom->loadXML($form->getXml()->asXml());
+		echo $dom->saveXML();
 	}
 
 	/**
@@ -91,19 +91,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddFieldPath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addFieldPath();
-
-		// The default path is the class file folder/forms
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/fields';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries fields path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addFieldPath(__DIR__);
 		$paths = JForm::addFieldPath();
@@ -124,19 +111,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddFormPath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addFormPath();
-
-		// The default path is the class file folder/forms
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/forms';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries forms path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addFormPath(__DIR__);
 		$paths = JForm::addFormPath();
@@ -157,19 +131,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddRulePath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addRulePath();
-
-		// The default path is the class file folder/rules
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/rules';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries rule path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addRulePath(__DIR__);
 		$paths = JForm::addRulePath();
@@ -549,7 +510,7 @@ class JFormTest extends TestCaseDatabase
 			include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 
 			$user = new JUser;
-			$mockSession = $this->getMock('JSession', array('_start', 'get'));
+			$mockSession = $this->getMockBuilder('JSession')->setMethods(array('_start', 'get'))->getMock();
 			$mockSession->expects($this->once())->method('get')->will(
 				$this->returnValue($user)
 			);
@@ -614,7 +575,7 @@ class JFormTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->findField('title', 'bogus'),
 			$this->isFalse(),
-			'Line:' . __LINE__ . ' An field in a group that does not exist should return false.'
+			'Line:' . __LINE__ . ' A field in a group that does not exist should return false.'
 		);
 
 		// Test various find combinations.
@@ -645,6 +606,20 @@ class JFormTest extends TestCaseDatabase
 			(string) $field['default'],
 			$this->equalTo('1'),
 			'Line:' . __LINE__ . ' A known field in a group fieldset should load successfully.'
+		);
+
+		// Test subform fields
+
+		$this->assertThat(
+			$form->findField('name'),
+			$this->isFalse(),
+			'Line:' . __LINE__ . ' A field should not exist in the form which belongs to a subform.'
+		);
+
+		$this->assertThat(
+			$form->findField('name', 'params'),
+			$this->isFalse(),
+			'Line:' . __LINE__ . ' A field should not exist in the form which belongs to a subform.'
 		);
 	}
 
@@ -715,7 +690,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->assertThat(
 			count($form->findFieldsByGroup()),
-			$this->equalTo(11),
+			$this->equalTo(12),
 			'Line:' . __LINE__ . ' There are 9 field elements in total.'
 		);
 
@@ -737,7 +712,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->assertThat(
 			count($form->findFieldsByGroup('params')),
-			$this->equalTo(3),
+			$this->equalTo(4),
 			'Line:' . __LINE__ . ' The params group has 3 field elements, including one nested in a fieldset.'
 		);
 
@@ -1032,7 +1007,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->assertThat(
 			count($form->getGroup('params')),
-			$this->equalTo(3),
+			$this->equalTo(4),
 			'Line:' . __LINE__ . ' The params group should have 3 field elements.'
 		);
 
@@ -1214,9 +1189,10 @@ class JFormTest extends TestCaseDatabase
 				'id'         => 'title_id-lbl',
 				'tag'        => 'label',
 				'attributes' => array(
-						'for'   => 'title_id',
-						'class' => 'hasTooltip required',
-						'title' => '<strong>Title</strong><br />The title.'
+					'for'          => 'title_id',
+					'class'        => 'hasPopover required',
+					'title'        => 'Title',
+					'data-content' => 'The title.',
 					),
 				'content'    => 'regexp:/Title.*\*/',
 				'child'      => array(
@@ -1452,15 +1428,15 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' The show_title in the params group has been replaced by show_abstract.'
 		);
 
-		$originalform = new JFormInspector('form1');
-		$originalform->load(JFormDataHelper::$loadDocument);
-		$originalset = $originalform->getXml()->xpath('/form/fields/field');
+		$originalForm = new JFormInspector('form1');
+		$originalForm->load(JFormDataHelper::$loadDocument);
+		$originalSet = $originalForm->getXml()->xpath('/form/fields/field');
 		$set = $form->getXml()->xpath('/form/fields/field');
 
-		for ($i = 0; $i < count($originalset); $i++)
+		for ($i = 0, $iMax = count($originalSet); $i < $iMax; ++$i)
 		{
 			$this->assertThat(
-				(string) ($originalset[$i]->attributes()->name) == (string) ($set[$i]->attributes()->name),
+				(string) $originalSet[$i]->attributes()->name === (string) $set[$i]->attributes()->name,
 				$this->isTrue(),
 				'Line:' . __LINE__ . ' Replace should leave fields in the original order.'
 			);
@@ -1611,7 +1587,7 @@ class JFormTest extends TestCaseDatabase
 		// Test correct usage.
 
 		$field = $form->getField('title');
-		$field = $form->loadField($field);
+		$form->loadField($field);
 	}
 
 	/**
@@ -2132,10 +2108,16 @@ class JFormTest extends TestCaseDatabase
 			$this->fail('Error in text XML data');
 		}
 
-		// Test without replace.
+		$addFields = array();
 
+		foreach ($xml1->field as $element)
+		{
+			$addFields[] = $element;
+		}
+
+		// Test without replace.
 		$this->assertTrue(
-			$form->setFields($xml1->field, null, false),
+			$form->setFields($addFields, null, false),
 			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 
@@ -2353,8 +2335,8 @@ class JFormTest extends TestCaseDatabase
 		$xml = $form->getXml();
 
 		// Test error handling.
-
-		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$data = $xml->xpath('fields/field[@name="boolean"]');
+		$field = array_pop($data);
 		$result = $form->validateField($field);
 		$this->assertThat(
 			$result instanceof UnexpectedValueException,
@@ -2362,7 +2344,8 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' A failed validation should return an exception.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$data = $xml->xpath('fields/field[@name="required"]');
+		$field = array_pop($data);
 		$result = $form->validateField($field);
 		$this->assertThat(
 			$result instanceof RuntimeException,
@@ -2371,22 +2354,24 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		// Test general usage.
-
-		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$data = $xml->xpath('fields/field[@name="boolean"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field, null, 'true'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' A field with a passing validate attribute set should return true.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="optional"]'));
+		$data = $xml->xpath('fields/field[@name="optional"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' A field without required set should return true.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$data = $xml->xpath('fields/field[@name="required"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field, null, 'value'),
 			$this->isTrue(),
@@ -2408,8 +2393,8 @@ class JFormTest extends TestCaseDatabase
 		$form = new JFormInspector('form1');
 		$form->load(JFormDataHelper::$validateFieldDocument);
 		$xml = $form->getXml();
-
-		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
+		$data = $xml->xpath('fields/field[@name="missingrule"]');
+		$field = array_pop($data);
 		$form->validateField($field, null, 'value');
 	}
 }

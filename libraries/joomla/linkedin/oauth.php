@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,7 +59,7 @@ class JLinkedinOauth extends JOAuth1Client
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		$data['format'] = 'json';
@@ -119,7 +119,7 @@ class JLinkedinOauth extends JOAuth1Client
 	 *
 	 * @return  JLinkedinOauth  This object for method chaining
 	 *
-	 * @see     https://developer.linkedin.com/documents/authentication
+	 * @link    https://developer.linkedin.com/documents/authentication
 	 * @since   13.1
 	 */
 	public function setScope($scope)
