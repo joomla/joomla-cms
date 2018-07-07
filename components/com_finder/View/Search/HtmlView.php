@@ -10,7 +10,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\SearchHelper;
+use Joomla\Component\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Pagination\Pagination;
@@ -172,7 +172,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Log the search
-		SearchHelper::logSearch($this->query->input, 'com_finder');
+		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
