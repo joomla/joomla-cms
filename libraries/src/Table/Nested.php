@@ -1341,7 +1341,7 @@ class Nested extends Table
 			'rgt' => array(),
 			'level' => array(),
 			'path' => array(),
-			'combineBy' => 10,
+			'combineBy' => 50,
 			'counter' => 0,
 			'firstParent' => $parentId
 		);
@@ -1728,9 +1728,10 @@ class Nested extends Table
 
 		$availableFields = $this->getFields();
 
-		if (array_key_exists('path', $availableFields))
+		if (array_key_exists('path', $availableFields)
+			&& array_key_exists('alias', $availableFields))
 		{
-			$query->select('path');
+			$query->select('path, alias');
 		}
 
 		$row = $this->_db->setQuery($query, 0, 1)->loadObject();
