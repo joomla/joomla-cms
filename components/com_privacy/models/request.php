@@ -141,17 +141,17 @@ class PrivacyModelRequest extends JModelAdmin
 				'\\n'        => "\n",
 			);
 
-			$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT');
-
 			switch ($data['request_type'])
 			{
 				case 'export':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
 
 					break;
 
 				case 'remove':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
 
 					break;
 
