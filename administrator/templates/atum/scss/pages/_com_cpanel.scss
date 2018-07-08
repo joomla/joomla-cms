@@ -20,21 +20,21 @@
       box-shadow: $atum-box-shadow;
 
       > .published {
-        border-left: 5px solid theme-color('success');
         padding-left: .9rem;
+        border-left: 5px solid theme-color("success");
       }
 
       > .unpublished {
-        border-left: 5px solid theme-color('danger');
         padding-left: .9rem;
+        border-left: 5px solid theme-color("danger");
       }
     }
   }
 
   .card-header {
-    color: $atum-template-color-dark;
-    font-size: $h5-font-size;
     padding-left: 0;
+    font-size: $h5-font-size;
+    color: $atum-template-color-dark;
   }
 
   .module-actions {
@@ -45,11 +45,11 @@
 
     > a {
       display: inline-block;
-      color: $atum-template-color-dark;
+      width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
+      color: $atum-template-color-dark;
       text-align: center;
-      width: 2.6em;
     }
   }
 }
