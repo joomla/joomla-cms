@@ -1,28 +1,28 @@
 // Search tools
 
 .js-stools {
+  position: relative;
   display: flex;
   justify-content: flex-end;
   padding: 5px 0 0;
-  position: relative;
 
   .js-stools-container-filters {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+    padding: 10px;
+    margin: 0;
     background-color: $white;
     border: 1px solid $atum-border-color;
     border-radius: 0 0 0 $border-radius;
     box-shadow: -1px 1px 4px rgba(0, 0, 0, .05);
-    display: none;
-    flex-direction: column;
-    margin: 0;
-    padding: 10px;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    z-index: 1;
 
     .custom-select {
-      max-width: none;
       width: 100%;
+      max-width: none;
     }
 
     &.js-filters-show {
@@ -44,14 +44,14 @@
     .custom-select {
 
       &.active {
-        background: #fefefe url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat scroll right .75rem center / 8px 10px;
-        background-color: theme-color('primary');
         color: #fff;
+        background: #fefefe url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat scroll right .75rem center / 8px 10px;
+        background-color: theme-color("primary");
       }
 
       option {
-        background-color: #fff;
         color: $gray-700;
+        background-color: #fff;
       }
     }
   }

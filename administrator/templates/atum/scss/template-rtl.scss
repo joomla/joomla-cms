@@ -29,8 +29,8 @@ th {
 }
 
 .dropdown-menu-right {
-  left: 0;
   right: auto;
+  left: 0;
 
   &::after {
     right: auto;
@@ -45,21 +45,21 @@ th {
     padding-right: 50px;
 
     .main-brand img {
-      left: 151px;
       position: relative;
+      left: 151px;
     }
   }
 }
 
 .sidebar-wrapper {
-  left: auto;
   right: 0;
+  left: auto;
 }
 
 // Alerts
 .notify-alerts {
-  margin-left: 0;
   margin-right: 125px;
+  margin-left: 0;
 
   .closed & {
     margin-right: 0;
@@ -68,15 +68,15 @@ th {
 
 // Header
 .header .page-title [class^='icon-'] {
-  margin-left: 15px;
   margin-right: 0;
+  margin-left: 15px;
 }
 
 .menu-collapse {
-  left: auto;
-  margin-left: 0;
-  margin-right: -7.5px;
   right: 0;
+  left: auto;
+  margin-right: -7.5px;
+  margin-left: 0;
 }
 
 .menu-toggle-icon::before {
@@ -93,14 +93,14 @@ th {
   a {
 
     &::before {
-      left: -40px;
       right: auto;
+      left: -40px;
     }
 
     [class*=' icon-'],
     [class^='icon-'] {
-      border-left: 1px solid rgba($white,.15);
       border-right: 0;
+      border-left: 1px solid rgba($white,.15);
     }
   }
 }
@@ -115,15 +115,15 @@ th {
   .open > a {
 
     + ul {
-      left: auto;
       right: 50px;
+      left: auto;
     }
   }
 
   .collapse-level-2 {
-    border-radius: $border-radius 0 0 $border-radius;
-    left: auto;
     right: 100%;
+    left: auto;
+    border-radius: $border-radius 0 0 $border-radius;
   }
 
   .close {
@@ -131,25 +131,25 @@ th {
   }
 
   .parent .collapse-arrow::after {
-    content: "\f0d9";
-    left: 15px;
     right: auto;
+    left: 15px;
+    content: "\f0d9";
   }
 }
 
 .child-open > .open > a::before {
-  left: auto;
   right: 0;
+  left: auto;
 }
 
 // Status
 .status {
-  margin-left: 0;
   margin-right: 250px;
+  margin-left: 0;
 
   .closed & {
-    margin-left: 0;
     margin-right: 50px;
+    margin-left: 0;
   }
 }
 
@@ -165,10 +165,10 @@ th {
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
+      margin: 0 -10px 0 6px;
+      border-right: 0;
       border-left: 1px solid $atum-border-color;
       border-radius: 0 3px 3px 0;
-      border-right: 0;
-      margin: 0 -10px 0 6px;
     }
   }
 
@@ -187,10 +187,10 @@ th {
   .btn-sm [class*=' icon-'],
   .btn-sm [class^='fa-'],
   .btn-sm [class^='icon-'] {
+    margin: 0 -10px 0 6px;
+    border-right: 0;
     border-left: 1px solid $atum-border-color;
     border-radius: 0 3px 3px 0;
-    border-right: 0;
-    margin: 0 -10px 0 6px;
   }
 }
 
@@ -203,23 +203,23 @@ th {
     .list-group {
 
       > .published {
-        border-left: 0;
         border-right: 5px solid theme-color("success");
+        border-left: 0;
       }
 
       > .unpublished {
-        border-left: 0;
         border-right: 5px solid theme-color("danger");
+        border-left: 0;
       }
     }
 
     .module-dropdown {
-      left: 0;
       right: auto;
+      left: 0;
 
       > a {
-        border-left: 0;
         border-right: 1px solid #ccc;
+        border-left: 0;
         border-top-left-radius: $border-radius;
         border-top-right-radius: 0;
       }

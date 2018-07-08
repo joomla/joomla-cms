@@ -1,8 +1,8 @@
 // Form
 
 .form-control {
-  background-color: $white-offset;
   max-width: 240px;
+  background-color: $white-offset;
 }
 
 .control-group {
@@ -13,17 +13,17 @@
   }
 
   &::after {
+    display: table;
     clear: both;
     content: "";
-    display: table;
   }
 
   .control-label {
     float: left;
-    padding-right: 5px;
-    padding-top: 5px;
-    text-align: left;
     width: 220px;
+    padding-top: 5px;
+    padding-right: 5px;
+    text-align: left;
   }
 
   .controls {
@@ -66,14 +66,14 @@ legend {
   padding-top: 5px;
 
   .checkbox input {
-    margin-left: 0;
     position: static;
+    margin-left: 0;
   }
 }
 
 .form-check {
-  margin-bottom: 0;
   padding-top: 5px;
+  margin-bottom: 0;
 }
 
 .modal label {
@@ -82,8 +82,8 @@ legend {
 
 // Validation
 .invalid {
-  border-color: theme-color("danger");
   color: theme-color("danger");
+  border-color: theme-color("danger");
 }
 
 .valid {
