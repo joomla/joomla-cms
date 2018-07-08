@@ -36,20 +36,38 @@ if ($show_description)
 	$description = JHtml::_('string.truncate', StringHelper::substr($this->result->description, $start), $desc_length, true);
 }
 ?>
-<li class="com-finder__result">
+<dt class="result-title">
 	<h4 class="result-title <?php echo $mime; ?>">
-		<a href="<?php echo JRoute::_($this->result->route); ?>">
+		<?php if ($this->result->route) : ?>
+			<a href="<?php echo JRoute::_($this->result->route); ?>">
+				<?php echo $this->result->title; ?>
+			</a>
+		<?php else : ?>
 			<?php echo $this->result->title; ?>
-		</a>
+		<?php endif; ?>
 	</h4>
-	<?php if ($show_description && $description !== '') : ?>
-		<p class="result-text">
-			<?php echo $description; ?>
-		</p>
-	<?php endif; ?>
-	<?php if ($this->params->get('show_url', 1)) : ?>
-		<div class="small result-url">
-			<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
-		</div>
-	<?php endif; ?>
-</li>
+</dt>
+
+<?php $taxonomies = $this->result->getTaxonomy(); ?>
+<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
+	<dd class="result-taxonomy">
+	<?php foreach ($taxonomies as $type => $taxonomy) : ?>
+		<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', array_column($taxonomy, 'title')); ?></span>
+	<?php endforeach; ?>
+	</dd>
+<?php endif; ?>
+<?php if ($show_description && $description !== '') : ?>
+	<dd class="result-text">
+		<?php echo $description; ?>
+	</dd>
+<?php endif; ?>
+<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
+	<dd class="result-date small">
+		<?php echo \JHtml::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
+	</dd>
+<?php endif; ?>
+<?php if ($this->params->get('show_url', 1)) : ?>
+	<dd class="result-url small">
+		<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
+	</dd>
+<?php endif; ?>
