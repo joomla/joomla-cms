@@ -1,11 +1,11 @@
 // Icons
 
 .icon-back::before {
-  content: '\e008';
+  content: "\e008";
 }
 
 .icon-crop::before {
-  content: '\f125';
+  content: "\f125";
 }
 
 .icon-white {
@@ -13,11 +13,11 @@
 }
 
 .icon-publish {
-  color: theme-color('success');
+  color: theme-color("success");
 }
 
 .icon-unpublish {
-  color: theme-color('danger');
+  color: theme-color("danger");
 }
 
 
@@ -39,18 +39,18 @@
   }
 
   .icon-publish {
-    border-color: theme-color('success');
-    color: theme-color('success');
+    border-color: theme-color("success");
+    color: theme-color("success");
   }
 
   .icon-featured {
-    border-color: theme-color('warning');
-    color: theme-color('warning');
+    border-color: theme-color("warning");
+    color: theme-color("warning");
   }
 
   .icon-unpublish {
-    border-color: theme-color('danger');
-    color: theme-color('danger');
+    border-color: theme-color("danger");
+    color: theme-color("danger");
   }
 
   .icon-archive {

@@ -14,7 +14,7 @@
 
   &::after {
     clear: both;
-    content: '';
+    content: "";
     display: table;
   }
 
@@ -82,12 +82,12 @@ legend {
 
 // Validation
 .invalid {
-  border-color: theme-color('danger');
-  color: theme-color('danger');
+  border-color: theme-color("danger");
+  color: theme-color("danger");
 }
 
 .valid {
-  border-color: theme-color('success');
+  border-color: theme-color("success");
 }
 
 .form-control-feedback {
@@ -95,5 +95,5 @@ legend {
 }
 
 [aria-grabbed='true'] {
-  box-shadow: 0 0 2px 1px theme-color('primary');
+  box-shadow: 0 0 2px 1px theme-color("primary");
 }

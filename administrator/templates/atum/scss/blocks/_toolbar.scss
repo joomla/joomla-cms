@@ -34,7 +34,7 @@
     padding: 0 22px;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
-    color: white;
+    color: #fff;
 
     [class^='icon-'],
     [class*=' icon-'],
@@ -46,7 +46,7 @@
       height: auto;
       margin: 0 16px 0 -22px;
       line-height: $atum-toolbar-line-height;
-      color: white;
+      color: #fff;
       background-color: rgba(0, 0, 0, .2);
     }
   }
@@ -72,19 +72,19 @@
     }
 
     &.btn-primary {
-      background-color: darken(theme-color('primary'), 8%);
+      background-color: darken(theme-color("primary"), 8%);
     }
 
     &.btn-success {
-      background-color: darken(theme-color('success'), 8%);
+      background-color: darken(theme-color("success"), 8%);
     }
 
     &.btn-info {
-      background-color: darken(theme-color('info'), 8%);
+      background-color: darken(theme-color("info"), 8%);
     }
 
     &.btn-danger {
-      background-color: darken(theme-color('danger'), 8%);
+      background-color: darken(theme-color("danger"), 8%);
     }
   }
 }

@@ -1,4 +1,4 @@
-@import '../../../../media/vendor/bootstrap/scss/functions';
+@import "../../../../media/vendor/bootstrap/scss/functions";
 
 $white:                            #fff;
 $gray-100:                         #f8f9fa;
@@ -87,7 +87,7 @@ $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
 $fa-css-prefix:                    fa;
-$fa-font-path:                     '../../../../media/vendor/font-awesome/fonts';
+$fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 
 // Tables
 $table-bg:                         transparent;
@@ -126,20 +126,20 @@ $card-border-color:                transparent;
 
 // Alerts
 $state-success-text:               $white;
-$state-success-bg:                 theme-color('success');
-$state-success-border:             darken(theme-color('success'), 5%);
+$state-success-bg:                 theme-color("success");
+$state-success-border:             darken(theme-color("success"), 5%);
 
 $state-info-text:                  $white;
-$state-info-bg:                    theme-color('info');
-$state-info-border:                darken(theme-color('info'), 7%);
+$state-info-bg:                    theme-color("info");
+$state-info-border:                darken(theme-color("info"), 7%);
 
 $state-warning-text:               $white;
-$state-warning-bg:                 theme-color('warning');
-$state-warning-border:             darken(theme-color('warning'), 5%);
+$state-warning-bg:                 theme-color("warning");
+$state-warning-border:             darken(theme-color("warning"), 5%);
 
 $state-danger-text:                $white;
-$state-danger-bg:                  theme-color('danger');
-$state-danger-border:              darken(theme-color('danger'), 5%);
+$state-danger-bg:                  theme-color("danger");
+$state-danger-border:              darken(theme-color("danger"), 5%);
 
 // Input Group
 $input-group-addon-color:          $white;
@@ -168,8 +168,8 @@ $quickicon-bg:                     $white;
 $quickicon-text-color:             $gray-100;
 $quickicon-box-shadow:             $atum-box-shadow;
 $quickicon-box-shadow-hover:       0 0 8px 0 rgba($black, .3);
-$quickicon-box-shadow-success:     0 0 3px 0 theme-color('success');
-$quickicon-box-shadow-danger:      0 0 3px 0 theme-color('danger');
+$quickicon-box-shadow-success:     0 0 3px 0 theme-color("success");
+$quickicon-box-shadow-danger:      0 0 3px 0 theme-color("danger");
 
 // Gutter
 $grid-gutter-width:                15px;

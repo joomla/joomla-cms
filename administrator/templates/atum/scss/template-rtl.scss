@@ -1,4 +1,4 @@
-@import 'template';
+@import "template";
 
 // Global
 dl,
@@ -80,10 +80,10 @@ th {
 }
 
 .menu-toggle-icon::before {
-  content: '\f054';
+  content: "\f054";
 
   .closed & {
-    content: '\f053';
+    content: "\f053";
   }
 }
 
@@ -131,7 +131,7 @@ th {
   }
 
   .parent .collapse-arrow::after {
-    content: '\f0d9';
+    content: "\f0d9";
     left: 15px;
     right: auto;
   }
@@ -204,12 +204,12 @@ th {
 
       > .published {
         border-left: 0;
-        border-right: 5px solid theme-color('success');
+        border-right: 5px solid theme-color("success");
       }
 
       > .unpublished {
         border-left: 0;
-        border-right: 5px solid theme-color('danger');
+        border-right: 5px solid theme-color("danger");
       }
     }
 
