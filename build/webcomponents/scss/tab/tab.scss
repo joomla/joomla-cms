@@ -1,6 +1,6 @@
 joomla-tab {
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 joomla-tab>ul {
   display: flex;
@@ -16,7 +16,7 @@ joomla-tab>ul {
   list-style: outside none none;
   overflow-x: auto;
   overflow-y: hidden;
-  white-space: nowrap
+  white-space: nowrap;
 }
 joomla-tab a[role=tab] {
   display: block;
@@ -24,7 +24,7 @@ joomla-tab a[role=tab] {
   padding: .75em 1em;
   position: relative;
   box-shadow: 1px 0 0 rgba(0,0,0,.05);
-  text-decoration: none
+  text-decoration: none;
 }
 joomla-tab a[role=tab][active] {
   background-color: rgba(0,0,0,.03);
@@ -33,9 +33,9 @@ joomla-tab a[role=tab][active] {
   border-right: 0 none;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  box-shadow: 2px 0 1px -1px rgba(0,0,0,.08) inset,-2px 0 1px -1px rgba(0,0,0,.08) inset,0 1px 0 rgba(0,0,0,.02) inset
+  box-shadow: 2px 0 1px -1px rgba(0,0,0,.08) inset,-2px 0 1px -1px rgba(0,0,0,.08) inset,0 1px 0 rgba(0,0,0,.02) inset;
 }
-joomla-tab a[role=tab][active]:after {
+joomla-tab a[role=tab][active]::after {
   background-color: #006898;
   bottom: -1px;
   content: "";
@@ -43,7 +43,7 @@ joomla-tab a[role=tab][active]:after {
   left: 0;
   opacity: .8;
   position: absolute;
-  right: 0
+  right: 0;
 }
 joomla-tab>section {
   display: none;
@@ -51,14 +51,14 @@ joomla-tab>section {
   border: 1px solid #ccc;
   border-radius: 0 0 .25rem .25rem;
   box-shadow: 0 0 3px rgba(0,0,0,.04);
-  padding: 15px
+  padding: 15px;
 }
 joomla-tab>section[active] {
-  display: block
+  display: block;
 }
 joomla-tab[orientation=vertical] {
   flex-direction: row;
-  align-items: flex-start
+  align-items: flex-start;
 }
 joomla-tab[orientation=vertical]>ul {
   flex-direction: column;
@@ -67,10 +67,10 @@ joomla-tab[orientation=vertical]>ul {
   border: 1px solid #ccc;
   border-radius: .25rem;
   box-shadow: none;
-  overflow: hidden
+  overflow: hidden;
 }
 joomla-tab[orientation=vertical] li:last-of-type a {
-  border-bottom: 0
+  border-bottom: 0;
 }
 joomla-tab[orientation=vertical] a {
   display: block;
@@ -79,50 +79,50 @@ joomla-tab[orientation=vertical] a {
   position: relative;
   border-bottom: 1px solid #ddd;
   box-shadow: none;
-  text-decoration: none
+  text-decoration: none;
 }
 joomla-tab[orientation=vertical] a[active] {
   border-left: 0 none;
   border-right: 0 none;
   background-color: #fff;
   background-image: none;
-  box-shadow: none
+  box-shadow: none;
 }
-joomla-tab[orientation=vertical] a[active]:after {
+joomla-tab[orientation=vertical] a[active]::after {
   left: -1px;
   width: 5px;
   height: auto;
   top: 0;
-  bottom: 0
+  bottom: 0;
 }
 joomla-tab[orientation=vertical]>section {
   border: 0 none;
   box-shadow: none;
-  padding: 15px
+  padding: 15px;
 }
 joomla-tab[view=accordion]>ul {
   flex-direction: column;
   border-radius: .25rem;
   white-space: normal;
-  box-shadow: 0 1px #fff inset,0 0 3px rgba(0,0,0,.04)
+  box-shadow: 0 1px #fff inset,0 0 3px rgba(0,0,0,.04);
 }
 joomla-tab[view=accordion] section {
   display: none;
-  padding: 15px
+  padding: 15px;
 }
 joomla-tab[view=accordion] section[active] {
   display: block;
-  border-bottom: 1px solid #ddd
+  border-bottom: 1px solid #ddd;
 }
 joomla-tab[view=accordion] [active] {
-  background-color: #fff
+  background-color: #fff;
 }
 joomla-tab[view=accordion] a[role=tab] {
-  border-bottom: 1px solid #ddd
+  border-bottom: 1px solid #ddd;
 }
-joomla-tab[view=accordion] a[role=tab][active]:after {
+joomla-tab[view=accordion] a[role=tab][active]::after {
   width: 5px;
   height: 100%;
   top: 0;
-  left: 0
+  left: 0;
 }
