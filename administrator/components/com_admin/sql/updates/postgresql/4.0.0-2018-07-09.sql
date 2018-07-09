@@ -1,1 +1,1 @@
-UPDATE `#__extensions` SET `protected` = 1 WHERE `name` = 'plg_extension_namespacemap';
+UPDATE "#__extensions" SET "namespace" = 'Joomla\\Module\\Multilangstatus' WHERE "name" = 'mod_multilangstatus';
