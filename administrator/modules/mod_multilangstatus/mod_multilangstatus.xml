@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MULTILANGSTATUS_XML_DESCRIPTION</description>
-		<namespace>Joomla\Module\Multilangstatus</namespace>
+	<namespace>Joomla\Module\Multilangstatus</namespace>
 	<files>
 		<filename module="mod_multilangstatus">mod_multilangstatus.php</filename>
 		<folder>tmpl</folder>
