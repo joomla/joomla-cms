@@ -1585,6 +1585,8 @@ abstract class AdminModel extends FormModel
 			return false;
 		}
 
+		$this->save($data);
+
 		$app->redirect(
 			\JRoute::_(
 				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
