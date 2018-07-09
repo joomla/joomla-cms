@@ -1531,4 +1531,63 @@ abstract class AdminModel extends FormModel
 			$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 		}
 	}
+
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function editAssociations($data)
+	{
+		$app = \JFactory::getApplication();
+		$id  = $data['id'];
+
+		// Deal with categories associations
+		if ($this->text_prefix === 'COM_CATEGORIES')
+		{
+			$extension        = $app->input->get('extension', 'com_content');
+			$this->typeAlias  = $extension . '.category';
+			$component        = strtolower($this->text_prefix);
+			$view             = 'category';
+		}
+		else
+		{
+			$aliasArray = explode('.', $this->typeAlias);
+			$component  = $aliasArray[0];
+			$view       = $aliasArray[1];
+			$extension  = '';
+		}
+
+		// Menu item redirect needs admin client
+		$client = $component === 'com_menus' ? '&client_id=0' : '';
+
+		if ($id == 0)
+		{
+			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->redirect(\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id='
+				. $id . $extension, false));
+
+			return false;
+		}
+		else
+		{
+			if ($data['language'] === '*')
+			{
+				$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+				$app->redirect(\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id='
+					. $id . $extension, false));
+
+				return false;
+			}
+
+			$app->redirect(\JRoute::_('index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id, false));
+
+			return true;
+		}
+	}
 }
