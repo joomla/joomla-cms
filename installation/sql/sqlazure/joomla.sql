@@ -3170,7 +3170,7 @@ SELECT 8, 'menu_item', 'com_menus.item', 'id' , 'title' , '#__menu', 'PLG_ACTION
 UNION ALL
 SELECT 9, 'newsfeed', 'com_newsfeeds.newsfeed', 'id' ,'name' , '#__newsfeeds', 'PLG_ACTIONLOG_JOOMLA'
 UNION ALL
-SELECT 10, 'link', 'com_redirect.link', 'id', 'old_url' , '__redirect_links', 'PLG_ACTIONLOG_JOOMLA'
+SELECT 10, 'link', 'com_redirect.link', 'id', 'old_url' , '#__redirect_links', 'PLG_ACTIONLOG_JOOMLA'
 UNION ALL
 SELECT 11, 'tag', 'com_tags.tag', 'id', 'title' , '#__tags', 'PLG_ACTIONLOG_JOOMLA'
 UNION ALL
