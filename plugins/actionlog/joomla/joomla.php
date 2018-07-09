@@ -99,19 +99,20 @@ class PlgActionlogJoomla extends JPlugin
 			return;
 		}
 
-		$user        = JFactory::getUser();
-		$contentType = strtoupper($params->type_title);
+		$user             = JFactory::getUser();
+		$contentTypeTitle = strtoupper($params->type_title);
+		list(, $contentType) = explode('.', $params->type_alias);
 
 		if ($isNew)
 		{
-			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_ADDED');
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_ADDED');
 			$defaultLanguageKey = strtoupper('PLG_SYSTEM_ACTIONLOGS_CONTENT_ADDED');
 
 			$action = 'add';
 		}
 		else
 		{
-			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_UPDATED');
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_UPDATED');
 			$defaultLanguageKey = strtoupper('PLG_SYSTEM_ACTIONLOGS_CONTENT_UPDATED');
 
 			$action = 'update';
@@ -127,10 +128,10 @@ class PlgActionlogJoomla extends JPlugin
 
 		$message = array(
 			'action'      => $action,
-			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $contentType),
+			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $contentTypeTitle),
 			'id'          => $id,
 			'title'       => $article->get($params->title_holder),
-			'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $params->type_title, $id),
+			'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $id),
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
@@ -168,14 +169,14 @@ class PlgActionlogJoomla extends JPlugin
 			return;
 		}
 
-		$language    = JFactory::getLanguage();
-		$user        = JFactory::getUser();
-		$contentType = strtoupper($params->type_title);
+		$language         = JFactory::getLanguage();
+		$user             = JFactory::getUser();
+		$contentTypeTitle = strtoupper($params->type_title);
 
 		// If the content type has it own language key, use it, otherwise, use default language key
-		if ($language->hasKey(strtoupper($params->text_prefix . '_' . $contentType . '_DELETED')))
+		if ($language->hasKey(strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_DELETED')))
 		{
-			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_DELETED');
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_DELETED');
 		}
 		else
 		{
@@ -186,7 +187,7 @@ class PlgActionlogJoomla extends JPlugin
 
 		$message = array(
 			'action'      => 'delete',
-			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $contentType),
+			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $contentTypeTitle),
 			'id'          => $id,
 			'title'       => $article->get($params->title_holder),
 			'userid'      => $user->id,
@@ -227,28 +228,29 @@ class PlgActionlogJoomla extends JPlugin
 			return;
 		}
 
-		$user        = JFactory::getUser();
-		$contentType = strtoupper($params->type_title);
+		$user             = JFactory::getUser();
+		$contentTypeTitle = strtoupper($params->type_title);
+		list(, $contentType) = explode('.', $params->type_alias);
 
 		switch ($value)
 		{
 			case 0:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_UNPUBLISHED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_UNPUBLISHED');
 				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UNPUBLISHED';
 				$action             = 'unpublish';
 				break;
 			case 1:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_PUBLISHED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_PUBLISHED');
 				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_PUBLISHED';
 				$action             = 'publish';
 				break;
 			case 2:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_ARCHIVED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_ARCHIVED');
 				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_ARCHIVED';
 				$action             = 'archive';
 				break;
 			case -2:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_TRASHED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentTypeTitle . '_TRASHED');
 				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_TRASHED';
 				$action             = 'trash';
 				break;
@@ -276,7 +278,7 @@ class PlgActionlogJoomla extends JPlugin
 				'type'        => strtoupper($params->text_prefix . '_TYPE_' . $params->type_title),
 				'id'          => $pk,
 				'title'       => $items[$pk]->{$params->title_holder},
-				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $params->type_title, $pk),
+				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk),
 				'userid'      => $user->id,
 				'username'    => $user->username,
 				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
@@ -475,6 +477,7 @@ class PlgActionlogJoomla extends JPlugin
 		}
 
 		$extensionType = $params->type_title;
+		list(, $contentType) = explode('.', $params->type_alias);
 
 		if ($isNew)
 		{
@@ -503,7 +506,7 @@ class PlgActionlogJoomla extends JPlugin
 			'id'             => $table->get($params->id_holder),
 			'title'          => $table->get($params->title_holder),
 			'extension_name' => $table->get($params->title_holder),
-			'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $params->type_title, $table->get($params->id_holder), $params->id_holder),
+			'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder),
 			'userid'         => $user->id,
 			'username'       => $user->username,
 			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
