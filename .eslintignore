@@ -5,3 +5,4 @@ build/**/**/*.js ## Exclude webcomponents till we fix the CS!
 build/incompatible_page/*.js
 media/system/webcomponents/js*.js ## The linted files are in build/webcomponents!
 media/com_media/js/edit-images.js ## TODO: Fix this file
+media/mod_menu/js/admin-menu.js ## TODO: Fix this file
