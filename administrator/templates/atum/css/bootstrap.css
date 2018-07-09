@@ -2456,8 +2456,8 @@ input[type="button"].btn-block {
   color: #fff;
   text-align: center;
   white-space: nowrap;
-  background-color: #3073BB;
-  border: 1px solid #3073BB; }
+  background-color: #3073bb;
+  border: 1px solid #3073bb; }
   .input-group-text input[type="radio"],
   .input-group-text input[type="checkbox"] {
     margin-top: 0; }
@@ -2638,7 +2638,7 @@ input[type="button"].btn-block {
     line-height: 1.5;
     color: #495057;
     content: "Browse";
-    background-color: #3073BB;
+    background-color: #3073bb;
     border-left: 1px solid #ced4da; }
 
 .custom-range {

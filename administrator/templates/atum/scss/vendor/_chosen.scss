@@ -5,6 +5,7 @@
   .chzn-single {
     display: inline-block;
     max-width: 100%;
+    $select-border-width: ($border-width * 2);
     height: calc(#{$input-height} - #{$select-border-width});
     padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
     padding-right: $custom-select-padding-x \9;
@@ -19,8 +20,6 @@
     -moz-appearance: none;
     -webkit-appearance: none;
     @include border-radius($custom-select-border-radius);
-    $select-border-width: ($border-width * 2);
-
 
     abbr {
       top: 10px;
