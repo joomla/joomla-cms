@@ -1574,26 +1574,24 @@ abstract class AdminModel extends FormModel
 
 			return false;
 		}
-		else
+
+		if ($data['language'] === '*')
 		{
-			if ($data['language'] === '*')
-			{
-				$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
-				$app->redirect(
-					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
-				);
-
-				return false;
-			}
-
+			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
 			$app->redirect(
-				\JRoute::_(
-					'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-					. '&task=association.edit&id=' . $id, false
-				)
+				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 			);
 
-			return true;
+			return false;
 		}
+
+		$app->redirect(
+			\JRoute::_(
+				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id, false
+			)
+		);
+
+		return true;
 	}
 }
