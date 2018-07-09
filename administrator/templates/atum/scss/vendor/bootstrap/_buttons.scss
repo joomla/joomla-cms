@@ -8,8 +8,8 @@
 
   @include hover {
     @include gradient-bg($hover-background);
-    border-color: $hover-border;
     color: color-yiq($hover-background);
+    border-color: $hover-border;
   }
 
   &:focus,
