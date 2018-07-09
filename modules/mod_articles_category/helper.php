@@ -437,12 +437,13 @@ abstract class ModArticlesCategoryHelper
 	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
 	 * @param   string  $month_year_format           date format to use
+	 * @param   string  $field                       date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $type = 'year', $article_grouping_direction = 'ksort', $month_year_format = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -461,7 +462,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = StringHelper::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -473,7 +474,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = StringHelper::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->$field, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{
