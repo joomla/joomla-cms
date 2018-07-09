@@ -23,6 +23,8 @@
 			>
 			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
 			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
+			<option value="u.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
+			<option value="u.user_id DESC">COM_PRIVACY_HEADING_USERID_DESC</option>
 			<option value="a.created ASC">COM_PRIVACY_HEADING_CREATED_ASC</option>
 			<option value="a.created DESC">COM_PRIVACY_HEADING_CREATED_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
