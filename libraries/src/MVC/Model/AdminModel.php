@@ -1568,8 +1568,9 @@ abstract class AdminModel extends FormModel
 		if ($id == 0)
 		{
 			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
-			$app->redirect(\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id='
-				. $id . $extension, false));
+			$app->redirect(
+				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
 
 			return false;
 		}
@@ -1578,14 +1579,17 @@ abstract class AdminModel extends FormModel
 			if ($data['language'] === '*')
 			{
 				$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
-				$app->redirect(\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id='
-					. $id . $extension, false));
+				$app->redirect(
+					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+				);
 
 				return false;
 			}
 
-			$app->redirect(\JRoute::_('index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-				. '&task=association.edit&id=' . $id, false));
+			$app->redirect(
+				\JRoute::_('index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id, false)
+			);
 
 			return true;
 		}
