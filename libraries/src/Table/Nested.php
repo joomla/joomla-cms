@@ -404,7 +404,7 @@ class Nested extends Table
 		// The width of node that is being moved
 		$width = $node->width;
 
-		// The distance that our node will travel to reach it's destination
+		// The distance that our node will travel to reach its destination
 		$distance = $to - $from + 1 - $width;
 
 		// If no distance to travel, just return

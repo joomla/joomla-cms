@@ -659,65 +659,60 @@ class JTableNestedTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the `_getTreeRepositionData` method.
+	 * Tests the `_getTreeRepositionValues` method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function test_getTreeRepositionData()
+	public function test_getTreeRepositionValues()
 	{
 		$object = (object) array('id' => 1, 'parent_id' => 0, 'lft' => 2, 'rgt' => 4, 'level' => 1);
 
-		$before = TestReflection::invoke($this->class, '_getTreeRepositionData', $object, 10, 'before');
+		$before = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'before');
 		$this->assertEquals(
-			array('left_where' => 'lft >= 2', 'right_where' => 'rgt >= 2', 'new_lft' => 2, 'new_rgt' => 11, 'new_parent_id' => 0, 'new_level' => 1),
+			array('new_parent_id' => 0, 'new_level' => 1, 'position' => 2),
 			(array) $before,
 			'Checks the before case.'
 		);
 
-		$after = TestReflection::invoke($this->class, '_getTreeRepositionData', $object, 10, 'after');
+		$after = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'after');
 		$this->assertEquals(
-			array('left_where' => 'lft > 4', 'right_where' => 'rgt > 4', 'new_lft' => 5, 'new_rgt' => 14, 'new_parent_id' => 0, 'new_level' => 1),
+			array('new_parent_id' => 0, 'new_level' => 1, 'position' => 5),
 			(array) $after,
 			'Checks the after case.'
 		);
 
-		$firstChild = TestReflection::invoke($this->class, '_getTreeRepositionData', $object, 10, 'first-child');
+		$firstChild = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'first-child');
 		$this->assertEquals(
-			array('left_where' => 'lft > 2', 'right_where' => 'rgt >= 2', 'new_lft' => 3, 'new_rgt' => 12, 'new_parent_id' => 1, 'new_level' => 2),
+			array('new_parent_id' => 1, 'new_level' => 2, 'position' => 3),
 			(array) $firstChild,
 			'Checks the first-child case.'
 		);
 
-		$lastChild = TestReflection::invoke($this->class, '_getTreeRepositionData', $object, 10, 'last-child');
+		$lastChild = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object, 'last-child');
 		$this->assertEquals(
-			array('left_where' => 'lft > 4', 'right_where' => 'rgt >= 4', 'new_lft' => 4, 'new_rgt' => 13, 'new_parent_id' => 1, 'new_level' => 2),
+			array('new_parent_id' => 1, 'new_level' => 2, 'position' => 4),
 			(array) $lastChild,
 			'Checks the last-child case.'
 		);
 
-		$default = TestReflection::invoke($this->class, '_getTreeRepositionData', $object, 10);
+		$default = TestReflection::invoke($this->class, '_getTreeRepositionValues', $object);
 		$this->assertEquals($default, $before, 'Checks the default handling is before.');
 
 		$this->assertFalse(
-			TestReflection::invoke($this->class, '_getTreeRepositionData', 'foo', 10),
+			TestReflection::invoke($this->class, '_getTreeRepositionValues', 'foo'),
 			'Checks an invalid data type.'
 		);
 
 		$this->assertFalse(
-			TestReflection::invoke($this->class, '_getTreeRepositionData', (object) array('lft' => 1), 10),
+			TestReflection::invoke($this->class, '_getTreeRepositionValues', (object) array('rgt' => 1)),
 			'Checks an object with invalid rgt.'
 		);
 
 		$this->assertFalse(
-			TestReflection::invoke($this->class, '_getTreeRepositionData', (object) array('lft' => 1), 10),
+			TestReflection::invoke($this->class, '_getTreeRepositionValues', (object) array('lft' => 1)),
 			'Checks an object with invalid lft.'
-		);
-
-		$this->assertFalse(
-			TestReflection::invoke($this->class, '_getTreeRepositionData', $object, 1),
-			'Checks an object with invalid width.'
 		);
 	}
 
