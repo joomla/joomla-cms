@@ -1602,9 +1602,8 @@ abstract class AdminModel extends FormModel
 				$lang_code[] = $language->lang_code;
 			}
 
-			$langcodeArray = $lang_code;
 			$refLang       = array($data['language']);
-			$targetLang    = array_diff($langcodeArray, $refLang);
+			$targetLang    = array_diff($lang_code, $refLang);
 			$targetLang    = implode(',', $targetLang);
 			$targetId      = $data['associations'][$targetLang];
 
