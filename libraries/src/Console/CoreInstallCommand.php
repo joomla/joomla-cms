@@ -98,9 +98,9 @@ class CoreInstallCommand extends AbstractCommand
 
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
 		{
-			$this->ioStyle->warning("Joomla is already installed and set up.");
+			$this->ioStyle->warning("Joomla! is already installed and set up.");
 
-			return 0;
+			return 1;
 		}
 
 		$this->setup = new SetupModel;
@@ -114,7 +114,7 @@ class CoreInstallCommand extends AbstractCommand
 
 			$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
-			return 0;
+			return 2;
 		}
 
 		$options = $this->collectOptions();
@@ -125,7 +125,7 @@ class CoreInstallCommand extends AbstractCommand
 
 		if ($completed)
 		{
-			$this->ioStyle->success("Joomla installation completed successfully!");
+			$this->ioStyle->success("Joomla! installation completed successfully!");
 
 			return 0;
 		}
@@ -173,9 +173,9 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		$this->setName('core:install');
 
-		$this->setDescription('Sets up the joomla CMS.');
+		$this->setDescription('Sets up the Joomla! CMS.');
 
-		$help = "The <info>%command.name%</info> is used for setting up the Joomla CMS \n 
+		$help = "The <info>%command.name%</info> is used for setting up the Joomla! CMS \n 
 					<info>php %command.full_name%</info>";
 
 		$this->setHelp($help);
@@ -193,64 +193,64 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		return [
 			'language' => [
-				'question'      => "Site Language",
+				'question'      => "Site Language:",
 				'type'          => 'select',
 				'optionData'    => ['en-GB', 'en-US'],
 				'default'       => 'en-GB',
 			],
 			'site_name' => [
-				'question'  => "What's the name of your website?",
+				'question'  => "What's the name of your website:",
 				'type'      => 'question',
 			],
 			'admin_email' => [
-				'question'  => "Enter admin email.",
+				'question'  => "Enter admin email:",
 				'type'      => 'question',
 				'rules'     => 'isEmail',
 			],
 			'admin_user' => [
-				'question'  => "Enter Admin username.",
+				'question'  => "Enter Admin username:",
 				'type'      => 'question',
 				'rules'     => 'isAlphanumeric',
 			],
 			'admin_password' => [
-				'question'  => "Enter admin password.",
+				'question'  => "Enter admin password:",
 				'type'      => 'question',
 			],
 			'db_type' => [
-				'question'  => "What's your database type?",
+				'question'  => "What's your database type:",
 				'type'      => 'select',
-				'optionData'    => ['mysql', 'mysqli'],
+				'optionData'    => ['mysql', 'postgresql'],
 				'default'   => 'mysql',
 			],
 			'db_host' => [
-				'question'  => "Enter database host.",
+				'question'  => "Enter database host:",
 				'type'      => 'question',
 			],
 			'db_user' => [
-				'question'  => "Enter database user",
+				'question'  => "Enter database user:",
 				'type'      => 'question',
 			],
 			'db_pass' => [
-				'question'  => "Enter database password.",
+				'question'  => "Enter database password:",
 				'type'      => 'question',
 			],
 			'db_name' => [
-				'question'  => "Enter database name.",
+				'question'  => "Enter database name:",
 				'type'      => 'question',
 			],
 			'db_prefix' => [
-				'question'  => "Database prefix?",
+				'question'  => "Database prefix:",
 				'type'      => 'question',
 				'default'   => 'lmao_',
 			],
 			'db_old' => [
-				'question'      => "What do you want to do about old DB?",
+				'question'      => "What do you want to do about old DB:",
 				'type'          => 'select',
 				'optionData'    => ['remove', 'backup'],
 				'default'       => 'backup',
 			],
 			'helpurl' => [
-				'question'  => "Help URL",
+				'question'  => "Help URL:",
 				'type'      => 'question',
 				'default'   => 'https://joomla.org',
 			],
@@ -321,9 +321,6 @@ class CoreInstallCommand extends AbstractCommand
 					$valid = true;
 				}
 			}
-
-			// Clears the Line to make Console neat
-			$this->ioStyle->write(sprintf("\033\143"));
 		}
 
 		return $options;
