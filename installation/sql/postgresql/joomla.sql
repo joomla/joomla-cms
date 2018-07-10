@@ -915,7 +915,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_terms" (
   "links" integer DEFAULT 0 NOT NULL,
   "language" varchar(7) NOT NULL,
   PRIMARY KEY ("term_id"),
-  CONSTRAINT "#__finder_terms_idx_term" UNIQUE ("term")
+  CONSTRAINT "#__finder_terms_idx_term_language" UNIQUE ("term", "language")
 );
 CREATE INDEX "#__finder_terms_idx_term_phrase" on "#__finder_terms" ("term", "phrase");
 CREATE INDEX "#__finder_terms_idx_stem_phrase" on "#__finder_terms" ("stem", "phrase");
