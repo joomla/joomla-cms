@@ -1591,9 +1591,10 @@ abstract class AdminModel extends FormModel
 		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 		$target    = '';
 
-		// If the site contains only 2 languages and an association exists for the item
-		// load directly the associated target item in the side by side view
-		// otherwise select already the target language
+		/* If the site contains only 2 languages and an association exists for the item
+		   load directly the associated target item in the side by side view
+		   otherwise select already the target language
+		*/
 		if (count($languages) === 2)
 		{
 			foreach ($languages as $language)
