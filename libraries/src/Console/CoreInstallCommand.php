@@ -11,12 +11,13 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\DatabaseDriver;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -191,66 +192,69 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	public function getOptionsTemplate()
 	{
+		$drivers = array_map('strtolower', DatabaseDriver::getConnectors());
+		$prefix = (new PrefixField)->getPrefix();
+
 		return [
 			'language' => [
-				'question'      => "Site Language:",
+				'question'      => "Site Language",
 				'type'          => 'select',
 				'optionData'    => ['en-GB', 'en-US'],
 				'default'       => 'en-GB',
 			],
 			'site_name' => [
-				'question'  => "What's the name of your website:",
+				'question'  => "What's the name of your website",
 				'type'      => 'question',
 			],
 			'admin_email' => [
-				'question'  => "Enter admin email:",
+				'question'  => "Enter admin email",
 				'type'      => 'question',
 				'rules'     => 'isEmail',
 			],
 			'admin_user' => [
-				'question'  => "Enter Admin username:",
+				'question'  => "Enter Admin username",
 				'type'      => 'question',
 				'rules'     => 'isAlphanumeric',
 			],
 			'admin_password' => [
-				'question'  => "Enter admin password:",
+				'question'  => "Enter admin password",
 				'type'      => 'question',
 			],
 			'db_type' => [
-				'question'  => "What's your database type:",
+				'question'  => "What's your connection type",
 				'type'      => 'select',
-				'optionData'    => ['mysql', 'postgresql'],
-				'default'   => 'mysql',
+				'optionData'    => $drivers,
+				'default'   => 'mysqli',
 			],
 			'db_host' => [
-				'question'  => "Enter database host:",
+				'question'  => "Enter database host",
 				'type'      => 'question',
 			],
 			'db_user' => [
-				'question'  => "Enter database user:",
+				'question'  => "Enter database user",
 				'type'      => 'question',
 			],
 			'db_pass' => [
-				'question'  => "Enter database password:",
+				'question'  => "Enter database password",
 				'type'      => 'question',
 			],
 			'db_name' => [
-				'question'  => "Enter database name:",
+				'question'  => "Enter database name",
 				'type'      => 'question',
 			],
 			'db_prefix' => [
-				'question'  => "Database prefix:",
+				'question'  => "Database prefix",
 				'type'      => 'question',
-				'default'   => 'lmao_',
+				'default'   => $prefix,
 			],
 			'db_old' => [
-				'question'      => "What do you want to do about old DB:",
+				'question'      => "What do you want to do about old DB",
 				'type'          => 'select',
 				'optionData'    => ['remove', 'backup'],
 				'default'       => 'backup',
 			],
 			'helpurl' => [
-				'question'  => "Help URL:",
+				'question'  => "Help URL",
 				'type'      => 'question',
 				'default'   => 'https://joomla.org',
 			],
@@ -272,12 +276,12 @@ class CoreInstallCommand extends AbstractCommand
 			'admin_email' => 'email@example.com',
 			'admin_user' => 'user',
 			'admin_password' => 'password',
-			'db_type' => 'mysql',
+			'db_type' => 'Mysql',
 			'db_host' => 'localhost',
 			'db_user' => 'root',
 			'db_pass' => '',
 			'db_name' => 'test',
-			'db_prefix' => 'lmao_',
+			'db_prefix' => 'prefix_',
 			'db_old' => 'remove',
 			'helpurl' => 'https://joomla.org',
 		];
@@ -351,14 +355,17 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	private function processType($data)
 	{
+		$default = $data['default'] ?? '';
+
 		switch ($data['type'])
 		{
 			case 'question':
-				return $this->ioStyle->ask($data['question']);
+				return $default !== '' ? $this->ioStyle->ask($data['question'], $data['default']) : $this->ioStyle->ask($data['question']);
 				break;
 
 			case 'select':
-				return $this->ioStyle->choice($data['question'], $data['optionData']);
+				return $default !== '' ? $this->ioStyle->choice($data['question'], $data['optionData'], $data['default'])
+										: $this->ioStyle->choice($data['question'], $data['optionData']);
 				break;
 		}
 	}
