@@ -11,11 +11,12 @@ namespace Joomla\Component\Finder\Administrator\View\Index;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * Index view class for Finder.
@@ -117,6 +118,13 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('index');
+
+		// We do not need to filter by language when multilingual is disabled
+		if (!Multilanguage::isEnabled())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
