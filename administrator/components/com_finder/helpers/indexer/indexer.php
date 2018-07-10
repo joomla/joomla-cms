@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\String\StringHelper;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -93,7 +94,7 @@ abstract class FinderIndexer
 	/**
 	 * Database driver cache.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.8.0
 	 */
 	protected $db;
@@ -485,8 +486,8 @@ abstract class FinderIndexer
 	/**
 	 * Method to add a set of tokens to the database.
 	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
+	 * @param   FinderIndexerToken[]  $tokens   An array or single FinderIndexerToken object.
+	 * @param   mixed                 $context  The context of the tokens. See context constants. [optional]
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
@@ -495,6 +496,15 @@ abstract class FinderIndexer
 	 */
 	protected function addTokensToDb($tokens, $context = '')
 	{
+		static $filterCommon, $filterNumeric;
+
+		if (is_null($filterCommon))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+			$filterCommon = (bool) $params->get('filter_commonwords', false);
+			$filterNumeric = (bool) $params->get('filter_numerics', false);
+		}
+
 		// Get the database object.
 		$db = $this->db;
 
@@ -516,6 +526,16 @@ abstract class FinderIndexer
 			// Iterate through the tokens to create SQL value sets.
 			foreach ($tokens as $token)
 			{
+				if ($filterCommon && $token->common)
+				{
+					continue;
+				}
+
+				if ($filterNumeric && $token->numeric)
+				{
+					continue;
+				}
+
 				$query->values(
 					$db->quote($token->term) . ', '
 					. $db->quote($token->stem) . ', '
@@ -528,7 +548,10 @@ abstract class FinderIndexer
 				++$values;
 			}
 
-			$db->setQuery($query)->execute();
+			if ($query->values)
+			{
+				$db->setQuery($query)->execute();
+			}
 		}
 
 		return $values;

@@ -302,8 +302,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
 			'   WHERE t1.context = %d' .
 			' ) AS t1' .
-			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
+			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term AND t2.language = t1.language' .
+			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term AND t.language = t1.language' .
 			' WHERE t2.context = %d' .
 			' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 			' ORDER BY t1.term DESC';
@@ -349,7 +349,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 */
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
-			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
+			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term AND t.language = ta.language')
 			->set('ta.term_id = t.term_id')
 			->where('ta.term_id = 0');
 		$db->setQuery($query);

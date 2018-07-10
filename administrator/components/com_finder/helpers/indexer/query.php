@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -384,7 +385,10 @@ class FinderIndexerQuery
 		// Iterate through the excluded tokens and compile the matching terms.
 		for ($i = 0, $c = count($this->excluded); $i < $c; $i++)
 		{
-			$results = array_merge($results, $this->excluded[$i]->matches);
+			foreach ($this->excluded[$i]->matches as $match)
+			{
+				$results = array_merge($results, $match);
+			}
 		}
 
 		// Sanitize the terms.
@@ -423,7 +427,10 @@ class FinderIndexerQuery
 			}
 
 			// Add the matches to the stack.
-			$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
+			foreach ($this->included[$i]->matches as $match)
+			{
+				$results[$term] = array_merge($results[$term], $match);
+			}
 		}
 
 		// Sanitize the terms.
@@ -463,7 +470,10 @@ class FinderIndexerQuery
 				}
 
 				// Add the matches to the stack.
-				$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
+				foreach ($this->included[$i]->matches as $match)
+				{
+					$results[$term] = array_merge($results[$term], $match);
+				}
 			}
 		}
 
@@ -743,6 +753,7 @@ class FinderIndexerQuery
 		$input = preg_replace('#\s+#mi', ' ', $input);
 		$input = trim($input);
 		$debug = JFactory::getConfig()->get('debug_lang');
+		$params = ComponentHelper::getParams('com_finder');
 
 		/*
 		 * First, we need to handle string based modifiers. String based
@@ -1004,6 +1015,16 @@ class FinderIndexerQuery
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
 					$token = $this->getTokenData(array_shift($token));
 
+					if ($params->get('filter_commonwords', 0) && $token->common)
+					{
+						continue;
+					}
+
+					if ($params->get('filter_numeric', 0) && $token->numeric)
+					{
+						continue;
+					}
+
 					// Set the required flag.
 					$token->required = true;
 
@@ -1051,6 +1072,16 @@ class FinderIndexerQuery
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
 					$token = $this->getTokenData($token);
+
+					if ($params->get('filter_commonwords', 0) && $token->common)
+					{
+						continue;
+					}
+
+					if ($params->get('filter_numeric', 0) && $token->numeric)
+					{
+						continue;
+					}
 
 					// Set the required flag.
 					$token->required = false;
@@ -1118,6 +1149,16 @@ class FinderIndexerQuery
 				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
 				$other = $this->getTokenData($other);
 
+				if ($params->get('filter_commonwords', 0) && $token->common)
+				{
+					continue;
+				}
+
+				if ($params->get('filter_numeric', 0) && $token->numeric)
+				{
+					continue;
+				}
+
 				// Set the required flag.
 				$other->required = false;
 
@@ -1155,6 +1196,16 @@ class FinderIndexerQuery
 				// Tokenize the next term (current plus one).
 				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
 				$other = $this->getTokenData(array_shift($other));
+
+				if ($params->get('filter_commonwords', 0) && $token->common)
+				{
+					continue;
+				}
+
+				if ($params->get('filter_numeric', 0) && $token->numeric)
+				{
+					continue;
+				}
 
 				// Set the required flag.
 				$other->required = false;
@@ -1196,6 +1247,16 @@ class FinderIndexerQuery
 			$token = FinderIndexerHelper::tokenize($phrases[$i], $lang, true);
 			$token = $this->getTokenData(array_shift($token));
 
+			if ($params->get('filter_commonwords', 0) && $token->common)
+			{
+				continue;
+			}
+
+			if ($params->get('filter_numeric', 0) && $token->numeric)
+			{
+				continue;
+			}
+
 			// Set the required flag.
 			$token->required = true;
 
@@ -1230,6 +1291,16 @@ class FinderIndexerQuery
 			{
 				// Get the token data.
 				$token = $this->getTokenData($token);
+
+				if ($params->get('filter_commonwords', 0) && $token->common)
+				{
+					continue;
+				}
+
+				if ($params->get('filter_numerics', 0) && $token->numeric)
+				{
+					continue;
+				}
 
 				// Set the required flag for the token.
 				$token->required = $mode === 'AND' ? ($token->phrase ? false : true) : false;
@@ -1285,7 +1356,8 @@ class FinderIndexerQuery
 		{
 			// Add the term to the query.
 			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')')
-				->where('t.phrase = 0');
+				->where('t.phrase = 0')
+				->where('t.language IN (\'*\',' . $query->q($token->language) . ')');
 		}
 
 		// Get the terms.
@@ -1301,7 +1373,12 @@ class FinderIndexerQuery
 			// Add the matches to the token.
 			for ($i = 0, $c = count($matches); $i < $c; $i++)
 			{
-				$token->matches[$matches[$i]->term] = (int) $matches[$i]->term_id;
+				if (!isset($token->matches[$matches[$i]->term]))
+				{
+					$token->matches[$matches[$i]->term] = array();
+				}
+
+				$token->matches[$matches[$i]->term][] = (int) $matches[$i]->term_id;
 			}
 		}
 

@@ -317,6 +317,28 @@
 			<option value="">COM_FINDER_CONFIG_LANGUAGE_DEFAULT_NONE</option>
 		</field>
 
+		<field
+			name="filter_commonwords"
+			type="radio"
+			label="COM_FINDER_CONFIG_FILTER_COMMONWORDS_LABEL"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="filter_numerics"
+			type="radio"
+			label="COM_FINDER_CONFIG_FILTER_NUMERICS_LABEL"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
