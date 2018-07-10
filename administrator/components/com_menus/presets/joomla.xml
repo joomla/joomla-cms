@@ -65,14 +65,12 @@
 				type="component"
 				element="com_modules"
 				link="index.php?option=com_modules&amp;client_id=0"
-				class="class:image"
 		/>
 		<menuitem
 				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
 				type="component"
 				element="com_modules"
 				link="index.php?option=com_modules&amp;client_id=1"
-				class="class:image"
 		/>
 	</menuitem>
 
