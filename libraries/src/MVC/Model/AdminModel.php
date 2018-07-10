@@ -1543,6 +1543,9 @@ abstract class AdminModel extends FormModel
 	 */
 	public function editAssociations($data)
 	{
+		// Save the item
+		$this->save($data);
+
 		$app = \JFactory::getApplication();
 		$id  = $data['id'];
 
@@ -1584,8 +1587,6 @@ abstract class AdminModel extends FormModel
 
 			return false;
 		}
-
-		$this->save($data);
 
 		$app->redirect(
 			\JRoute::_(
