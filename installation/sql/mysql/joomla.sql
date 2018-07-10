@@ -571,7 +571,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (309, 0, 'mod_status', 'module', 'mod_status', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (311, 0, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (312, 0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(313, 0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(313, 0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Module\\Multilangstatus'),
 (314, 0, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Module\\Version'),
 (315, 0, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Module\\StatsAdmin'),
 (316, 0, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, '', '{"maximum":"5","timeframe":"alltime","owncache":"1"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Module\\TagsPopular'),
