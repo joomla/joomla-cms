@@ -119,7 +119,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		if (!$isNew && JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
 		{
-			JToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_EDIT_ASSOCIATIONS', false, false);
+			JToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		if (empty($this->item->id))

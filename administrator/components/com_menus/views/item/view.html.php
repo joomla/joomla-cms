@@ -142,7 +142,7 @@ class MenusViewItem extends JViewLegacy
 
 		if (!$isNew && JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
 		{
-			JToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_EDIT_ASSOCIATIONS', false, false);
+			JToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		if ($isNew)

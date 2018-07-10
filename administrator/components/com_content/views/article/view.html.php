@@ -152,7 +152,7 @@ class ContentViewArticle extends JViewLegacy
 
 			if (JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
 			{
-				JToolbarHelper::custom('article.editAssociations', 'contract', 'contract', 'JTOOLBAR_EDIT_ASSOCIATIONS', false, false);
+				JToolbarHelper::custom('article.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
 
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');

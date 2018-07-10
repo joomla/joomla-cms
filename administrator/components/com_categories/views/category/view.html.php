@@ -209,7 +209,7 @@ class CategoriesViewCategory extends JViewLegacy
 
 			if (JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
 			{
-				JToolbarHelper::custom('category.editAssociations', 'contract', 'contract', 'JTOOLBAR_EDIT_ASSOCIATIONS', false, false);
+				JToolbarHelper::custom('category.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
 
 			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
