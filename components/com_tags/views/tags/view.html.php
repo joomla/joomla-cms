@@ -37,14 +37,12 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
-		$params = $app->getParams();
-
 		// Get some data from the models
-		$state      = $this->get('State');
-		$items      = $this->get('Items');
-		$item       = $this->get('Item');
-		$pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->params = $this->state->get('params');
+		$this->user   = JFactory::getUser();
 
 		/*
 		 * // Change to catch
@@ -55,12 +53,11 @@ class TagsViewTags extends JViewLegacy
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
-		$user   = JFactory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$groups = $this->user->getAuthorisedViewLevels();
 
-		if (!empty($items))
+		if (!empty($this->items))
 		{
-			foreach ($items as $itemElement)
+			foreach ($this->items as $itemElement)
 			{
 				if (!in_array($itemElement->access, $groups))
 				{
@@ -69,68 +66,29 @@ class TagsViewTags extends JViewLegacy
 
 				// Prepare the data.
 				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params = clone $this->params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
 		}
 
-		$this->state      = &$state;
-		$this->items      = &$items;
-		$this->pagination = &$pagination;
-		$this->user       = &$user;
-		$this->item       = &$item;
-
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
-		// Merge tag params. If this is single-tag view, menu params override tag params
-		// Otherwise, article params override menu item params
-		$this->params = $this->state->get('params');
-		$active       = $app->getMenu()->getActive();
-		$temp         = clone $this->params;
+		$active = JFactory::getApplication()->getMenu()->getActive();
 
-		// Check to see which parameters should take priority
-		if ($active)
+		// Load layout from active query (in case it is an alternative menu item)
+		if ($active && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
 		{
-			$currentLink = $active->link;
-
-			// If the current view is the active item and the tags view, then the menu item params take priority
-			if (strpos($currentLink, 'view=tags'))
+			if (isset($active->query['layout']))
 			{
-				$this->params = $active->params;
-				$this->params->merge($temp);
-
-				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout']))
-				{
-					$this->setLayout($active->query['layout']);
-				}
-			}
-			else
-			{
-				// Current view is not a single tag, so the tag params take priority here
-				// Merge the menu item params with the tag params so that the tag params take priority
-				$temp->merge($item->params);
-				$item->params = $temp;
-
-				// Check for alternative layouts (since we are not in a single-article menu item)
-				// Single tag menu item layout takes priority over alt layout for a tag
-				if ($layout = $item->params->get('tag_layout'))
-				{
-					$this->setLayout($layout);
-				}
+				$this->setLayout($active->query['layout']);
 			}
 		}
-		elseif (!empty($items[0]))
+		else
 		{
-			// Merge so that tag params take priority
-			$temp->merge($items[0]->params);
-			$items[0]->params = $temp;
-
-			// Check for alternative layouts (since we are not in a single-tag menu item)
-			// Single-tag menu item layout takes priority over alt layout for a tag
-			if ($layout = $items[0]->params->get('tag_layout'))
+			// Load default All Tags layout from component
+			if ($layout = $this->params->get('tags_layout'))
 			{
 				$this->setLayout($layout);
 			}
