@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "976d7e03b43cb1e634b4767c5f5c2103",
+    "content-hash": "81c9ca521a0712b07e07143b469e835a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3857,16 +3857,16 @@
         },
         {
             "name": "joomla/test-system",
-            "version": "dev-dev-4.0-newtemplate",
+            "version": "dev-4.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-system.git",
-                "reference": "1ae6f426a51804ed5cc193b18b948bbe3aa2c74f"
+                "reference": "472c69aad1db7fbad67b07311ced5a21336366e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-system/zipball/1ae6f426a51804ed5cc193b18b948bbe3aa2c74f",
-                "reference": "1ae6f426a51804ed5cc193b18b948bbe3aa2c74f",
+                "url": "https://api.github.com/repos/joomla/test-system/zipball/472c69aad1db7fbad67b07311ced5a21336366e1",
+                "reference": "472c69aad1db7fbad67b07311ced5a21336366e1",
                 "shasum": ""
             },
             "require": {
@@ -3887,7 +3887,7 @@
                 "cms",
                 "joomla"
             ],
-            "time": "2018-07-01T22:49:04+00:00"
+            "time": "2018-05-15T13:20:55+00:00"
         },
         {
             "name": "joomla/test-unit",
