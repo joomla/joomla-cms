@@ -39,7 +39,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="userList">
+					<table class="table" id="userList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center">

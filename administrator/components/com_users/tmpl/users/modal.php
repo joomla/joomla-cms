@@ -42,7 +42,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
-		<table class="table table-striped table-sm">
+		<table class="table table-sm">
 			<thead>
 				<tr>
 					<th class="nowrap">
