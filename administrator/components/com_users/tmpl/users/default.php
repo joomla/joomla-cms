@@ -52,7 +52,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:5%" class="nowrap text-center">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_STATUS', 'a.block', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:5%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>

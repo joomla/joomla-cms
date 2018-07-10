@@ -56,8 +56,8 @@
 			<option value="a.name DESC">COM_USERS_HEADING_NAME_DESC</option>
 			<option value="a.username ASC">COM_USERS_HEADING_USERNAME_ASC</option>
 			<option value="a.username DESC">COM_USERS_HEADING_USERNAME_DESC</option>
-			<option value="a.block ASC">COM_USERS_HEADING_ENABLED_ASC</option>
-			<option value="a.block DESC">COM_USERS_HEADING_ENABLED_DESC</option>
+			<option value="a.block ASC">COM_USERS_HEADING_STATUS_ASC</option>
+			<option value="a.block DESC">COM_USERS_HEADING_STATUS_DESC</option>
 			<option value="a.activation ASC">COM_USERS_HEADING_ACTIVATED_ASC</option>
 			<option value="a.activation DESC">COM_USERS_HEADING_ACTIVATED_DESC</option>
 			<option value="a.email ASC">COM_USERS_HEADING_EMAIL_ASC</option>

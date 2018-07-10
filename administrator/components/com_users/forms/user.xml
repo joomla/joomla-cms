@@ -110,13 +110,12 @@
 
 		<field
 			name="block"
-			type="radio"
+			type="list"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			class="switcher switcher-danger"
 			default="0"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
+			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
 		</field>
 
 		<field
