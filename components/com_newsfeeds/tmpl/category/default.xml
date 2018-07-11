@@ -253,7 +253,6 @@
 				type="number"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
-				size="6"
 				useglobal="true"
 			/>
 			
