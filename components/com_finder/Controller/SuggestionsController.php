@@ -38,7 +38,28 @@ class SuggestionsController extends BaseController
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 		echo '{ "suggestions": ' . json_encode($suggestions) . ' }';
-		$app->close();
+	}
+
+	/**
+	 * Method to find search query suggestions for OpenSearch
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function opensearchsuggest()
+	{
+		$app = $this->app;
+		$app->mimeType = 'application/json';
+		$result = array();
+		$result[] = $app->input->request->get('q', '', 'string');
+
+		$result[] = $this->getSuggestions();
+
+		// Send the response.
+		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$app->sendHeaders();
+		echo json_encode($result);
 	}
 
 	/**
