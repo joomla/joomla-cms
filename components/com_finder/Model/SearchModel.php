@@ -96,6 +96,7 @@ class SearchModel extends ListModel
 		{
 			// Build the result object.
 			$result = unserialize($row->object);
+			$result->cleanURL = $result->route;
 
 			// Add the result back to the stack.
 			$results[] = $result;

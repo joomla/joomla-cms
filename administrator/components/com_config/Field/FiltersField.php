@@ -46,7 +46,7 @@ class FiltersField extends FormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config" class="table table-striped">';
+		$html[] = '<table id="filter-config" class="table">';
 
 		// The table heading.
 		$html[] = '	<thead>';
@@ -86,6 +86,7 @@ class FiltersField extends FormField
 			$html[] = '			' . \JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="sr-only">' . \JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
@@ -104,6 +105,7 @@ class FiltersField extends FormField
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="sr-only">' . \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
@@ -112,6 +114,8 @@ class FiltersField extends FormField
 				. '>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_attributes"'
+				. ' class="sr-only">' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'

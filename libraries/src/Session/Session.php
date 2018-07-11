@@ -36,6 +36,13 @@ class Session extends BaseSession
 		$app   = \JFactory::getApplication();
 		$token = static::getFormToken();
 
+		// Check from header first
+		if ($token === $app->input->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum'))
+		{
+			return true;
+		}
+
+		// Then fallback to HTTP query
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
 			if ($app->getSession()->isNew())

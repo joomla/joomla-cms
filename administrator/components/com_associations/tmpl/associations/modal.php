@@ -59,7 +59,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 	<?php if (empty($this->items)) : ?>
 		<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 	<?php else : ?>
-		<table class="table table-striped" id="associationsList">
+		<table class="table" id="associationsList">
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
