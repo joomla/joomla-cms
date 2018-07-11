@@ -189,7 +189,7 @@ class HtmlView extends BaseHtmlView
 			HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
 			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new \FileLayout instance and render the batch button
+			// Instantiate a new FileLayout instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
