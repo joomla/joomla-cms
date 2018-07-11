@@ -27,7 +27,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array
 
 	<h2 class="mb-3"><?php echo Text::sprintf('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h2>
 
-	<table id="diff" class="table table-striped table-sm">
+	<table id="diff" class="table table-sm">
 		<thead>
 			<tr>
 				<th style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>

@@ -68,7 +68,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 	</div>
 
 	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
-		<table class="table table-striped table-sm">
+		<table class="table table-sm">
 			<thead>
 				<tr>
 					<th style="width:1%" class="text-center">
