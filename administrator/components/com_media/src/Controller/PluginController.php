@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
+use Joomla\CMS\Router\Route;
 
 /**
  * Plugin Controller for OAuth2.0 callbacks
@@ -103,7 +104,7 @@ class PluginController extends BaseController
 				 * Use this for close New Windows opened for OAuth Process
 				 */
 				case 'close':
-					$this->setRedirect(\JRoute::_('index.php?option=com_media&view=plugin&action=close', false));
+					$this->setRedirect(Route::_('index.php?option=com_media&view=plugin&action=close', false));
 					break;
 
 				// Redirect browser to any page specified by the user
@@ -117,20 +118,20 @@ class PluginController extends BaseController
 
 				// Redirect browser to Control Panel
 				case 'control-panel':
-					$this->setRedirect(\JRoute::_('index.php', false));
+					$this->setRedirect(Route::_('index.php', false));
 					break;
 
 				// Redirect browser to Media Manager
 				case 'media-manager':
 				default:
-					$this->setRedirect(\JRoute::_('index.php?option=com_media', false));
+					$this->setRedirect(Route::_('index.php?option=com_media', false));
 			}
 		}
 		catch (\Exception $e)
 		{
 			// Display any error
 			$this->app->enqueueMessage($e->getMessage(), 'error');
-			$this->setRedirect(\JRoute::_('index.php', false));
+			$this->setRedirect(Route::_('index.php', false));
 		}
 
 		// Redirect

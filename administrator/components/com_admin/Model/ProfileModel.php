@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Users\Administrator\Model\UserModel;
+use Joomla\CMS\Factory;
 
 /**
  * User model.
@@ -68,7 +69,7 @@ class ProfileModel extends UserModel
 		}
 
 		// If the user needs to change their password, mark the password fields as required
-		if (\JFactory::getUser()->requireReset)
+		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -87,7 +88,7 @@ class ProfileModel extends UserModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_users.edit.user.data', array());
+		$data = Factory::getApplication()->getUserState('com_users.edit.user.data', array());
 
 		if (empty($data))
 		{
@@ -113,7 +114,7 @@ class ProfileModel extends UserModel
 	 */
 	public function getItem($pk = null)
 	{
-		return parent::getItem(\JFactory::getUser()->id);
+		return parent::getItem(Factory::getUser()->id);
 	}
 
 	/**
@@ -127,7 +128,7 @@ class ProfileModel extends UserModel
 	 */
 	public function save($data)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		unset($data['id']);
 		unset($data['groups']);
