@@ -91,8 +91,8 @@ class PlgSampledataMultilang extends CMSPlugin
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_DESC');
-		$data->icon        = 'broadcast';
-		$data->steps       = 7;
+		$data->icon        = 'wifi';
+		$data->steps       = 8;
 
 		return $data;
 	}
@@ -456,6 +456,21 @@ class PlgSampledataMultilang extends CMSPlugin
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP7_SUCCESS');
+
+		return $response;
+	}
+
+	/**
+	 * Final step to show completion of sampledata.
+	 *
+	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function onAjaxSampledataApplyStep8()
+	{
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
 
 		return $response;
 	}
