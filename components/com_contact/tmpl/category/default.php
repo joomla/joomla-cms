@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 ?>
 
 <div class="com-contact-category">
 	<?php 
 		$this->subtemplatename = 'items';
-		echo JLayoutHelper::render('joomla.content.category_default', $this);
+		echo LayoutHelper::render('joomla.content.category_default', $this);
 	?>
 </div>

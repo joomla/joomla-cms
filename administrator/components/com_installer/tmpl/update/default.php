@@ -33,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if (empty($this->items)) : ?>
 						<joomla-alert type="info"><?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?></joomla-alert>
 					<?php else : ?>
-						<table class="table table-striped">
+						<table class="table">
 							<thead>
 							<tr>
 								<th style="width:1%" class="nowrap">

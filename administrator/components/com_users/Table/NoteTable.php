@@ -88,7 +88,7 @@ class NoteTable extends Table
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		$k = $this->_tbl_key;
+		$k = $this->getPrimaryKey();
 
 		// Sanitize input.
 		$pks = ArrayHelper::toInteger($pks);
@@ -188,5 +188,7 @@ class NoteTable extends Table
 		{
 			$this->modified_time = $this->getDbo()->getNullDate();
 		}
+
+		return true;
 	}
 }
