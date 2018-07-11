@@ -342,6 +342,7 @@ class PlgSampledataBlog extends JPlugin
 
 			$menuTable->load();
 			$menuTable->bind($menu);
+			$menuTable->check();
 
 			try
 			{
