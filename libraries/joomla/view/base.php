@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base View Class
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JViewBase implements JView
 {

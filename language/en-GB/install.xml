@@ -2,7 +2,7 @@
 <extension version="3.8" client="site" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.8.11</version>
+	<version>3.9.0</version>
 	<creationDate>June 2018</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>

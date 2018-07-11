@@ -408,16 +408,75 @@ class LanguageHelper
 	}
 
 	/**
+	 * Parse strings from a language file.
+	 *
+	 * @param   string   $fileName  The language ini file path.
+	 * @param   boolean  $debug     If set to true debug language ini file.
+	 *
+	 * @return  boolean  True if saved, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function parseIniFile($fileName, $debug = false)
+	{
+		// Check if file exists.
+		if (!file_exists($fileName))
+		{
+			return array();
+		}
+
+		// @deprecated __DEPLOY_VERSION__ Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
+		if (!defined('_QQ_'))
+		{
+			define('_QQ_', '"');
+		}
+
+		// Capture hidden PHP errors from the parsing.
+		if ($debug === true)
+		{
+			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
+			$php_errormsg = null;
+
+			$trackErrors = ini_get('track_errors');
+			ini_set('track_errors', true);
+		}
+
+		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
+		// issue it is solving
+		$disabledFunctions = explode(',', ini_get('disable_functions'));
+		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+
+		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
+		{
+			$contents = file_get_contents($fileName);
+			$contents = str_replace('_QQ_', '"\""', $contents);
+			$strings = @parse_ini_string($contents);
+		}
+		else
+		{
+			$strings = @parse_ini_file($fileName);
+		}
+
+		// Restore error tracking to what it was before.
+		if ($debug === true)
+		{
+			ini_set('track_errors', $trackErrors);
+		}
+
+		return is_array($strings) ? $strings : array();
+	}
+
+	/**
 	 * Save strings to a language file.
 	 *
-	 * @param   string  $filename  The language ini file path.
+	 * @param   string  $fileName  The language ini file path.
 	 * @param   array   $strings   The array of strings.
 	 *
 	 * @return  boolean  True if saved, false otherwise.
 	 *
 	 * @since   3.7.0
 	 */
-	public static function saveToIniFile($filename, array $strings)
+	public static function saveToIniFile($fileName, array $strings)
 	{
 		\JLoader::register('\JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
 
@@ -430,7 +489,7 @@ class LanguageHelper
 		// Write override.ini file with the strings.
 		$registry = new Registry($strings);
 
-		return \JFile::write($filename, $registry->toString('INI'));
+		return \JFile::write($fileName, $registry->toString('INI'));
 	}
 
 	/**

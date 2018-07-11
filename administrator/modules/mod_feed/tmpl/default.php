@@ -56,12 +56,18 @@ else
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
 
-		// Feed description
+		// Feed title
 		if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
 			<h2 class="<?php echo $direction; ?>">
 				<a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
 				<?php echo $feed->title; ?></a>
 			</h2>
+		<?php endif;
+		// Feed date
+		if ($params->get('rssdate', 1)) : ?>
+			<h3>
+			<?php echo JHtml::_('date', $feed->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
+			</h3>
 		<?php endif; ?>
 
 		<!-- Feed description -->
@@ -93,9 +99,13 @@ else
 						<a href="<?php echo $uri; ?>" target="_blank">
 						<?php echo trim($feed[$i]->title); ?></a></h5>
 					<?php else : ?>
-						<h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
+						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
+					<?php  endif; ?>
+					<?php if ($params->get('rssitemdate', 0)) : ?>
+						<div class="feed-item-date">
+							<?php echo JHtml::_('date', $feed[$i]->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
+						</div>
 					<?php endif; ?>
-
 					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
