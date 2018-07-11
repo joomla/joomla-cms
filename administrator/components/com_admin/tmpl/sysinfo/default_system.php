@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo Text::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></legend>
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
 			<tr>
 				<th style="width:25%">

@@ -91,10 +91,10 @@ joomla-field-switcher[type="secondary"] .switcher.active {
           box-shadow: 0 0 0 calc(28px / 2) #868e96 inset; }
 
 joomla-field-switcher[type="success"] .switcher.active {
-  background-color: #32d296;
-  border-color: #32d296;
-  -webkit-box-shadow: 0 0 0 calc(28px / 2) #32d296 inset;
-          box-shadow: 0 0 0 calc(28px / 2) #32d296 inset; }
+  background-color: #2f7d32;
+  border-color: #2f7d32;
+  -webkit-box-shadow: 0 0 0 calc(28px / 2) #2f7d32 inset;
+          box-shadow: 0 0 0 calc(28px / 2) #2f7d32 inset; }
 
 joomla-field-switcher[type="warning"] .switcher.active {
   background-color: #faa05a;

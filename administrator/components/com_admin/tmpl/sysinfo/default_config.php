@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?></legend>
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
 			<tr>
 				<th style="width:300px">
