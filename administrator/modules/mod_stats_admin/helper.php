@@ -114,6 +114,7 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
+				$rows[$i]->link  = JRoute::_('index.php?option=com_users');
 				$i++;
 			}
 
@@ -123,6 +124,7 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
+				$rows[$i]->link  = JRoute::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
 			}
 		}
@@ -171,6 +173,7 @@ class ModStatsHelper
 					$rows[$i]->title = $row['title'];
 					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
 					$rows[$i]->data  = $row['data'];
+					$rows[$i]->link  = isset($row['link']) ? $row['link'] : null;
 					$i++;
 				}
 			}
