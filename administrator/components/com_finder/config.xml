@@ -7,14 +7,14 @@
 		>
 
 		<field
-			name="enabled"
+			name="show_taxonomy"
 			type="radio"
-			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
 			class="switcher"
-			default="0"
+			default="1"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -32,22 +32,20 @@
 			name="description_length"
 			type="number"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
-			size="5"
 			default="255"
 			filter="integer"
 			showon="show_description:1"
 		/>
 
-
 		<field
-			name="allow_empty_query"
+			name="show_date"
 			type="radio"
-			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
+			label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
 			class="switcher"
-			default="0"
+			default="1"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -59,6 +57,28 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="logging_enabled"
+			type="radio"
+			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="allow_empty_query"
+			type="radio"
+			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -178,10 +198,22 @@
 		</field>
 
 		<field
+			name="opensearch"
+			type="radio"
+			label="COM_FINDER_CONFIG_OPENSEARCH_LABEL"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="opensearch_name"
 			type="text"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
 			default=""
+			showon="opensearch:1"
 		/>
 
 		<field
@@ -191,6 +223,7 @@
 			default=""
 			cols="30"
 			rows="2"
+			showon="opensearch:1"
 		/>
 
 	</fieldset>
@@ -224,7 +257,6 @@
 			name="memory_table_limit"
 			type="number"
 			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
-			size="10"
 			default="30000"
 			filter="integer"
 		/>
@@ -233,7 +265,6 @@
 			name="title_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
-			size="5"
 			default="1.7"
 		/>
 
@@ -241,7 +272,6 @@
 			name="text_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
-			size="5"
 			default="0.7"
 		/>
 
@@ -249,7 +279,6 @@
 			name="meta_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
-			size="5"
 			default="1.2"
 		/>
 
@@ -257,7 +286,6 @@
 			name="path_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
-			size="5"
 			default="2.0"
 		/>
 
@@ -265,7 +293,6 @@
 			name="misc_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
-			size="5"
 			default="0.3"
 		/>
 
@@ -278,6 +305,16 @@
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="language_default" 
+			type="language" 
+			label="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_LABEL"
+			description="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_DESC"
+			>
+			<option value="-1">COM_FINDER_CONFIG_LANGUAGE_DEFAULT_DEFAULT_LANGUAGE</option>
+			<option value="">COM_FINDER_CONFIG_LANGUAGE_DEFAULT_NONE</option>
 		</field>
 
 	</fieldset>
