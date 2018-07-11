@@ -460,6 +460,19 @@
 				</field>
 
 				<field
+					name="show_tags"
+					type="radio"
+					label="JTAG"
+					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWTAGS_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+				<field
 					name="show_introtext"
 					type="radio"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
