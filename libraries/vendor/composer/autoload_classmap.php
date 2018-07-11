@@ -945,7 +945,6 @@ return array(
     'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => $vendorDir . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
     'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => $vendorDir . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
     'Symfony\\Polyfill\\Util\\LegacyTestListener' => $vendorDir . '/symfony/polyfill-util/LegacyTestListener.php',
-    'Symfony\\Polyfill\\Util\\TestListener' => $vendorDir . '/symfony/polyfill-util/TestListener.php',
     'Symfony\\Polyfill\\Util\\TestListenerTrait' => $vendorDir . '/symfony/polyfill-util/TestListenerTrait.php',
     'Wamania\\Snowball\\Danish' => $vendorDir . '/wamania/php-stemmer/src/Danish.php',
     'Wamania\\Snowball\\Dutch' => $vendorDir . '/wamania/php-stemmer/src/Dutch.php',

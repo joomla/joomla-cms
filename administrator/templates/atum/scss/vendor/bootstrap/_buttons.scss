@@ -1,39 +1,31 @@
 // Buttons
 
-.btn.btn-xs,
-.btn-group-xs > .btn {
-  padding: .09rem .4rem;
-  font-size: .7rem;
-  line-height: 1.2;
-  border-radius: .2rem;
+@mixin button-variant($background, $border, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
+  color: color-yiq($background);
+  @include gradient-bg($background);
+  border-color: $border;
+  @include box-shadow($btn-box-shadow);
+
+  @include hover {
+    @include gradient-bg($hover-background);
+    color: color-yiq($hover-background);
+    border-color: $hover-border;
+  }
+
+  &:focus,
+  &.focus {
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: $btn-box-shadow, 0 0 0 $btn-focus-width rgba($border, .5), $atum-box-shadow;
+    } @else {
+      box-shadow: 0 0 0 $btn-focus-width rgba($border, .5), $atum-box-shadow;
+    }
+  }
+
 }
 
-.btn.btn-xs .caret {
-  font-size: 16px;
-  line-height: 13px;
-}
-
-.btn:focus,
-.btn.focus,
-.btn:active:focus,
-.btn.focus:active,
-.btn.active:focus,
-.btn.active.focus {
-  text-decoration: none;
-}
-
-.btn.group-move {
-  cursor: move;
-}
-
-.btn-secondary {
-  color: $gray-800;
-  background-color: $white-offset;
-  border-color: $gray-400;
-
-  &:hover,
-  &:focus {
-    color: $gray-800;
-    background-color: $gray-100;
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include button-variant($value, $value);
   }
 }

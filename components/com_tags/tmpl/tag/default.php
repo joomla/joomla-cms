@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Note that there are certain parts of this layout used only when there is exactly one tag.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 $isSingleTag = count($this->item) === 1;
 
 ?>
@@ -25,7 +27,7 @@ $isSingleTag = count($this->item) === 1;
 
 	<?php if ($this->params->get('show_tag_title', 1)) : ?>
 		<h2>
-			<?php echo JHtml::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
+			<?php echo HTMLHelper::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
 		</h2>
 	<?php endif; ?>
 
@@ -38,7 +40,7 @@ $isSingleTag = count($this->item) === 1;
 					alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>">
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
-				<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
+				<?php echo HTMLHelper::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
@@ -49,7 +51,7 @@ $isSingleTag = count($this->item) === 1;
 			<img src="<?php echo $this->params->get('tag_list_image'); ?>" />
 		<?php endif; ?>
 		<?php if ($this->params->get('tag_list_description', '') > '') : ?>
-			<?php echo JHtml::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
+			<?php echo HTMLHelper::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php echo $this->loadTemplate('items'); ?>
