@@ -37,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if (empty($this->items)) : ?>
 						<joomla-alert type="warning"><?php echo Text::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
 					<?php else : ?>
-					<table class="table table-striped" id="manageList">
+					<table class="table" id="manageList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap">

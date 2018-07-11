@@ -38,7 +38,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<joomla-alert type="info"><?php echo Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?></joomla-alert>
 						<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 					<?php else : ?>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center">
