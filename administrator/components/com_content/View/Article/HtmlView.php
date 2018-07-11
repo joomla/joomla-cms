@@ -14,6 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit an article.
@@ -76,7 +80,7 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = \JHelperContent::getActions('com_content', 'article', $this->item->id);
+		$this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -85,7 +89,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -112,8 +116,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
-		$user       = \JFactory::getUser();
+		Factory::getApplication()->input->set('hidemainmenu', true);
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -124,7 +128,7 @@ class HtmlView extends BaseHtmlView
 		$toolbar = Toolbar::getInstance();
 
 		ToolbarHelper::title(
-			\JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+			Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
 			'pencil-2 article-add'
 		);
 
@@ -171,7 +175,7 @@ class HtmlView extends BaseHtmlView
 					}
 				);
 
-			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				$toolbar->versions('com_content.article', $this->item->id);
 			}
@@ -180,7 +184,7 @@ class HtmlView extends BaseHtmlView
 			{
 				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
 				$url = \ContentHelperPreview::url($this->item);
-				$toolbar->preview($url, \JText::_('JGLOBAL_PREVIEW'))
+				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
 					->bodyHeight(80)
 					->modalWidth(90);
 			}
