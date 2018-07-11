@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML View class for the Cache component
@@ -64,6 +65,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
+		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
+
 		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		ToolbarHelper::custom('deleteAll', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
 		ToolbarHelper::divider();
