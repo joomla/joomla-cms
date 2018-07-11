@@ -17,6 +17,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * View to edit a template style.
@@ -132,7 +133,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$app            = Factory::getApplication();
 		$this->file     = $app->input->get('file');
-		$this->fileName = \JFilterInput::getInstance()->clean(base64_decode($this->file), 'string');
+		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
 		$explodeArray   = explode('.', $this->fileName);
 		$ext            = end($explodeArray);
 		$this->files    = $this->get('Files');
