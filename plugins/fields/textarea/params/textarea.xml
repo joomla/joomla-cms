@@ -6,14 +6,12 @@
 				name="rows"
 				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
-				size="5"
 			/>
 
 			<field
 				name="cols"
 				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
-				size="5"
 			/>
 
 			<field

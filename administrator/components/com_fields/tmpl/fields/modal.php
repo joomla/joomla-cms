@@ -37,7 +37,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
-			<table class="table table-striped" id="moduleList">
+			<table class="table" id="moduleList">
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap center">
