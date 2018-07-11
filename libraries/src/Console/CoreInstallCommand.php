@@ -216,6 +216,8 @@ class CoreInstallCommand extends AbstractCommand
 	}
 
 	/**
+	 * Parse an INI file
+	 *
 	 * @param   string  $file  Path fo ini file
 	 *
 	 * @return array
