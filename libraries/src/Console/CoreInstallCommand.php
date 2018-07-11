@@ -11,6 +11,8 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
@@ -18,7 +20,9 @@ use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Format\Ini;
 use Symfony\Component\Console\Input\Input;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -97,12 +101,14 @@ class CoreInstallCommand extends AbstractCommand
 
 		$this->configureIO();
 
+
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
 		{
 			$this->ioStyle->warning("Joomla! is already installed and set up.");
 
 			return 1;
 		}
+
 
 		$this->setup = new SetupModel;
 		$this->check = new ChecksModel;
@@ -116,6 +122,22 @@ class CoreInstallCommand extends AbstractCommand
 			$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
 			return 2;
+		}
+
+		$file = $this->cliInput->getOption('f');
+
+		if ($file)
+		{
+			$result = $this->processUninteractiveInstallation($file);
+
+			if (!is_array($result))
+			{
+				$this->ioStyle->error($result);
+
+				return 1;
+			}
+
+			$options = $result;
 		}
 
 		$options = $this->collectOptions();
@@ -132,6 +154,92 @@ class CoreInstallCommand extends AbstractCommand
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Handles uninteractive installation
+	 *
+	 * @param   string  $file  Path to installation
+	 *
+	 * @since 4.0
+	 *
+	 * @return array | string
+	 */
+	public function processUninteractiveInstallation($file)
+	{
+		if (!File::exists($file))
+		{
+			return 'Unable to locate file specified';
+		}
+
+		$allowedExtension = ['json', 'ini'];
+		$ext = File::getExt($file);
+
+		if (!in_array($ext, $allowedExtension))
+		{
+			return 'The file type specified is not supported';
+		}
+
+		switch ($ext)
+		{
+			case 'ini':
+				$options = $this->parseIniFile($file);
+				break;
+
+			case 'json':
+				$content = file_get_contents($file);
+				$options = json_decode($content, true);
+		}
+
+		$validator = $this->validate($options);
+
+		if (!$validator)
+		{
+			$this->outputEnqueuedMessages();
+		}
+
+		return $options;
+	}
+
+	public function outputEnqueuedMessages()
+	{
+		$messages = $this->getApplication()->getMessageQueue();
+
+		foreach ($messages as $k => $message)
+		{
+			$this->displayMessage($message[0]);
+		}
+	}
+
+	/**
+	 * @param   string  $file  Path fo ini file
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	public function parseIniFile($file)
+	{
+		$disabledFunctions = explode(',', ini_get('disable_functions'));
+		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+
+		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
+		{
+			$contents = file_get_contents($file);
+			$contents = str_replace('"_QQ_"', '\\"', $contents);
+			$options  = @parse_ini_string($contents, INI_SCANNER_RAW);
+		}
+		else
+		{
+			$options = @parse_ini_file($file);
+		}
+
+		if (!is_array($options))
+		{
+			$options = array();
+		}
+
+		return $options;
 	}
 
 	/**
@@ -176,8 +284,10 @@ class CoreInstallCommand extends AbstractCommand
 
 		$this->setDescription('Sets up the Joomla! CMS.');
 
+		$this->addOption('f', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
+
 		$help = "The <info>%command.name%</info> is used for setting up the Joomla! CMS \n 
-					<info>php %command.full_name%</info>";
+					<info>php %command.full_name%</info> --f=<extensiontype>";
 
 		$this->setHelp($help);
 	}
@@ -355,17 +465,16 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	private function processType($data)
 	{
-		$default = $data['default'] ?? '';
+		$default = $data['default'] ?? null;
 
 		switch ($data['type'])
 		{
 			case 'question':
-				return $default !== '' ? $this->ioStyle->ask($data['question'], $data['default']) : $this->ioStyle->ask($data['question']);
+				return $this->ioStyle->ask($data['question'], $default);
 				break;
 
 			case 'select':
-				return $default !== '' ? $this->ioStyle->choice($data['question'], $data['optionData'], $data['default'])
-										: $this->ioStyle->choice($data['question'], $data['optionData']);
+				return $this->ioStyle->choice($data['question'], $data['optionData'], $default);
 				break;
 		}
 	}
