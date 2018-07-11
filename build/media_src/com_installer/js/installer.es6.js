@@ -87,8 +87,8 @@ Joomla = window.Joomla || {};
       }
     };
 
-    let loading = document.getElementById('loading');
-    let installer = document.getElementById('installer-install');
+    const loading = document.getElementById('loading');
+    const installer = document.getElementById('installer-install');
 
     if (loading && installer) {
       loading.style.top = parseInt(installer.offsetTop - window.pageYOffset);
