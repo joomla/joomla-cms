@@ -584,7 +584,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (310, 0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (311, 0, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (312, 0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
-(313, 0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(313, 0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '1970-01-01 00:00:00', 0, 0, 'Joomla\\Module\\Multilangstatus'),
 (314, 0, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (315, 0, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (316, 0, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, '', '{"maximum":"5","timeframe":"alltime","owncache":"1"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -844,6 +844,21 @@ CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
 );
 CREATE INDEX "#__finder_links_terms_idx_term_weight" on "#__finder_links_terms" ("term_id", "weight");
 CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_terms" ("link_id", "term_id", "weight");
+
+--
+-- Table structure for table `#__finder_logging`
+--
+
+CREATE TABLE IF NOT EXISTS "#__finder_logging" (
+  "searchterm" character varying(255) NOT NULL DEFAULT '',
+  "md5sum" character varying(32) NOT NULL DEFAULT '',
+  "query" bytes NOT NULL,
+  "hits" integer NOT NULL DEFAULT 1,
+  "results" integer NOT NULL DEFAULT 0,
+  CONSTRAINT "#__finder_logging_idx_md5sum" UNIQUE ("md5sum")
+);
+CREATE INDEX "#__finder_logging_idx_md5sum" on "#__finder_logging" ("md5sum");
+CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searchterm");
 
 --
 -- Table structure for table `#__finder_taxonomy`

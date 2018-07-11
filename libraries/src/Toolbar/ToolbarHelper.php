@@ -701,7 +701,7 @@ abstract class ToolbarHelper
 	{
 		$title = \JText::_($alt);
 
-		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-outline-primary btn-sm">
+		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
 			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
 
 		$bar = Toolbar::getInstance('toolbar');

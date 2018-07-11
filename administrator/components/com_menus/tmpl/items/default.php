@@ -50,7 +50,7 @@ if ($menuType == '')
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="itemList">
+					<table class="table" id="itemList">
 						<thead>
 						<tr>
 							<?php if ($menuType) : ?>
