@@ -675,7 +675,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (487, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (488, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (489, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
-(490, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0, ''),
+(490, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '{"numupdate":3,"overridefiles":"{}"}', 0, '1970-01-01 00:00:00', 4, 0, ''),
 (491, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),

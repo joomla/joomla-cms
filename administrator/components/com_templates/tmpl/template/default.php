@@ -303,6 +303,13 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
+
+<?php if ($this->pluginState) : ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'files', JText::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
+	<?php echo $this->loadTemplate('updated_files'); ?>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+<?php endif; ?>
+
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 <?php // Collapse Modal

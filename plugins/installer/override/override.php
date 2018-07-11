@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
 /**
@@ -30,9 +31,17 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  3.6.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
 
 	/**
 	 * Method to get com_templates model instance.
@@ -107,11 +116,13 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Method to prepare changed or updated core file.
 	 *
-	 * @return   array  A list of changed files.
+	 * @param   string  $action  The name of the action.
+	 *
+	 * @return   array   A list of changed files.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getUpdatedFiles()
+	public function getUpdatedFiles($action)
 	{
 		// Get session instance
 		$session = Factory::getSession();
@@ -129,6 +140,8 @@ class PlgInstallerOverride extends CMSPlugin
 			{
 				if ($after[$i]->coreFile !== $before[$i]->coreFile)
 				{
+					$after[$i]->action = $action;
+					unset($after[$i]->coreFile);
 					$result[] = $after[$i];
 				}
 			}
@@ -154,6 +167,50 @@ class PlgInstallerOverride extends CMSPlugin
 	}
 
 	/**
+	 * Last process of this plugin.
+	 *
+	 * @param   array  $result  Result aray.
+	 *
+	 * @return   boolean  True/False
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function finalize($result)
+	{
+		$num = count($result);
+
+		if ($num != 0)
+		{
+			$span = '<span class="badge badge-light">' . $num . '</span>';
+			$this->app->enqueueMessage(Text::sprintf('PLG_INSTALLER_OVERRIDE_FILE_UPDATED', $span), 'notice');
+		}
+
+		$oldData = json_decode($this->params->get('overridefiles'), JSON_HEX_QUOT);
+
+		$results = array();
+		$results[] = $result;
+
+		foreach ($oldData as $value)
+		{
+			if (count($value) !== 0)
+			{
+				$results[] = $value;
+			}
+		}
+
+		$numupdate = (int) $this->params->get('numupdate');
+
+		if (count($results) > $numupdate)
+		{
+			$results = array_slice($results, 0, $numupdate);
+		}
+
+		$this->params->set('overridefiles', json_encode($results, JSON_HEX_QUOT));
+
+		return $this->saveParams();
+	}
+
+	/**
 	 * Event before extension update.
 	 *
 	 * @return   void
@@ -175,14 +232,8 @@ class PlgInstallerOverride extends CMSPlugin
 	public function onExtensionAfterUpdate()
 	{
 		$this->storeAfterEventFiles();
-		$results = $this->getUpdatedFiles();
-		$num = count($results);
-
-		if ($num != 0)
-		{
-			$span = '<span class="badge badge-light">' . $num . '</span>';
-			$this->app->enqueueMessage(\JText::sprintf('PLG_INSTALLER_OVERRIDE_FILE_UPDATED', $span), 'notice');
-		}
+		$result = $this->getUpdatedFiles('Extension Update');
+		$this->finalize($result);
 	}
 
 	/**
@@ -207,14 +258,8 @@ class PlgInstallerOverride extends CMSPlugin
 	public function onJoomlaAfterUpdate()
 	{
 		$this->storeAfterEventFiles();
-		$results = $this->getUpdatedFiles();
-		$num = count($results);
-
-		if ($num != 0)
-		{
-			$span = '<span class="badge badge-light">' . $num . '</span>';
-			$this->app->enqueueMessage(\JText::sprintf('PLG_INSTALLER_OVERRIDE_FILE_UPDATED', $span), 'notice');
-		}
+		$result = $this->getUpdatedFiles('Joomla Update');
+		$this->finalize($result);
 	}
 
 	/**
@@ -239,13 +284,60 @@ class PlgInstallerOverride extends CMSPlugin
 	public function onInstallerAfterInstaller()
 	{
 		$this->storeAfterEventFiles();
-		$results = $this->getUpdatedFiles();
-		$num = count($results);
+		$result = $this->getUpdatedFiles('Extension Install');
+		$this->finalize($result);
+	}
 
-		if ($num != 0)
+	/**
+	 * Save the plugin parameters
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function saveParams()
+	{
+		$query = $this->db->getQuery(true)
+				->update($this->db->quoteName('#__extensions'))
+				->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
+				->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
+				->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('installer'))
+				->where($this->db->quoteName('element') . ' = ' . $this->db->quote('override'));
+
+		try
 		{
-			$span = '<span class="badge badge-light">' . $num . '</span>';
-			$this->app->enqueueMessage(\JText::sprintf('PLG_INSTALLER_OVERRIDE_FILE_UPDATED', $span), 'notice');
+			// Lock the tables to prevent multiple plugin executions causing a race condition
+			$this->db->lockTable('#__extensions');
 		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables it's too risky to continue execution
+			return false;
+		}
+
+		try
+		{
+			// Update the plugin parameters
+			$result = $this->db->setQuery($query)->execute();
+		}
+		catch (Exception $exc)
+		{
+			// If we failed to execute
+			$this->db->unlockTables();
+			$result = false;
+		}
+
+		try
+		{
+			// Unlock the tables after writing
+			$this->db->unlockTables();
+		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables assume we have somehow failed
+			$result = false;
+		}
+
+		return $result;
 	}
 }

@@ -70,24 +70,23 @@ class TemplateModel extends FormModel
 	/**
 	 * Method to store file information.
 	 *
-	 * @param   string   $path      The base path.
-	 * @param   string   $name      The file name.
-	 * @param   integer  $client    The client id.
-	 * @param   string   $template  The template element.
+	 * @param   string    $path      The base path.
+	 * @param   string    $name      The file name.
+	 * @param   stdClass  $template  The std class object of template.
 	 *
 	 * @return  object  StdClass object.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function storeFileInfo($path, $name, $client, $template)
+	protected function storeFileInfo($path, $name, $template)
 	{
 		$temp = new \stdClass;
-		$temp->name = $name;
-		$temp->id = urlencode(base64_encode($path . $name));
-		$temp->client = $client;
-		$temp->template = $template;
+		$temp->id = base64_encode($path . $name);
+		$temp->client = $template->client_id;
+		$temp->template = $template->element;
+		$temp->extension_id = $template->extension_id;
 
-		if ($coreFile = $this->getCoreFile($path . $name, $client))
+		if ($coreFile = $this->getCoreFile($path . $name, $template->client_id))
 		{
 			$temp->modifiedDate = date("F d Y H:i:s.", filemtime($coreFile));
 			$temp->coreFile = md5_file($coreFile);
@@ -162,7 +161,7 @@ class TemplateModel extends FormModel
 
 			if (is_dir($path))
 			{
-				$this->prepareCoreFiles($path, $template->client_id, $element, $template->element);
+				$this->prepareCoreFiles($path, $element, $template);
 			}
 			else
 			{
@@ -187,16 +186,15 @@ class TemplateModel extends FormModel
 	/**
 	 * Prepare core files.
 	 *
-	 * @param   string   $dir       The path of the directory to scan.
-	 * @param   integer  $client    The client id.
-	 * @param   string   $element   The path of the template element.
-	 * @param   string   $template  The name of template.
+	 * @param   string    $dir       The path of the directory to scan.
+	 * @param   string    $element   The path of the template element.
+	 * @param   stdClass  $template  The stdClass object of template.
 	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function prepareCoreFiles($dir, $client, $element, $template)
+	public function prepareCoreFiles($dir, $element, $template)
 	{
 		$dirFiles = scandir($dir);
 
@@ -210,7 +208,7 @@ class TemplateModel extends FormModel
 			if (is_dir($dir . $value))
 			{
 				$relativePath = str_replace($element, '', $dir . $value);
-				$this->prepareCoreFiles($dir . $value . '/', $client, $element, $template);
+				$this->prepareCoreFiles($dir . $value . '/', $element, $template);
 			}
 			else
 			{
@@ -220,7 +218,7 @@ class TemplateModel extends FormModel
 				if ($allowedFormat === true)
 				{
 					$relativePath = str_replace($element, '', $dir);
-					$info = $this->storeFileInfo('/' . $relativePath, $value, $client, $template);
+					$info = $this->storeFileInfo('/' . $relativePath, $value, $template);
 
 					if ($info)
 					{
