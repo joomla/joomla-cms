@@ -32,7 +32,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if ($this->total > 0) : ?>
-		<table class="table table-striped" id="moduleList">
+		<table class="table" id="moduleList">
 			<thead>
 				<tr>
 					<th style="width:1%" class="nowrap text-center">

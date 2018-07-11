@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 \JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
@@ -45,9 +46,9 @@ class FeaturedModel extends ArticlesModel
 	{
 		parent::populateState($ordering, $direction);
 
-		$input = \JFactory::getApplication()->input;
-		$user  = \JFactory::getUser();
-		$app   = \JFactory::getApplication('site');
+		$input = Factory::getApplication()->input;
+		$user  = Factory::getUser();
+		$app   = Factory::getApplication('site');
 
 		// List state information
 		$limitstart = $input->getUInt('limitstart', 0);

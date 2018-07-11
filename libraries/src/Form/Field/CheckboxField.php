@@ -137,7 +137,7 @@ class CheckboxField extends FormField
 		$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
 		$disabled  = $this->disabled ? ' disabled' : '';
 		$value     = !empty($this->default) ? $this->default : '1';
-		$required  = $this->required ? ' required aria-required="true"' : '';
+		$required  = $this->required ? ' required' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
 
