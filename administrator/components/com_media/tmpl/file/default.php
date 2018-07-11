@@ -20,7 +20,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 // Add javascripts
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('bootstrap.framework');
 
 HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
 // @TODO logic to load plugins per media type
@@ -56,15 +55,16 @@ $config = [
 
 Factory::getDocument()->addScriptOptions('com_media', $config);
 
+$this->useCoreUI = true;
 ?>
 <div class="row">
 	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-12">
 	<?php $fieldSets = $form->getFieldsets(); ?>
 	<?php if ($fieldSets) : ?>
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
 		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>'; ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 	</form>
 </div>
