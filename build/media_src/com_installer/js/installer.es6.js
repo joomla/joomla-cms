@@ -87,8 +87,9 @@ Joomla = window.Joomla || {};
       }
     };
 
-    let loading = document.getElementById('loading'),
-        installer = document.getElementById('installer-install');
+    let loading = document.getElementById('loading');
+    let installer = document.getElementById('installer-install');
+
     if (loading && installer) {
       loading.style.top = parseInt(installer.offsetTop - window.pageYOffset);
       loading.style.left = 0;
@@ -112,11 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  let dragZone = document.querySelector('#dragarea');
-  let fileInput = document.querySelector('#install_package');
-  let loading = document.querySelector('#loading');
-  let button = document.querySelector('#select-file-button');
-  let returnUrl = document.querySelector('#installer-return').value;
+  const dragZone = document.querySelector('#dragarea');
+  const fileInput = document.querySelector('#install_package');
+  const loading = document.querySelector('#loading');
+  const button = document.querySelector('#select-file-button');
+  const returnUrl = document.querySelector('#installer-return').value;
   let token = document.querySelector('#installer-token').value;
   let url = 'index.php?option=com_installer&task=install.ajax_upload';
 
@@ -181,16 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loading.style.display = 'block';
 
     // @TODO Allow Joomla.request to make request without header 'content-type'
-    const xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+    const xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() : new window.ActiveXObject('MSXML2.XMLHTTP.3.0');
     xhr.open('POST', url, true);
 
-    const token = Joomla.getOptions('csrf.token', '');
+    token = Joomla.getOptions('csrf.token', '');
 
     if (token) {
       xhr.setRequestHeader('X-CSRF-Token', token);
     }
 
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = () => {
       // Request not finished
       if (xhr.readyState !== 4) return;
 
@@ -198,13 +199,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (xhr.status === 200) {
         const res = JSON.parse(xhr.responseText);
         if (!res.success) {
+          // eslint-disable-next-line no-console
           console.log(res.message, res.messages);
         }
         // Always redirect that can show message queue from session
         if (res.data.redirect) {
-          location.href = res.data.redirect;
+          window.location.href = res.data.redirect;
         } else {
-          location.href = 'index.php?option=com_installer&view=install';
+          window.location.href = 'index.php?option=com_installer&view=install';
         }
       } else {
         loading.style.display = 'none';
