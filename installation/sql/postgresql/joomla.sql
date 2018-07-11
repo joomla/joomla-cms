@@ -584,7 +584,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (310, 0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (311, 0, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (312, 0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
-(313, 0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(313, 0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '1970-01-01 00:00:00', 0, 0, 'Joomla\\Module\\Multilangstatus'),
 (314, 0, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (315, 0, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (316, 0, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, '', '{"maximum":"5","timeframe":"alltime","owncache":"1"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -674,7 +674,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (486, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (487, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (488, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(489, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(489, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -844,6 +844,21 @@ CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
 );
 CREATE INDEX "#__finder_links_terms_idx_term_weight" on "#__finder_links_terms" ("term_id", "weight");
 CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_terms" ("link_id", "term_id", "weight");
+
+--
+-- Table structure for table `#__finder_logging`
+--
+
+CREATE TABLE IF NOT EXISTS "#__finder_logging" (
+  "searchterm" character varying(255) NOT NULL DEFAULT '',
+  "md5sum" character varying(32) NOT NULL DEFAULT '',
+  "query" bytes NOT NULL,
+  "hits" integer NOT NULL DEFAULT 1,
+  "results" integer NOT NULL DEFAULT 0,
+  CONSTRAINT "#__finder_logging_idx_md5sum" UNIQUE ("md5sum")
+);
+CREATE INDEX "#__finder_logging_idx_md5sum" on "#__finder_logging" ("md5sum");
+CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searchterm");
 
 --
 -- Table structure for table `#__finder_taxonomy`
@@ -1845,7 +1860,7 @@ CREATE TABLE IF NOT EXISTS "#__user_notes" (
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_user_id" integer DEFAULT 0 NOT NULL,
   "created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "modified_user_id" integer NOT NULL,
+  "modified_user_id" integer DEFAULT 0 NOT NULL,
   "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "review_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
