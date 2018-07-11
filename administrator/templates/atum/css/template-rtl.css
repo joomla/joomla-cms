@@ -579,7 +579,11 @@ iframe {
 
 .view-login {
   background: #3073bb;
-  background-image: url("../../images/joomla-pattern.svg");
+  /**
+   * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
+   * compiled CSS file
+   */
+  background-image: url("../images/joomla-pattern.svg");
   background-size: 200px; }
   .view-login .login-bg-grad {
     position: fixed;
