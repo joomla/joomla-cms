@@ -132,15 +132,15 @@ class CoreInstallCommand extends AbstractCommand
 
 			if (!is_array($result))
 			{
-				$this->ioStyle->error($result);
-
-				return 1;
+				return 3;
 			}
 
 			$options = $result;
 		}
-
-		$options = $this->collectOptions();
+		else
+		{
+			$options = $this->collectOptions();
+		}
 
 		$model = new ConfigurationModel;
 
@@ -152,8 +152,6 @@ class CoreInstallCommand extends AbstractCommand
 
 			return 0;
 		}
-
-		return 0;
 	}
 
 	/**
@@ -193,14 +191,20 @@ class CoreInstallCommand extends AbstractCommand
 
 		$validator = $this->validate($options);
 
-		if (!$validator)
+		if ($validator)
 		{
-			$this->outputEnqueuedMessages();
+			return $options;
 		}
 
-		return $options;
 	}
 
+	/**
+	 * Display enqueued messages by application
+	 *
+	 * @since 4.0
+	 *
+	 * @return void
+	 */
 	public function outputEnqueuedMessages()
 	{
 		$messages = $this->getApplication()->getMessageQueue();
@@ -287,7 +291,7 @@ class CoreInstallCommand extends AbstractCommand
 		$this->addOption('f', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
 
 		$help = "The <info>%command.name%</info> is used for setting up the Joomla! CMS \n 
-					<info>php %command.full_name%</info> --f=<extensiontype>";
+					<info>php %command.full_name%</info> --f=<path to config file> [JSON and INI supported]";
 
 		$this->setHelp($help);
 	}
@@ -423,12 +427,7 @@ class CoreInstallCommand extends AbstractCommand
 
 				if (!$validator)
 				{
-					$messages = $this->getApplication()->getMessageQueue();
-
-					foreach ($messages as $k => $message)
-					{
-						$this->displayMessage($message[0]);
-					}
+					$this->outputEnqueuedMessages();
 				}
 				else
 				{
