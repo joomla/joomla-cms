@@ -64,7 +64,7 @@ class HelpsiteField extends \JFormFieldList
 		$html = parent::getInput();
 		$button = '<button
 						type="button"
-						class="btn btn-secondary btn-sm"
+						class="btn btn-secondary"
 						id="helpsite-refresh"
 						rel="' . $this->id . '"
 						showDefault="' . $showDefault . '"
