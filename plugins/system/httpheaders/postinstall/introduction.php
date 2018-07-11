@@ -7,6 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+
 /**
  * Checks if the plugin is enabled. If not it returns true, meaning that the
  * message concerning the HTTPHeaders Plugin should be displayed.
@@ -30,7 +34,7 @@ function httpheaders_postinstall_condition()
 function httpheaders_postinstall_action()
 {
 	// Enable the plugin
-	$db = JFactory::getDbo();
+	$db = Factory::getDbo();
 
 	$query = $db->getQuery(true)
 		->update($db->qn('#__extensions'))
@@ -51,5 +55,5 @@ function httpheaders_postinstall_action()
 	$extensionId = $db->loadResult();
 
 	$url = 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . $extensionId;
-	JFactory::getApplication()->redirect($url);
+	Factory::getApplication()->redirect($url);
 }
