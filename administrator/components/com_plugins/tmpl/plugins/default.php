@@ -39,7 +39,7 @@ if ($saveOrder)
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?></joomla-alert>
 		<?php else : ?>
-			<table class="table table-striped" id="pluginList">
+			<table class="table" id="pluginList">
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">

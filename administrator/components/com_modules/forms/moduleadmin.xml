@@ -52,7 +52,7 @@
 			name="published" 
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			default="1"
 			size="1"
 			>

@@ -45,7 +45,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 <form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm">
 	<fieldset class="uploadform">
 		<legend><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'); ?></legend>
-		<table class="table table-striped">
+		<table class="table">
 			<tbody>
 			<tr>
 				<td>
