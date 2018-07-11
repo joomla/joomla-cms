@@ -13,6 +13,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Controller for single contact view
@@ -49,7 +55,7 @@ class ContactController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$model  = $this->getModel('contact');
 		$params = ComponentHelper::getParams('com_contact');
 		$stub   = $this->input->getString('id');
@@ -64,15 +70,15 @@ class ContactController extends FormController
 		// Check for a valid session cookie
 		if ($params->get('validate_session', 0))
 		{
-			if (\JFactory::getSession()->getState() !== 'active')
+			if (Factory::getSession()->getState() !== 'active')
 			{
-				$this->app->enqueueMessage(\JText::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
+				$this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
 
 				// Save the data in the session.
 				$this->app->setUserState('com_contact.contact.data', $data);
 
 				// Redirect back to the contact form.
-				$this->setRedirect(\JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+				$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
 
 				return false;
 			}
@@ -109,7 +115,7 @@ class ContactController extends FormController
 
 			$app->setUserState('com_contact.contact.data', $data);
 
-			$this->setRedirect(\JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
 
 			return false;
 		}
@@ -139,7 +145,7 @@ class ContactController extends FormController
 		// Set the success message if it was a success
 		if (!($sent instanceof \Exception))
 		{
-			$msg = \JText::_('COM_CONTACT_EMAIL_THANKS');
+			$msg = Text::_('COM_CONTACT_EMAIL_THANKS');
 		}
 		else
 		{
@@ -156,7 +162,7 @@ class ContactController extends FormController
 		}
 		else
 		{
-			$this->setRedirect(\JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false), $msg);
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false), $msg);
 		}
 
 		return true;
@@ -179,7 +185,7 @@ class ContactController extends FormController
 
 		if ($contact->email_to == '' && $contact->user_id != 0)
 		{
-			$contact_user      = \JUser::getInstance($contact->user_id);
+			$contact_user      = User::getInstance($contact->user_id);
 			$contact->email_to = $contact_user->get('email');
 		}
 
@@ -188,12 +194,12 @@ class ContactController extends FormController
 		$sitename = $app->get('sitename');
 
 		$name    = $data['contact_name'];
-		$email   = \JStringPunycode::emailToPunycode($data['contact_email']);
+		$email   = PunycodeHelper::emailToPunycode($data['contact_email']);
 		$subject = $data['contact_subject'];
 		$body    = $data['contact_message'];
 
 		// Prepare email body
-		$prefix = \JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', \JUri::base());
+		$prefix = Text::sprintf('COM_CONTACT_ENQUIRY_TEXT', Uri::base());
 		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 		// Load the custom fields
@@ -215,7 +221,7 @@ class ContactController extends FormController
 			}
 		}
 
-		$mail = \JFactory::getMailer();
+		$mail = Factory::getMailer();
 		$mail->addRecipient($contact->email_to);
 		$mail->addReplyTo($email, $name);
 		$mail->setSender(array($mailfrom, $fromname));
@@ -228,11 +234,11 @@ class ContactController extends FormController
 		// Check whether email copy function activated
 		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 		{
-			$copytext    = \JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+			$copytext    = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 			$copytext    .= "\r\n\r\n" . $body;
-			$copysubject = \JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
+			$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
 
-			$mail = \JFactory::getMailer();
+			$mail = Factory::getMailer();
 			$mail->addRecipient($email);
 			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));

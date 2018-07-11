@@ -21,7 +21,7 @@ use Joomla\CMS\Updater\Update;
 	<joomla-alert type="success"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?></joomla-alert>
 
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
-		<table class="table table-striped">
+		<table class="table">
 			<tbody>
 			<tr>
 				<td>

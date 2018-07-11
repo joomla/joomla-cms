@@ -22,7 +22,7 @@ use Joomla\CMS\Language\Text;
 		<?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?>
 	</p>
 
-	<table class="table table-striped">
+	<table class="table">
 		<tbody>
 			<tr>
 				<td>
