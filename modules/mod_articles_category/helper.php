@@ -46,9 +46,7 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('list.start', 0);
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
-
-		// This module does not use tags data
-		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
+		$articles->setState('load_tags', $params->get('show_tags', 0));
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -437,12 +435,13 @@ abstract class ModArticlesCategoryHelper
 	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
 	 * @param   string  $month_year_format           date format to use
+	 * @param   string  $field                       date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $type = 'year', $article_grouping_direction = 'ksort', $month_year_format = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -461,7 +460,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = StringHelper::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -473,7 +472,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = StringHelper::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->$field, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{
