@@ -16,6 +16,7 @@ use Joomla\CMS\Fileystem\File;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Script file of Joomla CMS
