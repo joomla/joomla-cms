@@ -213,7 +213,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 								<?php endforeach; ?>
 							<?php elseif ($modMenuId) : ?>
 								<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-								<button class="btn btn-small btn-primary" type="button" data-toggle="modal" data-target="#moduleAddModal"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
+								<button type="button" class="btn btn-small btn-primary" data-toggle="modal" data-target="#moduleAddModal"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
 								<?php echo JHtml::_(
 										'bootstrap.renderModal',
 										'moduleAddModal',

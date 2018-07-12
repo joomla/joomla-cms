@@ -279,7 +279,7 @@ if ($this->type == 'font')
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
-					<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
+					<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
 				</div>
 			</div>
 			<?php echo JHtml::_('form.token'); ?>
