@@ -88,7 +88,7 @@ if (!empty($list))
 			case 'category_title' :
 				$list = ModArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
 				break;
-			case 'tags':
+			case 'tags' :
 				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 				break;
 			default:
