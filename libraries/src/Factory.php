@@ -280,11 +280,15 @@ abstract class Factory
 	 */
 	public static function getUser($id = null)
 	{
-		$instance = self::getSession()->get('user');
+		if (php_sapi_name() !== 'cli')
+		{
+			$instance = self::getSession()->get('user');
+		}
+
 
 		if (is_null($id))
 		{
-			if (!($instance instanceof User))
+			if (!isset($instance) || !($instance instanceof User))
 			{
 				$instance = User::getInstance();
 			}
