@@ -134,7 +134,7 @@
 			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
-				class="readonly"
+			class="readonly"
 			default="0"
 			readonly="true"
 		/>
@@ -160,6 +160,7 @@
 				type="templatestyle"
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 				client="administrator"
+				filter="uint"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

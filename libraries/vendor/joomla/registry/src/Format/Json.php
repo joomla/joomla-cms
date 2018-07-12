@@ -51,13 +51,19 @@ class Json implements FormatInterface
 	 */
 	public function stringToObject($data, array $options = ['processSections' => false])
 	{
+		$data = trim($data);
+
+		// Because developers are clearly not validating their data before pushing it into a Registry, we'll do it for them
+		if (empty($data))
+		{
+			return new \stdClass;
+		}
+
 		$decoded = json_decode($data);
 
 		// Check for an error decoding the data
-		if ($decoded === null)
+		if ($decoded === null && json_last_error() !== JSON_ERROR_NONE)
 		{
-			$data = trim($data);
-
 			// If it's an ini file, parse as ini.
 			if ($data !== '' && $data[0] !== '{')
 			{

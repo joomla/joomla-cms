@@ -9,7 +9,7 @@
 		</message>
 	</layout>
 
-	<fields name="request" addfieldpath="/administrator/components/com_finder/models/fields">
+	<fields name="request" addfieldprefix="Joomla\Component\Finder\Administrator\Field" >
 		<fieldset name="request">
 			<field
 				name="q"
@@ -25,7 +25,7 @@
 			/>
 		</fieldset>
 	</fields>
-	<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
+	<fields name="params">
 		<fieldset name="basic">
 			<field
 				name="show_date_filters"
@@ -62,6 +62,17 @@
 			</field>
 			<field type="spacer" />
 			<field
+				name="show_taxonomy"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
+				default=""
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
 				name="show_description"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
@@ -80,6 +91,17 @@
 				size="5"
 				useglobal="true"
 			/>
+			<field
+				name="show_date"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
+				default=""
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
 			<field
 				name="show_url"
 				type="list"

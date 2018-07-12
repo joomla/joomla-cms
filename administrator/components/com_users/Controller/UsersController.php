@@ -13,6 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Input\Input;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Users list controller class.
@@ -32,11 +37,12 @@ class UsersController extends AdminController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The CMSApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
-	 * @see    \JControllerLegacy
+	 * @see    BaseController
+	 * @throws \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -72,7 +78,7 @@ class UsersController extends AdminController
 	public function changeBlock()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('block' => 1, 'unblock' => 0);
@@ -81,7 +87,7 @@ class UsersController extends AdminController
 
 		if (empty($ids))
 		{
-			$this->setMessage(\JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -97,11 +103,11 @@ class UsersController extends AdminController
 			{
 				if ($value == 1)
 				{
-					$this->setMessage(\JText::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
+					$this->setMessage(Text::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
 				}
 				elseif ($value == 0)
 				{
-					$this->setMessage(\JText::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
+					$this->setMessage(Text::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
 				}
 			}
 		}
@@ -119,13 +125,13 @@ class UsersController extends AdminController
 	public function activate()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->get('cid', array(), 'array');
 
 		if (empty($ids))
 		{
-			$this->setMessage(\JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'error');
+			$this->setMessage(Text::_('COM_USERS_USERS_NO_ITEM_SELECTED'), 'error');
 		}
 		else
 		{
@@ -139,7 +145,7 @@ class UsersController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(\JText::plural('COM_USERS_N_USERS_ACTIVATED', count($ids)));
+				$this->setMessage(Text::plural('COM_USERS_N_USERS_ACTIVATED', count($ids)));
 			}
 		}
 

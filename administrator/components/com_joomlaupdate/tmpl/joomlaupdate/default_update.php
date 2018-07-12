@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::sprintf($this->langKey, $this->updateSourceKey); ?>
 	</p>
 
-	<table class="table table-striped">
+	<table class="table">
 		<tbody>
 			<tr>
 				<td>

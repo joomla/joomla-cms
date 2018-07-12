@@ -10,8 +10,12 @@ namespace Joomla\Component\Users\Administrator\View\Level;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a user view level.
@@ -38,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 * @since 1.6
 	 */
 	protected $state;
@@ -72,15 +76,16 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = ContentHelper::getActions('com_users');
 
-		\JToolbarHelper::title(\JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'users levels-add');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'users levels-add');
 
 		$toolbarButtons = [];
 
@@ -101,21 +106,21 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'level.save2copy'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('level.cancel');
+			ToolbarHelper::cancel('level.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
 	}
 }
