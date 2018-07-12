@@ -95,7 +95,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 	</div>
 
 	<?php // Inline the background image ?>
-	<?php if (!empty($background)) : ?>
+	<?php if (!empty($background) && is_file(JPATH_ROOT . $background)) : ?>
 	<div class="hidden">
 		<?php echo file_get_contents(JPATH_ROOT . $background); ?>
 	</div>
