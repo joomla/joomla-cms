@@ -37,7 +37,7 @@ HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' =>
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
-// Load the background image
+// Get the background image relative path
 $background = HTMLHelper::_('image', 'joomla-pattern.svg', '', '', true, 1);
 
 // Detecting Active Variables
