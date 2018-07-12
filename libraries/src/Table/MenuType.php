@@ -71,6 +71,21 @@ class MenuType extends Table
 			return false;
 		}
 
+		// Check for unique menu title.
+		$query = $this->_db->getQuery(true)
+			->select('COUNT(id)')
+			->from($this->_db->quoteName('#__menu_types'))
+			->where($this->_db->quoteName('title') . ' = ' . $this->_db->quote($this->title))
+			->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
+		$this->_db->setQuery($query);
+
+		if ($this->_db->loadResult())
+		{
+			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENUTITLE_EXISTS', $this->title));
+
+			return false;
+		}
+
 		return true;
 	}
 
