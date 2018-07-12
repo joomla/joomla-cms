@@ -10,18 +10,29 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ItemModel;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\Registry\Registry;
 
 /**
  * Public Profile model class for Users.
  *
  * @since  4.0
  */
-class UserModel extends ItemModel
+class UserModel extends FormModel
 {
+	/**
+	 * A loaded item
+	 *
+	 * @since   1.6
+	 */
+	protected $_item = null;
+
+	protected $user;
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -77,7 +88,12 @@ class UserModel extends ItemModel
 
 			$loggedUser = Factory::getUser();
 			$groups = $loggedUser->getAuthorisedViewLevels();
+
+			$registry = new Registry($user->params);
 			$user->params = $this->getState('params');
+			$user->params = clone $this->getState('params');
+			$user->params->merge($registry);
+
 
 			// Compute view access permissions.
 			$user->params->set('access-view', in_array($user->access, $groups));
@@ -86,5 +102,57 @@ class UserModel extends ItemModel
 		}
 
 		return $this->_item[$pk];
+	}
+
+	/**
+	 * Method to get the contact form.
+	 * The base form is loaded from XML and then an event is fired
+	 *
+	 * @param   array    $data      An optional array of data for the form to interrogate.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  \JForm  A \JForm object on success, false on failure
+	 *
+	 * @since   1.6
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		$form = $this->loadForm('com_users.contact', 'contact', array('control' => 'jform', 'load_data' => true));
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		$user = $this->_item[$this->getState('user.id')];
+
+		if (!$user->params->get('show_email_copy', 0))
+		{
+			$form->removeField('contact_email_copy');
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array    The default data is an empty array.
+	 *
+	 * @since   1.6.2
+	 * @throws  \Exception
+	 */
+	protected function loadFormData()
+	{
+		$data = (array) Factory::getApplication()->getUserState('com_users.contact.data', array());
+
+		if (empty($data['language']) && Multilanguage::isEnabled())
+		{
+			$data['language'] = Factory::getLanguage()->getTag();
+		}
+
+		$this->preprocessData('com_users.contact', $data);
+
+		return $data;
 	}
 }

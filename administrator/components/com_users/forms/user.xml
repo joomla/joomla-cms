@@ -209,5 +209,72 @@
 
 		</fieldset>
 
+		<fieldset name="email" label="COM_USERS_FIELDSET_CONTACT_LABEL">
+
+			<field
+					name="show_email_form"
+					type="list"
+					label="COM_USERS_FIELD_EMAIL_SHOW_FORM_LABEL"
+
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+					name="show_email_copy"
+					type="list"
+					label="COM_USERS_FIELD_EMAIL_EMAIL_COPY_LABEL"
+					useglobal="true"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+					name="banned_email"
+					type="textarea"
+					label="COM_USERS_FIELD_EMAIL_BANNED_EMAIL_LABEL"
+					description="COM_USERS_FIELD_EMAIL_BANNED_EMAIL_DESC"
+					rows="3"
+					cols="30"
+			/>
+
+			<field
+					name="banned_subject"
+					type="textarea"
+					label="COM_USERS_FIELD_EMAIL_BANNED_SUBJECT_LABEL"
+					description="COM_USERS_FIELD_EMAIL_BANNED_SUBJECT_DESC"
+					rows="3"
+					cols="30"
+			/>
+
+			<field
+					name="banned_text"
+					type="textarea"
+					label="COM_USERS_FIELD_EMAIL_BANNED_TEXT_LABEL"
+					description="COM_USERS_FIELD_EMAIL_BANNED_TEXT_DESC"
+					rows="3"
+					cols="30"
+			/>
+
+			<field
+					name="validate_session"
+					type="list"
+					label="COM_USERS_FIELD_CONFIG_SESSION_CHECK_LABEL"
+					useglobal="true"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+					name="redirect"
+					type="text"
+					label="COM_USERS_FIELD_CONFIG_REDIRECT_LABEL"
+					size="30"
+			/>
+		</fieldset>
+
 	</fields>
 </form>

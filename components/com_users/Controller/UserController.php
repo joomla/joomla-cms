@@ -10,7 +10,14 @@ namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 
 defined('_JEXEC') or die;
 
@@ -19,8 +26,24 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class UserController extends BaseController
+class UserController extends FormController
 {
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+	 *
+	 * @since   1.6.4
+	 */
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, array('ignore_request' => false));
+	}
+
 	/**
 	 * Method to log in a user.
 	 *
@@ -356,5 +379,172 @@ class UserController extends BaseController
 	{
 		// Check for request forgeries
 		// $this->checkToken('post');
+	}
+
+	/**
+	 * Method to submit the contact form and send an email.
+	 *
+	 * @return  boolean  True on success sending the email. False on failure.
+	 *
+	 * @since   1.5.19
+	 * @throws  \Exception
+	 */
+	public function submit()
+	{
+		// Check for request forgeries.
+		$this->checkToken();
+
+		$app    = Factory::getApplication();
+		$model  = $this->getModel('user');
+
+		$params = ComponentHelper::getParams('com_users');
+
+		$stub   = $this->input->getString('id');
+		$id     = (int) $stub;
+
+		// Get the data from POST
+		$data    = $this->input->post->get('jform', array(), 'array');
+		$contact = $model->getItem($id);
+
+		$params->merge($contact->params);
+
+		// Check for a valid session cookie
+		if ($params->get('validate_session', 0))
+		{
+			if (Factory::getSession()->getState() !== 'active')
+			{
+				$this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
+
+				// Save the data in the session.
+				$this->app->setUserState('com_users.contact.data', $data);
+
+				// Redirect back to the contact form.
+				$this->setRedirect(Route::_('index.php?option=com_users&view=user&id=' . $stub, false));
+
+				return false;
+			}
+		}
+
+		// Validate the posted data.
+		$form = $model->getForm();
+
+		if (!$form)
+		{
+			throw new \Exception($model->getError(), 500);
+
+			return false;
+		}
+
+		if (!$model->validate($form, $data))
+		{
+			$errors = $model->getErrors();
+
+			foreach ($errors as $error)
+			{
+				$errorMessage = $error;
+
+				if ($error instanceof \Exception)
+				{
+					$errorMessage = $error->getMessage();
+				}
+
+				$app->enqueueMessage($errorMessage, 'error');
+			}
+
+			$app->setUserState('com_users.contact.data', $data);
+
+			$this->setRedirect(Route::_('index.php?option=com_users&view=user&id=' . $stub, false));
+
+			return false;
+		}
+
+		// Send the email
+		$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+
+		// Set the success message if it was a success
+		if (!($sent instanceof \Exception))
+		{
+			$msg = Text::_('COM_USERS_CONTACT_EMAIL_THANKS');
+		}
+		else
+		{
+			$msg = '';
+		}
+
+		// Flush the data from the session
+		$this->app->setUserState('com_users.contact.data', null);
+
+		// Redirect if it is set in the parameters, otherwise redirect back to where we came from
+		if ($contact->params->get('redirect'))
+		{
+			$this->setRedirect($contact->params->get('redirect'), $msg);
+		}
+		else
+		{
+			$this->setRedirect(Route::_('index.php?option=com_users&view=user&id=' . $stub, false), $msg);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to send an email.
+	 *
+	 * @param   array      $data                  The data to send in the email.
+	 * @param   \stdClass  $contact               The user information to send the email to
+	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 *
+	 * @return  boolean  True on success sending the email, false on failure.
+	 *
+	 * @since   1.6.4
+	 */
+	private function _sendEmail($data, $contact, $copy_email_activated)
+	{
+		$app = $this->app;
+
+		if ($contact->email == '' && $contact->id != 0)
+		{
+			$contact_user      = User::getInstance($contact->id);
+			$contact->email = $contact_user->get('email');
+		}
+
+		$mailfrom = $app->get('mailfrom');
+		$fromname = $app->get('fromname');
+		$sitename = $app->get('sitename');
+
+		$name    = $data['contact_name'];
+		$email   = PunycodeHelper::emailToPunycode($data['contact_email']);
+		$subject = $data['contact_subject'];
+		$body    = $data['contact_message'];
+
+		// Prepare email body
+		$prefix = Text::sprintf('COM_USERS_CONTACT_ENQUIRY_TEXT', Uri::base());
+		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
+
+		$mail = Factory::getMailer();
+		$mail->addRecipient($contact->email);
+		$mail->addReplyTo($email, $name);
+		$mail->setSender(array($mailfrom, $fromname));
+		$mail->setSubject($sitename . ': ' . $subject);
+		$mail->setBody($body);
+		$sent = $mail->Send();
+
+		// Check whether email copy function activated
+		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+		{
+			$copytext    = Text::sprintf('COM_USERS_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+			$copytext    .= "\r\n\r\n" . $body;
+			$copysubject = Text::sprintf('COM_USERS_CONTACT_COPYSUBJECT_OF', $subject);
+
+			$mail = Factory::getMailer();
+			$mail->addRecipient($email);
+			$mail->addReplyTo($email, $name);
+			$mail->setSender(array($mailfrom, $fromname));
+			$mail->setSubject($copysubject);
+			$mail->setBody($copytext);
+			$sent = $mail->Send();
+		}
+
+		return $sent;
 	}
 }

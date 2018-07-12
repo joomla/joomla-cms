@@ -45,6 +45,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * The form object for the user contact item
+	 *
+	 * @var    \JForm
+	 * @since  1.6
+	 */
+	protected $form;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -58,6 +66,7 @@ class HtmlView extends BaseHtmlView
 		$app            = Factory::getApplication();
 		$this->item     = $this->get('Item');
 		$this->state    = $this->get('State');
+		$this->form = $this->get('Form');
 		$this->params   = $this->state->get('params');
 		$user = Factory::getUser();
 
