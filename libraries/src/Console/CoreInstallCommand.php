@@ -19,6 +19,7 @@ use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -66,6 +67,13 @@ class CoreInstallCommand extends AbstractCommand
 	private $envOptions;
 
 	/**
+	 * Registry Object
+	 * @var Registry
+	 * @since 4.0
+	 */
+	private $registry;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -80,6 +88,7 @@ class CoreInstallCommand extends AbstractCommand
 		$language->load('', JPATH_INSTALLATION, null, false, false) ||
 		$language->load('', JPATH_INSTALLATION, null, true);
 
+		$this->registry = new Registry;
 		$this->cliInput = $this->getApplication()->getConsoleInput();
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
@@ -122,7 +131,7 @@ class CoreInstallCommand extends AbstractCommand
 			return 2;
 		}
 
-		$file = $this->cliInput->getOption('f');
+		$file = $this->cliInput->getOption('file');
 
 		if ($file)
 		{
@@ -134,6 +143,7 @@ class CoreInstallCommand extends AbstractCommand
 			}
 
 			$options = $result;
+
 		}
 		else
 		{
@@ -155,7 +165,8 @@ class CoreInstallCommand extends AbstractCommand
 	/**
 	 * Handles uninteractive installation
 	 *
-	 * @param   string  $file  Path to installation
+	 * @param   string   $file      Path to installation
+	 * @param   boolean  $validate  Option to validate the data or not
 	 *
 	 * @since 4.0
 	 *
@@ -165,7 +176,9 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		if (!File::exists($file))
 		{
-			return 'Unable to locate file specified';
+			$this->getApplication()->enqueueMessage('Unable to locate file specified', 'error');
+
+			return;
 		}
 
 		$allowedExtension = ['json', 'ini'];
@@ -176,17 +189,7 @@ class CoreInstallCommand extends AbstractCommand
 			return 'The file type specified is not supported';
 		}
 
-		switch ($ext)
-		{
-			case 'ini':
-				$options = $this->parseIniFile($file);
-				break;
-
-			case 'json':
-				$content = file_get_contents($file);
-				$options = json_decode($content, true);
-		}
-
+		$options = $this->registry->loadFile($file, $ext)->toArray();
 
 		if ($validate)
 		{
@@ -291,7 +294,7 @@ class CoreInstallCommand extends AbstractCommand
 
 		$this->setDescription('Sets up the Joomla! CMS.');
 
-		$this->addOption('f', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
+		$this->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'Type of the extension');
 
 		$help = "The <info>%command.name%</info> is used for setting up the Joomla! CMS \n 
 					<info>php %command.full_name%</info> --f=<path to config file> [JSON and INI supported]";
