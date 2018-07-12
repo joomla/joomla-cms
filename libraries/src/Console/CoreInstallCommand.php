@@ -161,7 +161,7 @@ class CoreInstallCommand extends AbstractCommand
 	 *
 	 * @return array | string
 	 */
-	public function processUninteractiveInstallation($file)
+	public function processUninteractiveInstallation($file, $validate = true)
 	{
 		if (!File::exists($file))
 		{
@@ -187,12 +187,15 @@ class CoreInstallCommand extends AbstractCommand
 				$options = json_decode($content, true);
 		}
 
-		$validator = $this->validate($options);
 
-		if ($validator)
+		if ($validate)
 		{
-			return $options;
+			$validator = $this->validate($options);
+
+			return $validator ?: $options;
 		}
+
+		return $options;
 
 	}
 
