@@ -11,6 +11,8 @@ namespace Joomla\Component\Admin\Administrator\View\Help;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Admin component
@@ -98,6 +100,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(\JText::_('COM_ADMIN_HELP'), 'support help_header');
+		ToolbarHelper::title(Text::_('COM_ADMIN_HELP'), 'support help_header');
 	}
 }

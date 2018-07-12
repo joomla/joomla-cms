@@ -42,7 +42,7 @@ class FieldsListPlugin extends FieldsPlugin
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
 			$option = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-			$option->nodeValue = htmlspecialchars(\JText::_($name), ENT_COMPAT, 'UTF-8');
+			$option->textContent = htmlspecialchars(\JText::_($name), ENT_COMPAT, 'UTF-8');
 
 			$element = $fieldNode->appendChild($option);
 			$element->setAttribute('value', $value);

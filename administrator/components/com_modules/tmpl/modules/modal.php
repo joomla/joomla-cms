@@ -32,7 +32,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if ($this->total > 0) : ?>
-		<table class="table table-striped" id="moduleList">
+		<table class="table" id="moduleList">
 			<thead>
 				<tr>
 					<th style="width:1%" class="nowrap text-center">
@@ -91,7 +91,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 						<?php if ($item->position) : ?>
 						<a class="js-position-insert btn btn-sm btn-block btn-warning" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
-						<span class="label"><?php echo JText::_('JNONE'); ?></span>
+						<span class="badge badge-secondary"><?php echo JText::_('JNONE'); ?></span>
 						<?php endif; ?>
 					</td>
 					<td class="small d-none d-md-table-cell">

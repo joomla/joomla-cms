@@ -11,16 +11,16 @@ namespace Joomla\Component\Users\Site\Controller;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 
 defined('_JEXEC') or die;
-
 /**
  * Registration controller class for Users.
  *
@@ -72,7 +72,7 @@ class UserController extends FormController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -109,7 +109,7 @@ class UserController extends FormController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($data['return']))
+			if (!Uri::isInternal($data['return']))
 			{
 				$data['return'] = '';
 			}
@@ -145,7 +145,7 @@ class UserController extends FormController
 			$data['password'] = '';
 			$data['secretkey'] = '';
 			$app->setUserState('users.login.form.data', $data);
-			$app->redirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		// Success
@@ -155,7 +155,7 @@ class UserController extends FormController
 		}
 
 		$app->setUserState('users.login.form.data', array());
-		$app->redirect(\JRoute::_($app->getUserState('users.login.form.return'), false));
+		$app->redirect(Route::_($app->getUserState('users.login.form.return'), false));
 	}
 
 	/**
@@ -184,7 +184,7 @@ class UserController extends FormController
 		// Check if the log out succeeded.
 		if ($error instanceof \Exception)
 		{
-			$app->redirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		// Get the return URL from the request and validate that it is internal.
@@ -196,7 +196,7 @@ class UserController extends FormController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -233,7 +233,7 @@ class UserController extends FormController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($return))
+			if (!Uri::isInternal($return))
 			{
 				$return = '';
 			}
@@ -242,11 +242,11 @@ class UserController extends FormController
 		// In case redirect url is not set, redirect user to homepage
 		if (empty($return))
 		{
-			$return = \JUri::root();
+			$return = Uri::root();
 		}
 
 		// Redirect the user.
-		$app->redirect(\JRoute::_($return, false));
+		$app->redirect(Route::_($return, false));
 	}
 
 	/**
@@ -267,7 +267,7 @@ class UserController extends FormController
 		{
 			if ($itemid)
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -311,11 +311,11 @@ class UserController extends FormController
 		else
 		{
 			// URL to redirect after logout, default page if no ItemID is set
-			$url = $itemid ? 'index.php?Itemid=' . $itemid : \JUri::root();
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : Uri::root();
 		}
 
 		// Logout and redirect
-		$this->setRedirect('index.php?option=com_users&task=user.logout&' . \JSession::getFormToken() . '=1&return=' . base64_encode($url));
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url));
 	}
 
 	/**
@@ -344,10 +344,10 @@ class UserController extends FormController
 			// Get the error message to display.
 			$message = $app->get('error_reporting')
 				? $return->getMessage()
-				: \JText::_('COM_USERS_REMIND_REQUEST_ERROR');
+				: Text::_('COM_USERS_REMIND_REQUEST_ERROR');
 
 			// Go back to the complete form.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=remind', false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'error');
 
 			return false;
 		}
@@ -355,15 +355,15 @@ class UserController extends FormController
 		if ($return === false)
 		{
 			// Go back to the complete form.
-			$message = \JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=remind', false), $message, 'notice');
+			$message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
 		}
 
 		// Proceed to the login form.
-		$message = \JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-		$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false), $message);
+		$message = Text::_('COM_USERS_REMIND_REQUEST_SUCCESS');
+		$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 		return true;
 	}

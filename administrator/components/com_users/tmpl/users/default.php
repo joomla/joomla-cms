@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Access\Access;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Access\Access;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
@@ -22,7 +23,7 @@ HTMLHelper::_('formbehavior.chosen', '.multipleAccessLevels', null, array('place
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$loggeduser = JFactory::getUser();
+$loggeduser = Factory::getUser();
 $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
@@ -39,7 +40,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="userList">
+					<table class="table" id="userList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center">

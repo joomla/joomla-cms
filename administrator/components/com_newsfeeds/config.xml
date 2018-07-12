@@ -79,7 +79,6 @@
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 			id="feed_character_count"
 			default="0"
-			size="6"
 		/>
 
 		<field 
