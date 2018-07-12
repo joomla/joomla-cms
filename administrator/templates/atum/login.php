@@ -37,6 +37,9 @@ HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' =>
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
+// Load the background image
+$background = HTMLHelper::_('image', 'joomla-pattern.svg', '', '', true, 1);
+
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
@@ -90,6 +93,13 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			</div>
 		</div>
 	</div>
+
+	<?php // Inline the background image ?>
+	<?php if (!empty($background)) : ?>
+	<div class="hidden">
+		<?php echo file_get_contents(JPATH_ROOT . $background); ?>
+	</div>
+	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
 
