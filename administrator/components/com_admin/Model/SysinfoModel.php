@@ -308,6 +308,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->info = array(
 			'php'                   => php_uname(),
+			'dbserver'		=> $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
