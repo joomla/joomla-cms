@@ -9,13 +9,17 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.core');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('behavior.core');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset>
 		<div class="control-group">
 			<div class="control-label">
-				<?php echo JText::_('COM_MESSAGES_FIELD_USER_ID_FROM_LABEL'); ?>
+				<?php echo Text::_('COM_MESSAGES_FIELD_USER_ID_FROM_LABEL'); ?>
 			</div>
 			<div class="controls">
 				<?php echo $this->item->get('from_user_name'); ?>
@@ -23,15 +27,15 @@ JHtml::_('behavior.core');
 		</div>
 		<div class="control-group">
 			<div class="control-label">
-				<?php echo JText::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
+				<?php echo Text::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
 			</div>
 			<div class="controls">
-				<?php echo JHtml::_('date', $this->item->date_time); ?>
+				<?php echo HTMLHelper::_('date', $this->item->date_time); ?>
 			</div>
 		</div>
 		<div class="control-group">
 			<div class="control-label">
-				<?php echo JText::_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
+				<?php echo Text::_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
 			</div>
 			<div class="controls">
 				<?php echo $this->item->subject; ?>
@@ -39,7 +43,7 @@ JHtml::_('behavior.core');
 		</div>
 		<div class="control-group">
 			<div class="control-label">
-				<?php echo JText::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
+				<?php echo Text::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
 			</div>
 			<div class="controls">
 				<?php echo $this->item->message; ?>
@@ -47,6 +51,6 @@ JHtml::_('behavior.core');
 		</div>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 </form>
