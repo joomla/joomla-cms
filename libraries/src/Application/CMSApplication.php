@@ -24,12 +24,12 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
-use Joomla\Session\SessionEvent;
 
 /**
  * Joomla! CMS Application class
@@ -79,6 +79,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  4.0
 	 */
 	protected $messageQueue = array();
+
+	/**
+	 * The session metadata manager
+	 *
+	 * @var    MetadataManager
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $metadataManager = null;
 
 	/**
 	 * The name of the application.
@@ -135,6 +143,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		parent::__construct($input, $config, $client);
 
+		$this->metadataManager = new MetadataManager($this, \JFactory::getDbo());
+
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
@@ -155,75 +165,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
-	 *
-	 * @param   SessionEvent  $event  Session event being triggered
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart(SessionEvent $event)
-	{
-		parent::afterSessionStart($event);
-
-		$session = $event->getSession();
-		$time    = time();
-
-		// If tracking of optional session metadata is enabled, run the following operations (defaults to true for B/C since forever)
-		if ($this->get('session_metadata', true))
-		{
-			// Get the session handler from the configuration.
-			$handler = $this->get('session_handler', 'none');
-
-			/*
-			 * Check for extra session metadata when:
-			 *
-			 * 1) The database handler is in use and the session is new
-			 * 2) The database handler is not in use and the time is an even numbered second or the session is new
-			 */
-			if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
-			{
-				$this->checkSession();
-			}
-		}
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// If the database session handler is not in use and the current time is a divisor of 5, purge session metadata after the response is sent
-		if ($handler !== 'database' && $time % 5 === 0)
-		{
-			$this->registerEvent(
-				'onAfterRespond',
-				function () use ($session, $time)
-				{
-					// TODO: At some point we need to get away from having session data always in the db.
-					$db = \JFactory::getDbo();
-
-					$query = $db->getQuery(true)
-						->delete($db->quoteName('#__session'))
-						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-					$db->setQuery($query);
-
-					try
-					{
-						$db->execute();
-					}
-					catch (\JDatabaseExceptionExecuting $exception)
-					{
-						/*
-						 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-						 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-						 */
-					}
-				}
-			);
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -236,78 +177,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$db = \JFactory::getDbo();
-		$session = \JFactory::getSession();
-		$user = \JFactory::getUser();
-
-		// If $user is still null at this point, we've hit an interesting chicken or egg problem getting the user loaded into the application
-		if (!$user)
-		{
-			$user = $session->get('user');
-			$this->loadIdentity($user);
-		}
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-
-		$db->setQuery($query, 0, 1);
-		$exists = $db->loadResult();
-
-		// If the session record doesn't exist initialise it.
-		if (!$exists)
-		{
-			$handler = $this->get('session_handler', 'none');
-
-			// Default column/value set
-			$columns = array(
-				$db->quoteName('session_id'),
-				$db->quoteName('guest'),
-				$db->quoteName('userid'),
-				$db->quoteName('username')
-			);
-
-			$values = array(
-				$db->quote($session->getId()),
-				(int) $user->guest,
-				(int) $user->id,
-				$db->quote($user->username)
-			);
-
-			// If the database session handler is not in use, append the time to the row
-			if ($handler != 'database')
-			{
-				$columns[] = $db->quoteName('time');
-				$time = $session->isNew() ? time() : $session->get('session.timer.start');
-				$values[]  = (int) $time;
-			}
-
-			if (!$this->get('shared_session', '0'))
-			{
-				$columns[] = $db->quoteName('client_id');
-				$values[] = (int) $this->getClientId();
-			}
-
-			try
-			{
-				$db->setQuery(
-					$db->getQuery(true)
-						->insert($db->quoteName('#__session'))
-						->columns($columns)
-						->values(implode(', ', $values))
-				)->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				/*
-				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-				 * As this query only deals with session metadata, if the session handler is using the database then the handler will
-				 * try again to insert/update the important parts of the data otherwise in a worst case scenario the user's session does
-				 * not persist beyond this request.  When non-database session handlers are in use, this really doesn't matter.
-				 */
-			}
-		}
+		$this->metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
 	}
 
 	/**
