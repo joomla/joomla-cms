@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Log\Log;
 
 /**
  * The HTML Menus Menu Item View.
@@ -48,7 +51,7 @@ class XmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menutype = $app->input->getCmd('menutype');
 
 		if ($menutype)
@@ -58,9 +61,9 @@ class XmlView extends BaseHtmlView
 
 		if (empty($items))
 		{
-			\JLog::add(\JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
 
-			$app->redirect(\JRoute::_('index.php?option=com_menus&view=menus', false));
+			$app->redirect(Route::_('index.php?option=com_menus&view=menus', false));
 
 			return;
 		}
@@ -80,7 +83,7 @@ class XmlView extends BaseHtmlView
 
 		if (headers_sent($file, $line))
 		{
-			\JLog::add("Headers already sent at $file:$line.", \JLog::ERROR, 'jerror');
+			Log::add("Headers already sent at $file:$line.", Log::ERROR, 'jerror');
 
 			return;
 		}

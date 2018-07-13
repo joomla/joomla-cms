@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,45 +34,6 @@ Joomla = window.Joomla || {};
 		window.open(mypage, myname, winprops).window.focus();
 	};
 
-	Joomla.processScrollInit = function() {
-		var subhead = document.getElementById('subhead');
-		var wrapper = document.getElementById('wrapper');
-
-		if (subhead) {
-			// Fix toolbar and footer width for edit views
-			if (wrapper.classList.contains('wrapper0')) {
-				subhead.style.left = 0;
-			}
-
-			navTop = document.querySelector('.subhead').offsetHeight;
-
-			// Only apply the scrollspy when the toolbar is not collapsed
-			if (document.body.clientWidth > 480) {
-				document.querySelector('.subhead-collapse').style.height = document.querySelector('.subhead').style.height;
-				subhead.style.width = 'auto';
-			}
-		}
-	}
-
-	Joomla.processScroll = function() {
-		var subhead = document.getElementById('subhead');
-
-		if (subhead) {
-			var scrollTop = (window.pageYOffset || subhead.scrollTop)  - (subhead.clientTop || 0);
-
-			if (scrollTop >= navTop && !isFixed) {
-				isFixed = true;
-				subhead.classList.add('subhead-fixed');
-			} else if (scrollTop <= navTop && isFixed) {
-				isFixed = false;
-				subhead.classList.remove('subhead-fixed');
-			}
-		}
-	}
-
-	var navTop;
-	var isFixed = false;
-
 	document.addEventListener('DOMContentLoaded', function() {
 		/**
 		 * Fix the alignment of the Options and Help toolbar buttons
@@ -86,15 +47,6 @@ Joomla = window.Joomla || {};
 		if (toolbarOptions && !toolbarHelp) {
 			toolbarOptions.classList.add('ml-auto');
 		}
-
-		/**
-		 * Sticky Toolbar
-		 */
-		Joomla.processScrollInit();
-		Joomla.processScroll();
-
-		document.addEventListener('resize', Joomla.processScrollInit, false);
-		document.addEventListener('scroll', Joomla.processScroll);
 
 	});
 })(Joomla, document);

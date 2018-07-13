@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ class FiltersField extends FormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config" class="table table-striped">';
+		$html[] = '<table id="filter-config" class="table">';
 
 		// The table heading.
 		$html[] = '	<thead>';
@@ -55,16 +55,13 @@ class FiltersField extends FormField
 		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . \JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '">'
-				. \JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '">'
-				. \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '">'
-				. \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';
@@ -89,6 +86,7 @@ class FiltersField extends FormField
 			$html[] = '			' . \JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="sr-only">' . \JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
@@ -107,20 +105,21 @@ class FiltersField extends FormField
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="sr-only">' . \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate form-control"'
-				. ' title="' . \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '"'
 				. ' value="' . $group_filter['filter_tags'] . '"'
 				. '>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_attributes"'
+				. ' class="sr-only">' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate form-control"'
-				. ' title="' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '"'
 				. ' value="' . $group_filter['filter_attributes'] . '"'
 				. '>';
 			$html[] = '		</td>';

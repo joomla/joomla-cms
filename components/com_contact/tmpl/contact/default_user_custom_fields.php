@@ -3,11 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $params             = $this->item->params;
 $presentation_style = $params->get('presentation_style');
@@ -31,16 +35,16 @@ $userFieldGroups    = array();
 <?php endforeach; ?>
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
-	<?php $id = JApplicationHelper::stringURLSafe($groupTitle); ?>
+	<?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
 	<?php if ($presentation_style == 'sliders') : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
+		<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')); ?>
 	<?php elseif ($presentation_style == 'plain') : ?>
-		<?php echo '<h3>' . ($groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
+		<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 	<?php endif; ?>
 
-	<div class="contact-profile" id="user-custom-fields-<?php echo $id; ?>">
+	<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
 		<?php foreach ($fields as $field) : ?>
 			<?php if (!$field->value) : ?>
@@ -48,7 +52,7 @@ $userFieldGroups    = array();
 			<?php endif; ?>
 
 			<?php if ($field->params->get('showlabel')) : ?>
-				<?php echo '<dt>' . JText::_($field->label) . '</dt>'; ?>
+				<?php echo '<dt>' . Text::_($field->label) . '</dt>'; ?>
 			<?php endif; ?>
 
 			<?php echo '<dd>' . $field->value . '</dd>'; ?>
@@ -57,8 +61,8 @@ $userFieldGroups    = array();
 	</div>
 
 	<?php if ($presentation_style == 'sliders') : ?>
-		<?php echo JHtml::_('bootstrap.endSlide'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
 <?php endforeach; ?>

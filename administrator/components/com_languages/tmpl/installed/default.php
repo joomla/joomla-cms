@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if (empty($this->rows)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
 							<th style="width:1%">

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -30,7 +30,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
-			<table class="table table-striped" id="moduleList">
+			<table class="table" id="moduleList">
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap center">

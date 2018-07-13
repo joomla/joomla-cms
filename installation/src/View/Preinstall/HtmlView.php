@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,14 @@ class HtmlView extends DefaultView
 	protected $options;
 
 	/**
+	 * The default model
+	 *
+	 * @var	   string
+	 * @since  3.0
+	 */
+	protected $_defaultModel = 'checks';
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -39,7 +47,7 @@ class HtmlView extends DefaultView
 	 */
 	public function display($tpl = null)
 	{
-		$this->options  = $this->get('PhpOptions', 'Checks');
+		$this->options = $this->get('PhpOptions');
 
 		return parent::display($tpl);
 	}

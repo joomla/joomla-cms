@@ -3,7 +3,7 @@
 	<name>plg_fields_textarea</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -26,7 +26,6 @@
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
 					default="10"
-					size="5"
 				/>
 
 				<field
@@ -34,7 +33,6 @@
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
 					default="10"
-					size="5"
 				/>
 
 				<field

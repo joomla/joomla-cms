@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ if ($saveOrder && !empty($this->items))
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="newsfeedList">
+					<table class="table" id="newsfeedList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">

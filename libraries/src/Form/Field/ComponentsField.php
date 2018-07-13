@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -62,7 +63,7 @@ class ComponentsField extends \JFormFieldList
 					|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
 
 				// Translate component name
-				$item->text = \JText::_($item->text);
+				$item->text = Text::_($item->text);
 			}
 
 			// Sort by component name

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Tags\Administrator\Controller;
@@ -11,6 +11,8 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Tag Controller
@@ -60,7 +62,7 @@ class TagController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Tag');

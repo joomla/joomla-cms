@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ $attributes = array(
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
 	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',

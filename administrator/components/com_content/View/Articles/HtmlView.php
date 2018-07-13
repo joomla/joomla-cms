@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,15 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Factory;
+
+\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
  * View class for a list of articles.
@@ -74,7 +82,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Array used for displaying the levels filter
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 * @since  4.0.0
 	 */
 	protected $f_levels;
@@ -90,7 +98,7 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() !== 'modal')
 		{
-			ContentHelper::addSubmenu('articles');
+			\ContentHelper::addSubmenu('articles');
 		}
 
 		$this->items         = $this->get('Items');
@@ -99,7 +107,7 @@ class HtmlView extends BaseHtmlView
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->vote          = \JPluginHelper::isEnabled('content', 'vote');
+		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -114,7 +122,7 @@ class HtmlView extends BaseHtmlView
 			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!\JLanguageMultilang::isEnabled())
+			if (!Multilanguage::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
@@ -124,7 +132,7 @@ class HtmlView extends BaseHtmlView
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -150,27 +158,38 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = \JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-		$user  = \JFactory::getUser();
+		$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
-		\JToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
+		ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('article.add');
+			$toolbar->addNew('article.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-			\JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			\JToolbarHelper::archiveList('articles.archive');
-			\JToolbarHelper::checkin('articles.checkin');
+			$toolbar->publish('articles.publish')->listCheck(true);
+
+			$toolbar->unpublish('articles.unpublish')->listCheck(true);
+
+			$toolbar->standardButton('featured')
+				->text('JFEATURE')
+				->task('articles.featured')
+				->listCheck(true);
+
+			$toolbar->standardButton('unfeatured')
+				->text('JUNFEATURE')
+				->task('articles.unfeatured')
+				->listCheck(true);
+
+			$toolbar->archive('articles.archive')->listCheck(true);
+
+			$toolbar->checkin('articles.checkin')->listCheck(true);
 		}
 
 		// Add a batch button
@@ -178,30 +197,30 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_content')
 			&& $user->authorise('core.edit.state', 'com_content'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new \JLayoutFile('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+			$toolbar->delete('articles.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('articles.trash');
+			$toolbar->trash('articles.trash')->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
 		{
-			\JToolbarHelper::preferences('com_content');
+			$toolbar->preferences('com_content');
 		}
 
-		\JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
+		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
 	}
 
 	/**
@@ -214,16 +233,16 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'        => \JText::_('JSTATUS'),
-			'a.title'        => \JText::_('JGLOBAL_TITLE'),
-			'category_title' => \JText::_('JCATEGORY'),
-			'access_level'   => \JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by'   => \JText::_('JAUTHOR'),
-			'language'       => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.created'      => \JText::_('JDATE'),
-			'a.id'           => \JText::_('JGRID_HEADING_ID'),
-			'a.featured'     => \JText::_('JFEATURED')
+			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
+			'a.state'        => Text::_('JSTATUS'),
+			'a.title'        => Text::_('JGLOBAL_TITLE'),
+			'category_title' => Text::_('JCATEGORY'),
+			'access_level'   => Text::_('JGRID_HEADING_ACCESS'),
+			'a.created_by'   => Text::_('JAUTHOR'),
+			'language'       => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.created'      => Text::_('JDATE'),
+			'a.id'           => Text::_('JGRID_HEADING_ID'),
+			'a.featured'     => Text::_('JFEATURED')
 		);
 	}
 }

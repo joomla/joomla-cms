@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,5 +61,5 @@ $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize());
 	<?php echo $disabled ? ' disabled' : ''; ?>
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
-	<?php echo $required ? ' required aria-required="true"' : ''; ?>><br>
+	<?php echo $required ? ' required' : ''; ?>><br>
 	<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>

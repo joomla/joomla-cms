@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="overrideList">
+					<table class="table" id="overrideList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="text-center">

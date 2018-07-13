@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,6 +104,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		{
 			return true;
 		}
+
 		// Remove the items.
 		return $this->remove($id);
 	}
@@ -188,6 +189,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		{
 			$this->itemStateChange($pks, $value);
 		}
+
 		// Handle when the plugin is disabled
 		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
@@ -223,10 +225,11 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		$item->metadata = new Registry($item->metadata);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+
+		// Build the necessary route and path information.
 		$item->route = TagsHelperRoute::getTagRoute($item->slug);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);

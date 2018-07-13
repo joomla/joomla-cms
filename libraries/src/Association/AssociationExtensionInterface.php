@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,4 +25,16 @@ interface AssociationExtensionInterface
 	 * @since   3.7.0
 	 */
 	public function hasAssociationsSupport();
+
+	/**
+	 * Method to get the associations for a given item.
+	 *
+	 * @param   integer  $id    Id of the item
+	 * @param   string   $view  Name of the view
+	 *
+	 * @return  array   Array of associations for the item
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssociationsForItem($id = 0, $view = null);
 }

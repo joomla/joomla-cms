@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ namespace Joomla\Component\Content\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of featured article records.
@@ -75,7 +77,7 @@ class FeaturedModel extends ArticlesModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -112,7 +114,7 @@ class FeaturedModel extends ArticlesModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join on voting table
-		if (\JPluginHelper::isEnabled('content', 'vote'))
+		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')

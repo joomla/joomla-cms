@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -128,6 +128,11 @@ class ScriptsRenderer extends DocumentRenderer
 			if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultJsMimes)))
 			{
 				$buffer .= ' type="' . $type . '"';
+			}
+
+			if ($this->_doc->scriptNonce)
+			{
+				$buffer .= ' nonce="' . $this->_doc->scriptNonce . '"';
 			}
 
 			$buffer .= '>' . $lnEnd;

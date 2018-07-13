@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ if (!count($images))
 }
 ?>
 
-<div class="random-image">
+<div class="mod-randomimage random-image">
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>">
 <?php endif; ?>

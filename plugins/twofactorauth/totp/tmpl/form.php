@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp.tmpl
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ use Joomla\CMS\Language\Text;
 		<p>
 			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_TEXT') ?>
 		</p>
-		<table class="table table-striped">
+		<table class="table">
 			<tr>
 				<td>
 					<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ACCOUNT') ?>

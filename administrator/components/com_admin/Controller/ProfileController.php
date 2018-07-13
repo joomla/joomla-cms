@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Admin\Administrator\Controller;
@@ -11,6 +11,7 @@ namespace Joomla\Component\Admin\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Router\Route;
 
 /**
  * User profile controller class.
@@ -48,14 +49,14 @@ class ProfileController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$this->setRedirect(\JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->app->getIdentity()->id, false));
+		$this->setRedirect(Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->app->getIdentity()->id, false));
 
 		$return = parent::save();
 
 		if ($this->getTask() != 'apply')
 		{
 			// Redirect to the main page.
-			$this->setRedirect(\JRoute::_('index.php', false));
+			$this->setRedirect(Route::_('index.php', false));
 		}
 
 		return $return;
@@ -75,7 +76,7 @@ class ProfileController extends FormController
 		$return = parent::cancel($key);
 
 		// Redirect to the main page.
-		$this->setRedirect(\JRoute::_('index.php', false));
+		$this->setRedirect(Route::_('index.php', false));
 
 		return $return;
 	}

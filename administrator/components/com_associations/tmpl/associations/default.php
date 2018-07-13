@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="associationsList">
+					<table class="table" id="associationsList">
 					<thead>
 						<tr>
 							<?php if (!empty($this->typeSupports['state'])) : ?>

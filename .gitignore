@@ -31,9 +31,6 @@ node_modules/
 /build/assets_tmp
 /scss-lint-report.xml
 /dev/assets/packages.json
-# We are ignoring this as a temporary measure until Node 8 and npm5 become the LTS release
-# and we can require it.
-package-lock.json
 yarn.lock
 
 # Removed in Joomla 4 #
@@ -221,6 +218,11 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+/libraries/vendor/wamania/php-stemmer/.gitignore
+/libraries/vendor/wamania/php-stemmer/README.md
+/libraries/vendor/wamania/php-stemmer/composer.json
+/libraries/vendor/wamania/php-stemmer/phpunit.xml.dist
+/libraries/vendor/wamania/php-stemmer/test
 /libraries/vendor/zendframework/zend-diactoros/.coveralls.yml
 /libraries/vendor/zendframework/zend-diactoros/CHANGELOG.md
 /libraries/vendor/zendframework/zend-diactoros/composer.json
@@ -248,3 +250,7 @@ composer.phar
 
 # Build related
 RoboFile.ini
+
+# Media Manager
+/media/com_media/js/mediamanager.min.js.map
+/media/com_media/css/mediamanager.min.css.map

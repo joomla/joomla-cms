@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -48,7 +49,7 @@ class AccesslevelField extends \JFormFieldList
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->required ? ' required' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
@@ -57,6 +58,6 @@ class AccesslevelField extends \JFormFieldList
 		// Get the field options.
 		$options = $this->getOptions();
 
-		return \JHtml::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
+		return HTMLHelper::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
 	}
 }

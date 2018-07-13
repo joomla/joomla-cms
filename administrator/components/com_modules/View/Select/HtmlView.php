@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Modules\Administrator\View\Select;
@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * HTML View class for the Modules component
@@ -73,17 +76,17 @@ class HtmlView extends BaseHtmlView
 		// Add page title
 		if ($state->get('client_id') == 1)
 		{
-			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
 		else
 		{
-			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
 		}
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
-		// Instantiate a new \JLayoutFile instance and render the layout
+		// Instantiate a new FileLayout instance and render the layout
 		$layout = new FileLayout('toolbar.cancelselect');
 
 		$bar->appendButton('Custom', $layout->render(array()), 'new');

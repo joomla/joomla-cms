@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 ?>
-<ul class="newsflash-vert">
+<ul class="mod-articlesnews-vertical newsflash-vert">
 	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>
 		<?php $item = $list[$i]; ?>
 		<li class="newsflash-item">

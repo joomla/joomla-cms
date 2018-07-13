@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 <ul class="list-group list-group-flush">
 	<?php foreach ($users as $user) : ?>
 		<li class="d-flex justify-content-start list-group-item">
-			<div class="fg-1">
+			<div class="flex-grow-1">
 				<?php if ($user->client_id == 0) : ?>
-					<a title="<?php echo HTMLHelper::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs hasTooltip">
+					<a title="<?php echo HTMLHelper::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-sm hasTooltip">
 						<span class="icon-remove icon-white" aria-hidden="true"><span class="sr-only"><?php echo Text::_('JLOGOUT'); ?></span></span>
 					</a>
 				<?php endif; ?>

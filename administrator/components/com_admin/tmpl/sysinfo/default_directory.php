@@ -3,22 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
-	<table class="table table-striped">
+	<legend><?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
+	<table class="table">
 		<thead>
 			<tr>
 				<th style="width:650px">
-					<?php echo JText::_('COM_ADMIN_DIRECTORY'); ?>
+					<?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('COM_ADMIN_STATUS'); ?>
+					<?php echo Text::_('COM_ADMIN_STATUS'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -31,10 +35,10 @@ defined('_JEXEC') or die;
 			<?php foreach ($this->directory as $dir => $info) : ?>
 				<tr>
 					<td>
-						<?php echo JHtml::_('directory.message', $dir, $info['message']); ?>
+						<?php echo HTMLHelper::_('directory.message', $dir, $info['message']); ?>
 					</td>
 					<td>
-						<?php echo JHtml::_('directory.writable', $info['writable']); ?>
+						<?php echo HTMLHelper::_('directory.writable', $info['writable']); ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contact\Site\Model;
@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Featured contact model class.
@@ -61,6 +62,7 @@ class FeaturedModel extends ListModel
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$item = &$items[$i];
+
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);
@@ -79,7 +81,7 @@ class FeaturedModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -105,13 +107,14 @@ class FeaturedModel extends ListModel
 
 		// Filter by state
 		$state = $this->getState('filter.published');
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
 
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
-			$date = \JFactory::getDate();
+			$date = Factory::getDate();
 			$nowDate = $db->quote($date->toSql());
 
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
@@ -121,7 +124,7 @@ class FeaturedModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
@@ -144,7 +147,7 @@ class FeaturedModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_contact');
 
 		// List state information
@@ -155,20 +158,25 @@ class FeaturedModel extends ListModel
 		$this->setState('list.start', $limitstart);
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
+
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
+
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
+
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
+
 		$this->setState('list.direction', $listOrder);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
+
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{
 			// Limit to published for people who can't edit or edit.state.

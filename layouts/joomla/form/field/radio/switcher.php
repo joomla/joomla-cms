@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,8 +64,12 @@ HTMLHelper::_('webcomponent',
 );
 
 // Set the type of switcher
-$type = str_replace('switcher switcher-', '', trim($class));
-$type = $type === 'switcher' ? '' : 'type="' . $type . '"';
+$type = '';
+
+if ($pos = strpos($class, 'switcher-'))
+{
+	$type = 'type="' . strtok(substr($class, $pos + 9), ' ') . '"';
+}
 
 // Add the attributes of the fieldset in an array
 $attribs = [
@@ -80,6 +84,16 @@ if (!empty($disabled))
 	$attribs[] = 'disabled';
 }
 
+if (!empty($onclick))
+{
+	$attribs[] = 'onclick="' . $onclick . '()"';
+}
+
+if (!empty($onchange))
+{
+	$attribs[] = 'onchange="' . $onchange . '()"';
+}
+
 ?>
 <joomla-field-switcher <?php echo implode(' ', $attribs); ?>>
 	<?php foreach ($options as $i => $option) : ?>
@@ -89,11 +103,9 @@ if (!empty($disabled))
 		$active  = ((string) $option->value == $value) ? 'class="active"' : '';
 
 		// Initialize some JavaScript option attributes.
-		$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-		$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 		$oid        = $id . $i;
 		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes = array_filter(array($checked, $active, null, $onchange, $onclick));
+		$attributes = array_filter(array($checked, $active, null));
 		?>
 		<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 	<?php endforeach; ?>

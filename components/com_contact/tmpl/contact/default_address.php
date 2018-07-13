@@ -3,18 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Marker_class: Class based on the selection of text, none, or icons
  * jicon-text, jicon-none, jicon-icon
  */
 ?>
-<dl class="contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+<dl class="com-contact__address contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
 	<?php if (($this->params->get('address_check') > 0) &&
 		($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
 		<dt>
@@ -123,7 +125,7 @@ defined('_JEXEC') or die;
 	<dd>
 		<span class="contact-webpage">
 			<a href="<?php echo $this->contact->webpage; ?>" target="_blank" rel="noopener noreferrer" itemprop="url">
-			<?php echo JStringPunycode::urlToUTF8($this->contact->webpage); ?></a>
+			<?php echo PunycodeHelper::urlToUTF8($this->contact->webpage); ?></a>
 		</span>
 	</dd>
 <?php endif; ?>

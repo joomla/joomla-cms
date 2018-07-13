@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Redirect\Administrator\Table;
@@ -101,7 +101,7 @@ class LinkTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from('#__redirect_links')
-			->where($db->quoteName('old_url') . ' = ' . $db->quote($this->old_url));
+			->where($db->quoteName('old_url') . ' = ' . $db->quote(rawurlencode($this->old_url)));
 		$db->setQuery($query);
 
 		$xid = (int) $db->loadResult();

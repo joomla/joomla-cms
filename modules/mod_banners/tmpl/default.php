@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Banners\Site\Helper\BannerHelper;
 ?>
-<div class="bannergroup">
+<div class="mod-banners bannergroup">
 <?php if ($headerText) : ?>
 	<?php echo $headerText; ?>
 <?php endif; ?>
 
 <?php foreach ($list as $item) : ?>
-	<div class="banneritem">
+	<div class="mod-banners__item banneritem">
 		<?php $link = Route::_('index.php?option=com_banners&task=click&id=' . $item->id); ?>
 		<?php if ($item->type == 1) : ?>
 			<?php // Text based banners ?>
@@ -109,7 +109,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 <?php endforeach; ?>
 
 <?php if ($footerText) : ?>
-	<div class="bannerfooter">
+	<div class="mod-banners__footer bannerfooter">
 		<?php echo $footerText; ?>
 	</div>
 <?php endif; ?>

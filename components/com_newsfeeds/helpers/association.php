@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
@@ -32,7 +34,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 	 */
 	public static function getAssociations($id = 0, $view = null)
 	{
-		$jinput = JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 

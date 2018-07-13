@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Site\Controller;
@@ -38,7 +38,28 @@ class SuggestionsController extends BaseController
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 		echo '{ "suggestions": ' . json_encode($suggestions) . ' }';
-		$app->close();
+	}
+
+	/**
+	 * Method to find search query suggestions for OpenSearch
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function opensearchsuggest()
+	{
+		$app = $this->app;
+		$app->mimeType = 'application/json';
+		$result = array();
+		$result[] = $app->input->request->get('q', '', 'string');
+
+		$result[] = $this->getSuggestions();
+
+		// Send the response.
+		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
+		$app->sendHeaders();
+		echo json_encode($result);
 	}
 
 	/**
@@ -57,7 +78,7 @@ class SuggestionsController extends BaseController
 		if ($params->get('show_autosuggest', 1))
 		{
 			// Get the suggestions.
-			$model = $this->getModel('Suggestions', 'FinderModel');
+			$model = $this->getModel('Suggestions');
 			$return = $model->getItems();
 		}
 

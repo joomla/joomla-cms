@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Controller;
@@ -101,7 +101,7 @@ class NewsfeedController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		 \JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Newsfeed', '', array());

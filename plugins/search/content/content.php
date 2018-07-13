@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ class PlgSearchContent extends CMSPlugin
 					->where('cfv.value LIKE ' . $text);
 
 				// Filter by language.
-				if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+				if ($app->isClient('site') && Multilanguage::isEnabled())
 				{
 					$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 				}
@@ -165,7 +165,7 @@ class PlgSearchContent extends CMSPlugin
 							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
 
 						// Filter by language.
-						if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+						if ($app->isClient('site') && Multilanguage::isEnabled())
 						{
 							$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 						}
@@ -189,6 +189,7 @@ class PlgSearchContent extends CMSPlugin
 					{
 						$cfwhere[] = 'LOWER(cfv.value) LIKE LOWER(' . $word . ')';
 					}
+
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
@@ -205,7 +206,7 @@ class PlgSearchContent extends CMSPlugin
 						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');
 
 					// Filter by language.
-					if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+					if ($app->isClient('site') && Multilanguage::isEnabled())
 					{
 						$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 					}
@@ -305,6 +306,7 @@ class PlgSearchContent extends CMSPlugin
 				$list = array();
 				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
+
 			$limit -= count($list);
 
 			if (isset($list))

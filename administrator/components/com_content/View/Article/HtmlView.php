@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,12 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit an article.
@@ -74,7 +80,7 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = \JHelperContent::getActions('com_content', 'article', $this->item->id);
+		$this->canDo = ContentHelper::getActions('com_content', 'article', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -83,7 +89,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -110,8 +116,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
-		$user       = \JFactory::getUser();
+		Factory::getApplication()->input->set('hidemainmenu', true);
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -119,72 +125,74 @@ class HtmlView extends BaseHtmlView
 		// Built the actions for new and existing records.
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(
-			\JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+		$toolbar = Toolbar::getInstance();
+
+		ToolbarHelper::title(
+			Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
 			'pencil-2 article-add'
 		);
+
+		$saveGroup = $toolbar->dropdownButton('save-group');
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
-			\JToolbarHelper::saveGroup(
-				[
-					['apply', 'article.apply'],
-					['save', 'article.save'],
-					['save2new', 'article.save2new']
-				],
-				'btn-success'
-			);
-
-			\JToolbarHelper::cancel('article.cancel');
+			$saveGroup->configure(
+					function (Toolbar $childBar)
+					{
+						$childBar->apply('article.apply');
+						$childBar->save('article.save');
+						$childBar->save2new('article.save2new');
+					}
+				);
 		}
 		else
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			$toolbarButtons = [];
+			$saveGroup->configure(
+					function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+					{
+						// Can't save the record if it's checked out and editable
+						if (!$checkedOut && $itemEditable)
+						{
+							$childBar->apply('article.apply');
+							$childBar->save('article.save');
 
-			// Can't save the record if it's checked out and editable
-			if (!$checkedOut && $itemEditable)
+							// We can save this record, but check the create permission to see if we can return to make a new one.
+							if ($canDo->get('core.create'))
+							{
+								$childBar->save2new('article.save2new');
+							}
+						}
+
+						// If checked out, we can still save
+						if ($canDo->get('core.create'))
+						{
+							$childBar->save2copy('article.save2copy');
+						}
+					}
+				);
+
+			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				$toolbarButtons[] = ['apply', 'article.apply'];
-				$toolbarButtons[] = ['save', 'article.save'];
-
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
-				{
-					$toolbarButtons[] = ['save2new', 'article.save2new'];
-				}
-			}
-
-			// If checked out, we can still save
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'article.save2copy'];
-			}
-
-			\JToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
-
-			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
-			{
-				\JToolbarHelper::versions('com_content.article', $this->item->id);
+				$toolbar->versions('com_content.article', $this->item->id);
 			}
 
 			if (!$isNew)
 			{
 				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
 				$url = \ContentHelperPreview::url($this->item);
-				\JToolbarHelper::preview($url, \JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
+					->bodyHeight(80)
+					->modalWidth(90);
 			}
-
-			\JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
+		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
+
+		$toolbar->divider();
+		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
 	}
 }

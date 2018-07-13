@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\View\Item;
@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * The HTML Menus Menu Item View.
@@ -85,7 +87,7 @@ class HtmlView extends BaseHtmlView
 		// No need to check for create, because then the moduletype select is empty
 		if (!empty($this->item->id) && !$this->canDo->get('core.edit'))
 		{
-			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for errors.
@@ -95,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -118,15 +120,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		ToolbarHelper::title(\JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
 		$toolbarButtons = [];
 
@@ -177,14 +179,14 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 
 		// Get the help information for the menu item.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url   = \JText::_($help->url);
+			$url   = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else

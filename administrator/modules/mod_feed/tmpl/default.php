@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,6 @@ else
 		// Feed description
 		if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
 			<h2 class="<?php echo $direction; ?>">
-			<h2>
 				<a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
 				<?php echo $feed->title; ?></a>
 			</h2>
@@ -87,7 +86,7 @@ else
 
 	<?php // Show items ?>
 	<?php if (!empty($feed)) : ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?> list-group">
 		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) :
 
 			if (!$feed->offsetExists($i)) :
@@ -97,7 +96,7 @@ else
 			$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
 			$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 			?>
-				<li>
+				<li class="list-group-item mb-2">
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
 						<a href="<?php echo $uri; ?>" target="_blank">

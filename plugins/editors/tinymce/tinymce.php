@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -524,7 +524,7 @@ class PlgEditorTinymce extends CMSPlugin
 		if ($custom_button)
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
-			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
+			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
 		// Build the final options set

@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Tags\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * Tags Component Tags Model
@@ -126,7 +129,7 @@ class TagsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -257,7 +260,7 @@ class TagsModel extends ListModel
 					// Only attempt to check the row in if it exists.
 					if ($pk)
 					{
-						$user = \JFactory::getUser();
+						$user = Factory::getUser();
 
 						// Get an instance of the row to checkin.
 						$table = $this->getTable();
@@ -272,7 +275,7 @@ class TagsModel extends ListModel
 						// Check if this is the user having previously checked out the row.
 						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 						{
-							$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+							$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
 							return false;
 						}
@@ -350,7 +353,6 @@ class TagsModel extends ListModel
 	public function countItems(&$items, $extension)
 	{
 		$parts = explode('.', $extension);
-		$component = $parts[0];
 		$section = null;
 
 		if (count($parts) < 2)
@@ -358,21 +360,11 @@ class TagsModel extends ListModel
 			return;
 		}
 
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if (file_exists($file))
+		if ($component instanceof CategoriesServiceInterface)
 		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
-			{
-				$cName::countTagItems($items, $extension);
-			}
+			$component->countTagItems($items, $extension);
 		}
 	}
 }

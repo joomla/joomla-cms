@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Administrator\Model;
@@ -342,13 +342,7 @@ class IndexModel extends ListModel
 		$db->truncateTable('#__finder_links');
 
 		// Truncate the links terms tables.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Get the mapping table suffix.
-			$suffix = dechex($i);
-
-			$db->truncateTable('#__finder_links_terms' . $suffix);
-		}
+		$db->truncateTable('#__finder_links_terms');
 
 		// Truncate the terms table.
 		$db->truncateTable('#__finder_terms');
@@ -356,12 +350,10 @@ class IndexModel extends ListModel
 		// Truncate the taxonomy map table.
 		$db->truncateTable('#__finder_taxonomy_map');
 
-		// Delete all the taxonomy nodes except the root.
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('id') . ' > 1');
-		$db->setQuery($query);
-		$db->execute();
+		// Truncate the taxonomy table and insert the root node.
+		$db->truncateTable('#__finder_taxonomy');
+		$root = (object) array('id' => 1, 'parent_id' => 0, 'title' => 'ROOT', 'state' => 0, 'access' => 0, 'ordering' => 0);
+		$db->insertObject('#__finder_taxonomy', $root);
 
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');

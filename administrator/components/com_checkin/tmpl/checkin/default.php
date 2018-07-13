@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if ($this->total > 0) : ?>
-					<table id="global-checkin" class="table table-striped">
+					<table id="global-checkin" class="table">
 						<thead>
 							<tr>
 								<th style="width:1%"><?php echo JHtml::_('grid.checkall'); ?></th>
