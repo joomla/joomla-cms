@@ -25,6 +25,14 @@ use Joomla\CMS\Form\FormFactoryInterface;
 abstract class AdminModel extends FormModel
 {
 	/**
+	 * The type alias for this content type (for example, 'com_content.article').
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $typeAlias;
+
+	/**
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string

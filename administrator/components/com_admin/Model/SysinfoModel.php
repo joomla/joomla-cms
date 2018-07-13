@@ -244,11 +244,13 @@ class SysInfoModel extends BaseDatabaseModel
 			return $this->php_settings;
 		}
 
+		$outputBuffering = ini_get('output_buffering');
+
 		$this->php_settings = array(
 			'display_errors'     => ini_get('display_errors') == '1',
 			'short_open_tag'     => ini_get('short_open_tag') == '1',
 			'file_uploads'       => ini_get('file_uploads') == '1',
-			'output_buffering'   => (bool) ini_get('output_buffering'),
+			'output_buffering'   => ($outputBuffering === 'On') ? true : is_numeric($outputBuffering),
 			'open_basedir'       => ini_get('open_basedir'),
 			'session.save_path'  => ini_get('session.save_path'),
 			'session.auto_start' => ini_get('session.auto_start'),
