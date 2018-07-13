@@ -73,7 +73,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 				'icon'  => 'header/icon-48-user.png',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',
-				'group' => 'MOD_QUICKICON_MAINTENANCE'
+				'group' => 'MOD_QUICKICON_USERS'
 			)
 		);
 	}
