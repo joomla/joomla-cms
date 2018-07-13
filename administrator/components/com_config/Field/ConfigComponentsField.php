@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Factory;
 
 \JFormHelper::loadFieldClass('List');
