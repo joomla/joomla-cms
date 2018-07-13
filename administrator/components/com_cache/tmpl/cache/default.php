@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-\Joomla\CMS\HTML\HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
