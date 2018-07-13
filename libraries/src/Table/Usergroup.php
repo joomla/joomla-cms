@@ -160,12 +160,12 @@ class Usergroup extends Table
 
 		if ($this->id == 0)
 		{
-			throw new \UnexpectedValueException('Global Category not found');
+			throw new \UnexpectedValueException('Usergroup not found');
 		}
 
 		if ($this->parent_id == 0)
 		{
-			throw new \UnexpectedValueException('Root categories cannot be deleted.');
+			throw new \UnexpectedValueException('Root usergroup cannot be deleted.');
 		}
 
 		if ($this->lft == 0 || $this->rgt == 0)
@@ -188,9 +188,6 @@ class Usergroup extends Table
 		{
 			throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
-
-		// Delete the category dependencies
-		// @todo Remove all related threads, posts and subscriptions
 
 		// Delete the usergroup and its children
 		$query->clear()
