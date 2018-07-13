@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
