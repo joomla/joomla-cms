@@ -330,7 +330,7 @@ class MysqlChangeItem extends ChangeItem
 	 *
 	 * @return  string  The query clause for NULL check in the check query
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	private function checkNull($changesArray)
 	{
@@ -361,7 +361,7 @@ class MysqlChangeItem extends ChangeItem
 	 *
 	 * @return  string  The query clause for DEFAULT check in the check query
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	private function checkDefault($changesArray, $type)
 	{

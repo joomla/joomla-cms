@@ -28,7 +28,7 @@ abstract class AdminModel extends FormModel
 	 * The type alias for this content type (for example, 'com_content.article').
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.6
 	 */
 	public $typeAlias;
 

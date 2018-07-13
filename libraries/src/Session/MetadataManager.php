@@ -18,7 +18,7 @@ use Joomla\CMS\User\User;
 /**
  * Manager for optional session metadata.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.6
  * @internal
  */
 final class MetadataManager
@@ -27,7 +27,7 @@ final class MetadataManager
 	 * Application object.
 	 *
 	 * @var    AbstractApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.6
 	 */
 	private $app;
 
@@ -35,7 +35,7 @@ final class MetadataManager
 	 * Database driver.
 	 *
 	 * @var    \JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.6
 	 */
 	private $db;
 
@@ -45,7 +45,7 @@ final class MetadataManager
 	 * @param   AbstractApplication  $app  Application object.
 	 * @param   \JDatabaseDriver     $db   Database driver.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	public function __construct(AbstractApplication $app, \JDatabaseDriver $db)
 	{
@@ -61,7 +61,7 @@ final class MetadataManager
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 * @throws  \RuntimeException
 	 */
 	public function createRecordIfNonExisting(Session $session, User $user)
@@ -136,7 +136,7 @@ final class MetadataManager
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	public function deletePriorTo($time)
 	{

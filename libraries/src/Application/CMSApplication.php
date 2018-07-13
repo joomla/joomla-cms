@@ -84,7 +84,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The session metadata manager
 	 *
 	 * @var    MetadataManager
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.6
 	 */
 	protected $metadataManager = null;
 
