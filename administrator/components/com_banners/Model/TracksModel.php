@@ -15,7 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
 
