@@ -26,7 +26,9 @@ JHtml::_('behavior.formvalidator');
 	<form action="<?php echo JRoute::_('index.php?option=com_privacy&task=request.remind'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
-				<p><?php echo JText::_($fieldset->label); ?></p>
+				<?php if (!empty($fieldset->label)) : ?>
+					<legend><?php echo JText::_($fieldset->label); ?></legend>
+				<?php endif; ?>
 				<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
 					<?php echo $field->renderField(); ?>
 				<?php endforeach; ?>
