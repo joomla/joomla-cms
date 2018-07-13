@@ -24,6 +24,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filesystem\Folder;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
@@ -649,7 +650,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				// or the related home page does not exist/has been unpublished
 				if (!array_key_exists($lang_code, $this->lang_codes)
 					|| !array_key_exists($lang_code, Multilanguage::getSiteHomePages())
-					|| !JFolder::exists(JPATH_SITE . '/language/' . $lang_code))
+					|| !Folder::exists(JPATH_SITE . '/language/' . $lang_code))
 				{
 					$lang_code = $this->current_lang;
 				}
@@ -674,7 +675,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					}
 
 					// Retrieves the Itemid from a login form.
-					$uri = new JUri($this->app->getUserState('users.login.form.return'));
+					$uri = new Uri($this->app->getUserState('users.login.form.return'));
 
 					if ($uri->getVar('Itemid'))
 					{
