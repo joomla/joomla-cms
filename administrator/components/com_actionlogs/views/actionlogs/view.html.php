@@ -96,7 +96,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_ACTIONLOGS_MANAGER_USERLOGS'));
+		JToolbarHelper::title(JText::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'list-2');
 
 		JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'actionlogs.delete');
 		$bar = JToolbar::getInstance('toolbar');
