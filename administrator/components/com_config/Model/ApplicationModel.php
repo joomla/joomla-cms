@@ -24,7 +24,7 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
