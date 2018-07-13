@@ -79,7 +79,7 @@ class PrivacyViewCapabilities extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CAPABILITIES'), 'dashboard');
+		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CAPABILITIES'), 'lock');
 
 		JToolbarHelper::preferences('com_privacy');
 
