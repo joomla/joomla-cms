@@ -582,7 +582,12 @@ class PlgActionlogJoomla extends JPlugin
 
 		$jUser = JFactory::getUser();
 
-		if ($isnew)
+		if (!$jUser->id)
+		{
+			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTERED';
+			$action             = 'register';
+		}
+		elseif ($isnew)
 		{
 			$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_ADDED';
 			$action             = 'add';
@@ -593,18 +598,21 @@ class PlgActionlogJoomla extends JPlugin
 			$action             = 'update';
 		}
 
+		$userId = $jUser->id ?: $user['id'];
+		$username = $jUser->username ?: $user['username'];
+
 		$message = array(
 			'action'      => $action,
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user['id'],
 			'title'       => $user['name'],
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user['id'],
-			'userid'      => $jUser->id,
-			'username'    => $jUser->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $jUser->id,
+			'userid'      => $userId,
+			'username'    => $username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 		);
 
-		$this->addLog(array($message), $messageLanguageKey, $context);
+		$this->addLog(array($message), $messageLanguageKey, $context, $userId);
 	}
 
 	/**
