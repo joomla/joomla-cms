@@ -11,6 +11,8 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -63,19 +65,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
+		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
 
-		\JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
-		\JToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
-		\JToolbarHelper::divider();
+		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		ToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
+		ToolbarHelper::divider();
 
-		if (\JFactory::getUser()->authorise('core.admin', 'com_cache'))
+		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
 		{
-			\JToolbarHelper::preferences('com_cache');
+			ToolbarHelper::preferences('com_cache');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
 
 		\JHtmlSidebar::setAction('index.php?option=com_cache');
 	}
