@@ -10,7 +10,10 @@ namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -1287,14 +1290,23 @@ class CategoryModel extends AdminModel
 		if (!$assoc || !$component || !$cname)
 		{
 			$assoc = false;
-		}
-		else
-		{
-			$hname = $cname . 'HelperAssociation';
-			\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-			$assoc = class_exists($hname) && !empty($hname::$category_association);
+			return $assoc;
 		}
+
+		$componentObject = $this->bootComponent($component);
+
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		{
+			$assoc = true;
+
+			return $assoc;
+		}
+
+		$hname = $cname . 'HelperAssociation';
+		\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+
+		$assoc = class_exists($hname) && !empty($hname::$category_association);
 
 		return $assoc;
 	}

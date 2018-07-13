@@ -101,7 +101,7 @@ class LinkTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from('#__redirect_links')
-			->where($db->quoteName('old_url') . ' = ' . $db->quote($this->old_url));
+			->where($db->quoteName('old_url') . ' = ' . $db->quote(rawurlencode($this->old_url)));
 		$db->setQuery($query);
 
 		$xid = (int) $db->loadResult();
