@@ -160,7 +160,7 @@ class Usergroup extends Table
 
 		if ($this->id == 0)
 		{
-			throw new \UnexpectedValueException('Global usergroup not found');
+			throw new \UnexpectedValueException('Usergroup not found');
 		}
 
 		if ($this->parent_id == 0)
