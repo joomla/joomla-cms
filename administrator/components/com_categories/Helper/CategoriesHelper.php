@@ -8,6 +8,7 @@
  */
 namespace Joomla\Component\Categories\Administrator\Helper;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
@@ -117,11 +118,29 @@ class CategoriesHelper
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-		$associations = array();
+		$associations     = array();
+		$user             = Factory::getUser();
+		$groups           = implode(',', $user->getAuthorisedViewLevels());
 
 		foreach ($langAssociations as $langAssociation)
 		{
-			$associations[$langAssociation->language] = $langAssociation->id;
+			// Include only published categories with user access
+			$arrId    = explode(':', $langAssociation->id);
+			$assocId  = $arrId[0];
+			$db       = \JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->qn('published'))
+				->from($db->qn('#__categories'))
+				->where('access IN (' . $groups . ')')
+				->where($db->qn('id') . ' = ' . (int) $assocId);
+
+			$result = (int) $db->setQuery($query)->loadResult();
+
+			if ($result === 1)
+			{
+				$associations[$langAssociation->language] = $langAssociation->id;
+			}
 		}
 
 		return $associations;
