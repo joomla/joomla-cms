@@ -73,7 +73,7 @@ class CategoriesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -149,7 +149,7 @@ class CategoriesModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
