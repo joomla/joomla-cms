@@ -44,7 +44,6 @@ Text::script('JHIDE');
 					class="form-control input-full"
 					required="required"
 					autofocus
-					tabindex="1"
 				>
 			</div>
 		</div>
@@ -65,7 +64,6 @@ Text::script('JHIDE');
 					type="password"
 					class="form-control input-full"
 					required="required"
-					tabindex="2"
 				>
 			</div>
 		</div>
@@ -85,7 +83,6 @@ Text::script('JHIDE');
 						id="mod-login-secretkey"
 						type="text"
 						class="form-control input-full"
-						tabindex="3"
 					>
 				</div>
 			</div>
@@ -99,7 +96,7 @@ Text::script('JHIDE');
 			</div>
 		<?php endif; ?>
 		<div class="form-group">
-			<button tabindex="5" class="btn btn-primary btn-block btn-lg mt-4" id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+			<button class="btn btn-primary btn-block btn-lg mt-4" id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 		<div class="text-center">
 			<div>
