@@ -57,10 +57,6 @@ if ($saveOrder)
 		</div>
 		<?php endif; ?>
 		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
-			<?php
-			// Search tools bar
-			echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-			?>
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
