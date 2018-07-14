@@ -1,5 +1,6 @@
 # A list of files to ignore from linting
 *.js
+!*.es6.js
 build/**/**/**/**/*.js ## Exclude webcomponents till we fix the CS!
 build/**/**/**/**/**/*.js ## Exclude webcomponents till we fix the CS!
 *.vue
