@@ -38,11 +38,11 @@ class ActionlogsHelper
 
 		foreach ($data as $log)
 		{
-			$extension = self::translateExtensionName(strtoupper(strtok($log->extension, '.')));
+			$extension = static::translateExtensionName(strtoupper(strtok($log->extension, '.')));
 			$row               = array();
 			$row['id']         = $log->id;
-			$row['message']    = strip_tags(self::getHumanReadableLogMessage($log));
-			$row['date']       = $log->log_date;
+			$row['message']    = strip_tags(static::getHumanReadableLogMessage($log));
+			$row['date']       = JHtml::_('date', $log->log_date, JText::_('DATE_FORMAT_LC6'));
 			$row['extension']  = $extension;
 			$row['name']       = $log->name;
 			$row['ip_address'] = JText::_($log->ip_address);
@@ -143,7 +143,7 @@ class ActionlogsHelper
 		// Special handling for translation extension name
 		if (isset($messageData['extension_name']))
 		{
-			$messageData['extension_name'] = self::translateExtensionName($messageData['extension_name']);
+			$messageData['extension_name'] = static::translateExtensionName($messageData['extension_name']);
 		}
 
 		$linkMode = JFactory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
