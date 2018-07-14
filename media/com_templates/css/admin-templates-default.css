@@ -45,6 +45,7 @@
 	border: 0.5px solid grey;
 	overflow: auto;
 	padding: 10px;
+	background-color: #FFF;
 }
 
 #core-pane .CodeMirror-code {
