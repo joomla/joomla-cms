@@ -10,7 +10,7 @@
  * node build.js --update         === will clean the media/vendor folder and then fetch the dependencies from source
  * node build.js --compilejs      === will transpile ES6 files and also uglify the ES6,ES5 files
  * node build.js --compilecejs    === will compile all the given CE or WC with their relative css files
- * node build.js --compilececss   === will compile all the scss defined files and also create a minified version of the css
+ * node build.js --compilecss   === will compile all the scss defined files and also create a minified version of the css
  *
  */
 
