@@ -29,7 +29,6 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Categories Component Category Model
