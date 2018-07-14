@@ -297,7 +297,8 @@ class CoreInstallCommand extends AbstractCommand
 		$this->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'Type of the extension');
 
 		$help = "The <info>%command.name%</info> is used for setting up the Joomla! CMS \n 
-					<info>php %command.full_name%</info> --f=<path to config file> [JSON and INI supported]";
+					<info>php %command.full_name%</info> --file=<path to config file> [JSON and INI supported]
+					<info>php %command.full_name%</info> -f <path to config file> [JSON and INI supported]";
 
 		$this->setHelp($help);
 	}
