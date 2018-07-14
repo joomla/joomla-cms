@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Groups Table
@@ -24,7 +27,7 @@ class GroupTable extends Table
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver object.
+	 * @param   DatabaseDriver  $db  DatabaseDriver object.
 	 *
 	 * @since   3.7.0
 	 */
@@ -83,13 +86,13 @@ class GroupTable extends Table
 		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
+			$this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
 			return false;
 		}
 
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{

@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('groupedlist');
 
@@ -52,7 +53,7 @@ class ItemtypeField extends \JFormFieldGroupedList
 				foreach ($extension->get('types') as $type)
 				{
 					$context = $extension->get('component') . '.' . $type->get('name');
-					$options[$extension->get('title')][] = \JHtml::_('select.option', $context, $type->get('title'));
+					$options[$extension->get('title')][] = HTMLHelper::_('select.option', $context, $type->get('title'));
 				}
 			}
 		}
