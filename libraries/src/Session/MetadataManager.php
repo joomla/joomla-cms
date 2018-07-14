@@ -12,8 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Manager for optional session metadata.
@@ -34,7 +35,7 @@ final class MetadataManager
 	/**
 	 * Database driver.
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseInterface
 	 * @since  3.8.6
 	 */
 	private $db;
@@ -43,11 +44,11 @@ final class MetadataManager
 	 * MetadataManager constructor.
 	 *
 	 * @param   AbstractApplication  $app  Application object.
-	 * @param   \JDatabaseDriver     $db   Database driver.
+	 * @param   DatabaseInterface    $db   Database driver.
 	 *
 	 * @since   3.8.6
 	 */
-	public function __construct(AbstractApplication $app, \JDatabaseDriver $db)
+	public function __construct(AbstractApplication $app, DatabaseInterface $db)
 	{
 		$this->app = $app;
 		$this->db  = $db;
@@ -100,7 +101,7 @@ final class MetadataManager
 			$this->db->quote($user->username),
 		);
 
-		if ($this->app instanceof CMSApplication && !$this->app->get('shared_session', '0'))
+		if ($this->app instanceof CMSApplication && !$this->app->get('shared_session', false))
 		{
 			$columns[] = $this->db->quoteName('client_id');
 			$values[] = (int) $this->app->getClientId();
@@ -116,16 +117,9 @@ final class MetadataManager
 		{
 			$this->db->execute();
 		}
-		catch (\RuntimeException $e)
+		catch (ExecutionFailureException $e)
 		{
-			/*
-			 * Because of how our session handlers are structured, we must abort the request if this insert query fails,
-			 * especially in the case of the database handler which does not support "INSERT or UPDATE" logic. With the
-			 * change to the `joomla/session` Framework package in 4.0, where the required logic is implemented in the
-			 * handlers, we can change this catch block so that the error is gracefully handled and does not result
-			 * in a fatal error for the request.
-			 */
-			throw new \RuntimeException(Text::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
+			// This failure isn't critical, we can go on without the metadata
 		}
 	}
 
@@ -150,12 +144,9 @@ final class MetadataManager
 		{
 			$this->db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $exception)
+		catch (ExecutionFailureException $exception)
 		{
-			/*
-			 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-			 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-			 */
+			// Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
 		}
 	}
 }
