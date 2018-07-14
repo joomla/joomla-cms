@@ -47,6 +47,13 @@ class UpdateCoreCommand extends AbstractCommand
 	public $updateInfo;
 
 	/**
+	 * Update Model
+	 * @var array
+	 * @since 4.0
+	 */
+	public $updateModel;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -57,6 +64,50 @@ class UpdateCoreCommand extends AbstractCommand
 	{
 		$this->cliInput = $this->getApplication()->getConsoleInput();
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+	}
+
+	/**
+	 * Run Checks after Update
+	 *
+	 * @return boolean
+	 *
+	 * @since 4.0
+	 *
+	 * @throws \Exception
+	 */
+	public function runChecks()
+	{
+		unset($this->updateModel);
+//		$this->getUpdateModel()->purge();
+//		$this->getUpdateModel()->refreshUpdates();
+
+		$updateInfo = $this->getUpdateModel()->getUpdateInformation();
+
+		if (JVERSION !== $updateInfo['latest'])
+		{
+			return false;
+		}
+
+
+		if ($updateInfo['hasUpdate'])
+		{
+			return false;
+		}
+
+		$db = \JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('version');
+		$query->from('#__updates');
+		$db->setQuery((string) $query);
+		$update = $db->loadObjectList();
+		$update = count($update) > 0 ?: $update;
+
+		if ($update && $update[0]->version !== $this->updateInfo['latest'])
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 
@@ -74,9 +125,17 @@ class UpdateCoreCommand extends AbstractCommand
 		$this->configureIO();
 
 		$model = $this->getUpdateModel();
+
 		$this->setUpdateInfo($model->getUpdateInformation());
 
-		if ($this->updateJoomlaCore($model))
+		if ($this->runChecks())
+		{
+			$this->ioStyle->note('You already have the latest Joomla! version.');
+
+			return 1;
+		}
+
+		if ($this->updateJoomlaCore($model) && $this->runChecks())
 		{
 			$this->ioStyle->success('Joomla core updated successfully.');
 
@@ -88,8 +147,6 @@ class UpdateCoreCommand extends AbstractCommand
 
 			return 2;
 		}
-
-		return 0;
 	}
 
 	/**
@@ -170,14 +227,37 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	public function getUpdateModel()
 	{
+		if (!isset($this->updateModel))
+		{
+			$this->setUpdateModel();
+		}
+
+		return $this->updateModel;
+	}
+
+	/**
+	 * Sets the Update Model
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
+	public function setUpdateModel()
+	{
 		$app = $this->getApplication();
 		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
 
-		$updatemodel->purge();
+		if (is_bool($updatemodel))
+		{
+			$this->updateModel = $updatemodel;
 
+			return;
+		}
+
+		$updatemodel->purge();
 		$updatemodel->refreshUpdates(true);
 
-		return $updatemodel;
+		$this->updateModel = $updatemodel;
 	}
 
 	/**
