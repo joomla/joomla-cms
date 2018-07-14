@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Manager for optional session metadata.
@@ -67,13 +68,24 @@ final class MetadataManager
 	 */
 	public function createRecordIfNonExisting(Session $session, User $user)
 	{
+		$sessionId = $session->getId();
+
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('session_id'))
 			->from($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
+			->where($this->db->quoteName('session_id') . ' = :session_id')
+			->bind(':session_id', $sessionId);
 
 		$this->db->setQuery($query, 0, 1);
-		$exists = $this->db->loadResult();
+
+		try
+		{
+			$exists = $this->db->loadResult();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			return;
+		}
 
 		// If the session record doesn't exist initialise it.
 		if ($exists)
@@ -85,26 +97,42 @@ final class MetadataManager
 
 		$time = $session->isNew() ? time() : $session->get('session.timer.start');
 
-		$columns = array(
+		$columns = [
 			$this->db->quoteName('session_id'),
 			$this->db->quoteName('guest'),
 			$this->db->quoteName('time'),
 			$this->db->quoteName('userid'),
 			$this->db->quoteName('username'),
-		);
+		];
 
-		$values = array(
-			$this->db->quote($session->getId()),
-			(int) $user->guest,
-			$this->db->quote((int) $time),
-			(int) $user->id,
-			$this->db->quote($user->username),
-		);
+		// Add query placeholders
+		$values = [
+			':session_id',
+			':guest',
+			':time',
+			':user_id',
+			':username',
+		];
+
+		// Bind query values
+		$userIsGuest = $user->guest;
+		$userId      = $user->id;
+		$username    = $user->username;
+
+		$query->bind(':session_id', $sessionId)
+			->bind(':guest', $userIsGuest, ParameterType::BOOLEAN)
+			->bind(':time', $time, ParameterType::INTEGER)
+			->bind(':user_id', $userId, ParameterType::INTEGER)
+			->bind(':username', $username);
 
 		if ($this->app instanceof CMSApplication && !$this->app->get('shared_session', false))
 		{
+			$clientId = $this->app->getClientId();
+
 			$columns[] = $this->db->quoteName('client_id');
-			$values[] = (int) $this->app->getClientId();
+			$values[] = ':client_id';
+
+			$query->bind(':client_id', $clientId, ParameterType::INTEGER);
 		}
 
 		$query->insert($this->db->quoteName('#__session'))
@@ -136,7 +164,8 @@ final class MetadataManager
 	{
 		$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('time') . ' < ' . $this->db->quote($time));
+			->where($this->db->quoteName('time') . ' < :time')
+			->bind(':time', $time, ParameterType::INTEGER);
 
 		$this->db->setQuery($query);
 
