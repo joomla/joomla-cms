@@ -1020,7 +1020,7 @@ class Document
 	}
 
 	/**
-	 * Return the title of the page.
+	 * Return the description of the document.
 	 *
 	 * @return  string
 	 *

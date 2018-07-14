@@ -12,6 +12,8 @@ namespace Joomla\Component\Content\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Component Controller
@@ -48,8 +50,8 @@ class DisplayController extends BaseController
 		if ($view == 'article' && $layout == 'edit' && !$this->checkEditId('com_content.edit.article', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles', false));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_content&view=articles', false));
 
 			return false;
 		}

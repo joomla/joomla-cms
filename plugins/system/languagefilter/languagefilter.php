@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
@@ -779,12 +780,22 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
-			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			$component = $this->app->bootComponent($option);
+
+			if ($component instanceof AssociationServiceInterface)
 			{
-				$cassociations = call_user_func(array($cName, 'getAssociations'));
+				$cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
+			}
+			else
+			{
+				$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
+				JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
+				if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+				{
+					$cassociations = call_user_func(array($cName, 'getAssociations'));
+				}
 			}
 
 			// For each language...
