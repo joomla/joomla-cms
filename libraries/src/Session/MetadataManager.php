@@ -74,9 +74,10 @@ final class MetadataManager
 			->select($this->db->quoteName('session_id'))
 			->from($this->db->quoteName('#__session'))
 			->where($this->db->quoteName('session_id') . ' = :session_id')
-			->bind(':session_id', $sessionId);
+			->bind(':session_id', $sessionId)
+			->setLimit(1);
 
-		$this->db->setQuery($query, 0, 1);
+		$this->db->setQuery($query);
 
 		try
 		{
