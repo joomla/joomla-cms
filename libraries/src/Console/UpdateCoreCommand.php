@@ -78,8 +78,8 @@ class UpdateCoreCommand extends AbstractCommand
 	public function runChecks()
 	{
 		unset($this->updateModel);
-//		$this->getUpdateModel()->purge();
-//		$this->getUpdateModel()->refreshUpdates();
+		$this->getUpdateModel()->purge();
+		$this->getUpdateModel()->refreshUpdates();
 
 		$updateInfo = $this->getUpdateModel()->getUpdateInformation();
 
@@ -94,13 +94,14 @@ class UpdateCoreCommand extends AbstractCommand
 			return false;
 		}
 
-		$db = \JFactory::getDBO();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version');
 		$query->from('#__updates');
+		$query->where(['element = "joomla"']);
 		$db->setQuery((string) $query);
 		$update = $db->loadObjectList();
-		$update = count($update) > 0 ?: $update;
+		$update = count($update) > 0 ? $update : null;
 
 		if ($update && $update[0]->version !== $this->updateInfo['latest'])
 		{
