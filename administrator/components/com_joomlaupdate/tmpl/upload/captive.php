@@ -13,10 +13,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\\AuthenticationHelper;
 
 HTMLHelper::_('behavior.keepalive');
 
-$twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods();
+$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 ?>
 
