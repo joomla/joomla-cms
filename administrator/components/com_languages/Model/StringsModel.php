@@ -15,6 +15,7 @@ use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Languages Strings Model
@@ -124,7 +125,7 @@ class StringsModel extends BaseDatabaseModel
 	{
 		$results = array();
 		$input   = Factory::getApplication()->input;
-		$filter  = \JFilterInput::getInstance();
+		$filter  = InputFilter::getInstance();
 		$db      = $this->getDbo();
 		$searchTerm = $input->getString('searchstring');
 
