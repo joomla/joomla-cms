@@ -81,7 +81,7 @@ $input = Factory::getApplication()->input;
 								<label for="new_name" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
 									<?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
 								</label>
-								<input type="text" id="new_name" name="new_name" required>
+								<input class="form-control" type="text" id="new_name" name="new_name" required>
 								<?php echo HTMLHelper::_('form.token'); ?>
 							</div>
 							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_COPY_FILE'); ?></button>

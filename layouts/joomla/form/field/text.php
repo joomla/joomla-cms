@@ -70,7 +70,7 @@ $attributes = array(
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	!empty($inputmode) ? 'inputmode="' . $inputmode . '"' : '',
+	!empty($inputmode) ? $inputmode : '',
 	!empty($pattern) ? 'pattern="' . $pattern . '"' : '',
 
 	// @TODO add a proper string here!!!

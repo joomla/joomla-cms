@@ -9,68 +9,77 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.multiselect');
-JHtml::_('behavior.tabstate');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-$user      = JFactory::getUser();
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('behavior.tabstate');
+
+$user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
-$assoc     = JLanguageAssociations::isEnabled();
+$assoc     = Associations::isEnabled();
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
-	JHtml::_('draggablelist.draggable');
+	$saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
+	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="contactList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th style="width:1%; min-width:85px" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
 								<th style="width:10%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 								<?php endif; ?>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
+										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -91,7 +100,7 @@ if ($saveOrder && !empty($this->items))
 							$canEditOwn = $user->authorise('core.edit.own',   'com_contact.category.' . $item->catid) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_contact.category.' . $item->catid) && $canCheckin;
 
-							$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
+							$item->cat_link = Route::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 								<td class="order nowrap text-center d-none d-md-table-cell">
@@ -103,7 +112,7 @@ if ($saveOrder && !empty($this->items))
 									}
 									elseif (!$saveOrder)
 									{
-										$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+										$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass; ?>">
@@ -115,37 +124,37 @@ if ($saveOrder && !empty($this->items))
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+										<?php echo HTMLHelper::_('contact.featured', $item->featured, $i, $canChange); ?>
 									</div>
 								</td>
 								<td class="nowrap has-context">
 									<div>
 										<?php if ($item->checked_out) : ?>
-											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
+											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
 											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-											<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 										<?php else : ?>
 											<?php echo $this->escape($item->name); ?>
 										<?php endif; ?>
 										<span class="small">
-											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 										</span>
 										<div class="small">
-											<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+											<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>
 									</div>
 								</td>
 								<td class="small text-center">
 									<?php if (!empty($item->linked_user)) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
+										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 										<div class="small"><?php echo $item->email; ?></div>
 									<?php endif; ?>
 								</td>
@@ -155,13 +164,13 @@ if ($saveOrder && !empty($this->items))
 								<?php if ($assoc) : ?>
 								<td class="d-none d-md-table-cell text-center">
 									<?php if ($item->association) : ?>
-										<?php echo JHtml::_('contact.association', $item->id); ?>
+										<?php echo HTMLHelper::_('contact.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
 								<td class="d-none d-md-table-cell text-center">
@@ -175,11 +184,11 @@ if ($saveOrder && !empty($this->items))
 					<?php if ($user->authorise('core.create', 'com_contact')
 						&& $user->authorise('core.edit', 'com_contact')
 						&& $user->authorise('core.edit.state', 'com_contact')) : ?>
-						<?php echo JHtml::_(
+						<?php echo HTMLHelper::_(
 							'bootstrap.renderModal',
 							'collapseModal',
 							array(
-								'title'  => JText::_('COM_CONTACT_BATCH_OPTIONS'),
+								'title'  => Text::_('COM_CONTACT_BATCH_OPTIONS'),
 								'footer' => $this->loadTemplate('batch_footer'),
 							),
 							$this->loadTemplate('batch_body')
@@ -188,7 +197,7 @@ if ($saveOrder && !empty($this->items))
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>
