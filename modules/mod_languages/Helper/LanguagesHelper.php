@@ -78,7 +78,7 @@ abstract class LanguagesHelper
 			{
 				// Load component associations
 				$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
-				\JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
+				\JLoader::register($class, JPATH_SITE . '/components/' . $component->option . '/helpers/association.php');
 
 				if (class_exists($class) && is_callable(array($class, 'getAssociations')))
 				{
