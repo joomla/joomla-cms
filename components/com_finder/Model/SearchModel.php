@@ -18,9 +18,9 @@ use Joomla\Utilities\ArrayHelper;
 // Register dependent classes.
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 \JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
+\JLoader::register('FinderIndexerLanguage', FINDER_PATH_INDEXER . '/language.php');
 \JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 \JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
-\JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 
 /**
  * Search model class for the Finder package.
@@ -96,6 +96,7 @@ class SearchModel extends ListModel
 		{
 			// Build the result object.
 			$result = unserialize($row->object);
+			$result->cleanURL = $result->route;
 
 			// Add the result back to the stack.
 			$results[] = $result;
@@ -221,6 +222,7 @@ class SearchModel extends ListModel
 				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
 			}
 		}
+
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
@@ -266,9 +268,24 @@ class SearchModel extends ListModel
 		 * If there are no optional or required search terms in the query, we
 		 * can get the results in one relatively simple database query.
 		 */
-		if (empty($this->includedTerms))
+		if (empty($this->includedTerms) && $this->searchquery->empty)
 		{
 			// Return the results.
+			return $query;
+		}
+
+		/*
+		 * If there are no optional or required search terms in the query and
+		 * empty searches are not allowed, we return an empty query.
+		 */
+		if (empty($this->includedTerms) && !$this->searchquery->empty)
+		{
+			// Since we need to return a query, we simplify this one.
+			$query->clear('join')
+				->clear('where')
+				->clear('group')
+				->where('false');
+
 			return $query;
 		}
 
@@ -291,10 +308,14 @@ class SearchModel extends ListModel
 		 */
 		if (count($this->requiredTerms))
 		{
-			$required = call_user_func_array('array_merge', $this->requiredTerms);
-			$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS r ON r.link_id = l.link_id')
-					->where('r.term_id IN (' . implode(',', $required) . ')')
-					->having('COUNT(DISTINCT r.term_id) = ' . count($required));
+			$i = 0;
+
+			foreach ($this->requiredTerms as $terms)
+			{
+				$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS r' . $i . ' ON r' . $i . '.link_id = l.link_id')
+					->where('r' . $i . '.term_id IN (' . implode(',', $terms) . ')');
+				$i++;
+			}
 		}
 
 		return $query;
@@ -360,12 +381,6 @@ class SearchModel extends ListModel
 		$user   = \JFactory::getUser();
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
-
-		// Setup the stemmer.
-		if ($params->get('stem', 1) && $params->get('stemmer', 'porter_en'))
-		{
-			\FinderIndexerHelper::$stemmer = \FinderIndexerStemmer::getInstance($params->get('stemmer', 'porter_en'));
-		}
 
 		$request = $input->request;
 		$options = array();

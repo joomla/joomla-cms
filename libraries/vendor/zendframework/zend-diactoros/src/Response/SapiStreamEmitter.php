@@ -8,8 +8,11 @@
 namespace Zend\Diactoros\Response;
 
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
-use Zend\Diactoros\RelativeStream;
+
+use function is_array;
+use function preg_match;
+use function strlen;
+use function substr;
 
 class SapiStreamEmitter implements EmitterInterface
 {

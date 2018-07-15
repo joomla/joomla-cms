@@ -11,6 +11,9 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Tags List Controller
@@ -44,9 +47,9 @@ class TagsController extends AdminController
 	 */
 	public function rebuild()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_tags&view=tags', false));
+		$this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 
 		/* @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
 		$model = $this->getModel();
@@ -54,14 +57,14 @@ class TagsController extends AdminController
 		if ($model->rebuild())
 		{
 			// Rebuild succeeded.
-			$this->setMessage(\JText::_('COM_TAGS_REBUILD_SUCCESS'));
+			$this->setMessage(Text::_('COM_TAGS_REBUILD_SUCCESS'));
 
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(\JText::_('COM_TAGS_REBUILD_FAILURE'));
+			$this->setMessage(Text::_('COM_TAGS_REBUILD_FAILURE'));
 
 			return false;
 		}

@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 			<?php
 			if ($displayTable) : ?>
 				<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
-				<table class="table table-striped table-sm">
+				<table class="table table-sm">
 					<thead>
 					<tr>
 						<th>
@@ -123,7 +123,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br>
 				<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 				</p>
-				<table class="table table-striped table-sm">
+				<table class="table table-sm">
 					<thead>
 					<tr>
 						<th width="1%" class="text-center">
