@@ -23,14 +23,12 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 
 <div class="btn-group multilanguage">
-	<button
-		type="button"
-		data-toggle="modal"
-		data-target="#multiLangModal"
+	<a data-toggle="modal"
+		href="#multiLangModal"
 		title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>"
-		>
+		role="button">
 		<span class="icon-comment" aria-hidden="true"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
-	</button>
+	</a>
 	<span class="btn-group separator"></span>
 </div>
 
