@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -62,7 +63,7 @@ class TypeField extends \JFormFieldList
 
 		foreach ($fieldTypes as $fieldType)
 		{
-			$options[] = \JHtml::_('select.option', $fieldType['type'], $fieldType['label']);
+			$options[] = HTMLHelper::_('select.option', $fieldType['type'], $fieldType['label']);
 		}
 
 		// Sorting the fields based on the text which is displayed

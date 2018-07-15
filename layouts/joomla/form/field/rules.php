@@ -78,8 +78,8 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 <?php // Description ?>
 <p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
 <?php // Begin tabs ?>
-<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>" id="permissions-sliders">
-	<joomla-tab orientation="vertical" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">
+<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>">
+	<joomla-tab orientation="vertical" id="permissions-sliders">
 	<?php // Initial Active Pane ?>
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
