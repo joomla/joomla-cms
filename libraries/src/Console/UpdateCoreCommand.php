@@ -81,19 +81,6 @@ class UpdateCoreCommand extends AbstractCommand
 		$this->getUpdateModel()->purge();
 		$this->getUpdateModel()->refreshUpdates();
 
-		$updateInfo = $this->getUpdateModel()->getUpdateInformation();
-
-		if (JVERSION !== $updateInfo['latest'])
-		{
-			return false;
-		}
-
-
-		if ($updateInfo['hasUpdate'])
-		{
-			return false;
-		}
-
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version');
