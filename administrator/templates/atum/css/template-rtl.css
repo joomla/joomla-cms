@@ -1769,3 +1769,10 @@ th {
     border-left: 0;
     border-top-left-radius: none;
     border-top-right-radius: 0; }
+
+.main-nav li a span {
+  float: right; }
+
+.js-stools .js-stools-container-filters {
+  left: 0;
+  right: auto; }
