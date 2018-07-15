@@ -1806,6 +1806,95 @@ class Nested extends Table
 	}
 
 	/**
+	 * Method to get various data necessary to make room in the tree at a location
+	 * for a node and its children.  The returned data object includes conditions
+	 * for SQL WHERE clauses for updating left and right id values to make room for
+	 * the node as well as the new left and right ids for the node.
+	 *
+	 * @param   object   $referenceNode  A node object with at least a 'lft' and 'rgt' with
+	 *                                   which to make room in the tree around for a new node.
+	 * @param   integer  $nodeWidth      The width of the node for which to make room in the tree.
+	 * @param   string   $position       The position relative to the reference node where the room
+	 *                                   should be made.
+	 *
+	 * @return  mixed    Boolean false on failure or data object on success.
+	 *
+	 * @since   11.1
+	 * @deprecated 4.0
+	 */
+	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
+	{
+		// Make sure the reference an object with a left and right id.
+		if (!is_object($referenceNode) || !(isset($referenceNode->lft) && isset($referenceNode->rgt)))
+		{
+			return false;
+		}
+
+		// A valid node cannot have a width less than 2.
+		if ($nodeWidth < 2)
+		{
+			return false;
+		}
+
+		$k = $this->_tbl_key;
+		$data = new \stdClass;
+
+		// Run the calculations and build the data object by reference position.
+		switch ($position)
+		{
+			case 'first-child':
+				$data->left_where = 'lft > ' . $referenceNode->lft;
+				$data->right_where = 'rgt >= ' . $referenceNode->lft;
+
+				$data->new_lft = $referenceNode->lft + 1;
+				$data->new_rgt = $referenceNode->lft + $nodeWidth;
+				$data->new_parent_id = $referenceNode->$k;
+				$data->new_level = $referenceNode->level + 1;
+				break;
+
+			case 'last-child':
+				$data->left_where = 'lft > ' . ($referenceNode->rgt);
+				$data->right_where = 'rgt >= ' . ($referenceNode->rgt);
+
+				$data->new_lft = $referenceNode->rgt;
+				$data->new_rgt = $referenceNode->rgt + $nodeWidth - 1;
+				$data->new_parent_id = $referenceNode->$k;
+				$data->new_level = $referenceNode->level + 1;
+				break;
+
+			case 'before':
+				$data->left_where = 'lft >= ' . $referenceNode->lft;
+				$data->right_where = 'rgt >= ' . $referenceNode->lft;
+
+				$data->new_lft = $referenceNode->lft;
+				$data->new_rgt = $referenceNode->lft + $nodeWidth - 1;
+				$data->new_parent_id = $referenceNode->parent_id;
+				$data->new_level = $referenceNode->level;
+				break;
+
+			default:
+			case 'after':
+				$data->left_where = 'lft > ' . $referenceNode->rgt;
+				$data->right_where = 'rgt > ' . $referenceNode->rgt;
+
+				$data->new_lft = $referenceNode->rgt + 1;
+				$data->new_rgt = $referenceNode->rgt + $nodeWidth;
+				$data->new_parent_id = $referenceNode->parent_id;
+				$data->new_level = $referenceNode->level;
+				break;
+		}
+
+		if ($this->_debug)
+		{
+			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where"
+				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
+				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Method to create a log table in the buffer optionally showing the query and/or data.
 	 *
 	 * @param   boolean  $showData   True to show data
