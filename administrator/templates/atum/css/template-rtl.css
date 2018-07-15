@@ -1728,14 +1728,16 @@ th {
 .sidebar-wrapper[data-hidden='1'] ~ .status {
   margin-right: 0; }
 
-.subhead .btn-group-sm > .btn [class^='icon-'],
-.subhead .btn-group-sm > .btn [class*=' icon-'],
-.subhead .btn-group-sm > .btn [class^='fa-'],
-.subhead .btn-group-sm > .btn [class*=' fa-'] {
-  margin: 0 -10px 0 6px;
+.subhead .btn [class^='icon-'],
+.subhead .btn [class*=' icon-'],
+.subhead .btn [class^='fa-'],
+.subhead .btn [class*=' fa-'] {
+  margin: 0 -22px 0 22px;
   border-right: 0;
-  border-left: 1px solid #ccc;
-  border-radius: 0 3px 3px 0; }
+  border-left: 1px solid #ccc; }
+
+.subhead .btn-group {
+  margin-left: .75rem !important; }
 
 .subhead .btn-toolbar > *:first-of-type {
   margin-right: 0; }
@@ -1748,7 +1750,7 @@ th {
 .subhead .btn-sm [class*=' icon-'],
 .subhead .btn-sm [class^='fa-'],
 .subhead .btn-sm [class^='icon-'] {
-  margin: 0 -10px 0 6px;
+  margin: 0 -22px 0 22px;
   border-right: 0;
   border-left: 1px solid #ccc;
   border-radius: 0 3px 3px 0; }
@@ -1776,3 +1778,7 @@ th {
 .js-stools .js-stools-container-filters {
   left: 0;
   right: auto; }
+
+.ml-auto, .mx-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important; }

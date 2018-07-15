@@ -160,16 +160,19 @@ th {
 // Toolbar
 .subhead {
 
-  .btn-group-sm > .btn {
+  .btn {
     [class^='icon-'],
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -10px 0 6px;
+      margin: 0 -22px 0 22px;
       border-right: 0;
       border-left: 1px solid $atum-border-color;
-      border-radius: 0 3px 3px 0;
     }
+  }
+
+  .btn-group {
+    margin-left: .75rem !important;
   }
 
   .btn-toolbar > * {
@@ -187,7 +190,7 @@ th {
   .btn-sm [class*=' icon-'],
   .btn-sm [class^='fa-'],
   .btn-sm [class^='icon-'] {
-    margin: 0 -10px 0 6px;
+    margin: 0 -22px 0 22px;
     border-right: 0;
     border-left: 1px solid $atum-border-color;
     border-radius: 0 3px 3px 0;
@@ -234,4 +237,9 @@ th {
 .js-stools .js-stools-container-filters {
   left: 0;
   right: auto;
+}
+
+.ml-auto, .mx-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important;
 }
