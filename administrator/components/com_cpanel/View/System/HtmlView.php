@@ -276,6 +276,30 @@ class HtmlView extends BaseHtmlView
 			static::$notEmpty = true;
 		}
 
+		if ($user->authorise('core.manage', 'com_csp'))
+		{
+			$new = [
+				'com_csp_main' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_CSP',
+					'index.php?option=com_csp',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
 		if ($user->authorise('core.manage', 'com_plugins'))
 		{
 			$new = [
