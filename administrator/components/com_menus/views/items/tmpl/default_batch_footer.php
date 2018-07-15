@@ -15,7 +15,7 @@ $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype')
 	<?php echo JText::_('JCANCEL'); ?>
 </button>
 <?php if ((strlen($menuType) && $menuType != '*' && $clientId == 0) || ($published > 0 && $clientId == 1)): ?>
-	<button class="btn btn-success" type="submit" onclick="Joomla.submitbutton('item.batch');">
+	<button type="submit" class="btn btn-success" onclick="Joomla.submitbutton('item.batch');">
 		<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
 	</button>
 <?php endif; ?>
