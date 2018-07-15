@@ -69,17 +69,24 @@ class UpdateCoreCommand extends AbstractCommand
 	/**
 	 * Run Checks after Update
 	 *
+	 * @param   boolean  $purge  To remove or not remove all updates from table
+	 *
 	 * @return boolean
 	 *
 	 * @since 4.0
 	 *
 	 * @throws \Exception
 	 */
-	public function runChecks()
+	public function runChecks($purge = false)
 	{
 		unset($this->updateModel);
-		$this->getUpdateModel()->purge();
-		$this->getUpdateModel()->refreshUpdates();
+		$model = $this->getUpdateModel();
+
+		if ($purge)
+		{
+			$model->purge();
+		}
+
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -90,7 +97,7 @@ class UpdateCoreCommand extends AbstractCommand
 		$update = $db->loadObjectList();
 		$update = count($update) > 0 ? $update : null;
 
-		if ($update && $update[0]->version !== $this->updateInfo['latest'])
+		if ($update)
 		{
 			return false;
 		}
@@ -123,7 +130,7 @@ class UpdateCoreCommand extends AbstractCommand
 			return 1;
 		}
 
-		if ($this->updateJoomlaCore($model) && $this->runChecks())
+		if ($this->updateJoomlaCore($model) && $this->runChecks(true))
 		{
 			$this->ioStyle->success('Joomla core updated successfully.');
 
