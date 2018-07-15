@@ -1,21 +1,15 @@
 joomla-field-media .field-media-preview {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   max-width: 351px;
   height: 180px !important;
   padding: 10px;
+  overflow: hidden;
   background-color: #f2f2f2;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-width: 1px 1px 0;
-  border-radius: .25rem .25rem 0 0;
-  overflow: hidden; }
+  border-radius: .25rem .25rem 0 0; }
 
 joomla-field-media .field-media-preview-icon {
   font-size: 5rem;

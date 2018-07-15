@@ -15,6 +15,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 JHtml::_('script', 'com_associations/sidebyside.js', false, true);
 JHtml::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
+JHtml::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
 $options = array(
 			'layout'   => $this->app->input->get('layout', '', 'string'),
