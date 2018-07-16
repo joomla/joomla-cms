@@ -402,8 +402,15 @@ class Text
 			// Normalize the key and translate the string.
 			static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
-			// Load core.js dependency
-			HTMLHelper::_('behavior.core');
+			// Load needed JS libs
+			static $dependentJsLoaded = false;
+
+			if ($dependentJsLoaded === false)
+			{
+				// Important !! Set static variable before making any calls to HTMLHelper methods
+				$dependentJsLoaded = true;
+				HTMLHelper::_('behavior.core');
+			}
 
 			// Update Joomla.JText script options
 			Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
