@@ -163,7 +163,10 @@ class JFormFieldRules extends JFormField
 		$isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
-		$actions = JAccess::getActions($component, $section);
+		$actions = JAccess::getNodesFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
@@ -293,6 +296,24 @@ class JFormFieldRules extends JFormField
 
 			foreach ($actions as $action)
 			{
+				if (!empty($action->_node_name_) && $action->_node_name_ !== 'action')
+				{
+					if ($action->_node_name_ === 'heading')
+					{
+						$heading = & $action;
+						$heading_class = 'jrule-h' . (isset($heading->level) ? (int) $heading->level : 0) . ($heading->class ? ' ' . $heading->class : '');
+						$html[] = '
+						<tr>
+							<td colspan="2">
+								<span class="' . $heading_class . ' hasTooltip" title="' . JHtml::_('tooltipText', $heading->title, $heading->description) . '">
+									' . JText::_($heading->title) .'
+								</span>
+							</td>
+						</tr>';
+					}
+					continue;
+				}
+
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
 				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
