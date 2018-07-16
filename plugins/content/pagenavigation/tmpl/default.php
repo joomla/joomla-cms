@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 $lang = Factory::getLanguage(); ?>
 
-<nav class="pagenavigation" role="navigation">
+<nav class="pagenavigation">
 	<ul class="pagination ml-0">
 	<?php if ($row->prev) :
 		$direction = $lang->isRtl() ? 'right' : 'left'; ?>
