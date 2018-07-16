@@ -225,7 +225,12 @@ th {
   left: 0;
 }
 
-.ml-auto, .mx-auto {
+.ml-auto {
   margin-right: auto !important;
   margin-left: 0 !important;
+}
+
+.mr-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
 }
