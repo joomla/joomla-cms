@@ -1,10 +1,7 @@
 # A list of files to ignore from linting
 *.js
 !*.es6.js
-build/**/**/**/**/*.js ## Exclude webcomponents till we fix the CS!
-build/**/**/**/**/**/*.js ## Exclude webcomponents till we fix the CS!
+# TODO: We should include all the build scripts (es6 webcomponents build scripts etc) once they have their codestyle fixed
+# !build/**/**/**/**/*.js
+# !build/**/**/**/**/**/*.js
 *.vue
-build/incompatible_page/*.js
-media/system/webcomponents/js/*.js ## The linted files are in build/webcomponents!
-media/com_media/js/edit-images.js ## TODO: Fix this file
-media/mod_menu/js/admin-menu.js ## TODO: Fix this file
