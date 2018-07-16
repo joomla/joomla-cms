@@ -47,8 +47,10 @@ else
 	);
 }
 ?>
-<?php if (count($this->images) > 0 || count($this->folders) > 0) : ?>
+<?php if (count($this->docs) > 0 || count($this->videos) > 0 || count($this->images) > 0 || count($this->folders) > 0) : ?>
+
 	<ul class="manager thumbnails thumbnails-media">
+
 		<?php for ($i = 0, $n = count($this->folders); $i < $n; $i++) :
 			$this->setFolder($i);
 			echo $this->loadTemplate('folder');
@@ -58,9 +60,23 @@ else
 			$this->setImage($i);
 			echo $this->loadTemplate('image');
 		endfor; ?>
+
+		<?php for ($i = 0, $n = count($this->videos); $i < $n; $i++) :
+			$this->setVideo($i);
+			echo $this->loadTemplate('video');
+		endfor; ?>
+
+		<?php for ($i = 0, $n = count($this->docs); $i < $n; $i++) :
+			$this->setDocument($i);
+			echo $this->loadTemplate('doc');
+		endfor; ?>
+
 	</ul>
+
 <?php else : ?>
+
 	<div id="media-noimages">
 		<div class="alert alert-info"><?php echo JText::_('COM_MEDIA_NO_IMAGES_FOUND'); ?></div>
 	</div>
+
 <?php endif; ?>
