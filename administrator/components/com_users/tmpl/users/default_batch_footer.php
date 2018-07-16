@@ -9,8 +9,6 @@
 defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
-use Joomla\CMS\Language\Text;
-
 ?>
 <a class="btn btn-secondary" type="button" onclick="document.getElementById('batch-group-id').value=''" data-dismiss="modal">
 	<?php echo Text::_('JCANCEL'); ?>
