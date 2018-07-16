@@ -1785,5 +1785,5 @@ th {
   margin-right: 0 !important;
   margin-left: .5rem; }
 
-p {
+p, .table td {
   text-align: right; }
