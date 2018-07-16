@@ -1733,9 +1733,7 @@ th {
 .subhead .btn [class*=' icon-'],
 .subhead .btn [class^='fa-'],
 .subhead .btn [class*=' fa-'] {
-  margin: 0 -22px 0 22px;
-  border-right: 0;
-  border-left: 1px solid #ccc; }
+  margin: 0 -22px 0 22px; }
 
 .subhead .btn-group {
   margin-left: .75rem !important; }
@@ -1752,8 +1750,6 @@ th {
 .subhead .btn-sm [class^='fa-'],
 .subhead .btn-sm [class^='icon-'] {
   margin: 0 -22px 0 22px;
-  border-right: 0;
-  border-left: 1px solid #ccc;
   border-radius: 0 3px 3px 0; }
 
 .com_cpanel .card .list-group > .published {

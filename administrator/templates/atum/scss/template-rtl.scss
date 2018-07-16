@@ -168,8 +168,6 @@ th {
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
       margin: 0 -22px 0 22px;
-      border-right: 0;
-      border-left: 1px solid $atum-border-color;
     }
   }
 
@@ -193,8 +191,6 @@ th {
   .btn-sm [class^='fa-'],
   .btn-sm [class^='icon-'] {
     margin: 0 -22px 0 22px;
-    border-right: 0;
-    border-left: 1px solid $atum-border-color;
     border-radius: 0 3px 3px 0;
   }
 }
