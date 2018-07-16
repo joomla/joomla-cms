@@ -125,7 +125,7 @@ if (!$readonly)
 						'width'       => '100%',
 						'modalWidth'  => 80,
 						'bodyHeight'  => 60,
-						'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</a>'
+						'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . Text::_('JCANCEL') . '</a>'
 					)
 				); ?>
 				</span>
