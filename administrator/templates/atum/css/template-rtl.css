@@ -1649,6 +1649,9 @@ th {
   margin-right: 220px;
   margin-left: 0; }
 
+.control-group .custom-select {
+  float: right; }
+
 .dropdown-menu-right {
   right: auto;
   left: 0; }
