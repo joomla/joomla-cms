@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
