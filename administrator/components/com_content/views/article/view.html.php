@@ -150,6 +150,11 @@ class ContentViewArticle extends JViewLegacy
 				JToolbarHelper::versions('com_content.article', $this->item->id);
 			}
 
+			if (JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
+			{
+				JToolbarHelper::custom('article.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+			}
+
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 

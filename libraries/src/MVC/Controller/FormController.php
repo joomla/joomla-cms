@@ -928,4 +928,22 @@ class FormController extends BaseController
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
 	}
+
+	/**
+	 * Load item to edit associations in com_associations
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function editAssociations()
+	{
+		// Initialise variables.
+		$app   = \JFactory::getApplication();
+		$input = $app->input;
+		$model = $this->getModel();
+
+		$data = $input->get('jform', array(), 'array');
+		$model->editAssociations($data);
+	}
 }
