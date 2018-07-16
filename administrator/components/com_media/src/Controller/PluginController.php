@@ -15,7 +15,6 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
-use Joomla\CMS\Router\Route;
 
 /**
  * Plugin Controller for OAuth2.0 callbacks
