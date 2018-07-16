@@ -1746,8 +1746,8 @@ th {
   margin-left: .75rem !important; }
 
 .subhead .btn-toolbar > * {
-  margin-left: 0;
-  margin-right: .75rem; }
+  margin-right: .75rem;
+  margin-left: 0; }
   .subhead .btn-toolbar > *:first-of-type {
     margin-right: 0; }
 
