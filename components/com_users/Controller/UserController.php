@@ -526,6 +526,25 @@ class UserController extends FormController
 		$prefix = Text::sprintf('COM_USERS_CONTACT_ENQUIRY_TEXT', Uri::base());
 		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
+		// Load the custom fields
+		if (!empty($data['com_fields']) && $fields = \FieldsHelper::getFields('com_users.contact', $contact, true, $data['com_fields']))
+		{
+			$output = \FieldsHelper::render(
+				'com_users.contact',
+				'fields.render',
+				array(
+					'context' => 'com_users.contact',
+					'item'    => $contact,
+					'fields'  => $fields,
+				)
+			);
+
+			if ($output)
+			{
+				$body .= "\r\n\r\n" . $output;
+			}
+		}
+
 		$mail = Factory::getMailer();
 		$mail->addRecipient($contact->email);
 		$mail->addReplyTo($email, $name);
