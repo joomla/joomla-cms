@@ -1692,9 +1692,6 @@ th {
   border-right: 0;
   border-left: 1px solid rgba(255, 255, 255, 0.15); }
 
-.main-nav .fa {
-  margin: 0 12px 0 8px; }
-
 .main-nav .open > a + ul {
   right: 50px;
   left: auto; }
@@ -1711,6 +1708,12 @@ th {
   right: auto;
   left: 15px;
   content: "\f0d9"; }
+
+.main-nav li a span {
+  float: right; }
+
+.main-nav .collapse-level-1 .menuitem-group, .main-nav .collapse-level-1 > li:first-of-type {
+  text-align: right; }
 
 .child-open > .open > a::before {
   right: 0;
@@ -1769,12 +1772,6 @@ th {
     border-left: 0;
     border-top-left-radius: none;
     border-top-right-radius: 0; }
-
-.main-nav .fa {
-  margin: 0 18px; }
-
-.main-nav li a span {
-  float: right; }
 
 .js-stools .js-stools-container-filters {
   right: auto;

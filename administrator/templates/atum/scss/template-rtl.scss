@@ -106,10 +106,6 @@ th {
 // Sidebar
 .main-nav {
 
-  .fa {
-    margin: 0 12px 0 8px;
-  }
-
   .open > a {
 
     + ul {
@@ -132,6 +128,14 @@ th {
     right: auto;
     left: 15px;
     content: "\f0d9";
+  }
+
+  li a span {
+    float: right;
+  }
+
+  .collapse-level-1 .menuitem-group, .collapse-level-1>li:first-of-type {
+    text-align: right;
   }
 }
 
@@ -225,16 +229,6 @@ th {
         border-top-right-radius: 0;
       }
     }
-  }
-}
-
-.main-nav {
-  .fa {
-    margin:0 18px;
-  }
-
-  li a span {
-    float: right;
   }
 }
 
