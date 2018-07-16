@@ -129,6 +129,7 @@ class HtmlView extends BaseHtmlView
 	 * Prepares the document.
 	 *
 	 * @return  void
+	 *
 	 * @throws  \Exception
 	 */
 	protected function _prepareDocument()
