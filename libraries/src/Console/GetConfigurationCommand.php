@@ -63,7 +63,7 @@ class GetConfigurationCommand extends AbstractCommand
 		$this->configureIO();
 		$option = $this->cliInput->getArgument('option');
 
-		$configs = Factory::getConfig()->toArray();
+		$configs = $this->getApplication()->getConfig()->toArray();
 
 		if (!array_key_exists($option, $configs))
 		{
@@ -89,7 +89,7 @@ class GetConfigurationCommand extends AbstractCommand
 	protected function initialise()
 	{
 		$this->setName('config:get');
-		$this->setDescription('List installed extensions');
+		$this->setDescription('Displays the current value of a configuration option');
 
 		$this->addArgument('option', InputArgument::REQUIRED, 'Name of the option');
 

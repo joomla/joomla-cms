@@ -185,6 +185,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\ExtensionRemoveCommand,
 				new Console\CheckJoomlaUpdatesCommand,
 				new Console\GetConfigurationCommand,
+				new Console\SetConfigurationCommand,
 			]
 		);
 	}
