@@ -212,18 +212,38 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
+		// Filter by a single or group of tags.
 		$tagId = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		if (is_array($tagId) && count($tagId) === 1)
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT',
-					$db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
-				);
+			$tagId = current($tagId);
+		}
+
+		if (is_array($tagId))
+		{
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
+
+			if ($tagId)
+			{
+				$subQuery = $db->getQuery(true)
+					->select('DISTINCT content_item_id')
+					->from($db->quoteName('#__contentitem_tag_map'))
+					->where('tag_id IN (' . $tagId . ')')
+					->where('type_alias = ' . $db->quote('com_content.article'));
+
+				$query->join('INNER', '(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
+			}
+		}
+		elseif ($tagId)
+		{
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON tagmap.tag_id = ' . (int) $tagId
+				. ' AND tagmap.content_item_id = a.id'
+				. ' AND tagmap.type_alias = ' . $db->quote('com_content.article')
+			);
 		}
 
 		// Add the list ordering clause.
