@@ -1645,6 +1645,10 @@ th {
   float: right;
   text-align: right; }
 
+.control-group .controls {
+  margin-right: 220px;
+  margin-left: 0; }
+
 .dropdown-menu-right {
   right: auto;
   left: 0; }
