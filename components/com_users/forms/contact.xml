@@ -61,4 +61,14 @@
 			default="0"
 		/>
 	</fieldset>
+
+	<fieldset name="captcha">
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_USERS_CAPTCHA_LABEL"
+			validate="captcha"
+			namespace="users"
+		/>
+	</fieldset>
 </form>

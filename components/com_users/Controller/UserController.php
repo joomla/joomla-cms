@@ -459,7 +459,12 @@ class UserController extends FormController
 		}
 
 		// Send the email
-		$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+		$sent = false;
+
+		if (!$params->get('custom_reply'))
+		{
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+		}
 
 		// Set the success message if it was a success
 		if (!($sent instanceof \Exception))

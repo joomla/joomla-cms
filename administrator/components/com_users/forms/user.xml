@@ -216,6 +216,7 @@
 					name="show_email_form"
 					type="list"
 					label="COM_USERS_FIELD_EMAIL_SHOW_FORM_LABEL"
+					useglobal="true"
 
 			>
 				<option value="0">JHIDE</option>
@@ -263,6 +264,16 @@
 					name="validate_session"
 					type="list"
 					label="COM_USERS_FIELD_CONFIG_SESSION_CHECK_LABEL"
+					useglobal="true"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+					name="custom_reply"
+					type="list"
+					label="COM_USERS_CONFIG_FIELD_CUSTOM_REPLY_LABEL"
 					useglobal="true"
 			>
 				<option value="0">JNO</option>
