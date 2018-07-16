@@ -21,18 +21,18 @@ HTMLHelper::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', arra
 		<span class="fa fa-language" aria-hidden="true"></span>
 		<span class="sr-only"><?php echo Text::_('MOD_MULTILANGSTATUS'); ?></span>
 	</a>
-</li>
 
-<?php echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'multiLangModal',
-	array(
-		'title'      => Text::_('MOD_MULTILANGSTATUS'),
-		'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
-		'height'     => '400px',
-		'width'      => '800px',
-		'bodyHeight' => 70,
-		'modalWidth' => 80,
-		'footer'     => '<a class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . Text::_('JTOOLBAR_CLOSE') . '</a>',
-	)
-);
+	<?php echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'multiLangModal',
+		array(
+			'title'      => Text::_('MOD_MULTILANGSTATUS'),
+			'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
+			'height'     => '400px',
+			'width'      => '800px',
+			'bodyHeight' => 70,
+			'modalWidth' => 80,
+			'footer'     => '<a class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . Text::_('JTOOLBAR_CLOSE') . '</a>',
+		)
+	); ?>
+</li>
