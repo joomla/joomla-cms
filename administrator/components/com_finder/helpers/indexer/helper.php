@@ -370,34 +370,6 @@ class FinderIndexerHelper
 	}
 
 	/**
-	 * Method to get the path (SEF route) for a content item.
-	 *
-	 * @param   string  $url  The non-SEF route to the content item.
-	 *
-	 * @return  string  The path for the content item.
-	 *
-	 * @since   2.5
-	 */
-	public static function getContentPath($url)
-	{
-		static $router;
-
-		// Only get the router once.
-		if (!($router instanceof Router))
-		{
-			// Get and configure the site router.
-			$router = Router::getInstance('site');
-		}
-
-		// Build the relative route.
-		$uri = $router->build($url);
-		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JUri::base(true) . '/', '', $route);
-
-		return $route;
-	}
-
-	/**
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
