@@ -1654,11 +1654,9 @@ th {
 
 .wrapper {
   padding-left: 0; }
-  .wrapper.closed {
-    padding-right: 50px; }
-    .wrapper.closed .main-brand img {
-      position: relative;
-      left: 151px; }
+  .wrapper.closed .main-brand img {
+    position: relative;
+    left: 151px; }
 
 .sidebar-wrapper {
   right: 0;
@@ -1771,6 +1769,9 @@ th {
     border-left: 0;
     border-top-left-radius: none;
     border-top-right-radius: 0; }
+
+.main-nav .fa {
+  margin: 0 18px; }
 
 .main-nav li a span {
   float: right; }
