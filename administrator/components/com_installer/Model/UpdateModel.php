@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
 use Joomla\Database\Exception\ExecutionFailureException;
