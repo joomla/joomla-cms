@@ -162,7 +162,9 @@ th {
 // Toolbar
 .subhead {
 
-  .btn {
+  .btn, .btn-sm {
+    [class*=' fa-'],
+    [class^='fa-'],
     [class^='icon-'],
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
@@ -180,18 +182,6 @@ th {
     &:first-of-type {
       margin-right: 0;
     }
-  }
-
-  .btn-group-sm > .btn [class*=' fa-'],
-  .btn-group-sm > .btn [class*=' icon-'],
-  .btn-group-sm > .btn [class^='fa-'],
-  .btn-group-sm > .btn [class^='icon-'],
-  .btn-sm [class*=' fa-'],
-  .btn-sm [class*=' icon-'],
-  .btn-sm [class^='fa-'],
-  .btn-sm [class^='icon-'] {
-    margin: 0 -22px 0 22px;
-    border-radius: 0 3px 3px 0;
   }
 }
 

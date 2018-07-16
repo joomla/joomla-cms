@@ -1729,10 +1729,17 @@ th {
 .sidebar-wrapper[data-hidden='1'] ~ .status {
   margin-right: 0; }
 
+.subhead .btn [class*=' fa-'],
+.subhead .btn [class^='fa-'],
 .subhead .btn [class^='icon-'],
 .subhead .btn [class*=' icon-'],
 .subhead .btn [class^='fa-'],
-.subhead .btn [class*=' fa-'] {
+.subhead .btn [class*=' fa-'], .subhead .btn-sm [class*=' fa-'],
+.subhead .btn-sm [class^='fa-'],
+.subhead .btn-sm [class^='icon-'],
+.subhead .btn-sm [class*=' icon-'],
+.subhead .btn-sm [class^='fa-'],
+.subhead .btn-sm [class*=' fa-'] {
   margin: 0 -22px 0 22px; }
 
 .subhead .btn-group {
@@ -1740,17 +1747,6 @@ th {
 
 .subhead .btn-toolbar > *:first-of-type {
   margin-right: 0; }
-
-.subhead .btn-group-sm > .btn [class*=' fa-'],
-.subhead .btn-group-sm > .btn [class*=' icon-'],
-.subhead .btn-group-sm > .btn [class^='fa-'],
-.subhead .btn-group-sm > .btn [class^='icon-'],
-.subhead .btn-sm [class*=' fa-'],
-.subhead .btn-sm [class*=' icon-'],
-.subhead .btn-sm [class^='fa-'],
-.subhead .btn-sm [class^='icon-'] {
-  margin: 0 -22px 0 22px;
-  border-radius: 0 3px 3px 0; }
 
 .com_cpanel .card .list-group > .published {
   border-right: 5px solid #2f7d32;
