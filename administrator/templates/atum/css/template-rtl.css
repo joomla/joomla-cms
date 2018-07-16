@@ -1693,7 +1693,7 @@ th {
   border-left: 1px solid rgba(255, 255, 255, 0.15); }
 
 .main-nav .open > a + ul {
-  right: 50px;
+  right: 60px;
   left: auto; }
 
 .main-nav .collapse-level-2 {
