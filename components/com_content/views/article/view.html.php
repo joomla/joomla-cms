@@ -67,8 +67,13 @@ class ContentViewArticle extends JViewLegacy
 			$item->parent_slug = null;
 		}
 
+		// Find preferred route for current page and add it as rel canonical
+		// This assumes that router maintains current menu item, when multiple menu items exist for same record (article)
+		$page_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+		JFactory::getDocument()->addHeadLink($page_link, 'canonical', 'rel');
+
 		// TODO: Change based on shownoauth
-		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+		$item->readmore_link = $page_link;
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
