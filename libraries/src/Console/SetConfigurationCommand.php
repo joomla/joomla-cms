@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Joomla\CMS\Factory;
 
 /**
- * Console command for checking if there are pending extension updates
+ * Console command Setting Configuration options
  *
  * @since  4.0.0
  */
