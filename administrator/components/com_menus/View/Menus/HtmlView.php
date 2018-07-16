@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The HTML Menus Menu Menus View.
@@ -122,7 +123,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_menus');
 
-		ToolbarHelper::title(\JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
+		ToolbarHelper::title(Text::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 
 		if ($canDo->get('core.create'))
 		{
