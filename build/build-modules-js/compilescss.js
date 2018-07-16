@@ -92,7 +92,7 @@ const compileFiles = (options, path) => {
             );
 
             // eslint-disable-next-line no-console
-            console.log(chalk.bgGreen(`File: ${cssFile.replace(/.+\//, '')} was updated. `));
+            console.log(kleur.bgGreen(`File: ${cssFile.replace(/.+\//, '')} was updated. `));
           });
       }
     });
