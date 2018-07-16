@@ -1654,9 +1654,6 @@ th {
 
 .wrapper {
   padding-left: 0; }
-  .wrapper.closed .main-brand img {
-    position: relative;
-    left: 151px; }
 
 .sidebar-wrapper {
   right: 0;
