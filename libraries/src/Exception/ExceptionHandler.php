@@ -10,6 +10,7 @@ namespace Joomla\CMS\Exception;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -126,6 +127,9 @@ class ExceptionHandler
 				$renderer = AbstractRenderer::getRenderer('html');
 			}
 
+			// Reset the document object in the factory, this gives us a clean slate and lets everything render properly
+			Factory::$document = $renderer->getDocument();
+
 			$data = $renderer->render($error);
 
 			// If nothing was rendered, just use the message from the Exception
@@ -140,12 +144,12 @@ class ExceptionHandler
 			}
 			else
 			{
+				/** @var CMSApplication $app */
+
 				// Do not allow cache
 				$app->allowCache(false);
 
 				$app->setBody($data);
-
-				echo $app->toString();
 			}
 
 			// This return is needed to ensure the test suite does not trigger the non-Exception handling below

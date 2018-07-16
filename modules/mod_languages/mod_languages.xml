@@ -75,18 +75,6 @@
 				</field>
 
 				<field
-					name="lineheight"
-					type="radio"
-					class="switcher"
-					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
-					default="0"
-					showon="dropdown:1[AND]dropdownimage:1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="image"
 					type="radio"
 					class="switcher"
@@ -99,12 +87,28 @@
 				</field>
 
 				<field
-					name="spacer3"
-					type="spacer"
-					label="MOD_LANGUAGES_SPACER_USENAME_LABEL"
-					class="text"
-					showon="image:0[AND]dropdown:0"
-				/>
+					name="full_name"
+					type="radio"
+					class="switcher"
+					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
+					showon="dropdown:1[OR]image:0"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="lineheight"
+					type="radio"
+					class="switcher"
+					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
+					default="0"
+					showon="dropdown:1[AND]dropdownimage:1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 
 				<field
 					name="show_active"
@@ -113,18 +117,6 @@
 					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
 					default="1"
 					showon="dropdownimage:1[OR]dropdown:0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="full_name"
-					type="radio"
-					class="switcher"
-					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
-					showon="dropdown:0[AND]image:0"
-					default="1"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

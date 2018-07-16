@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -17,24 +18,7 @@ $lang          = JFactory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
 $colSpan       = $branchFilter ? 5 : 6;
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(pressbutton)
-	{
-		if (pressbutton == "map.delete")
-		{
-			if (confirm(Joomla.JText._("COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT")))
-			{
-				Joomla.submitform(pressbutton);
-			}
-			else
-			{
-				return false;
-			}
-		}
-		Joomla.submitform(pressbutton);
-	};
-');
+HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 'auto']);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -47,7 +31,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
 				<?php else : ?>
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
 							<th style="width:1%" class="text-center nowrap">

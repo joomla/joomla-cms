@@ -1,9 +1,9 @@
 /* Media browser */
 .media-browser {
   position: relative;
-  height: calc(100% - 52px);
-  overflow-y: auto;
   width: 75%;
+  height: calc(100vh - 208px);
+  overflow-y: auto;
   transition: width .3s cubic-bezier(.4, .0, .2, 1);
 }
 
@@ -286,7 +286,6 @@
 }
 
 .media-browser-table {
-  height: calc(100% - 52px);
   overflow-y: auto;
   font-size: .9rem;
   line-height: $table-item-height;
