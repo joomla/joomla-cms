@@ -15,7 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
