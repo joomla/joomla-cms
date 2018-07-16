@@ -15,7 +15,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
-use JoomlaCMS\Categories\Categories;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * Fields Model
