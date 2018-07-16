@@ -1780,3 +1780,7 @@ th {
 .mr-auto {
   margin-right: 0 !important;
   margin-left: auto !important; }
+
+.mr-2 {
+  margin-left: 0.5rem;
+  margin-right: 0 !important; }
