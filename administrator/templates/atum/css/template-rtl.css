@@ -1745,8 +1745,11 @@ th {
 .subhead .btn-group {
   margin-left: .75rem !important; }
 
-.subhead .btn-toolbar > *:first-of-type {
-  margin-right: 0; }
+.subhead .btn-toolbar > * {
+  margin-left: 0;
+  margin-right: .75rem; }
+  .subhead .btn-toolbar > *:first-of-type {
+    margin-right: 0; }
 
 .com_cpanel .card .list-group > .published {
   border-right: 5px solid #2f7d32;
