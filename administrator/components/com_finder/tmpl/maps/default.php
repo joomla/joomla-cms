@@ -34,25 +34,25 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 				<table class="table">
 					<thead>
 						<tr>
-							<th style="width:1%" class="text-center nowrap">
+							<td style="width:1%" class="text-center nowrap">
 								<?php echo JHtml::_('grid.checkall'); ?>
-							</th>
+							</td>
 							<th style="width:1%" class="text-center nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
-							<th class="nowrap">
+							<th scope="col" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
-							<th style="width:1%" class="nowrap text-center">
-								<?php echo JText::_('COM_FINDER_HEADING_CHILDREN'); ?>
-							</th>
+								<th scope="col" style="width:1%" class="nowrap text-center">
+									<?php echo JText::_('COM_FINDER_HEADING_CHILDREN'); ?>
+								</th>
 							<?php endif; ?>
-							<th style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="nowrap text-center">
                                 <span class="icon-publish" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
-							<th style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="nowrap text-center">
                                 <span class="icon-unpublish" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
@@ -75,28 +75,28 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							<td class="text-center nowrap">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
 							</td>
-							<td>
-							<?php
-							if (trim($item->parent_title, '**') === 'Language')
-							{
-								$title = FinderHelperLanguage::branchLanguageTitle($item->title);
-							}
-							else
-							{
-								$key = FinderHelperLanguage::branchSingular($item->title);
-								$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
-							}
-							?>
-							<?php if ((int) $item->num_children === 0) : ?>
-								<span class="gi">&mdash;</span>
-							<?php endif; ?>
-							<label for="cb<?php echo $i; ?>" style="display:inline-block;">
-								<?php echo $this->escape($title); ?>
-							</label>
-							<?php if ($this->escape(trim($title, '**')) === 'Language' && JLanguageMultilang::isEnabled()) : ?>
-								<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
-							<?php endif; ?>
-							</td>
+							<th scope="row">
+								<?php
+								if (trim($item->parent_title, '**') === 'Language')
+								{
+									$title = FinderHelperLanguage::branchLanguageTitle($item->title);
+								}
+								else
+								{
+									$key = FinderHelperLanguage::branchSingular($item->title);
+									$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
+								}
+								?>
+								<?php if ((int) $item->num_children === 0) : ?>
+									<span class="gi">&mdash;</span>
+								<?php endif; ?>
+								<label for="cb<?php echo $i; ?>" style="display:inline-block;">
+									<?php echo $this->escape($title); ?>
+								</label>
+								<?php if ($this->escape(trim($title, '**')) === 'Language' && JLanguageMultilang::isEnabled()) : ?>
+									<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
+								<?php endif; ?>
+							</th>
 							<?php if (!$branchFilter) : ?>
 							<td class="text-center btns">
 							<?php if ((int) $item->num_children !== 0) : ?>
