@@ -107,7 +107,7 @@ class PlgSearchContent extends CMSPlugin
 					->where('cfv.value LIKE ' . $text);
 
 				// Filter by language.
-				if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+				if ($app->isClient('site') && Multilanguage::isEnabled())
 				{
 					$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 				}
@@ -164,7 +164,7 @@ class PlgSearchContent extends CMSPlugin
 							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
 
 						// Filter by language.
-						if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+						if ($app->isClient('site') && Multilanguage::isEnabled())
 						{
 							$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 						}
@@ -205,7 +205,7 @@ class PlgSearchContent extends CMSPlugin
 						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');
 
 					// Filter by language.
-					if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+					if ($app->isClient('site') && Multilanguage::isEnabled())
 					{
 						$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 					}

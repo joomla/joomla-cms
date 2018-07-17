@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 ?>
 <div class="container-popup">
 	<form
 		class="form-horizontal form-validate"
 		id="download-form"
 		name="adminForm"
-		action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
+		action="<?php echo Route::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
 		method="post">
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>
@@ -25,7 +27,7 @@ defined('_JEXEC') or die;
 		<button class="sr-only"
 			id="exportBtn"
 			type="button"
-			onclick="this.form.submit();window.top.setTimeout('window.parent.jQuery(\'#downloadModal\').modal(\'hide\')', 700);">
+			onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.Modal.getCurrent().close()', 700);">
 		</button>
 	</form>
 </div>

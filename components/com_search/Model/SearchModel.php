@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Search Component Search Model
@@ -59,8 +60,8 @@ class SearchModel extends BaseDatabaseModel
 		parent::__construct();
 
 		// Get configuration
-		$app    = \JFactory::getApplication();
-		$config = \JFactory::getConfig();
+		$app    = Factory::getApplication();
+		$config = Factory::getConfig();
 
 		// Get the pagination request variables
 		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
@@ -142,7 +143,7 @@ class SearchModel extends BaseDatabaseModel
 			$areas = $this->getAreas();
 
 			PluginHelper::importPlugin('search');
-			$results = \JFactory::getApplication()->triggerEvent('onContentSearch', array(
+			$results = Factory::getApplication()->triggerEvent('onContentSearch', array(
 				$this->getState('keyword'),
 				$this->getState('match'),
 				$this->getState('ordering'),
@@ -230,7 +231,7 @@ class SearchModel extends BaseDatabaseModel
 			$areas = array();
 
 			PluginHelper::importPlugin('search');
-			$searchareas = \JFactory::getApplication()->triggerEvent('onContentSearchAreas');
+			$searchareas = Factory::getApplication()->triggerEvent('onContentSearchAreas');
 
 			foreach ($searchareas as $area)
 			{

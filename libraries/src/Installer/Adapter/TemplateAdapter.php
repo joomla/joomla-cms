@@ -184,13 +184,13 @@ class TemplateAdapter extends InstallerAdapter
 		$subQuery = $db->getQuery(true)
 			->select('s.id')
 			->from($db->quoteName('#__template_styles', 's'))
-			->where('s.template = ' . $db->quote(strtolower($this->extension->element)))
-			->where('s.client_id = ' . (int) $this->extension->client_id);
+			->where($db->quoteName('s.template') . ' = ' . $db->quote(strtolower($this->extension->element)))
+			->where($db->quoteName('s.client_id') . ' = ' . (int) $this->extension->client_id);
 
 		$query = $db->getQuery(true)
-			->update('#__menu')
-			->set('template_style_id = 0')
-			->where('template_style_id IN (' . (string) $subQuery . ')');
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('template_style_id') . ' = 0')
+			->where($db->quoteName('template_style_id') . ' IN (' . (string) $subQuery . ')');
 
 		$db->setQuery($query);
 		$db->execute();

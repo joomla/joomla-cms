@@ -233,4 +233,3 @@ export const deleteSelectedItems = (context, payload) => {
         // TODO notify the user that he has to select at least one item
     }
 }
-

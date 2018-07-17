@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Component Controller
@@ -30,6 +31,6 @@ class DisplayController extends BaseController
 	public function cancel()
 	{
 		// Redirect back to home(base) page
-		$this->setRedirect(\JUri::base());
+		$this->setRedirect(Uri::base());
 	}
 }

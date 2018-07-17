@@ -9,12 +9,16 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 
 ?>
-<div class="contact-form">
-	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
+<div class="com-contact__form contact-form">
+	<form id="contact-form" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php if ($fieldset->name === 'captcha' && !$this->captchaEnabled) : ?>
 				<?php continue; ?>
@@ -22,7 +26,7 @@ JHtml::_('behavior.formvalidator');
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
 			<?php if (count($fields)) : ?>
 				<fieldset>
-					<?php if (isset($fieldset->label) && ($legend = trim(JText::_($fieldset->label))) !== '') : ?>
+					<?php if (isset($fieldset->label) && ($legend = trim(Text::_($fieldset->label))) !== '') : ?>
 						<legend><?php echo $legend; ?></legend>
 					<?php endif; ?>
 					<?php foreach ($fields as $field) : ?>
@@ -33,12 +37,12 @@ JHtml::_('behavior.formvalidator');
 		<?php endforeach; ?>
 		<div class="control-group">
 			<div class="controls">
-				<button class="btn btn-primary validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
+				<button class="btn btn-primary validate" type="submit"><?php echo Text::_('COM_CONTACT_CONTACT_SEND'); ?></button>
 				<input type="hidden" name="option" value="com_contact">
 				<input type="hidden" name="task" value="contact.submit">
 				<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
 				<input type="hidden" name="id" value="<?php echo $this->contact->slug; ?>">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</form>
