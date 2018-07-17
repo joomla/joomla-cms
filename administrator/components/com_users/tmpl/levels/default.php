@@ -47,19 +47,19 @@ if ($saveOrder)
 					<table class="table" id="levelList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%">
+								<td style="width:1%">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th>
+								</td>
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="nowrap d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
 								</th>
-								<th style="width:1%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -102,14 +102,14 @@ if ($saveOrder)
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<?php if ($canEdit) : ?>
 									<a href="<?php echo Route::_('index.php?option=com_users&task=level.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo UsersHelper::getVisibleByGroups($item->rules); ?>
 								</td>
