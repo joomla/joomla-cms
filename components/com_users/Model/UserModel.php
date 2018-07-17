@@ -31,8 +31,6 @@ class UserModel extends FormModel
 	 */
 	protected $_item = null;
 
-	protected $user;
-
 	/**
 	 * Method to auto-populate the model state.
 	 *

@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 $params = $this->item->params;
 ?>
 <div class="item-page" itemscope itemtype="https://schema.org/Person">
@@ -24,7 +25,7 @@ $params = $this->item->params;
 	<div itemprop="email"><?php echo $this->escape($this->item->username); ?></div>
 	<div><?php echo $this->escape($this->item->email); ?></div>
 
-	<?php  if ($params->get('show_email_form')) : ?>
+	<?php if ($params->get('show_email_form')) : ?>
 		<?php echo $this->loadTemplate('form'); ?>
 	<?php endif; ?>
 
