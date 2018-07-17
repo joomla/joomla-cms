@@ -39,7 +39,7 @@ jQuery(document).ready(function($){
 
 		<div class="small">
 			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($video->name); ?>" title="<?php echo $this->escape($video->name); ?>">
-				<?php echo JHtml::_('string.truncate', $this->escape($video->name), 10, false); ?>
+				<?php echo JHtml::_('string.truncate', $this->escape($video->path_relative), 10, false); ?>
 			</a>
 		</div>
 	</li>
