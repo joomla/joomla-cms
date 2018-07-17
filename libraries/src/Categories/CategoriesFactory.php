@@ -43,13 +43,13 @@ class CategoriesFactory implements CategoriesFactoryInterface
 	 *
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories
+	 * @return  CategoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @throws  SectionNotFoundException
 	 */
-	public function createCategory(string $section): Categories
+	public function createCategory(string $section): CategoryInterface
 	{
 		if (!array_key_exists($section, $this->options))
 		{

@@ -32,14 +32,14 @@ trait CategoriesServiceTrait
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories
+	 * @return  CategoryInterface
 	 *
-	 * @see Categories::setOptions()
+	 * @see     CategoryInterface::setOptions()
 	 *
 	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
-	public function getCategories(array $options = [], $section = ''): Categories
+	public function getCategory(array $options = [], $section = ''): CategoryInterface
 	{
 		$category = $this->categoriesFactory->createCategory($section);
 		$category->setOptions($options);

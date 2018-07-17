@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
  *
  * @since  1.6
  */
-class Categories
+class Categories implements CategoryInterface
 {
 	/**
 	 * Array to hold the object instances
@@ -146,7 +146,7 @@ class Categories
 
 			if ($component instanceof CategoriesServiceInterface)
 			{
-				$categories = $component->getCategories($options, count($parts) > 1 ? $parts[1] : '');
+				$categories = $component->getCategory($options, count($parts) > 1 ? $parts[1] : '');
 			}
 		}
 		catch (SectionNotFoundException $e)
@@ -160,16 +160,18 @@ class Categories
 	}
 
 	/**
-	 * Loads a specific category and all its children in a CategoryNode object
+	 * Loads a specific category and all its children in a CategoryNode object.
 	 *
 	 * @param   mixed    $id         an optional id integer or equal to 'root'
 	 * @param   boolean  $forceload  True to force  the _load method to execute
 	 *
-	 * @return  CategoryNode|null|boolean  CategoryNode object or null if $id is not valid
+	 * @return  CategoryNode  CategoryNode object
 	 *
 	 * @since   1.6
+	 *
+	 * @throws  CategoryNotFoundException
 	 */
-	public function get($id = 'root', $forceload = false)
+	public function get($id = 'root', $forceload = false): CategoryNode
 	{
 		if ($id !== 'root')
 		{
@@ -192,13 +194,8 @@ class Categories
 		{
 			return $this->_nodes[$id];
 		}
-		// If we processed this $id already and it was not valid, then return null.
-		elseif (isset($this->_checkedCategories[$id]))
-		{
-			return;
-		}
 
-		return false;
+		throw new CategoryNotFoundException;
 	}
 
 	/**

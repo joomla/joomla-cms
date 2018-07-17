@@ -57,7 +57,7 @@ class CategoriesFactory implements ServiceProviderInterface
 			CategoriesFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Categories\CategoriesFactory(['', $this->options]);
+				return new \Joomla\CMS\Categories\CategoriesFactory(['' => $this->options]);
 			}
 		);
 	}

@@ -11,8 +11,8 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyDispatcher;
@@ -88,14 +88,14 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories
+	 * @return  CategoryInterface
 	 *
-	 * @see Categories::setOptions()
+	 * @see     CategoryInterface::setOptions()
 	 *
 	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
-	public function getCategories(array $options = [], $section = ''): Categories
+	public function getCategory(array $options = [], $section = ''): CategoryInterface
 	{
 		$classname = ucfirst($this->component) . ucfirst($section) . 'Categories';
 
