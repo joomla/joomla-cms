@@ -11,17 +11,15 @@ namespace Joomla\Component\Finder\Administrator\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
-
-FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Supports a select grouped list of finder content map.
  *
  * @since  3.6.0
  */
-class ContentmapField extends \JFormFieldGroupedList
+class ContentmapField extends GroupedlistField
 {
 	/**
 	 * The form field type.

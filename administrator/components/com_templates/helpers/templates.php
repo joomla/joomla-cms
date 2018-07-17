@@ -18,5 +18,4 @@ defined('_JEXEC') or die;
  */
 class TemplatesHelper extends \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper
 {
-
 }

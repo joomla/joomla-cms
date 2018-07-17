@@ -16,6 +16,8 @@ if (!defined('_JEXEC'))
 	define('_JEXEC', 1);
 }
 
+use Joomla\CMS\Language\Text;
+
 if (!function_exists('jimport'))
 {
 	/**
@@ -75,15 +77,15 @@ if (!class_exists('JFile'))
 	}
 }
 
-// Fake the JFolder class, mapping it to Restore's post-processing class
-if (!class_exists('JFolder'))
+// Fake the Folder class, mapping it to Restore's post-processing class
+if (!class_exists('Folder'))
 {
 	/**
-	 * JFolder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+	 * Folder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
 	 *
 	 * @since  3.5.1
 	 */
-	abstract class JFolder
+	abstract class Folder
 	{
 		/**
 		 * Proxies checking a folder exists to the native php version
@@ -115,15 +117,15 @@ if (!class_exists('JFolder'))
 	}
 }
 
-// Fake the JText class - we aren't going to show errors to people anyhow
-if (!class_exists('JText'))
+// Fake the Text class - we aren't going to show errors to people anyhow
+if (!class_exists('Text'))
 {
 	/**
-	 * JText mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+	 * Text mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
 	 *
 	 * @since  3.5.1
 	 */
-	abstract class JText
+	abstract class Text
 	{
 		/**
 		 * No need for translations in a non-interactive script, so always return an empty string here
@@ -181,10 +183,6 @@ if (!function_exists('finalizeRestore'))
 		if (function_exists('opcache_reset'))
 		{
 			opcache_reset();
-		}
-		elseif (function_exists('apc_clear_cache'))
-		{
-			@apc_clear_cache();
 		}
 	}
 }

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Newsfeeds Component Newsfeed Model
@@ -39,7 +41,7 @@ class NewsfeedModel extends ItemModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');
@@ -52,7 +54,7 @@ class NewsfeedModel extends ItemModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
 		{
@@ -104,7 +106,7 @@ class NewsfeedModel extends ItemModel
 
 				// Filter by start and end dates.
 				$nullDate = $db->quote($db->getNullDate());
-				$nowDate = $db->quote(\JFactory::getDate()->toSql());
+				$nowDate = $db->quote(Factory::getDate()->toSql());
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
@@ -124,14 +126,14 @@ class NewsfeedModel extends ItemModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 
 				if ((is_numeric($published) || is_numeric($archived)) && $data->published != $published && $data->published != $archived)
 				{
-					throw new \Exception(\JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -151,7 +153,7 @@ class NewsfeedModel extends ItemModel
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user   = \JFactory::getUser();
+					$user   = Factory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 				}
@@ -179,7 +181,7 @@ class NewsfeedModel extends ItemModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
@@ -40,7 +41,7 @@ class ContactDispatcher extends ComponentDispatcher
 		{
 			if (!$this->app->getIdentity()->authorise('core.create', 'com_contact'))
 			{
-				$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+				$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
 				return;
 			}

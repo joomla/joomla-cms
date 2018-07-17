@@ -78,14 +78,6 @@
 					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 					<option value="0">TPL_CASSIOPEIA_STATIC</option>
 				</field>
-
-				<field
-						name="blabla"
-						type="color"
-						control="simple"
-						default=""
-						label="color"
-				/>
 			</fieldset>
 		</fields>
 	</config>

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Utility class for creating HTML Grids.
@@ -53,7 +54,7 @@ class JHtmlRedirect
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3])
+				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
 				. '"><span class="icon-'	. $icon . '" aria-hidden="true"></span></a>';
 		}
 

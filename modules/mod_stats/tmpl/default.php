@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="list-group">
+<ul class="mod-stats list-group">
 <?php foreach ($list as $item) : ?>
 	<li class="list-group-item justify-content-between">
 		<?php echo $item->title; ?>

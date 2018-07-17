@@ -16,6 +16,16 @@ namespace Joomla\Application;
 final class ApplicationEvents
 {
 	/**
+	 * The ERROR event is an event triggered when a Throwable is uncaught.
+	 *
+	 * This event allows you to inspect the Throwable and implement additional error handling/reporting mechanisms.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ERROR = 'application.error';
+
+	/**
 	 * The BEFORE_EXECUTE event is an event triggered before the application is executed.
 	 *
 	 * @var    string

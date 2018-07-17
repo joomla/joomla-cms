@@ -13,6 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Profile controller class for Users.
@@ -34,20 +38,20 @@ class ProfileController extends BaseController
 		jimport('joomla.filesystem.file');
 
 		// Set FTP credentials, if given
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{
-			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
+			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
 		}
-		elseif (!\JFile::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
+		elseif (!File::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
 		{
-			throw new \Exception(\JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
+			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
 		}
 
 		$options = array_merge(
 			array(
-				\JHtml::_('select.option', '', \JText::_('JOPTION_USE_DEFAULT'))
+				HTMLHelper::_('select.option', '', Text::_('JOPTION_USE_DEFAULT'))
 			),
 			Help::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml')
 		);

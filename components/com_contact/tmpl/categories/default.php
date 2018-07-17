@@ -10,20 +10,22 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Language\Text;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::_('behavior.core');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+HTMLHelper::_('behavior.core');
 
 // Add strings for translations in Javascript.
-JText::script('JGLOBAL_EXPAND_CATEGORIES');
-JText::script('JGLOBAL_COLLAPSE_CATEGORIES');
+Text::script('JGLOBAL_EXPAND_CATEGORIES');
+Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
 HTMLHelper::_('script', 'com_contact/categories-default.js', ['relative' => true, 'version' => 'auto']);
 
 ?>
-<div class="categories-list">
+<div class="com-contact-categories categories-list">
 	<?php
-		echo JLayoutHelper::render('joomla.content.categories_default', $this);
+		echo LayoutHelper::render('joomla.content.categories_default', $this);
 		echo $this->loadTemplate('items');
 	?>
 </div>

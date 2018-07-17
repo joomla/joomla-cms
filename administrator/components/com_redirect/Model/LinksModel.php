@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of redirect links.
@@ -231,7 +232,7 @@ class LinksModel extends ListModel
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
 					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
-					$db->quote(\JFactory::getDate()->toSql())
+					$db->quote(Factory::getDate()->toSql())
 				);
 		}
 

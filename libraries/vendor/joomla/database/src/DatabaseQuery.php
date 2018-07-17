@@ -200,6 +200,14 @@ abstract class DatabaseQuery implements QueryInterface
 	protected $selectRowNumber = null;
 
 	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = [];
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   DatabaseInterface  $db  The database driver.
@@ -1197,6 +1205,35 @@ abstract class DatabaseQuery implements QueryInterface
 	}
 
 	/**
+	 * Generate a SQL statement to check if column represents a zero or null datetime.
+	 *
+	 * Usage:
+	 * $query->where($query->isNullDatetime('modified_date'));
+	 *
+	 * @param   string  $column  A column name.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isNullDatetime($column)
+	{
+		if (!$this->db instanceof DatabaseInterface)
+		{
+			throw new \RuntimeException(sprintf('A %s instance is not set to the query object.', DatabaseInterface::class));
+		}
+
+		if ($this->nullDatetimeList)
+		{
+			return "($column IN ("
+			. implode(', ', $this->db->quote($this->nullDatetimeList))
+			. ") OR $column IS NULL)";
+		}
+
+		return "$column IS NULL";
+	}
+
+	/**
 	 * Add a ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
@@ -1549,6 +1586,26 @@ abstract class DatabaseQuery implements QueryInterface
 	}
 
 	/**
+	 * Add a WHERE IN statement to the query
+	 *
+	 * Usage
+	 * $query->whereIn('id', [1, 2, 3]);
+	 *
+	 * @param   string $keyName   key name for the where clause
+	 * @param   array  $keyValues array of values to be matched
+	 *
+	 * @return  $this
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function whereIn($keyName, $keyValues)
+	{
+		return $this->where(
+			$keyName . ' IN (' . implode(', ', $keyValues) . ')'
+		);
+	}
+
+	/**
 	 * Extend the WHERE clause with a single condition or an array of conditions, with a potentially
 	 * different logical operator from the one in the current WHERE clause.
 	 *
@@ -1640,8 +1697,8 @@ abstract class DatabaseQuery implements QueryInterface
 	 * Combine a select statement to the current query by one of the set operators.
 	 * Operators: UNION, UNION ALL, EXCEPT or INTERSECT.
 	 *
-	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string.
 	 * @param   string                $name   The name of the set operator with parentheses.
+	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string.
 	 *
 	 * @return  $this
 	 *

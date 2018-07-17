@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Site\Dispatcher;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
@@ -45,7 +46,7 @@ class Dispatcher extends ComponentDispatcher
 
 			if (!$hasAccess)
 			{
-				$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+				$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
 				return;
 			}
