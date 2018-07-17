@@ -23,6 +23,8 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceTrait;
 
@@ -78,7 +80,7 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function validateSection($section, $item = null)
 	{
-		if (\JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
 			// On the front end we need to map some sections
 			switch ($section)
@@ -111,11 +113,11 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function getContexts(): array
 	{
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article'    => \JText::_('COM_CONTENT'),
-			'com_content.categories' => \JText::_('JCATEGORY')
+			'com_content.article'    => Text::_('COM_CONTENT'),
+			'com_content.categories' => Text::_('JCATEGORY')
 		);
 
 		return $contexts;

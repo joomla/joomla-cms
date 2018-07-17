@@ -14,6 +14,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Component Controller
@@ -51,7 +57,7 @@ class ConfigController extends BaseController
 	public function cancel()
 	{
 		// Redirect back to home(base) page
-		$this->setRedirect(\JUri::base());
+		$this->setRedirect(Uri::base());
 	}
 
 	/**
@@ -64,23 +70,23 @@ class ConfigController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'));
 			$this->app->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
-		$model = new \Joomla\Component\Config\Site\Model\ConfigModel;
+		$model = $this->getModel();
 
 		$form  = $model->getForm();
 		$data  = $this->app->input->post->get('jform', array(), 'array');
@@ -99,18 +105,17 @@ class ConfigController extends BaseController
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+			$this->app->redirect(Route::_('index.php?option=com_config&view=config', false));
 		}
 
 		// Attempt to save the configuration.
 		$data = $return;
 
 		// Access backend com_config
-		\JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
-		$saveClass = new \Joomla\Component\Config\Administrator\Controller\ApplicationController;
+		$saveClass = $this->factory->createController('Application', 'Administrator');
 
 		// Get a document object
-		$document = \JFactory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set backend required params
 		$document->setType('json');
@@ -132,12 +137,12 @@ class ConfigController extends BaseController
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+			$this->app->redirect(Route::_('index.php?option=com_config&view=config', false));
 		}
 
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(\JText::_('COM_CONFIG_SAVE_SUCCESS'));
-		$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+		$this->app->enqueueMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->app->redirect(Route::_('index.php?option=com_config&view=config', false));
 
 		return true;
 	}
