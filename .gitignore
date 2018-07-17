@@ -31,9 +31,6 @@ node_modules/
 /build/assets_tmp
 /scss-lint-report.xml
 /dev/assets/packages.json
-# We are ignoring this as a temporary measure until Node 8 and npm5 become the LTS release
-# and we can require it.
-package-lock.json
 yarn.lock
 
 # Removed in Joomla 4 #

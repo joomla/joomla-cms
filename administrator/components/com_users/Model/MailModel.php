@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Users mail model.
@@ -50,11 +53,12 @@ class MailModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_users.display.mail.data', array());
+		$data = Factory::getApplication()->getUserState('com_users.display.mail.data', array());
 
 		$this->preprocessData('com_users.mail', $data);
 
@@ -82,12 +86,14 @@ class MailModel extends AdminModel
 	 * Send the email
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  \Exception
 	 */
 	public function send()
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$data   = $app->input->post->get('jform', array(), 'array');
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$access = new Access;
 		$db     = $this->getDbo();
 
@@ -102,14 +108,14 @@ class MailModel extends AdminModel
 		// Automatically removes html formatting
 		if (!$mode)
 		{
-			$message_body = \JFilterInput::getInstance()->clean($message_body, 'string');
+			$message_body = InputFilter::getInstance()->clean($message_body, 'string');
 		}
 
 		// Check for a message body and subject
 		if (!$message_body || !$subject)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError(\JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
+			$this->setError(Text::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
 
 			return false;
 		}
@@ -150,18 +156,18 @@ class MailModel extends AdminModel
 
 			if (in_array($user->id, $to))
 			{
-				$this->setError(\JText::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
+				$this->setError(Text::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
 			}
 			else
 			{
-				$this->setError(\JText::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
+				$this->setError(Text::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
 			}
 
 			return false;
 		}
 
 		// Get the Mailer
-		$mailer = \JFactory::getMailer();
+		$mailer = Factory::getMailer();
 		$params = ComponentHelper::getParams('com_users');
 
 		// Build email message format.
@@ -195,7 +201,7 @@ class MailModel extends AdminModel
 		elseif (empty($rs))
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError(\JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+			$this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 
 			return false;
 		}
@@ -213,7 +219,7 @@ class MailModel extends AdminModel
 			$data['bcc']     = $bcc;
 			$data['message'] = $message_body;
 			$app->setUserState('com_users.display.mail.data', array());
-			$app->enqueueMessage(\JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
+			$app->enqueueMessage(Text::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
 
 			return true;
 		}

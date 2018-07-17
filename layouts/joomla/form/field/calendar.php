@@ -78,7 +78,6 @@ empty($onchange)  ? null : $attributes['onchange'] = $onchange;
 if ($required)
 {
 	$attributes['required'] = '';
-	$attributes['aria-required'] = 'true';
 }
 
 // Handle the special case for "now".

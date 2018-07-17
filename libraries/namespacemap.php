@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class JNamespaceMap
@@ -81,12 +82,23 @@ class JNamespacePsr4Map
 
 				if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element))
 				{
+					// If a component has a src/ directory use it. Else just use the main component directory
 					$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element);
+
+					if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element . '/src/'))
+					{
+						$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element . '/src/');
+					}
 				}
 
 				if (file_exists(JPATH_ROOT . '/components/' . $element))
 				{
 					$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element);
+
+					if (file_exists(JPATH_ROOT . '/components/' . $element . '/src/'))
+					{
+						$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element . '/src/');
+					}
 				}
 			}
 			elseif ($extension->type === 'module')
@@ -173,7 +185,7 @@ class JNamespacePsr4Map
 
 		$content[] = ');';
 
-		file_put_contents($this->file, implode("\n", $content));
+		File::write($this->file, implode("\n", $content));
 	}
 
 	/**
