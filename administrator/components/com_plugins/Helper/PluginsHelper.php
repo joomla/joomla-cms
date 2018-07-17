@@ -10,6 +10,11 @@ namespace Joomla\Component\Plugins\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Installer\Installer;
+
 /**
  * Plugins component helper.
  *
@@ -40,8 +45,8 @@ class PluginsHelper
 	{
 		// Build the active state filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '1', 'JENABLED');
-		$options[] = \JHtml::_('select.option', '0', 'JDISABLED');
+		$options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
+		$options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
 		return $options;
 	}
@@ -53,7 +58,7 @@ class PluginsHelper
 	 */
 	public static function folderOptions()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(folder) AS value, folder AS text')
 			->from('#__extensions')
@@ -68,7 +73,7 @@ class PluginsHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $options;
@@ -87,11 +92,11 @@ class PluginsHelper
 		$data = new \JObject;
 
 		// Check of the xml file exists.
-		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{
-			$xml = \JInstaller::parseXMLInstallFile($filePath);
+			$xml = Installer::parseXMLInstallFile($filePath);
 
 			if ($xml['type'] != 'template')
 			{

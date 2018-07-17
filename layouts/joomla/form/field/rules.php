@@ -56,6 +56,7 @@ $document = Factory::getDocument();
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -77,32 +78,19 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 <?php // Description ?>
 <p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
 <?php // Begin tabs ?>
-<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>" id="permissions-sliders">
-	<div class="col-md-3">
-		<ul class="nav nav-pills flex-column">
-			<?php foreach ($groups as $group) : ?>
-				<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-				<li class="nav-item">
-					<a class="nav-link<?php echo $active; ?>"
-						href="#permission-<?php echo $group->value; ?>"
-						data-toggle="tab"><?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text; ?></a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-
+<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>">
+	<joomla-tab orientation="vertical" id="permissions-sliders">
 	<?php // Initial Active Pane ?>
-	<div class="tab-content col-md-9">
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-			<div class="tab-pane<?php echo $active; ?>" id="permission-<?php echo $group->value; ?>">
-				<table class="table table-striped">
+			<section class="tab-pane<?php echo $active; ?>" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
+				<table class="table">
 					<thead>
 						<tr>
 							<th class="actions" id="actions-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_ACTION'); ?></span>
 							</th>
-							
+
 							<th class="settings" id="settings-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
@@ -117,10 +105,10 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php // Check if this group has super user permissions ?>
 						<?php $isSuperUserGroup = Access::checkGroup($group->value, 'core.admin'); ?>
 						<?php foreach ($actions as $action) : ?>
-							<tr>	
+							<tr>
 								<td headers="actions-th<?php echo $group->value; ?>">
 									<?php $description = (!empty($action->description)) ? ' class="hasTooltip" title="'
-										. \JHtml::_('tooltipText', $action->title, $action->description) . '"' : ''; ?>
+										. HTMLHelper::_('tooltipText', $action->title, $action->description) . '"' : ''; ?>
 									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"<?php echo $description; ?>>
 										<?php echo Text::_($action->title); ?>
 									</label>
@@ -151,7 +139,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 											<?php echo Text::_('JLIB_RULES_ALLOWED'); ?></option>
 											<option value="0" <?php echo ($assetRule === false ? ' selected="selected"' : ''); ?>>
 											<?php echo Text::_('JLIB_RULES_DENIED'); ?></option>
-								
+
 										</select>&#160;
 										<span id="icon_<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"></span>
 									</div>
@@ -159,7 +147,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 
 								<td headers="aclactionth<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
-									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?> 
+									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?>
 									<?php $inheritedGroupRule 	= Access::checkGroup((int) $group->value, $action->name, $assetId);
 									$inheritedGroupParentAssetRule = !empty($parentAssetId) ? Access::checkGroup($group->value, $action->name, $parentAssetId) : null;
 									$inheritedParentGroupRule      = !empty($group->parent_id) ? Access::checkGroup($group->parent_id, $action->name, $assetId) : null;
@@ -235,9 +223,9 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-			</div>
+			</section>
 		<?php endforeach; ?>
-	</div>
+	</joomla-tab>
 </joomla-field-permissions>
 
 <joomla-alert type="warning">

@@ -1,5 +1,58 @@
 // com_cpanel
 
+.com-cpanel {
+
+  &-help {
+
+    &__header {
+      color: $atum-template-color-dark;
+    }
+
+    a {
+      color: $gray-800;
+    }
+
+    .list-group {
+      box-shadow: $atum-box-shadow;
+    }
+  }
+
+  &-system {
+    column-count: 4;
+
+    &__category {
+      margin-bottom: 1.5em;
+      webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    &__header {
+      color: $atum-template-color-dark;
+
+      span {
+        margin-right: 5px;
+      }
+    }
+
+    a {
+      color: $gray-800;
+    }
+
+    .list-group {
+      box-shadow: $atum-box-shadow;
+    }
+
+    @include media-breakpoint-down(md) {
+      column-count: 2;
+    }
+
+    @include media-breakpoint-down(sm) {
+      column-count: 1;
+    }
+  }
+}
+
 .com_cpanel {
 
   .content {
@@ -7,10 +60,9 @@
   }
 
   .card {
-    box-shadow: $atum-box-shadow;
 
     p:first-of-type {
-      margin-top: 1rem;
+      margin-top: 0;
     }
 
     p:last-child {
@@ -18,15 +70,7 @@
     }
 
     .list-group {
-      margin-top: 0;
-      margin-right: - $card-spacer-x;
-      margin-bottom: - $card-spacer-x;
-      margin-left: - $card-spacer-x;
-
-      > li {
-        padding: .6rem $card-spacer-x;
-        overflow: hidden;
-      }
+      box-shadow: $atum-box-shadow;
 
       > .published {
         padding-left: .9rem;
@@ -37,40 +81,13 @@
         padding-left: .9rem;
         border-left: 5px solid theme-color("danger");
       }
-
-      &:first-of-type {
-        border-top: 0;
-      }
-
     }
-
-    .list-group-item:first-child {
-      border-top: 0;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-
-    .list-group-item:last-child {
-      border-bottom: 0;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-
   }
 
-  .card-title {
-    position: relative;
-    padding: .9em $card-spacer-x $card-spacer-y;
-    margin-top: - $card-spacer-x;
-    margin-right: - $card-spacer-x;
-    margin-bottom: 0;
-    margin-left: - $card-spacer-x;
+  .card-header {
+    padding-left: 0;
     font-size: $h5-font-size;
-    color: $atum-template-color;
-    background-color: $atum-card-title-bg;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    border-radius: $border-radius $border-radius 0 0;
-    box-shadow: 0 1px $white-offset inset, 0 2px 3px -3px rgba(0,0,0,.15);
+    color: $atum-template-color-dark;
   }
 
   .module-actions {
@@ -84,21 +101,8 @@
       width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
-      color: $gray-700;
+      color: $atum-template-color-dark;
       text-align: center;
-      background-color: $atum-card-title-icon-bg;
-      border-left: 1px solid $atum-border-color;
-      border-top-right-radius: $border-radius;
-      box-shadow: 1px 0 $white-offset inset;
-
-      &:hover,
-      &:focus {
-        background-color: $atum-card-title-icon-bg-hover;
-        box-shadow: none;
-      }
-
     }
-
   }
-
 }

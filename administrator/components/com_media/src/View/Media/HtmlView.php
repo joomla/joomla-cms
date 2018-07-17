@@ -18,6 +18,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Media List View
@@ -65,7 +66,8 @@ class HtmlView extends BaseHtmlView
 		// Check that there are providers
 		if (!count($this->providers))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_MEDIA_ERROR_NO_PROVIDERS'), CMSApplication::MSG_WARNING);
+			$link = Route::_('index.php?option=com_plugins&view=plugins&filter[folder]=filesystem');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
 		}
 
 		$this->currentPath = Factory::getApplication()->input->getString('path');
@@ -89,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		$user = Factory::getUser();
 
 		// Set the title
-		ToolbarHelper::title(\JText::_('COM_MEDIA'), 'images mediamanager');
+		ToolbarHelper::title(Text::_('COM_MEDIA'), 'images mediamanager');
 
 		// Add the upload and create folder buttons
 		if ($user->authorise('core.create', 'com_media'))
@@ -97,23 +99,23 @@ class HtmlView extends BaseHtmlView
 			// Add the upload button
 			$layout = new FileLayout('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render([]), 'upload');
 			ToolbarHelper::divider();
 
 			// Add the create folder button
 			$layout = new FileLayout('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'new');
+			$bar->appendButton('Custom', $layout->render([]), 'new');
 			ToolbarHelper::divider();
 		}
 
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
+			// Instantiate a new FileLayout instance and render the layout
 			$layout = new FileLayout('toolbar.delete');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'delete');
+			$bar->appendButton('Custom', $layout->render([]), 'delete');
 			ToolbarHelper::divider();
 		}
 
