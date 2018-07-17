@@ -43,6 +43,7 @@ class ExtensionHelper
 		array('component', 'com_content', '', 1),
 		array('component', 'com_contenthistory', '', 1),
 		array('component', 'com_cpanel', '', 1),
+		array('component', 'com_csp', '', 1),
 		array('component', 'com_fields', '', 1),
 		array('component', 'com_finder', '', 1),
 		array('component', 'com_installer', '', 1),
@@ -133,7 +134,6 @@ class ExtensionHelper
 		array('plugin', 'taggable', 'behaviour', 0),
 		array('plugin', 'versionable', 'behaviour', 0),
 
-
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
 
@@ -212,6 +212,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
+		array('plugin', 'multilang', 'sampledata', 0),
 
 		// Core plugin extensions - search
 		array('plugin', 'categories', 'search', 0),

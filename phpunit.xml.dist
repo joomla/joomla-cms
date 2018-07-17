@@ -9,7 +9,6 @@
 		<const name="JTEST_HTTP_STUB" value="http://localhost/joomla-cms/tests/unit/stubs/jhttp_stub.php" />
 		<const name="JOOMLA_TEST_LOGGING" value="yes" />
 		<const name="JTEST_CACHE_REDIS_DSN" value="host=localhost;port=6379;db=;auth=" />
-		<const name="JTEST_CACHE_MEMCACHE_DSN" value="host=localhost;port=11211" />
 		<const name="JTEST_CACHE_MEMCACHED_DSN" value="host=localhost;port=11211" />
 	</php>
 	-->

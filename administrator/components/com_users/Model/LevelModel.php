@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * User view level model.
@@ -94,7 +97,7 @@ class LevelModel extends AdminModel
 
 		if (in_array($record->id, $this->levelsInUse))
 		{
-			$this->setError(\JText::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
+			$this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
 
 			return false;
 		}
@@ -168,11 +171,12 @@ class LevelModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_users.edit.level.data', array());
+		$data = Factory::getApplication()->getUserState('com_users.edit.level.data', array());
 
 		if (empty($data))
 		{
@@ -198,6 +202,7 @@ class LevelModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = '')
 	{
+		// TO DO warning!
 		parent::preprocessForm($form, $data, 'user');
 	}
 
@@ -217,7 +222,7 @@ class LevelModel extends AdminModel
 			$data['rules'] = array();
 		}
 
-		$data['title'] = \JFilterInput::getInstance()->clean($data['title'], 'TRIM');
+		$data['title'] = InputFilter::getInstance()->clean($data['title'], 'TRIM');
 
 		return parent::save($data);
 	}

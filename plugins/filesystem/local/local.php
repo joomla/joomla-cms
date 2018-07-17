@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * FileSystem Local plugin.
@@ -65,7 +66,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 */
 	public function getDisplayName()
 	{
-		return $this->params->get('display_name', 'Local');
+		return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
 	}
 
 	/**
@@ -87,6 +88,9 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 			$directories = json_decode($directories);
 			list($directories) = $directories;
 		}
+
+		// TODO: This should be removed once there is proper support for namespaced plugins
+		JLoader::registerNamespace('\\Joomla\\Plugin\\Filesystem\\Local\\Adapter', __DIR__ . '/Adapter', false, true, 'psr4');
 
 		foreach ($directories as $directoryEntity)
 		{
