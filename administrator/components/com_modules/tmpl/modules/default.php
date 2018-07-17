@@ -40,42 +40,42 @@ $colSpan = $clientId === 1 ? 8 : 10;
 			<table class="table" id="moduleList">
 				<thead>
 					<tr>
-						<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th style="width:1%" class="nowrap text-center">
+						<td style="width:1%" class="nowrap text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
-						</th>
+						</td>
 						<th style="width:1%; min-width:85px" class="nowrap text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th class="title">
+						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($clientId === 0) : ?>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
-						<th width="10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" width="10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
-						<th style="width:5%" class="nowrap text-center d-none d-md-table-cell">
+						<th scope="col" style="width:5%" class="nowrap text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -120,7 +120,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
-						<td class="text-center">
+						<th class="text-center">
 							<div class="btn-group">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
@@ -133,7 +133,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 							<?php endif; ?>
 							</div>
 						</td>
-						<td class="has-context">
+						<th scope="row" class="has-context">
 							<div>
 								<?php if ($item->checked_out) : ?>
 									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
@@ -152,7 +152,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 									</div>
 								<?php endif; ?>
 							</div>
-						</td>
+						</th>
 						<td class="d-none d-md-table-cell text-center">
 							<?php if ($item->position) : ?>
 								<span class="badge badge-info">
