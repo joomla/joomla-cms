@@ -157,6 +157,7 @@
 		/** Tabs **/
 		if (tabs) {
 			$.each(tabs, function(index, value) {
+
 				$('#' + index + 'Content').children('.tab-pane').each(function(i, v) {
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
