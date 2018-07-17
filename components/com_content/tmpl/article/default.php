@@ -17,7 +17,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create shortcuts to some parameters.
