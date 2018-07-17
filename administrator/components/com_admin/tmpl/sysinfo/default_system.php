@@ -8,17 +8,21 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></legend>
-	<table class="table table-striped">
+	<legend><?php echo Text::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></legend>
+	<table class="table">
 		<thead>
 			<tr>
 				<th style="width:25%">
-					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
+					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('COM_ADMIN_VALUE'); ?>
+					<?php echo Text::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -30,7 +34,7 @@ defined('_JEXEC') or die;
 		<tbody>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_PHP_BUILT_ON'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_PHP_BUILT_ON'); ?></strong>
 				</td>
 				<td>
 					<?php echo $this->info['php']; ?>
@@ -38,7 +42,15 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_DATABASE_TYPE'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['dbserver']; ?>
+				</td>
+			</tr>			
+			<tr>
+				<td>
+					<strong><?php echo Text::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>
 				</td>
 				<td>
 					<?php echo $this->info['dbversion']; ?>
@@ -46,7 +58,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_DATABASE_COLLATION'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_DATABASE_COLLATION'); ?></strong>
 				</td>
 				<td>
 					<?php echo $this->info['dbcollation']; ?>
@@ -54,7 +66,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_DATABASE_CONNECTION_COLLATION'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_DATABASE_CONNECTION_COLLATION'); ?></strong>
 				</td>
 				<td>
 					<?php echo $this->info['dbconnectioncollation']; ?>
@@ -62,7 +74,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_PHP_VERSION'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_PHP_VERSION'); ?></strong>
 				</td>
 				<td>
 					<?php echo $this->info['phpversion']; ?>
@@ -70,15 +82,15 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_WEB_SERVER'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_WEB_SERVER'); ?></strong>
 				</td>
 				<td>
-					<?php echo JHtml::_('system.server', $this->info['server']); ?>
+					<?php echo HTMLHelper::_('system.server', $this->info['server']); ?>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_WEBSERVER_TO_PHP_INTERFACE'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_WEBSERVER_TO_PHP_INTERFACE'); ?></strong>
 				</td>
 				<td>
 					<?php echo $this->info['sapi_name']; ?>
@@ -86,7 +98,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_JOOMLA_VERSION'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_JOOMLA_VERSION'); ?></strong>
 				</td>
 				<td>
 					<?php echo $this->info['version']; ?>
@@ -94,7 +106,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_USER_AGENT'); ?></strong>
+					<strong><?php echo Text::_('COM_ADMIN_USER_AGENT'); ?></strong>
 				</td>
 				<td>
 					<?php echo htmlspecialchars($this->info['useragent'], ENT_COMPAT, 'UTF-8'); ?>

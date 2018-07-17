@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-$clientId       = $this->item->client_id;
-$state          = 1;
+$clientId         = $this->item->client_id;
+$state            = 1;
 $selectedPosition = $this->item->position;
-$positions = JHtml::_('modules.positions', $clientId, $state, $selectedPosition);
+$positions        = HTMLHelper::_('modules.positions', $clientId, $state, $selectedPosition);
 
 // Add custom position to options
-$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 
 // Build field
 $attr = array(
@@ -26,4 +26,4 @@ $attr = array(
 	'list.select' => $this->item->position,
 );
 
-echo JHtml::_('select.groupedlist', $positions, 'jform[position]', $attr);
+echo HTMLHelper::_('select.groupedlist', $positions, 'jform[position]', $attr);

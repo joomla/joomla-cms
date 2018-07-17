@@ -14,6 +14,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Content component
@@ -85,7 +87,7 @@ class HtmlView extends CategoryView
 
 		PluginHelper::importPlugin('content');
 
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -209,11 +211,11 @@ class HtmlView extends CategoryView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -234,16 +236,16 @@ class HtmlView extends CategoryView
 
 		if ($this->category->metakey)
 		{
-			$this->document->setMetadata('keywords', $this->category->metakey);
+			$this->document->setMetaData('keywords', $this->category->metakey);
 		}
 		elseif ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		if (!is_object($this->category->metadata))
@@ -262,7 +264,7 @@ class HtmlView extends CategoryView
 		{
 			if ($v)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setMetaData($k, $v);
 			}
 		}
 
