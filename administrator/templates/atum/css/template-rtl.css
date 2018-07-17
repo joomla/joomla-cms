@@ -1632,7 +1632,7 @@ ol,
 ul {
   padding-right: 0; }
 
-th {
+body {
   text-align: right; }
 
 .close {
@@ -1642,8 +1642,7 @@ th {
     left: -.5rem; }
 
 .control-group .control-label {
-  float: right;
-  text-align: right; }
+  float: right; }
 
 .control-group .controls {
   margin-right: 220px;
@@ -1713,9 +1712,6 @@ th {
 .main-nav li a span {
   float: right; }
 
-.main-nav .collapse-level-1 .menuitem-group, .main-nav .collapse-level-1 > li:first-of-type {
-  text-align: right; }
-
 .child-open > .open > a::before {
   right: 0;
   left: auto; }
@@ -1784,9 +1780,6 @@ th {
 .mr-2 {
   margin-right: 0 !important;
   margin-left: .5rem; }
-
-p, .table td {
-  text-align: right; }
 
 #helpsite-refresh {
   float: right;
