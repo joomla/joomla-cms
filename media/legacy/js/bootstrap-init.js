@@ -157,8 +157,7 @@
 		/** Tabs **/
 		if (tabs) {
 			$.each(tabs, function(index, value) {
-
-				$.each($('#' + index + 'Content').find('.tab-pane'), function(i, v) {
+				$('#' + index + 'Content').children('.tab-pane').each(function(i, v) {
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
 						    classLink = (attribs[0] != '') ? 'class="nav-link ' + attribs[0] + '"' : 'class="nav-link"';
