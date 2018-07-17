@@ -26,7 +26,6 @@ $view        = $input->get('view', '');
 $layout      = $input->get('layout', '');
 $task        = $input->get('task', '');
 $itemid      = $input->get('Itemid', '');
-$sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel      = $option === 'com_cpanel';
 $hidden      = $app->input->get('hidemainmenu');
 $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
@@ -78,7 +77,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-						<img src="<?php echo $logoBlue; ?>" alt="<?php echo $sitename; ?>">
+						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
 				</div>
 				<jdoc:include type="modules" name="title" />
@@ -97,7 +96,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
 			<jdoc:include type="modules" name="menu" style="none" />
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				<img src="<?php echo $logo; ?>" alt="<?php echo $sitename; ?>">
+				<img src="<?php echo $logo; ?>" alt="">
 			</div>
 		</div>
 		<?php endif; ?>
