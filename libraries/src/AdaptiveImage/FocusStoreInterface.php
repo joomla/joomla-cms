@@ -22,25 +22,27 @@ interface FocusStoreInterface
 	 * Pubic function for storeing the focus points
 	 * to the file system.
 	 *
-	 * @param   array   $dataFocus  Focus point selected
-	 * @param   string  $filePath   Path of the image
+	 * @param   array    $dataFocus  Focus point selected
+	 * @param   integer  $width      Width of the image
+	 * @param   string   $filePath   Path of the image
 	 *
 	 * @return void
 	 *
 	 * @since 4.0.0
 	 */
-	public function setFocus($dataFocus,$filePath);
+	public function setFocus($dataFocus, $width, $filePath);
 
 	/**
 	 * Public function for getting the focus point
 	 * from the file system
 	 *
-	 * @param   string  $imgSrc  Path of the image
-	 *
+	 * @param   string   $imgSrc  Path of the image
+	 * @param   integer  $width   Width of the image
+	 * 
 	 * @return string
 	 *
 	 * @since 4.0.0
 	 */
-	public function getFocus($imgSrc);
+	public function getFocus($imgSrc, $width);
 
 }

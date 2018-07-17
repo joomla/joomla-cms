@@ -46,22 +46,24 @@ class JSONFocusStore implements FocusStoreInterface
 	 *
 	 * index.php?option=com_media&task=adaptiveimage.setfocus&path=/images/sampledata/fruitshop/bananas_1.jpg
 	 *
-	 * @param   array   $dataFocus  Array of the values of diffrent focus point
-	 *
-	 * @param   string  $imgPath    Full path for the file
+	 * @param   array    $dataFocus  Array of the values of diffrent focus point
+	 * @param   integer  $width      Width of the image
+	 * @param   string   $imgPath    Full path for the file
 	 *
 	 * @return  boolean
 	 *
 	 * @since 4.0.0
 	 */
-	public function setFocus($dataFocus,$imgPath)
+	public function setFocus($dataFocus, $width, $imgPath)
 	{
 		$newEntry = array(
 			$imgPath => array(
-				"box-left"			=> $dataFocus['box-left'],
-				"box-top"			=> $dataFocus['box-top'],
-				"box-width"			=> $dataFocus['box-width'],
-				"box-height"		=> $dataFocus['box-height']
+				$width => array(
+					"box-left"   => $dataFocus['box-left'],
+					"box-top"    => $dataFocus['box-top'],
+					"box-width"  => $dataFocus['box-width'],
+					"box-height" => $dataFocus['box-height']
+				)
 			)
 		);
 
@@ -71,15 +73,20 @@ class JSONFocusStore implements FocusStoreInterface
 
 			$prevData = json_decode($prevData, true);
 
-			$prevData[$imgPath]["box-left"] 			= $dataFocus['box-left'];
-			$prevData[$imgPath]["box-top"] 				= $dataFocus['box-top'];
-			$prevData[$imgPath]["box-width"] 			= $dataFocus['box-width'];
-			$prevData[$imgPath]["box-height"] 			= $dataFocus['box-height'];
+			$prevData[$imgPath][$width]["box-left"]   = $dataFocus['box-left'];
+			$prevData[$imgPath][$width]["box-top"]    = $dataFocus['box-top'];
+			$prevData[$imgPath][$width]["box-width"]  = $dataFocus['box-width'];
+			$prevData[$imgPath][$width]["box-height"] = $dataFocus['box-height'];
+
+			$max = $this->findMax($prevData[$imgPath]);
+			$prevData[$imgPath]["max"] = $max;
 
 			file_put_contents(static::$dataLocation, json_encode($prevData));
 		}
 		else
 		{
+			$newEntry[$imgPath]["max"] = $newEntry[$imgPath][$width];
+
 			file_put_contents(static::$dataLocation, json_encode($newEntry));
 		}
 
@@ -90,13 +97,14 @@ class JSONFocusStore implements FocusStoreInterface
 	/**
 	 * Function to get the focus point
 	 *
-	 * @param   string  $imgPath  Image Path
+	 * @param   string   $imgPath  Image Path
+	 * @param   integer  $width    Width of the corresponding data focus point
 	 *
 	 * @return  array
 	 *
 	 * @since 4.0.0
 	 */
-	public function getFocus($imgPath)
+	public function getFocus($imgPath, $width = null)
 	{
 		if (!filesize(static::$dataLocation))
 		{
@@ -109,7 +117,14 @@ class JSONFocusStore implements FocusStoreInterface
 
 		if (array_key_exists($imgPath, $prevData))
 		{
-			return json_encode($prevData[$imgPath]);
+			if (array_key_exists($width, $prevData[$imgPath]))
+			{
+				return json_encode($prevData[$imgPath][$width]);
+			}
+			else
+			{
+				return json_encode($prevData[$imgPath]["max"]);
+			}
 		}
 		else
 		{
@@ -133,5 +148,39 @@ class JSONFocusStore implements FocusStoreInterface
 		}
 
 		return true;
+	}
+	/**
+	 * Fine the max value of all the focus area selected
+	 * 
+	 * @param   array  $dataFocuses  Collection of dataFocus for diffrent sizes.
+	 * 
+	 * @return  array
+	 * 
+	 * @since 4.0.0
+	 */
+	private function findMax($dataFocuses)
+	{
+		$minX = 9999;
+		$minY = 9999;
+		$maxX = 0;
+		$maxY = 0;
+		
+		foreach ($dataFocuses as $width => $focus)
+		{
+			if ($width != "max")
+			{
+				$minX = min($minX, $focus["box-left"]);
+				$minY = min($minY, $focus["box-top"]);
+				$maxX = max($maxX, $focus["box-left"] + $focus["box-width"]);
+				$maxY = max($maxY, $focus["box-top"] + $focus["box-height"]);
+			}
+		}
+		$maxFocus = array(
+			"box-left"   => $minX,
+			"box-top"    => $minY,
+			"box-width"  => $maxX - $minX,
+			"box-height" => $maxY - $minY
+		);
+		return $maxFocus;
 	}
 }

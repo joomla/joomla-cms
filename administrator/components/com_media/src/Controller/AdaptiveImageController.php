@@ -42,30 +42,28 @@ class AdaptiveImageController extends BaseController
 		{
 			case "setfocus" :
 				$imgPath = $this->input->getString('path');
+				$width   = $this->input->getInt('width');
 				$dataFocus = array (
-					"box-left"			=> $this->input->getInt('box-left'),
-					"box-top"			=> $this->input->getInt('box-top'),
-					"box-width"			=> $this->input->getInt('box-width'),
-					"box-height"		=> $this->input->getInt('box-height')
+					"box-left"   => $this->input->getInt('box-left'),
+					"box-top"    => $this->input->getInt('box-top'),
+					"box-width"  => $this->input->getInt('box-width'),
+					"box-height" => $this->input->getInt('box-height')
 				);
 				$storage = new JSONFocusStore;
-				$storage->setFocus($dataFocus, $imgPath);
-				$this->cropImage($imgPath);
+				$storage->setFocus($dataFocus, $width, $imgPath);
 				return true;
 				break;
 			case "cropBoxData" :
 				$this->app->setHeader('Content-Type', 'application/json');
 				$imgPath = $this->input->getString('path');
+				$width   = $this->input->getInt('width');
 				$storage = new JSONFocusStore;
-				echo $storage->getFocus($imgPath);
+				echo $storage->getFocus($imgPath, $width);
 				$this->app->close();
 				return true;
 				break;
 			case "cropImage" :
-				// @TODO Resize image to any aspect ratio.
-				$imgPath = "/images/" . $this->input->getString('path');
-				
-				// $finalWidth = $this->input->getFloat('width');
+				$imgPath = $this->input->getString('path');
 				$this->cropImage($imgPath);
 				return true;
 				break;
@@ -77,20 +75,24 @@ class AdaptiveImageController extends BaseController
 	 * Crop the images around the focus area
 	 * 
 	 * @param   string  $imgPath  image path
+	 * @param   array   $widths   requested widths
 	 * 
 	 * @return  boolean
 	 * 
 	 * @since 4.0.0 
 	 */
-	public function cropImage($imgPath)
+	public function cropImage($imgPath, $widths = null)
 	{
 		$storage = new JSONFocusStore;
-		$dataFocus = json_decode($storage->getFocus($imgPath), true);
-		$width = array(240, 360, 480, 768, 940, 1024);
-		foreach ($width as $finalWidth)
+		if ($widths == null)
 		{
+			$widths = array(240, 360, 480, 768, 940, 1024);
+		}
+		foreach ($widths as $width)
+		{
+			$dataFocus = json_decode($storage->getFocus($imgPath, $width), true);
 			$image = new SmartCrop(".." . $imgPath);
-			$image->compute($dataFocus, $finalWidth);
+			$image->compute($dataFocus, $width);
 		}
 		return true;
 	}
