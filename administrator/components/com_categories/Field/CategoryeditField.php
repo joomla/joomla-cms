@@ -346,6 +346,7 @@ class CategoryeditField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
+		// @TODO use jLayout for the html part!
 		$html = array();
 		$class = array();
 		$attr = '';
@@ -425,6 +426,7 @@ class CategoryeditField extends \JFormFieldList
 				$options[0]->lft       = '1';
 			}
 
+			HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 			$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 

@@ -1,7 +1,8 @@
 {
   "settings": {
     "browsers": [
-      "last 1 version"
+      "last 1 version",
+      "not ie < 11"
     ],
     "elements": [
       "field-media",
@@ -15,9 +16,14 @@
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
-      "toolbar-button"
+      "toolbar-button",
+      "core-loader"
     ],
     "webcomponents": {
+      "core-loader": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "field-media": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"

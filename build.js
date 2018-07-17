@@ -1,14 +1,16 @@
 /**
  * Command line helper
  *
- * For maintainers, please run:
- * node build.js --installer
- * node build.js --update
- * node build.js --compilejs
- * node build.js --compilecejs
- * node build.js --compilecss
- * node build.js --compilececss
- * Before making any PRs or building any package!
+ * To get the complete functional media folder please run
+ *
+ * npm install
+ *
+ * For dedicated tasks, please run:
+ * node build.js --installer      === will create the error page (for unsupported PHP version)
+ * node build.js --update         === will clean the media/vendor folder and then fetch the dependencies from source
+ * node build.js --compilejs      === will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compilecejs    === will compile all the given CE or WC with their relative css files
+ * node build.js --compilecss   === will compile all the scss defined files and also create a minified version of the css
  *
  */
 
@@ -22,7 +24,6 @@ const installer = require('./build/build-modules-js/installation.js');
 const update = require('./build/build-modules-js/update.js');
 const css = require('./build/build-modules-js/compilescss.js');
 const Js = require('./build/build-modules-js/compilejs.js');
-const CEcss = require('./build/build-modules-js/compilecescss.js');
 const CEjs = require('./build/build-modules-js/compilecejs.js');
 
 // The settings
@@ -41,7 +42,6 @@ Program
   .option('--compilejs, --compilejs path', 'Compiles ES6 to ES5 scripts')
   .option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
   .option('--compilecejs, --compilecejs path', 'Compiles/traspiles all the custom elements files')
-  .option('--compilececss, --compilececss path', 'Compiles/traspiles all the custom elements files')
   .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compilecss and compilejs now).')
   .option('--installer', 'Creates the language file for installer error page')
   .on('--help', () => {
