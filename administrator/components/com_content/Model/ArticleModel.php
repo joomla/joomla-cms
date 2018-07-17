@@ -14,6 +14,13 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Factory;
 
 /**
  * Item Model for an Article.
@@ -68,7 +75,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
@@ -95,7 +102,7 @@ class ArticleModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -188,17 +195,17 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
 		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
-			$this->user = JFactory::getUser();
+			$this->user = Factory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
-			$this->contentType = new JUcmType;
+			$this->contentType = new UCMType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
@@ -209,7 +216,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
@@ -220,7 +227,7 @@ class ArticleModel extends AdminModel
 		{
 			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -238,7 +245,7 @@ class ArticleModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -308,7 +315,7 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			return \JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+			return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 		}
 
 		return false;
@@ -325,7 +332,7 @@ class ArticleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing article.
 		if (!empty($record->id))
@@ -357,7 +364,7 @@ class ArticleModel extends AdminModel
 		// Set the publish date to now
 		if ($table->state == 1 && (int) $table->publish_up == 0)
 		{
-			$table->publish_up = \JFactory::getDate()->toSql();
+			$table->publish_up = Factory::getDate()->toSql();
 		}
 
 		if ($table->state == 1 && intval($table->publish_down) == 0)
@@ -412,7 +419,7 @@ class ArticleModel extends AdminModel
 		}
 
 		// Load associated content items
-		$assoc = \JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -420,7 +427,7 @@ class ArticleModel extends AdminModel
 
 			if ($item->id != null)
 			{
-				$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
+				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -452,7 +459,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -477,7 +484,7 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -501,13 +508,13 @@ class ArticleModel extends AdminModel
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = \JFactory::getApplication();
-		$assoc = \JLanguageAssociations::isEnabled();
+		$app = Factory::getApplication();
+		$assoc = Associations::isEnabled();
 
 		// Check if article is associated
 		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
 		{
-			$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+			$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 			// Make fields read only
 			if (!empty($associations))
@@ -532,7 +539,7 @@ class ArticleModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data))
@@ -553,7 +560,7 @@ class ArticleModel extends AdminModel
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
 				);
 			}
 		}
@@ -585,7 +592,7 @@ class ArticleModel extends AdminModel
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (\JFactory::getApplication()->isClient('administrator') && !\JFactory::getUser()->authorise('core.manage', 'com_users'))
+		if (Factory::getApplication()->isClient('administrator') && !Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{
@@ -612,7 +619,7 @@ class ArticleModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input  = \JFactory::getApplication()->input;
+		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
@@ -671,7 +678,7 @@ class ArticleModel extends AdminModel
 					}
 					else
 					{
-						$data['urls'][$i] = \JStringPunycode::urlToPunycode($url);
+						$data['urls'][$i] = PunycodeHelper::urlToPunycode($url);
 					}
 				}
 			}
@@ -711,7 +718,7 @@ class ArticleModel extends AdminModel
 		{
 			if ($data['alias'] == null)
 			{
-				if (\JFactory::getConfig()->get('unicodeslugs') == 1)
+				if (Factory::getConfig()->get('unicodeslugs') == 1)
 				{
 					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
 				}
@@ -724,7 +731,7 @@ class ArticleModel extends AdminModel
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
-					$msg = \JText::_('COM_CONTENT_SAVE_WARNING');
+					$msg = Text::_('COM_CONTENT_SAVE_WARNING');
 				}
 
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
@@ -732,7 +739,7 @@ class ArticleModel extends AdminModel
 
 				if (isset($msg))
 				{
-					\JFactory::getApplication()->enqueueMessage($msg, 'warning');
+					Factory::getApplication()->enqueueMessage($msg, 'warning');
 				}
 			}
 		}
@@ -766,7 +773,7 @@ class ArticleModel extends AdminModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
 
 			return false;
 		}
@@ -874,9 +881,9 @@ class ArticleModel extends AdminModel
 		}
 
 		// Association content items
-		if (\JLanguageAssociations::isEnabled())
+		if (Associations::isEnabled())
 		{
-			$languages = \JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
@@ -949,7 +956,7 @@ class ArticleModel extends AdminModel
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_content');
+		return Factory::getUser()->authorise('core.create', 'com_content');
 	}
 
 	/**

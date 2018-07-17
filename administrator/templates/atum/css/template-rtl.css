@@ -579,7 +579,11 @@ iframe {
 
 .view-login {
   background: #3073bb;
-  background-image: url("../../images/joomla-pattern.svg");
+  /**
+   * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
+   * compiled CSS file
+   */
+  background-image: url("../images/joomla-pattern.svg");
   background-size: 200px; }
   .view-login .login-bg-grad {
     position: fixed;
@@ -1477,6 +1481,41 @@ iframe {
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
 
+.com-cpanel-help__header {
+  color: #2b5c91; }
+
+.com-cpanel-help a {
+  color: #343a40; }
+
+.com-cpanel-help .list-group {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+
+.com-cpanel-system {
+  -webkit-column-count: 4;
+          column-count: 4; }
+  .com-cpanel-system__category {
+    margin-bottom: 1.5em;
+    webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+            break-inside: avoid; }
+  .com-cpanel-system__header {
+    color: #2b5c91; }
+    .com-cpanel-system__header span {
+      margin-right: 5px; }
+  .com-cpanel-system a {
+    color: #343a40; }
+  .com-cpanel-system .list-group {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+  @media (max-width: 991.98px) {
+    .com-cpanel-system {
+      -webkit-column-count: 2;
+              column-count: 2; } }
+  @media (max-width: 767.98px) {
+    .com-cpanel-system {
+      -webkit-column-count: 1;
+              column-count: 1; } }
+
 .com_cpanel .content {
   margin-top: 0; }
 
@@ -1606,20 +1645,19 @@ th {
   float: right;
   text-align: right; }
 
+.control-group .controls {
+  margin-right: 220px;
+  margin-left: 0; }
+
+.control-group .custom-select {
+  float: right; }
+
 .dropdown-menu-right {
   right: auto;
   left: 0; }
   .dropdown-menu-right::after {
     right: auto;
     left: .9rem; }
-
-.wrapper {
-  padding-left: 0; }
-  .wrapper.closed {
-    padding-right: 50px; }
-    .wrapper.closed .main-brand img {
-      position: relative;
-      left: 151px; }
 
 .sidebar-wrapper {
   right: 0;
@@ -1655,11 +1693,8 @@ th {
   border-right: 0;
   border-left: 1px solid rgba(255, 255, 255, 0.15); }
 
-.main-nav .fa {
-  margin: 0 12px 0 8px; }
-
 .main-nav .open > a + ul {
-  right: 50px;
+  right: 60px;
   left: auto; }
 
 .main-nav .collapse-level-2 {
@@ -1675,6 +1710,12 @@ th {
   left: 15px;
   content: "\f0d9"; }
 
+.main-nav li a span {
+  float: right; }
+
+.main-nav .collapse-level-1 .menuitem-group, .main-nav .collapse-level-1 > li:first-of-type {
+  text-align: right; }
+
 .child-open > .open > a::before {
   right: 0;
   left: auto; }
@@ -1689,30 +1730,27 @@ th {
 .sidebar-wrapper[data-hidden='1'] ~ .status {
   margin-right: 0; }
 
-.subhead .btn-group-sm > .btn [class^='icon-'],
-.subhead .btn-group-sm > .btn [class*=' icon-'],
-.subhead .btn-group-sm > .btn [class^='fa-'],
-.subhead .btn-group-sm > .btn [class*=' fa-'] {
-  margin: 0 -10px 0 6px;
-  border-right: 0;
-  border-left: 1px solid #ccc;
-  border-radius: 0 3px 3px 0; }
-
-.subhead .btn-toolbar > *:first-of-type {
-  margin-right: 0; }
-
-.subhead .btn-group-sm > .btn [class*=' fa-'],
-.subhead .btn-group-sm > .btn [class*=' icon-'],
-.subhead .btn-group-sm > .btn [class^='fa-'],
-.subhead .btn-group-sm > .btn [class^='icon-'],
-.subhead .btn-sm [class*=' fa-'],
+.subhead .btn [class*=' fa-'],
+.subhead .btn [class^='fa-'],
+.subhead .btn [class^='icon-'],
+.subhead .btn [class*=' icon-'],
+.subhead .btn [class^='fa-'],
+.subhead .btn [class*=' fa-'], .subhead .btn-sm [class*=' fa-'],
+.subhead .btn-sm [class^='fa-'],
+.subhead .btn-sm [class^='icon-'],
 .subhead .btn-sm [class*=' icon-'],
 .subhead .btn-sm [class^='fa-'],
-.subhead .btn-sm [class^='icon-'] {
-  margin: 0 -10px 0 6px;
-  border-right: 0;
-  border-left: 1px solid #ccc;
-  border-radius: 0 3px 3px 0; }
+.subhead .btn-sm [class*=' fa-'] {
+  margin: 0 -22px 0 22px; }
+
+.subhead .btn-group {
+  margin-left: .75rem !important; }
+
+.subhead .btn-toolbar > * {
+  margin-right: .75rem;
+  margin-left: 0; }
+  .subhead .btn-toolbar > *:first-of-type {
+    margin-right: 0; }
 
 .com_cpanel .card .list-group > .published {
   border-right: 5px solid #2f7d32;
@@ -1730,3 +1768,22 @@ th {
     border-left: 0;
     border-top-left-radius: none;
     border-top-right-radius: 0; }
+
+.js-stools .js-stools-container-filters {
+  right: auto;
+  left: 0; }
+
+.ml-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important; }
+
+.mr-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important; }
+
+.mr-2 {
+  margin-right: 0 !important;
+  margin-left: .5rem; }
+
+p, .table td {
+  text-align: right; }
