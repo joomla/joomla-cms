@@ -12,6 +12,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Rest model class for Users.
@@ -29,7 +36,7 @@ class ResetModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -52,7 +59,7 @@ class ResetModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure
+	 * @return  Form    A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -75,9 +82,10 @@ class ResetModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function getResetConfirmForm($data = array(), $loadData = true)
 	{
@@ -90,7 +98,7 @@ class ResetModel extends FormModel
 		}
 		else
 		{
-			$form->setValue('token', '', \JFactory::getApplication()->input->get('token'));
+			$form->setValue('token', '', Factory::getApplication()->input->get('token'));
 		}
 
 		return $form;
@@ -99,7 +107,7 @@ class ResetModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -109,7 +117,7 @@ class ResetModel extends FormModel
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -122,11 +130,12 @@ class ResetModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = \JFactory::getApplication()->getParams('com_users');
+		$params = Factory::getApplication()->getParams('com_users');
 
 		// Load the parameters.
 		$this->setState('params', $params);
@@ -140,12 +149,13 @@ class ResetModel extends FormModel
 	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function processResetComplete($data)
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -176,23 +186,23 @@ class ResetModel extends FormModel
 		}
 
 		// Get the token and user id from the confirmation process.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$token = $app->getUserState('com_users.reset.token', null);
 		$userId = $app->getUserState('com_users.reset.user', null);
 
 		// Check the token and user id.
 		if (empty($token) || empty($userId))
 		{
-			return new \Exception(\JText::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
+			return new \Exception(Text::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
 		}
 
 		// Get the user object.
-		$user = \JUser::getInstance($userId);
+		$user = User::getInstance($userId);
 
 		// Check for a user and that the tokens match.
 		if (empty($user) || $user->activation !== $token)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -200,28 +210,28 @@ class ResetModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
 
 		// Check if the user is reusing the current password if required to reset their password
-		if ($user->requireReset == 1 && \JUserHelper::verifyPassword($data['password1'], $user->password))
+		if ($user->requireReset == 1 && UserHelper::verifyPassword($data['password1'], $user->password))
 		{
-			$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+			$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 			return false;
 		}
 
 		// Update the user object.
-		$user->password = \JUserHelper::hashPassword($data['password1']);
+		$user->password = UserHelper::hashPassword($data['password1']);
 		$user->activation = '';
 		$user->password_clear = $data['password1'];
 
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Flush the user data from the session.
@@ -239,12 +249,13 @@ class ResetModel extends FormModel
 	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function processResetConfirm($data)
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -292,28 +303,28 @@ class ResetModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			return new \Exception(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			return new \Exception(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 		}
 
 		// Check for a user.
 		if (empty($user))
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
 
 		if (!$user->activation)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
 
 		// Verify the token
-		if (!\JUserHelper::verifyPassword($data['token'], $user->activation))
+		if (!UserHelper::verifyPassword($data['token'], $user->activation))
 		{
-			$this->setError(\JText::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -321,13 +332,13 @@ class ResetModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
 
 		// Push the user data into the session.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->setUserState('com_users.reset.token', $user->activation);
 		$app->setUserState('com_users.reset.user', $user->id);
 
@@ -342,15 +353,16 @@ class ResetModel extends FormModel
 	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function processResetRequest($data)
 	{
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		// Get the form.
 		$form = $this->getForm();
 
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -396,7 +408,7 @@ class ResetModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 			return false;
 		}
@@ -404,18 +416,18 @@ class ResetModel extends FormModel
 		// Check for a user.
 		if (empty($userId))
 		{
-			$this->setError(\JText::_('COM_USERS_INVALID_EMAIL'));
+			$this->setError(Text::_('COM_USERS_INVALID_EMAIL'));
 
 			return false;
 		}
 
 		// Get the user object.
-		$user = \JUser::getInstance($userId);
+		$user = User::getInstance($userId);
 
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(\JText::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
@@ -423,7 +435,7 @@ class ResetModel extends FormModel
 		// Make sure the user isn't a Super Admin.
 		if ($user->authorise('core.admin'))
 		{
-			$this->setError(\JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
+			$this->setError(Text::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
 
 			return false;
 		}
@@ -431,22 +443,22 @@ class ResetModel extends FormModel
 		// Make sure the user has not exceeded the reset limit
 		if (!$this->checkResetLimit($user))
 		{
-			$resetLimit = (int) \JFactory::getApplication()->getParams()->get('reset_time');
-			$this->setError(\JText::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
+			$resetLimit = (int) Factory::getApplication()->getParams()->get('reset_time');
+			$this->setError(Text::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
 
 			return false;
 		}
 
 		// Set the confirmation token.
-		$token = ApplicationHelper::getHash(\JUserHelper::genRandomPassword());
-		$hashedToken = \JUserHelper::hashPassword($token);
+		$token = ApplicationHelper::getHash(UserHelper::genRandomPassword());
+		$hashedToken = UserHelper::hashPassword($token);
 
 		$user->activation = $hashedToken;
 
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Assemble the password reset confirmation link.
@@ -458,16 +470,16 @@ class ResetModel extends FormModel
 		$data['fromname'] = $config->get('fromname');
 		$data['mailfrom'] = $config->get('mailfrom');
 		$data['sitename'] = $config->get('sitename');
-		$data['link_text'] = \JRoute::_($link, false, $mode);
-		$data['link_html'] = \JRoute::_($link, true, $mode);
+		$data['link_text'] = Route::_($link, false, $mode);
+		$data['link_html'] = Route::_($link, true, $mode);
 		$data['token'] = $token;
 
-		$subject = \JText::sprintf(
+		$subject = Text::sprintf(
 			'COM_USERS_EMAIL_PASSWORD_RESET_SUBJECT',
 			$data['sitename']
 		);
 
-		$body = \JText::sprintf(
+		$body = Text::sprintf(
 			'COM_USERS_EMAIL_PASSWORD_RESET_BODY',
 			$data['sitename'],
 			$data['token'],
@@ -475,12 +487,12 @@ class ResetModel extends FormModel
 		);
 
 		// Send the password reset request email.
-		$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true)
 		{
-			return new \Exception(\JText::_('COM_USERS_MAIL_FAILED'), 500);
+			return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
 		}
 
 		return true;
@@ -489,26 +501,27 @@ class ResetModel extends FormModel
 	/**
 	 * Method to check if user reset limit has been exceeded within the allowed time period.
 	 *
-	 * @param   \JUser  $user  User doing the password reset
+	 * @param   User  $user  User doing the password reset
 	 *
 	 * @return  boolean true if user can do the reset, false if limit exceeded
 	 *
 	 * @since    2.5
+	 * @throws  \Exception
 	 */
 	public function checkResetLimit($user)
 	{
-		$params = \JFactory::getApplication()->getParams();
+		$params = Factory::getApplication()->getParams();
 		$maxCount = (int) $params->get('reset_count');
 		$resetHours = (int) $params->get('reset_time');
 		$result = true;
 
 		$lastResetTime = strtotime($user->lastResetTime) ?: 0;
-		$hoursSinceLastReset = (strtotime(\JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
+		$hoursSinceLastReset = (strtotime(Factory::getDate()->toSql()) - $lastResetTime) / 3600;
 
 		if ($hoursSinceLastReset > $resetHours)
 		{
 			// If it's been long enough, start a new reset count
-			$user->lastResetTime = \JFactory::getDate()->toSql();
+			$user->lastResetTime = Factory::getDate()->toSql();
 			$user->resetCount = 1;
 		}
 		elseif ($user->resetCount < $maxCount)

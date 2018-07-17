@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+
 /**
  * Users Route Helper
  *
@@ -24,6 +27,7 @@ class UsersHelperRoute
 	 *
 	 * @since       1.6
 	 * @deprecated  4.0
+	 * @throws      \Exception
 	 */
 	public static function &getItems()
 	{
@@ -32,8 +36,8 @@ class UsersHelperRoute
 		// Get the menu items for this component.
 		if (!isset($items))
 		{
-			$component = JComponentHelper::getComponent('com_users');
-			$items     = JFactory::getApplication()->getMenu()->getItems('component_id', $component->id);
+			$component = ComponentHelper::getComponent('com_users');
+			$items     = Factory::getApplication()->getMenu()->getItems('component_id', $component->id);
 
 			// If no items found, set to empty array.
 			if (!$items)

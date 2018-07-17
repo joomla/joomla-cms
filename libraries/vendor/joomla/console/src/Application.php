@@ -344,9 +344,8 @@ class Application extends AbstractApplication
 			return;
 		}
 
-		$event = new Event\BeforeCommandExecuteEvent($this, $command);
-
-		$dispatcher->dispatch(ConsoleEvents::BEFORE_COMMAND_EXECUTE, $event);
+		/** @var Event\BeforeCommandExecuteEvent $event */
+		$event = $this->dispatchEvent(ConsoleEvents::BEFORE_COMMAND_EXECUTE, new Event\BeforeCommandExecuteEvent($this, $command));
 
 		if ($event->isCommandEnabled())
 		{
@@ -413,8 +412,8 @@ class Application extends AbstractApplication
 
 			if ($dispatcher)
 			{
-				$event = new Event\ConsoleErrorEvent($thrown, $this, $this->activeCommand);
-				$dispatcher->dispatch(ConsoleEvents::ERROR, $event);
+				/** @var Event\ConsoleErrorEvent $event */
+				$event = $this->dispatchEvent(ApplicationEvents::ERROR, new Event\ConsoleErrorEvent($thrown, $this, $this->activeCommand));
 
 				$thrown = $event->getError();
 
@@ -451,8 +450,8 @@ class Application extends AbstractApplication
 		{
 			if ($dispatcher)
 			{
-				$event = new Event\TerminateEvent($this->exitCode, $this, $this->activeCommand);
-				$dispatcher->dispatch(ConsoleEvents::TERMINATE, $event);
+				/** @var Event\TerminateEvent $event */
+				$event = $this->dispatchEvent(ConsoleEvents::TERMINATE, new Event\TerminateEvent($this->exitCode, $this, $this->activeCommand));
 
 				$this->exitCode = $event->getExitCode();
 			}
