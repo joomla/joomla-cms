@@ -130,7 +130,7 @@ abstract class LanguagesHelper
 				{
 					if (isset($cassociations[$language->lang_code]))
 					{
-						$language->link = Route::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
+						$language->link = Route::_($cassociations[$language->lang_code]);
 					}
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{

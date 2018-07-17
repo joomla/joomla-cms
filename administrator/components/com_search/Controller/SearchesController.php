@@ -11,6 +11,8 @@ namespace Joomla\Component\Search\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Methods supporting a list of search terms.
@@ -27,7 +29,7 @@ class SearchesController extends BaseController
 	public function reset()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Searches');
 
@@ -47,7 +49,7 @@ class SearchesController extends BaseController
 	public function toggleResults()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		if ($this->getModel('Searches')->getState('show_results', 1, 'int') === 0)
 		{

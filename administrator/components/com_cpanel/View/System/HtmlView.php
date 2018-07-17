@@ -43,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		ToolbarHelper::title(Text::_('System Panel'), 'cog help_header');
+		ToolbarHelper::title(Text::_('COM_CPANEL_TITLE_SYSTEM_PANEL'), 'cog help_header');
 		ToolbarHelper::help('screen.cpanel');
 
 		$user  = Factory::getUser();
@@ -258,6 +258,30 @@ class HtmlView extends BaseHtmlView
 				'com_languages_overrides' => static::arrayBuilder(
 					'MOD_MENU_MANAGE_LANGUAGES_OVERRIDES',
 					'index.php?option=com_languages&view=overrides',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
+		if ($user->authorise('core.manage', 'com_csp'))
+		{
+			$new = [
+				'com_csp_main' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_CSP',
+					'index.php?option=com_csp',
 					'cog'
 				),
 			];

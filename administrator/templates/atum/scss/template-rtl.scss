@@ -26,6 +26,15 @@ th {
     float: right;
     text-align: right;
   }
+
+  .controls {
+    margin-right: 220px;
+    margin-left: 0;
+  }
+
+  .custom-select {
+    float: right;
+  }
 }
 
 .dropdown-menu-right {
@@ -35,19 +44,6 @@ th {
   &::after {
     right: auto;
     left: .9rem;
-  }
-}
-
-.wrapper {
-  padding-left: 0;
-
-  &.closed {
-    padding-right: 50px;
-
-    .main-brand img {
-      position: relative;
-      left: 151px;
-    }
   }
 }
 
@@ -108,14 +104,10 @@ th {
 // Sidebar
 .main-nav {
 
-  .fa {
-    margin: 0 12px 0 8px;
-  }
-
   .open > a {
 
     + ul {
-      right: 50px;
+      right: 60px;
       left: auto;
     }
   }
@@ -134,6 +126,14 @@ th {
     right: auto;
     left: 15px;
     content: "\f0d9";
+  }
+
+  li a span {
+    float: right;
+  }
+
+  .collapse-level-1 .menuitem-group, .collapse-level-1>li:first-of-type {
+    text-align: right;
   }
 }
 
@@ -160,37 +160,28 @@ th {
 // Toolbar
 .subhead {
 
-  .btn-group-sm > .btn {
+  .btn, .btn-sm {
+    [class*=' fa-'],
+    [class^='fa-'],
     [class^='icon-'],
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -10px 0 6px;
-      border-right: 0;
-      border-left: 1px solid $atum-border-color;
-      border-radius: 0 3px 3px 0;
+      margin: 0 -22px 0 22px;
     }
   }
 
+  .btn-group {
+    margin-left: .75rem !important;
+  }
+
   .btn-toolbar > * {
+    margin-right: .75rem;
+    margin-left: 0;
 
     &:first-of-type {
       margin-right: 0;
     }
-  }
-
-  .btn-group-sm > .btn [class*=' fa-'],
-  .btn-group-sm > .btn [class*=' icon-'],
-  .btn-group-sm > .btn [class^='fa-'],
-  .btn-group-sm > .btn [class^='icon-'],
-  .btn-sm [class*=' fa-'],
-  .btn-sm [class*=' icon-'],
-  .btn-sm [class^='fa-'],
-  .btn-sm [class^='icon-'] {
-    margin: 0 -10px 0 6px;
-    border-right: 0;
-    border-left: 1px solid $atum-border-color;
-    border-radius: 0 3px 3px 0;
   }
 }
 
@@ -225,4 +216,28 @@ th {
       }
     }
   }
+}
+
+.js-stools .js-stools-container-filters {
+  right: auto;
+  left: 0;
+}
+
+.ml-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+.mr-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+
+.mr-2 {
+  margin-right: 0 !important;
+  margin-left: .5rem;
+}
+
+p, .table td {
+  text-align: right;
 }
