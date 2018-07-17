@@ -61,17 +61,23 @@ Joomla = window.Joomla || {};
 
 		var rows = document.querySelectorAll('tr[class^="row"]');
 
-		// Changes the background-color on every <td> inside a <tr>
+		// Changes the background-color on every cell inside a <tr>
 		function changeBg(item, checkall) {
 			// Check if it should add or remove the background colour
 			if (checkall.checked) {
 				item.querySelectorAll('td').forEach (function(td) {
 					td.classList.add('row-selected');
 				});
+				item.querySelectorAll('tr').forEach (function(tr) {
+					tr.classList.add('row-selected');
+				});
 			}
 			else {
 				item.querySelectorAll('td').forEach (function(td) {
 					td.classList.remove('row-selected');
+				});
+				item.querySelectorAll('tr').forEach (function(tr) {
+					tr.classList.remove('row-selected');
 				});
 			}
 		}
