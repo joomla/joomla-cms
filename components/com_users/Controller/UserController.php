@@ -8,6 +8,8 @@
  */
 namespace Joomla\Component\Users\Site\Controller;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -20,7 +22,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 
-defined('_JEXEC') or die;
 /**
  * Registration controller class for Users.
  *
