@@ -185,109 +185,109 @@
 	</fieldset>
 
 	<fieldset
-			name="Contact_Form"
-			label="COM_USERS_CONFIG_FIELD_CONTACT_FORM"
-			description="COM_USERS_CONFIG_FIELD_INDIVIDUAL_CONTACT_DESC"
+		name="Contact_Form"
+		label="COM_USERS_CONFIG_FIELD_CONTACT_FORM"
+		description="COM_USERS_CONFIG_FIELD_INDIVIDUAL_CONTACT_DESC"
 	>
 
 		<field
-				name="captcha"
-				type="plugins"
-				label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
-				folder="captcha"
-				filter="cmd"
-				useglobal="true"
+			name="captcha"
+			type="plugins"
+			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
+			folder="captcha"
+			filter="cmd"
+			useglobal="true"
 		>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
 		<field
-				name="show_email_form"
-				type="radio"
-				class="switcher"
-				label="COM_USERS_FIELD_EMAIL_SHOW_FORM_LABEL"
-				default="1"
+			name="show_email_form"
+			type="radio"
+			class="switcher"
+			label="COM_USERS_FIELD_EMAIL_SHOW_FORM_LABEL"
+			default="1"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field
-				name="show_email_copy"
-				type="radio"
-				label="COM_USERS_FIELD_EMAIL_EMAIL_COPY_LABEL"
-				default="0"
-				class="switcher"
-				showon="show_email_form:1"
+			name="show_email_copy"
+			type="radio"
+			label="COM_USERS_FIELD_EMAIL_EMAIL_COPY_LABEL"
+			default="0"
+			class="switcher"
+			showon="show_email_form:1"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field
-				name="banned_email"
-				type="textarea"
-				label="COM_USERS_CONFIG_FIELD_BANNED_EMAIL_LABEL"
-				description="COM_USERS_CONFIG_FIELD_BANNED_EMAIL_DESC"
-				default=""
-				rows="3"
-				cols="30"
-				showon="show_email_form:1"
+			name="banned_email"
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_BANNED_EMAIL_LABEL"
+			description="COM_USERS_CONFIG_FIELD_BANNED_EMAIL_DESC"
+			default=""
+			rows="3"
+			cols="30"
+			showon="show_email_form:1"
 		/>
 
 		<field
-				name="banned_subject"
-				type="textarea"
-				label="COM_USERS_CONFIG_FIELD_BANNED_SUBJECT_LABEL"
-				description="COM_USERS_CONFIG_FIELD_BANNED_SUBJECT_DESC"
-				default=""
-				rows="3"
-				cols="30"
-				showon="show_email_form:1"
+			name="banned_subject"
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_BANNED_SUBJECT_LABEL"
+			description="COM_USERS_CONFIG_FIELD_BANNED_SUBJECT_DESC"
+			default=""
+			rows="3"
+			cols="30"
+			showon="show_email_form:1"
 		/>
 
 		<field
-				name="banned_text"
-				type="textarea"
-				label="COM_USERS_CONFIG_FIELD_BANNED_TEXT_LABEL"
-				description="COM_USERS_CONFIG_FIELD_BANNED_TEXT_DESC"
-				default=""
-				rows="3"
-				cols="30"
-				showon="show_email_form:1"
+			name="banned_text"
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_BANNED_TEXT_LABEL"
+			description="COM_USERS_CONFIG_FIELD_BANNED_TEXT_DESC"
+			default=""
+			rows="3"
+			cols="30"
+			showon="show_email_form:1"
 		/>
 
 		<field
-				name="validate_session"
-				type="radio"
-				class="switcher"
-				label="COM_USERS_FIELD_CONFIG_SESSION_CHECK_LABEL"
-				default="1"
-				showon="show_email_form:1"
+			name="validate_session"
+			type="radio"
+			class="switcher"
+			label="COM_USERS_FIELD_CONFIG_SESSION_CHECK_LABEL"
+			default="1"
+			showon="show_email_form:1"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field
-				name="custom_reply"
-				type="radio"
-				class="switcher"
-				label="COM_USERS_CONFIG_FIELD_CUSTOM_REPLY_LABEL"
-				default="0"
-				showon="show_email_form:1"
+			name="custom_reply"
+			type="radio"
+			class="switcher"
+			label="COM_USERS_CONFIG_FIELD_CUSTOM_REPLY_LABEL"
+			default="0"
+			showon="show_email_form:1"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field
-				name="redirect"
-				type="text"
-				label="COM_USERS_FIELD_CONFIG_REDIRECT_LABEL"
-				default=""
-				size="30"
-				showon="show_email_form:1"
+			name="redirect"
+			type="text"
+			label="COM_USERS_FIELD_CONFIG_REDIRECT_LABEL"
+			default=""
+			size="30"
+			showon="show_email_form:1"
 		/>
 	</fieldset>
 
