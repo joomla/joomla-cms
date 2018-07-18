@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Factory;
 
 /**
  * Message configuration model.
@@ -35,7 +36,7 @@ class ConfigModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$this->setState('user.id', $user->get('id'));
 

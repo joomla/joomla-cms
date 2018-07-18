@@ -11,6 +11,9 @@ namespace Joomla\Component\Login\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Login Controller.
@@ -42,7 +45,7 @@ class DisplayController extends BaseController
 		// For non-html formats we do not have login view, so just display 403 instead
 		if ($this->input->get('format', 'html') !== 'html')
 		{
-			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		/**
@@ -65,7 +68,7 @@ class DisplayController extends BaseController
 	public function login()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 
@@ -78,7 +81,7 @@ class DisplayController extends BaseController
 		if ($result && !($result instanceof \Exception))
 		{
 			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if (Uri::isInternal($return))
 			{
 				// If &tmpl=component - redirect to index.php
 				if (strpos($return, 'tmpl=component') === false)
@@ -102,7 +105,7 @@ class DisplayController extends BaseController
 	 */
 	public function logout()
 	{
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 
@@ -129,7 +132,7 @@ class DisplayController extends BaseController
 			$return = $model->getState('return');
 
 			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if (Uri::isInternal($return))
 			{
 				$app->redirect($return);
 			}
