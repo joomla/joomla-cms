@@ -120,7 +120,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
-						<th class="text-center">
+						<td class="text-center">
 							<div class="btn-group">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
