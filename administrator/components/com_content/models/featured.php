@@ -120,15 +120,24 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		$access = $this->getState('filter.access');
+
+		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+		elseif (is_array($access))
+		{
+			$access = ArrayHelper::toInteger($access);
+			$access = implode(',', $access);
+			$query->where('a.access IN (' . $access . ')');
 		}
 
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
 			$query->where('c.access IN (' . $groups . ')');
 		}
 
