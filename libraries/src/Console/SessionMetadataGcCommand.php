@@ -10,16 +10,26 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\Console\AbstractCommand;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Session\SessionInterface;
 
 /**
- * Console command for performing session garbage collection
+ * Console command for performing session metadata garbage collection
  *
  * @since  4.0.0
  */
 class SessionMetadataGcCommand extends AbstractCommand
 {
+	/**
+	 * The database object.
+	 *
+	 * @var    DatabaseInterface
+	 * @since  4.0.0
+	 */
+	private $db;
+
 	/**
 	 * The session object.
 	 *
@@ -31,13 +41,15 @@ class SessionMetadataGcCommand extends AbstractCommand
 	/**
 	 * Instantiate the command.
 	 *
-	 * @param   SessionInterface  $session  The session object.
+	 * @param   SessionInterface   $session  The session object.
+	 * @param   DatabaseInterface  $db       The database object.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(SessionInterface $session)
+	public function __construct(SessionInterface $session, DatabaseInterface $db)
 	{
 		$this->session = $session;
+		$this->db      = $db;
 
 		parent::__construct();
 	}
@@ -53,11 +65,11 @@ class SessionMetadataGcCommand extends AbstractCommand
 	{
 		$symfonyStyle = $this->createSymfonyStyle();
 
-		$symfonyStyle->title('Running Session Metadata garbage Collection');
+		$symfonyStyle->title('Running Session Metadata Garbage Collection');
 
-		$metadataManager = new \Joomla\CMS\Session\MetadataManager($this->getApplication(), \Joomla\CMS\Factory::getDbo());
-		$sessionExpire   = $this->session->getExpire();
-		$metadataManager->deletePriorTo(time() - $sessionExpire);
+		$sessionExpire = $this->session->getExpire();
+
+		(new MetadataManager($this->getApplication(), $this->db))->deletePriorTo(time() - $sessionExpire);
 
 		$symfonyStyle->success('Metadata garbage collection completed.');
 
@@ -73,11 +85,11 @@ class SessionMetadataGcCommand extends AbstractCommand
 	 */
 	protected function initialise()
 	{
-		$this->setName('session:gc');
+		$this->setName('session:metadata:gc');
 		$this->setDescription('Performs session metadata garbage collection');
 		$this->setHelp(
 <<<EOF
-The <info>%command.name%</info> command runs PHP's garbage collection operation for session data
+The <info>%command.name%</info> command runs the garbage collection operation for Joomla session metadata
 
 <info>php %command.full_name%</info>
 EOF
