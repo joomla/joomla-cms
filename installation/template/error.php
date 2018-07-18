@@ -9,17 +9,30 @@
 defined('_JEXEC') or die;
 
 /** @var JDocumentError $this */
+
+// Add Stylesheets
+JHtml::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
+JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css', ['version' => 'auto']);
+JHtml::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
+
+// Add scripts
+JHtml::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
+JHtml::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+
+// Add script options
+$this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);
+
+// Set page title
+$this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
+
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--		<link href="--><?php //echo JUri::root(true); ?><!--/media/jui/css/bootstrap.min.css" rel="stylesheet">-->
-		<?php if ($this->direction == 'rtl') : ?>
-<!--			<link href="--><?php //echo JUri::root(true); ?><!--/media/jui/css/bootstrap-rtl.css" rel="stylesheet">-->
-		<?php endif; ?>
-		<link href="<?php echo $this->baseurl; ?>/template/css/template.css" rel="stylesheet">
+		<jdoc:include type="metas" />
+		<jdoc:include type="styles" />
 	</head>
 	<body>
 		<div class="j-install">
@@ -58,7 +71,7 @@ defined('_JEXEC') or die;
 								</div>
 								<div class="alert-text">
 									<h2><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
-									<p class="form-text text-muted small"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<p class="form-text text-muted small"><span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 								</div>
 							</div>
 							<?php if ($this->debug) : ?>
@@ -85,6 +98,7 @@ defined('_JEXEC') or die;
 					</div>
 				</div>
 			</section>
+			<jdoc:include type="scripts" />
 			<footer class="j-footer">
 				<a href="https://www.joomla.org" target="_blank">Joomla!</a>
 				is free software released under the

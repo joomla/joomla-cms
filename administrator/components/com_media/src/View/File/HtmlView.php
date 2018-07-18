@@ -13,10 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-
-\JLoader::import('joomla.filesystem.file');
 
 /**
  * View to edit an file.
@@ -67,7 +66,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
+		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
 		ToolbarHelper::apply('apply');
 		ToolbarHelper::save('save');
