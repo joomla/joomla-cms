@@ -39,7 +39,7 @@ HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]
 HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
-HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
