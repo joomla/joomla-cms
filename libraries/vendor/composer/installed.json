@@ -421,12 +421,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/authentication.git",
-            "reference": "62014f2516f77cf6e2c6b3d772bb5dae53d6fc3d"
+            "reference": "3189dc20cbb8a449f6e00b94e2a42e53e1ce16b7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/62014f2516f77cf6e2c6b3d772bb5dae53d6fc3d",
-            "reference": "62014f2516f77cf6e2c6b3d772bb5dae53d6fc3d",
+            "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/3189dc20cbb8a449f6e00b94e2a42e53e1ce16b7",
+            "reference": "3189dc20cbb8a449f6e00b94e2a42e53e1ce16b7",
             "shasum": ""
         },
         "require": {
@@ -444,7 +444,7 @@
             "joomla/database": "Required if you want to use Joomla\\Authentication\\Strategies\\DatabaseStrategy",
             "joomla/input": "Required if you want to use classes in the Joomla\\Authentication\\Strategies namespace"
         },
-        "time": "2018-05-13T23:00:40+00:00",
+        "time": "2018-07-14T20:43:57+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
