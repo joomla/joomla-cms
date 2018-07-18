@@ -36,7 +36,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 							<td style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
 							</td>
-							<th style="width:1%" class="nowrap">
+							<th scope="col" style="width:1%" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="nowrap">

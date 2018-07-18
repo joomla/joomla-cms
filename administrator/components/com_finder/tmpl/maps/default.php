@@ -37,7 +37,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							<td style="width:1%" class="text-center nowrap">
 								<?php echo JHtml::_('grid.checkall'); ?>
 							</td>
-							<th style="width:1%" class="text-center nowrap">
+							<th scope="col" style="width:1%" class="text-center nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="nowrap">
@@ -49,11 +49,11 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 								</th>
 							<?php endif; ?>
 							<th scope="col" style="width:1%" class="nowrap text-center">
-                                <span class="icon-publish" aria-hidden="true"></span>
+								<span class="icon-publish" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th scope="col" style="width:1%" class="nowrap text-center">
-                                <span class="icon-unpublish" aria-hidden="true"></span>
+								<span class="icon-unpublish" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 						</tr>

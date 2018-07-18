@@ -67,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
 								</td>
 								<th scope="row">
-                                    <?php echo $language->name; ?>
+									<?php echo $language->name; ?>
 								</th>
 								<td class="text-center">
 									<?php echo $language->code; ?>

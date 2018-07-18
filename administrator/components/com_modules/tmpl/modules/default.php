@@ -46,7 +46,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td style="width:1%" class="nowrap text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th style="width:1%; min-width:85px" class="nowrap text-center">
+						<th scope="col" style="width:1%; min-width:85px" class="nowrap text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">

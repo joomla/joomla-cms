@@ -55,7 +55,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">

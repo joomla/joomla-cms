@@ -51,11 +51,11 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center">
-                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
+									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center">
-                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
+									<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">

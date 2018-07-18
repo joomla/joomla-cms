@@ -113,7 +113,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											<?php echo $this->escape($item->menutype); ?>
 										<?php endif; ?>
 									</div>
-								</td>
+								</th>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
 										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">

@@ -113,7 +113,7 @@ $params     = $this->state->params ?? new JObject;
 											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
 										</div>
 									</td>
-									<th class="nowrap has-context">
+									<th scope="row" class="nowrap has-context">
 										<div>
 											<?php if ($item->checked_out) : ?>
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>

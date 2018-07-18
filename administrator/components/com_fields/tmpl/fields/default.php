@@ -79,7 +79,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
