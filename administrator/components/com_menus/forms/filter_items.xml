@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 	<field
 		name="client_id"
 		type="list"
@@ -64,7 +64,7 @@
 		</field>
 		<field
 			name="parent_id"
-			type="menuitembytype"
+			type="MenuItemByType"
 			label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
 			description="COM_MENUS_FILTER_PARENT_MENU_ITEM_DESC"
 			onchange="this.form.submit();"

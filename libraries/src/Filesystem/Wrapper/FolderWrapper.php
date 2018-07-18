@@ -34,7 +34,7 @@ class FolderWrapper
 	 *
 	 * @see     Folder::copy()
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function copy($src, $dest, $path = '', $force = false, $use_streams = false)
 	{

@@ -87,7 +87,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFile($adapter, $path = '/', $options = array())
+	public function getFile($adapter, $path = '/', $options = [])
 	{
 		// Add adapter prefix to the file returned
 		$file = $this->getAdapter($adapter)->getFile($path);
@@ -140,7 +140,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFiles($adapter, $path = '/', $options = array())
+	public function getFiles($adapter, $path = '/', $options = [])
 	{
 		// Check whether user searching
 		if ($options['search'] != null)
@@ -529,7 +529,7 @@ class ApiModel extends BaseDatabaseModel
 		// Also include the filesystem plugins, perhaps they support batch processing too
 		PluginHelper::importPlugin('media-action');
 
-		$result = $app->triggerEvent('onContentBeforeSave', array('com_media.' . $object->type, $object, true));
+		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.' . $object->type, $object, true]);
 
 		if (in_array(false, $result, true))
 		{
@@ -538,7 +538,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$callback($object);
 
-		$app->triggerEvent('onContentAfterSave', array('com_media.' . $object->type, $object, true));
+		$app->triggerEvent('onContentAfterSave', ['com_media.' . $object->type, $object, true]);
 
 		return $object;
 	}

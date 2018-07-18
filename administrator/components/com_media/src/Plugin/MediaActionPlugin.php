@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Media Manager Base Plugin for the media actions
@@ -71,10 +72,10 @@ class MediaActionPlugin extends CMSPlugin
 	 */
 	protected function loadJs()
 	{
-		\JHtml::_(
+		HTMLHelper::_(
 		'script',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
-			array('version' => 'auto', 'relative' => true)
+			['version' => 'auto', 'relative' => true]
 		);
 	}
 
@@ -87,10 +88,10 @@ class MediaActionPlugin extends CMSPlugin
 	 */
 	protected function loadCss()
 	{
-		\JHtml::_(
+		HTMLHelper::_(
 		'stylesheet',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.css',
-			array('version' => 'auto', 'relative' => true)
+			['version' => 'auto', 'relative' => true]
 		);
 	}
 }

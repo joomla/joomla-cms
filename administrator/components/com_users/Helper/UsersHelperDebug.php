@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users component debugging helper.
@@ -30,7 +33,7 @@ class UsersHelperDebug
 	public static function getComponents()
 	{
 		// Initialise variable.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('name AS text, element AS value')
 			->from('#__extensions')
@@ -41,7 +44,7 @@ class UsersHelperDebug
 
 		if (count($items))
 		{
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($items as &$item)
 			{
@@ -52,7 +55,7 @@ class UsersHelperDebug
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 				// Translate component name
-				$item->text = \JText::_($item->text);
+				$item->text = Text::_($item->text);
 			}
 
 			// Sort by component name
@@ -121,7 +124,7 @@ class UsersHelperDebug
 				}
 
 				// Load language
-				$lang = \JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 				$extension = 'com_config';
 				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
@@ -144,12 +147,12 @@ class UsersHelperDebug
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '1', \JText::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1));
-		$options[] = \JHtml::_('select.option', '2', \JText::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2));
-		$options[] = \JHtml::_('select.option', '3', \JText::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3));
-		$options[] = \JHtml::_('select.option', '4', '4');
-		$options[] = \JHtml::_('select.option', '5', '5');
-		$options[] = \JHtml::_('select.option', '6', '6');
+		$options[] = HTMLHelper::_('select.option', '1', Text::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1));
+		$options[] = HTMLHelper::_('select.option', '2', Text::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2));
+		$options[] = HTMLHelper::_('select.option', '3', Text::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3));
+		$options[] = HTMLHelper::_('select.option', '4', '4');
+		$options[] = HTMLHelper::_('select.option', '5', '5');
+		$options[] = HTMLHelper::_('select.option', '6', '6');
 
 		return $options;
 	}

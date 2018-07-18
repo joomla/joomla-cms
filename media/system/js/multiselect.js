@@ -93,12 +93,14 @@ Joomla = window.Joomla || {};
 				row.addEventListener('click', function(event) {
 					var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
 
-					if (!(event.target.id == clicked)) {
-						cbClicked.checked = !cbClicked.checked;
-						Joomla.isChecked(cbClicked.checked);
-					}
+					if (cbClicked) {
+						if (!(event.target.id == clicked)) {
+							cbClicked.checked = !cbClicked.checked;
+							Joomla.isChecked(cbClicked.checked);
+						}
 
-					changeBg(this, cbClicked);
+						changeBg(this, cbClicked);
+					}
 				});
 			});
 		}

@@ -75,7 +75,7 @@ $input = JFactory::getApplication()->input;
 								<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
 									<?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
 								</label>
-								<input type="text" id="new_name" name="new_name" required>
+								<input class="form-control" type="text" id="new_name" name="new_name" required>
 								<?php echo JHtml::_('form.token'); ?>
 							</div>
 							<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_COPY_FILE'); ?></button>

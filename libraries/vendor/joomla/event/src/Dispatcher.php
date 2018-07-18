@@ -13,7 +13,7 @@ namespace Joomla\Event;
  *
  * @since  1.0
  */
-class Dispatcher implements DispatcherInterface, SubscriberManagerInterface
+class Dispatcher implements DispatcherInterface
 {
 	/**
 	 * An array of registered events indexed by the event names.
@@ -216,7 +216,7 @@ class Dispatcher implements DispatcherInterface, SubscriberManagerInterface
 	 *
 	 * @param   string  $event  The event to fetch listeners for
 	 *
-	 * @return  object[]  An array of registered listeners sorted according to their priorities.
+	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
 	 *
 	 * @since   1.0
 	 */
