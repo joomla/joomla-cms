@@ -630,11 +630,16 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					// Get the error number and message.
-					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage();
-
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					if ($this->errorNum === 2006)
+					{
+						/**
+						 * Can not connect because MySQL server has gone away.
+						 * Give a time to restart in order to save the session to the database.
+						 */
+						sleep(1);
+					}
 
 					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
 				}
