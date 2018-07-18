@@ -23,7 +23,7 @@ use Joomla\Session\SessionInterface;
 class SessionMetadataGcCommand extends AbstractCommand
 {
 	/**
-	 * The session object.
+	 * The database object.
 	 *
 	 * @var    DatabaseInterface
 	 * @since  4.0.0
@@ -41,8 +41,8 @@ class SessionMetadataGcCommand extends AbstractCommand
 	/**
 	 * Instantiate the command.
 	 *
-	 * @param   SessionInterface  $session  The session object.
-	 * @param   DatabaseInterface $db       The database object.
+	 * @param   SessionInterface   $session  The session object.
+	 * @param   DatabaseInterface  $db       The database object.
 	 *
 	 * @since   4.0.0
 	 */
