@@ -143,15 +143,24 @@ abstract class JHtmlGrid
 	 * @param   string   $name        The name of the form element
 	 * @param   string   $stub        The name of stub identifier
 	 * @param   string   $title       The name of the item
+	 * @param   string   $formId      An optional form selector.
 	 *
 	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 *
 	 * @since   1.5
 	 */
-	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '')
+	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '', $formId = null)
 	{
+		if ($formId !== null)
+		{
+			return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="sr-only">' . JText::_('JSELECT')
+				. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
+				. '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+				. '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
+		}
+
 		return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="sr-only">' . JText::_('JSELECT')
-			. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>' 
+			. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
 			. '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);">';
 	}

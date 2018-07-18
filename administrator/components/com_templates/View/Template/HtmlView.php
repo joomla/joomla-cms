@@ -145,6 +145,7 @@ class HtmlView extends BaseHtmlView
 		$this->template    = $this->get('Template');
 		$this->preview     = $this->get('Preview');
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
+		$this->updatedList = $this->get('UpdatedList');
 
 		$params       = ComponentHelper::getParams('com_templates');
 		$imageTypes   = explode(',', $params->get('image_formats'));
@@ -279,6 +280,11 @@ class HtmlView extends BaseHtmlView
 			{
 				\JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 			}
+		}
+
+		if (count($this->updatedList) !== 0 && $this->pluginState)
+		{
+			\JToolbarHelper::custom('template.deleteOverrideHistory', 'delete', 'move', 'JTOOLBAR_DELETE', true, 'updateForm');
 		}
 
 		if ($this->type == 'home')

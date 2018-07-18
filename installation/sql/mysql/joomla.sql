@@ -664,7 +664,8 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (488, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (489, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (490, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '{"numupdate":3,"overridefiles":"{}"}', 0, '0000-00-00 00:00:00', 4, 0, ''),
+(491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 4, 0, ''),
+(492, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -1560,6 +1561,27 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
 
 INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`) VALUES
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '0000-00-00 00:00:00', '', '', 0, '*', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__template_overrides`
+--
+
+CREATE TABLE IF NOT EXISTS `#__template_overrides` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `template` varchar(50) NOT NULL DEFAULT '',
+  `hash_id` varchar(255) NOT NULL DEFAULT '',
+  `extension_id` int(11) DEFAULT 0,
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `action` varchar(50) NOT NULL DEFAULT '',
+  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `idx_template` (`template`),
+  KEY `idx_extension_id` (`extension_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

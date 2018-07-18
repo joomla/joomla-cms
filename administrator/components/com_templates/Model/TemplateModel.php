@@ -88,7 +88,7 @@ class TemplateModel extends FormModel
 
 		if ($coreFile = $this->getCoreFile($path . $name, $template->client_id))
 		{
-			$temp->modifiedDate = date("F d Y H:i:s.", filemtime($coreFile));
+			$temp->modifiedDate = date("y-m-d h:i:s.u", filemtime($coreFile));
 			$temp->coreFile = md5_file($coreFile);
 		}
 		else
@@ -137,6 +137,82 @@ class TemplateModel extends FormModel
 	}
 
 	/**
+	 * Method to get all updated file list.
+	 *
+	 * @param   boolean  $state    The optional parameter if you want unchecked list.
+	 * @param   boolean  $all      The optional parameter if you want all list.
+	 * @param   boolean  $cleanup  The optional parameter if you want to clean record which is no more required.
+	 *
+	 * @return  object  stdClass object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getUpdatedList($state = false, $all = false, $cleanup = false)
+	{
+		// Get a db connection.
+		$db = Factory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		// Select the required fields from the table
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.template, a.hash_id, a.extension_id, a.state, a.action, a.client_id, a.created_date, a.modified_date'
+			)
+		);
+
+		$template = $this->getTemplate();
+
+		$query->from($db->quoteName('#__template_overrides', 'a'));
+
+		if (!$all)
+		{
+			$query->where('extension_id = ' . $db->quote($template->extension_id));
+		}
+
+		if ($state)
+		{
+			$query->where('state = ' . 0);
+		}
+
+		$query->order($db->quoteName('a.modified_date') . 'DESC');
+
+		// Reset the query.
+		$db->setQuery($query);
+
+		// Load the results as a list of stdClass objects.
+		$pks = $db->loadObjectList();
+
+		if ($state)
+		{
+			return $pks;
+		}
+
+		$results = array();
+
+		foreach ($pks as $pk)
+		{
+			$client = ApplicationHelper::getClientInfo($pk->client_id);
+			$path = Path::clean($client->path . '/templates/' . $pk->template . base64_decode($pk->hash_id));
+
+			if (file_exists($path))
+			{
+				$results[] = $pk;
+			}
+			elseif ($cleanup)
+			{
+				$cleanupIds = array();
+				$cleanupIds[] = $pk->hash_id;
+				$this->publish($cleanupIds, -3, $pk->extension_id);
+			}
+		}
+
+		return $results;
+	}
+
+	/**
 	 * Method to get a list of all the core files of override files.
 	 *
 	 * @return  array  A array of all core files.
@@ -151,7 +227,7 @@ class TemplateModel extends FormModel
 		// Intialize the array variable to store core file list.
 		$this->coreFileList = array();
 
-		$app    = Factory::getApplication();
+		$app = Factory::getApplication();
 
 		foreach ($templates as $template)
 		{
@@ -232,6 +308,65 @@ class TemplateModel extends FormModel
 	}
 
 	/**
+	 * Method to update status of list.
+	 *
+	 * @param   array    $ids    The base path.
+	 * @param   array    $value  The file name.
+	 * @param   integer  $exid   The template extension id.
+	 *
+	 * @return  integer  Number of files changed.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish($ids, $value, $exid)
+	{
+		$db = Factory::getDbo();
+
+		foreach ($ids as $id)
+		{
+			if ($value === -3)
+			{
+				$deleteQuery = $db->getQuery(true)
+					->delete($db->quoteName('#__template_overrides'))
+					->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
+					->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+
+				try
+				{
+					// Set the query using our newly populated query object and execute it.
+					$db->setQuery($deleteQuery);
+					$result = $db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					return $e;
+				}
+			}
+			elseif ($value === 1 || $value === 0)
+			{
+				$updateQuery = $db->getQuery(true)
+					->update($db->quoteName('#__template_overrides'))
+					->set($db->quoteName('state') . ' = ' . $db->quote($value))
+					->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
+					->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+
+				try
+				{
+					// Set the query using our newly populated query object and execute it.
+					$db->setQuery($updateQuery);
+					$result = $db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					return $e;
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to get a list of all the files to edit in a template.
 	 *
 	 * @return  array  A nested array of relevant files.
@@ -270,6 +405,9 @@ class TemplateModel extends FormModel
 
 				return false;
 			}
+
+			// Clean up override history
+			$this->getUpdatedList(false, true, true);
 		}
 
 		return $result;

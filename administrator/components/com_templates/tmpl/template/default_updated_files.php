@@ -9,67 +9,79 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
-$plugin = PluginHelper::getPlugin('installer', 'override');
-$params = new Registry($plugin->params);
-$result = json_decode($params->get('overridefiles'), JSON_HEX_QUOT);
+$input = Factory::getApplication()->input;
 ?>
 
-<div class="row">
-	<div class="col-md-12">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th style="width:25%">
-						<?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
-					</th>
-					<th>
-						<?php echo Text::_('COM_TEMPLATES_OVERRIDE_MODIFIED_DATE'); ?>
-					</th>
-					<th>
-						<?php echo Text::_('COM_TEMPLATES_OVERRIDE_ACTION'); ?>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php $flag = 0; ?>
-				<?php foreach ($result as $values) : ?>
-					<?php foreach ($values as $value) : ?>
-						<?php $client = ApplicationHelper::getClientInfo($value['client']); ?>
-						<?php $path = $client->path . '/templates/' . $value['template'] . base64_decode($value['id']); ?>
-						<?php if (file_exists($path) && $this->template->extension_id === $value['extension_id']) : ?>
-							<?php $flag = 1; ?>
-							<tr>
-								<td>
-									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $value['extension_id'] . '&file=' . $value['id']); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>"><?php echo base64_decode($value['id']); ?></a>
+<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="updateForm" id="updateForm">
+	<div class="row">
+		<div class="col-md-12">
+			<?php if(count($this->updatedList) !== 0) : ?>
+				<table class="table">
+					<thead>
+						<tr>
+							<th style="width:5%" class="nowrap text-center">
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
+							</th>
+							<th style="width:7%" class="nowrap">
+								<?php echo Text::_('JSTATUS'); ?>
+							</th>
+							<th style="width:30%">
+								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
+							</th>
+							<th>
+								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CREATED_DATE'); ?>
+							</th>
+							<th>
+								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_MODIFIED_DATE'); ?>
+							</th>
+							<th>
+								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_ACTION'); ?>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($this->updatedList as $i => $value) : ?>
+							<tr class="row<?php echo $i % 2; ?>">
+								<td class="text-center">
+									<?php echo HTMLHelper::_('grid.id', $i, $value->hash_id, false, 'cid', 'cb', '', 'updateForm'); ?>
 								</td>
 								<td>
-									<?php if (empty($value['modifiedDate'])) : ?>
+									<?php echo HTMLHelper::_('jgrid.published', $value->state, $i, 'template.', 1, 'cb', null, null, 'updateForm'); ?>
+								</td>
+								<td>
+									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $value->extension_id . '&file=' . $value->hash_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>"><?php echo base64_decode($value->hash_id); ?></a>
+								</td>
+								<td>
+									<?php echo $value->created_date; ?>
+								</td>
+								<td>
+									<?php if ($value->modified_date === '0000-00-00 00:00:00') : ?>
 										<span class="badge badge-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
 									<?php else : ?>
-										<?php echo $value['modifiedDate']; ?>
+										<?php echo $value->modified_date; ?>
 									<?php endif; ?>
 								</td>
 								<td>
-									<span class="badge badge-info"><?php echo $value['action']; ?></span>
+									<span class="badge badge-info"><?php echo $value->action; ?></span>
 								</td>
 							</tr>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
-		<?php if(!$flag || count($result) === 0) : ?>
-			<joomla-alert type="success" role="alert" class="joomla-alert--show">
-				<span class="icon-info" aria-hidden="true"></span>
-				<?php echo Text::sprintf('COM_TEMPLATES_OVERRIDE_UPTODATE', $params->get('numupdate')); ?>
-			</joomla-alert>
-		<?php endif; ?>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+				<input type="hidden" name="task" value="">
+				<input type="hidden" name="boxchecked" value="0">
+				<?php echo HTMLHelper::_('form.token'); ?>
+			<?php else : ?>
+				<joomla-alert type="success" role="alert" class="joomla-alert--show">
+					<span class="icon-info" aria-hidden="true"></span>
+					<?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
+				</joomla-alert>
+			<?php endif; ?>
+		</div>
 	</div>
-</div>
+</form>

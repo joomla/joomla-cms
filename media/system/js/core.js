@@ -131,6 +131,10 @@ Joomla.Modal = {
 	Joomla.submitbutton = function( task, formSelector, validate ) {
 		var form = document.querySelector( formSelector || 'form.form-validate' );
 
+		if (typeof formSelector === 'string' && form === null) {
+			var form = document.querySelector( '#' + formSelector);
+		}
+
 		if (form) {
 
 			if (validate === undefined || validate === null) {
@@ -575,6 +579,8 @@ Joomla.Modal = {
 	Joomla.isChecked = function( isitchecked, form ) {
 		if ( typeof form  === 'undefined' ) {
 			form = document.getElementById( 'adminForm' );
+		} else if (typeof form === 'string') {
+			form = document.getElementById(form);
 		}
 
 		form.boxchecked.value = isitchecked ? parseInt(form.boxchecked.value) + 1 : parseInt(form.boxchecked.value) - 1;
@@ -614,6 +620,8 @@ Joomla.Modal = {
 	Joomla.tableOrdering = function( order, dir, task, form ) {
 		if ( typeof form  === 'undefined' ) {
 			form = document.getElementById( 'adminForm' );
+		} else if ( typeof form  === 'string' ) {
+			form = document.getElementById(form);
 		}
 
 		form.filter_order.value = order;
@@ -647,12 +655,13 @@ Joomla.Modal = {
 	 *
 	 * @param id
 	 * @param task
+	 * @param form
 	 * @return
 	 *
 	 * @deprecated 4.0  Use Joomla.listItemTask() instead
 	 */
-	window.listItemTask = function ( id, task ) {
-		return Joomla.listItemTask( id, task );
+	window.listItemTask = function ( id, task, form = null ) {
+		return Joomla.listItemTask( id, task, form );
 	};
 
 	/**
@@ -663,9 +672,15 @@ Joomla.Modal = {
 	 *
 	 * @return {boolean}
 	 */
-	Joomla.listItemTask = function ( id, task ) {
-		var f = document.adminForm,
-		    i = 0, cbx,
+	Joomla.listItemTask = function ( id, task, form = null ) {
+
+		if (form !== null) {
+			var f = document.getElementById(form);
+		} else {
+			var f = document.adminForm;
+		}
+
+		var i = 0, cbx,
 		    cb = f[ id ];
 
 		if ( !cb ) return false;
@@ -682,7 +697,7 @@ Joomla.Modal = {
 
 		cb.checked = true;
 		f.boxchecked.value = 1;
-		window.submitform( task );
+		window.submitform( task, f );
 
 		return false;
 	};
@@ -692,8 +707,8 @@ Joomla.Modal = {
 	 *
 	 * @deprecated 4.0  Use Joomla.submitbutton() instead.
 	 */
-	window.submitbutton = function ( pressbutton ) {
-		Joomla.submitbutton( pressbutton );
+	window.submitbutton = function ( pressbutton, form = null ) {
+		Joomla.submitbutton( pressbutton, form );
 	};
 
 	/**
@@ -701,8 +716,8 @@ Joomla.Modal = {
 	 *
 	 * @deprecated 4.0  Use Joomla.submitform() instead.
 	 */
-	window.submitform = function ( pressbutton ) {
-		Joomla.submitform(pressbutton);
+	window.submitform = function ( pressbutton, form = null ) {
+		Joomla.submitform( pressbutton, form );
 	};
 
 	// needed for Table Column ordering

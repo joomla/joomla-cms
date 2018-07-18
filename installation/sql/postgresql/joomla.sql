@@ -677,7 +677,8 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (488, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (489, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (490, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
-(491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '{"numupdate":3,"overridefiles":"{}"}', 0, '1970-01-01 00:00:00', 4, 0, ''),
+(491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0, ''),
+(492, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -1567,6 +1568,25 @@ INSERT INTO "#__tags" ("id", "parent_id", "lft", "rgt", "level", "path", "title"
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '1970-01-01 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '1970-01-01 00:00:00', '', '',  0, '*', 1);
 
 SELECT setval('#__tags_id_seq', 2, false);
+
+--
+-- Table structure for table `#__template_overrides`
+--
+
+CREATE TABLE IF NOT EXISTS "#__template_overrides" (
+  "id" serial NOT NULL,
+  "template" varchar(50) DEFAULT '' NOT NULL,
+  "hash_id" varchar(255) DEFAULT '' NOT NULL,
+  "extension_id" bigint DEFAULT 0,
+  "state" smallint DEFAULT 0 NOT NULL,
+  "action" varchar(50) DEFAULT '' NOT NULL,
+  "client_id" smallint DEFAULT 0 NOT NULL,
+  "created_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__template_overrides_idx_template" ON "#__template_overrides" ("template");
+CREATE INDEX "#__template_overrides_idx_extension_id" ON "#__template_overrides" ("extension_id");
 
 --
 -- Table structure for table `#__template_styles`

@@ -54,6 +54,7 @@ Joomla = window.Joomla || {};
 		if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-multiselect')) {
 			if (Joomla.getOptions('js-multiselect').formName) {
 				Joomla.JMultiSelect(Joomla.getOptions('js-multiselect').formName);
+				var optionalForm = document.getElementById(Joomla.getOptions('js-multiselect').formName);
 			} else {
 				Joomla.JMultiSelect('adminForm');
 			}
@@ -96,7 +97,7 @@ Joomla = window.Joomla || {};
 					if (cbClicked) {
 						if (!(event.target.id == clicked)) {
 							cbClicked.checked = !cbClicked.checked;
-							Joomla.isChecked(cbClicked.checked);
+							Joomla.isChecked(cbClicked.checked, optionalForm);
 						}
 
 						changeBg(this, cbClicked);

@@ -183,31 +183,11 @@ class PlgInstallerOverride extends CMSPlugin
 		{
 			$span = '<span class="badge badge-light">' . $num . '</span>';
 			$this->app->enqueueMessage(Text::sprintf('PLG_INSTALLER_OVERRIDE_FILE_UPDATED', $span), 'notice');
+			$this->saveOverrides($result);
 		}
 
-		$oldData = json_decode($this->params->get('overridefiles'), JSON_HEX_QUOT);
-
-		$results = array();
-		$results[] = $result;
-
-		foreach ($oldData as $value)
-		{
-			if (count($value) !== 0)
-			{
-				$results[] = $value;
-			}
-		}
-
-		$numupdate = (int) $this->params->get('numupdate');
-
-		if (count($results) > $numupdate)
-		{
-			$results = array_slice($results, 0, $numupdate);
-		}
-
-		$this->params->set('overridefiles', json_encode($results, JSON_HEX_QUOT));
-
-		return $this->saveParams();
+		// Delete stored session value.
+		$this->purge();
 	}
 
 	/**
@@ -289,55 +269,131 @@ class PlgInstallerOverride extends CMSPlugin
 	}
 
 	/**
-	 * Save the plugin parameters
+	 * Check for existing id.
+	 *
+	 * @param   string   $id    Hash id of file.
+	 * @param   integer  $exid  Extension id of file.
+	 *
+	 * @return   boolean  True/False
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function load($id, $exid)
+	{
+		$db = Factory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		$query
+			->select($db->quoteName('hash_id'))
+			->from($db->quoteName('#__template_overrides'))
+			->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
+			->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+
+		$db->setQuery($query);
+		$results = $db->loadObjectList();
+
+		if (count($results) === 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Save the updated files.
+	 *
+	 * @param   array  $pks  Updated files.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function saveParams()
+	private function saveOverrides($pks)
 	{
-		$query = $this->db->getQuery(true)
-				->update($this->db->quoteName('#__extensions'))
-				->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-				->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-				->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('installer'))
-				->where($this->db->quoteName('element') . ' = ' . $this->db->quote('override'));
+		$db = Factory::getDbo();
+		$today = Factory::getDate();
 
-		try
-		{
-			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$this->db->lockTable('#__extensions');
-		}
-		catch (Exception $e)
-		{
-			// If we can't lock the tables it's too risky to continue execution
-			return false;
-		}
+		// Insert columns.
+		$columns = array(
+			'template',
+			'hash_id',
+			'extension_id',
+			'state',
+			'action',
+			'client_id',
+			'created_date',
+			'modified_date'
+		);
 
-		try
-		{
-			// Update the plugin parameters
-			$result = $this->db->setQuery($query)->execute();
-		}
-		catch (Exception $exc)
-		{
-			// If we failed to execute
-			$this->db->unlockTables();
-			$result = false;
-		}
+		// Create a insert query.
+		$insertQuery = $db->getQuery(true)
+			->insert($db->quoteName('#__template_overrides'))
+			->columns($db->quoteName($columns));
 
-		try
+		foreach ($pks as $pk)
 		{
-			// Unlock the tables after writing
-			$this->db->unlockTables();
-		}
-		catch (Exception $e)
-		{
-			// If we can't lock the tables assume we have somehow failed
-			$result = false;
-		}
+			$insertQuery->clear('values');
 
-		return $result;
+			$createdDate = $today->format('y-m-d h:i:s');
+
+			if (empty($pk->modifiedDate))
+			{
+				$pk->modifiedDate = '0000-00-00 00:00:00';
+			}
+
+			if ($this->load($pk->id, $pk->extension_id))
+			{
+				$updateQuery = $db->getQuery(true)
+					->update($db->quoteName('#__template_overrides'))
+					->set(
+						array($db->quoteName('modified_date') . ' = ' . $db->quote($pk->modifiedDate),
+						$db->quoteName('action') . ' = ' . $db->quote($pk->action),
+						$db->quoteName('state') . ' = ' . 0)
+						)
+					->where($db->quoteName('hash_id') . ' = ' . $db->quote($pk->id))
+					->where($db->quoteName('extension_id') . ' = ' . $db->quote($pk->extension_id));
+
+					try
+					{
+						// Set the query using our newly populated query object and execute it.
+						$db->setQuery($updateQuery);
+						$db->execute();
+					}
+					catch (\RuntimeException $e)
+					{
+						return $e;
+					}
+
+				continue;
+			}
+
+			// Insert values.
+			$values = array(
+				$db->quote($pk->template),
+				$db->quote($pk->id),
+				$db->quote($pk->extension_id),
+				0,
+				$db->quote($pk->action),
+				(int) $pk->client,
+				$db->quote($createdDate),
+				$db->quote($pk->modifiedDate)
+			);
+
+			$insertQuery->values(implode(',', $values));
+
+			try
+			{
+				// Set the query using our newly populated query object and execute it.
+				$db->setQuery($insertQuery);
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				return $e;
+			}
+		}
 	}
 }
