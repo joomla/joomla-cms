@@ -87,7 +87,7 @@ class ActionlogsHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.*')
-			->from($db->quoteName('#__action_logs_tables_data', 'a'))
+			->from($db->quoteName('#__action_log_config', 'a'))
 			->where($db->quoteName('a.type_alias') . ' = ' . $db->quote($context));
 
 		$db->setQuery($query);

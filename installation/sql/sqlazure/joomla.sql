@@ -3135,10 +3135,10 @@ UNION ALL
 SELECT 17, 'com_users';
 
 SET IDENTITY_INSERT [#__action_logs_extensions]  OFF;
-/****** Object:  Table [#__action_logs_tables_data] ******/
+/****** Object:  Table [#__action_log_config] ******/
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__action_logs_tables_data](
+CREATE TABLE [#__action_log_config](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[type_title] [nvarchar](255) NOT NULL DEFAULT '',
 	[type_alias] [nvarchar](255) NOT NULL DEFAULT '',
@@ -3146,15 +3146,15 @@ CREATE TABLE [#__action_logs_tables_data](
 	[title_holder] [nvarchar](255) NULL,
 	[table_name] [nvarchar](255) NULL,
 	[text_prefix] [nvarchar](255) NULL
-	CONSTRAINT [PK_#__action_logs_tables_data_id] PRIMARY KEY CLUSTERED
+	CONSTRAINT [PK_#__action_log_config_id] PRIMARY KEY CLUSTERED
  (
  	[id] ASC
  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
  ) ON [PRIMARY];
 
-SET IDENTITY_INSERT [#__action_logs_tables_data]  ON;
+SET IDENTITY_INSERT [#__action_log_config]  ON;
 
-INSERT INTO [#__action_logs_tables_data] ([id], [type_title], [type_alias], [id_holder], [title_holder], [table_name], [text_prefix])
+INSERT INTO [#__action_log_config] ([id], [type_title], [type_alias], [id_holder], [title_holder], [table_name], [text_prefix])
 SELECT 1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'
 UNION ALL
 SELECT 2, 'article', 'com_content.form', 'id', 'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'
@@ -3191,7 +3191,7 @@ SELECT 17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', '
 UNION ALL
 SELECT 18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA';
 
-SET IDENTITY_INSERT [#__action_logs_tables_data]  OFF;
+SET IDENTITY_INSERT [#__action_log_config]  OFF;
 
 --
 -- Table structure for table `#__viewlevels`
