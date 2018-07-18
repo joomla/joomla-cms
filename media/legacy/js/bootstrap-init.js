@@ -93,18 +93,22 @@
 					// @TODO throw the standard Joomla event
 					if ($self.data('url')) {
 						var modalBody = $self.find('.modal-body');
+						var el;
 						modalBody.find('iframe').remove();
 
+						// Hacks because com_associations and field modals use pure javascript in the url!
 						if ($self.data('iframe').indexOf("document.getElementById") > 0){
 							var iframeTextArr = $self.data('iframe').split('+');
 							var idFieldArr = iframeTextArr[1].split('"');
-							var data_iframe = iframeTextArr[0] +
-									document.getElementById(idFieldArr[1]).value +
-									iframeTextArr[2];
+
+							if (typeof idFieldArr === 'object') {
+								el = idFieldArr;
+							} else {
+								el = document.getElementById(idFieldArr[1]).value;
+							}
+							var data_iframe = iframeTextArr[0] + el + iframeTextArr[2];
 							modalBody.prepend(data_iframe);
-						}
-						else
-						{
+						} else {
 							modalBody.prepend($self.data('iframe'));
 						}
 					}
