@@ -419,8 +419,6 @@ class ContentModelArticles extends JModelList
 	 */
 	public function getItems()
 	{
-		$items = parent::getItems();
-
-		return $items;
+		return parent::getItems();
 	}
 }
