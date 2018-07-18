@@ -17,7 +17,7 @@ Joomla = window.Joomla || {};
       if (el) {
         const attribute = el.getAttribute('for');
 
-        if (attribute.replace('_id', '') === formControl + '_associations_' + languageCode.replace('-', '_')) {
+        if (attribute.replace('_id', '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
           element.style.display = 'none';
         }
       }
@@ -47,16 +47,14 @@ Joomla = window.Joomla || {};
   document.addEventListener('DOMContentLoaded', () => {
     const associationsEditOptions = Joomla.getOptions('system.associations.edit');
     const formControl = associationsEditOptions.formControl || 'jform';
-    const formControlLanguage = document.getElementById(formControl + '_language');
+    const formControlLanguage = document.getElementById(`${formControl}_language`);
 
     // Hide the associations tab if needed
-    if (parseInt(associationsEditOptions.hidden) === 1) {
+    if (parseInt(associationsEditOptions.hidden, 10) === 1) {
       Joomla.showAssociationMessage();
-    } else {
+    } else if (formControlLanguage) {
       // Hide only the associations for the current language
-      if (formControlLanguage) {
-        Joomla.hideAssociation(formControl, formControlLanguage.value);
-      }
+      Joomla.hideAssociation(formControl, formControlLanguage.value);
     }
 
     // When changing the language
@@ -67,7 +65,9 @@ Joomla = window.Joomla || {};
 
         let existsAssociations = false;
 
-        // For each language, remove the associations, ie, empty the associations fields and reset the buttons to Select/Create
+        /** For each language, remove the associations, ie,
+         *  empty the associations fields and reset the buttons to Select/Create
+         */
         const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 
         controlGroup.forEach((element) => {
@@ -78,12 +78,12 @@ Joomla = window.Joomla || {};
           element.style.display = 'block';
 
           // Check if there was an association selected for this language
-          if (!existsAssociations && document.getElementById(formControl + '_associations_' + languageCode + '_id').value !== '') {
+          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
             existsAssociations = true;
           }
 
           // Call the modal clear button
-          const clear = document.getElementById(formControl + '_associations_' + languageCode + '_clear');
+          const clear = document.getElementById(`${formControl}_associations_${languageCode}_clear`);
 
           if (clear.onclick) {
             clear.onclick();

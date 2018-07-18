@@ -4,6 +4,7 @@
  */
 Joomla.submitbutton = (pressbutton) => {
   if (pressbutton === 'associations.purge') {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm(Joomla.JText._('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT'))) {
       Joomla.submitform(pressbutton);
     } else {
