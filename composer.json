@@ -81,8 +81,7 @@
         "symfony/ldap": "3.4.*",
         "symfony/web-link": "3.4.*",
         "symfony/yaml": "3.4.*",
-        "wamania/php-stemmer": "^1.2"
-        "symfony/yaml": "3.4.*",
+        "wamania/php-stemmer": "^1.2",
         "maximebf/debugbar": "^1.15"
     },
     "require-dev": {
