@@ -212,7 +212,8 @@ class MenuRules implements RulesInterface
 
 					$layout = '';
 
-					if (isset($item->query['layout']))
+					// Checking if layout is default just to be safe
+					if (isset($item->query['layout']) || $item->query['layout'] == 'default')
 					{
 						$layout = ':' . $item->query['layout'];
 					}
@@ -256,7 +257,6 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
-							$this->lookup[$language][$view] = $item->id;
 						}
 					}
 				}
