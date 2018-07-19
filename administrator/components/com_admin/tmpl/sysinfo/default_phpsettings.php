@@ -130,7 +130,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 				</td>
 			</tr>
 			<tr>
-					<th scope="row">
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_ICONV_AVAILABLE'); ?>
 				</th>
 				<td>
