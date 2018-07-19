@@ -316,7 +316,7 @@ if (!Joomla) {
      * @returns {boolean}
      * @todo Migrate this function's alert to a CE dialog
      */
-    installfromweb(installUrl, name) {
+    static installfromweb(installUrl, name) {
       if (!installUrl) {
         alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 
