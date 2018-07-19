@@ -13,12 +13,12 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', function () {
-    var target = window.parent.document.getElementById("target-association");
+    var target = window.parent.document.getElementById('target-association');
     var links = [].slice.call(document.querySelectorAll('.select-link'));
 
     links.forEach(function (item) {
       item.addEventListener('click', function (event) {
-        target.src = target.getAttribute("data-editurl") + '"&task="' + target.getAttribute("data-item") + ".edit" + "&id=" + parseInt(event.target.getAttribute('data-id'), 10);
+        target.src = target.getAttribute('data-editurl') + '&task=' + target.getAttribute('data-item') + '.edit&id=' + parseInt(event.target.getAttribute('data-id'), 10);
         window.parent.Joomla.Modal.getCurrent().close();
       });
     });
