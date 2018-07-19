@@ -22,6 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 
 /**
  * Template style model.
@@ -263,7 +264,7 @@ class StyleModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -284,7 +285,7 @@ class StyleModel extends AdminModel
 
 		// Add the default fields directory
 		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		\JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
+		Form::addFieldPath($baseFolder . '/templates/' . $template . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -389,7 +390,7 @@ class StyleModel extends AdminModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm   $form   A \JForm object.
+	 * @param   Form   $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -398,7 +399,7 @@ class StyleModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$clientId = $this->getState('item.client_id');
 		$template = $this->getState('item.template');
