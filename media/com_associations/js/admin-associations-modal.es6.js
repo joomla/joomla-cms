@@ -8,19 +8,14 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    if (Joomla.getOptions('modal-associations')) {
-      const fnName = Joomla.getOptions('modal-associations').func;
-      const links = [].slice.call(document.querySelectorAll('.select-link'));
+    const target = window.parent.document.getElementById("target-association");
+    const links = [].slice.call(document.querySelectorAll('.select-link'));
 
-      links.forEach((item) => {
-        item.addEventListener('click', (event) => {
-          // eslint-disable-next-line no-restricted-globals
-          if (self !== top) {
-            // Run function on parent window.
-            window.parent[fnName](event.target.getAttribute('data-id'));
-          }
-        });
+    links.forEach((item) => {
+      item.addEventListener('click', (event) => {
+        target.src = target.getAttribute("data-editurl") + '"&task="' + target.getAttribute("data-item") + ".edit" + "&id=" + parseInt(event.target.getAttribute('data-id'), 10);
+        window.parent.Joomla.Modal.getCurrent().close();
       });
-    }
+    });
   });
 })(Joomla, document);
