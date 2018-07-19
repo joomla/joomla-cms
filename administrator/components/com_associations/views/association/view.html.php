@@ -110,6 +110,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
 		$this->referenceLanguage = $reference[$languageField];
+		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 
 		$options = array(
 			'option'    => $typeName === 'category' ? 'com_categories' : $extensionName,
@@ -133,6 +134,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			$this->targetAction     = $matches[2];
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
+			$this->targetTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 			$task                   = $typeName . '.' . $this->targetAction;
 			$this->defaultTargetSrc = JRoute::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
