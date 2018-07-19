@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Filesystem\FilesystemHelper;
 
 $token   = Session::getFormToken();
 $return  = Factory::getApplication()->input->getBase64('return');
-$maxSize = JFilesystemHelper::fileUploadMaxSize();
+$maxSize = FilesystemHelper::fileUploadMaxSize();
 ?>
 
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>

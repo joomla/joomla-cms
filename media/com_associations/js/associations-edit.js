@@ -1,131 +1,117 @@
 /**
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/**
- * Edit Associations javascript behavior
- *
- * Used for editing associations in the backend.
- *
- * @package  Joomla
- * @since    3.7.0
- */
-
 Joomla = window.Joomla || {};
 
-(function(Joomla, document) {
-	'use strict';
+(function (Joomla, document) {
+  'use strict';
 
-	Joomla.hideAssociation = function(formControl, languageCode)
-	{
-		var controlGroup = document.querySelectorAll('#associations .control-group');
+  Joomla.hideAssociation = function (formControl, languageCode) {
+    var controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 
-		for (var i = 0, l = controlGroup.length; i < l; i++) {
+    controlGroup.forEach(function (element) {
+      // Current selected language. Hide it
+      var el = element.querySelector('.control-label label');
 
-			// Current selected language. Hide it
-			var attribute = controlGroup[i].querySelector('.control-label label').getAttribute('for');
+      if (el) {
+        var attribute = el.getAttribute('for');
 
-			if (attribute.replace('_id', '') == formControl + '_associations_' + languageCode.replace('-', '_')) {
-				controlGroup[i].style.display = 'none';
-			}
-		}
-	}
+        if (attribute.replace('_id', '') === formControl + '_associations_' + languageCode.replace('-', '_')) {
+          element.style.display = 'none';
+        }
+      }
+    });
+  };
 
-	Joomla.showAssociationMessage = function()
-	{
-		var controlGroup = document.querySelectorAll('#associations .control-group');
+  Joomla.showAssociationMessage = function () {
+    var controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 
-		for (var i = 0, l = controlGroup.length; i < l; i++) {
-			controlGroup[i].style.display = 'none';
+    controlGroup.forEach(function (element) {
+      element.style.display = 'none';
 
-			var associations = document.getElementById('associations');
+      var associations = document.getElementById('associations');
 
-			if (associations) {
-				var html = document.createElement('div');
-				html.classList.add('alert')
-				html.classList.add('alert-info')
-				html.id = 'associations-notice';
-				html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+      if (associations) {
+        var html = document.createElement('div');
+        html.classList.add('alert');
+        html.classList.add('alert-info');
+        html.id = 'associations-notice';
+        html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
 
-				associations.insertAdjacentElement('afterbegin', html);
-			}
-		}
-	}
+        associations.insertAdjacentElement('afterbegin', html);
+      }
+    });
+  };
 
+  document.addEventListener('DOMContentLoaded', function () {
+    var associationsEditOptions = Joomla.getOptions('system.associations.edit');
+    var formControl = associationsEditOptions.formControl || 'jform';
+    var formControlLanguage = document.getElementById(formControl + '_language');
 
-	document.addEventListener('DOMContentLoaded', function() {
+    // Hide the associations tab if needed
+    if (parseInt(associationsEditOptions.hidden, 10) === 1) {
+      Joomla.showAssociationMessage();
+    } else if (formControlLanguage) {
+      // Hide only the associations for the current language
+      Joomla.hideAssociation(formControl, formControlLanguage.value);
+    }
 
-		var associationsEditOptions = Joomla.getOptions('system.associations.edit'), formControl = associationsEditOptions.formControl || 'jform',
-		    formControlLanguage     = document.getElementById(formControl + '_language');
+    // When changing the language
+    if (formControlLanguage) {
+      formControlLanguage.addEventListener('change', function (event) {
+        // Remove message if any
+        Joomla.removeMessages();
 
-		// Hide the associations tab if needed
-		if (associationsEditOptions.hidden == 1)
-		{
-			Joomla.showAssociationMessage();
-		}
-		// Hide only the associations for the current language
-		else {
-			if (formControlLanguage) {
-				Joomla.hideAssociation(formControl, formControlLanguage.value);
-			}
-		}
+        var existsAssociations = false;
 
-		// When changing the language
-		if (formControlLanguage) {
-			formControlLanguage.addEventListener('change', function (event) {
+        /** For each language, remove the associations, ie,
+         *  empty the associations fields and reset the buttons to Select/Create
+         */
+        var controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 
-				// Remove message if any
-				Joomla.removeMessages();
+        controlGroup.forEach(function (element) {
+          var attribute = element.querySelector('.control-label label').getAttribute('for');
+          var languageCode = attribute.replace('_id', '').replace('jform_associations_', '');
 
-				var existsAssociations = false;
+          // Show the association fields
+          element.style.display = 'block';
 
-				// For each language, remove the associations, ie, empty the associations fields and reset the buttons to Select/Create
-				var controlGroup = document.querySelectorAll('#associations .control-group');
+          // Check if there was an association selected for this language
+          if (!existsAssociations && document.getElementById(formControl + '_associations_' + languageCode + '_id').value !== '') {
+            existsAssociations = true;
+          }
 
-				for (var i = 0, l = controlGroup.length; i < l; i++) {
-					var attribute    = controlGroup[i].querySelector('.control-label label').getAttribute('for'),
-					    languageCode = attribute.replace('_id', '').replace('jform_associations_', '');
+          // Call the modal clear button
+          var clear = document.getElementById(formControl + '_associations_' + languageCode + '_clear');
 
-					// Show the association fields
-					controlGroup[i].style.display = 'block';
+          if (clear.onclick) {
+            clear.onclick();
+          } else if (clear.click) {
+            clear.click();
+          }
+        });
 
-					// Check if there was an association selected for this language
-					if (!existsAssociations && document.getElementById(formControl + '_associations_' + languageCode + '_id').value !== '')
-					{
-						existsAssociations = true;
-					}
+        // If associations existed, send a warning to the user
+        if (existsAssociations) {
+          Joomla.renderMessages({ warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')] });
+        }
 
-					// Call the modal clear button
-					var clear = document.getElementById(formControl + '_associations_' + languageCode + '_clear');
+        // If the selected language is All hide the fields and add a message
+        var selectedLanguage = event.target.value;
 
-					if (clear.onclick) {
-						clear.onclick();
-					} else if (clear.click) {
-						clear.click();
-					}
-				}
-
-				// If associations existed, send a warning to the user
-				if (existsAssociations)
-				{
-					Joomla.renderMessages({warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]});
-				}
-
-				// If the selected language is All hide the fields and add a message
-				var selectedLanguage = event.target.value;
-				if (selectedLanguage == '*')
-				{
-					Joomla.showAssociationMessage();
-				}
-				// Else show the associations fields/buttons and hide the current selected language
-				else
-				{
-					Joomla.hideAssociation(formControl, selectedLanguage);
-				}
-			});
-		}
-
-	});
-
+        if (selectedLanguage === '*') {
+          Joomla.showAssociationMessage();
+        } else {
+          // Else show the associations fields/buttons and hide the current selected language
+          Joomla.hideAssociation(formControl, selectedLanguage);
+        }
+      });
+    }
+  });
 })(Joomla, document);

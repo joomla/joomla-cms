@@ -42,6 +42,39 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 };
 
+Joomla.Modal = {
+	/**
+	 * *****************************************************************
+	 * Modals should implement
+	 * *****************************************************************
+	 *
+	 * getCurrent  Type  Function  Should return the modal element
+	 * setCurrent  Type  Function  Should set the modal element
+	 * current     Type  {node}    The modal element
+	 *
+	 * USAGE (assuming that exampleId is the modal id)
+	 *   To get the current modal element:
+	 *      Joomla.Modal.current; // Returns node element, eg: document.getElementById('exampleId')
+	 *   To set the current modal element:
+	 *      Joomla.Modal.setCurrent(document.getElementById('exampleId'));
+	 *
+	 * *************************************************************
+	 * Joomla's UI modal uses `element.close();` to close the modal
+	 * and `element.open();` to open the modal
+	 * If you are using another modal make sure the same
+	 * functionality is bound to the modal element
+	 * @see media/legacy/bootstrap.init.js
+	 * *************************************************************
+	 */
+	current: '',
+	setCurrent: function(element) {
+		this.current = element;
+	},
+	getCurrent: function() {
+		return this.current;
+	},
+};
+
 (function( Joomla, document ) {
 	"use strict";
 
@@ -89,27 +122,32 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Default function. Can be overriden by the component to add custom logic
 	 *
-	 * @param  {bool}  task  The given task
+	 * @param  {String}  task            The given task
+	 * @param  {String}  formSelector    The form selector eg '#adminForm'
+	 * @param  {bool}    validate        The form element
 	 *
 	 * @returns {void}
 	 */
-	Joomla.submitbutton = function( task ) {
-		var form = document.querySelectorAll( 'form.form-validate' );
+	Joomla.submitbutton = function( task, formSelector, validate ) {
+		var form = document.querySelector( formSelector || 'form.form-validate' );
 
-		if (form.length > 0) {
-			for (var i = 0, j = form.length; i < j; i++) {
+		if (form) {
+
+			if (validate === undefined || validate === null) {
 				var pressbutton = task.split('.'),
-				    cancelTask = form[i].getAttribute( 'data-cancel-task' );
+					cancelTask = form.getAttribute('data-cancel-task');
 
 				if (!cancelTask) {
 					cancelTask = pressbutton[0] + '.cancel';
 				}
 
-				if ((task == cancelTask ) || document.formvalidator.isValid( form[i] ))
-				{
-					Joomla.submitform( task, form[i] );
-				}
+				validate = task !== cancelTask;
 			}
+
+			if (!validate || document.formvalidator.isValid( form )) {
+				Joomla.submitform( task, form );
+			}
+
 		} else {
 			Joomla.submitform( task );
 		}
@@ -319,6 +357,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		if ( checkbox.form.boxchecked ) {
 			checkbox.form.boxchecked.value = c;
+			Joomla.Event.dispatch(checkbox.form.boxchecked, 'change');
 		}
 
 		return true;
@@ -539,6 +578,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 
 		form.boxchecked.value = isitchecked ? parseInt(form.boxchecked.value) + 1 : parseInt(form.boxchecked.value) - 1;
+
+		Joomla.Event.dispatch(form.boxchecked, 'change');
 
 		// If we don't have a checkall-toggle, done.
 		if ( !form.elements[ 'checkall-toggle' ] ) return;

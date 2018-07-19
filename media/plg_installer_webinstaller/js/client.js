@@ -132,6 +132,10 @@ if (!Joomla) {
               }
             });
 
+            document.getElementById('search-extensions').addEventListener('click', function () {
+              self.initiateSearch();
+            });
+
             document.getElementById('search-reset').addEventListener('click', function () {
               var searchBox = document.getElementById('com-apps-searchbox');
               searchBox.value = '';
@@ -149,7 +153,7 @@ if (!Joomla) {
             }
 
             if (webInstallerOptions.options.installfrom_url !== '') {
-              WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
+              self.installfromweb(webInstallerOptions.options.installfrom_url);
             }
           },
           fail: function fail() {
@@ -172,11 +176,43 @@ if (!Joomla) {
               [].slice.call(document.querySelectorAll('div.load-extension')).forEach(function (element) {
                 element.addEventListener('click', function (event) {
                   event.preventDefault();
-                  self.loadweb(webInstallerOptions.options.base_url + element.getAttribute('data-url'));
+                  self.processLinkClick(element.getAttribute('data-url'));
                 });
 
                 element.setAttribute('href', '#');
               });
+            }
+
+            if (webInstallerOptions.view === 'extension') {
+              var installExtensionButton = document.getElementById('install-extension');
+              var installExtensionFromExternalButton = document.getElementById('install-extension-from-external');
+
+              if (installExtensionButton) {
+                installExtensionButton.addEventListener('click', function () {
+                  self.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+                });
+              }
+
+              if (installExtensionFromExternalButton) {
+                // @todo Migrate this handler's confirm to a CE dialog
+                installExtensionFromExternalButton.addEventListener('click', function () {
+                  var redirectUrl = installExtensionFromExternalButton.getAttribute('data-downloadurl');
+                  var redirectConfirm = window.confirm(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL').replace('[SITEURL]', redirectUrl));
+
+                  if (redirectConfirm !== true) {
+                    return;
+                  }
+
+                  document.getElementById('adminForm').setAttribute('action', redirectUrl);
+                  document.querySelector('input[name=task]').setAttribute('disabled', true);
+                  document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
+                  document.querySelector('input[name=install_url]').setAttribute('disabled', true);
+                  document.querySelector('input[name=installtype]').setAttribute('disabled', true);
+                  document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
+
+                  document.getElementById('adminForm').submit();
+                });
+              }
             }
 
             if (webInstallerOptions.list && document.querySelector('.list-view')) {
@@ -213,24 +249,8 @@ if (!Joomla) {
           var ajaxurl = element.getAttribute('href');
 
           element.addEventListener('click', function (event) {
-            var pattern1 = new RegExp(webInstallerOptions.options.base_url);
-            var pattern2 = new RegExp('^index.php');
-
-            if (pattern1.test(ajaxurl) || pattern2.test(ajaxurl)) {
-              webInstallerOptions.view = ajaxurl.replace(/^.+[&?]view=(\w+).*$/, '$1');
-
-              if (webInstallerOptions.view === 'dashboard') {
-                webInstallerOptions.id = 0;
-              } else if (webInstallerOptions.view === 'category') {
-                webInstallerOptions.id = ajaxurl.replace(/^.+[&?]id=(\d+).*$/, '$1');
-              }
-
-              event.preventDefault();
-              self.loadweb(webInstallerOptions.options.base_url + ajaxurl);
-            } else {
-              event.preventDefault();
-              self.loadweb(ajaxurl);
-            }
+            event.preventDefault();
+            self.processLinkClick(ajaxurl);
           });
 
           element.setAttribute('href', '#');
@@ -265,6 +285,26 @@ if (!Joomla) {
         }
 
         this.loadweb(webInstallerOptions.options.base_url + 'index.php?format=json&option=com_apps' + tail);
+      }
+    }, {
+      key: 'processLinkClick',
+      value: function processLinkClick(url) {
+        var pattern1 = new RegExp(webInstallerOptions.options.base_url);
+        var pattern2 = new RegExp('^index.php');
+
+        if (pattern1.test(url) || pattern2.test(url)) {
+          webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');
+
+          if (webInstallerOptions.view === 'dashboard') {
+            webInstallerOptions.id = 0;
+          } else if (webInstallerOptions.view === 'category') {
+            webInstallerOptions.id = url.replace(/^.+[&?]id=(\d+).*$/, '$1');
+          }
+
+          this.loadweb(webInstallerOptions.options.base_url + url);
+        } else {
+          this.loadweb(url);
+        }
       }
     }], [{
       key: 'clicker',
@@ -324,35 +364,6 @@ if (!Joomla) {
         document.getElementById('uploadform-web').classList.remove('hidden');
 
         return true;
-      }
-
-      /**
-       * Onclick handler for the button#appssubmitbutton element
-       *
-       * @param {string} redirectUrl
-       * @returns {boolean}
-       * @todo Convert from inline onclick registration, requires coordinated PR to IFW repo
-       * @todo Migrate this function's confirm to a CE dialog
-       * @todo Migrate this function's hardcoded English string to Joomla.JText
-       */
-
-    }, {
-      key: 'installfromwebexternal',
-      value: function installfromwebexternal(redirectUrl) {
-        var redirectConfirm = window.confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirectUrl);
-
-        if (redirectConfirm === true) {
-          document.getElementById('adminForm').setAttribute('action', redirectUrl);
-          document.querySelector('input[name=task]').setAttribute('disabled', true);
-          document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
-          document.querySelector('input[name=install_url]').setAttribute('disabled', true);
-          document.querySelector('input[name=installtype]').setAttribute('disabled', true);
-          document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
-
-          return true;
-        }
-
-        return false;
       }
     }]);
 

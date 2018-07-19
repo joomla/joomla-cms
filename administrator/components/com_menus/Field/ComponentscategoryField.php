@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
@@ -13,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -64,7 +66,7 @@ class ComponentsCategoryField extends \JFormFieldList
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 				// Translate component name
-				$item->text = \JText::_($item->text);
+				$item->text = Text::_($item->text);
 			}
 
 			// Sort by component name

@@ -13,6 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Newsfeed Table class.
@@ -32,9 +36,9 @@ class NewsfeedTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_newsfeeds.newsfeed';
 		parent::__construct('#__newsfeeds', 'id', $db);
@@ -61,7 +65,7 @@ class NewsfeedTable extends Table
 		// Check for valid name.
 		if (trim($this->name) == '')
 		{
-			$this->setError(\JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(Text::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -75,13 +79,13 @@ class NewsfeedTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(\JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
 			return false;
 		}
@@ -140,8 +144,8 @@ class NewsfeedTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{
@@ -181,13 +185,13 @@ class NewsfeedTable extends Table
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}
 
 		// Save links as punycode.
-		$this->link = \JStringPunycode::urlToPunycode($this->link);
+		$this->link = PunycodeHelper::urlToPunycode($this->link);
 
 		return parent::store($updateNulls);
 	}

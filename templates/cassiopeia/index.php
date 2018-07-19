@@ -19,9 +19,6 @@ use Joomla\CMS\Language\Text;
 $app  = Factory::getApplication();
 $lang = Factory::getLanguage();
 
-// Getting params from template
-$params = $app->getTemplate(true)->params;
-
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
@@ -42,7 +39,7 @@ HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]
 HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
-HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
@@ -71,7 +68,7 @@ else
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
 // Container
-$wrapper = $params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
+$wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>

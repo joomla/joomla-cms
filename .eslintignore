@@ -1,5 +1,5 @@
 # A list of files to ignore from linting
+# TODO: Fix the webcomponents codestyle then also allow linting on them
 *.js
 !*.es6.js
-!build/**/*.js
 *.vue
