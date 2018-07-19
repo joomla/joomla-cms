@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tabstate');
 
 $input = JFactory::getApplication()->input;
 
@@ -46,8 +45,8 @@ if ($this->type == 'font')
 	");
 }
 ?>
-<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
+<?php echo JHtml::_('uitab.startTabSet', 'myTab', array('active' => 'editor')); ?>
+<?php echo JHtml::_('uitab.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
 	<div class="col-md-12">
 		<?php if($this->type == 'file') : ?>
@@ -183,9 +182,9 @@ if ($this->type == 'font')
 		<?php endif; ?>
 	</div>
 </div>
-<?php echo JHtml::_('bootstrap.endTab'); ?>
+<?php echo JHtml::_('uitab.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
+<?php echo JHtml::_('uitab.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row">
 	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
@@ -257,12 +256,12 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 </div>
-<?php echo JHtml::_('bootstrap.endTab'); ?>
+<?php echo JHtml::_('uitab.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+<?php echo JHtml::_('uitab.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
-<?php echo JHtml::_('bootstrap.endTab'); ?>
-<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+<?php echo JHtml::_('uitab.endTab'); ?>
+<?php echo JHtml::_('uitab.endTabSet'); ?>
 
 <?php // Collapse Modal
 $copyModalData = array(
