@@ -18,10 +18,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 	<table class="table">
 		<thead>
 			<tr>
-				<th style="width:250px">
+				<th scope="col" style="width:250px">
 					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
-				<th>
+				<th scope="col">
 					<?php echo Text::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
@@ -34,113 +34,113 @@ use Joomla\CMS\HTML\HTMLHelper;
 		</tfoot>
 		<tbody>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_OPEN_BASEDIR'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.string', $this->php_settings['open_basedir']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_DISPLAY_ERRORS'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['display_errors']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_SHORT_OPEN_TAGS'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['short_open_tag']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_FILE_UPLOADS'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['file_uploads']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_OUTPUT_BUFFERING'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.boolean', $this->php_settings['output_buffering']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_SESSION_SAVE_PATH'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.string', $this->php_settings['session.save_path']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_SESSION_AUTO_START'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['session.auto_start']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_XML_ENABLED'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['xml']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_ZLIB_ENABLED'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['zlib']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_ZIP_ENABLED'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['zip']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
-				</td>
+				</th>
 				<td class="break-word">
 					<?php echo HTMLHelper::_('phpsetting.string', $this->php_settings['disable_functions']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_MBSTRING_ENABLED'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['mbstring']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+					<th scope="row">
 					<?php echo Text::_('COM_ADMIN_ICONV_AVAILABLE'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.set', $this->php_settings['iconv']); ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['max_input_vars']); ?>
 				</td>
