@@ -79,7 +79,7 @@ class SetConfigurationCommand extends AbstractCommand
 		$value = $value === 'false' ? false : $value;
 		$value = $value === 'true' ? true : $value;
 
-		$config->set($option, (boolean) $value);
+		$config->set($option, $value);
 		$config->remove('cwd');
 		$config->remove('execution');
 		$buffer = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
