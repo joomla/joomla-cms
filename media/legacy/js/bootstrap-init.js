@@ -101,11 +101,12 @@
 							var iframeTextArr = $self.data('iframe').split('+');
 							var idFieldArr = iframeTextArr[1].split('"');
 
-							if (typeof idFieldArr === 'object') {
-								el = idFieldArr;
+							if (!document.getElementById(idFieldArr[1])) {
+								el = eval(idFieldArr[0]);
 							} else {
 								el = document.getElementById(idFieldArr[1]).value;
 							}
+
 							var data_iframe = iframeTextArr[0] + el + iframeTextArr[2];
 							modalBody.prepend(data_iframe);
 						} else {

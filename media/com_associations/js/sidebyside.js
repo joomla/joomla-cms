@@ -53,7 +53,6 @@ jQuery(document).ready(function($) {
 					// - For modal association selectors.
 					target.find('#jform_associations_' + lang + '_id').val('');
 					// - For chosen association selectors (menus).
-					target.find('#jform_associations_' + lang).remove();
 					target.find('#jform_associations_' + lang).val('');
 				}
 			});
@@ -231,7 +230,7 @@ jQuery(document).ready(function($) {
 				// Update the reference item associations tab.
 				var reference     = document.getElementById('reference-association');
 				var languageCode  = targetLanguage.replace(/-/, '_');
-				var title         = $(this).contents().find('#jform_title').val()
+				var title         = $(this).contents().find('#jform_title').val();
 
 				// - For modal association selectors.
 				$(reference).contents().find('#jform_associations_' + languageCode + '_id').val(targetLoadedId);
