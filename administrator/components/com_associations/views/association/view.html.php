@@ -127,6 +127,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->targetLanguage   = '';
 		$this->defaultTargetSrc = '';
 		$this->targetAction     = '';
+		$this->targetTitle      = '';
 
 		if ($target = $input->get('target', '', 'string'))
 		{
