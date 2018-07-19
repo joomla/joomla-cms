@@ -34,6 +34,7 @@ const compileFiles = (options, path) => {
   } else {
     files = [
       `${rootPath}/templates/cassiopeia/scss/template.scss`,
+      `${rootPath}/templates/cassiopeia/scss/template-rtl.scss`,
       `${rootPath}/administrator/templates/atum/scss/bootstrap.scss`,
       `${rootPath}/administrator/templates/atum/scss/font-awesome.scss`,
       `${rootPath}/administrator/templates/atum/scss/template.scss`,
@@ -75,8 +76,7 @@ const compileFiles = (options, path) => {
         );
         const prefixer = postcss([autoprefixer]);
 
-        cleaner.process(
-          result.css.toString())
+        cleaner.process(result.css.toString())
           .then(cleaned => prefixer.process(cleaned.css))
           .then((res) => {
             fs.writeFileSync(
@@ -84,17 +84,18 @@ const compileFiles = (options, path) => {
               res.css.toString(),
               { encoding: 'UTF-8' },
             );
+          })
+          .then(() => {
+            // Uglify it now
+            fs.writeFileSync(
+              cssFile.replace('.css', '.min.css'),
+              UglyCss.processFiles([cssFile], { expandVars: false }),
+              { encoding: 'UTF-8' },
+            );
+
+            // eslint-disable-next-line no-console
+            console.log(chalk.bgGreen(`File: ${cssFile.replace(/.+\//, '')} was updated. `));
           });
-
-        // Uglify it now
-        fs.writeFileSync(
-          cssFile.replace('.css', '.min.css'),
-          UglyCss.processFiles([cssFile], { expandVars: false }),
-          { encoding: 'UTF-8' },
-        );
-
-        // eslint-disable-next-line no-console
-        console.log(chalk.bgGreen(`File: ${cssFile.replace(/.+\//, '')} was updated. `));
       }
     });
   });

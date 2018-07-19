@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Reports view class for the Csp package.
@@ -117,7 +118,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_csp');
 
-		ToolbarHelper::title(\JText::_('COM_CSP_REPORTS'), 'generic');
+		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'generic');
 
 		if ($canDo->get('core.edit.state'))
 		{

@@ -9,17 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 ?>
 
 <h2>
-	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', $this->updateInfo['latest']); ?>
+	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', $this->updateInfo['latest']); ?>
 </h2>
 
 <div class="row-fluid">
 	<fieldset class="span6">
 		<legend>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
 		</legend>
 		<table class="table">
 			<tbody>
@@ -30,7 +32,7 @@ defined('_JEXEC') or die;
 					</td>
 					<td>
 							<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
-								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
+								<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice) : ?>
 									<span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif; ?>
@@ -44,23 +46,23 @@ defined('_JEXEC') or die;
 
 	<fieldset class="span6">
 		<legend>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 		</legend>
 		<p>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
 		</p>
 
 		<table class="table">
 			<thead>
 			<tr>
 				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
 				</td>
 				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
 				</td>
 				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
 				</td>
 			</tr>
 			</thead>
@@ -71,11 +73,11 @@ defined('_JEXEC') or die;
 						<?php echo $setting->label; ?>
 					</td>
 					<td>
-						<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+						<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 					</td>
 					<td>
 							<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
+								<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 					</td>
 				</tr>
@@ -88,20 +90,20 @@ defined('_JEXEC') or die;
 <div class="row-fluid">
 	<fieldset class="span6">
 		<legend>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 		</legend>
 
 		<table class="table">
 			<thead>
 			<tr>
 				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 				</td>
 				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
 				</td>
 				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 				</td>
 			</tr>
 			</thead>
@@ -109,7 +111,7 @@ defined('_JEXEC') or die;
 			<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 				<tr>
 					<td>
-						<?php echo JText::_($extension->name); ?>
+						<?php echo Text::_($extension->name); ?>
 					</td>
 					<td class="extension-check"
 					    data-extension-id="<?php echo $extension->extension_id; ?>"
@@ -126,6 +128,6 @@ defined('_JEXEC') or die;
 	</fieldset>
 </div>
 
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></p>
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></p>
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></p>
+<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></p>
+<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></p>
+<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></p>
