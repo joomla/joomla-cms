@@ -46,6 +46,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th style="width:25%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
+								<?php if ($this->pluginState) : ?>
+									<th style="width:10%" class="d-none d-md-table-cell text-center">
+										<?php echo JText::_('COM_TEMPLATES_OVERRIDES'); ?>
+									</th>
+								<?php endif;?>
 							</tr>
 						</thead>
 						<tfoot>
@@ -96,6 +101,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<div><a href="<?php echo $this->escape($url); ?>"><?php echo $this->escape($url); ?></a></div>
 									<?php endif; ?>
 								</td>
+								<?php if ($this->pluginState) : ?>
+									<td class="d-none d-md-table-cell text-center">
+										<?php if (!empty($item->updated)) : ?>
+											<span class="badge badge-warning"><?php echo JText::sprintf('COM_TEMPLATES_UPDATED', $item->updated); ?></span>
+										<?php else : ?>
+											<span class="badge badge-success"><?php echo JText::_('COM_TEMPLATES_UPTODATE'); ?></span>
+										<?php endif; ?>
+									</td>
+								<?php endif; ?>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>
