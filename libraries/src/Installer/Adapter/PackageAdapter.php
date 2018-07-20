@@ -416,6 +416,7 @@ class PackageAdapter extends InstallerAdapter
 	protected function removeExtensionFiles()
 	{
 		$manifest = new PackageManifest(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+		$error = false;
 
 		foreach ($manifest->filelist as $extension)
 		{

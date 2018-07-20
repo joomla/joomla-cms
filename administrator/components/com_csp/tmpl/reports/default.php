@@ -61,10 +61,10 @@ $saveOrder = $listOrder == 'a.id';
 					<table class="table table-striped" id="articleList">
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="nowrap text-center">
+								<th scope="col" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -77,16 +77,19 @@ $saveOrder = $listOrder == 'a.id';
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_DIRECTIVE', 'a.directive', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JCLIENT', 'a.client', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
-								<td colspan="7">
+								<td colspan="8">
 									<?php echo $this->pagination->getListFooter(); ?>
 								</td>
 							</tr>
@@ -113,7 +116,10 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo $item->directive; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
+										<?php echo JText::_('J' . strtoupper($item->client)); ?>
+									</td>
+									<td class="d-none d-md-table-cell">
+										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, JText::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell text-center">
 										<?php echo $item->id; ?>

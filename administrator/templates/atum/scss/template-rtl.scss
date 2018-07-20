@@ -7,7 +7,7 @@ ul {
   padding-right: 0;
 }
 
-th {
+body {
   text-align: right;
 }
 
@@ -24,7 +24,6 @@ th {
 
   .control-label {
     float: right;
-    text-align: right;
   }
 
   .controls {
@@ -131,10 +130,6 @@ th {
   li a span {
     float: right;
   }
-
-  .collapse-level-1 .menuitem-group, .collapse-level-1>li:first-of-type {
-    text-align: right;
-  }
 }
 
 .child-open > .open > a::before {
@@ -238,6 +233,8 @@ th {
   margin-left: .5rem;
 }
 
-p, .table td {
-  text-align: right;
+#helpsite-refresh {
+  float: right;
+  margin-right: 4px;
+  margin-top: 1px;
 }
