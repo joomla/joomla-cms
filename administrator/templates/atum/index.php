@@ -121,9 +121,10 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
 					<div class="col-md-12">
-						<jdoc:include type="component" />
+						<main>
+							<jdoc:include type="component" />
+						</main>
 					</div>
-
 					<?php if ($this->countModules('bottom')) : ?>
 						<jdoc:include type="modules" name="bottom" style="xhtml" />
 					<?php endif; ?>

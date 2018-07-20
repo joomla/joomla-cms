@@ -40,6 +40,7 @@ class ReportsModel extends ListModel
 				'document_uri', 'a.document_uri',
 				'blocked_uri', 'a.blocked_uri',
 				'directive', 'a.directive',
+				'client', 'a.client',
 				'published', 'a.published',
 			);
 		}
