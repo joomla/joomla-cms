@@ -39,4 +39,4 @@ $lang = Factory::getLanguage(); ?>
 		</li>
 	<?php endif; ?>
 	</ul>
-<nav>
+</nav>
