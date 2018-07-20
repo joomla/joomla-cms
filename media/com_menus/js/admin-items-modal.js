@@ -17,7 +17,7 @@
 
 		if (!Joomla.getOptions('xtd-menus')) {
 			// Something went wrong!
-			window.parent.jModalClose();
+            parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
 			return false;
 		}
 

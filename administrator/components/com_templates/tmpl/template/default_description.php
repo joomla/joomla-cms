@@ -10,16 +10,19 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 ?>
 
 <div class="clearfix">
 	<div class="float-left mr-1 text-center">
-		<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
-		<?php echo JHtml::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
+		<?php echo HTMLHelper::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
+		<?php echo HTMLHelper::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
 	</div>
 	<h2><?php echo ucfirst($this->template->element); ?></h2>
 	<?php $client = ApplicationHelper::getClientInfo($this->template->client_id); ?>
 	<p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element); ?></p>
-	<p><?php echo JText::_($this->template->xmldata->description); ?></p>
+	<p><?php echo Text::_($this->template->xmldata->description); ?></p>
 </div>

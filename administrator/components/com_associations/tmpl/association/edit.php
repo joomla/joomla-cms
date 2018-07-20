@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('jquery.framework');
 
 HTMLHelper::_('script', 'com_associations/sidebyside.js', false, true);
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', array(), true);

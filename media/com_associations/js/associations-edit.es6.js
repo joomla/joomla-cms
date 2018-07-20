@@ -1,44 +1,39 @@
 /**
-* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
-* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
-**/
-
-/**
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
 
-(function (Joomla, document) {
+((Joomla, document) => {
   'use strict';
 
-  Joomla.hideAssociation = function (formControl, languageCode) {
-    var controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
+  Joomla.hideAssociation = (formControl, languageCode) => {
+    const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 
-    controlGroup.forEach(function (element) {
+    controlGroup.forEach((element) => {
       // Current selected language. Hide it
-      var el = element.querySelector('.control-label label');
+      const el = element.querySelector('.control-label label');
 
       if (el) {
-        var attribute = el.getAttribute('for');
+        const attribute = el.getAttribute('for');
 
-        if (attribute.replace('_id', '') === formControl + '_associations_' + languageCode.replace('-', '_')) {
+        if (attribute.replace('_id', '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
           element.style.display = 'none';
         }
       }
     });
   };
 
-  Joomla.showAssociationMessage = function () {
-    var controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
+  Joomla.showAssociationMessage = () => {
+    const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 
-    controlGroup.forEach(function (element) {
+    controlGroup.forEach((element) => {
       element.style.display = 'none';
 
-      var associations = document.getElementById('associations');
+      const associations = document.getElementById('associations');
 
       if (associations) {
-        var html = document.createElement('div');
+        const html = document.createElement('div');
         html.classList.add('alert');
         html.classList.add('alert-info');
         html.id = 'associations-notice';
@@ -49,10 +44,10 @@ Joomla = window.Joomla || {};
     });
   };
 
-  document.addEventListener('DOMContentLoaded', function () {
-    var associationsEditOptions = Joomla.getOptions('system.associations.edit');
-    var formControl = associationsEditOptions.formControl || 'jform';
-    var formControlLanguage = document.getElementById(formControl + '_language');
+  document.addEventListener('DOMContentLoaded', () => {
+    const associationsEditOptions = Joomla.getOptions('system.associations.edit');
+    const formControl = associationsEditOptions.formControl || 'jform';
+    const formControlLanguage = document.getElementById(`${formControl}_language`);
 
     // Hide the associations tab if needed
     if (parseInt(associationsEditOptions.hidden, 10) === 1) {
@@ -64,31 +59,31 @@ Joomla = window.Joomla || {};
 
     // When changing the language
     if (formControlLanguage) {
-      formControlLanguage.addEventListener('change', function (event) {
+      formControlLanguage.addEventListener('change', (event) => {
         // Remove message if any
         Joomla.removeMessages();
 
-        var existsAssociations = false;
+        let existsAssociations = false;
 
         /** For each language, remove the associations, ie,
          *  empty the associations fields and reset the buttons to Select/Create
          */
-        var controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
+        const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 
-        controlGroup.forEach(function (element) {
-          var attribute = element.querySelector('.control-label label').getAttribute('for');
-          var languageCode = attribute.replace('_id', '').replace('jform_associations_', '');
+        controlGroup.forEach((element) => {
+          const attribute = element.querySelector('.control-label label').getAttribute('for');
+          const languageCode = attribute.replace('_id', '').replace('jform_associations_', '');
 
           // Show the association fields
           element.style.display = 'block';
 
           // Check if there was an association selected for this language
-          if (!existsAssociations && document.getElementById(formControl + '_associations_' + languageCode + '_id').value !== '') {
+          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
             existsAssociations = true;
           }
 
           // Call the modal clear button
-          var clear = document.getElementById(formControl + '_associations_' + languageCode + '_clear');
+          const clear = document.getElementById(`${formControl}_associations_${languageCode}_clear`);
 
           if (clear.onclick) {
             clear.onclick();
@@ -103,7 +98,7 @@ Joomla = window.Joomla || {};
         }
 
         // If the selected language is All hide the fields and add a message
-        var selectedLanguage = event.target.value;
+        const selectedLanguage = event.target.value;
 
         if (selectedLanguage === '*') {
           Joomla.showAssociationMessage();
