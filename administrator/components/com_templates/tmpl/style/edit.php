@@ -23,9 +23,9 @@ $user = JFactory::getUser();
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo JHtml::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('uitab.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
 
 		<div class="row">
 			<div class="col-md-9">
@@ -73,12 +73,12 @@ $user = JFactory::getUser();
 				</div>
 			</div>
 		</div>
-		<?php echo JHtml::_('uitab.endTab'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if ($description) : ?>
-			<?php echo JHtml::_('uitab.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
 			<?php echo $description; ?>
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php
@@ -88,12 +88,12 @@ $user = JFactory::getUser();
 		?>
 
 		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
-			<?php echo JHtml::_('uitab.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
 			<?php echo $this->loadTemplate('assignment'); ?>
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTabSet'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
