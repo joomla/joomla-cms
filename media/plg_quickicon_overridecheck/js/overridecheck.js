@@ -53,7 +53,7 @@
             }
           } else {
             link.classList.add('danger');
-            link.setAttribute('href', 'index.php?option=com_plugins&view=plugin&layout=edit&extension_id=491');
+            link.setAttribute('href', 'index.php?option=com_plugins&task=plugin.edit&extension_id=491');
             for (var _i3 = 0, _len3 = linkSpan.length; _i3 < _len3; _i3 += 1) {
               linkSpan[_i3].innerHTML = Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE');
             }
