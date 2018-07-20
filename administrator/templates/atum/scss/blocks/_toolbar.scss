@@ -23,6 +23,10 @@
     > * {
       margin-left: .75rem;
       box-shadow: $atum-box-shadow;
+
+      &:first-child {
+        margin-left: 0;
+      }
     }
   }
 
