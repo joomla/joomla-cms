@@ -53,7 +53,7 @@ if ($this->type == 'font')
 }
 ?>
 <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
 	<div class="col-md-12">
 		<?php if($this->type == 'file') : ?>
@@ -191,7 +191,7 @@ if ($this->type == 'font')
 </div>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row">
 	<div class="col-md-4">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
@@ -269,7 +269,6 @@ if ($this->type == 'font')
 <?php echo $this->loadTemplate('description'); ?>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-          
 <?php // Collapse Modal
 $copyModalData = array(
 	'selector' => 'copyModal',
