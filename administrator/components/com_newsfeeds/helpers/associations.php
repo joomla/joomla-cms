@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Associations;
 
 JTable::addIncludePath(__DIR__ . '/../tables');
 
@@ -86,7 +88,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 		}
 
 		// Get the associations.
-		$associations = JLanguageAssociations::getAssociations(
+		$associations = Associations::getAssociations(
 			$this->extension,
 			$type['tables']['a'],
 			$context,
@@ -121,11 +123,11 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'newsfeed':
-				$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+				$table = Table::getInstance('NewsfeedTable', 'Joomla\\Component\\Newsfeeds\\Administrator\\Table\\');
 				break;
 
 			case 'category':
-				$table = JTable::getInstance('Category');
+				$table = Table::getInstance('Category');
 				break;
 		}
 

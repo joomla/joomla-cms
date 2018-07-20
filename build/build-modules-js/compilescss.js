@@ -32,6 +32,7 @@ const compileFiles = (options, path) => {
   } else {
     files = [
       `${rootPath}/templates/cassiopeia/scss/template.scss`,
+      `${rootPath}/templates/cassiopeia/scss/template-rtl.scss`,
       `${rootPath}/administrator/templates/atum/scss/bootstrap.scss`,
       `${rootPath}/administrator/templates/atum/scss/font-awesome.scss`,
       `${rootPath}/administrator/templates/atum/scss/template.scss`,

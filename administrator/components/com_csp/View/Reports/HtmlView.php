@@ -12,10 +12,12 @@ namespace Joomla\Component\Csp\Administrator\View\Reports;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Reports view class for the Csp package.
@@ -116,7 +118,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_csp');
 
-		ToolbarHelper::title(\JText::_('COM_CSP_REPORTS'), 'generic');
+		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'generic');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -150,12 +152,13 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.state'        => \JText::_('JSTATUS'),
-			'a.blocked_uri'  => \JText::_('COM_CSP_HEADING_BLOCKED_URI'),
-			'a.document_uri' => \JText::_('COM_CSP_HEADING_DOCUMENT_URI'),
-			'a.directive'    => \JText::_('COM_CSP_HEADING_DIRECTIVE'),
-			'a.id'           => \JText::_('JGRID_HEADING_ID')
-		);
+		return [
+			'a.state'        => Text::_('JSTATUS'),
+			'a.blocked_uri'  => Text::_('COM_CSP_HEADING_BLOCKED_URI'),
+			'a.document_uri' => Text::_('COM_CSP_HEADING_DOCUMENT_URI'),
+			'a.directive'    => Text::_('COM_CSP_HEADING_DIRECTIVE'),
+			'a.client'       => Text::_('JCLIENT'),
+			'a.id'           => Text::_('JGRID_HEADING_ID'),
+		];
 	}
 }

@@ -9,13 +9,18 @@
 
 defined('_JEXEC') or die;
 
-$input = JFactory::getApplication()->input;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
+$input = Factory::getApplication()->input;
 ?>
-<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+<form id="deleteFolder" method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 	<fieldset>
-		<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+		<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 		<input type="hidden" class="address" name="address">
-		<?php echo JHtml::_('form.token'); ?>
-		<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
+		<?php echo HTMLHelper::_('form.token'); ?>
+		<button type="submit" class="btn btn-danger"><?php echo Text::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
 	</fieldset>
 </form>
