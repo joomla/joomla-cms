@@ -265,7 +265,7 @@ if ($this->type == 'font')
 </div>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
