@@ -12,7 +12,7 @@
 
     if (!window.parent.Joomla.getOptions('xtd-pagebreak')) {
       // Something went wrong!
-      window.parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+      window.parent.Joomla.Modal.getCurrent().close();
       return false;
     }
 
@@ -22,7 +22,7 @@
     alt = (alt !== '') ? `alt="${alt}"` : '';
     const tag = `<hr class="system-pagebreak" ${title} ${alt}>`;
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-    window.parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+    window.parent.Joomla.Modal.getCurrent().close();
     return false;
   };
 })();

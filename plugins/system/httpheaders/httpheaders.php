@@ -119,7 +119,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders(): void
+	public function setHttpHeaders()
 	{
 		// Set the default header when they are enabled
 		$this->setDefaultHeader();
@@ -182,7 +182,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function setDefaultHeader(): void
+	private function setDefaultHeader()
 	{
 		// X-Frame-Options
 		if ($this->params->get('xframeoptions', '1') === '1')
@@ -220,7 +220,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function setCspHeader($cspNonce): void
+	private function setCspHeader($cspNonce)
 	{
 		// Mode Selector
 		$cspMode = $this->params->get('contentsecuritypolicy_mode', 'custom');
@@ -296,7 +296,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function setHstsHeader(): void
+	private function setHstsHeader()
 	{
 		$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
 		$hstsOptions   = array();
