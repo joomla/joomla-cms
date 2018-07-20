@@ -269,6 +269,7 @@ if ($this->type == 'font')
 <?php echo $this->loadTemplate('description'); ?>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+
 <?php // Collapse Modal
 $copyModalData = array(
 	'selector' => 'copyModal',
