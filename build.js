@@ -17,7 +17,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const chalk = require('chalk');
 
 // Joomla Build modules
 const installer = require('./build/build-modules-js/installation.js');
@@ -46,7 +45,7 @@ Program
   .option('--installer', 'Creates the language file for installer error page')
   .on('--help', () => {
     // eslint-disable-next-line no-console
-    console.log(chalk.magenta(`Version: ${options.version} `));
+    console.log(`Version: ${options.version}`);
     process.exit(0);
   })
   .parse(process.argv);
@@ -69,7 +68,7 @@ if (Program.update) {
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(`${chalk.red(err)}`);
+      console.error(err);
       process.exit(-1);
     });
 }

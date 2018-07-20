@@ -2,7 +2,6 @@ const Promise = require('bluebird');
 const fs = require('fs');
 // const fsExtra = require('fs-extra');
 const Recurs = require('recursive-readdir');
-const kleur = require('kleur');
 const UglifyJS = require('uglify-es');
 const transpileEs5 = require('./compile-es6.js');
 const debounce = require('lodash.debounce');
@@ -52,7 +51,7 @@ const uglifyJs = (options, path) => {
           },
           (error) => {
             // eslint-disable-next-line no-console
-            console.error(`${kleur.red('something exploded', error)}`);
+            console.error(`something exploded ${error}`);
           },
         );
       });
@@ -75,7 +74,7 @@ const watchFiles = (options, folders, compileFirst = false) => {
               if (file.match(/.js/)) {
                 fs.watchFile(file, () => {
                   // eslint-disable-next-line no-console
-                  console.warn(`${kleur.grey(`File: ${file} changed.`)}`);
+                  console.warn(`File: ${file} changed.`);
                   debounce(() => {
                     if (file.match(/.es6.js/)) {
                       // Transpile the file
@@ -86,13 +85,13 @@ const watchFiles = (options, folders, compileFirst = false) => {
                   }, 150)();
 
                   // eslint-disable-next-line no-console
-                  console.log(kleur.bgYellow(`${file} was updated.`));
+                  console.log(`${file} was updated.`);
                 });
               }
             },
             (error) => {
               // eslint-disable-next-line no-console
-              console.error(kleur.red('something exploded', error));
+              console.error(`something exploded ${error}`);
             },
           );
         }
@@ -101,7 +100,7 @@ const watchFiles = (options, folders, compileFirst = false) => {
   );
 
   // eslint-disable-next-line no-console
-  console.log(kleur.magenta('Now watching JS files...'));
+  console.log(`Now watching JS files...`);
 };
 
 const compile = (options, path) => {
@@ -112,7 +111,7 @@ const compile = (options, path) => {
   // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(kleur.red(err));
+      console.error(err);
       process.exit(-1);
     });
 };

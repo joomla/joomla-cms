@@ -2,7 +2,6 @@ const Promise = require('bluebird');
 const fs = require('fs');
 const fsExtra = require('fs-extra');
 const Path = require('path');
-const kleur = require('kleur');
 const rootPath = require('./rootpath.js')._();
 
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
@@ -18,7 +17,7 @@ const cleanVendors = () => {
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
 
   // eslint-disable-next-line no-console
-  console.error(kleur.blue('/media/vendor has been removed.'));
+  console.error('/media/vendor has been removed.');
 };
 
 // Copies all the files from a directory
@@ -209,7 +208,7 @@ const copyFiles = (options) => {
     registry.vendors[vendorName] = registryItem;
 
     // eslint-disable-next-line no-console
-    console.log(kleur.green(`${packageName} was updated.`));
+    console.log(`${packageName} was updated.`);
   }
 
   // Write assets registry
@@ -231,7 +230,7 @@ const update = (options) => {
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(kleur.red(err));
+      console.error(err);
       process.exit(-1);
     });
 };

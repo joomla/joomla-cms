@@ -1,6 +1,5 @@
 const Promise = require('bluebird');
 const fs = require('fs');
-const kleur = require('kleur');
 const Recurs = require('recursive-readdir');
 const Sass = require('node-sass');
 const UglyCss = require('uglifycss');
@@ -54,15 +53,15 @@ const compileFiles = (options, path) => {
     }, (error, result) => {
       if (error) {
         // eslint-disable-next-line no-console
-        console.error(kleur.red('something exploded', error.column));
+        console.error(`something exploded ${error.column}`);
         // eslint-disable-next-line no-console
-        console.error(kleur.red('something exploded', error.message));
+        console.error(`something exploded ${error.message}`);
         // eslint-disable-next-line no-console
-        console.error(kleur.red('something exploded', error.line));
+        console.error(`something exploded ${error.line}`);
       } else {
         // Auto prefixing
         // eslint-disable-next-line no-console
-        console.log(kleur.bgBlue('Prefixing for: ', options.settings.browsers));
+        console.log(`Prefixing for: ${options.settings.browsers}`);
 
         const cleaner = postcss(
           [
@@ -92,7 +91,7 @@ const compileFiles = (options, path) => {
             );
 
             // eslint-disable-next-line no-console
-            console.log(kleur.bgGreen(`File: ${cssFile.replace(/.+\//, '')} was updated. `));
+            console.log(`File: ${cssFile.replace(/.+\//, '')} was updated. `);
           });
       }
     });
@@ -114,7 +113,7 @@ const compileFiles = (options, path) => {
         },
         (error) => {
           // eslint-disable-next-line no-console
-          console.error(kleur.red('something exploded', error));
+          console.error(`something exploded ${error}`);
         },
         );
       });
@@ -142,7 +141,7 @@ const watchFiles = (options, folders, compileFirst = false) => {
         },
         (error) => {
           // eslint-disable-next-line no-console
-          console.error(kleur.red('something exploded', error));
+          console.error(`something exploded ${error}`);
         },
         );
       });
@@ -160,7 +159,7 @@ const sass = (options, path) => {
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(kleur.red(err));
+      console.error(err);
       process.exit(-1);
     });
 };

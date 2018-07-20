@@ -3,8 +3,6 @@ const babelify = require('babelify');
 const browserify = require('browserify');
 const fs = require('fs');
 const fsExtra = require('fs-extra');
-const kleur = require('kleur');
-const Path = require('path');
 const postcss = require('postcss');
 const Promise = require('bluebird');
 const Sass = require('node-sass');
@@ -59,15 +57,15 @@ const compile = (options) => {
       }, (error, result) => {
         if (error) {
           // eslint-disable-next-line no-console
-          console.error(`${kleur.red(error.column)}`);
+          console.error(`${error.column}`);
           // eslint-disable-next-line no-console
-          console.error(`${kleur.red(error.message)}`);
+          console.error(`${error.message}`);
           // eslint-disable-next-line no-console
-          console.error(`${kleur.red(error.line)}`);
+          console.error(`${error.line}`);
         } else {
           // Auto prefixing
           // eslint-disable-next-line no-console
-          console.log(`${kleur.blue('Prefixing for: ', options.settings.browsers)}`);
+          console.log(`'Prefixing for: ${options.settings.browsers}`);
 
           const cleaner = postcss(
             [
@@ -111,13 +109,13 @@ const compile = (options) => {
               // Handle errors
               .catch((err) => {
                 // eslint-disable-next-line no-console
-                console.error(`${kleur.red(err)}`);
+                console.error(`${err}`);
                 process.exit(-1);
               });
 
             return ;
             // eslint-disable-next-line no-console
-            console.log(kleur.yellow(`joomla-${element} was updated.`));
+            console.log(`joomla-${element} was updated.`);
           }
         }
       });
@@ -134,7 +132,7 @@ const compileCEjs = (options, path) => {
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(`${kleur.red(err)}`);
+      console.error(`${err}`);
       process.exit(-1);
     });
 };
