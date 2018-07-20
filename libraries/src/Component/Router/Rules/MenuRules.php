@@ -212,8 +212,7 @@ class MenuRules implements RulesInterface
 
 					$layout = '';
 
-					// Checking if layout is default just to be safe
-					if (isset($item->query['layout']) || $item->query['layout'] == 'default')
+					if (isset($item->query['layout']))
 					{
 						$layout = ':' . $item->query['layout'];
 					}
