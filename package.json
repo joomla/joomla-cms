@@ -16,7 +16,7 @@
     "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
     "install": "node build.js --update && node build.js --installer",
     "postinstall": "node build.js --compilejs && node build.js --compilecss",
-    "update": "node build.js --update && node build.js --installer && node build.js --compilejs && node build.js --compilecejs && node build.js --compilecss && node build.js --compilececss"
+    "update": "node build.js --update && node build.js --installer && node build.js --compilejs && node build.js --compilecejs && node build.js --compilecss"
   },
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
@@ -49,10 +49,8 @@
     "babelify": "^8.0.0",
     "bluebird": "^3.5.1",
     "browserify": "*",
-    "chalk": "^2.4.1",
     "commander": "^2.16.0",
-    "eslint": "^4.17.0",
-    "commander": "^2.14.1",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "fs": "0.0.1-security",

@@ -1,7 +1,8 @@
 {
   "settings": {
     "browsers": [
-      "last 1 version"
+      "last 1 version",
+      "not ie < 11"
     ],
     "elements": [
       "field-media",
