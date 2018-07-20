@@ -980,8 +980,6 @@ iframe {
     .subhead .btn-toolbar > * {
       margin-left: .75rem;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
-      .subhead .btn-toolbar > *:first-of-type {
-        margin-left: 0; }
   .subhead .btn {
     padding: 0 22px;
     font-size: 1rem;
