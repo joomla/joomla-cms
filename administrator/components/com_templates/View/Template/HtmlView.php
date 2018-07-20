@@ -13,6 +13,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * View to edit a template style.
@@ -135,15 +141,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app               = \JFactory::getApplication();
-		$this->file        = $app->input->get('file');
-		$this->fileName    = \JFilterInput::getInstance()->clean(base64_decode($this->file), 'string');
-		$explodeArray      = explode('.', $this->fileName);
-		$ext               = end($explodeArray);
-		$this->files       = $this->get('Files');
-		$this->state       = $this->get('State');
-		$this->template    = $this->get('Template');
-		$this->preview     = $this->get('Preview');
+		$app            = Factory::getApplication();
+		$this->file     = $app->input->get('file');
+		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
+		$explodeArray   = explode('.', $this->fileName);
+		$ext            = end($explodeArray);
+		$this->files    = $this->get('Files');
+		$this->state    = $this->get('State');
+		$this->template = $this->get('Template');
+		$this->preview  = $this->get('Preview');
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
 		$this->updatedList = $this->get('UpdatedList');
 
@@ -193,7 +199,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			$this->setLayout('readonly');
 		}
@@ -210,19 +216,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$app   = \JFactory::getApplication();
-		$user  = \JFactory::getUser();
+		$app   = Factory::getApplication();
+		$user  = Factory::getUser();
 		$app->input->set('hidemainmenu', true);
 
 		// User is global SuperUser
 		$isSuperUser = $user->authorise('core.admin');
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		\JToolbarHelper::title(\JText::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
+		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
 
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)
@@ -230,7 +236,7 @@ class HtmlView extends BaseHtmlView
 			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
-				\JToolbarHelper::saveGroup(
+				ToolbarHelper::saveGroup(
 					[
 						['apply', 'template.apply'],
 						['save', 'template.save']
@@ -241,44 +247,44 @@ class HtmlView extends BaseHtmlView
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')
 			{
-				\JToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
-				\JToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
+				ToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
+				ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
 			elseif ($this->type == 'archive')
 			{
-				\JToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
+				ToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 
 			// Add a copy template button
-			\JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+			ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 		}
 
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', \JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
+			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', Uri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
 		}
 
 		// Only show file manage buttons for global SuperUser
 		if ($isSuperUser)
 		{
 			// Add Manage folders button
-			\JToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
+			ToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
 
 			// Add a new file button
-			\JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
+			ToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 
 			// Add a Rename file Button
 			if ($this->type != 'home')
 			{
-				\JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
+				ToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
 
 			// Add a Delete file Button
 			if ($this->type != 'home')
 			{
-				\JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
+				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 			}
 		}
 
@@ -289,15 +295,15 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->type == 'home')
 		{
-			\JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
+			ToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
 
 	/**

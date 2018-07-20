@@ -1598,6 +1598,9 @@ iframe {
 .com_users.view-debuggroup .legend, .com_users.view-debuguser .legend {
   margin: 1rem 1rem 0; }
 
+.com_users.view-mail .form-control {
+  max-width: 100%; }
+
 .container-main,
 .system-debug {
   padding-bottom: 50px; }

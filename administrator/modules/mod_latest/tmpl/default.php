@@ -14,9 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <table class="table table-striped" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
-	<?php if (!$module->showtitle) : ?>
-		<caption class="sr-only"><?php echo $module->title; ?></caption>
-	<?php endif; ?>
+	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
 			<th scope="col" style="width:60%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
