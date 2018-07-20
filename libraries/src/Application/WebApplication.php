@@ -18,6 +18,7 @@ use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
@@ -31,7 +32,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
 
 	/**
 	 * The application document object.
