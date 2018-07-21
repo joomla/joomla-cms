@@ -9,7 +9,7 @@
   window.insertReadmore = (editor) => {
     if (!options) {
       // Something went wrong!
-      throw new Error(`XTD Button 'read more' not properly initialized`)
+      throw new Error('XTD Button read more not properly initialized');
     }
 
     const content = window.Joomla.editors.instances[editor].getValue();
