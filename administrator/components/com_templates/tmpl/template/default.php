@@ -28,6 +28,7 @@ Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF');
 
 HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -84,10 +85,8 @@ if ($this->type == 'font')
 	</div>
 	<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
 		<div class="col-md-6 text-right">
-			<?php $layout_core_button = new FileLayout('diffview.core', JPATH_COMPONENT_ADMINISTRATOR . '/layouts'); ?>
-			<?php echo $layout_core_button->render(array()); ?>
-			<?php $layout_diff_button = new FileLayout('diffview.diff', JPATH_COMPONENT_ADMINISTRATOR . '/layouts'); ?>
-			<?php echo $layout_diff_button->render(array()); ?>
+			<?php echo $this->form->getInput('show_core'); ?>
+			<?php echo $this->form->getInput('show_diff'); ?>
 		</div>
 	<?php endif; ?>
 </div>
@@ -126,13 +125,13 @@ if ($this->type == 'font')
 				<?php if (!empty($this->source->coreFile)) : ?>
 					<?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
 					<?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
-					<div style="display:none" class="col-md-6" id="core-pane">
+					<div class="col-md-6" id="core-pane">
 						<p class="lead"><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></p>
 						<div class="editor-border">
 							<?php echo $this->form->getInput('core'); ?>
 						</div>
 					</div>
-					<div class="col-md-12" style="display:none" id="diff-main">
+					<div class="col-md-12" id="diff-main">
 						<p class="lead"><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></p>
 						<div class="diff-pane">
 							<div class="diffview" style="display:none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>

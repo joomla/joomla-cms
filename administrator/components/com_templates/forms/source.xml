@@ -37,5 +37,25 @@
 			filter="raw"
 			readonly="true"
 		/>
+
+		<field
+			name="show_core"
+			type="radio"
+			class="switcher switcher-primary"
+			default="0"
+		>
+			<option value="0">COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE</option>
+			<option value="1">COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE</option>
+		</field>
+
+		<field
+			name="show_diff"
+			type="radio"
+			class="switcher switcher-primary"
+			default="0"
+		>
+			<option value="0">COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF</option>
+			<option value="1">COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF</option>
+		</field>
 	</fieldset>
 </form>

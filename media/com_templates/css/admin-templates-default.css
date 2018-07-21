@@ -48,6 +48,38 @@
 	background-color: #FFF;
 }
 
+#diff-main.active {
+	display: block;
+}
+
+#diff-main {
+	display: none;
+}
+
+#core-pane.active {
+	display: block;
+}
+
+#core-pane {
+	display: none;
+}
+
 #core-pane .CodeMirror-code {
 	background-color: #F0F0EE;
+}
+
+#jform_show_core {
+	display: inline;
+	margin-right: 8em;
+}
+
+#jform_show_diff {
+	display: inline;
+	margin-right: 5.5em;
+}
+
+.switcher-label-0, .switcher-label-1{
+	min-width: 5em;
+	max-width: 5em;
+	text-align: left;
 }
