@@ -8,7 +8,7 @@ window.JoomlaInitReCaptchaInvisible = function() {
 
 	var items = document.getElementsByClassName('g-recaptcha'),
 	    item,
-	    option_keys = ['sitekey', 'badge', 'type', 'size', 'tabindex', 'callback'],
+	    option_keys = ['sitekey', 'badge', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'],
 	    options = {},
 	    option_key_fq
 	;

@@ -51,17 +51,6 @@
 				</field>
 
 				<field
-					name="type"
-					type="list"
-					label="PLG_RECAPTCHA_INVISIBLE_TYPE_LABEL"
-					description="PLG_RECAPTCHA_INVISIBLE_TYPE_DESC"
-					default="image"
-					>
-					<option value="image">PLG_RECAPTCHA_INVISIBLE_TYPE_IMAGE</option>
-					<option value="audio">PLG_RECAPTCHA_INVISIBLE_TYPE_AUDIO</option>
-				</field>
-
-				<field
 					name="tabindex"
 					type="number"
 					label="PLG_RECAPTCHA_INVISIBLE_TABINDEX_LABEL"
@@ -75,6 +64,24 @@
 					type="text"
 					label="PLG_RECAPTCHA_INVISIBLE_CALLBACK_LABEL"
 					description="PLG_RECAPTCHA_INVISIBLE_CALLBACK_DESC"
+					default=""
+					filter="string"
+				/>
+
+				<field
+					name="expired_callback"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_EXPIRED_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_EXPIRED_CALLBACK_DESC"
+					default=""
+					filter="string"
+				/>
+
+				<field
+					name="error_callback"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_ERROR_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_ERROR_CALLBACK_DESC"
 					default=""
 					filter="string"
 				/>
