@@ -822,11 +822,7 @@ class Language
 		// Capture hidden PHP errors from the parsing.
 		if ($this->debug)
 		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
-			$php_errormsg = null;
-
-			$trackErrors = ini_get('track_errors');
-			ini_set('track_errors', true);
+			$oldErrorReporting = error_reporting(E_ALL);
 		}
 
 		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
@@ -853,7 +849,7 @@ class Language
 		// Restore error tracking to what it was before.
 		if ($this->debug)
 		{
-			ini_set('track_errors', $trackErrors);
+			error_reporting($oldErrorReporting);
 
 			$this->debugFile($filename);
 		}
@@ -886,7 +882,6 @@ class Language
 		$debug = $this->getDebug();
 		$this->debug = false;
 		$errors = array();
-		$php_errormsg = null;
 
 		// Open the file as a stream.
 		$file = new \SplFileObject($filename);
@@ -947,15 +942,17 @@ class Language
 			}
 		}
 
+		$lastError = error_get_last();
+
 		// Check if we encountered any errors.
 		if (count($errors))
 		{
 			$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
 		}
-		elseif ($php_errormsg)
+		elseif ($lastError !== null)
 		{
 			// We didn't find any errors but there's probably a parse notice.
-			$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
+			$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $lastError['message'];
 		}
 
 		$this->debug = $debug;

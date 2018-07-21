@@ -177,30 +177,21 @@ class StreamTransport implements TransportInterface
 			$uri->setPass($this->options->get('passwordauth'));
 		}
 
-		// Capture PHP errors
-		$php_errormsg = '';
-		$track_errors = ini_get('track_errors');
-		ini_set('track_errors', true);
-
 		// Open the stream for reading.
 		$stream = @fopen((string) $uri, 'r', false, $context);
 
 		if (!$stream)
 		{
-			if (!$php_errormsg)
+			$lastError = error_get_last();
+			$message   = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+
+			if ($lastError !== null)
 			{
-				// Error but nothing from php? Create our own
-				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+				$message = $lastError['message'];
 			}
 
-			// Restore error tracking to give control to the exception handler
-			ini_set('track_errors', $track_errors);
-
-			throw new \RuntimeException($php_errormsg);
+			throw new \RuntimeException($message);
 		}
-
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $track_errors);
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
