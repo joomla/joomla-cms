@@ -8,7 +8,7 @@ window.JoomlaInitReCaptcha2 = function() {
 
 	var items = document.getElementsByClassName('g-recaptcha'),
 	    item,
-	    option_keys = ['sitekey', 'theme', 'type', 'size', 'tabindex', 'callback', 'expired-callback'],
+	    option_keys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'],
 	    options = {},
 	    option_key_fq
 	;

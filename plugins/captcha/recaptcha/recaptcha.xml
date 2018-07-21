@@ -85,18 +85,6 @@
 				</field>
 
 				<field
-					name="type"
-					type="list"
-					label="PLG_RECAPTCHA_TYPE_LABEL"
-					description="PLG_RECAPTCHA_TYPE_DESC"
-					default="image"
-					showon="version:2.0"
-					>
-					<option value="image">PLG_RECAPTCHA_TYPE_IMAGE</option>
-					<option value="audio">PLG_RECAPTCHA_TYPE_AUDIO</option>
-				</field>
-
-				<field
 					name="size"
 					type="list"
 					label="PLG_RECAPTCHA_SIZE_LABEL"
@@ -134,6 +122,16 @@
 					type="text"
 					label="PLG_RECAPTCHA_EXPIRED_CALLBACK_LABEL"
 					description="PLG_RECAPTCHA_EXPIRED_CALLBACK_DESC"
+					default=""
+					showon="version:2.0"
+					filter="string"
+				/>
+
+				<field
+					name="error_callback"
+					type="text"
+					label="PLG_RECAPTCHA_ERROR_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_ERROR_CALLBACK_DESC"
 					default=""
 					showon="version:2.0"
 					filter="string"

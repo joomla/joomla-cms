@@ -95,11 +95,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 			$ele->setAttribute('class', ((trim($class) == '') ? 'g-recaptcha' : ($class . ' g-recaptcha')));
 			$ele->setAttribute('data-sitekey', $this->params->get('public_key', ''));
 			$ele->setAttribute('data-theme', $this->params->get('theme2', 'light'));
-			$ele->setAttribute('data-type', $this->params->get('type', 'image'));
 			$ele->setAttribute('data-size', $this->params->get('size', 'normal'));
 			$ele->setAttribute('data-tabindex', $this->params->get('tabindex', '0'));
 			$ele->setAttribute('data-callback', $this->params->get('callback', ''));
 			$ele->setAttribute('data-expired-callback', $this->params->get('expired_callback', ''));
+			$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
 		}
 
 		$dom->appendChild($ele);
