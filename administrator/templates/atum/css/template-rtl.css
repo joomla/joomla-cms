@@ -1650,10 +1650,11 @@ body {
     left: -.5rem; }
 
 .control-group .control-label {
-  float: right; }
+  float: right;
+  text-align: right; }
 
 .control-group .controls {
-  margin-right: 220px;
+  margin-right: 0;
   margin-left: 0; }
 
 .control-group .custom-select {
@@ -1793,3 +1794,15 @@ body {
   float: right;
   margin-right: 4px;
   margin-top: 1px; }
+
+.field-calendar {
+  float: right; }
+
+.form-text {
+  float: right; }
+
+.field-user-wrapper {
+  float: right; }
+
+.field-media-input {
+  margin-right: 220px; }

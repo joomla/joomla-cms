@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Reports view class for the Csp package.

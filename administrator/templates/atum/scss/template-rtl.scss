@@ -24,10 +24,11 @@ body {
 
   .control-label {
     float: right;
+    text-align: right;
   }
 
   .controls {
-    margin-right: 220px;
+    margin-right: 0;
     margin-left: 0;
   }
 
@@ -237,4 +238,21 @@ body {
   float: right;
   margin-right: 4px;
   margin-top: 1px;
+}
+
+.field-calendar {
+  float: right;
+}
+
+.form-text {
+  float: right;
+}
+
+.field-user-wrapper {
+  float: right;
+}
+
+
+.field-media-input {
+  margin-right: 220px;
 }

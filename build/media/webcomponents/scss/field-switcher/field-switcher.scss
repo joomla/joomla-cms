@@ -78,7 +78,6 @@ joomla-field-switcher {
     span {
       position: absolute;
       top: 0;
-      left: 10px;
       color: $gray-600;
       visibility: hidden;
       opacity: 0;
@@ -94,6 +93,13 @@ joomla-field-switcher {
 
   }
 
+}
+
+[dir="rtl"] joomla-field-switcher .switcher-labels span {
+  right: 10px;
+}
+[dir="ltr"] joomla-field-switcher .switcher-labels span {
+  left: 10px;
 }
 
 // Alternate styles
