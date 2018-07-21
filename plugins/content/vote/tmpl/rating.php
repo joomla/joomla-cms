@@ -43,11 +43,15 @@ for ($i = $rating; $i < 5; $i++)
 }
 
 ?>
-<div class="content_rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+<div class="content_rating"<?php if ((int) $row->rating_count) echo ' itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"'; ?>>
 	<p class="unseen element-invisible">
+	<?php if ((int) $row->rating_count): ?>
 		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
 		<meta itemprop="ratingCount" content="<?php echo (int) $row->rating_count; ?>" />
 		<meta itemprop="worstRating" content="0" />
+	<?php else : ?>
+		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', $rating, 5); ?>
+	<?php endif; ?>
 	</p>
 	<?php echo $img; ?>
 </div>
