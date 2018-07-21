@@ -217,7 +217,7 @@ class Text
 		// Try the key from the language plural potential suffixes
 		$found = false;
 		$suffixes = $lang->getPluralSuffixes((int) $n);
-		array_unshift($suffixes, (int) $n);
+		array_push($suffixes, (int) $n);
 
 		foreach ($suffixes as $suffix)
 		{
