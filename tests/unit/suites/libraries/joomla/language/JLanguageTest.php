@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,15 +39,6 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 
-		$path = JPATH_TESTS . '/tmp/language';
-
-		if (is_dir($path))
-		{
-			JFolder::delete($path);
-		}
-
-		JFolder::copy(__DIR__ . '/data/language', $path);
-
 		$this->object = new JLanguage;
 		$this->inspector = new JLanguageInspector('', true);
 	}
@@ -60,7 +51,6 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		JFolder::delete(JPATH_TESTS . '/tmp/language');
 		unset($this->object, $this->inspector);
 		parent::tearDown();
 	}
@@ -215,7 +205,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is an setTransliterator, this test is wrong
+		// Only if there is a setTransliterator, this test is wrong
 		$this->assertNull(
 			$lang->getTransliterator()
 		);

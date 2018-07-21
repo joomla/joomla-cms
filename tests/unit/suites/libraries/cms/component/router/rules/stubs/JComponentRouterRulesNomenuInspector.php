@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ class JComponentRouterRulesNomenuInspector extends JComponentRouterRulesNomenu
 {
 	/**
 	 * Gets an attribute of the object
-	 * 
+	 *
 	 * @param   string   $key  Attributename to return
 	 *
 	 * @return  mixed  Attributes of the object
@@ -32,7 +32,7 @@ class JComponentRouterRulesNomenuInspector extends JComponentRouterRulesNomenu
 
 	/**
 	 * Sets an attribute of the object
-	 * 
+	 *
 	 * @param   string   $key    Attributename to return
 	 * @param   mixed    $value  Value to be set
 	 *

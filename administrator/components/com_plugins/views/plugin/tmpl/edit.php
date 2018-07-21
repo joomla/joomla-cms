@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,17 +17,30 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 $this->fieldsets = $this->form->getFieldsets('params');
 
+$input = JFactory::getApplication()->input;
+
+// In case of modal
+$isModal  = $input->get('layout') === 'modal' ? true : false;
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
 JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
+	Joomla.submitbutton = function(task) {
+		if (task === 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));
+
+			if (task !== 'plugin.apply') {
+				if (self !== top ) {
+					window.top.setTimeout('window.parent.location = window.top.location.href', 1000);
+					window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
+				}
+			}
 		}
 	};
 ");
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 	<div class="form-horizontal">
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
@@ -38,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<div class="span9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<h3>
+						<h2>
 							<?php
 							if ($this->item->xml)
 							{
@@ -49,7 +62,7 @@ JFactory::getDocument()->addScriptDeclaration("
 								echo JText::_('COM_PLUGINS_XML_ERR');
 							}
 							?>
-						</h3>
+						</h2>
 						<div class="info-labels">
 							<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
 								<?php echo $this->form->getValue('folder'); ?>
@@ -144,3 +157,4 @@ JFactory::getDocument()->addScriptDeclaration("
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+

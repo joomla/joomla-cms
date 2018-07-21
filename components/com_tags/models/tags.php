@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,8 +125,9 @@ class TagsModelTags extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.*')
+		$query->select('a.*, u.name as created_by_user_name, u.email')
 			->from($db->quoteName('#__tags') . ' AS a')
+			->join('LEFT', '#__users AS u ON a.created_user_id = u.id')
 			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))

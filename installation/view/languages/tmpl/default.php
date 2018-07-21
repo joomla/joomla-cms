@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,6 @@ $version = new JVersion;
 					</tr>
 			</thead>
 			<tbody>
-				<?php $version = new JVersion; ?>
 				<?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
 				<?php foreach ($this->items as $i => $language) : ?>
 					<?php // Get language code and language image. ?>
@@ -99,14 +98,15 @@ $version = new JVersion;
 						</td>
 						<td>
 							<?php echo $language->code; ?>
-  						</td>
+						</td>
 						<td class="center">
-						<?php // Display a Note if language pack version is not equal to Joomla version ?>
-						<?php if (strpos($language->version, $version::RELEASE) !== 0  || strpos($language->version, $currentShortVersion) !== 0) : ?>
-							<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
-						<?php else : ?>
-							<span class="label label-success"><?php echo $language->version; ?></span>
-						<?php endif; ?>
+							<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
+							<?php // Display a Note if language pack version is not equal to Joomla version ?>
+							<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
+								<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+							<?php else : ?>
+								<span class="label label-success"><?php echo $language->version; ?></span>
+							<?php endif; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

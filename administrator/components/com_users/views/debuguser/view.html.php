@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,6 +66,7 @@ class UsersViewDebuguser extends JViewLegacy
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Vars only used in hathor.
+		// @deprecated  4.0 To be removed with Hathor
 		$this->levels        = UsersHelperDebug::getLevelsOptions();
 		$this->components    = UsersHelperDebug::getComponents();
 

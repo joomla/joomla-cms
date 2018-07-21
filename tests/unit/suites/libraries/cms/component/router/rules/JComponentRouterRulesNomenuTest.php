@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,8 @@ require_once __DIR__ . '/../stubs/JComponentRouterViewInspector.php';
  * @subpackage  Component
  * @since       3.4
  */
-class JComponentRouterRulesNomenuTest extends TestCase {
-
+class JComponentRouterRulesNomenuTest extends TestCase
+{
 	/**
 	 * Object under test
 	 *
@@ -115,7 +115,7 @@ class JComponentRouterRulesNomenuTest extends TestCase {
 		$router = $this->object->get('router');
 		$router->menu->expects($this->any())
 			->method('getActive')
-			->will($this->returnValue(new stdClass()));
+			->will($this->returnValue(new stdClass));
 		$segments = array('article', '42:the-answer');
 		$vars = array('option' => 'com_content');
 		$this->object->parse($segments, $vars);

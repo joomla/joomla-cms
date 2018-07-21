@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Exception
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -275,7 +275,7 @@ class JException extends Exception
 		{
 			foreach ($vars as $key => $value)
 			{
-				if ('_' == substr($key, 0, 1))
+				if (strpos($key, '_') === 0)
 				{
 					unset($vars[$key]);
 				}

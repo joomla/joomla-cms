@@ -1,3 +1,3 @@
 'update_site_id','name','type','location','enabled','last_check_timestamp'
-'1','Joomla Core','collection','http://update.joomla.org/core/list.xml','1','0'
-'2','Accredited Joomla! Translations','collection','http://update.joomla.org/language/translationlist_3.xml','1','0'
+'1','Joomla Core','collection','https://update.joomla.org/core/list.xml','1','0'
+'2','Accredited Joomla! Translations','collection','https://update.joomla.org/language/translationlist_3.xml','1','0'

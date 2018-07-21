@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,7 +89,7 @@ class MenusViewMenutypes extends JViewLegacy
 	/**
 	 * Method to add system link types to the link types array
 	 *
-	 * @param   array  &$types  The list of link types
+	 * @param   array  $types  The list of link types
 	 *
 	 * @return  void
 	 *

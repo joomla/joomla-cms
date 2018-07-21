@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,7 @@ class JArchiveTest extends JArchiveTestCase
 			$this->markTestSkipped('Gzip files can not be extracted.');
 		}
 
-		// we need a configuration with a tmp_path set
+		// We need a configuration with a tmp_path set
 		$config = JFactory::$config;
 		$config->set('tmp_path', __DIR__ . '/output');
 
@@ -83,7 +83,7 @@ class JArchiveTest extends JArchiveTestCase
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
 		}
 
-		// we need a configuration with a tmp_path set
+		// We need a configuration with a tmp_path set
 		$config = JFactory::$config;
 		$config->set('tmp_path', __DIR__ . '/output');
 
@@ -100,7 +100,6 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractUnknownType()
 	{
-
 		JArchive::extract(__DIR__ . '/unknown.type', $this->outputPath);
 	}
 

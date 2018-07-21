@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -176,10 +176,6 @@ class UsersModelProfile extends JModelForm
 		{
 			return false;
 		}
-
-		// For com_fields the context is com_users.user
-		JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
-		FieldsHelper::prepareForm('com_users.user', $form, $data);
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;
@@ -384,7 +380,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Retrieve the user groups so they don't get overwritten
-		unset ($user->groups);
+		unset($user->groups);
 		$user->groups = JAccess::getGroupsByUser($user->id, false);
 
 		// Store the data.
@@ -395,8 +391,12 @@ class UsersModelProfile extends JModelForm
 			return false;
 		}
 
-		$user->tags = new JHelperTags;
-		$user->tags->getTagIds($user->id, 'com_users.user');
+		// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+		if ($this->getState('load_tags', true))
+		{
+			$user->tags = new JHelperTags;
+			$user->tags->getTagIds($user->id, 'com_users.user');
+		}
 
 		return $user->id;
 	}

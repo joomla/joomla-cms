@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for Joomla 4.0 pre checks
@@ -12,13 +12,14 @@
 defined('_JEXEC') or die;
 
 /**
- * Checks if the installation meats the current requirements for Joomla 4
+ * Checks if the installation meets the current requirements for Joomla 4
  *
  * @return  boolean  True if any check fails.
  *
  * @since   3.7
  *
  * @link    https://developer.joomla.org/news/658-joomla4-manifesto.html
+ * @link    https://developer.joomla.org/news/704-looking-forward-with-joomla-4.html
  */
 function admin_postinstall_joomla40checks_condition()
 {
@@ -50,6 +51,6 @@ function admin_postinstall_joomla40checks_condition()
 		return true;
 	}
 
-	// PHP minimum version is 5.5
-	return version_compare(PHP_VERSION, '5.5.9', 'lt');
+	// PHP minimum version is 7.0
+	return version_compare(PHP_VERSION, '7.0', 'lt');
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class JFormFieldComponentlayout extends JFormField
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
-		if (is_null($clientId) && $this->form instanceof JForm)
+		if ($clientId === null && $this->form instanceof JForm)
 		{
 			$clientId = $this->form->getValue('client_id');
 		}
@@ -115,7 +115,7 @@ class JFormFieldComponentlayout extends JFormField
 			$groups = array();
 
 			// Add a Use Global option if useglobal="true" in XML file
-			if ($this->element['useglobal'] == 'true')
+			if ((string) $this->element['useglobal'] === 'true')
 			{
 				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][] = JHtml::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
 			}
@@ -179,20 +179,10 @@ class JFormFieldComponentlayout extends JFormField
 					// Add the layout options from the template path.
 					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$', false, true)))
 					{
-						// Files with corresponding XML files are alternate menu items, not alternate layout files
-						// so we need to exclude these files from the list.
-						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
-
-						for ($j = 0, $count = count($xml_files); $j < $count; $j++)
-						{
-							$xml_files[$j] = basename($xml_files[$j], '.xml');
-						}
-
 						foreach ($files as $i => $file)
 						{
-							// Remove layout files that exist in the component folder or that have XML files
-							if (in_array(basename($file, '.php'), $component_layouts)
-								|| in_array(basename($file, '.php'), $xml_files))
+							// Remove layout files that exist in the component folder
+							if (in_array(basename($file, '.php'), $component_layouts))
 							{
 								unset($files[$i]);
 							}

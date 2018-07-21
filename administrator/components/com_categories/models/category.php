@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,6 +57,9 @@ class CategoriesModelCategory extends JModelAdmin
 		parent::__construct($config);
 		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
 		$this->typeAlias = $extension . '.category';
+
+		// Add a new batch command
+		$this->batch_commands['flip_ordering'] = 'batchFlipordering';
 	}
 
 	/**
@@ -356,7 +359,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
-	 * @return  void
+	 * @return  mixed
 	 *
 	 * @see     JFormField
 	 * @since   1.6
@@ -692,7 +695,7 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -817,6 +820,56 @@ class CategoriesModelCategory extends JModelAdmin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Batch flip category ordering.
+	 *
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed    An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   3.6.3
+	 */
+	protected function batchFlipordering($value, $pks, $contexts)
+	{
+		$successful = array();
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		/**
+		 * For each category get the max ordering value
+		 * Re-order with max - ordering
+		 */
+		foreach ($pks as $id)
+		{
+			$query->select('MAX(ordering)')
+				->from('#__content')
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			$max = (int) $db->loadresult();
+			$max++;
+
+			$query->clear();
+
+			$query->update('#__content')
+				->set($db->qn('ordering') . ' = ' . $max . ' - ' . $db->qn('ordering'))
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			if ($db->execute())
+			{
+				$successful[] = $id;
+			}
+		}
+
+		return empty($successful) ? false : $successful;
 	}
 
 	/**

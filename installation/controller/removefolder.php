@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 	public function execute()
 	{
 		// Get the application.
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
@@ -37,7 +37,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// Check whether the folder still exists.
 		if (!file_exists($path))
 		{
-			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED', 'installation'), 500));
 		}
 
 		// Check whether we need to use FTP.
@@ -64,7 +64,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 		{
 			// Connect the FTP client.
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
-			$ftp->login($options->ftp_user, $options->ftp_pass);
+			$ftp->login($options->ftp_user, $options->ftp_pass_plain);
 
 			// Translate path for the FTP account.
 			$file   = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
@@ -117,12 +117,12 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// If an error was encountered return an error.
 		if (!$return)
 		{
-			$app->sendJsonResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 500));
 		}
 
 		// Create a response body.
 		$r = new stdClass;
-		$r->text = JText::_('INSTL_COMPLETE_FOLDER_REMOVED');
+		$r->text = JText::sprintf('INSTL_COMPLETE_FOLDER_REMOVED', 'installation');
 
 		/*
 		 * Send the response.

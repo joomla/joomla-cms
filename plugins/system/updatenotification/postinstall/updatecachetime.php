@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ function updatecachetime_postinstall_action()
 
 	// Sets the cachtimeout back to the default (6 hours)
 	$installer->params->set('cachetimeout', 6);
-	
+
 	// Save the new parameters back to com_installer
 	$table = JTable::getInstance('extension');
 	$table->load($installer->id);

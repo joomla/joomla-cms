@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ class JHttpFactoryTest extends \PHPUnit\Framework\TestCase
 		$transports = JHttpFactory::getHttpTransports();
 
 		$this->assertEquals(
-			'curl',
+			'Curl',
 			$transports[0],
 			'CURL should be the first transport returned.'
 		);

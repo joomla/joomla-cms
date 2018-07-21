@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,11 +72,17 @@ class ContactViewContact extends JViewLegacy
 		$item = $this->get('Item');
 		$state = $this->get('State');
 
-		$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
+		// Get submitted values
+		$data = $app->getUserState('com_contact.contact.data', array());
+
+		// Add catid for selecting custom fields
+		$data['catid'] = $item->catid;
+
+		$app->setUserState('com_contact.contact.data', $data);
 
 		$this->form = $this->get('Form');
 
- 		$params = $state->get('params');
+		$params = $state->get('params');
 
 		$temp = clone $params;
 
@@ -159,7 +165,7 @@ class ContactViewContact extends JViewLegacy
 		if ($item->params->get('show_street_address') || $item->params->get('show_suburb') || $item->params->get('show_state')
 			|| $item->params->get('show_postcode') || $item->params->get('show_country'))
 		{
-			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
+			if (!empty($item->address) || !empty($item->suburb) || !empty($item->state) || !empty($item->country) || !empty($item->postcode))
 			{
 				$item->params->set('address_check', 1);
 			}
@@ -332,7 +338,7 @@ class ContactViewContact extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
 
 		$this->contact     = &$item;
-		$this->params      = &$params;
+		$this->params      = &$item->params;
 		$this->return      = &$return;
 		$this->state       = &$state;
 		$this->item        = &$item;
@@ -373,6 +379,7 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		$this->_prepareDocument();
+
 		return parent::display($tpl);
 	}
 

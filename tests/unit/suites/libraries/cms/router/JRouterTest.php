@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ class JRouterTest extends TestCase
 		$cache->setAccessible(true);
 		$cache->setValue(array());
 
-		#$this->markTestSkipped('Untestable due to global instance cache not clearable.');
+		// $this->markTestSkipped('Untestable due to global instance cache not clearable.');
 
 		$object = JRouter::getInstance($client, array('mode' => 'test'));
 
@@ -131,7 +131,8 @@ class JRouterTest extends TestCase
 			'id'   => 3,
 			'name' => 'tester',
 			'path' => __DIR__ . '/data'
-		));
+			)
+		);
 
 		$this->assertInstanceOf('JRouter', JRouter::getInstance('tester'));
 	}
@@ -215,10 +216,12 @@ class JRouterTest extends TestCase
 	{
 		$uri    = new JUri('index.php?var1=value1');
 		$object = new JRouter;
+
 		if (!empty($mode))
 		{
 			$object->setMode($mode);
 		}
+
 		$result = $this->object->build('index.php?var1=value1');
 		$this->assertEquals($uri, $result);
 	}
@@ -390,6 +393,7 @@ class JRouterTest extends TestCase
 	public function testParseRulesCanReplacePresetVariables($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
@@ -453,6 +457,7 @@ class JRouterTest extends TestCase
 	public function testParseRulesCanAddVariables($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
@@ -528,6 +533,7 @@ class JRouterTest extends TestCase
 	public function testFirstParseRuleTakesPrecedence($preset, $rules, $stage, $expected)
 	{
 		$this->object->setVars($preset, false);
+
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);

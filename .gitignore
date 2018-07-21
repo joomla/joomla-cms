@@ -12,6 +12,8 @@
 /administrator/logs
 /cache
 /installation/cache
+/installation/sessions
+/libraries/autoload_psr4.php
 /tmp
 /configuration.php
 /.htaccess
@@ -20,6 +22,9 @@
 
 # Test Related Files #
 /phpunit.xml
+
+# Stubs file holding mapped classes
+/stubs.php
 
 # Node modules #
 node_modules/
@@ -71,17 +76,20 @@ Desktop.ini
 /libraries/vendor/ircmaxell/password-compat/phpunit.xml.dist
 /libraries/vendor/ircmaxell/password-compat/README.md
 /libraries/vendor/ircmaxell/password-compat/version-test.php
+/libraries/vendor/joomla/*/.gitattributes
 /libraries/vendor/joomla/*/.github
 /libraries/vendor/joomla/*/.gitignore
 /libraries/vendor/joomla/*/.gitmodules
 /libraries/vendor/joomla/*/docs
 /libraries/vendor/joomla/*/Tests
 /libraries/vendor/joomla/*/vendor
+/libraries/vendor/joomla/*/.scrutinizer.yml
 /libraries/vendor/joomla/*/.travis.yml
 /libraries/vendor/joomla/*/CONTRIBUTING.md
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/README.md
+/libraries/vendor/joomla/*/ruleset.xml
 /libraries/vendor/joomla/session/Joomla/Session/.github
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
@@ -113,6 +121,15 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/psalm-autoload.php
 /libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
+/libraries/vendor/paragonie/sodium_compat/.gitignore
+/libraries/vendor/paragonie/sodium_compat/appveyor.yml
+/libraries/vendor/paragonie/sodium_compat/build-phar.sh
+/libraries/vendor/paragonie/sodium_compat/composer.json
+/libraries/vendor/paragonie/sodium_compat/composer.lock
+/libraries/vendor/paragonie/sodium_compat/dist
+/libraries/vendor/paragonie/sodium_compat/phpunit.xml.dist
+/libraries/vendor/paragonie/sodium_compat/README.md
+/libraries/vendor/paragonie/sodium_compat/src/Core/Curve25519/README.md
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
 /libraries/vendor/phpmailer/phpmailer/language
@@ -122,21 +139,33 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/.travis.yml
 /libraries/vendor/phpmailer/phpmailer/changelog.md
 /libraries/vendor/phpmailer/phpmailer/composer.json
+/libraries/vendor/phpmailer/phpmailer/ISSUE_TEMPLATE.md
+/libraries/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
+/libraries/vendor/phpmailer/phpmailer/UPGRADING.md
 /libraries/vendor/phpmailer/phpmailer/extras/README.md
 /libraries/vendor/phpmailer/phpmailer/get_oauth_token.php
+/libraries/vendor/psr/container/.gitignore
+/libraries/vendor/psr/container/composer.json
+/libraries/vendor/psr/container/README.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
 /libraries/vendor/psr/log/README.md
+/libraries/vendor/symfony/polyfill-ctype/composer.json
+/libraries/vendor/symfony/polyfill-ctype/README.md
 /libraries/vendor/symfony/polyfill-php55/composer.json
 /libraries/vendor/symfony/polyfill-php55/README.md
 /libraries/vendor/symfony/polyfill-php56/composer.json
 /libraries/vendor/symfony/polyfill-php56/README.md
+/libraries/vendor/symfony/polyfill-php73/composer.json
+/libraries/vendor/symfony/polyfill-php73/README.md
 /libraries/vendor/symfony/polyfill-util/composer.json
 /libraries/vendor/symfony/polyfill-util/README.md
+/libraries/vendor/symfony/polyfill-util/LegacyTestListener.php
 /libraries/vendor/symfony/polyfill-util/TestListener.php
+/libraries/vendor/symfony/polyfill-util/TestListenerTrait.php
 /libraries/vendor/symfony/yaml/Tests
 /libraries/vendor/symfony/yaml/.gitignore
 /libraries/vendor/symfony/yaml/CHANGELOG.md

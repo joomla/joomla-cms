@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.1
  *
- * @method      string  q()   q($text, $escape = true)  Alias for quote method
- * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
+ * @method   string|array  q()   q($text, $escape = true)  Alias for quote method
+ * @method   string|array  qn()  qn($name, $as = null)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
@@ -121,7 +121,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $options;
 
 	/**
-	 * @var    mixed  The current SQL statement to execute.
+	 * @var    JDatabaseQuery|string  The current SQL statement to execute.
 	 * @since  11.1
 	 */
 	protected $sql;
@@ -659,6 +659,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$this->setQuery($this->getCreateDatabaseQuery($options, $utf));
 
 		return $this->execute();
+	}
+
+	/**
+	 * Destructor.
+	 *
+	 * @since   3.8.0
+	 */
+	public function __destruct()
+	{
+		$this->disconnect();
 	}
 
 	/**
@@ -1273,16 +1283,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function getTableCreate($tables);
 
 	/**
-	 * Retrieves field information about the given tables.
+	 * Retrieves keys information about the given table.
 	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
+	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An array of keys for the table(s).
+	 * @return  array   An array of keys for the table.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function getTableKeys($tables);
+	abstract public function getTableKeys($table);
 
 	/**
 	 * Method to get an array of all tables in the database.
