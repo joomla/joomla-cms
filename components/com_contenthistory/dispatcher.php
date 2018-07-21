@@ -59,7 +59,7 @@ class ContenthistoryDispatcher extends Dispatcher
 	}
 
 	/**
-	 * Get a controller from the component
+	 * Get a controller from the component. We want to proxy everything to the backend.
 	 *
 	 * @param   string  $name    Controller name
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
@@ -71,8 +71,20 @@ class ContenthistoryDispatcher extends Dispatcher
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
+		// Set up the namespace
+		$namespace = rtrim($this->namespace, '\\') . '\\';
+
+		// Set up the client
+		$app = \Joomla\CMS\Application\CMSApplication::getInstance('Administrator');
+
+		$controllerClass = $namespace . 'Administrator\\Controller\\' . ucfirst($name) . 'Controller';
 		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 
-		return parent::getController($name, $client, $config);
+		if (!class_exists($controllerClass))
+		{
+			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
+		}
+
+		return new $controllerClass($config, new \Joomla\CMS\MVC\Factory\MVCFactory($namespace, $app), $app, $this->input);
 	}
 }
