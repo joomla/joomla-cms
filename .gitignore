@@ -70,6 +70,14 @@ Desktop.ini
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production
 # code must remain to ensure all libraries properly function
+/libraries/vendor/google/recaptcha/examples
+/libraries/vendor/google/recaptcha/tests
+/libraries/vendor/google/recaptcha/.gitignore
+/libraries/vendor/google/recaptcha/.travis.yml
+/libraries/vendor/google/recaptcha/composer.json
+/libraries/vendor/google/recaptcha/CONTRIBUTING.md
+/libraries/vendor/google/recaptcha/phpunit.xml.dist
+/libraries/vendor/google/recaptcha/README.md
 /libraries/vendor/ircmaxell/password-compat/test
 /libraries/vendor/ircmaxell/password-compat/.travis.yml
 /libraries/vendor/ircmaxell/password-compat/composer.json
