@@ -2,7 +2,6 @@ const glob = require('glob');
 const fs = require('fs');
 const babel = require('babel-core');
 const os = require('os');
-const chalk = require('chalk');
 
 const pattern = './**/*.es6.js';
 const options = {
@@ -29,7 +28,7 @@ const compileFile = (filePath) => {
   babel.transformFile(filePath, babelOptions, (error, result) => {
     if (error) {
       // eslint-disable-next-line no-console
-      console.error(`${chalk.red(error)}`);
+      console.error(`${error}`);
       process.exit(1);
     }
 
@@ -40,7 +39,7 @@ const compileFile = (filePath) => {
       (fsError) => {
         if (fsError) {
           // eslint-disable-next-line no-console
-          console.error(`${chalk.red(fsError)}`);
+          console.error(`${fsError}`);
           process.exit(1);
         }
       }
@@ -52,7 +51,7 @@ const compileFile = (filePath) => {
 glob(pattern, options, (error, files) => {
   if (error) {
     // eslint-disable-next-line no-console
-    console.error(`${chalk.red(error)}`);
+    console.error(`${error}`);
     process.exit(1);
   }
 
