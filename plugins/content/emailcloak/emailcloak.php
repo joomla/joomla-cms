@@ -484,9 +484,9 @@ class PlgContentEmailcloak extends JPlugin
 		/*
 		 * Search for plain text email addresses, such as email@example.org but not within HTML tags:
 		 * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
-		 * The negative lookahead '(?![^<]*>)' is used to exclude this kind of occurrences
+		 * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
 		 */
-		$pattern = '~(?![^<>]*>)' . $searchEmail . '~i';
+		$pattern = '~<[^<]*>(*SKIP)(*F)|' . $searchEmail . '~i';
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
