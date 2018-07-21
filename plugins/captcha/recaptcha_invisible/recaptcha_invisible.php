@@ -166,7 +166,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 */
 	private function getResponse($privatekey, $remoteip, $response)
 	{
-		$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
+		$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod);
 		$response = $reCaptcha->verify($response, $remoteip);
 
 		if (!$response->isSuccess())

@@ -200,7 +200,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				}
 				break;
 			case '2.0':
-				$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
+				$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod);
 				$response = $reCaptcha->verify($response, $remoteip);
 
 				if (!$response->isSuccess())
