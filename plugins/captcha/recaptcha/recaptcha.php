@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+
 /**
  * Recaptcha Plugin
  * Based on the official recaptcha library( https://packagist.org/packages/google/recaptcha )
@@ -198,7 +200,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				}
 				break;
 			case '2.0':
-				$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey);
+				$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
 				$response = $reCaptcha->verify($response, $remoteip);
 
 				if (!$response->isSuccess())
