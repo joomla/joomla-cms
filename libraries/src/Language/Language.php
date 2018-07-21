@@ -203,7 +203,7 @@ class Language
 			// Note: Manual indexing to enforce load order.
 			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
 			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
-			$paths[2] = JPATH_SITE . "/language/$lang/localise.php";
+			$paths[4] = JPATH_SITE . "/language/$lang/localise.php";
 		}
 
 		if (defined('JPATH_ADMINISTRATOR'))
@@ -211,7 +211,7 @@ class Language
 			// Note: Manual indexing to enforce load order.
 			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
 			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
-			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/localise.php";
+			$paths[5] = JPATH_ADMINISTRATOR . "/language/$lang/localise.php";
 		}
 
 		ksort($paths);
