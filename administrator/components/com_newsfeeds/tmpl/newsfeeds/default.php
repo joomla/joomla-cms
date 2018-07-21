@@ -50,38 +50,38 @@ if ($saveOrder && !empty($this->items))
 					<table class="table" id="newsfeedList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%">
+								<td style="width:1%">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th style="width:5%; min-width:85px" class="nowrap text-center">
+								</td>
+								<th scope="col" style="width:5%; min-width:85px" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
-								<th class="title">
+								<th scope="col" class="title">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_NEWSFEEDS_NUM_ARTICLES_HEADING', 'numarticles', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_NEWSFEEDS_CACHE_TIME_HEADING', 'a.cache_time', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -130,7 +130,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 									</div>
 								</td>
-								<td class="nowrap has-context">
+								<th scope="row" class="nowrap has-context">
 									<div>
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
@@ -149,7 +149,7 @@ if ($saveOrder && !empty($this->items))
 											<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>
 									</div>
-								</td>
+								</th>
 								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->access_level); ?>
 								</td>

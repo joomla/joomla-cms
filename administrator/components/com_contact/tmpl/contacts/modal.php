@@ -57,22 +57,22 @@ if (!empty($editor))
 			<table class="table table-sm">
 				<thead>
 					<tr>
-						<th style="width:1%" class="text-center nowrap">
+						<th scope="col" style="width:1%" class="text-center nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap title">
+						<th scope="col" class="nowrap title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap">
+						<th scope="col" style="width:10%" class="nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap">
+						<th scope="col" style="width:1%" class="nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -118,15 +118,14 @@ if (!empty($editor))
 						<td class="text-center">
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</td>
-						<td>
+						<th scope="row">
 							<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($onclick); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape(addslashes($item->name)); ?>" data-uri="<?php echo $this->escape(ContactHelperRoute::getContactRoute($item->id, $item->catid, $item->language)); ?>" data-language="<?php echo $this->escape($lang); ?>">
 								<?php echo $this->escape($item->name); ?>
 							</a>
-							<?php echo $this->escape($item->name); ?></a>
 							<div class="small">
 								<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>
-						</td>
+						</th>
 						<td>
 							<?php if (!empty($item->linked_user)) : ?>
 								<?php echo $item->linked_user; ?>

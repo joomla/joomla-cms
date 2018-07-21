@@ -71,22 +71,22 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th style="width:1%" class="text-center">
+					<td style="width:1%" class="text-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
-					</th>
-					<th style="width:15%">
+					</td>
+					<th scope="col" style="width:15%">
 						<?php echo Text::_('JDATE'); ?>
 					</th>
-					<th style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th style="width:10%" class="nowrap">
+					<th scope="col" style="width:10%" class="nowrap">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th style="width:10%" class="nowrap text-center">
+					<th scope="col" style="width:10%" class="nowrap text-center">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -105,7 +105,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<td class="text-center">
 						<?php echo HTMLHelper::_('grid.id', $i, $item->version_id); ?>
 					</td>
-					<td>
+					<th scope="row">
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
 							href="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
 							<?php echo HTMLHelper::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
@@ -113,7 +113,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 						<?php if ($item->sha1_hash == $hash) : ?>
 							<span class="icon-featured" aria-hidden="true"><span class="sr-only"><?php echo Text::_('JFEATURED'); ?></span></span>&nbsp;
 						<?php endif; ?>
-					</td>
+					</th>
 					<td class="d-none d-md-table-cell">
 						<?php echo htmlspecialchars($item->version_note); ?>
 					</td>

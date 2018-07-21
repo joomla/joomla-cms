@@ -63,43 +63,43 @@ if ($menuType == '')
 						<thead>
 						<tr>
 							<?php if ($menuType) : ?>
-								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 							<?php endif; ?>
-							<th style="width:1%" class="nowrap text-center">
+							<td style="width:1%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</th>
-							<th style="width:1%" class="nowrap text-center">
+							</td>
+							<th scope="col" style="width:1%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 							</th>
-							<th class="title">
+							<th scope="col" class="title">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th style="width:10%" class="text-center nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="text-center nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if ($assoc) : ?>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if (($this->state->get('filter.client_id') == 0) && (Multilanguage::isEnabled())) : ?>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -184,7 +184,7 @@ if ($menuType == '')
 									$published = $item->protected ? 3 : $item->published;
 									echo HTMLHelper::_('menus.state', $published, $i, $canChange && !$item->protected, 'cb'); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 									<?php echo $prefix; ?>
 									<?php if ($item->checked_out) : ?>
@@ -217,7 +217,7 @@ if ($menuType == '')
 										      title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 											<?php echo $this->escape($item->item_type); ?></span>
 									</div>
-								</td>
+								</th>
 								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 								</td>
