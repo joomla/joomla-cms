@@ -328,7 +328,10 @@ class InstallerModelUpdatesites extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where($db->quoteName('name') . ' = ' . $db->quote($manifest->name))
+							->where('(' 
+								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name) 
+								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename) 
+								. ')' )
 							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
 							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
 							->where($db->quoteName('state') . ' != -1');
