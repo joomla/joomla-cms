@@ -17,10 +17,10 @@ use Joomla\CMS\Language\Text;
 	<table class="table">
 		<thead>
 			<tr>
-				<th style="width:300px">
+				<th scope="col" style="width:300px">
 					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
-				<th>
+				<th scope="col">
 					<?php echo Text::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
@@ -33,9 +33,9 @@ use Joomla\CMS\Language\Text;
 		<tbody>
 			<?php foreach ($this->config as $key => $value) : ?>
 				<tr>
-					<td>
+					<th scope="row">
 						<?php echo $key; ?>
-					</td>
+					</th>
 					<td>
 						<?php echo htmlspecialchars($value, ENT_QUOTES); ?>
 					</td>
