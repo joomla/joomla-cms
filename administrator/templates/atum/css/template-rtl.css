@@ -1754,7 +1754,7 @@ body {
 .subhead .btn-toolbar > * {
   margin-right: .75rem;
   margin-left: 0; }
-  .subhead .btn-toolbar > *:first-of-type {
+  .subhead .btn-toolbar > *:first-child {
     margin-right: 0; }
 
 .com_cpanel .card .list-group > .published {
