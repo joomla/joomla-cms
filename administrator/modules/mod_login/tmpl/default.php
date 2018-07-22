@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('webcomponent', ['joomla-field-password' => 'system/webcomponents/joomla-field-password.js'], ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-password.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE', true);
@@ -33,25 +33,18 @@ Text::script('JHIDE', true);
 			<label class="text-white" for="mod-login-username">
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 			</label>
-			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="input-group-text">
-						<span class="fa fa-user" aria-hidden="true"></span>
-					</span>
-				</span>
-				<input
-					name="username"
-					id="mod-login-username"
-					type="text"
-					class="form-control input-full"
-					required="required"
-					autofocus
-				>
-			</div>
+			<input
+				name="username"
+				id="mod-login-username"
+				type="text"
+				class="form-control input-full"
+				required="required"
+				autofocus
+			>
 		</div>
 		<div class="form-group">
-			<joomla-field-password reveal="true" min-length="2">
-				<label for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+			<joomla-field-password reveal="true">
+				<label class="text-white" for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 				<div class="input-group">
 					<input
 						name="passwd"
@@ -61,10 +54,6 @@ Text::script('JHIDE', true);
 						required="required"
 	                    tabindex="2"
 	                >
-					<span class="input-group-addon">
-						<span class="fa fa-eye" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					</span>
 				</div>
 			</joomla-field-password>
 		</div>
@@ -75,9 +64,6 @@ Text::script('JHIDE', true);
 					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 				</label>
 				<div class="input-group">
-					<span class="input-group-prepend">
-						<span class="input-group-text"><span class="fa fa-shield" aria-hidden="true"></span></span>
-					</span>
 					<input
 						name="secretkey"
 						autocomplete="off"
