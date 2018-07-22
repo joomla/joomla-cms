@@ -66,7 +66,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
 		{
 			$response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
 
-			return (string) $response->getBody();
+			return (string) $response->body;
 		}
 		catch (InvalidResponseCodeException $exception)
 		{
