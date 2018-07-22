@@ -181,7 +181,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			// Get the template information.
 			$query = $db->getQuery(true)
-				->select('extension_id, client_id, element, name, manifest_cache')
+				->select('extension_id, client_id, element, ' . $db->quoteName('name') . ', manifest_cache')
 				->from('#__extensions')
 				->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
 				->where($db->quoteName('type') . ' = ' . $db->quote('template'));
@@ -226,7 +226,7 @@ class TemplatesModelTemplate extends JModelForm
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__extensions')
-			->where('name = ' . $db->quote($this->getState('new_name')));
+			->where($db->quoteName('name') . ' = ' . $db->quote($this->getState('new_name')));
 		$db->setQuery($query);
 
 		return ($db->loadResult() == 0);

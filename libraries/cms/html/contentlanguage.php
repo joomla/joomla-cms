@@ -44,7 +44,7 @@ abstract class JHtmlContentLanguage
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('a.lang_code AS value, a.title AS text, a.title_native')
+			$query->select('a.lang_code AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text') . ', a.title_native')
 				->from('#__languages AS a')
 				->where('a.published >= 0')
 				->order('a.title');

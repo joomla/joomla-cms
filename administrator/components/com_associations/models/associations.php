@@ -318,7 +318,7 @@ class AssociationsModelAssociations extends JModelList
 			// Implement View Level Access.
 			if (!$user->authorise('core.admin', $extensionName))
 			{
-				$query->where($fields['access'] . ' IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
+				$query->where($db->qn($fields['access']) . ' IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
 			}
 		}
 
@@ -381,7 +381,7 @@ class AssociationsModelAssociations extends JModelList
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where($fields['access'] . ' = ' . (int) $access);
+			$query->where($db->qn($fields['access']) . ' = ' . (int) $access);
 		}
 
 		// Filter by search in name.

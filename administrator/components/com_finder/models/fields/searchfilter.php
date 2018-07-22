@@ -38,7 +38,7 @@ class JFormFieldSearchFilter extends JFormFieldList
 		// Build the query.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('f.title AS text, f.filter_id AS value')
+			->select('f.title AS ' . $db->quoteName('text') . ', f.filter_id AS ' . $db->quoteName('value'))
 			->from($db->quoteName('#__finder_filters') . ' AS f')
 			->where('f.state = 1')
 			->order('f.title ASC');

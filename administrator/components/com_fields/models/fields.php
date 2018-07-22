@@ -376,11 +376,11 @@ class FieldsModelFields extends JModelList
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('title AS text, id AS value, state');
+		$query->select('title AS ' . $db->qn('text') . ', id AS ' . $db->qn('value') . ', state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (0,1)');
 		$query->where('context = ' . $db->quote($this->state->get('filter.context')));
-		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->where($db->qn('access') . ' IN (' . implode(',', $viewlevels) . ')');
 
 		$db->setQuery($query);
 

@@ -303,7 +303,7 @@ class JoomlaInstallerScript
 			$db->getQuery(true)
 				->select('extension_id')
 				->from('#__extensions')
-				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
+				->where($db->qn('name') . ' = ' . $db->quote('PLG_EOSNOTIFY'))
 		)->loadResult();
 
 		// Skip update when id doesn’t exists

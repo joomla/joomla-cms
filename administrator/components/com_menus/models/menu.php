@@ -316,7 +316,7 @@ class MenusModelMenu extends JModelForm
 		$query = $db->getQuery(true)
 			->from('#__modules as a')
 			->select('a.id, a.title, a.params, a.position')
-			->where('module = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
 			->select('ag.title AS access_title')
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 		$db->setQuery($query);

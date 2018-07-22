@@ -150,7 +150,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
+			->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text') . ', a.level, a.published, a.lft, a.language')
 			->from('#__categories AS a');
 
 		// Filter by the extension type
@@ -200,7 +200,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
 			$rowQuery = $db->getQuery(true);
-			$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id')
+			$rowQuery->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text') . ', a.level, a.parent_id')
 				->from('#__categories AS a')
 				->where('a.id = ' . (int) $oldCat);
 			$db->setQuery($rowQuery);

@@ -918,8 +918,8 @@ class TagsHelper extends CMSHelper
 	{
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value')
-			->select('a.path AS text')
+			->select('a.id AS ' . $db->quoteName('value'))
+			->select('a.path AS ' . $db->quoteName('text'))
 			->select('a.path')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');

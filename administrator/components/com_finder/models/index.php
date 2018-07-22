@@ -250,7 +250,7 @@ class FinderModelIndex extends JModelList
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('name, enabled')
+			->select($db->quoteName('name') . ', enabled')
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' IN (' . $db->quote('system') . ',' . $db->quote('content') . ')')

@@ -49,7 +49,7 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__modules'))
-			->where('module = ' . $db->quote('mod_languages'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_languages'))
 			->where('published = 1')
 			->where('client_id = 0');
 		$db->setQuery($query);
@@ -294,7 +294,7 @@ abstract class MultilangstatusHelper
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('id, title, module, position, content, showtitle, params')
+			->select('id, title, ' . $db->qn('module') . ', ' . $db->qn('position') . ', content, showtitle, params')
 			->from($db->qn('#__modules'))
 			->where($db->qn('module') . ' = ' . $db->q($moduleName))
 			->where($db->qn('published') . ' = ' . $db->q('1'))

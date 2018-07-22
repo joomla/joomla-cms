@@ -800,7 +800,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
         {
             $db    = $this->getDbo();
             $query = $db->getQuery(true)
-                        ->select('id, password')
+                        ->select('id, ' . $db->qn('password'))
                         ->from('#__users')
                         ->where('username=' . $db->quote($authInfo['username']));
             $result = $db->setQuery($query)->loadObject();

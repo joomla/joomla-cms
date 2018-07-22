@@ -44,7 +44,7 @@ class FrontendlanguageField extends \JFormFieldList
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.lang_code AS value, a.title AS text')
+		$query->select('a.lang_code AS ' . $db->quoteName('value') . ', a.title AS ' . $db->quoteName('text'))
 			->from($db->quoteName('#__languages') . ' AS a')
 			->where('a.published = 1')
 			->order('a.title');

@@ -40,8 +40,8 @@ abstract class ModTagsPopularHelper
 			->select(
 				array(
 					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-					' COUNT(*) AS count', 'MAX(t.title) AS title',
-					'MAX(' . $db->quoteName('t.access') . ') AS access',
+					' COUNT(*) AS ' . $db->quoteName('count') . ', MAX(t.title) AS title',
+					'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
 					'MAX(' . $db->quoteName('t.alias') . ') AS alias',
 					'MAX(' . $db->quoteName('t.params') . ') AS params',
 				)

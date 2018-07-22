@@ -86,7 +86,7 @@ abstract class JHtmlMenu
 
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id AS value, a.title AS text, a.level, a.menutype, a.client_id')
+				->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text') . ', a.level, a.menutype, a.client_id')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0');
 
@@ -215,7 +215,7 @@ abstract class JHtmlMenu
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('ordering AS value, title AS text')
+				->select('ordering AS ' . $db->quoteName('value') . ', title AS ' . $db->quoteName('text'))
 				->from($db->quoteName('#__menu'))
 				->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype))
 				->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id)

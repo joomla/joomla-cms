@@ -39,11 +39,11 @@ class JFormFieldFieldgroups extends JFormFieldList
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('title AS text, id AS value, state');
+		$query->select('title AS ' . $db->qn('text') . ', id AS ' . $db->qn('value') . ', state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (' . implode(',', $states) . ')');
 		$query->where('context = ' . $db->quote($context));
-		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->where($db->qn('access') . ' IN (' . implode(',', $viewlevels) . ')');
 		$query->order('ordering asc, id asc');
 
 		$db->setQuery($query);

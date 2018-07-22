@@ -410,7 +410,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
-			->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
+			->select('a.id, a.name AS title, a.alias, a.con_position AS ' . $db->qn('position') . ', a.address, a.created AS start_date')
 			->select('a.created_by_alias, a.modified, a.modified_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language')
 			->select('a.sortname1, a.sortname2, a.sortname3')

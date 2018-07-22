@@ -108,7 +108,7 @@ class ContentHelper extends JHelperContent
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
+			$query->select('state, count(*) AS ' . $db->qn('count'))
 				->from($db->qn('#__content'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
@@ -179,7 +179,7 @@ class ContentHelper extends JHelperContent
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select($state . ', count(*) AS count')
+			$query->select($state . ', count(*) AS ' . $db->qn('count'))
 				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
 				->where('ct.type_alias =' . $db->q($extension))

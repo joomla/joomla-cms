@@ -173,8 +173,8 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT(a.id) AS value,
-					  a.title AS text,
+			->select('DISTINCT(a.id) AS ' . $db->quoteName('value') . ',
+					  a.title AS ' . $db->quoteName('text') . ',
 					  a.alias,
 					  a.level,
 					  a.menutype,

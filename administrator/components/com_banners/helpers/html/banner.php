@@ -56,7 +56,7 @@ abstract class JHtmlBanner
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('id As value, name As text')
+			->select('id As ' . $db->qn('value') . ', ' . $db->qn('name') . ' As ' . $db->'text'))
 			->from('#__banner_clients AS a')
 			->order('a.name');
 

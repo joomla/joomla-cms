@@ -86,7 +86,7 @@ class JFormFieldTos extends JFormFieldRadio
 
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('id, alias, catid, language')
+			$query->select('id, alias, catid, ' . $db->qn('language'))
 				->from('#__content')
 				->where('id = ' . $tosArticle);
 			$db->setQuery($query);

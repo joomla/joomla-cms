@@ -609,7 +609,7 @@ class FieldsHelper
 			$item->count_published   = 0;
 
 			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
+			$query->select('state, count(1) AS ' . $db->quoteName('count'))
 				->from($db->quoteName('#__fields'))
 				->where('group_id = ' . (int) $item->id)
 				->group('state');

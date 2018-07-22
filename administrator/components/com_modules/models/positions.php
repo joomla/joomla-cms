@@ -106,14 +106,14 @@ class ModulesModelPositions extends JModelList
 			{
 				// Get the database object and a new query object.
 				$query = $this->_db->getQuery(true)
-					->select('DISTINCT(position) as value')
+					->select('DISTINCT(' . $db->quoteName('position') . ' as ' . $db->quoteName('value'))
 					->from('#__modules')
 					->where($this->_db->quoteName('client_id') . ' = ' . (int) $clientId);
 
 				if ($search)
 				{
 					$search = $this->_db->quote('%' . str_replace(' ', '%', $this->_db->escape(trim($search), true) . '%'));
-					$query->where('position LIKE ' . $search);
+					$query->where($db->quoteName('position') . 'LIKE ' . $search);
 				}
 
 				$this->_db->setQuery($query);

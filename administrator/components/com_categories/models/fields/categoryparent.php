@@ -56,7 +56,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level')
+			->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text') . ', a.level')
 			->from('#__categories AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -75,7 +75,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 					->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
 				$rowQuery = $db->getQuery(true);
-				$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id')
+				$rowQuery->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text') . ', a.level, a.parent_id')
 					->from('#__categories AS a')
 					->where('a.id = ' . (int) $id);
 				$db->setQuery($rowQuery);

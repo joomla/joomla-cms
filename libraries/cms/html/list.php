@@ -183,7 +183,7 @@ abstract class JHtmlList
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('u.id AS value, u.name AS text')
+			->select('u.id AS ' . $db->qn('value') . ', u.name AS ' . $db->qn('text'))
 			->from('#__users AS u')
 			->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id')
 			->where('u.block = 0')

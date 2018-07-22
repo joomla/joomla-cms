@@ -238,7 +238,7 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled')
+		$query->select('element, ' . $db->qn('name') . ', enabled')
 			->from('#__extensions')
 			->where('client_id = ' . $this->clientId)
 			->where('type = ' . $db->quote('template'));

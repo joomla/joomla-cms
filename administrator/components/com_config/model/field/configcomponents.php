@@ -39,7 +39,7 @@ class JFormFieldConfigComponents extends JFormFieldList
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('name AS text, element AS value')
+			->select($db->qn('name') . ' AS ' . $db->qn('text') . ', element AS ' . $db->qn('value'))
 			->from('#__extensions')
 			->where('enabled >= 1')
 			->where('type =' . $db->quote('component'));
