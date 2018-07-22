@@ -15,6 +15,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
+use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
@@ -31,136 +32,152 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class CoreInstallCommand extends AbstractCommand
 {
-	/**
-	 * Stores the Input Object
-	 * @var Input
-	 * @since 4.0
-	 */
-	private $cliInput;
+    /**
+     * Stores the Input Object
+     * @var Input
+     * @since 4.0
+     */
+    private $cliInput;
 
-	/**
-	 * SymfonyStyle Object
-	 * @var SymfonyStyle
-	 * @since 4.0
-	 */
-	private $ioStyle;
+    /**
+     * SymfonyStyle Object
+     * @var SymfonyStyle
+     * @since 4.0
+     */
+    private $ioStyle;
 
-	/**
-	 * SetupModel Object
-	 * @var SetupModel
-	 * @since 4.0
-	 */
-	private $setup;
+    /**
+     * SetupModel Object
+     * @var SetupModel
+     * @since 4.0
+     */
+    private $setup;
 
-	/**
-	 * ChecksModel Object
-	 * @var ChecksModel
-	 * @since 4.0
-	 */
-	private $check;
+    /**
+     * ChecksModel Object
+     * @var ChecksModel
+     * @since 4.0
+     */
+    private $check;
 
-	/**
-	 * Environment Options
-	 * @var array
-	 * @since 4.0
-	 */
-	private $envOptions;
+    /**
+     * Environment Options
+     * @var array
+     * @since 4.0
+     */
+    private $envOptions;
 
-	/**
-	 * Registry Object
-	 * @var Registry
-	 * @since 4.0
-	 */
-	private $registry;
+    /**
+     * Registry Object
+     * @var Registry
+     * @since 4.0
+     */
+    private $registry;
 
-	/**
-	 * Configures the IO
-	 *
-	 * @return void
-	 *
-	 * @since 4.0
-	 *
-	 * @throws null
-	 */
-	private function configureIO()
-	{
-		$language = Factory::getLanguage();
-		$language->load('', JPATH_INSTALLATION, null, false, false) ||
-		$language->load('', JPATH_INSTALLATION, null, true);
+    /**
+     * Configures the IO
+     *
+     * @return void
+     *
+     * @since 4.0
+     *
+     * @throws null
+     */
+    private function configureIO()
+    {
+        $language = Factory::getLanguage();
+        $language->load('', JPATH_INSTALLATION, null, false, false) ||
+        $language->load('', JPATH_INSTALLATION, null, true);
 
-		$this->registry = new Registry;
-		$this->cliInput = $this->getApplication()->getConsoleInput();
-		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
-	}
+        $this->registry = new Registry;
+        $this->cliInput = $this->getApplication()->getConsoleInput();
+        $this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+    }
 
-	/**
-	 * Execute the command.
-	 *
-	 * @return  integer  The exit code for the command.
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws null
-	 */
-	public function execute(): int
-	{
-		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
+    /**
+     * Execute the command.
+     *
+     * @return  integer  The exit code for the command.
+     *
+     * @since   4.0.0
+     *
+     * @throws null
+     */
+    public function execute(): int
+    {
+        define('JPATH_COMPONENT', JPATH_BASE . '/installation');
 
-		$this->configureIO();
-
-
-		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
-		{
-			$this->ioStyle->warning("Joomla! is already installed and set up.");
-
-			return 1;
-		}
+        $this->configureIO();
 
 
-		$this->setup = new SetupModel;
-		$this->check = new ChecksModel;
+        if (file_exists(JPATH_CONFIGURATION . '/configuration.php')) {
+            $this->ioStyle->warning("Joomla! is already installed and set up.");
 
-		$passed = $this->runChecks();
+            return 1;
+        }
 
-		if (!$passed)
-		{
-			$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
 
-			$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
+        $this->setup = new SetupModel;
+        $this->check = new ChecksModel;
 
-			return 2;
-		}
+        $passed = $this->runChecks();
 
-		$file = $this->cliInput->getOption('file');
+        if (!$passed) {
+            $this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
 
-		if ($file)
-		{
-			$result = $this->processUninteractiveInstallation($file);
+            $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
-			if (!is_array($result))
-			{
-				return 3;
-			}
+            return 2;
+        }
 
-			$options = $result;
+        $file = $this->cliInput->getOption('file');
 
-		}
-		else
-		{
-			$options = $this->collectOptions();
-		}
+        if ($file) {
+            $result = $this->processUninteractiveInstallation($file);
 
-		$model = new ConfigurationModel;
+            if (!is_array($result)) {
+                return 3;
+            }
 
-		$completed = $model->setup($options);
+            $options = $result;
 
-		if ($completed)
-		{
-			$this->ioStyle->success("Joomla! installation completed successfully!");
+        } else {
+            $options = $this->collectOptions();
+        }
 
-			return 0;
-		}
-	}
+        $validConnection = $this->checkDatabaseConnection($options);
+
+        if ($validConnection !== false)
+        {
+            $model = new ConfigurationModel;
+
+            $completed = $model->setup($options);
+
+            if ($completed) {
+                $this->ioStyle->success("Joomla! installation completed successfully!");
+
+                return 0;
+            }
+        }
+    }
+
+
+    /**
+     * Verifies database connection
+     *
+     * @param   array  $options  Options array
+     *
+     * @return bool|\Joomla\Database\DatabaseInterface
+     *
+     * @throws \Exception
+     */
+    public function checkDatabaseConnection($options)
+    {
+        $db = new DatabaseModel;
+        $init = $db->initialise((object) $options);
+
+        return $init;
+    }
 
 	/**
 	 * Handles uninteractive installation
