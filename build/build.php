@@ -58,6 +58,13 @@ umask(022);
 $repo = dirname(__DIR__);
 $here = __DIR__;
 
+system('cd ' . $repo);
+// run composer install and npm install
+system('composer install');
+system('npm install');
+
+system('cd ' . $here);
+
 // Set paths for the build packages
 $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
