@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Helper\PreviewHelper;
 
 /**
  * View to edit an article.
@@ -182,8 +183,7 @@ class HtmlView extends BaseHtmlView
 
 			if (!$isNew)
 			{
-				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
-				$url = \ContentHelperPreview::url($this->item);
+				$url = PreviewHelper::url($this->item);
 				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
 					->bodyHeight(80)
 					->modalWidth(90);

@@ -7,6 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Helper;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Uri\Uri;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
@@ -18,7 +24,7 @@ use Joomla\CMS\Factory;
  *
  * @since  4.0.0
  */
-class ContentHelperPreview
+class PreviewHelper
 {
 	/**
 	 * Get the article URL
