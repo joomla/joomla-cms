@@ -129,6 +129,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function writeFile($buffer, $path)
 	{
+	    $options = $this->getApplication()->getConfig();
 		// Determine if the configuration file path is writable.
 		if (file_exists($path))
 		{
