@@ -13,7 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Csp\Administrator\Table\ReportTable;
+use Joomla\Registry\Registry;
 
 /**
  * Csp Controller
@@ -31,9 +33,16 @@ class ReportController extends BaseController
 	 */
 	public function log()
 	{
-		$params = $this->app->getParams();
+		$pluginParams = new Registry;
 
-		if (!$params->get('enable_reporter'))
+		// Get the httpheaders plugin params
+		if (PluginHelper::isEnabled('system', 'httpheaders'))
+		{
+			$pluginParams->loadString(PluginHelper::getPlugin('system', 'httpheaders')->params);
+		}
+
+		// When we are not in detect mode do nothing here
+		if ($pluginParams->get('contentsecuritypolicy_mode', 'custom') != 'detect')
 		{
 			$this->app->close();
 		}
@@ -51,7 +60,14 @@ class ReportController extends BaseController
 
 		if (filter_var($report->blocked_uri, FILTER_VALIDATE_URL) !== false)
 		{
-			$report->blocked_uri = parse_url($report->blocked_uri, PHP_URL_HOST);
+			$parsedUrl = parse_url($report->blocked_uri);
+			$report->blocked_uri = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+		}
+
+		// Eval or inline lets make sure they get reported in the correct way
+		if (in_array($report->blocked_uri, ['eval', 'inline']))
+		{
+			$report->blocked_uri = "'unsafe-" . $report->blocked_uri . "'";
 		}
 
 		$report->directive = $data['violated-directive'];
@@ -71,6 +87,7 @@ class ReportController extends BaseController
 
 		$report->created  = $now;
 		$report->modified = $now;
+		$report->client   = (string) $this->app->input->get('client', 'site', 'string');
 
 		if ($this->isEntryExisting($report))
 		{
@@ -104,10 +121,20 @@ class ReportController extends BaseController
 			->select('count(*)')
 			->from('#__csp')
 			->where($db->quoteName('blocked_uri') . '=' . $db->quote($report->blocked_uri))
-			->where($db->quoteName('directive') . '=' . $db->quote($report->directive));
+			->where($db->quoteName('directive') . '=' . $db->quote($report->directive))
+			->where($db->quoteName('client') . '=' . $db->quote($report->client));
 
 		$db->setQuery($query);
 
-		return $db->loadResult() > 0;
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			return false;
+		}
+
+		return $result > 0;
 	}
 }

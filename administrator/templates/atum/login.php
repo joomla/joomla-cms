@@ -64,7 +64,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 	<div class="d-flex justify-content-center align-items-center h-100">
 		<div class="login">
 			<div class="login-logo">
-				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg" alt="<?php echo $sitename; ?>">
+				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg" alt="">
 			</div>
 			<div id="content">
 				<noscript>

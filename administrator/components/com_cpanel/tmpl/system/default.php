@@ -15,12 +15,12 @@ use Joomla\CMS\Language\Text;
 <div class="com-cpanel-system">
 	<?php foreach ($this->links as $name => $links) : ?>
 	<div class="com-cpanel-system__category">
-		<h4 class="com-cpanel-system__header">
+		<h2 class="com-cpanel-system__header">
 			<?php if ($this->headerIcons[$name]) : ?>
 				<span class="fa fa-<?php echo $this->headerIcons[$name]; ?>" aria-hidden="true"></span>
 			<?php endif; ?>
 			<?php echo Text::_($name); ?>
-		</h4>
+		</h2>
 		<ul class="list-group list-group-flush">
 			<?php foreach ($links as $id => $link) : ?>
 				<li class="list-group-item">
