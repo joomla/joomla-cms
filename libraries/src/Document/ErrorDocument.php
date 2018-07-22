@@ -86,7 +86,7 @@ class ErrorDocument extends HtmlDocument
 	 *
 	 * @return  RendererInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function loadRenderer($type)
