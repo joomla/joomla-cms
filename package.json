@@ -75,6 +75,8 @@
     "requirejs": "latest",
     "text": "requirejs/text",
     "uglify-es": "^3.3.9",
-    "uglifycss": "0.0.27"
+    "uglifycss": "0.0.27",
+    "joomla-javascript-tests": "joomla/test-javascript#4.0-dev"
+
   }
 }
