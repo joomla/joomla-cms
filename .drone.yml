@@ -41,7 +41,6 @@ pipeline:
   javascript:
     image: joomlaprojects/docker-systemtests:develop
     commands:
-      - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
