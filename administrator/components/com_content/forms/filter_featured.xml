@@ -60,9 +60,7 @@
 			class="multipleTags"
 			mode="nested"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"

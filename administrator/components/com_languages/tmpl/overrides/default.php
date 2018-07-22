@@ -55,19 +55,19 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					<table class="table" id="overrideList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th style="width:30%">
+								</td>
+								<th scope="col" style="width:30%">
 									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 								</th>
-								<th class="d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="nowrap d-none d-md-table-cell">
 									<?php echo Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 								</th>
-								<th class="d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('JCLIENT'); ?>
 								</th>
 							</tr>
@@ -87,14 +87,14 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $key); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<?php if ($canEdit) : ?>
 										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo Route::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
 											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<span id="string[<?php echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
 								</td>

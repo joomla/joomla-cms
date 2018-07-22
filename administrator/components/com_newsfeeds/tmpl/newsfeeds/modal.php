@@ -41,19 +41,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-sm">
 				<thead>
 					<tr>
-						<th style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="nowrap text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap title">
+						<th scope="col" class="nowrap title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -99,13 +99,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="text-center">
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</td>
-						<td>
+						<th scope="row">
 							<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(NewsfeedsHelperRoute::getNewsfeedRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 							<?php echo $this->escape($item->name); ?></a>
 							<div class="small">
 								<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>
-						</td>
+						</th>
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>

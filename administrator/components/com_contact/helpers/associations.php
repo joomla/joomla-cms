@@ -121,7 +121,7 @@ class ContactAssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'contact':
-				$table = Table::getInstance('Contact', 'Joomla\\Component\\Contact\\Administrator\\Table\\');
+				$table = Table::getInstance('ContactTable', 'Joomla\\Component\\Contact\\Administrator\\Table\\');
 				break;
 
 			case 'category':

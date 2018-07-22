@@ -92,6 +92,15 @@ class Authentication implements ServiceProviderInterface
 				MD5Handler::class,
 				function (Container $container)
 				{
+					@trigger_error(
+						sprintf(
+							'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
+							MD5Handler::class,
+							'password.handler.default'
+						),
+						E_USER_DEPRECATED
+					);
+
 					return new MD5Handler;
 				},
 				true
@@ -102,6 +111,15 @@ class Authentication implements ServiceProviderInterface
 				PHPassHandler::class,
 				function (Container $container)
 				{
+					@trigger_error(
+						sprintf(
+							'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
+							PHPassHandler::class,
+							'password.handler.default'
+						),
+						E_USER_DEPRECATED
+					);
+
 					return new PHPassHandler;
 				},
 				true
@@ -112,6 +130,15 @@ class Authentication implements ServiceProviderInterface
 				SHA256Handler::class,
 				function (Container $container)
 				{
+					@trigger_error(
+						sprintf(
+							'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
+							SHA256Handler::class,
+							'password.handler.default'
+						),
+						E_USER_DEPRECATED
+					);
+
 					return new SHA256Handler;
 				},
 				true
