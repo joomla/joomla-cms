@@ -182,13 +182,25 @@ class HtmlView extends \JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
-		elseif (is_dir($this->_basePath . '/view'))
+		elseif (is_dir($this->_basePath . '/View/' . $this->getName() . '/tmpl'))
+		{
+			$this->_setPath('template', $this->_basePath . '/View/' . $this->getName() . '/tmpl');
+		}
+		elseif (is_dir($this->_basePath . '/view/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
-		else
+		elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName()))
+		{
+			$this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
+		}
+		elseif (is_dir($this->_basePath . '/views/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
+		}
+		else
+		{
+			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName());
 		}
 
 		// Set the default helper search path
@@ -492,15 +504,31 @@ class HtmlView extends \JObject
 	{
 		if (empty($this->_name))
 		{
-			$classname = get_class($this);
-			$viewpos = strpos($classname, 'View');
+			$reflection = new \ReflectionClass($this);
+			if ($viewNamespace = $reflection->getNamespaceName())
+			{
+				$pos = strrpos($viewNamespace, '\\');
 
-			if ($viewpos === false)
+				if ($pos !== false)
+				{
+					$this->_name = strtolower(substr($viewNamespace, $pos + 1));
+				}
+			}
+			else
+			{
+				$className = get_class($this);
+				$viewPos   = strpos($className, 'View');
+
+				if ($viewPos != false)
+				{
+					$this->_name = strtolower(substr($className, $viewPos + 4));
+				}
+			}
+
+			if (empty($this->_name))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
-
-			$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}
 
 		return $this->_name;

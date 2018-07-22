@@ -8,10 +8,13 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * Base class for a Joomla Controller
@@ -138,7 +141,7 @@ class BaseController extends \JObject
 	/**
 	 * Instance container.
 	 *
-	 * @var    \JControllerLegacy
+	 * @var    static
 	 * @since  3.0
 	 */
 	protected static $instance;
@@ -152,6 +155,14 @@ class BaseController extends \JObject
 	protected static $views;
 
 	/**
+	 * The Application
+	 *
+	 * @var    \JApplicationCms|null
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
@@ -163,7 +174,7 @@ class BaseController extends \JObject
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		\JModelLegacy::addIncludePath($path, $prefix);
+		BaseDatabaseModel::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -225,9 +236,11 @@ class BaseController extends \JObject
 	 * @param   string  $prefix  The prefix for the controller.
 	 * @param   array   $config  An array of optional constructor options.
 	 *
-	 * @return  \JControllerLegacy
+	 * @return  static
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated 4.0
 	 * @throws  \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
@@ -237,7 +250,8 @@ class BaseController extends \JObject
 			return self::$instance;
 		}
 
-		$input = \JFactory::getApplication()->input;
+		$app   = \JFactory::getApplication();
+		$input = $app->input;
 
 		// Get the environment configuration.
 		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
@@ -310,7 +324,7 @@ class BaseController extends \JObject
 		}
 
 		// Instantiate the class, store it to the static container, and return it
-		return self::$instance = new $class($config);
+		return self::$instance = new $class($config, null, $app, $input);
 	}
 
 	/**
@@ -320,10 +334,12 @@ class BaseController extends \JObject
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -332,12 +348,13 @@ class BaseController extends \JObject
 		$this->redirect = null;
 		$this->taskMap = array();
 
+		$this->app   = $app ? $app : \JFactory::getApplication();
+		$this->input = $input ? $input : $this->app->input;
+
 		if (defined('JDEBUG') && JDEBUG)
 		{
 			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
 		}
-
-		$this->input = \JFactory::getApplication()->input;
 
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('\JControllerLegacy');
@@ -448,7 +465,7 @@ class BaseController extends \JObject
 	 * @param   string  $type  The path type (e.g. 'model', 'view').
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -477,7 +494,7 @@ class BaseController extends \JObject
 	 *
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -517,7 +534,7 @@ class BaseController extends \JObject
 	{
 		if ($id)
 		{
-			$values = (array) \JFactory::getApplication()->getUserState($context . '.id');
+			$values = (array) $this->app->getUserState($context . '.id');
 
 			$result = in_array((int) $id, $values);
 
@@ -597,9 +614,9 @@ class BaseController extends \JObject
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -628,11 +645,9 @@ class BaseController extends \JObject
 
 			if (is_array($urlparams))
 			{
-				$app = \JFactory::getApplication();
-
-				if (!empty($app->registeredurlparams))
+				if (!empty($this->app->registeredurlparams))
 				{
-					$registeredurlparams = $app->registeredurlparams;
+					$registeredurlparams = $this->app->registeredurlparams;
 				}
 				else
 				{
@@ -645,7 +660,7 @@ class BaseController extends \JObject
 					$registeredurlparams->$key = $value;
 				}
 
-				$app->registeredurlparams = $registeredurlparams;
+				$this->app->registeredurlparams = $registeredurlparams;
 			}
 
 			try
@@ -709,7 +724,7 @@ class BaseController extends \JObject
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy|boolean  Model object on success; otherwise false on failure.
+	 * @return  BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
@@ -720,7 +735,7 @@ class BaseController extends \JObject
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
 			$prefix = $this->model_prefix;
 		}
@@ -823,7 +838,7 @@ class BaseController extends \JObject
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
 			$prefix = $this->getName() . 'View';
 		}
@@ -855,15 +870,14 @@ class BaseController extends \JObject
 	 */
 	protected function holdEditId($context, $id)
 	{
-		$app = \JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
+		$values = (array) $this->app->getUserState($context . '.id');
 
 		// Add the id to the list if non-zero.
 		if (!empty($id))
 		{
 			$values[] = (int) $id;
 			$values   = array_unique($values);
-			$app->setUserState($context . '.id', $values);
+			$this->app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
@@ -892,13 +906,11 @@ class BaseController extends \JObject
 	{
 		if ($this->redirect)
 		{
-			$app = \JFactory::getApplication();
-
 			// Enqueue the redirect message
-			$app->enqueueMessage($this->message, $this->messageType);
+			$this->app->enqueueMessage($this->message, $this->messageType);
 
 			// Execute the redirect
-			$app->redirect($this->redirect);
+			$this->app->redirect($this->redirect);
 		}
 
 		return false;
@@ -909,7 +921,7 @@ class BaseController extends \JObject
 	 *
 	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -926,7 +938,7 @@ class BaseController extends \JObject
 	 * @param   string  $task    The task.
 	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -945,7 +957,7 @@ class BaseController extends \JObject
 	 *
 	 * @param   string  $task  The task.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -968,8 +980,7 @@ class BaseController extends \JObject
 	 */
 	protected function releaseEditId($context, $id)
 	{
-		$app = \JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
+		$values = (array) $this->app->getUserState($context . '.id');
 
 		// Do a strict search of the edit list values.
 		$index = array_search((int) $id, $values, true);
@@ -977,7 +988,7 @@ class BaseController extends \JObject
 		if (is_int($index))
 		{
 			unset($values[$index]);
-			$app->setUserState($context . '.id', $values);
+			$this->app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
@@ -1059,9 +1070,8 @@ class BaseController extends \JObject
 				$referrer = 'index.php';
 			}
 
-			$app = \JFactory::getApplication();
-			$app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
-			$app->redirect($referrer);
+			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$this->app->redirect($referrer);
 		}
 
 		return $valid;
@@ -1074,7 +1084,7 @@ class BaseController extends \JObject
 	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
 	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
 	 *
-	 * @return  \JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.0
 	 */

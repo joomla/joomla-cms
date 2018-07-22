@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
@@ -65,19 +67,21 @@ class FormController extends BaseController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
 		{
-			$this->option = 'com_' . strtolower($this->getName());
+			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
 		// Guess the \JText message prefix. Defaults to the option.
@@ -91,12 +95,21 @@ class FormController extends BaseController
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
+			$match = 'Controller';
+
+			// If there is a namespace append a backslash
+			if (strpos(get_class($this), '\\'))
+			{
+				$match .= '\\\\';
+			}
+
+			if (!preg_match('/(.*)' . $match . '(.*)/i', get_class($this), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
-			$this->context = strtolower($r[2]);
+			// Remove the backslashes and the suffix controller
+			$this->context = str_replace(array('\\', 'controller'), '', strtolower($r[2]));
 		}
 
 		// Guess the item view as the context.
@@ -245,7 +258,7 @@ class FormController extends BaseController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   \JModelLegacy  $model  The model of the component being processed.
+	 * @param   BaseDatabaseModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -437,7 +450,7 @@ class FormController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -525,8 +538,8 @@ class FormController extends BaseController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   \JModelLegacy  $model      The data model object.
-	 * @param   array          $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *

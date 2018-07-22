@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
  * Component helper class
@@ -339,22 +340,46 @@ class ComponentHelper
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
-		$path = JPATH_COMPONENT . '/' . $file . '.php';
-
 		// If component is disabled throw error
-		if (!static::isEnabled($option) || !file_exists($path))
+		if (!static::isEnabled($option))
 		{
 			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		// Load common and local language files.
-		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
-
 		// Handle template preview outlining.
 		$contents = null;
 
-		// Execute the component.
-		$contents = static::executeComponent($path);
+		// Check if we have a dispatcher
+		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		{
+			require_once JPATH_COMPONENT . '/dispatcher.php';
+			$class = ucwords($file) . 'Dispatcher';
+
+			// Check the class exists and implements the dispatcher interface
+			if (!class_exists($class) || !in_array('Joomla\\CMS\\Dispatcher\\DispatcherInterface', class_implements($class)))
+			{
+				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
+			}
+
+			// Dispatch the component.
+			$contents = static::dispatchComponent(new $class($app, $app->input));
+		}
+		else
+		{
+			$path = JPATH_COMPONENT . '/' . $file . '.php';
+
+			// If component file doesn't exist throw error
+			if (!file_exists($path))
+			{
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			}
+
+			// Load common and local language files.
+			$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
+
+			// Execute the component.
+			$contents = static::executeComponent($path);
+		}
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -397,6 +422,24 @@ class ComponentHelper
 	protected static function _load($option)
 	{
 		return static::load($option);
+	}
+
+	/**
+	 * Dispatch the component.
+	 *
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher class.
+	 *
+	 * @return  string  The component output
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function dispatchComponent(DispatcherInterface $dispatcher)
+	{
+		ob_start();
+		$dispatcher->dispatch();
+		$contents = ob_get_clean();
+
+		return $contents;
 	}
 
 	/**
@@ -498,5 +541,31 @@ class ComponentHelper
 		}
 
 		return static::$components;
+	}
+
+	/**
+	 * Returns the component name (eg. com_content) for the given object based on the class name.
+	 * If the object is not namespaced, then the alternative name is used.
+	 *
+	 * @param   object  $object           The object controller or model
+	 * @param   string  $alternativeName  Mostly the value of getName() from the object
+	 *
+	 * @return  string  The name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getComponentName($object, $alternativeName)
+	{
+		$reflect = new \ReflectionClass($object);
+
+		if (!$reflect->getNamespaceName())
+		{
+			return 'com_' . strtolower($alternativeName);
+		}
+
+		$from = strpos($reflect->getNamespaceName(), '\\Component');
+		$to   = strpos(substr($reflect->getNamespaceName(), $from + 11), '\\');
+
+		return 'com_' . strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
 	}
 }
