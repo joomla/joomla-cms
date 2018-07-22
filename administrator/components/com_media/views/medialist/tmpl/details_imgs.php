@@ -28,13 +28,13 @@ $dispatcher = JEventDispatcher::getInstance();
 		<?php endif; ?>
 
 		<td>
-			<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($image->path_relative); ?>" title="<?php echo $this->escape($image->name); ?>">
+			<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL . '/' . str_replace('%2F', '/', rawurlencode($image->path_relative)); ?>" title="<?php echo $this->escape($image->name); ?>">
 				<?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $this->escape($image->path_relative), JText::sprintf('COM_MEDIA_IMAGE_TITLE', $this->escape($image->title), JHtml::_('number.bytes', $image->size)), array('width' => $image->width_16, 'height' => $image->height_16)); ?>
 			</a>
 		</td>
 
 		<td class="description">
-			<a href="<?php echo  COM_MEDIA_BASEURL, '/', rawurlencode($image->path_relative); ?>" title="<?php echo $this->escape($image->name); ?>" class="preview">
+			<a href="<?php echo  COM_MEDIA_BASEURL . '/' . str_replace('%2F', '/', rawurlencode($image->path_relative)); ?>" title="<?php echo $this->escape($image->name); ?>" class="preview">
 				<?php echo $this->escape($image->title); ?>
 			</a>
 		</td>

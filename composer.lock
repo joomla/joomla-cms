@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9e71c95d44dc23403e9461ebafa348b",
+    "content-hash": "df5cd1e4b9c48fd4beea1f87832cd250",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -489,16 +489,16 @@
         },
         {
             "name": "joomla/input",
-            "version": "1.2.3",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "ff97c08aa5fa0f48ccc3e7444827f7f9a6b904c8"
+                "reference": "17a9bc63a040f547e9eeda91ee391b15e9865815"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/ff97c08aa5fa0f48ccc3e7444827f7f9a6b904c8",
-                "reference": "ff97c08aa5fa0f48ccc3e7444827f7f9a6b904c8",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/17a9bc63a040f547e9eeda91ee391b15e9865815",
+                "reference": "17a9bc63a040f547e9eeda91ee391b15e9865815",
                 "shasum": ""
             },
             "require": {
@@ -532,7 +532,7 @@
                 "input",
                 "joomla"
             ],
-            "time": "2018-05-26T17:08:08+00:00"
+            "time": "2018-06-26T02:10:46+00:00"
         },
         {
             "name": "joomla/ldap",

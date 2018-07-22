@@ -49,15 +49,6 @@ class JFormFieldTos extends JFormFieldRadio
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		// Add CSS and JS for the TOS field
-		$doc = JFactory::getDocument();
-		$css = '#jform_profile_tos {width: 18em; margin: 0 !important; padding: 0 2px !important;}
-				#jform_profile_tos input {margin: 0 5px 0 0 !important; width: 10px !important;}
-				#jform_profile_tos label {margin: 0 15px 0 0 !important; width: auto;}
-				';
-		$doc->addStyleDeclaration($css);
-		JHtml::_('behavior.modal');
-
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
@@ -75,12 +66,18 @@ class JFormFieldTos extends JFormFieldRadio
 				ENT_COMPAT,
 				'UTF-8'
 			) . '"';
+
+			if (JFactory::getLanguage()->isRtl())
+			{
+				$label .= ' data-placement="left"';
+			}
 		}
 
 		$tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
 		if ($tosArticle)
 		{
+			JHtml::_('behavior.modal');
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
 			$attribs          = array();

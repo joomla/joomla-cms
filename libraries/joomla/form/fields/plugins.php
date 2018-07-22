@@ -126,6 +126,12 @@ class JFormFieldPlugins extends JFormFieldList
 				->where('enabled = 1')
 				->order('ordering, name');
 
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
+
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = JFactory::getLanguage();
 			$useGlobal = $this->element['useglobal'];

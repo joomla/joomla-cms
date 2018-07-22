@@ -27,6 +27,7 @@
         "joomla/event": "~1.1",
         "joomla/filter": "^1.3.2",
         "joomla/image": "~1.4",
+        "joomla/input": "~1.3",
         "joomla/ldap": "~1.2",
         "joomla/registry": "^1.4.5",
         "joomla/session": "~1.3",

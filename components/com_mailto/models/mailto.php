@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Mailto model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.9
  */
 class MailtoModelMailto extends JModelForm
 {
@@ -27,7 +27,7 @@ class MailtoModelMailto extends JModelForm
 	 *
 	 * @return  JForm	A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -47,7 +47,7 @@ class MailtoModelMailto extends JModelForm
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	protected function loadFormData()
 	{
@@ -88,7 +88,7 @@ class MailtoModelMailto extends JModelForm
 	 *
 	 * @return  array  The requested data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	public function getData()
 	{
