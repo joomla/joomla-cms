@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
   },
+  "engines": {
+    "node": ">=8.9.4",
+    "npm": ">=5.6.0"
+  },
   "scripts": {
     "build:js": "node build.js --compilejs",
     "build:css": "node build.js --compilecss",
