@@ -16,9 +16,14 @@
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
-      "toolbar-button"
+      "toolbar-button",
+      "field-group-buttons"
     ],
     "webcomponents": {
+      "field-group-buttons": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "field-media": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
