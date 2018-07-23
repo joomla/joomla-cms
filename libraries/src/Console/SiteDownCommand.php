@@ -50,7 +50,7 @@ class SiteDownCommand extends AbstractCommand
 	{
 		$this->configureIO();
 
-		exec('php cli/joomla.php config:set offline true', $parts);
+		exec('php cli/joomla.php config:set offline=true', $parts);
 		$output = implode("\n", $parts);
 
 		if (strpos($output, "Configuration set") !== false)

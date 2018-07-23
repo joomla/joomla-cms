@@ -70,9 +70,10 @@ class SetConfigurationCommand extends AbstractCommand
     {
         $collected = [];
 
-        foreach ($options as $option) {
-
-            if (strpos($option, '=') === false) {
+        foreach ($options as $option)
+        {
+            if (strpos($option, '=') === false)
+            {
                 $this->ioStyle
                     ->error('Options and values should be separated by "="');
                 exit;
@@ -104,7 +105,8 @@ class SetConfigurationCommand extends AbstractCommand
 
         array_walk(
             $options, function ($value, $key) use ($configs) {
-                if (!array_key_exists($key, $configs)) {
+                if (!array_key_exists($key, $configs))
+                {
                     $this->getApplication()
                         ->enqueueMessage(
                             "Can't find option *$key* in configuration list",
@@ -140,15 +142,18 @@ class SetConfigurationCommand extends AbstractCommand
 
         $db = $this->checkDb($combinedOptions);
 
-        if (!$options) {
+        if (!$options)
+        {
             return 2;
         }
 
-        if (!$db) {
+        if (!$db)
+        {
             return 1;
         }
 
-        if ($this->saveConfiguration($options)) {
+        if ($this->saveConfiguration($options))
+        {
             $this->ioStyle->success('Configuration set');
 
             return 0;
@@ -170,7 +175,8 @@ class SetConfigurationCommand extends AbstractCommand
     {
         $config = $this->getApplication()->getConfig();
 
-        foreach ($options as $key => $value) {
+        foreach ($options as $key => $value)
+        {
             $value = $value === 'false' ? false : $value;
             $value = $value === 'true' ? true : $value;
 
@@ -186,7 +192,8 @@ class SetConfigurationCommand extends AbstractCommand
 
         $path = JPATH_CONFIGURATION . '/configuration.php';
 
-        if ($this->writeFile($buffer, $path)) {
+        if ($this->writeFile($buffer, $path))
+        {
             return true;
         }
 
@@ -232,9 +239,12 @@ class SetConfigurationCommand extends AbstractCommand
     {
         $options = $this->getApplication()->getConfig();
         // Determine if the configuration file path is writable.
-        if (file_exists($path)) {
+        if (file_exists($path))
+        {
             $canWrite = is_writable($path);
-        } else {
+        }
+        else
+        {
             $canWrite = is_writable(JPATH_CONFIGURATION . '/');
         }
 
@@ -333,8 +343,6 @@ class SetConfigurationCommand extends AbstractCommand
 
 			return false;
 		}
-//		var_dump($options);
-//		exit;
 
 		// Ensure that a database name was input.
 		if (empty($options->db_name))

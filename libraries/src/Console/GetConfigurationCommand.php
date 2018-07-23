@@ -79,7 +79,9 @@ class GetConfigurationCommand extends AbstractCommand
 		if (!$option && !$group)
 		{
 			$options = [];
-			array_walk($configs, function ($value, $key) use (&$options) {
+			array_walk(
+				$configs,
+				function ($value, $key) use (&$options) {
 					$options[] = [$key, $value];
 			    }
 			);
