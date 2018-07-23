@@ -13,14 +13,18 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Mysql\MysqlDriver;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -147,7 +151,7 @@ class CoreInstallCommand extends AbstractCommand
 
         $validConnection = $this->checkDatabaseConnection($options);
 
-        if ($validConnection !== false)
+        if ($validConnection)
         {
             $model = new ConfigurationModel;
 
@@ -158,7 +162,12 @@ class CoreInstallCommand extends AbstractCommand
 
                 return 0;
             }
+
+            $this->ioStyle->error("Joomla! installation was unsuccessful!");
+            return 4;
         }
+
+        return 5;
     }
 
 
@@ -173,10 +182,104 @@ class CoreInstallCommand extends AbstractCommand
      */
     public function checkDatabaseConnection($options)
     {
-        $db = new DatabaseModel;
-        $init = $db->initialise((object) $options);
+	    // Get the options as an object for easier handling.
+	    $options = ArrayHelper::toObject($options);
 
-        return $init;
+	    // Load the backend language files so that the DB error messages work.
+	    $lang = Factory::getLanguage();
+	    $currentLang = $lang->getTag();
+
+	    // Load the selected language
+	    if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
+	    {
+		    $lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
+	    }
+	    // Pre-load en-GB in case the chosen language files do not exist.
+	    else
+	    {
+		    $lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+	    }
+
+	    // Ensure a database type was selected.
+	    if (empty($options->db_type))
+	    {
+		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+
+		    return false;
+	    }
+
+	    // Ensure that a hostname and user name were input.
+	    if (empty($options->db_host) || empty($options->db_user))
+	    {
+		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+
+		    return false;
+	    }
+//		var_dump($options);
+//		exit;
+
+	    // Ensure that a database name was input.
+	    if (empty($options->db_name))
+	    {
+		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+
+		    return false;
+	    }
+
+	    // Validate database table prefix.
+	    if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
+	    {
+		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+
+		    return false;
+	    }
+
+	    // Validate length of database table prefix.
+	    if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
+	    {
+		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+
+		    return false;
+	    }
+
+	    // Validate length of database name.
+	    if (strlen($options->db_name) > 64)
+	    {
+		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+
+		    return false;
+	    }
+
+	    // Workaround for UPPERCASE table prefix for PostgreSQL
+	    if (in_array($options->db_type, ['pgsql', 'postgresql']))
+	    {
+		    if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
+		    {
+			    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+
+			    return false;
+		    }
+	    }
+
+	    // Get a database object.
+	    try
+	    {
+		  return DatabaseHelper::getDbo(
+			    $options->db_type,
+			    $options->db_host,
+			    $options->db_user,
+			    $options->db_pass,
+			    $options->db_name,
+			    $options->db_prefix,
+			    isset($options->db_select) ? $options->db_select : false
+		    );
+	    }
+	    catch (\RuntimeException $e)
+	    {
+		    Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+
+		    return false;
+	    }
     }
 
 	/**
@@ -212,7 +315,7 @@ class CoreInstallCommand extends AbstractCommand
 		{
 			$validator = $this->validate($options);
 
-			return $validator ?: $options;
+			return $validator ? $options : null;
 		}
 
 		return $options;

@@ -296,7 +296,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  array  Array with installed language packs in admin and site area.
 	 *
-	 * @since   3.1
+	 * @since   4.0
 	 */
 	public function getLocaliseAdmin(DatabaseInterface $db = null)
 	{

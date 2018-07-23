@@ -72,7 +72,7 @@ class PrefixField extends FormField
 	 */
 	public function getPrefix()
 	{
-		$size      = $this->element['size'] ? abs((int) $this->element['size']) : 5;
+		$size = $this->element['size'] ? abs((int) $this->element['size']) : 5;
 
 		// Make sure somebody doesn't put in a too large prefix size value.
 		if ($size > 10)
