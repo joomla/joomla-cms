@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
 
 /**
  * Utility class for form elements
@@ -32,13 +33,13 @@ abstract class JHtmlForm
 	/**
 	 * Displays a hidden token field to reduce the risk of CSRF exploits
 	 *
-	 * Use in conjunction with JSession::checkToken()
+	 * Use in conjunction with Session::checkToken()
 	 *
 	 * @param   array  $attribs  Input element attributes.
 	 *
 	 * @return  string  A hidden input field with a token
 	 *
-	 * @see     JSession::checkToken()
+	 * @see     Session::checkToken()
 	 * @since   1.5
 	 */
 	public static function token(array $attribs = array())
@@ -50,7 +51,7 @@ abstract class JHtmlForm
 			$attributes .= ' ' . ArrayHelper::toString($attribs);
 		}
 
-		return '<input type="hidden" name="' . JSession::getFormToken() . '" value="1"' . $attributes . '>';
+		return '<input type="hidden" name="' . Session::getFormToken() . '" value="1"' . $attributes . '>';
 	}
 
 	/**
@@ -77,7 +78,7 @@ abstract class JHtmlForm
 			return;
 		}
 
-		$doc->addScriptOptions($name, JSession::getFormToken());
+		$doc->addScriptOptions($name, Session::getFormToken());
 
 		static::$loaded[__METHOD__][$name] = true;
 	}

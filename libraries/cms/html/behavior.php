@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for JavaScript behaviors
@@ -71,9 +73,9 @@ abstract class JHtmlBehavior
 		Factory::getDocument()->addScriptOptions(
 			'system.paths',
 			[
-				'root' => JUri::root(true),
-				'rootFull' => JUri::root(),
-				'base' => JUri::base(true),
+				'root' => Uri::root(true),
+				'rootFull' => Uri::root(),
+				'base' => Uri::base(true),
 			]
 		);
 
@@ -439,7 +441,7 @@ abstract class JHtmlBehavior
 		static::core();
 
 		// Add keepalive script options.
-		Factory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
+		Factory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));
 
 		// Add script.
 		HTMLHelper::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));

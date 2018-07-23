@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Utility class to fire onContentPrepare for non-article based content.
@@ -33,12 +35,12 @@ abstract class JHtmlContent
 	{
 		if ($params === null)
 		{
-			$params = new JObject;
+			$params = new CMSObject;
 		}
 
 		$article = new stdClass;
 		$article->text = $text;
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 		Factory::getApplication()->triggerEvent('onContentPrepare', array($context, &$article, &$params, 0));
 
 		return $article->text;

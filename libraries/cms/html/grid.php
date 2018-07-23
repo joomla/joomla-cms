@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 
 /**
  * Utility class for creating HTML Grids
@@ -176,7 +177,7 @@ abstract class JHtmlGrid
 		$user = Factory::getUser();
 		$userid = $user->get('id');
 
-		if ($row instanceof JTable)
+		if ($row instanceof Table)
 		{
 			$result = $row->isCheckedOut($userid);
 		}
@@ -236,10 +237,10 @@ abstract class JHtmlGrid
 	 * By default the filter shows only published and unpublished items
 	 *
 	 * @param   string  $filter_state  The initial filter state
-	 * @param   string  $published     The JText string for published
-	 * @param   string  $unpublished   The JText string for Unpublished
-	 * @param   string  $archived      The JText string for Archived
-	 * @param   string  $trashed       The JText string for Trashed
+	 * @param   string  $published     The Text string for published
+	 * @param   string  $unpublished   The Text string for Unpublished
+	 * @param   string  $archived      The Text string for Archived
+	 * @param   string  $trashed       The Text string for Trashed
 	 *
 	 * @return  string
 	 *

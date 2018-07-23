@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Utility class working with content language select lists
@@ -59,7 +60,7 @@ abstract class JHtmlContentLanguage
 
 		if ($all)
 		{
-			$all_option = array(new JObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+			$all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
 
 			return array_merge($all_option, static::$items);
 		}

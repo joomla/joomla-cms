@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Session\Session;
 
 /**
  * HTML utility class for creating a sortable table list
@@ -63,7 +64,7 @@ abstract class JHtmlDraggablelist
 					'id'        => '#' . $tableId . ' tbody',
 					'formId'    => $formId,
 					'direction' => $sortDir,
-					'url'       => $saveOrderingUrl . '&' . JSession::getFormToken() . '=1',
+					'url'       => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
 					'nested'    => $nestedList,
 				]
 			);

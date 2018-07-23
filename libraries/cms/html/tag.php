@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for tags
@@ -183,7 +184,7 @@ abstract class JHtmlTag
 		Factory::getDocument()->addScriptOptions(
 			'ajax-chosen',
 			array(
-				'url'            => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'url'            => Uri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
 				'debug'          => JDEBUG,
 				'selector'       => $selector,
 				'type'           => 'GET',

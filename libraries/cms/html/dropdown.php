@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * HTML utility class for building a dropdown menu
@@ -149,7 +150,7 @@ abstract class JHtmlDropdown
 		}
 
 		$link .= '&task=' . $prefix . 'edit&id=' . $id;
-		$link = JRoute::_($link);
+		$link = Route::_($link);
 
 		static::addCustomItem(Text::_('JACTION_EDIT'), $link);
 
