@@ -108,6 +108,11 @@
       spanFirst.classList.add(this.type);
       spanFirst.setAttribute('tabindex', '0');
 
+      // Set the id to the fieldset
+      spanFirst.id = this.id;
+      // Remove the id from the custom Element
+      this.removeAttribute('id');
+
       const switchEl = document.createElement('span');
       switchEl.classList.add('switch');
       switchEl.classList.add(this.type);
