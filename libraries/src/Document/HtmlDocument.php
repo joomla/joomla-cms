@@ -77,7 +77,7 @@ class HtmlDocument extends Document
 	 * Script nonce (string if set, null otherwise)
 	 *
 	 * @var    string|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $cspNonce = null;
 

@@ -111,7 +111,7 @@ class FinderIndexerQuery
 	 * Allow empty searches
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $empty;
 
