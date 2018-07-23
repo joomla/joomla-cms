@@ -71,6 +71,12 @@ class TagsHelper extends CMSHelper
 			$tags = self::createTagsFromField($tags);
 		}
 
+		// Tags array is empty do not try to execute the tags mapping query
+		if (!$tags)
+		{
+			return true;
+		}
+
 		// Prevent saving duplicate tags
 		$tags = array_unique($tags);
 
