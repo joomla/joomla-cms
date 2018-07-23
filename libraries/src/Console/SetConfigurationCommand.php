@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Joomla\CMS\Factory;
 
 /**
  * Console command Setting Configuration options
@@ -24,77 +22,152 @@ use Joomla\CMS\Factory;
  */
 class SetConfigurationCommand extends AbstractCommand
 {
-	/**
-	 * Stores the Input Object
-	 * @var Input
-	 * @since 4.0
-	 */
-	private $cliInput;
+    /**
+     * Stores the Input Object
+     * @var Input
+     * @since 4.0
+     */
+    private $cliInput;
 
-	/**
-	 * SymfonyStyle Object
-	 * @var SymfonyStyle
-	 * @since 4.0
-	 */
-	private $ioStyle;
+    /**
+     * SymfonyStyle Object
+     * @var SymfonyStyle
+     * @since 4.0
+     */
+    private $ioStyle;
 
-	/**
-	 * Configures the IO
-	 *
-	 * @return void
-	 *
-	 * @since 4.0
-	 */
-	private function configureIO()
-	{
-		$this->cliInput = $this->getApplication()->getConsoleInput();
-		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
-	}
+    /**
+     * Configures the IO
+     *
+     * @return void
+     *
+     * @since 4.0
+     */
+    private function configureIO()
+    {
+        $this->cliInput = $this->getApplication()->getConsoleInput();
+        $this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+    }
+
+
+    /**
+     * Collects options from user input
+     *
+     * @param array $options Options inputed by users
+     *
+     * @return array
+     */
+    public function retrieveOptionsFromInput($options)
+    {
+        $collected = [];
+
+        foreach ($options as $option) {
+
+            if (strpos($option, '=') === false) {
+                $this->ioStyle
+                    ->error('Options and values should be separated by "="');
+                exit;
+            }
+
+            list($option, $value) = explode('=', $option);
+
+            $collected[$option] = $value;
+        }
+
+        return $collected;
+    }
+
+
+    /**
+     * Validates the options provided
+     *
+     * @param array $options Options Array
+     *
+     * @return mixed
+     */
+    public function validateOptions($options)
+    {
+        $config = $this->getApplication()->getConfig();
+
+        $configs = $config->toArray();
+
+        array_walk(
+            $options, function ($value, $key) use ($configs) {
+                if (!array_key_exists($key, $configs)) {
+                    $this->getApplication()
+                        ->enqueueMessage(
+                            "Can't find option *$key* in configuration list",
+                            'error'
+                        );
+                }
+        });
+
+        return $options;
+    }
 
 	/**
 	 * Execute the command.
 	 *
-	 * @return  integer  The exit code for the command.
+	 * @return integer The exit code for the command.
 	 *
-	 * @since   4.0.0
+	 * @since 4.0.0
 	 */
 	public function execute(): int
-	{
-		$this->configureIO();
+    {
+        $this->configureIO();
 
-		$option = $this->cliInput->getArgument('option');
+        $options = $this->cliInput->getArgument('options');
 
-		$config = $this->getApplication()->getConfig();
+        $options = $this->retrieveOptionsFromInput($options);
 
-		$configs = $config->toArray();
+        $options = $this->validateOptions($options);
 
-		if (!array_key_exists($option, $configs))
-		{
-			$this->ioStyle->error("Can't find option *$option* in configuration list");
+        if (!$options) {
+            return 1;
+        }
 
-			return 1;
-		}
+        if ($this->saveConfiguration($options)) {
+            $this->ioStyle->success('Configuration set');
 
-		$value = $this->cliInput->getArgument('value');
-		$value = $value === 'false' ? false : $value;
-		$value = $value === 'true' ? true : $value;
+            return 0;
+        }
+        return 2;
+    }
 
-		$config->set($option, $value);
-		$config->remove('cwd');
-		$config->remove('execution');
-		$buffer = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
-		$path = JPATH_CONFIGURATION . '/configuration.php';
+    /**
+     * Save the configuration file
+     *
+     * @param array $options Collected options
+     *
+     * @return bool
+     */
+    public function saveConfiguration($options)
+    {
+        $config = $this->getApplication()->getConfig();
 
-		if ($this->writeFile($buffer, $path))
-		{
-			$this->ioStyle->success('Configuration set');
+        foreach ($options as $key => $value) {
+            $value = $value === 'false' ? false : $value;
+            $value = $value === 'true' ? true : $value;
 
-			return 0;
-		}
+            $config->set($key, $value);
+        }
 
-		return 2;
-	}
+        $config->remove('cwd');
+        $config->remove('execution');
+        $buffer = $config->toString(
+            'PHP',
+            array('class' => 'JConfig', 'closingtag' => false)
+        );
+
+        $path = JPATH_CONFIGURATION . '/configuration.php';
+
+        if ($this->writeFile($buffer, $path)) {
+            return true;
+        }
+
+        return false;
+    }
 
 	/**
 	 * Initialise the command.
@@ -108,8 +181,7 @@ class SetConfigurationCommand extends AbstractCommand
 		$this->setName('config:set');
 		$this->setDescription('Sets a value for a configuration option');
 
-		$this->addArgument('option', InputArgument::REQUIRED, 'Name of the option');
-		$this->addArgument('value', InputArgument::REQUIRED, 'Value of the option');
+		$this->addArgument('options', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'All options you want to set');
 
 		$help = "The <info>%command.name%</info> Sets a value for a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option> <value>";
