@@ -11,6 +11,7 @@ namespace Joomla\CMS\User;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Authentication\Password\Argon2iHandler;
+use Joomla\Authentication\Password\Argon2idHandler;
 use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
@@ -42,6 +43,17 @@ abstract class UserHelper
 	 * @since  4.0.0
 	 */
 	const HASH_ARGON2I = 2;
+
+	/**
+	 * Constant defining the Argon2id password algorithm for use with password hashes
+	 *
+	 * Note: The value of the hash is the same as PHP's native `PASSWORD_ARGON2ID` but the constant is not used
+	 * as PHP may not be compiled with this constant
+	 *
+	 * @var    integer
+	 * @since  4.0.0
+	 */
+	const HASH_ARGON2ID = 3;
 
 	/**
 	 * Constant defining the BCrypt password algorithm for use with password hashes
@@ -379,6 +391,9 @@ abstract class UserHelper
 			case self::HASH_ARGON2I :
 				return $container->get(Argon2iHandler::class)->hashPassword($password, $options);
 
+			case self::HASH_ARGON2ID :
+				return $container->get(Argon2idHandler::class)->hashPassword($password, $options);
+
 			case self::HASH_BCRYPT :
 				return $container->get(BCryptHandler::class)->hashPassword($password, $options);
 
@@ -419,6 +434,13 @@ abstract class UserHelper
 		{
 			/** @var PHPassHandler $handler */
 			$handler = $container->get(PHPassHandler::class);
+		}
+		elseif (strpos($hash, '$argon2id') === 0)
+		{
+			/** @var Argon2idHandler $handler */
+			$handler = $container->get(Argon2idHandler::class);
+
+			$passwordAlgorithm = PASSWORD_ARGON2ID;
 		}
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
