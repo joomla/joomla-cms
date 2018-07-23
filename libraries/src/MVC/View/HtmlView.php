@@ -656,6 +656,7 @@ class HtmlView extends \JObject
 			$temp = explode(':', $layout);
 			$layoutTemplate = $temp[0];
 		}
+
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
 
