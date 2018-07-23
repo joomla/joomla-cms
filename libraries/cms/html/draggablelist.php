@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * HTML utility class for creating a sortable table list
  *
@@ -49,7 +52,7 @@ abstract class JHtmlDraggablelist
 			return;
 		}
 
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 
 		// Please consider using data attributes instead of passing arguments here!
 		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir))
@@ -67,12 +70,12 @@ abstract class JHtmlDraggablelist
 		}
 
 		// Depends on Joomla.getOptions()
-		JHtml::_('behavior.core');
+		HTMLHelper::_('behavior.core');
 
 		// Attach draggable to document
-		JHtml::_('script', 'vendor/dragula/dragula.min.js', false, true);
-		JHtml::_('script', 'system/draggable.min.js', false, true);
-		JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
+		HTMLHelper::_('script', 'vendor/dragula/dragula.min.js', false, true);
+		HTMLHelper::_('script', 'system/draggable.min.js', false, true);
+		HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;

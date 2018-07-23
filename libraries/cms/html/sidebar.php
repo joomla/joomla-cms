@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Utility class to render a list view sidebar
  *
@@ -56,7 +58,7 @@ abstract class JHtmlSidebar
 		$data->action         = static::getAction();
 		$data->displayMenu    = count($data->list);
 		$data->displayFilters = count($data->filters);
-		$data->hide           = JFactory::getApplication()->input->getBool('hidemainmenu');
+		$data->hide           = Factory::getApplication()->input->getBool('hidemainmenu');
 
 		// Create a layout object and ask it to render the sidebar
 		$layout      = new JLayoutFile('joomla.sidebars.submenu');

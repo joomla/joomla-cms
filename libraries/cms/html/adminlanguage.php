@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Utility class working with administrator language select lists
  *
@@ -53,7 +55,7 @@ abstract class JHtmlAdminLanguage
 
 		if ($all)
 		{
-			$all_option = array(new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+			$all_option = array(new JObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
 
 			return array_merge($all_option, static::$items);
 		}

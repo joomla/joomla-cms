@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class for icons.
  *
@@ -31,7 +34,7 @@ abstract class JHtmlIcons
 
 		foreach ($buttons as $button)
 		{
-			$html[] = JHtml::_('icons.button', $button);
+			$html[] = HTMLHelper::_('icons.button', $button);
 		}
 
 		return implode($html);
@@ -60,7 +63,7 @@ abstract class JHtmlIcons
 			else
 			{
 				// Get the user object to verify permissions
-				$user = JFactory::getUser();
+				$user = Factory::getUser();
 
 				// Take each pair of permission, context values.
 				for ($i = 0, $n = count($button['access']); $i < $n; $i += 2)

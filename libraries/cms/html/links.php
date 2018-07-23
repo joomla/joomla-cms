@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class for icons.
  *
@@ -45,7 +48,7 @@ abstract class JHtmlLinks
 				$layout = new JLayoutFile('joomla.links.groupopen');
 				$htmlHeader = $layout->render($title);
 
-				$htmlLinks  = JHtml::_('links.links', $links);
+				$htmlLinks  = HTMLHelper::_('links.links', $links);
 
 				if ($htmlLinks != '')
 				{
@@ -79,7 +82,7 @@ abstract class JHtmlLinks
 
 		foreach ($links as $link)
 		{
-			$html[] = JHtml::_('links.link', $link);
+			$html[] = HTMLHelper::_('links.link', $link);
 		}
 
 		return implode($html);
@@ -108,7 +111,7 @@ abstract class JHtmlLinks
 			else
 			{
 				// Get the user object to verify permissions
-				$user = JFactory::getUser();
+				$user = Factory::getUser();
 
 				// Take each pair of permission, context values.
 				for ($i = 0, $n = count($link['access']); $i < $n; $i += 2)

@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Utility class for form elements
@@ -69,7 +70,7 @@ abstract class JHtmlForm
 		}
 
 		/** @var HtmlDocument $doc */
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 
 		if (!$doc instanceof HtmlDocument || $doc->getType() !== 'html')
 		{
