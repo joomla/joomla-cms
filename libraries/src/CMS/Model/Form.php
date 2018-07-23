@@ -334,8 +334,10 @@ abstract class Form extends Model
 
 		$dispatcher = \JFactory::getContainer()->get('dispatcher');
 
-		if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
-			@trigger_error('The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0, use the `onContentValidateData` event instead.', E_USER_DEPRECATED);
+		if (!empty($dispatcher->getListeners('onUserBeforeDataValidation')))
+		{
+			@trigger_error('The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0, ' .
+				       'use the `onContentValidateData` event instead.', E_USER_DEPRECATED);
 			\JFactory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
 		}
 
