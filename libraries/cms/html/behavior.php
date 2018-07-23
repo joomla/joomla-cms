@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\OutputFilter;
 
 /**
  * Utility class for JavaScript behaviors
@@ -492,7 +493,7 @@ abstract class JHtmlBehavior
 
 		foreach ($terms as $i => $term)
 		{
-			$terms[$i] = JFilterOutput::stringJSSafe($term);
+			$terms[$i] = OutputFilter::stringJSSafe($term);
 		}
 
 		$document = Factory::getDocument();

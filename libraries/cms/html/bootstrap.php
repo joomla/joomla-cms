@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Utility class for Bootstrap elements.
@@ -206,7 +207,7 @@ abstract class JHtmlBootstrap
 
 		static::$loaded[__METHOD__][$selector] = true;
 
-		return JLayoutHelper::render('joomla.modal.main', $layoutData);
+		return LayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
@@ -494,7 +495,7 @@ abstract class JHtmlBootstrap
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
-		return JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+		return LayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
 	}
 
 	/**
@@ -506,7 +507,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTabSet()
 	{
-		return JLayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
+		return LayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
 	}
 
 	/**
@@ -546,7 +547,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTab()
 	{
-		return JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
+		return LayoutHelper::render('libraries.cms.html.bootstrap.endtab');
 	}
 
 	/**

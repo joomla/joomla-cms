@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Access\Access;
 
 /**
  * Utility class working with users
@@ -46,7 +47,7 @@ abstract class JHtmlUser
 
 			foreach ($groups as $group)
 			{
-				if (!JAccess::checkGroup($group->value, 'core.admin'))
+				if (!Access::checkGroup($group->value, 'core.admin'))
 				{
 					$filteredGroups[] = $group;
 				}

@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Date\Date;
 
 /**
  * Extended Utility class for handling date display.
@@ -37,7 +38,7 @@ abstract class JHtmlDate
 		if ($time === null)
 		{
 			// Get now
-			$time = new JDate('now');
+			$time = new Date('now');
 		}
 
 		// Get the difference in seconds between now and the time

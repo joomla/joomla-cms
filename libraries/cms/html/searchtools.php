@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Searchtools elements.
@@ -148,6 +149,6 @@ abstract class JHtmlSearchtools
 		$data->icon      = $icon;
 		$data->formName  = $formName;
 
-		return JLayoutHelper::render('joomla.searchtools.grid.sort', $data);
+		return LayoutHelper::render('joomla.searchtools.grid.sort', $data);
 	}
 }

@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Extended Utility class for all HTML drawing classes.
@@ -96,7 +99,7 @@ abstract class JHtmlAccess
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true, $id = false)
 	{
-		$options = array_values(JHelperUsergroups::getInstance()->getAll());
+		$options = array_values(UserGroupsHelper::getInstance()->getAll());
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
@@ -132,7 +135,7 @@ abstract class JHtmlAccess
 
 		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
 
-		$groups = array_values(JHelperUsergroups::getInstance()->getAll());
+		$groups = array_values(UserGroupsHelper::getInstance()->getAll());
 
 		$html = array();
 
@@ -141,7 +144,7 @@ abstract class JHtmlAccess
 			$item = &$groups[$i];
 
 			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
-			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin')))
+			if ((!$checkSuperAdmin) || $isSuperAdmin || (!Access::checkGroup($item->id, 'core.admin')))
 			{
 				// Setup  the variable attributes.
 				$eid = $count . 'group_' . $item->id;
@@ -162,7 +165,7 @@ abstract class JHtmlAccess
 				$html[] = '			<label class="checkbox" for="' . $eid . '">';
 				$html[] = '			<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
 				$html[] = '					' . $checked . $rel . '>';
-				$html[] = '			' . JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
+				$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
 				$html[] = '			</label>';
 				$html[] = '		</div>';
 				$html[] = '	</div>';
@@ -191,7 +194,7 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$actions = JAccess::getActionsFromFile(
+		$actions = Access::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
 			"/access/section[@name='" . $section . "']/"
 		);
