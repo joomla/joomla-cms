@@ -15,7 +15,7 @@
     "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
     "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
     "install": "node build.js --update && node build.js --installer",
-    "postinstall": "node build.js --compilejs && node build.js --compilecss",
+    "postinstall": "node build.js --compilejs && node build.js --compilecss && node build.js --compilecejs",
     "update": "node build.js --update && node build.js --installer && node build.js --compilejs && node build.js --compilecejs && node build.js --compilecss"
   },
   "dependencies": {
