@@ -68,16 +68,16 @@ Joomla = window.Joomla || {};
 				item.querySelectorAll('td').forEach (function(td) {
 					td.classList.add('row-selected');
 				});
-				item.querySelectorAll('tr').forEach (function(tr) {
-					tr.classList.add('row-selected');
+				item.querySelectorAll('th').forEach (function(th) {
+					th.classList.add('row-selected');
 				});
 			}
 			else {
 				item.querySelectorAll('td').forEach (function(td) {
 					td.classList.remove('row-selected');
 				});
-				item.querySelectorAll('tr').forEach (function(tr) {
-					tr.classList.remove('row-selected');
+				item.querySelectorAll('th').forEach (function(th) {
+					th.classList.remove('row-selected');
 				});
 			}
 		}
