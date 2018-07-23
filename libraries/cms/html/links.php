@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Utility class for icons.
@@ -34,18 +35,18 @@ abstract class JHtmlLinks
 
 		if (count($groupsOfLinks) > 0)
 		{
-			$layout = new JLayoutFile('joomla.links.groupsopen');
+			$layout = new FileLayout('joomla.links.groupsopen');
 			$html[] = $layout->render('');
 
 			foreach ($groupsOfLinks as $title => $links)
 			{
 				if (isset($links[0]['separategroup']))
 				{
-					$layout = new JLayoutFile('joomla.links.groupseparator');
+					$layout = new FileLayout('joomla.links.groupseparator');
 					$html[] = $layout->render($title);
 				}
 
-				$layout = new JLayoutFile('joomla.links.groupopen');
+				$layout = new FileLayout('joomla.links.groupopen');
 				$htmlHeader = $layout->render($title);
 
 				$htmlLinks  = HTMLHelper::_('links.links', $links);
@@ -55,12 +56,12 @@ abstract class JHtmlLinks
 					$html[] = $htmlHeader;
 					$html[] = $htmlLinks;
 
-					$layout = new JLayoutFile('joomla.links.groupclose');
+					$layout = new FileLayout('joomla.links.groupclose');
 					$html[] = $layout->render('');
 				}
 			}
 
-			$layout = new JLayoutFile('joomla.links.groupsclose');
+			$layout = new FileLayout('joomla.links.groupsclose');
 			$html[] = $layout->render('');
 		}
 
@@ -124,8 +125,8 @@ abstract class JHtmlLinks
 			}
 		}
 
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('joomla.links.link');
+		// Instantiate a new FileLayout instance and render the layout
+		$layout = new FileLayout('joomla.links.link');
 
 		return $layout->render($link);
 	}

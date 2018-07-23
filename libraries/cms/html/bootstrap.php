@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Utility class for Bootstrap elements.
@@ -526,8 +527,8 @@ abstract class JHtmlBootstrap
 		static $tabScriptLayout = null;
 		static $tabLayout = null;
 
-		$tabScriptLayout = $tabScriptLayout === null ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
-		$tabLayout = $tabLayout === null ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+		$tabScriptLayout = $tabScriptLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabLayout = $tabLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
 		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 

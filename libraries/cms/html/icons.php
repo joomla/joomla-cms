@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Utility class for icons.
@@ -76,8 +77,8 @@ abstract class JHtmlIcons
 			}
 		}
 
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('joomla.quickicons.icon');
+		// Instantiate a new FileLayout instance and render the layout
+		$layout = new FileLayout('joomla.quickicons.icon');
 
 		return $layout->render($button);
 	}
