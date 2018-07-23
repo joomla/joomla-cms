@@ -277,6 +277,7 @@ jQuery(document).ready(function($) {
 			var reference    = document.getElementById('reference-association');
 			var referenceId  = reference.getAttribute('data-id');
 			var languageCode = reference.getAttribute('data-language').replace(/-/, '_');
+			var target       = document.getElementById('target-association');
 			var targetTitle  = target.getAttribute('data-title');
 			var title        = $(this).contents().find('#jform_' + targetTitle).val();
 			var target       = $(this).contents();
