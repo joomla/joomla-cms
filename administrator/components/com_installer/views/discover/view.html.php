@@ -26,6 +26,8 @@ class InstallerViewDiscover extends InstallerViewDefault
 	 * @return  void
 	 *
 	 * @since   1.6
+     *
+     * @throws Exception
 	 */
 	public function display($tpl = null)
 	{

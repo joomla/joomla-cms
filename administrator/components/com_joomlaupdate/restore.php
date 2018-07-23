@@ -113,6 +113,8 @@ if (!function_exists('aksubstr'))
  *
  * @param $key
  * @param $default
+ *
+ * @return  string|null
  */
 function getQueryParam($key, $default = null)
 {
@@ -393,7 +395,7 @@ abstract class AKAbstractObject
 	/**
 	 * Add an error message
 	 *
-	 * @param    string $error Error message
+	 * @param    string $warning Error message
 	 */
 	public function setWarning($warning)
 	{
@@ -1367,6 +1369,8 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 *
 	 * @param $fp
 	 * @param $length
+     *
+     * @return string
 	 */
 	protected function fread($fp, $length = null)
 	{
@@ -6745,6 +6749,8 @@ class AKFactory
 	 * Gets the post processing engine
 	 *
 	 * @param string $proc_engine
+     *
+     * @return object
 	 */
 	public static function &getPostProc($proc_engine = null)
 	{
