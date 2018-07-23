@@ -103,7 +103,7 @@
       }
 
       // Create the first 'span' wrapper
-      const spanFirst = document.createElement('span');
+      const spanFirst = document.createElement('fieldset');
       spanFirst.classList.add('switcher');
       spanFirst.classList.add(this.type);
       spanFirst.setAttribute('tabindex', '0');
