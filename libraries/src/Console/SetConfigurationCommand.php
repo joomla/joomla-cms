@@ -10,7 +10,11 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Console\AbstractCommand;
+use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -18,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command Setting Configuration options
  *
- * @since  4.0.0
+ * @since 4.0.0
  */
 class SetConfigurationCommand extends AbstractCommand
 {
@@ -45,6 +49,9 @@ class SetConfigurationCommand extends AbstractCommand
      */
     private function configureIO()
     {
+	    $language = Factory::getLanguage();
+	    $language->load('', JPATH_INSTALLATION, null, false, false) ||
+	    $language->load('', JPATH_INSTALLATION, null, true);
         $this->cliInput = $this->getApplication()->getConsoleInput();
         $this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
     }
@@ -56,6 +63,8 @@ class SetConfigurationCommand extends AbstractCommand
      * @param array $options Options inputed by users
      *
      * @return array
+     *
+     * @since 4.0
      */
     public function retrieveOptionsFromInput($options)
     {
@@ -84,6 +93,8 @@ class SetConfigurationCommand extends AbstractCommand
      * @param array $options Options Array
      *
      * @return mixed
+     *
+     * @since 4.0
      */
     public function validateOptions($options)
     {
@@ -105,14 +116,16 @@ class SetConfigurationCommand extends AbstractCommand
         return $options;
     }
 
-	/**
-	 * Execute the command.
-	 *
-	 * @return integer The exit code for the command.
-	 *
-	 * @since 4.0.0
-	 */
-	public function execute(): int
+    /**
+     * Execute the command.
+     *
+     * @return integer The exit code for the command.
+     *
+     * @since 4.0
+     *
+     * @throws void
+     */
+    public function execute(): int
     {
         $this->configureIO();
 
@@ -122,7 +135,16 @@ class SetConfigurationCommand extends AbstractCommand
 
         $options = $this->validateOptions($options);
 
+        $initialOptions = $this->getApplication()->getConfig()->toArray();
+        $combinedOptions = array_merge($initialOptions, $options);
+
+        $db = $this->checkDb($combinedOptions);
+
         if (!$options) {
+            return 2;
+        }
+
+        if (!$db) {
             return 1;
         }
 
@@ -131,7 +153,7 @@ class SetConfigurationCommand extends AbstractCommand
 
             return 0;
         }
-        return 2;
+        return 3;
     }
 
 
@@ -141,6 +163,8 @@ class SetConfigurationCommand extends AbstractCommand
      * @param array $options Collected options
      *
      * @return bool
+     *
+     * @since 4.0
      */
     public function saveConfiguration($options)
     {
@@ -169,59 +193,61 @@ class SetConfigurationCommand extends AbstractCommand
         return false;
     }
 
-	/**
-	 * Initialise the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function initialise()
-	{
-		$this->setName('config:set');
-		$this->setDescription('Sets a value for a configuration option');
+    /**
+     * Initialise the command.
+     *
+     * @return void
+     *
+     * @since 4.0
+     */
+    protected function initialise()
+    {
+        $this->setName('config:set');
+        $this->setDescription('Sets a value for a configuration option');
 
-		$this->addArgument('options', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'All options you want to set');
+        $this->addArgument(
+            'options',
+            InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+            'All options you want to set'
+        );
 
-		$help = "The <info>%command.name%</info> Sets a value for a configuration option
-				\nUsage: <info>php %command.full_name%</info> <option> <value>";
+        $help = "The <info>%command.name%</info> 
+                  Sets a value for a configuration option
+                \nUsage: <info>php %command.full_name%</info> <option> <value>";
 
-		$this->setHelp($help);
-	}
+        $this->setHelp($help);
+    }
 
-	/**
-	 * Writes a string to a given file path
-	 *
-	 * @param   string  $buffer  The string that will be written to the file
-	 * @param   string  $path    The path to write the file
-	 *
-	 * @return boolean
-	 *
-	 * @since 4.0
-	 */
-	public function writeFile($buffer, $path)
-	{
-	    $options = $this->getApplication()->getConfig();
-		// Determine if the configuration file path is writable.
-		if (file_exists($path))
-		{
-			$canWrite = is_writable($path);
-		}
-		else
-		{
-			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
-		}
+    /**
+     * Writes a string to a given file path
+     *
+     * @param string $buffer The string that will be written to the file
+     * @param string $path   The path to write the file
+     *
+     * @return boolean
+     *
+     * @since 4.0
+     */
+    public function writeFile($buffer, $path)
+    {
+        $options = $this->getApplication()->getConfig();
+        // Determine if the configuration file path is writable.
+        if (file_exists($path)) {
+            $canWrite = is_writable($path);
+        } else {
+            $canWrite = is_writable(JPATH_CONFIGURATION . '/');
+        }
 
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP.
-		 */
-		$useFTP = false;
+        /*
+         * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
+         * is not writable we need to use FTP.
+         */
+        $useFTP = false;
 
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
-		{
-			return false;
-		}
+        if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
+        {
+            return false;
+        }
 
 		// Check for safe mode.
 		if (ini_get('safe_mode'))
@@ -246,5 +272,131 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 
 		return true;
+	}
+
+
+	/**
+     * Verifies database connection
+     *
+	 * @param $options
+	 *
+	 * @return bool|\Joomla\Database\DatabaseInterface
+	 *
+	 * @since 4.0
+	 * @throws \Exception
+	 */
+	public function checkDb($options)
+	{
+	    // Allows us to load Joomla\CMS\Installation\Helper\DatabaseHelper;
+		\JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
+
+        $options = [
+            'db_type' => $options['dbtype'],
+            'db_host' => $options['host'],
+            'db_prefix' => $options['dbprefix'],
+            'db_name' => $options['db'],
+            'db_pass' => $options['password'],
+            'db_user' => $options['user'],
+        ];
+
+
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
+
+		// Load the backend language files so that the DB error messages work.
+		$lang = Factory::getLanguage();
+		$currentLang = $lang->getTag();
+
+		// Load the selected language
+		if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
+		{
+			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
+		}
+		// Pre-load en-GB in case the chosen language files do not exist.
+		else
+		{
+			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+		}
+
+		// Ensure a database type was selected.
+		if (empty($options->db_type))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+
+			return false;
+		}
+
+		// Ensure that a hostname and user name were input.
+		if (empty($options->db_host) || empty($options->db_user))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+
+			return false;
+		}
+//		var_dump($options);
+//		exit;
+
+		// Ensure that a database name was input.
+		if (empty($options->db_name))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+
+			return false;
+		}
+
+		// Validate database table prefix.
+		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+
+			return false;
+		}
+
+		// Validate length of database table prefix.
+		if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
+		{
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+
+			return false;
+		}
+
+		// Validate length of database name.
+		if (strlen($options->db_name) > 64)
+		{
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+
+			return false;
+		}
+
+		// Workaround for UPPERCASE table prefix for PostgreSQL
+		if (in_array($options->db_type, ['pgsql', 'postgresql']))
+		{
+			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
+			{
+				Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+
+				return false;
+			}
+		}
+
+		// Get a database object.
+		try
+		{
+			return DatabaseHelper::getDbo(
+				$options->db_type,
+				$options->db_host,
+				$options->db_user,
+				$options->db_pass,
+				$options->db_name,
+				$options->db_prefix,
+				isset($options->db_select) ? $options->db_select : false
+			);
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+
+			return false;
+		}
 	}
 }
