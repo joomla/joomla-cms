@@ -274,7 +274,7 @@ class StreamTransport implements TransportInterface
 	/**
 	 * Method to check if http transport stream available for use
 	 *
-	 * @return bool true if available else false
+	 * @return  boolean  true if available else false
 	 *
 	 * @since   12.1
 	 */

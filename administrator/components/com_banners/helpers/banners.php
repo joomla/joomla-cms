@@ -188,7 +188,7 @@ class BannersHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   stdClass[]  $items  The banner category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -242,7 +242,7 @@ class BannersHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  &$items     The banner tag objects
+	 * @param   stdClass[]  $items      The banner tag objects
 	 * @param   string      $extension  The name of the active view.
 	 *
 	 * @return  stdClass[]

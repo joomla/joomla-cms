@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 
 <?php echo $item->beforeDisplayContent; ?>
 
-<?php if ($params->get('show_introtext', '1')) : ?>
+<?php if ($params->get('show_introtext', 1)) : ?>
 	<?php echo $item->introtext; ?>
 <?php endif; ?>
 

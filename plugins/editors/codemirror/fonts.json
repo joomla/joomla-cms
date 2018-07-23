@@ -24,6 +24,11 @@
 		"url": "https://fonts.googleapis.com/css?family=Fira+Mono",
 		"css": "'Fira Mono', monospace"
 	},
+	"ibm_plex_mono": {
+		"name": "IBM Plex Mono",
+		"url": "https://fonts.googleapis.com/css?family=IBM+Plex+Mono",
+		"css": "'IBM Plex Mono', monospace;"
+	},
 	"inconsolata": {
 		"name": "Inconsolata",
 		"url": "https://fonts.googleapis.com/css?family=Inconsolata",
@@ -33,6 +38,11 @@
 		"name": "Lekton",
 		"url": "https://fonts.googleapis.com/css?family=Lekton",
 		"css": "Lekton, monospace"
+	},
+	"nanum_gothic_coding": {
+		"name": "Nanum Gothic Coding",
+		"url": "https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding",
+		"css": "'Nanum Gothic Coding', monospace"
 	},
 	"nova_mono": {
 		"name": "Nova Mono",

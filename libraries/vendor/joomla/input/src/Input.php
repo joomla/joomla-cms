@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,6 +21,7 @@ use Joomla\Filter;
  * @property-read    Input   $post
  * @property-read    Input   $request
  * @property-read    Input   $server
+ * @property-read    Input   $env
  * @property-read    Files   $files
  * @property-read    Cookie  $cookie
  *
@@ -39,6 +40,15 @@ use Joomla\Filter;
  */
 class Input implements \Serializable, \Countable
 {
+	/**
+	 * Container with allowed superglobals
+	 *
+	 * @var    array
+	 * @since  1.3.0
+	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
+	 */
+	private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
+
 	/**
 	 * Options array for the Input instance.
 	 *
@@ -139,7 +149,7 @@ class Input implements \Serializable, \Countable
 
 		$superGlobal = '_' . strtoupper($name);
 
-		if (isset($GLOBALS[$superGlobal]))
+		if (in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
@@ -239,6 +249,29 @@ class Input implements \Serializable, \Countable
 	}
 
 	/**
+	 * Get the Input instance holding the data for the current request method
+	 *
+	 * @return  Input
+	 *
+	 * @since   1.3.0
+	 */
+	public function getInputForRequestMethod()
+	{
+		switch (strtoupper($this->getMethod()))
+		{
+			case 'GET':
+				return $this->get;
+
+			case 'POST':
+				return $this->post;
+
+			default:
+				// PUT, PATCH, etc. don't have superglobals
+				return $this;
+		}
+	}
+
+	/**
 	 * Sets a value
 	 *
 	 * @param   string  $name   Name of the value to set.
@@ -276,7 +309,7 @@ class Input implements \Serializable, \Countable
 	/**
 	 * Check if a value name exists.
 	 *
-	 * @param   string  $path  Value name
+	 * @param   string  $name  Value name
 	 *
 	 * @return  boolean
 	 *
@@ -354,7 +387,7 @@ class Input implements \Serializable, \Countable
 	 *
 	 * @param   string  $input  The serialized input.
 	 *
-	 * @return  Input  The input object.
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
@@ -388,8 +421,8 @@ class Input implements \Serializable, \Countable
 			// Load up all the globals.
 			foreach ($GLOBALS as $global => $data)
 			{
-				// Check if the global starts with an underscore.
-				if (strpos($global, '_') === 0)
+				// Check if the global starts with an underscore and is allowed.
+				if (strpos($global, '_') === 0 && in_array(substr($global, 1), self::$allowedGlobals, true))
 				{
 					// Convert global name to input name.
 					$global = strtolower($global);
