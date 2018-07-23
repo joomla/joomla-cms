@@ -29,17 +29,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table">
 						<thead>
 							<tr>
-								<th style="width:5%"></th>
-								<th class="nowrap">
+								<td style="width:5%"></td>
+								<th scope="col" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:15%" class="text-center">
+								<th scope="col" style="width:15%" class="text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th style="width:35%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:35%" class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>
@@ -66,9 +66,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
 									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
 								</td>
-								<td>
-                                    <?php echo $language->name; ?>
-								</td>
+								<th scope="row">
+									<?php echo $language->name; ?>
+								</th>
 								<td class="text-center">
 									<?php echo $language->code; ?>
 								</td>

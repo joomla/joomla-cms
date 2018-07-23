@@ -17,7 +17,7 @@
 
 		if (!Joomla.getOptions('xtd-menus')) {
 			// Something went wrong!
-			window.parent.jModalClose();
+			window.parent.Joomla.Modal.getCurrent().close();
 			return false;
 		}
 
@@ -33,8 +33,7 @@
 		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
 
 		if (window.parent.Joomla.currentModal) {
-			// @TODO Remove jQuery, use Joomla-UI
-			parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+			window.parent.Joomla.Modal.getCurrent().close();
 		}
 	};
 

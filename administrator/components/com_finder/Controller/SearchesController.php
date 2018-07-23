@@ -15,7 +15,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * Methods supporting a list of search terms.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SearchesController extends BaseController
 {

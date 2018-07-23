@@ -119,7 +119,7 @@ class LanguageAdapter extends InstallerAdapter
 		{
 			$registry = new Registry($user->params);
 
-			if ($registry->get($param_name) === $element)
+			if ($registry->get($param_name) === $this->extension->element)
 			{
 				$registry->set($param_name, '');
 				$query->clear()

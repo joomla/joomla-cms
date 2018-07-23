@@ -60,7 +60,8 @@ class HtmlRenderer extends AbstractRenderer
 			[
 				'template'  => $template,
 				'directory' => JPATH_THEMES,
-				'debug'     => JDEBUG
+				'debug'     => JDEBUG,
+				'csp_nonce' => $app->get('csp_nonce'),
 			]
 		);
 	}

@@ -36,31 +36,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
-								</th>
-								<th class="nowrap">
+								</td>
+								<th scope="col" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap">
+								<th scope="col" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap">
+								<th scope="col" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th style="width:15%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
-								<th class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:1%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -76,11 +76,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
 										<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
 									</label>
-								</td>
+								</th>
 								<td>
 									<?php echo $item->client_translated; ?>
 								</td>

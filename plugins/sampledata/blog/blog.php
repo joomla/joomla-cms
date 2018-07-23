@@ -957,7 +957,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
