@@ -41,7 +41,7 @@ class PlgContentPagebreak extends JPlugin
 	 * @return  mixed  Always returns void or true
 	 *
 	 * @since   1.6
-     * @throws  Exception
+	 * @throws  Exception
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{

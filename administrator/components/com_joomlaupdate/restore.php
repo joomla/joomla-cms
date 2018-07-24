@@ -1369,8 +1369,8 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 *
 	 * @param $fp
 	 * @param $length
-     *
-     * @return string
+	 *
+	 * @return string
 	 */
 	protected function fread($fp, $length = null)
 	{
@@ -6749,8 +6749,8 @@ class AKFactory
 	 * Gets the post processing engine
 	 *
 	 * @param string $proc_engine
-     *
-     * @return object
+	 *
+	 * @return object
 	 */
 	public static function &getPostProc($proc_engine = null)
 	{
