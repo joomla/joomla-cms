@@ -1335,7 +1335,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
@@ -1378,7 +1378,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function convertToRelativePath($path)
 	{
@@ -1396,7 +1396,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static function checkFileOrder($first, $second)
 	{

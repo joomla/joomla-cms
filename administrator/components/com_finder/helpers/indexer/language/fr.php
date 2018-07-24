@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * French language support class for the Finder indexer package.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FinderIndexerLanguagefr extends FinderIndexerLanguage
 {
@@ -20,7 +20,7 @@ class FinderIndexerLanguagefr extends FinderIndexerLanguage
 	 * Language locale of the class
 	 * 
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $language = 'fr';
 
@@ -28,14 +28,14 @@ class FinderIndexerLanguagefr extends FinderIndexerLanguage
 	 * The french stemmer object.
 	 *
 	 * @var    \Wamania\Snowball\French
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $stemmer = null;
 
 	/**
 	 * Method to construct the language object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct()
 	{
@@ -49,7 +49,7 @@ class FinderIndexerLanguagefr extends FinderIndexerLanguage
 	 *
 	 * @return  string  The stemmed token.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function stem($token)
 	{

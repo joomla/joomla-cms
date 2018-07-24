@@ -24,7 +24,7 @@
       margin-left: .75rem;
       box-shadow: $atum-box-shadow;
 
-      &:first-of-type {
+      &:first-child {
         margin-left: 0;
       }
     }

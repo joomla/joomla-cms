@@ -41,7 +41,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * Database object.
 	 *
 	 * @var    DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -66,7 +66,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * The list of special directives that need to be handled
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $specialDirectives = [
 		'script-src',
@@ -79,7 +79,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * @param   object  &$subject  The object to observe.
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -218,7 +218,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function setCspHeader($cspNonce)
 	{
@@ -294,7 +294,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function setHstsHeader()
 	{
@@ -322,7 +322,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array  An array containing the csp rules found in com_csp
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function compileAutomaticCspHeaderRules($nonce): array
 	{

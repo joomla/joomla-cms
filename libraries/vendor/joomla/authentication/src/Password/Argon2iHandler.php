@@ -29,7 +29,7 @@ class Argon2iHandler implements HandlerInterface
 	public function hashPassword($plaintext, array $options = array())
 	{
 		// Use the password extension if able
-		if (version_compare(PHP_VERSION, '7.2', '>=') && defined('PASSWORD_ARGON2I'))
+		if (version_compare(PHP_VERSION, '7.2', '>=') && \defined('PASSWORD_ARGON2I'))
 		{
 			return password_hash($plaintext, PASSWORD_ARGON2I, $options);
 		}
@@ -73,7 +73,7 @@ class Argon2iHandler implements HandlerInterface
 	public static function isSupported()
 	{
 		// Check for native PHP engine support in the password extension
-		if (version_compare(PHP_VERSION, '7.2', '>=') && defined('PASSWORD_ARGON2I'))
+		if (version_compare(PHP_VERSION, '7.2', '>=') && \defined('PASSWORD_ARGON2I'))
 		{
 			return true;
 		}
@@ -102,7 +102,7 @@ class Argon2iHandler implements HandlerInterface
 	public function validatePassword($plaintext, $hashed)
 	{
 		// Use the password extension if able
-		if (version_compare(PHP_VERSION, '7.2', '>=') && defined('PASSWORD_ARGON2I'))
+		if (version_compare(PHP_VERSION, '7.2', '>=') && \defined('PASSWORD_ARGON2I'))
 		{
 			return password_verify($plaintext, $hashed);
 		}

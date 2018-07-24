@@ -38,37 +38,37 @@ if ($saveOrder)
 					<table class="table" id="contentList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%"  class="nowrap text-center">
+								<td style="width:1%"  class="nowrap text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
-								</th>
-								<th style="width:1%" class="nowrap text-center">
+								</td>
+								<th scope="col" style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
-								<th class="title nowrap">
+								<th scope="col" class="title nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th class="title nowrap d-none d-md-table-cell">
+								<th scope="col" class="title nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'a.lang_code', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_HOMEPAGE', 'l.home', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -113,7 +113,7 @@ if ($saveOrder)
 								<td class="text-center">
 									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 									<?php if ($canEdit) : ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
@@ -122,7 +122,7 @@ if ($saveOrder)
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 									</span>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo $this->escape($item->title_native); ?>
 								</td>

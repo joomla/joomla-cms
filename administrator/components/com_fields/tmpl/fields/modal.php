@@ -40,25 +40,25 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 			<table class="table" id="moduleList">
 				<thead>
 					<tr>
-						<th style="width:1%" class="nowrap center">
+						<th scope="col" style="width:1%" class="nowrap center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th class="title">
+						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -84,9 +84,9 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 						<td class="center">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
-						<td class="has-context">
+						<th scope="row" class="has-context">
 							<a class="btn btn-sm btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
-						</td>
+						</th>
 						<td class="small d-none d-md-table-cell">
 							<a class="btn btn-sm btn-block btn-warning" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?></a>
 						</td>

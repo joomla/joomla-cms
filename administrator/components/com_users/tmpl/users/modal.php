@@ -45,22 +45,22 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th class="nowrap">
+					<th scope="col" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:25%" class="nowrap">
+					<th scope="col" style="width:25%" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="nowrap text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="nowrap text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:25%" class="nowrap">
+					<th scope="col" style="width:25%" class="nowrap">
 						<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 					</th>
-					<th style="width:1%" class="nowrap">
+					<th scope="col" style="width:1%" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -76,12 +76,12 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
                 <?php $i = 0; ?>
                 <?php foreach ($this->items as $item) : ?>
                     <tr class="row<?php echo $i % 2; ?>">
-                        <td>
+                        <th scope="row">
                             <a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
                                 data-user-field="<?php echo $this->escape($field); ?>">
                                 <?php echo $this->escape($item->name); ?>
                             </a>
-                        </td>
+                        </th>
                         <td>
                             <?php echo $this->escape($item->username); ?>
                         </td>
