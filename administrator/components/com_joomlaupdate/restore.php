@@ -1367,8 +1367,8 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	/**
 	 * Reads data from the archive and notifies the observer with the 'reading' message
 	 *
-	 * @param  $fp
-	 * @param  $length
+	 * @param   $fp
+	 * @param   $length
 	 *
 	 * @return  string
 	 */

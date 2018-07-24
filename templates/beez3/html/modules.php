@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * beezDivision chrome.
  *
- * @param   stdClass  $module     The module object
- * @param   Registry  $params     The module parameters
- * @param   array     $attribs    The module attributes
+ * @param   stdClass  $module   The module object
+ * @param   Registry  $params   The module parameters
+ * @param   array     $attribs  The module attributes
  *
  * @since   3.0
  */
