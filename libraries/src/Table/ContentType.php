@@ -11,6 +11,7 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Tags table
@@ -22,11 +23,11 @@ class ContentType extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__content_types', 'type_id', $db);
 	}

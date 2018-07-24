@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Menu class
@@ -34,7 +35,7 @@ class SiteMenu extends AbstractMenu
 	/**
 	 * Database driver
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.5
 	 */
 	protected $db;
@@ -58,7 +59,7 @@ class SiteMenu extends AbstractMenu
 	{
 		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
 		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-		$this->db       = isset($options['db']) && $options['db'] instanceof \JDatabaseDriver ? $options['db'] : Factory::getDbo();
+		$this->db       = isset($options['db']) && $options['db'] instanceof DatabaseDriver ? $options['db'] : Factory::getDbo();
 		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
 		parent::__construct($options);

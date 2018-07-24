@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Category table
@@ -28,11 +29,11 @@ class Category extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);

@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * JDate is a class that stores a date and provides logic to manipulate
@@ -425,14 +426,14 @@ class Date extends \DateTime
 	 * Gets the date as an SQL datetime string.
 	 *
 	 * @param   boolean           $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   \JDatabaseDriver  $db     The database driver or null to use Factory::getDbo()
+	 * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
-	public function toSql($local = false, \JDatabaseDriver $db = null)
+	public function toSql($local = false, DatabaseDriver $db = null)
 	{
 		if ($db === null)
 		{

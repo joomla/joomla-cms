@@ -11,6 +11,7 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Viewlevels table class.
@@ -22,11 +23,11 @@ class ViewLevel extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__viewlevels', 'id', $db);
 	}

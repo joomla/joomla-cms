@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Menu table
@@ -26,11 +27,11 @@ class Menu extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__menu', 'id', $db);
 

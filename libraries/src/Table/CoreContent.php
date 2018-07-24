@@ -16,6 +16,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Core content table
@@ -27,11 +28,11 @@ class CoreContent extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__ucm_content', 'core_content_id', $db);
 	}

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Update site table
@@ -25,11 +26,11 @@ class UpdateSite extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__update_sites', 'update_site_id', $db);
 	}

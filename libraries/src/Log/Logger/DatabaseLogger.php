@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Joomla! MySQL Database Log class
@@ -76,7 +77,7 @@ class DatabaseLogger extends Logger
 	/**
 	 * The database driver object for the logger.
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  11.1
 	 */
 	protected $db;
@@ -153,7 +154,7 @@ class DatabaseLogger extends Logger
 	 */
 	protected function connect()
 	{
-		// Build the configuration object to use for JDatabaseDriver.
+		// Build the configuration object to use for DatabaseDriver.
 		$options = array(
 			'driver' => $this->driver,
 			'host' => $this->host,
@@ -163,6 +164,6 @@ class DatabaseLogger extends Logger
 			'prefix' => $this->prefix,
 		);
 
-		$this->db = \JDatabaseDriver::getInstance($options);
+		$this->db = DatabaseDriver::getInstance($options);
 	}
 }

@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Abstract adapter for the installer.
@@ -120,12 +121,12 @@ abstract class InstallerAdapter
 	 * Constructor
 	 *
 	 * @param   Installer         $parent   Parent object
-	 * @param   \JDatabaseDriver  $db       Database object
+	 * @param   DatabaseDriver    $db       Database object
 	 * @param   array             $options  Configuration Options
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(Installer $parent, \JDatabaseDriver $db, array $options = array())
+	public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
 	{
 		$this->parent = $parent;
 		$this->db     = $db;

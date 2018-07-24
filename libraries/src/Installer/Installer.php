@@ -18,6 +18,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -985,7 +986,7 @@ class Installer extends \JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				$queries = \JDatabaseDriver::splitSql($buffer);
+				$queries = DatabaseDriver::splitSql($buffer);
 
 				if (count($queries) === 0)
 				{
@@ -1181,7 +1182,7 @@ class Installer extends \JAdapter
 							}
 
 							// Create an array of queries from the sql file
-							$queries = \JDatabaseDriver::splitSql($buffer);
+							$queries = DatabaseDriver::splitSql($buffer);
 
 							if (count($queries) === 0)
 							{

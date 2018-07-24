@@ -66,9 +66,9 @@ abstract class ChangeItem
 	public $checkQueryExpected = 1;
 
 	/**
-	 * \JDatabaseDriver object
+	 * DatabaseDriver object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  2.5
 	 */
 	public $db = null;
@@ -116,7 +116,7 @@ abstract class ChangeItem
 	/**
 	 * Constructor: builds check query and message from $updateQuery
 	 *
-	 * @param   \JDatabaseDriver  $db     Database connector object
+	 * @param   DatabaseDriver  $db     Database connector object
 	 * @param   string            $file   Full path name of the sql file
 	 * @param   string            $query  Text of the sql query (one line of the file)
 	 *
@@ -133,7 +133,7 @@ abstract class ChangeItem
 	/**
 	 * Returns a reference to the ChangeItem object.
 	 *
-	 * @param   \JDatabaseDriver  $db     Database connector object
+	 * @param   DatabaseDriver  $db     Database connector object
 	 * @param   string            $file   Full path name of the sql file
 	 * @param   string            $query  Text of the sql query (one line of the file)
 	 *
