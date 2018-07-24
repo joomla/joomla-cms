@@ -36,11 +36,11 @@ $purple:                             #613d7c !default;
 
 
 // Create grayscale
-$gray-dark:     	                   #292b2c !default;
-$gray:          	                   #464a4c !default;
-$gray-light:    	                   #636c72 !default;
-$gray-lighter:  	                   #eceeef !default;
-$gray-lightest: 	                   #f7f7f9 !default;
+$gray-dark:     	                 #292b2c !default;
+$gray:          	                 #464a4c !default;
+$gray-light:    	                 #636c72 !default;
+$gray-lighter:  	                 #eceeef !default;
+$gray-lightest: 	                 #f7f7f9 !default;
 
 
 // Options
@@ -53,11 +53,11 @@ $enable-hover-media-query:           false !default;
 
 // Some Breakpoints
 
-$breakpoint-xs: 	                   0 !default;
-$breakpoint-sm: 	                   576px !default;
-$breakpoint-md: 	                   768px !default;
-$breakpoint-lg: 	                   992px !default;
-$breakpoint-xl: 	                   1200px !default;
+$breakpoint-xs: 	                 0 !default;
+$breakpoint-sm: 	                 576px !default;
+$breakpoint-md: 	                 768px !default;
+$breakpoint-lg: 	                 992px !default;
+$breakpoint-xl: 	                 1200px !default;
 
 
 // Columns
@@ -67,10 +67,10 @@ $column-gutter:                      10px !default;
 
 // Spacing
 
-$spacer:   			                     1rem !default;
-$spacer-x: 			                     $spacer !default;
-$spacer-y: 			                     $spacer !default;
-$border-width: 		                   1px !default;
+$spacer:   			                 1rem !default;
+$spacer-x: 			                 $spacer !default;
+$spacer-y: 			                 $spacer !default;
+$border-width: 		                 1px !default;
 
 
 // Body
@@ -142,13 +142,26 @@ $table-border-color:                 $gray-lighter !default;
 
 // Buttons
 
-$button-padding-x:                   1.1rem !default;
-$button-padding-y:                   .5rem !default;
-$button-line-height:                 1.25 !default;
-$button-font-weight:                 700 !default;
-$button-box-shadow:                  0 0 1px rgba(0, 0, 0, 0.1), -1px -1px 10px rgba(0, 0, 0, 0.03) inset;
-$button-default-color:               $gray-dark !default;
-$button-default-background:          #fafafa;
+$btn-padding-x:                      1rem !default;
+$btn-padding-y:                      .4rem !default;
+$btn-line-height:                    1 !default;
+$btn-font-weight:                    700 !default;
+$btn-font-size:                      $font-size-sm;
+$btn-border-radius:                  4px;
+$btn-border-width:                   1px;
+$btn-border-color:                   #ccc;
+$btn-box-shadow:                     0 0 1px rgba(0, 0, 0, 0.1), -1px -1px 10px rgba(0, 0, 0, 0.03) inset;
+$btn-transition:                     color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+$btn-default-color:                  $gray-dark !default;
+$btn-default-background:             #fafafa;
+$btn-default-gradient:               linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,.02) 100%);
+$btn-hover-background:               $gray-lighter;
+$btn-hover-gradient:                 none;
+$btn-focus-box-shadow:               none;
+$btn-focus-width:                    1px !default;
+$btn-focus-box-shadow:               0 0 0 3px rgba(0, 0, 0, 0.1) !default;
+$btn-disabled-opacity:               .65 !default;
+$btn-active-box-shadow:              inset 0 3px 5px rgba($black, .125) !default;
 
 
 // Forms
