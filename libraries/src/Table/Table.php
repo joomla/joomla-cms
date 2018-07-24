@@ -20,6 +20,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Access\Rules;
 
 /**
  * Abstract Table class
@@ -84,7 +85,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    \JAccessRules  A \JAccessRules object.
+	 * @var    Rules  A Rules object.
 	 * @since  11.1
 	 */
 	protected $_rules;
@@ -541,7 +542,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param   mixed  $input  A \JAccessRules object, JSON string, or array.
+	 * @param   mixed  $input  A Rules object, JSON string, or array.
 	 *
 	 * @return  void
 	 *
@@ -549,20 +550,20 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 */
 	public function setRules($input)
 	{
-		if ($input instanceof \JAccessRules)
+		if ($input instanceof Rules)
 		{
 			$this->_rules = $input;
 		}
 		else
 		{
-			$this->_rules = new \JAccessRules($input);
+			$this->_rules = new Rules($input);
 		}
 	}
 
 	/**
 	 * Method to get the rules for the record.
 	 *
-	 * @return  \JAccessRules object
+	 * @return  Rules object
 	 *
 	 * @since   11.1
 	 */
@@ -949,7 +950,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 				$asset->name      = $name;
 				$asset->title     = $title;
 
-				if ($this->_rules instanceof \JAccessRules)
+				if ($this->_rules instanceof Rules)
 				{
 					$asset->rules = (string) $this->_rules;
 				}
