@@ -50,15 +50,21 @@ class SiteUpCommand extends AbstractCommand
 	{
 		$this->configureIO();
 
-		exec('php cli/joomla.php config:set offline false', $parts);
-		$output = implode("\n", $parts);
+		$command = $this->getApplication()->getCommand('config:set');
 
-		if (strpos($output, "Configuration set") !== false)
+		$command->setOptions('offline=false');
+
+		$returnCode = $command->execute();
+
+		if ($returnCode === 0)
 		{
 			$this->ioStyle->success("Website is now online");
+
+			return 0;
 		}
 
-		return 0;
+
+		return 1;
 	}
 
 	/**
