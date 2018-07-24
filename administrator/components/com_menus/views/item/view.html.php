@@ -50,7 +50,7 @@ class MenusViewItem extends JViewLegacy
 	 *
 	 * @since   1.6
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{

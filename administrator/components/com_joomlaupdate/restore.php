@@ -377,7 +377,7 @@ abstract class AKAbstractObject
 	/**
 	 * Add an error message
 	 *
-	 * @param    string $error Error message
+	 * @param   string  $error  Error message
 	 */
 	public function setError($error)
 	{
@@ -395,7 +395,7 @@ abstract class AKAbstractObject
 	/**
 	 * Add an error message
 	 *
-	 * @param    string $warning Error message
+	 * @param   string  $warning  Error message
 	 */
 	public function setWarning($warning)
 	{
@@ -1367,10 +1367,10 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	/**
 	 * Reads data from the archive and notifies the observer with the 'reading' message
 	 *
-	 * @param $fp
-	 * @param $length
+	 * @param  $fp
+	 * @param  $length
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	protected function fread($fp, $length = null)
 	{

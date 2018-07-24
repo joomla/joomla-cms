@@ -49,7 +49,7 @@ class LanguagesViewOverride extends JViewLegacy
 	 *
 	 * @since   2.5
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{

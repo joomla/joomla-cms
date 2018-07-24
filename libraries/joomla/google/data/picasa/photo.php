@@ -314,8 +314,8 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @since   12.3
 	 *
-	 * @throws Exception
-	 * @throws RuntimeException
+	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function save($match = '*')
 	{
