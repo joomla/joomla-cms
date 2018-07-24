@@ -275,6 +275,7 @@ abstract class RouterView extends RouterBase
 	 * @return  string  Name of the router
 	 *
 	 * @since   3.5
+	 *
 	 * @throws \Exception
 	 */
 	public function getName()

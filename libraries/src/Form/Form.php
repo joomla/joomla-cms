@@ -705,10 +705,10 @@ class Form
 	 * field being loaded.  If it is false, then the new field being loaded will be ignored and the
 	 * method will move on to the next field to load.
 	 *
-	 * @param   string  $data     The name of an XML string or object.
-	 * @param   bool    $replace  Flag to toggle whether form fields should be replaced if a field
-	 *                            already exists with the same group/name.
-	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
+	 * @param   string          $data       The name of an XML string or object.
+	 * @param   bool            $replace    Flag to toggle whether form fields should be replaced if a field
+	 *                                      already exists with the same group/name.
+	 * @param   string|boolean  $xpath      An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
