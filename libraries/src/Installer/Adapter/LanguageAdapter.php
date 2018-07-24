@@ -19,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.folder');
 
@@ -97,7 +98,7 @@ class LanguageAdapter extends InstallerAdapter
 		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
 
 		// Setting the language of users which have this language as the default language
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->from('#__users')
 			->select('*');
@@ -154,7 +155,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
+		Factory::getCache()->clean('com_languages');
 
 		if (!empty($count))
 		{
@@ -550,7 +551,7 @@ class LanguageAdapter extends InstallerAdapter
 				'image'        => strtolower(str_replace('-', '_', $this->tag)),
 				'published'    => 0,
 				'ordering'     => 0,
-				'access'       => (int) \JFactory::getConfig()->get('access', 1),
+				'access'       => (int) Factory::getConfig()->get('access', 1),
 				'description'  => '',
 				'metakey'      => '',
 				'metadesc'     => '',
@@ -580,7 +581,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
+		Factory::getCache()->clean('com_languages');
 
 		return $row->get('extension_id');
 	}
@@ -607,7 +608,7 @@ class LanguageAdapter extends InstallerAdapter
 		$numberPrefixesFound = 0;
 
 		// Get the sef value of all current content languages.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('sef'))
 			->from($db->qn('#__languages'));
@@ -760,7 +761,7 @@ class LanguageAdapter extends InstallerAdapter
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
+		Factory::getCache()->clean('com_languages');
 
 		if (!$row->check() || !$row->store())
 		{
@@ -864,7 +865,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
+		Factory::getCache()->clean('com_languages');
 
 		return $this->parent->extension->get('extension_id');
 	}

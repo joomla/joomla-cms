@@ -11,6 +11,8 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Base class for a Joomla List View
  *
@@ -205,7 +207,7 @@ class ListView extends HtmlView
 	protected function addToolbar()
 	{
 		$canDo = $this->canDo;
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');

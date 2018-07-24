@@ -18,6 +18,7 @@ use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Event\Event;
+use Joomla\CMS\Factory;
 
 /**
  * Package installer
@@ -125,7 +126,7 @@ class PackageAdapter extends InstallerAdapter
 			);
 		}
 
-		$dispatcher = \JFactory::getApplication()->getDispatcher();
+		$dispatcher = Factory::getApplication()->getDispatcher();
 
 		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
 		if (!$dispatcher->hasListener([$this, 'onExtensionAfterInstall'], 'onExtensionAfterInstall'))

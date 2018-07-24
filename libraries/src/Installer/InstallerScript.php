@@ -10,6 +10,8 @@ namespace Joomla\CMS\Installer;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
 
@@ -139,12 +141,12 @@ class InstallerScript
 		// Abort if the extension being installed is not newer than the currently installed version
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
-			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
+			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', Factory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
+				Factory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
 				return false;
 			}
@@ -164,7 +166,7 @@ class InstallerScript
 	 */
 	public function getInstances($isModule)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the item(s) and retrieve the id
@@ -259,7 +261,7 @@ class InstallerScript
 		// Store the combined new and existing values back as a JSON string
 		$paramsString = json_encode($params);
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->paramTable))
 			->set('params = ' . $db->quote($paramsString))
@@ -288,7 +290,7 @@ class InstallerScript
 	public function getItemArray($element, $table, $column, $identifier)
 	{
 		// Get the DB and query objects
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the query
 		$query = $db->getQuery(true)

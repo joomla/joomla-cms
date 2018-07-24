@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Schema;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Factory;
 
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
@@ -204,7 +205,7 @@ abstract class ChangeItem
 			catch (\RuntimeException $e)
 			{
 				// Still render the error message from the Exception object
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				$this->checkStatus = -2;
 
 				return $this->checkStatus;

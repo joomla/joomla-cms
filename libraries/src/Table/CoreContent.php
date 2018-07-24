@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Core content table
@@ -118,7 +119,7 @@ class CoreContent extends Table
 
 		if (trim(str_replace('-', '', $this->core_alias)) === '')
 		{
-			$this->core_alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->core_alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Not Null sanity check
@@ -243,8 +244,8 @@ class CoreContent extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->core_content_id)
 		{

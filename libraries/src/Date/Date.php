@@ -10,6 +10,8 @@ namespace Joomla\CMS\Date;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * JDate is a class that stores a date and provides logic to manipulate
  * and render that date in a variety of formats.
@@ -422,7 +424,7 @@ class Date extends \DateTime
 	 * Gets the date as an SQL datetime string.
 	 *
 	 * @param   boolean           $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   \JDatabaseDriver  $db     The database driver or null to use \JFactory::getDbo()
+	 * @param   \JDatabaseDriver  $db     The database driver or null to use Factory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
@@ -433,7 +435,7 @@ class Date extends \DateTime
 	{
 		if ($db === null)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 		}
 
 		return $this->format($db->getDateFormat(), $local, false);

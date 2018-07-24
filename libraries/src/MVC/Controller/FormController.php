@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -167,7 +168,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		}
 
 		// Clear the record edit information from the session.
-		\JFactory::getApplication()->setUserState($context . '.data', null);
+		Factory::getApplication()->setUserState($context . '.data', null);
 
 		// Redirect to the edit screen.
 		$this->setRedirect(
@@ -193,7 +194,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		return $user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
@@ -212,7 +213,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		return \JFactory::getUser()->authorise('core.edit', $this->option);
+		return Factory::getUser()->authorise('core.edit', $this->option);
 	}
 
 	/**
@@ -323,7 +324,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		// Clean the session data and redirect.
 		$this->releaseEditId($context, $recordId);
-		\JFactory::getApplication()->setUserState($context . '.data', null);
+		Factory::getApplication()->setUserState($context . '.data', null);
 
 		$this->setRedirect(
 			\JRoute::_(
@@ -349,7 +350,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function edit($key = null, $urlVar = null)
 	{
 		// Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
-		\JFactory::getApplication()->allowCache(false);
+		Factory::getApplication()->allowCache(false);
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -406,7 +407,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		{
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
-			\JFactory::getApplication()->setUserState($context . '.data', null);
+			Factory::getApplication()->setUserState($context . '.data', null);
 
 			$this->setRedirect(
 				\JRoute::_(
@@ -614,7 +615,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
@@ -770,7 +771,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		}
 
 		$langKey = $this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
-		$prefix  = \JFactory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
+		$prefix  = Factory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
 		$this->setMessage(\JText::_($prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
@@ -849,7 +850,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$model   = $this->getModel();
 		$data    = $this->input->post->get('jform', array(), 'array');
 

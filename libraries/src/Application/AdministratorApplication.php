@@ -17,6 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Administrator Application class
@@ -76,10 +77,10 @@ class AdministratorApplication extends CMSApplication
 		$this->loadDocument();
 
 		// Set up the params
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
-		// Register the document object with \JFactory
-		\JFactory::$document = $document;
+		// Register the document object with Factory
+		Factory::$document = $document;
 
 		switch ($document->getType())
 		{
@@ -189,10 +190,10 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = \JFactory::getUser()->getParam('admin_style');
+		$admin_style = Factory::getUser()->getParam('admin_style');
 
 		// Load the template name from the database
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('template, s.params')
 			->from('#__template_styles as s')
@@ -245,7 +246,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
@@ -345,10 +346,10 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$userid = $user->get('id');
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__messages_cfg'))
@@ -372,7 +373,7 @@ class AdministratorApplication extends CMSApplication
 		if ($purge > 0)
 		{
 			// Purge old messages at day set in message configuration
-			$past = \JFactory::getDate(time() - $purge * 86400);
+			$past = Factory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toSql();
 
 			$query->clear()
@@ -413,7 +414,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (property_exists('\JConfig', 'root_user'))
 		{
-			if (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser)
+			if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser)
 			{
 				$this->enqueueMessage(
 					\JText::sprintf(
@@ -424,7 +425,7 @@ class AdministratorApplication extends CMSApplication
 				);
 			}
 			// Show this message to superusers too
-			elseif (\JFactory::getUser()->authorise('core.admin'))
+			elseif (Factory::getUser()->authorise('core.admin'))
 			{
 				$this->enqueueMessage(
 					\JText::sprintf(
@@ -477,7 +478,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function findOption(): string
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$option = strtolower($app->input->get('option'));
 		$user = $app->getIdentity();
 

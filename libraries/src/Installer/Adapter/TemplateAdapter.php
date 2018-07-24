@@ -15,6 +15,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\CMS\Factory;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -292,7 +293,7 @@ class TemplateAdapter extends InstallerAdapter
 		if (in_array($this->route, array('install', 'discover_install')))
 		{
 			$db    = $this->db;
-			$lang  = \JFactory::getLanguage();
+			$lang  = Factory::getLanguage();
 			$debug = $lang->setDebug(false);
 
 			$columns = array(

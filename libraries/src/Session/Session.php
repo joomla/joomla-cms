@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Session\Session as BaseSession;
+use Joomla\CMS\Factory;
 
 /**
  * Class for managing HTTP sessions
@@ -33,7 +34,7 @@ class Session extends BaseSession
 	 */
 	public static function checkToken($method = 'post')
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$token = static::getFormToken();
 
 		// Check from header first
@@ -71,9 +72,9 @@ class Session extends BaseSession
 	 */
 	public static function getFormToken($forceNew = false)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
-		return ApplicationHelper::getHash($user->get('id', 0) . \JFactory::getApplication()->getSession()->getToken($forceNew));
+		return ApplicationHelper::getHash($user->get('id', 0) . Factory::getApplication()->getSession()->getToken($forceNew));
 	}
 
 	/**
@@ -87,12 +88,12 @@ class Session extends BaseSession
 	public static function getInstance()
 	{
 		\JLog::add(
-			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via JFactory::getApplication()->getSession().',
+			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().',
 			\JLog::WARNING,
 			'deprecated'
 		);
 
-		return \JFactory::getApplication()->getSession();
+		return Factory::getApplication()->getSession();
 	}
 
 	/**

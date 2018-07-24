@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Cache;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Log\Log;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Factory;
 
 /**
  * Abstract cache storage handler
@@ -86,7 +87,7 @@ class CacheStorage
 	 */
 	public function __construct($options = array())
 	{
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		$this->_hash        = md5($config->get('secret'));
 		$this->_application = $options['application'] ?? null;
@@ -126,7 +127,7 @@ class CacheStorage
 
 		if (!isset($handler))
 		{
-			$handler = \JFactory::getConfig()->get('cache_handler');
+			$handler = Factory::getConfig()->get('cache_handler');
 
 			if (empty($handler))
 			{

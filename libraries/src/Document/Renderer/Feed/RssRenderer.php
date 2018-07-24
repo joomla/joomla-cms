@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /**
  * RssRenderer is a feed that implements RSS 2.0 Specification
@@ -45,7 +46,7 @@ class RssRenderer extends DocumentRenderer
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$tz  = new \DateTimeZone($app->get('offset'));
 
 		$data = $this->_doc;
@@ -54,7 +55,7 @@ class RssRenderer extends DocumentRenderer
 		if (!($data->lastBuildDate instanceof \JDate))
 		{
 			// Gets and sets timezone offset from site configuration
-			$data->lastBuildDate = \JFactory::getDate();
+			$data->lastBuildDate = Factory::getDate();
 			$data->lastBuildDate->setTimeZone(new \DateTimeZone($app->get('offset')));
 		}
 
@@ -138,7 +139,7 @@ class RssRenderer extends DocumentRenderer
 
 		if ($data->pubDate != '')
 		{
-			$pubDate = \JFactory::getDate($data->pubDate);
+			$pubDate = Factory::getDate($data->pubDate);
 			$pubDate->setTimeZone($tz);
 			$feed .= "		<pubDate>" . htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 		}
@@ -248,7 +249,7 @@ class RssRenderer extends DocumentRenderer
 
 			if ($data->items[$i]->date != '')
 			{
-				$itemDate = \JFactory::getDate($data->items[$i]->date);
+				$itemDate = Factory::getDate($data->items[$i]->date);
 				$itemDate->setTimeZone($tz);
 				$feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 			}

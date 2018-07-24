@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Library helper class
@@ -106,7 +107,7 @@ class LibraryHelper
 		if (static::isEnabled($element))
 		{
 			// Save params in DB
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($params->toString()))
@@ -156,7 +157,7 @@ class LibraryHelper
 	{
 		$loader = function($element)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
@@ -168,7 +169,7 @@ class LibraryHelper
 		};
 
 		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('_system', 'callback');
+		$cache = Factory::getCache('_system', 'callback');
 
 		try
 		{

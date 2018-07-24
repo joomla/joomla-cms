@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
+use Joomla\CMS\Factory;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -132,7 +133,7 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive(array('tmp_path' => \JFactory::getConfig()->get('tmp_path')));
+			$archive = new Archive(array('tmp_path' => Factory::getConfig()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
@@ -294,7 +295,7 @@ abstract class InstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))

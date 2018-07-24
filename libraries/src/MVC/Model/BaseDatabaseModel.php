@@ -217,9 +217,9 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($modelClass))
+		if (Factory::getContainer()->exists($modelClass))
 		{
-			return \JFactory::getContainer()->get($modelClass);
+			return Factory::getContainer()->get($modelClass);
 		}
 
 		return new $modelClass($config);
@@ -279,7 +279,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 		else
 		{
-			$this->_db = \JFactory::getDbo();
+			$this->_db = Factory::getDbo();
 		}
 
 		// Set the default view search path
@@ -570,7 +570,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		$table = $this->getTable();
 		$checkedOutField = $table->getColumnAlias('checked_out');
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != \JFactory::getUser()->id)
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
 		{
 			return true;
 		}
@@ -634,10 +634,10 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = \JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
 			'result'       => true,
 		];
@@ -654,7 +654,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 
 		// Trigger the onContentCleanCache event.
-		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**

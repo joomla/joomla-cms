@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Language helper class
@@ -116,7 +117,7 @@ class LanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (\JFactory::getApplication()->isClient('installation'))
+			if (Factory::getApplication()->isClient('installation'))
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);
@@ -131,7 +132,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$cache = \JFactory::getCache('com_languages', '');
+				$cache = Factory::getCache('com_languages', '');
 
 				if ($cache->contains('languages'))
 				{
@@ -139,7 +140,7 @@ class LanguageHelper
 				}
 				else
 				{
-					$db = \JFactory::getDbo();
+					$db = Factory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
 						->from('#__languages')
@@ -189,7 +190,7 @@ class LanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			$cache = Factory::getCache('com_languages', '');
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -197,7 +198,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
@@ -342,7 +343,7 @@ class LanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			$cache = Factory::getCache('com_languages', '');
 
 			if ($cache->contains('contentlanguages'))
 			{
@@ -350,7 +351,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select('*')

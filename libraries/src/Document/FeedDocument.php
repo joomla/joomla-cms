@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\Factory;
 
 /**
  * FeedDocument class, provides an easy interface to parse and display any feed document
@@ -180,8 +180,8 @@ class FeedDocument extends Document
 		$this->_type = 'feed';
 
 		// Gets and sets timezone offset from site configuration
-		$this->lastBuildDate = JFactory::getDate();
-		$this->lastBuildDate->setTimeZone(new \DateTimeZone(JFactory::getApplication()->get('offset', 'UTC')));
+		$this->lastBuildDate = Factory::getDate();
+		$this->lastBuildDate->setTimeZone(new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**
@@ -199,7 +199,7 @@ class FeedDocument extends Document
 	public function render($cache = false, $params = array())
 	{
 		// Get the feed type
-		$type = JFactory::getApplication()->input->get('type', 'rss');
+		$type = Factory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');

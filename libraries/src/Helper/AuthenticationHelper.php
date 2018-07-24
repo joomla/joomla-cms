@@ -10,6 +10,8 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Authentication helper class
  *
@@ -30,7 +32,7 @@ abstract class AuthenticationHelper
 		\JPluginHelper::importPlugin('twofactorauth');
 
 		// Trigger onUserTwofactorIdentify event and return the two factor enabled plugins.
-		$identities = \JFactory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
+		$identities = Factory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
 
 		// Generate array with two factor auth methods.
 		$options = array(

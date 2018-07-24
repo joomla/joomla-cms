@@ -10,6 +10,8 @@ namespace Joomla\CMS\Pathway;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class to maintain a pathway.
  *
@@ -61,12 +63,12 @@ class Pathway
 			// Create a Pathway object
 			$name = ucfirst($client) . 'Pathway';
 
-			if (!\JFactory::getContainer()->has($name))
+			if (!Factory::getContainer()->has($name))
 			{
 				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
 			}
 
-			self::$instances[$client] = \JFactory::getContainer()->get($name);
+			self::$instances[$client] = Factory::getContainer()->get($name);
 		}
 
 		return self::$instances[$client];

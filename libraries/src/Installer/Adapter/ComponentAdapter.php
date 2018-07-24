@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.folder');
 
@@ -1082,7 +1083,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				if (!$table->delete((int) $menuid, false))
 				{
-					\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+					Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 					$result = false;
 				}
@@ -1307,7 +1308,7 @@ class ComponentAdapter extends InstallerAdapter
 			if (!$menu_id)
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
-				\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+				Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 				return false;
 			}
@@ -1324,7 +1325,7 @@ class ComponentAdapter extends InstallerAdapter
 				if (!$table->bind($data) || !$table->check() || !$table->store())
 				{
 					// Install failed, warn user and rollback changes
-					\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+					Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 					return false;
 				}

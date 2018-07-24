@@ -16,6 +16,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Editor class to handle WYSIWYG editors
@@ -79,7 +80,7 @@ class Editor implements DispatcherAwareInterface
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = \JFactory::getContainer()->get('dispatcher');
+			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -170,7 +171,7 @@ class Editor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if ($this->_editor === null)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			Factory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Menu;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Menu class
@@ -79,7 +80,7 @@ abstract class AbstractMenu
 			}
 		}
 
-		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : \JFactory::getUser();
+		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : Factory::getUser();
 	}
 
 	/**
@@ -103,7 +104,7 @@ abstract class AbstractMenu
 
 		if (empty(self::$instances[$client]))
 		{
-			self::$instances[$client] = \JFactory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options);
+			self::$instances[$client] = Factory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options);
 		}
 
 		return self::$instances[$client];

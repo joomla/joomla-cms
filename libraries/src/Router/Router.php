@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\CMS\Factory;
 
 /**
  * Class to create and parse routes
@@ -108,9 +109,9 @@ class Router
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->exists($classname))
+			if (Factory::getContainer()->exists($classname))
 			{
-				self::$instances[$client] = \JFactory::getContainer()->get($classname);
+				self::$instances[$client] = Factory::getContainer()->get($classname);
 			}
 			else
 			{

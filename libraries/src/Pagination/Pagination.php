@@ -11,6 +11,7 @@ namespace Joomla\CMS\Pagination;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -114,7 +115,7 @@ class Pagination
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
-		$this->app = $app ?: \JFactory::getApplication();
+		$this->app = $app ?: Factory::getApplication();
 
 		if ($this->limit > $this->total)
 		{

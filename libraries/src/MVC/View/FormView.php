@@ -12,6 +12,8 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+
 /**
  * Base class for a Joomla Form View
  *
@@ -160,9 +162,9 @@ class FormView extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$viewName   = $this->getName();

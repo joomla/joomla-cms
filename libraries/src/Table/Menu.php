@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Menu table
@@ -33,7 +34,7 @@ class Menu extends Nested
 		parent::__construct('#__menu', 'id', $db);
 
 		// Set the default access level.
-		$this->access = (int) \JFactory::getConfig()->get('access');
+		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
 	/**
@@ -155,7 +156,7 @@ class Menu extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Verify that the alias is unique
 		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
@@ -188,7 +189,7 @@ class Menu extends Nested
 		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
 		if (empty($this->alias))
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 		else
 		{

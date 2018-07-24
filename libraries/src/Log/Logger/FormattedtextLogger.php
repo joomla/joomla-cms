@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\CMS\Factory;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -73,7 +74,7 @@ class FormattedtextLogger extends Logger
 		// The name of the text file path defaults to that which is set in configuration if not explicitly given.
 		if (empty($this->options['text_file_path']))
 		{
-			$this->options['text_file_path'] = \JFactory::getConfig()->get('log_path', JPATH_ADMINISTRATOR . '/logs');
+			$this->options['text_file_path'] = Factory::getConfig()->get('log_path', JPATH_ADMINISTRATOR . '/logs');
 		}
 
 		// False to treat the log file as a php file.

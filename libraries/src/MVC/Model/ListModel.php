@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Model class for handling lists of items.
@@ -440,7 +441,7 @@ class ListModel extends BaseDatabaseModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState($this->context, new \stdClass);
+		$data = Factory::getApplication()->getUserState($this->context, new \stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
@@ -477,7 +478,7 @@ class ListModel extends BaseDatabaseModel
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context)
 		{
-			$app         = \JFactory::getApplication();
+			$app         = Factory::getApplication();
 			$inputFilter = \JFilterInput::getInstance();
 
 			// Receive & set filters
@@ -663,7 +664,7 @@ class ListModel extends BaseDatabaseModel
 		\JPluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
@@ -684,7 +685,7 @@ class ListModel extends BaseDatabaseModel
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = $old_state ?? $default;

@@ -12,6 +12,7 @@ use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -516,7 +517,7 @@ abstract class InstallerAdapter
 	 */
 	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
 	}
 

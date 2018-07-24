@@ -18,6 +18,7 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Abstract Table class
@@ -196,14 +197,14 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		// If the access property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
-			$this->access = (int) \JFactory::getConfig()->get('access');
+			$this->access = (int) Factory::getConfig()->get('access');
 		}
 
 		// Create or set a Dispatcher
 		if (!is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
 		{
 			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
-			$dispatcher = \JFactory::getApplication()->getDispatcher();
+			$dispatcher = Factory::getApplication()->getDispatcher();
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -299,13 +300,13 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			}
 		}
 
-		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
-		$db = $config['dbo'] ?? \JFactory::getDbo();
+		// If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
+		$db = $config['dbo'] ?? Factory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($tableClass))
+		if (Factory::getContainer()->exists($tableClass))
 		{
-			return \JFactory::getContainer()->get($tableClass);
+			return Factory::getContainer()->get($tableClass);
 		}
 
 		// Instantiate a new table class and return it.
@@ -1196,7 +1197,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		}
 
 		// Get the current time in the database format.
-		$time = \JFactory::getDate()->toSql();
+		$time = Factory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1457,9 +1458,9 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		}
 
 		// This last check can only be relied on if tracking session metadata
-		if (\JFactory::getConfig()->get('session_metadata', true))
+		if (Factory::getConfig()->get('session_metadata', true))
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('COUNT(userid)')
 				->from($db->quoteName('#__session'))
@@ -1821,7 +1822,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			// If publishing, set published date/time if not previously set
 			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
 			{
-				$nowDate = $this->_db->quote(\JFactory::getDate()->toSql());
+				$nowDate = $this->_db->quote(Factory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
 			}
 

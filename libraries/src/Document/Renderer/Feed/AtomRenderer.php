@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
 /**
  * AtomRenderer is a feed that implements the atom specification
@@ -49,11 +50,11 @@ class AtomRenderer extends DocumentRenderer
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Gets and sets timezone offset from site configuration
 		$tz  = new \DateTimeZone($app->get('offset'));
-		$now = \JFactory::getDate();
+		$now = Factory::getDate();
 		$now->setTimeZone($tz);
 
 		$data = $this->_doc;
@@ -146,7 +147,7 @@ class AtomRenderer extends DocumentRenderer
 				$data->items[$i]->date = $now->toUnix();
 			}
 
-			$itemDate = \JFactory::getDate($data->items[$i]->date);
+			$itemDate = Factory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";

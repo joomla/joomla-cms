@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Application helper functions
@@ -45,7 +46,7 @@ class ApplicationHelper
 			return $option;
 		}
 
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$option = strtolower($input->get('option'));
 
 		if (empty($option))
@@ -69,7 +70,7 @@ class ApplicationHelper
 	 */
 	public static function getHash($seed)
 	{
-		return md5(\JFactory::getConfig()->get('secret') . $seed);
+		return md5(Factory::getConfig()->get('secret') . $seed);
 	}
 
 	/**
@@ -86,7 +87,7 @@ class ApplicationHelper
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{
-		if (\JFactory::getConfig()->get('unicodeslugs') == 1)
+		if (Factory::getConfig()->get('unicodeslugs') == 1)
 		{
 			$output = \JFilterOutput::stringURLUnicodeSlug($string);
 		}

@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * File cache storage handler
@@ -334,7 +335,7 @@ class FileStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		return is_writable(\JFactory::getConfig()->get('cache_path', JPATH_CACHE));
+		return is_writable(Factory::getConfig()->get('cache_path', JPATH_CACHE));
 	}
 
 	/**

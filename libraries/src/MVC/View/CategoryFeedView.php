@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Base feed View class for a category
  *
@@ -28,8 +30,8 @@ class CategoryFeedView extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app      = \JFactory::getApplication();
-		$document = \JFactory::getDocument();
+		$app      = Factory::getApplication();
+		$document = Factory::getDocument();
 
 		$extension      = $app->input->getString('option');
 		$contentType = $extension . '.' . $this->viewName;

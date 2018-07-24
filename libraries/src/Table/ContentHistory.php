@@ -10,6 +10,8 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Content History table.
  *
@@ -83,8 +85,8 @@ class ContentHistory extends Table
 		// Modify author and date only when not toggling Keep Forever
 		if ($this->get('keep_forever') === null)
 		{
-			$this->set('editor_user_id', \JFactory::getUser()->id);
-			$this->set('save_date', \JFactory::getDate()->toSql());
+			$this->set('editor_user_id', Factory::getUser()->id);
+			$this->set('save_date', Factory::getDate()->toSql());
 		}
 
 		return parent::store($updateNulls);

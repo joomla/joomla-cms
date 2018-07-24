@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Factory;
 
 /**
  * Base class for a Joomla Controller
@@ -250,7 +251,7 @@ class BaseController implements ControllerInterface
 			return self::$instance;
 		}
 
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$input = $app->input;
 
 		// Get the environment configuration.
@@ -324,9 +325,9 @@ class BaseController implements ControllerInterface
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($class))
+		if (Factory::getContainer()->exists($class))
 		{
-			self::$instance = \JFactory::getContainer()->get($class);
+			self::$instance = Factory::getContainer()->get($class);
 		}
 		else
 		{
@@ -357,7 +358,7 @@ class BaseController implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app   = $app ? $app : \JFactory::getApplication();
+		$this->app   = $app ? $app : Factory::getApplication();
 		$this->input = $input ? $input : $this->app->input;
 
 		if (defined('JDEBUG') && JDEBUG)
@@ -613,7 +614,7 @@ class BaseController implements ControllerInterface
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
@@ -630,13 +631,13 @@ class BaseController implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && \JFactory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && Factory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
 			if (is_array($urlparams))
 			{
-				$this->app = \JFactory::getApplication();
+				$this->app = Factory::getApplication();
 
 				if (!empty($this->app->registeredurlparams))
 				{
@@ -659,7 +660,7 @@ class BaseController implements ControllerInterface
 			try
 			{
 				/** @var \JCacheControllerView $cache */
-				$cache = \JFactory::getCache($option, 'view');
+				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
 			catch (\JCacheException $exception)
@@ -739,7 +740,7 @@ class BaseController implements ControllerInterface
 			$model->setState('task', $this->task);
 
 			// Let's get the application object and set menu information if it's available
-			$menu = \JFactory::getApplication()->getMenu();
+			$menu = Factory::getApplication()->getMenu();
 
 			if (is_object($menu) && $item = $menu->getActive())
 			{

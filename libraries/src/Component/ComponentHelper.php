@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Factory;
 
 /**
  * Component helper class
@@ -120,7 +121,7 @@ class ComponentHelper
 
 		// Filter settings
 		$config     = static::getParams('com_config');
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
@@ -296,11 +297,11 @@ class ComponentHelper
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
@@ -375,7 +376,7 @@ class ComponentHelper
 	{
 		$loader = function ()
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'namespace', 'enabled'), array('id', 'option', null, null, null)))
 				->from($db->quoteName('#__extensions'))
@@ -386,7 +387,7 @@ class ComponentHelper
 		};
 
 		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('_system', 'callback');
+		$cache = Factory::getCache('_system', 'callback');
 
 		try
 		{
@@ -427,7 +428,7 @@ class ComponentHelper
 				 * before logging the error to ensure a human friendly message is always given
 				 */
 
-				if (\JFactory::$language)
+				if (Factory::$language)
 				{
 					$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 				}

@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Users table
@@ -220,7 +221,7 @@ class User extends Table
 		// Set the registration timestamp
 		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())
 		{
-			$this->registerDate = \JFactory::getDate()->toSql();
+			$this->registerDate = Factory::getDate()->toSql();
 		}
 
 		// Set the lastvisitDate timestamp
@@ -269,7 +270,7 @@ class User extends Table
 		}
 
 		// Check for root_user != username
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 		$rootUser = $config->get('root_user');
 
 		if (!is_numeric($rootUser))
@@ -487,7 +488,7 @@ class User extends Table
 		}
 
 		// If no timestamp value is passed to function, than current time is used.
-		$date = \JFactory::getDate($timeStamp);
+		$date = Factory::getDate($timeStamp);
 
 		// Update the database row for the user.
 		$db = $this->_db;

@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Module table
@@ -31,7 +32,7 @@ class Module extends Table
 	{
 		parent::__construct('#__modules', 'id', $db);
 
-		$this->access = (int) \JFactory::getConfig()->get('access');
+		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
 	/**

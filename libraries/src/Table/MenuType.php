@@ -11,6 +11,7 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Menu Types table
@@ -102,7 +103,7 @@ class MenuType extends Table
 		if ($this->id)
 		{
 			// Get the user id
-			$userId = \JFactory::getUser()->id;
+			$userId = Factory::getUser()->id;
 
 			// Get the old value of the table
 			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
@@ -187,7 +188,7 @@ class MenuType extends Table
 		if ($pk !== null)
 		{
 			// Get the user id
-			$userId = \JFactory::getUser()->id;
+			$userId = Factory::getUser()->id;
 
 			// Get the old value of the table
 			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));

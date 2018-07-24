@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\Cms\Table\Table;
+use Joomla\CMS\Factory;
 
 /**
  * Utility class for the button bar.
@@ -38,9 +39,9 @@ abstract class ToolbarHelper
 		$layout = new FileLayout('joomla.toolbar.title');
 		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		\JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
+		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
 	}
 
 	/**
@@ -622,7 +623,7 @@ abstract class ToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
 		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */

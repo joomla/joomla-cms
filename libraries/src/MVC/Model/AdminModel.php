@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Prototype admin model.
@@ -673,7 +674,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -687,7 +688,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -781,7 +782,7 @@ abstract class AdminModel extends FormModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the before delete event.
-					$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -830,7 +831,7 @@ abstract class AdminModel extends FormModel
 					}
 
 					// Trigger the after event.
-					\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 				else
 				{
@@ -959,7 +960,7 @@ abstract class AdminModel extends FormModel
 		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$pk = \JFactory::getApplication()->input->getInt($key);
+		$pk = Factory::getApplication()->input->getInt($key);
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.
@@ -993,7 +994,7 @@ abstract class AdminModel extends FormModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -1041,7 +1042,7 @@ abstract class AdminModel extends FormModel
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the change state event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
+		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
@@ -1183,7 +1184,7 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Trigger the before save event.
-			$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (in_array(false, $result, true))
 			{
@@ -1204,7 +1205,7 @@ abstract class AdminModel extends FormModel
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (\Exception $e)
 		{
@@ -1239,7 +1240,7 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				\JFactory::getApplication()->enqueueMessage(
+				Factory::getApplication()->enqueueMessage(
 					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
@@ -1318,7 +1319,7 @@ abstract class AdminModel extends FormModel
 
 		if (empty($pks))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
 
 			return false;
 		}
@@ -1429,8 +1430,8 @@ abstract class AdminModel extends FormModel
 		}
 
 		// Check that the user has create permission for the component
-		$extension = \JFactory::getApplication()->input->get('option', '');
-		$user = \JFactory::getUser();
+		$extension = Factory::getApplication()->input->get('option', '');
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
@@ -1475,7 +1476,7 @@ abstract class AdminModel extends FormModel
 			$this->batchSet = true;
 
 			// Get current user
-			$this->user = \JFactory::getUser();
+			$this->user = Factory::getUser();
 
 			// Get table
 			$this->table = $this->getTable();

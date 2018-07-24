@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Categories view base class.
  *
@@ -56,7 +58,7 @@ class CategoriesView extends HtmlView
 		$items  = $this->get('Items');
 		$parent = $this->get('Parent');
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -106,7 +108,7 @@ class CategoriesView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 
 		// Because the application sets a default page title, we need to get it from the menu item itself

@@ -14,6 +14,7 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
+use Joomla\CMS\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -493,7 +494,7 @@ class Installer extends \JAdapter
 
 		// Fire the onExtensionBeforeInstall event.
 		PluginHelper::importPlugin('extension');
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
 				'method' => 'install',
@@ -507,7 +508,7 @@ class Installer extends \JAdapter
 		$result = $adapter->install();
 
 		// Fire the onExtensionAfterInstall
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionAfterInstall',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -515,7 +516,7 @@ class Installer extends \JAdapter
 		if ($result !== false)
 		{
 			// Refresh versionable assets cache
-			\JFactory::getApplication()->flushAssets();
+			Factory::getApplication()->flushAssets();
 
 			return true;
 		}
@@ -596,7 +597,7 @@ class Installer extends \JAdapter
 
 		// Fire the onExtensionBeforeInstall event.
 		PluginHelper::importPlugin('extension');
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
 				'method' => 'discover_install',
@@ -610,7 +611,7 @@ class Installer extends \JAdapter
 		$result = $adapter->discover_install();
 
 		// Fire the onExtensionAfterInstall
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionAfterInstall',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -618,7 +619,7 @@ class Installer extends \JAdapter
 		if ($result !== false)
 		{
 			// Refresh versionable assets cache
-			\JFactory::getApplication()->flushAssets();
+			Factory::getApplication()->flushAssets();
 
 			return true;
 		}
@@ -702,7 +703,7 @@ class Installer extends \JAdapter
 
 		// Fire the onExtensionBeforeUpdate event.
 		PluginHelper::importPlugin('extension');
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeUpdate',
 			array('type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest)
 		);
@@ -711,7 +712,7 @@ class Installer extends \JAdapter
 		$result = $adapter->update();
 
 		// Fire the onExtensionAfterUpdate
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionAfterUpdate',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -748,7 +749,7 @@ class Installer extends \JAdapter
 		// We don't load languages here, we get the extension adapter to work it out
 		// Fire the onExtensionBeforeUninstall event.
 		PluginHelper::importPlugin('extension');
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeUninstall',
 			array('eid' => $identifier)
 		);
@@ -757,13 +758,13 @@ class Installer extends \JAdapter
 		$result = $adapter->uninstall($identifier);
 
 		// Fire the onExtensionAfterInstall
-		\JFactory::getApplication()->triggerEvent(
+		Factory::getApplication()->triggerEvent(
 			'onExtensionAfterUninstall',
 			array('installer' => clone $this, 'eid' => $identifier, 'removed' => $result)
 		);
 
 		// Refresh versionable assets cache
-		\JFactory::getApplication()->flushAssets();
+		Factory::getApplication()->flushAssets();
 
 		return $result;
 	}
@@ -1034,7 +1035,7 @@ class Installer extends \JAdapter
 	{
 		if ($eid && $schema)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1101,7 +1102,7 @@ class Installer extends \JAdapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (count($schemapaths))
@@ -2055,7 +2056,7 @@ class Installer extends \JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where('type = ' . $db->quote($type))
@@ -2389,9 +2390,9 @@ class Installer extends \JAdapter
 		$options['type'] = $adapter;
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($class))
+		if (Factory::getContainer()->exists($class))
 		{
-			return \JFactory::getContainer()->get($class);
+			return Factory::getContainer()->get($class);
 		}
 
 		return new $class($this, $this->getDbo(), $options);

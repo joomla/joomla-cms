@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Base HTML View class for the a Category list
  *
@@ -107,8 +109,8 @@ class CategoryView extends HtmlView
 	 */
 	public function commonCategoryDisplay()
 	{
-		$app    = \JFactory::getApplication();
-		$user   = \JFactory::getUser();
+		$app    = Factory::getApplication();
+		$user   = Factory::getUser();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -180,21 +182,21 @@ class CategoryView extends HtmlView
 				// For some plugins.
 				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
-				\JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
+				Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentAfterTitle',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentBeforeDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentAfterDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
@@ -267,7 +269,7 @@ class CategoryView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app           = \JFactory::getApplication();
+		$app           = Factory::getApplication();
 		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
 		$title         = null;

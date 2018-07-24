@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Observer\ContentHistory;
 use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Category table
@@ -34,7 +35,7 @@ class Category extends Nested
 	{
 		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);
-		$this->access = (int) \JFactory::getConfig()->get('access');
+		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
 	/**
@@ -165,7 +166,7 @@ class Category extends Nested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		if (empty($this->modified_time))
@@ -223,8 +224,8 @@ class Category extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{

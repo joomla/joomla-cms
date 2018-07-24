@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Content table
@@ -200,7 +201,7 @@ class Content extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
@@ -312,7 +313,7 @@ class Content extends Table
 	protected function getDefaultAssetValues($component)
 	{
 		// Need to find the asset id by the name of the component.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
@@ -334,8 +335,8 @@ class Content extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{

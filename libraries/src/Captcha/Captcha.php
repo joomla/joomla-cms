@@ -16,6 +16,7 @@ use Joomla\Event\Event;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Captcha base object
@@ -64,7 +65,7 @@ class Captcha implements DispatcherAwareInterface
 	public function __construct($captcha, $options)
 	{
 		$this->_name = $captcha;
-		$this->setDispatcher(\JFactory::getApplication()->getDispatcher());
+		$this->setDispatcher(Factory::getApplication()->getDispatcher());
 		$this->_load($options);
 	}
 
@@ -91,7 +92,7 @@ class Captcha implements DispatcherAwareInterface
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return;
 			}
@@ -122,7 +123,7 @@ class Captcha implements DispatcherAwareInterface
 		}
 		catch (\Exception $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

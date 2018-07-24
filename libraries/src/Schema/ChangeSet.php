@@ -8,9 +8,10 @@
 
 namespace Joomla\CMS\Schema;
 
-use Joomla\Database\UTF8MB4SupportInterface;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Database\UTF8MB4SupportInterface;
+use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.folder');
 
@@ -85,7 +86,7 @@ class ChangeSet
 				}
 				catch (\RuntimeException $e)
 				{
-					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 			else

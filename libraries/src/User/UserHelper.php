@@ -110,7 +110,7 @@ abstract class UserHelper
 		if (!in_array($groupId, $user->groups))
 		{
 			// Get the title of the group.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
@@ -135,10 +135,10 @@ abstract class UserHelper
 		$temp         = User::getInstance((int) $userId);
 		$temp->groups = $user->groups;
 
-		if (\JFactory::getSession()->getId())
+		if (Factory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = \JFactory::getUser();
+			$temp = Factory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -194,11 +194,11 @@ abstract class UserHelper
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp = \JFactory::getUser((int) $userId);
+		$temp = Factory::getUser((int) $userId);
 		$temp->groups = $user->groups;
 
 		// Set the group data for the user object in the session.
-		$temp = \JFactory::getUser();
+		$temp = Factory::getUser();
 
 		if ($temp->id == $userId)
 		{
@@ -228,7 +228,7 @@ abstract class UserHelper
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -246,13 +246,13 @@ abstract class UserHelper
 		$user->save();
 
 		// Set the group data for any preloaded user objects.
-		$temp = \JFactory::getUser((int) $userId);
+		$temp = Factory::getUser((int) $userId);
 		$temp->groups = $user->groups;
 
-		if (\JFactory::getSession()->getId())
+		if (Factory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = \JFactory::getUser();
+			$temp = Factory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -276,7 +276,7 @@ abstract class UserHelper
 	{
 		if ($userId == 0)
 		{
-			$user   = \JFactory::getUser();
+			$user   = Factory::getUser();
 			$userId = $user->id;
 		}
 
@@ -287,7 +287,7 @@ abstract class UserHelper
 		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
+		Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}
@@ -303,7 +303,7 @@ abstract class UserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
@@ -353,7 +353,7 @@ abstract class UserHelper
 	public static function getUserId($username)
 	{
 		// Initialise some variables
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -524,7 +524,7 @@ abstract class UserHelper
 	 */
 	public static function getShortHashedUserAgent()
 	{
-		$ua = \JFactory::getApplication()->client;
+		$ua = Factory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);

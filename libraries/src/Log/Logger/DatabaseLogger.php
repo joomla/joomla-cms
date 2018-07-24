@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! MySQL Database Log class
@@ -95,7 +96,7 @@ class DatabaseLogger extends Logger
 		// If both the database object and driver options are empty we want to use the system database connection.
 		if (empty($this->options['db_driver']))
 		{
-			$this->db = \JFactory::getDbo();
+			$this->db = Factory::getDbo();
 			$this->driver = null;
 			$this->host = null;
 			$this->user = null;

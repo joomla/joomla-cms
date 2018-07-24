@@ -23,6 +23,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Base class for a Joomla! Web application.
@@ -259,7 +260,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadDocument(Document $document = null)
 	{
-		$this->document = $document ?? \JFactory::getDocument();
+		$this->document = $document ?? Factory::getDocument();
 
 		return $this;
 	}
@@ -279,7 +280,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadLanguage(Language $language = null)
 	{
-		$this->language = $language ?? \JFactory::getLanguage();
+		$this->language = $language ?? Factory::getLanguage();
 
 		return $this;
 	}
