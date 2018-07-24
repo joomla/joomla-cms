@@ -129,7 +129,7 @@ class Editor implements DispatcherAwareInterface
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use JHtml::script
+	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use HTMLHelper::script
 	 */
 	public function initialise()
 	{

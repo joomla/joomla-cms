@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Base class for a Joomla List View
@@ -179,7 +180,7 @@ class ListView extends HtmlView
 
 		// Include the component helpers.
 		\JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		if ($this->getLayout() !== 'modal')
 		{

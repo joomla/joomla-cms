@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Renders a button to render an HTML element in a slider container
@@ -45,7 +46,7 @@ class SliderButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Slider', $name = '', $text = '', $url = '', $width = 640, $height = 480, $onClose = '')
 	{
-		\JHtml::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Store all data to the options array for use with JLayout
 		$options = array();

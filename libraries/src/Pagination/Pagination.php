@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -568,19 +569,19 @@ class Pagination
 		// Make the option list.
 		for ($i = 5; $i <= 30; $i += 5)
 		{
-			$limits[] = \JHtml::_('select.option', "$i");
+			$limits[] = HTMLHelper::_('select.option', "$i");
 		}
 
-		$limits[] = \JHtml::_('select.option', '50', Text::_('J50'));
-		$limits[] = \JHtml::_('select.option', '100', Text::_('J100'));
-		$limits[] = \JHtml::_('select.option', '0', Text::_('JALL'));
+		$limits[] = HTMLHelper::_('select.option', '50', Text::_('J50'));
+		$limits[] = HTMLHelper::_('select.option', '100', Text::_('J100'));
+		$limits[] = HTMLHelper::_('select.option', '0', Text::_('JALL'));
 
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
 		if ($this->app->isClient('administrator'))
 		{
-			$html = \JHtml::_(
+			$html = HTMLHelper::_(
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
@@ -592,7 +593,7 @@ class Pagination
 		}
 		else
 		{
-			$html = \JHtml::_(
+			$html = HTMLHelper::_(
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
@@ -624,7 +625,7 @@ class Pagination
 	{
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
 		{
-			return \JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
+			return HTMLHelper::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
@@ -651,7 +652,7 @@ class Pagination
 	{
 		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition)
 		{
-			return \JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
+			return HTMLHelper::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
