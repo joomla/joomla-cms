@@ -114,7 +114,8 @@ class CoreInstallCommand extends AbstractCommand
         $this->configureIO();
 
 
-        if (file_exists(JPATH_CONFIGURATION . '/configuration.php')) {
+        if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+        {
             $this->ioStyle->warning("Joomla! is already installed and set up.");
 
             return 1;
@@ -126,7 +127,8 @@ class CoreInstallCommand extends AbstractCommand
 
         $passed = $this->runChecks();
 
-        if (!$passed) {
+        if (!$passed)
+        {
             $this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
 
             $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
@@ -136,7 +138,8 @@ class CoreInstallCommand extends AbstractCommand
 
         $file = $this->cliInput->getOption('file');
 
-        if ($file) {
+        if ($file)
+        {
             $result = $this->processUninteractiveInstallation($file);
 
             if (!is_array($result)) {
@@ -145,7 +148,9 @@ class CoreInstallCommand extends AbstractCommand
 
             $options = $result;
 
-        } else {
+        }
+        else
+        {
             $options = $this->collectOptions();
         }
 
@@ -157,13 +162,15 @@ class CoreInstallCommand extends AbstractCommand
 
             $completed = $model->setup($options);
 
-            if ($completed) {
+            if ($completed)
+            {
                 $this->ioStyle->success("Joomla! installation completed successfully!");
 
                 return 0;
             }
 
             $this->ioStyle->error("Joomla! installation was unsuccessful!");
+
             return 4;
         }
 
@@ -203,7 +210,7 @@ class CoreInstallCommand extends AbstractCommand
 	    // Ensure a database type was selected.
 	    if (empty($options->db_type))
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
 
 		    return false;
 	    }
@@ -211,7 +218,7 @@ class CoreInstallCommand extends AbstractCommand
 	    // Ensure that a hostname and user name were input.
 	    if (empty($options->db_host) || empty($options->db_user))
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
 
 		    return false;
 	    }
@@ -221,7 +228,7 @@ class CoreInstallCommand extends AbstractCommand
 	    // Ensure that a database name was input.
 	    if (empty($options->db_name))
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
 		    return false;
 	    }
@@ -229,7 +236,7 @@ class CoreInstallCommand extends AbstractCommand
 	    // Validate database table prefix.
 	    if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
 
 		    return false;
 	    }
@@ -237,7 +244,7 @@ class CoreInstallCommand extends AbstractCommand
 	    // Validate length of database table prefix.
 	    if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
 		    return false;
 	    }
@@ -245,7 +252,7 @@ class CoreInstallCommand extends AbstractCommand
 	    // Validate length of database name.
 	    if (strlen($options->db_name) > 64)
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
 
 		    return false;
 	    }
@@ -255,7 +262,7 @@ class CoreInstallCommand extends AbstractCommand
 	    {
 		    if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
 		    {
-			    Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+			    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
 			    return false;
 		    }
@@ -276,7 +283,7 @@ class CoreInstallCommand extends AbstractCommand
 	    }
 	    catch (\RuntimeException $e)
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+		    Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 		    return false;
 	    }
@@ -306,7 +313,9 @@ class CoreInstallCommand extends AbstractCommand
 
 		if (!in_array($ext, $allowedExtension))
 		{
-			return 'The file type specified is not supported';
+            $this->getApplication()->enqueueMessage('The file type specified is not supported');
+            
+            return;
 		}
 
 		$options = $this->registry->loadFile($file, $ext)->toArray();
