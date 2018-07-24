@@ -212,7 +212,7 @@ class Categories
 	 */
 	protected function _load($id)
 	{
-		/** @var DatabaseDriver */
+		/** @var \Joomla\Database\DatabaseDriver */
 		$db   = Factory::getDbo();
 		$app  = Factory::getApplication();
 		$user = Factory::getUser();
