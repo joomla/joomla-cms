@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Users table
@@ -185,7 +186,7 @@ class User extends Table
 			$this->id = null;
 		}
 
-		$filterInput = \JFilterInput::getInstance();
+		$filterInput = InputFilter::getInstance();
 
 		// Validate user information
 		if ($filterInput->clean($this->name, 'TRIM') == '')

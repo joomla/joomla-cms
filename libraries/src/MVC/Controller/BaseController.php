@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Base class for a Joomla Controller
@@ -261,7 +262,7 @@ class BaseController implements ControllerInterface
 		$command  = $input->get('task', 'display');
 
 		// Check for array format.
-		$filter = \JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 
 		if (is_array($command))
 		{
@@ -607,7 +608,7 @@ class BaseController implements ControllerInterface
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
@@ -651,7 +652,7 @@ class BaseController implements ControllerInterface
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe URL parameters with variable type as value {@see \JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see InputFilter::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 

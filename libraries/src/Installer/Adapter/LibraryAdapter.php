@@ -16,6 +16,7 @@ use Joomla\CMS\Installer\Manifest\LibraryManifest;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -438,7 +439,7 @@ class LibraryAdapter extends InstallerAdapter
 
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'string');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 
 		$this->name    = $name;

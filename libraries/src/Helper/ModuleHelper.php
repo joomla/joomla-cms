@@ -15,6 +15,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Module helper class
@@ -508,7 +509,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  string
 	 *
-	 * @see     \JFilterInput::clean()
+	 * @see     InputFilter::clean()
 	 * @since   1.6
 	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
@@ -563,7 +564,7 @@ abstract class ModuleHelper
 					$input   = Factory::getApplication()->input;
 					$uri     = $input->getArray();
 					$safeuri = new \stdClass;
-					$noHtmlFilter = \JFilterInput::getInstance();
+					$noHtmlFilter = InputFilter::getInstance();
 
 					foreach ($cacheparams->modeparams as $key => $value)
 					{

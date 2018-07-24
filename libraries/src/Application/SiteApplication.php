@@ -21,6 +21,7 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Site Application class
@@ -532,7 +533,7 @@ final class SiteApplication extends CMSApplication
 		}
 
 		// Need to filter the default value as well
-		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))

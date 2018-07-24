@@ -360,7 +360,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
 	 * @see     \JFormRule
-	 * @see     \JFilterInput
+	 * @see     InputFilter
 	 * @since   1.6
 	 */
 	public function validate($form, $data, $group = null)

@@ -21,6 +21,7 @@ use Joomla\CMS\Table\Update;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 jimport('joomla.filesystem.folder');
 
@@ -339,7 +340,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Get the language name
 		// Set the extensions name
-		$this->name = \JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
+		$this->name = InputFilter::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $this->getManifest()->tag;
@@ -659,7 +660,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the language name
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'cmd');
+		$name = InputFilter::getInstance()->clean($name, 'cmd');
 		$this->name = $name;
 
 		// Get the Language tag [ISO tag, eg. en-GB]

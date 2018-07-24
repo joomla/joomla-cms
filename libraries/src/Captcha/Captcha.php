@@ -18,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Captcha base object
@@ -213,7 +214,7 @@ class Captcha implements DispatcherAwareInterface
 	private function _load(array $options = array())
 	{
 		// Build the path to the needed captcha plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))

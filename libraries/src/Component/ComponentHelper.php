@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Dispatcher\Dispatcher;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Component helper class
@@ -118,7 +119,7 @@ class ComponentHelper
 	public static function filterText($text)
 	{
 		// Punyencoding utf8 email addresses
-		$text = \JFilterInput::getInstance()->emailToPunycode($text);
+		$text = InputFilter::getInstance()->emailToPunycode($text);
 
 		// Filter settings
 		$config     = static::getParams('com_config');
@@ -233,7 +234,7 @@ class ComponentHelper
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
 			{
-				$filter = \JFilterInput::getInstance(array(), array(), 1, 1);
+				$filter = InputFilter::getInstance(array(), array(), 1, 1);
 
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
@@ -253,7 +254,7 @@ class ComponentHelper
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
-				$filter = \JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
@@ -271,12 +272,12 @@ class ComponentHelper
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
-				$filter = \JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
 			{
-				$filter = \JFilterInput::getInstance();
+				$filter = InputFilter::getInstance();
 			}
 
 			$text = $filter->clean($text, 'html');

@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Versions helper class, provides methods to perform various tasks relevant
@@ -125,7 +126,7 @@ class ContentHistoryHelper extends CMSHelper
 
 		if (isset($data['version_note']))
 		{
-			$versionName = \JFilterInput::getInstance()->clean($data['version_note'], 'string');
+			$versionName = InputFilter::getInstance()->clean($data['version_note'], 'string');
 			$historyTable->set('version_note', $versionName);
 		}
 

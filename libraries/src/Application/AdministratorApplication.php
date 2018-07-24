@@ -19,6 +19,7 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Administrator Application class
@@ -210,7 +211,7 @@ class AdministratorApplication extends CMSApplication
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
-		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))

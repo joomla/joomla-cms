@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 
 /**
  * Application helper functions
@@ -89,7 +90,7 @@ class ApplicationHelper
 	{
 		if (Factory::getConfig()->get('unicodeslugs') == 1)
 		{
-			$output = \JFilterOutput::stringURLUnicodeSlug($string);
+			$output = OutputFilter::stringURLUnicodeSlug($string);
 		}
 		else
 		{
@@ -99,7 +100,7 @@ class ApplicationHelper
 				$language = $languageParams->get('site');
 			}
 
-			$output = \JFilterOutput::stringURLSafe($string, $language);
+			$output = OutputFilter::stringURLSafe($string, $language);
 		}
 
 		return $output;

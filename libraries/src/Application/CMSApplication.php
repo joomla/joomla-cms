@@ -597,7 +597,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $key      The key of the user state variable.
 	 * @param   string  $request  The name of the variable passed in a request.
 	 * @param   string  $default  The default value for the variable if not found. Optional.
-	 * @param   string  $type     Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
+	 * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
 	 *
 	 * @return  mixed  The request user state.
 	 *

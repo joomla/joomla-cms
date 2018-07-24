@@ -20,6 +20,7 @@ use Joomla\CMS\Table\Update;
 use Joomla\Event\Event;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Package installer
@@ -358,7 +359,7 @@ class PackageAdapter extends InstallerAdapter
 			$element = (string) $this->getManifest()->packagename;
 
 			// Filter the name for illegal characters
-			$element = 'pkg_' . \JFilterInput::getInstance()->clean($element, 'cmd');
+			$element = 'pkg_' . InputFilter::getInstance()->clean($element, 'cmd');
 		}
 
 		return $element;

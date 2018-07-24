@@ -17,6 +17,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Abstract adapter for the installer.
@@ -578,7 +579,7 @@ abstract class InstallerAdapter
 		}
 
 		// Filter the name for illegal characters
-		return strtolower(\JFilterInput::getInstance()->clean($element, 'cmd'));
+		return strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
 	}
 
 	/**
@@ -606,7 +607,7 @@ abstract class InstallerAdapter
 		$name = (string) $this->getManifest()->name;
 
 		// Filter the name for illegal characters
-		$name = \JFilterInput::getInstance()->clean($name, 'string');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 
 		return $name;
 	}
@@ -645,7 +646,7 @@ abstract class InstallerAdapter
 	protected function getScriptClassName()
 	{
 		// Support element names like 'en-GB'
-		$className = \JFilterInput::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
+		$className = InputFilter::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
 
 		// Cannot have - in class names
 		$className = str_replace('-', '', $className);

@@ -18,6 +18,7 @@ use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Editor class to handle WYSIWYG editors
@@ -298,7 +299,7 @@ class Editor implements DispatcherAwareInterface
 		}
 
 		// Build the path to the needed editor plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))

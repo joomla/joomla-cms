@@ -17,6 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 jimport('joomla.utilities.utility');
 
@@ -703,7 +704,7 @@ class HtmlDocument extends Document
 	{
 		// Check
 		$directory = $params['directory'] ?? 'templates';
-		$filter = \JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
 
