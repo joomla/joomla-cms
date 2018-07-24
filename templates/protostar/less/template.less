@@ -3,7 +3,6 @@
 
 // Core variables and mixins
 @import "variables.less"; // Custom for this template
-@import "template_rtl.less"; // Specific for rtl
 @import "../../../media/jui/less/mixins.less";
 
 // Grid system and page structure
@@ -354,6 +353,16 @@ figcaption {
 	.nav li li:hover > .nav-child,
 	.nav li li > a:focus + .nav-child {
 		display: block;
+	}
+	.nav > li {
+		&:before {
+		  position: absolute;
+		  top: 100%;
+		  right: 0;
+		  left: 0;
+		  height: 6px;
+		  content: '';
+		}
 	}
 	.nav > li > .nav-child {
 		&:before {
@@ -726,3 +735,5 @@ ul.manager .height-50 .icon-folder-2 {
 .finder-selects {
     margin: 0 15px 15px 0;
 }
+
+@import "template_rtl.less"; // Specific for rtl. Always load last.

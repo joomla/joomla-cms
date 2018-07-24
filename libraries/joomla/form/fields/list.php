@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -114,6 +114,18 @@ class JFormFieldList extends JFormField
 
 				// Requires associations
 				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
+				{
+					continue;
+				}
+
+				// Requires adminlanguage
+				if (in_array('adminlanguage', $requires) && !JModuleHelper::isAdminMultilang())
+				{
+					continue;
+				}
+
+				// Requires vote plugin
+				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
 				}
@@ -232,7 +244,7 @@ class JFormFieldList extends JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *

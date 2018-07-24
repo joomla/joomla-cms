@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ $document = JFactory::getDocument();
 	<?php // Prepare variables for the link. ?>
 	<?php $link       = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id; ?>
 	<?php $name       = $this->escape($item->name); ?>
-	<?php $desc       = JHtml::_('string.truncate', ($this->escape(strip_tags($item->desc))), 200); ?>
-	<?php $short_desc = JHtml::_('string.truncate', ($this->escape(strip_tags($item->desc))), 90); ?>
+	<?php $desc       = JHtml::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+	<?php $short_desc = JHtml::_('string.truncate', $this->escape(strip_tags($item->desc)), 90); ?>
 
 	<?php if ($document->direction != 'rtl') : ?>
 	<li>

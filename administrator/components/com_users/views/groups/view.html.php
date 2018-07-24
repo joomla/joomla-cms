@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,8 +117,8 @@ class UsersViewGroups extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'a.title' => JText::_('COM_USERS_HEADING_GROUP_TITLE'),
-				'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.title' => JText::_('COM_USERS_HEADING_GROUP_TITLE'),
+			'a.id'    => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

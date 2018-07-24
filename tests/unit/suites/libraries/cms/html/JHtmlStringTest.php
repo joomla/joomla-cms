@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,6 +136,7 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				true,
 				'...',
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
 			// Don't return invalid HTML
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
@@ -144,6 +145,7 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				true,
 				'...',
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
 			// Don't return invalid HTML
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
@@ -173,6 +175,7 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				false,
 				'Plain te...',
 			),
+			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				4,
@@ -187,6 +190,7 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				false,
 				'...',
 			),
+			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				5,
@@ -201,6 +205,7 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				true,
 				'...',
 			),
+			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => array(
 				'<div><span><i>Plain</i></span></div>',
 				5,
@@ -315,12 +320,15 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				true,
 				'<span>Plain</span>...'
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
+			// TODO: Check this test: When the key is renamed and the test runs, it fails.
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
 				4,
 				false,
 				'<span>P</span>...'
 			),
+			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
 				1,

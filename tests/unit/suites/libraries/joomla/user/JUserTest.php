@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -394,6 +394,11 @@ class JUserTest extends TestCaseDatabase
 			),
 			'existing' => array(
 				42,
+				true,
+				false
+			),
+			'empty-params' => array(
+				101,
 				true,
 				false
 			),

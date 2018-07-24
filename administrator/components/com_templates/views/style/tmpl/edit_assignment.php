@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ $user      = JFactory::getUser();
 					<button class="btn jform-rightbtn" type="button" onclick="jQuery('.<?php echo $type->menutype; ?>').attr('checked', !jQuery('.<?php echo $type->menutype; ?>').attr('checked'));">
 						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>
-					<h5><?php echo $type->title ? $type->title : $type->menutype; ?></h5>
+					<h5><?php echo $type->title ?: $type->menutype; ?></h5>
 	
 					<?php foreach ($type->links as $link) : ?>
 						<label class="checkbox small" for="link<?php echo (int) $link->value; ?>" >

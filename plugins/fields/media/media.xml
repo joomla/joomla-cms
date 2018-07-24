@@ -3,7 +3,7 @@
 	<name>plg_fields_media</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -30,7 +30,7 @@
 					hide_none="true"
 					recursive="true"
 				/>
-	
+
 				<field
 					name="preview"
 					type="list"
@@ -43,7 +43,7 @@
 					<option value="true">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_INLINE</option>
 					<option value="false">JNO</option>
 				</field>
-	
+
 				<field
 					name="image_class"
 					type="textarea"

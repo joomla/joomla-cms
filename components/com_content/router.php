@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,9 @@ class ContentRouter extends JComponentRouterView
 		$this->registerView($article);
 		$this->registerView(new JComponentRouterViewconfiguration('archive'));
 		$this->registerView(new JComponentRouterViewconfiguration('featured'));
-		$this->registerView(new JComponentRouterViewconfiguration('form'));
+		$form = new JComponentRouterViewconfiguration('form');
+		$form->setKey('a_id');
+		$this->registerView($form);
 
 		parent::__construct($app, $menu);
 
@@ -134,6 +136,21 @@ class ContentRouter extends JComponentRouterView
 	}
 
 	/**
+	 * Method to get the segment(s) for a form
+	 *
+	 * @param   string  $id     ID of the article form to retrieve the segments for
+	 * @param   array   $query  The request that is built right now
+	 *
+	 * @return  array|string  The segments of this item
+	 *
+	 * @since   3.7.3
+	 */
+	public function getFormSegment($id, $query)
+	{
+		return $this->getArticleSegment($id, $query);
+	}
+
+	/**
 	 * Method to get the id for a category
 	 *
 	 * @param   string  $segment  Segment to retrieve the ID for
@@ -145,22 +162,25 @@ class ContentRouter extends JComponentRouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = JCategories::getInstance($this->getName())->get($query['id']);
+			$category = JCategories::getInstance($this->getName(), array('access' => false))->get($query['id']);
 
-			foreach ($category->getChildren() as $child)
+			if ($category)
 			{
-				if ($this->noIDs)
+				foreach ($category->getChildren() as $child)
 				{
-					if ($child->alias == $segment)
+					if ($this->noIDs)
 					{
-						return $child->id;
+						if ($child->alias == $segment)
+						{
+							return $child->id;
+						}
 					}
-				}
-				else
-				{
-					if ($child->id == (int) $segment)
+					else
 					{
-						return $child->id;
+						if ($child->id == (int) $segment)
+						{
+							return $child->id;
+						}
 					}
 				}
 			}

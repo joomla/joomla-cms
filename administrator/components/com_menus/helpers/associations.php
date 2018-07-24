@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Association\AssociationExtensionHelper;
 
 /**
  * Menu associations helper.
  *
  * @since  3.7.0
  */
-class MenusAssociationsHelper extends JAssociationExtensionHelper
+class MenusAssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -130,7 +130,6 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 
 		if (in_array($typeName, $this->itemTypes))
 		{
-
 			switch ($typeName)
 			{
 				case 'item':

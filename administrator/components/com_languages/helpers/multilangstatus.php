@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -209,17 +209,17 @@ abstract class MultilangstatusHelper
 
 		foreach ($warnings as $index => $warn)
 		{
-			if (($warn->alang == 1) && ($warn->slang == 0))
+			if ($warn->alang == 1 && $warn->slang == 0)
 			{
 				unset($warnings[$index]);
 			}
 
-			if (($warn->alang == 0) && (($warn->slang == 0) && (empty($warn->mlang))))
+			if ($warn->alang == 0 && $warn->slang == 0 && empty($warn->mlang))
 			{
 				unset($warnings[$index]);
 			}
 
-			if (($warn->alang == 0) && (($warn->slang == $languages) && (empty($warn->mlang))))
+			if ($warn->alang == 0 && $warn->slang == $languages && empty($warn->mlang))
 			{
 				unset($warnings[$index]);
 			}

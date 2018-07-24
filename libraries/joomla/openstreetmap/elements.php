@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,7 +23,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * @param   integer  $changeset  Changeset id
 	 * @param   float    $latitude   Latitude of the node
 	 * @param   float    $longitude  Longitude of the node
-	 * @param   arary    $tags       Array of tags for a node
+	 * @param   array    $tags       Array of tags for a node
 	 *
 	 * @return  array  The XML response
 	 *

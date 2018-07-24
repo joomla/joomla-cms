@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,10 @@ class JSessionStorageWincache extends JSessionStorage
 	 */
 	public function register()
 	{
-		ini_set('session.save_handler', 'wincache');
+		if (!headers_sent())
+		{
+			ini_set('session.save_handler', 'wincache');
+		}
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,11 +75,11 @@ class JFormFieldModalAssociation extends JFormField
 
 		// Clear association button
 		$html[] = '<button'
- 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
- 				. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
- 				. ' id="remove-assoc">'
- 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
- 				. '</button>';
+			. ' class="btn' . ($value ? '' : ' hidden') . '"'
+			. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
+			. ' id="remove-assoc">'
+			. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
+			. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '" />';
 

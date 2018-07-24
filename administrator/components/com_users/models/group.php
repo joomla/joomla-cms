@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -169,7 +169,7 @@ class UsersModelGroup extends JModelAdmin
 		// Check for non-super admin trying to save with super admin group
 		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
-		if ((!$iAmSuperAdmin) && ($groupSuperAdmin))
+		if (!$iAmSuperAdmin && $groupSuperAdmin)
 		{
 			$this->setError(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
@@ -193,7 +193,7 @@ class UsersModelGroup extends JModelAdmin
 
 				foreach ($otherGroups as $otherGroup)
 				{
-					$otherSuperAdmin = ($otherSuperAdmin) ? $otherSuperAdmin : JAccess::checkGroup($otherGroup, 'core.admin');
+					$otherSuperAdmin = $otherSuperAdmin ?: JAccess::checkGroup($otherGroup, 'core.admin');
 				}
 
 				/**
@@ -255,6 +255,7 @@ class UsersModelGroup extends JModelAdmin
 				return false;
 			}
 		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{

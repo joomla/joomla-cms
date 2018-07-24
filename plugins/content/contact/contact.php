@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,7 @@ class PlgContentContact extends JPlugin
 		$query->where('contact.published = 1');
 		$query->where('contact.user_id = ' . (int) $created_by);
 
-		if (JLanguageMultilang::isEnabled() == 1)
+		if (JLanguageMultilang::isEnabled() === true)
 		{
 			$query->where('(contact.language in '
 				. '(' . $this->db->quote(JFactory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '

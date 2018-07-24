@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -88,16 +88,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
-	}
-
-	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -170,7 +160,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Make sure the MySQLi extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('The MySQL adapter mysqli is not available');
+			throw new JDatabaseExceptionUnsupported('The MySQLi extension for PHP is not installed or enabled.');
 		}
 
 		$this->connection = @mysqli_connect(
@@ -180,7 +170,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!$this->connection)
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL server.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -705,7 +695,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if (!mysqli_select_db($this->connection, $database))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to database.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL database.');
 		}
 
 		return true;

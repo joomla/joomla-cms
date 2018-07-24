@@ -1,0 +1,60 @@
+# Custom Fields
+administrator/components/com_fields/*  @laoneo
+components/com_fields/*  @laoneo
+plugins/content/fields/*  @laoneo
+plugins/editors-xtd/fields/*  @laoneo
+plugins/fields/*  @laoneo
+plugins/systems/fields/*  @laoneo
+
+# Smart Search
+administrator/components/com_finder/*  @mbabker
+components/com_finder/*  @mbabker
+modules/mod_finder/*  @mbabker
+plugins/content/finder/*  @mbabker
+plugins/finder/*  @mbabker
+
+# Language strings
+administrator/language/en-GB/*  @brianteeman
+installation/language/en-GB/*  @brianteeman
+language/en-GB/*  @brianteeman
+README.md  @brianteeman
+README.txt  @brianteeman
+
+# CodeMirror
+media/editors/codemirror/*  @okonomiyaki3000
+plugins/editors/codemirror/*  @okonomiyaki3000
+
+# Statistics Server
+plugins/system/stats/*  @mbabker @wilsonge
+
+# Release Tools
+build.xml  @mbabker
+build/build.php  @mbabker @rdeutz @wilsonge
+build/bump.php  @mbabker @rdeutz @wilsonge
+build/deleted_file_check.php  @mbabker @rdeutz @wilsonge
+
+# Core/Extension Install/Update Tools
+administrator/components/com_joomlaupdate/*  @mbabker @rdeutz @wilsonge @zero-24
+libraries/src/Installer/*  @mbabker @rdeutz @wilsonge @zero-24
+libraries/src/Updater/*  @mbabker @rdeutz @wilsonge @zero-24
+
+# Automated Testing
+build/jenkins/*  @mbabker @rdeutz
+build/travis/*  @mbabker @rdeutz
+tests/codeception/*  @rdeutz
+tests/javascript/*  @dgt41 @rdeutz
+tests/unit/*  @mbabker @rdeutz
+.appveyor.yml  @mbabker @rdeutz
+.drone.yml  @rdeutz
+.hound.yml  @mbabker
+.travis.yml  @mbabker @rdeutz
+appveyor-phpunit.xml  @mbabker @rdeutz
+codeception.yml  @rdeutz
+karma.conf.js  @dgt41 @rdeutz
+phpunit.xml.dist  @mbabker @rdeutz
+RoboFile.dist.ini  @rdeutz
+RoboFile.php  @rdeutz
+travis-phpunit.xml  @mbabker @rdeutz
+
+# Core JS
+media/*/js/*  @dgt41

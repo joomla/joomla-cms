@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.2
  */
@@ -10,18 +10,10 @@
 {
 	$(document).ready(function()
 	{
-		$('*[rel=tooltip]').tooltip()
+		$('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
-
-		$('fieldset.btn-group').each(function() {
-			// Handle disabled, prevent clicks on the container, and add disabled style to each button
-			if ($(this).prop('disabled')) {
-				$(this).css('pointer-events', 'none').off('click');
-				$(this).find('.btn').addClass('disabled');
-			}
-		});
 
 		$(".btn-group label:not(.active)").click(function()
 		{
@@ -30,7 +22,7 @@
 
 			if (!input.prop('checked')) {
 				label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
+				if (input.val() === '') {
 					label.addClass('active btn-primary');
 				} else if (input.val() == 0) {
 					label.addClass('active btn-danger');
@@ -38,6 +30,7 @@
 					label.addClass('active btn-success');
 				}
 				input.prop('checked', true);
+				input.trigger('change');
 			}
 		});
 		$(".btn-group input[checked=checked]").each(function()

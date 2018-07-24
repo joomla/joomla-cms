@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -47,44 +47,6 @@ class FieldsControllerField extends JControllerForm
 	}
 
 	/**
-	 * Stores the form data into the user state.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function storeform()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		$app = JFactory::getApplication();
-		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
-
-		$parts = FieldsHelper::extract($this->input->getCmd('context'));
-
-		if ($parts)
-		{
-			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
-		}
-
-		if ($this->input->get('userstatevariable'))
-		{
-			$app->setUserState($this->input->get('userstatevariable'), $data);
-		}
-
-		$redirectUrl = base64_decode($this->input->get->getBase64('return'));
-
-		// Don't redirect to an external URL.
-		If (!JUri::isInternal($redirectUrl))
-		{
-			$redirectUrl = 'index.php';
-		}
-
-		$app->redirect($redirectUrl);
-		$app->close();
-	}
-
-	/**
 	 * Method override to check if you can add a new record.
 	 *
 	 * @param   array  $data  An array of input data.
@@ -111,12 +73,12 @@ class FieldsControllerField extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user     = JFactory::getUser();
+		$user = JFactory::getUser();
 
-		// Check general edit permission first.
-		if ($user->authorise('core.edit', $this->component))
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
 		{
-			return true;
+			return parent::allowEdit($data, $key);
 		}
 
 		// Check edit on the record asset (explicit or inherited)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -31,7 +31,7 @@ class JFormFieldFieldgroups extends JFormFieldList
 	protected function getOptions()
 	{
 		$context = (string) $this->element['context'];
-		$states    = $this->element['state'] ? $this->element['state'] : '0,1';
+		$states    = $this->element['state'] ?: '0,1';
 		$states    = ArrayHelper::toInteger(explode(',', $states));
 
 		$user       = JFactory::getUser();
@@ -44,6 +44,7 @@ class JFormFieldFieldgroups extends JFormFieldList
 		$query->where('state IN (' . implode(',', $states) . ')');
 		$query->where('context = ' . $db->quote($context));
 		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->order('ordering asc, id asc');
 
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
@@ -54,6 +55,7 @@ class JFormFieldFieldgroups extends JFormFieldList
 			{
 				$option->text = '[' . $option->text . ']';
 			}
+
 			if ($option->state == 2)
 			{
 				$option->text = '{' . $option->text . '}';
