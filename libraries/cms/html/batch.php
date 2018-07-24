@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 
-
 /**
  * Extended Utility class for batch processing widgets.
  *
