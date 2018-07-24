@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Administrator\Field;
@@ -11,17 +11,15 @@ namespace Joomla\Component\Finder\Administrator\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
-
-FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Supports a select grouped list of finder content map.
  *
  * @since  3.6.0
  */
-class ContentmapField extends \JFormFieldGroupedList
+class ContentmapField extends GroupedlistField
 {
 	/**
 	 * The form field type.

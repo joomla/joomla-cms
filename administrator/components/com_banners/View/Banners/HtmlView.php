@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\View\Banners;
@@ -12,6 +12,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View class for a list of banners.
@@ -77,12 +85,12 @@ class HtmlView extends BaseHtmlView
 		$this->addToolbar();
 
 		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
-		if (!\JLanguageMultilang::isEnabled())
+		if (!Multilanguage::isEnabled())
 		{
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
@@ -102,40 +110,40 @@ class HtmlView extends BaseHtmlView
 	{
 		\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
-		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-		$user  = \JFactory::getUser();
+		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+		$user  = Factory::getUser();
 
-		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
+		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('banner.add');
+			ToolbarHelper::addNew('banner.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($this->state->get('filter.published') != 2)
 			{
-				\JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
-				\JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+				ToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
+				ToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
 			if ($this->state->get('filter.published') != -1)
 			{
 				if ($this->state->get('filter.published') != 2)
 				{
-					\JToolbarHelper::archiveList('banners.archive');
+					ToolbarHelper::archiveList('banners.archive');
 				}
 				elseif ($this->state->get('filter.published') == 2)
 				{
-					\JToolbarHelper::unarchiveList('banners.publish');
+					ToolbarHelper::unarchiveList('banners.publish');
 				}
 			}
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::checkin('banners.checkin');
+			ToolbarHelper::checkin('banners.checkin');
 		}
 
 		// Add a batch button
@@ -143,30 +151,30 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_banners')
 			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new \JLayoutFile('joomla.toolbar.batch');
+			// Instantiate a new FileLayout instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
-			\JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
+			Toolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('banners.trash');
+			ToolbarHelper::trash('banners.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
 		{
-			\JToolbarHelper::preferences('com_banners');
+			ToolbarHelper::preferences('com_banners');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
+		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
 	}
 
 	/**
@@ -179,15 +187,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'ordering'    => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'     => \JText::_('JSTATUS'),
-			'a.name'      => \JText::_('COM_BANNERS_HEADING_NAME'),
-			'a.sticky'    => \JText::_('COM_BANNERS_HEADING_STICKY'),
-			'client_name' => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'impmade'     => \JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
-			'clicks'      => \JText::_('COM_BANNERS_HEADING_CLICKS'),
-			'a.language'  => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+			'ordering'    => Text::_('JGRID_HEADING_ORDERING'),
+			'a.state'     => Text::_('JSTATUS'),
+			'a.name'      => Text::_('COM_BANNERS_HEADING_NAME'),
+			'a.sticky'    => Text::_('COM_BANNERS_HEADING_STICKY'),
+			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'impmade'     => Text::_('COM_BANNERS_HEADING_IMPRESSIONS'),
+			'clicks'      => Text::_('COM_BANNERS_HEADING_CLICKS'),
+			'a.language'  => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

@@ -45,32 +45,31 @@ final class Core
      * @throws Ex\EnvironmentIsBrokenException
      *
      * @return string
+     *
+     * @psalm-suppress RedundantCondition - It's valid to use is_int to check for overflow.
      */
     public static function incrementCounter($ctr, $inc)
     {
-        if (Core::ourStrlen($ctr) !== Core::BLOCK_BYTE_SIZE) {
-            throw new Ex\EnvironmentIsBrokenException(
-              'Trying to increment a nonce of the wrong size.'
-            );
-        }
+        Core::ensureTrue(
+            Core::ourStrlen($ctr) === Core::BLOCK_BYTE_SIZE,
+            'Trying to increment a nonce of the wrong size.'
+        );
 
-        if (! \is_int($inc)) {
-            throw new Ex\EnvironmentIsBrokenException(
-              'Trying to increment nonce by a non-integer.'
-            );
-        }
+        Core::ensureTrue(
+            \is_int($inc),
+            'Trying to increment nonce by a non-integer.'
+        );
 
-        if ($inc < 0) {
-            throw new Ex\EnvironmentIsBrokenException(
-              'Trying to increment nonce by a negative amount.'
-            );
-        }
+        // The caller is probably re-using CTR-mode keystream if they increment by 0.
+        Core::ensureTrue(
+            $inc > 0,
+            'Trying to increment a nonce by a nonpositive amount'
+        );
 
-        if ($inc > PHP_INT_MAX - 255) {
-            throw new Ex\EnvironmentIsBrokenException(
-              'Integer overflow may occur.'
-            );
-        }
+        Core::ensureTrue(
+            $inc <= PHP_INT_MAX - 255,
+            'Integer overflow may occur'
+        );
 
         /*
          * We start at the rightmost byte (big-endian)
@@ -80,11 +79,7 @@ final class Core
             $sum = \ord($ctr[$i]) + $inc;
 
             /* Detect integer overflow and fail. */
-            if (! \is_int($sum)) {
-                throw new Ex\EnvironmentIsBrokenException(
-                  'Integer overflow in CTR mode nonce increment.'
-                );
-            }
+            Core::ensureTrue(\is_int($sum), 'Integer overflow in CTR mode nonce increment');
 
             $ctr[$i] = \pack('C', $sum & 0xFF);
             $inc     = $sum >> 8;
@@ -135,18 +130,19 @@ final class Core
             $nativeHKDF = \is_callable('\\hash_hkdf');
         }
         if ($nativeHKDF) {
+            if (\is_null($salt)) {
+                $salt = '';
+            }
             return \hash_hkdf($hash, $ikm, $length, $info, $salt);
         }
 
         $digest_length = Core::ourStrlen(\hash_hmac($hash, '', '', true));
 
         // Sanity-check the desired output length.
-        if (empty($length) || ! \is_int($length) ||
-            $length < 0 || $length > 255 * $digest_length) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Bad output length requested of HKDF.'
-            );
-        }
+        Core::ensureTrue(
+            !empty($length) && \is_int($length) && $length >= 0 && $length <= 255 * $digest_length,
+            'Bad output length requested of HDKF.'
+        );
 
         // "if [salt] not provided, is set to a string of HashLen zeroes."
         if (\is_null($salt)) {
@@ -161,9 +157,7 @@ final class Core
         // HKDF-Expand:
 
         // This check is useless, but it serves as a reminder to the spec.
-        if (Core::ourStrlen($prk) < $digest_length) {
-            throw new Ex\EnvironmentIsBrokenException();
-        }
+        Core::ensureTrue(Core::ourStrlen($prk) >= $digest_length);
 
         // T(0) = ''
         $t          = '';
@@ -183,9 +177,7 @@ final class Core
         // ORM = first L octets of T
         /** @var string $orm */
         $orm = Core::ourSubstr($t, 0, $length);
-        if (!\is_string($orm)) {
-            throw new Ex\EnvironmentIsBrokenException();
-        }
+        Core::ensureTrue(\is_string($orm));
         return $orm;
     }
 
@@ -219,9 +211,7 @@ final class Core
         // We're not attempting to make variable-length string comparison
         // secure, as that's very difficult. Make sure the strings are the same
         // length.
-        if (Core::ourStrlen($expected) !== Core::ourStrlen($given)) {
-            throw new Ex\EnvironmentIsBrokenException();
-        }
+        Core::ensureTrue(Core::ourStrlen($expected) === Core::ourStrlen($given));
 
         $blind           = Core::secureRandom(32);
         $message_compare = \hash_hmac(Core::HASH_FUNCTION_NAME, $given, $blind);
@@ -238,9 +228,7 @@ final class Core
      */
     public static function ensureConstantExists($name)
     {
-        if (! \defined($name)) {
-            throw new Ex\EnvironmentIsBrokenException();
-        }
+        Core::ensureTrue(\defined($name));
     }
 
     /**
@@ -253,8 +241,22 @@ final class Core
      */
     public static function ensureFunctionExists($name)
     {
-        if (! \function_exists($name)) {
-            throw new Ex\EnvironmentIsBrokenException();
+        Core::ensureTrue(\function_exists($name));
+    }
+
+    /**
+     * Throws an exception if the condition is false.
+     *
+     * @param bool $condition
+     * @param string $message
+     * @return void
+     *
+     * @throws Ex\EnvironmentIsBrokenException
+     */
+    public static function ensureTrue($condition, $message = '')
+    {
+        if (!$condition) {
+            throw new Ex\EnvironmentIsBrokenException($message);
         }
     }
 
@@ -277,13 +279,11 @@ final class Core
     {
         static $exists = null;
         if ($exists === null) {
-            $exists = \function_exists('mb_strlen');
+            $exists = \extension_loaded('mbstring') && \ini_get('mbstring.func_overload') !== false && (int)\ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING;
         }
         if ($exists) {
             $length = \mb_strlen($str, '8bit');
-            if ($length === false) {
-                throw new Ex\EnvironmentIsBrokenException();
-            }
+            Core::ensureTrue($length !== false);
             return $length;
         } else {
             return \strlen($str);
@@ -305,33 +305,46 @@ final class Core
     {
         static $exists = null;
         if ($exists === null) {
-            $exists = \function_exists('mb_substr');
+            $exists = \extension_loaded('mbstring') && \ini_get('mbstring.func_overload') !== false && (int)\ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING;
+        }
+
+        // This is required to make mb_substr behavior identical to substr.
+        // Without this, mb_substr() would return false, contra to what the
+        // PHP documentation says (it doesn't say it can return false.)
+        $input_len = Core::ourStrlen($str);
+        if ($start === $input_len && !$length) {
+            return '';
+        }
+
+        if ($start > $input_len) {
+            return false;
+        }
+
+        // mb_substr($str, 0, NULL, '8bit') returns an empty string on PHP 5.3,
+        // so we have to find the length ourselves. Also, substr() doesn't
+        // accept null for the length.
+        if (! isset($length)) {
+            if ($start >= 0) {
+                $length = $input_len - $start;
+            } else {
+                $length = -$start;
+            }
+        }
+
+        if ($length < 0) {
+            throw new \InvalidArgumentException(
+                "Negative lengths are not supported with ourSubstr."
+            );
         }
 
         if ($exists) {
-            // mb_substr($str, 0, NULL, '8bit') returns an empty string on PHP
-            // 5.3, so we have to find the length ourselves.
-            if (! isset($length)) {
-                if ($start >= 0) {
-                    $length = Core::ourStrlen($str) - $start;
-                } else {
-                    $length = -$start;
-                }
-            }
-
-            // This is required to make mb_substr behavior identical to substr.
-            // Without this, mb_substr() would return false, contra to what the
-            // PHP documentation says (it doesn't say it can return false.)
-            if ($start === Core::ourStrlen($str) && $length === 0) {
-                return '';
-            }
-
-            if ($start > Core::ourStrlen($str)) {
-                return false;
-            }
-
             $substr = \mb_substr($str, $start, $length, '8bit');
-            if (Core::ourStrlen($substr) !== $length) {
+            // At this point there are two cases where mb_substr can
+            // legitimately return an empty string. Either $length is 0, or
+            // $start is equal to the length of the string (both mb_substr and
+            // substr return an empty string when this happens). It should never
+            // ever return a string that's longer than $length.
+            if (Core::ourStrlen($substr) > $length || (Core::ourStrlen($substr) === 0 && $length !== 0 && $start !== $input_len)) {
                 throw new Ex\EnvironmentIsBrokenException(
                     'Your version of PHP has bug #66797. Its implementation of
                     mb_substr() is incorrect. See the details here:
@@ -341,12 +354,7 @@ final class Core
             return $substr;
         }
 
-        // Unlike mb_substr(), substr() doesn't accept NULL for length
-        if (isset($length)) {
-            return \substr($str, $start, $length);
-        } else {
-            return \substr($str, $start);
-        }
+        return \substr($str, $start, $length);
     }
 
     /**
@@ -390,28 +398,22 @@ final class Core
         $key_length += 0;
 
         $algorithm = \strtolower($algorithm);
-        if (! \in_array($algorithm, \hash_algos(), true)) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Invalid or unsupported hash algorithm.'
-            );
-        }
+        Core::ensureTrue(
+            \in_array($algorithm, \hash_algos(), true),
+            'Invalid or unsupported hash algorithm.'
+        );
 
         // Whitelist, or we could end up with people using CRC32.
         $ok_algorithms = [
             'sha1', 'sha224', 'sha256', 'sha384', 'sha512',
             'ripemd160', 'ripemd256', 'ripemd320', 'whirlpool',
         ];
-        if (! \in_array($algorithm, $ok_algorithms, true)) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Algorithm is not a secure cryptographic hash function.'
-            );
-        }
+        Core::ensureTrue(
+            \in_array($algorithm, $ok_algorithms, true),
+            'Algorithm is not a secure cryptographic hash function.'
+        );
 
-        if ($count <= 0 || $key_length <= 0) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Invalid PBKDF2 parameters.'
-            );
-        }
+        Core::ensureTrue($count > 0 && $key_length > 0, 'Invalid PBKDF2 parameters.');
 
         if (\function_exists('hash_pbkdf2')) {
             // The output length is in NIBBLES (4-bits) if $raw_output is false!

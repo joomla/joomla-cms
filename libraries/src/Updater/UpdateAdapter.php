@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -183,9 +183,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-					->select($db->quoteName('name'))
-					->from($db->quoteName('#__update_sites'))
-					->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
+			->select($db->quoteName('name'))
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
 		$db->setQuery($query);
 
 		$name = '';

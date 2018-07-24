@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-abstract class Dispatcher implements DispatcherInterface
+class Dispatcher implements DispatcherInterface
 {
 	/**
 	 * The URL option for the component.
@@ -56,7 +56,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @var  MVCFactoryFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $mvcFactoryFactory;
 
@@ -80,7 +80,7 @@ abstract class Dispatcher implements DispatcherInterface
 		{
 			$this->option = ComponentHelper::getComponentName(
 				$this,
-				strtolower(str_replace('Dispatcher', '', get_class($this)))
+				str_replace('com_', '', $input->get('option'))
 			);
 		}
 

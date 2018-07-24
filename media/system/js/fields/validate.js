@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -239,7 +239,6 @@ var JFormValidator = function() {
 
 			if (['input', 'textarea', 'select', 'fieldset'].indexOf(tagName) > -1 && el.classList.contains('required')) {
 				el.setAttribute('required', '');
-				el.setAttribute('aria-required', 'true');
 			}
 
 			// Attach isValid method to submit button
@@ -253,10 +252,6 @@ var JFormValidator = function() {
 
 			// Attach validate method only to fields
 			else if (tagName !== 'button' && !(tagName === 'input' && el.getAttribute('type') === 'button')) {
-				if (el.classList.contains('required')) {
-					el.setAttribute('aria-required', true);
-					//el.getAttribute('required') = 'required';
-				}
 				if (tagName !== 'fieldset') {
 					el.addEventListener('blur', function() {
 						return validate(this);

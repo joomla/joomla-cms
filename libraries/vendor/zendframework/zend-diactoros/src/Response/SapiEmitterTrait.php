@@ -10,6 +10,12 @@ namespace Zend\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
+use function ob_get_length;
+use function ob_get_level;
+use function sprintf;
+use function str_replace;
+use function ucwords;
+
 trait SapiEmitterTrait
 {
     /**

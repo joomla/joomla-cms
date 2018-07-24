@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -267,10 +267,11 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params, $item);
 		$item->body    = FinderIndexerHelper::prepareContent($item->body, $item->params, $item);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+
+		// Build the necessary route and path information.
 		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);

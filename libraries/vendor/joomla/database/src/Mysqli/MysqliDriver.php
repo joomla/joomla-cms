@@ -221,6 +221,9 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 			$this->connection->query('SET @@SESSION.sql_mode = \'' . implode(',', $this->options['sqlModes']) . '\';');
 		}
 
+		// And read the real sql mode to mitigate changes in mysql > 5.7.+
+		$this->options['sqlModes'] = explode(',', $this->setQuery('SELECT @@SESSION.sql_mode;')->loadResult());
+
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))
 		{
@@ -296,6 +299,17 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
 		$this->connect();
 
 		$result = $this->connection->real_escape_string($text);
@@ -902,5 +916,23 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 		}
 
 		return version_compare($client_version, '5.5.3', '>=');
+	}
+
+	/**
+	 * Get the null or zero representation of a timestamp for the database driver.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getNullDate()
+	{
+		// Check the session sql mode;
+		if (in_array('NO_ZERO_DATE', $this->options['sqlModes']) !== false)
+		{
+			$this->nullDate = '1000-01-01 00:00:00';
+		}
+
+		return $this->nullDate;
 	}
 }

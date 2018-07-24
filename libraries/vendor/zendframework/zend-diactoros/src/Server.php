@@ -8,8 +8,10 @@
 namespace Zend\Diactoros;
 
 use OutOfBoundsException;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+use function property_exists;
 
 /**
  * "Serve" incoming HTTP requests

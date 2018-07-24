@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Controller;
@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base controller class for Menu Manager.
@@ -80,7 +81,7 @@ class DisplayController extends BaseController
 				$app         = Factory::getApplication();
 				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
 
-				$app->enqueueMessage(\JText::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
+				$app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
 			}
 		}
 

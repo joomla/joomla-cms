@@ -61,6 +61,14 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface
 	];
 
 	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = ['0000-00-00 00:00:00', '1000-01-01 00:00:00'];
+
+	/**
 	 * Magic function to convert the query to a string.
 	 *
 	 * @return  string  The completed query.

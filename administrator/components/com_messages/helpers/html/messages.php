@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * JHtml administrator messages class.
@@ -36,9 +38,9 @@ class JHtmlMessages
 		// Log deprecated message
 		try
 		{
-			JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated. Use JHtmlMessages::status() instead.', __METHOD__),
-				JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
@@ -88,7 +90,7 @@ class JHtmlMessages
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-'
+				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3]) . '"><span class="icon-'
 				. $icon . '" aria-hidden="true"></span></a>';
 		}
 

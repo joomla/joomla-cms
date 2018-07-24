@@ -1,3 +1,4 @@
+
 ;(function() {
 	"use strict";
 
@@ -67,21 +68,48 @@
 		if (modal.length) {
 			$.each($('.joomla-modal'), function() {
 				var $self = $(this);
+
+				// element.id is mandatory for modals!!!
+				var element = $self.get(0);
+
+				// Comply with the Joomla API
+				// Bound element.open()
+				if (element) {
+					element.open = function () {
+						return $self.modal('show');
+					};
+
+					// Bound element.close()
+					element.close = function () {
+						return $self.modal('hide');
+					};
+				}
+
 				$self.on('show.bs.modal', function() {
+					// Comply with the Joomla API
+					// Set the current Modal ID
+					Joomla.Modal.setCurrent(element);
+
+					// @TODO throw the standard Joomla event
 					if ($self.data('url')) {
 						var modalBody = $self.find('.modal-body');
+						var el;
 						modalBody.find('iframe').remove();
 
+						// Hacks because com_associations and field modals use pure javascript in the url!
 						if ($self.data('iframe').indexOf("document.getElementById") > 0){
 							var iframeTextArr = $self.data('iframe').split('+');
 							var idFieldArr = iframeTextArr[1].split('"');
-							var data_iframe = iframeTextArr[0] +
-									document.getElementById(idFieldArr[1]).value +
-									iframeTextArr[2];
+
+							if (!document.getElementById(idFieldArr[1])) {
+								el = eval(idFieldArr[0]);
+							} else {
+								el = document.getElementById(idFieldArr[1]).value;
+							}
+
+							var data_iframe = iframeTextArr[0] + el + iframeTextArr[2];
 							modalBody.prepend(data_iframe);
-						}
-						else
-						{
+						} else {
 							modalBody.prepend($self.data('iframe'));
 						}
 					}
@@ -102,9 +130,16 @@
 							$('.iframe').css('max-height', maxModalBodyHeight-modalBodyPadding);
 						}
 					}
-				}).on('hide.bs.modal', function () {
+					// @TODO throw the standard Joomla event
+				}).on('hide.bs.modal', function() {
 					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
 					$('.modalTooltip').tooltip('dispose');
+					// @TODO throw the standard Joomla event
+				}).on('hidden.bs.modal', function() {
+					// Comply with the Joomla API
+					// Remove the current Modal ID
+					Joomla.Modal.setCurrent('');
+					// @TODO throw the standard Joomla event
 				});
 			});
 		}

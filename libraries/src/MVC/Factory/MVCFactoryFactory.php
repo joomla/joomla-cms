@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 /**
  * Factory to create MVC factories.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MVCFactoryFactory implements MVCFactoryFactoryInterface, FormFactoryAwareInterface
 {
@@ -27,7 +27,7 @@ class MVCFactoryFactory implements MVCFactoryFactoryInterface, FormFactoryAwareI
 	 * The namespace.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $namespace;
 
@@ -36,7 +36,7 @@ class MVCFactoryFactory implements MVCFactoryFactoryInterface, FormFactoryAwareI
 	 *
 	 * @param   string  $namespace  The extension namespace
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(string $namespace)
 	{
@@ -50,7 +50,7 @@ class MVCFactoryFactory implements MVCFactoryFactoryInterface, FormFactoryAwareI
 	 *
 	 * @return  \Joomla\CMS\MVC\Factory\MVCFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createFactory(CMSApplicationInterface $application): MVCFactoryInterface

@@ -12,6 +12,29 @@ use Psr\Http\Message\UploadedFileInterface;
 use stdClass;
 use UnexpectedValueException;
 
+use function array_change_key_case;
+use function array_key_exists;
+use function array_keys;
+use function explode;
+use function implode;
+use function is_array;
+use function is_callable;
+use function ltrim;
+use function preg_match;
+use function preg_match_all;
+use function preg_replace;
+use function sprintf;
+use function strlen;
+use function strpos;
+use function strrpos;
+use function strtolower;
+use function strtr;
+use function substr;
+use function urldecode;
+
+use const CASE_LOWER;
+use const PREG_SET_ORDER;
+
 /**
  * Class for marshaling a request object from the current PHP environment.
  *

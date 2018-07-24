@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@
 		}
 
 		// Folder modal tree selector
-		var folderModalFolders = document.querySelectorAll('#fileModal .folder-url');
+		var folderModalFolders = document.querySelectorAll('#folderModal .folder-url');
 		for (var i = 0, l = folderModalFolders.length; i < l; i++) {
 			folderModalFolders[i].addEventListener('click', function(event) {
 				event.preventDefault();
@@ -70,7 +70,7 @@
 
 				event.target.classList.add('selected');
 
-				var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
+				var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
 
 				listElsAddressToAdd.forEach(function(element) {
 				  element.value = event.target.getAttribute('data-id');

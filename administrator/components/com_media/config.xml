@@ -19,7 +19,6 @@
 			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" 
 			validate="number"
 			min="0"
-			size="50"
 			default="10"
 		/>
 

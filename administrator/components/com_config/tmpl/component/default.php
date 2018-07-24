@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 		<div class="col-md-10" id="config">
 
 			<?php if ($this->fieldsets): ?>
-			<ul class="nav nav-tabs flex-wrap" id="configTabs">
+			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>

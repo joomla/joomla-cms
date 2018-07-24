@@ -36,7 +36,7 @@
 	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component2/controller.php</exclude-pattern>
 
 	<!-- exclude file because of the use of unsupported class definition -->
-	<exclude-pattern type="relative">administrator/components/com_content/services/provider.php</exclude-pattern>
+	<exclude-pattern type="relative">administrator/components/*/services/provider.php</exclude-pattern>
 
 	<!-- Exclude the RoboFile.php -->
 	<exclude-pattern type="relative">RoboFile.php</exclude-pattern>
@@ -86,12 +86,7 @@
 	<rule ref="Generic.PHP.DeprecatedFunctions" />
 	<rule ref="Generic.PHP.ForbiddenFunctions"/>
 	<rule ref="Generic.PHP.LowerCaseConstant" />
-	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
-		<!-- These exceptions are temporary for now -->
-		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
-	</rule>
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent" />
 
 	<!-- Include some additional sniffs from the PEAR standard -->
 	<rule ref="PEAR.Classes.ClassDeclaration" />

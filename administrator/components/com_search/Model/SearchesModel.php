@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Search\Administrator\Model;
@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of search terms.
@@ -142,7 +143,7 @@ class SearchesModel extends ListModel
 		if ($this->getState('show_results'))
 		{
 			PluginHelper::importPlugin('search');
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			if (!class_exists('JSite'))
 			{

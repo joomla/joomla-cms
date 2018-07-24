@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -128,6 +128,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		{
 			return true;
 		}
+
 		// Remove the items.
 		return $this->remove($id);
 	}
@@ -264,10 +265,11 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$item->params = new Registry($item->params);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+
+		// Build the necessary route and path information.
 		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -390,9 +392,6 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	{
 		// Load dependent classes.
 		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
-
-		// This is a hack to get around the lack of a route helper.
-		FinderIndexerHelper::getContentPath('index.php?option=com_contact');
 
 		return true;
 	}

@@ -27,17 +27,6 @@ final class ConsoleEvents
 	const BEFORE_COMMAND_EXECUTE = 'console.before_command_execute';
 
 	/**
-	 * The ERROR event is an event triggered when a Throwable is uncaught.
-	 *
-	 * This event allows you to inspect the Throwable, implement additional error handling/reporting
-	 * mechanisms, and set the process' exit code.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	const ERROR = 'console.error';
-
-	/**
 	 * The TERMINATE event is an event triggered immediately before the application is exited.
 	 *
 	 * This event allows developers to perform any post-process actions and to maniuplate

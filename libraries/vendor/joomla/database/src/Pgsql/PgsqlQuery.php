@@ -21,6 +21,14 @@ class PgsqlQuery extends PdoQuery
 	use PostgresqlQueryBuilder;
 
 	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = ['1970-01-01 00:00:00'];
+
+	/**
 	 * Magic function to convert the query to a string, only for PostgreSQL specific queries
 	 *
 	 * @return  string	The completed query.
@@ -69,6 +77,15 @@ class PgsqlQuery extends PdoQuery
 				if ($this->having)
 				{
 					$query .= (string) $this->having;
+				}
+
+				if ($this->merge)
+				{
+					// Special case for merge
+					foreach ($this->merge as $element)
+					{
+						$query .= (string) $element;
+					}
 				}
 
 				if ($this->order)
@@ -213,12 +230,14 @@ class PgsqlQuery extends PdoQuery
 			case 'update':
 			case 'delete':
 			case 'insert':
+			case 'querySet':
 			case 'from':
 			case 'join':
 			case 'set':
 			case 'where':
 			case 'group':
 			case 'having':
+			case 'merge':
 			case 'order':
 			case 'columns':
 			case 'values':

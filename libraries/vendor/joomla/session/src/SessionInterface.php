@@ -251,4 +251,14 @@ interface SessionInterface extends \IteratorAggregate
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function gc();
+
+	/**
+	 * Aborts the current session
+	 *
+	 * @return  boolean
+	 *
+	 * @see     session_abort()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function abort();
 }

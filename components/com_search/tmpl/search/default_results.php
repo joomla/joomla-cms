@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 ?>
 <dl class="search-results">
@@ -15,7 +18,7 @@ defined('_JEXEC') or die;
 	<dt class="result-title">
 		<?php echo $this->pagination->limitstart + $result->count . '. '; ?>
 		<?php if ($result->href) : ?>
-			<a href="<?php echo JRoute::_($result->href); ?>"<?php if ($result->browsernav == 1) : ?> target="_blank"<?php endif; ?>>
+			<a href="<?php echo Route::_($result->href); ?>"<?php if ($result->browsernav == 1) : ?> target="_blank"<?php endif; ?>>
 				<?php // $result->title should not be escaped in this case, as it may ?>
 				<?php // contain span HTML tags wrapping the searched terms, if present ?>
 				<?php // in the title. ?>
@@ -38,7 +41,7 @@ defined('_JEXEC') or die;
 	</dd>
 	<?php if ($this->params->get('show_date')) : ?>
 		<dd class="result-created">
-			<?php echo JText::sprintf('JGLOBAL_CREATED_DATE_ON', $result->created); ?>
+			<?php echo Text::sprintf('JGLOBAL_CREATED_DATE_ON', $result->created); ?>
 		</dd>
 	<?php endif; ?>
 <?php endforeach; ?>

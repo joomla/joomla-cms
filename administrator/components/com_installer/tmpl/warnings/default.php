@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,6 @@ defined('_JEXEC') or die;
 							<h4 class="alert-heading"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
 							<p class="m-b-0"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
 						</joomla-alert>
-						<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 					<?php endif; ?>
 					<div>
 						<input type="hidden" name="boxchecked" value="0">

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ abstract class JHtmlCategory
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
-			
+
 			// Filter on user access level
 			$query->where('a.access IN (' . $groups . ')');
 
@@ -160,7 +160,7 @@ abstract class JHtmlCategory
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
-			
+
 			// Filter on user level.
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');

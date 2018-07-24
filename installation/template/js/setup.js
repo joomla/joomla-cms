@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,7 @@ Joomla.checkDbCredentials = function() {
 
 	Joomla.request({
 		method: "POST",
-		url : Joomla.installationBaseUrl + '?task=installation.dbcheck',
+		url : Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json',
 		data: data,
 		perform: true,
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -86,9 +86,11 @@ Joomla.checkDbCredentials = function() {
 			response = JSON.parse(response);
 			Joomla.loadingLayer('hide');
 			Joomla.replaceTokens(response.token);
-			if (response.messages) {
+			if (response.data.messages) {
 				Joomla.loadingLayer('hide');
-				Joomla.renderMessages(response.messages);
+				Joomla.renderMessages({
+					"error": [response.data.messages]
+				});
 				// You shall not pass, DB credentials error!!!!
 			} else {
 				Joomla.loadingLayer('hide');

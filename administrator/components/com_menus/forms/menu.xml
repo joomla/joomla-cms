@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 	<fieldset>
 		<field
 			name="id"
@@ -68,7 +68,7 @@
 			filter="rules"
 			component="com_menus"
 			section="menu"
-			validate="rules" 
+			validate="rules"
 		/>
 	</fieldset>
 </form>
