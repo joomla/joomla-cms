@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
@@ -137,20 +139,23 @@ class SetConfigurationCommand extends AbstractCommand
 
         $options = $this->validateOptions($options);
 
-        $initialOptions = $this->getApplication()->getConfig()->toArray();
-        $combinedOptions = array_merge($initialOptions, $options);
 
-        $db = $this->checkDb($combinedOptions);
+	    if (!$options)
+	    {
+		    return 2;
+	    }
 
-        if (!$options)
-        {
-            return 2;
-        }
 
-        if (!$db)
+	    $initialOptions = $this->getApplication()->getConfig()->toArray();
+	    $combinedOptions = array_merge($initialOptions, $options);
+
+	    $db = $this->checkDb($combinedOptions);
+
+	    if ($db === false)
         {
             return 1;
         }
+
 
         if ($this->saveConfiguration($options))
         {
@@ -158,6 +163,7 @@ class SetConfigurationCommand extends AbstractCommand
 
             return 0;
         }
+
         return 3;
     }
 
@@ -297,9 +303,6 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function checkDb($options)
 	{
-	    // Allows us to load Joomla\CMS\Installation\Helper\DatabaseHelper;
-		\JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
-
         $options = [
             'db_type' => $options['dbtype'],
             'db_host' => $options['host'],
@@ -331,7 +334,7 @@ class SetConfigurationCommand extends AbstractCommand
 		// Ensure a database type was selected.
 		if (empty($options->db_type))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
 
 			return false;
 		}
@@ -339,7 +342,7 @@ class SetConfigurationCommand extends AbstractCommand
 		// Ensure that a hostname and user name were input.
 		if (empty($options->db_host) || empty($options->db_user))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
 
 			return false;
 		}
@@ -347,7 +350,7 @@ class SetConfigurationCommand extends AbstractCommand
 		// Ensure that a database name was input.
 		if (empty($options->db_name))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
 			return false;
 		}
@@ -355,7 +358,7 @@ class SetConfigurationCommand extends AbstractCommand
 		// Validate database table prefix.
 		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
 
 			return false;
 		}
@@ -363,7 +366,7 @@ class SetConfigurationCommand extends AbstractCommand
 		// Validate length of database table prefix.
 		if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
 			return false;
 		}
@@ -371,7 +374,7 @@ class SetConfigurationCommand extends AbstractCommand
 		// Validate length of database name.
 		if (strlen($options->db_name) > 64)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
 
 			return false;
 		}
@@ -381,30 +384,38 @@ class SetConfigurationCommand extends AbstractCommand
 		{
 			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
 			{
-				Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
 				return false;
 			}
 		}
 
-		// Get a database object.
-		try
-		{
-			return DatabaseHelper::getDbo(
-				$options->db_type,
-				$options->db_host,
-				$options->db_user,
-				$options->db_pass,
-				$options->db_name,
-				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false
-			);
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+        // Build the connection options array.
+        $settings = [
+            'driver'   => $options->db_type,
+            'host'     =>  $options->db_host,
+            'user'     =>  $options->db_user,
+            'password' => $options->db_pass,
+            'database' => $options->db_name,
+            'prefix'   => $options->db_prefix,
+            'select'   => isset($options->db_select) ? $options->db_select : false
+        ];
 
-			return false;
-		}
+        // Get a database object.
+
+
+        // Get a database object.
+        try
+        {
+            return DatabaseDriver::getInstance($settings)->connect();
+        }
+        catch (\RuntimeException $e)
+        {
+            Factory::getApplication()->enqueueMessage(
+                Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
+                'error');
+
+            return false;
+        }
 	}
 }
