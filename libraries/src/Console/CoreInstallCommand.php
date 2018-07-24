@@ -156,7 +156,7 @@ class CoreInstallCommand extends AbstractCommand
 
         $validConnection = $this->checkDatabaseConnection($options);
 
-        if ($validConnection)
+        if ($validConnection !== false)
         {
             $model = new ConfigurationModel;
 
@@ -268,22 +268,30 @@ class CoreInstallCommand extends AbstractCommand
 		    }
 	    }
 
+        // Build the connection options array.
+        $settings = [
+            'driver'   => $options->db_type,
+            'host'     =>  $options->db_host,
+            'user'     =>  $options->db_user,
+            'password' => $options->db_pass,
+            'database' => $options->db_name,
+            'prefix'   => $options->db_prefix,
+            'select'   => isset($options->db_select) ? $options->db_select : false
+        ];
+
+        // Get a database object.
+
+
 	    // Get a database object.
 	    try
-	    {
-		  return DatabaseHelper::getDbo(
-			    $options->db_type,
-			    $options->db_host,
-			    $options->db_user,
-			    $options->db_pass,
-			    $options->db_name,
-			    $options->db_prefix,
-			    isset($options->db_select) ? $options->db_select : false
-		    );
+        {
+             return DatabaseDriver::getInstance($settings)->connect();
 	    }
 	    catch (\RuntimeException $e)
 	    {
-		    Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+		    Factory::getApplication()->enqueueMessage(
+		        Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
+                'error');
 
 		    return false;
 	    }
@@ -314,7 +322,7 @@ class CoreInstallCommand extends AbstractCommand
 		if (!in_array($ext, $allowedExtension))
 		{
             $this->getApplication()->enqueueMessage('The file type specified is not supported');
-            
+
             return;
 		}
 
