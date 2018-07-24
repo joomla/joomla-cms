@@ -235,8 +235,6 @@ abstract class JHtmlMenu
 		return $ordering;
 	}
 
-	/**
-	 * Build the multiple select list for Menu Links/Pages
 	 /**
 	 * Set the user property
 	 *
@@ -244,13 +242,17 @@ abstract class JHtmlMenu
 	 *
 	 * @return  JMenu  The menu object if the user property has been set or null
 	 *
-	 * @since   3.7.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setUser(JUser $user)
 	{
 		$this->user = $user;
+
 		return $this;
 	}
+
+	/**
+	 * Build the multiple select list for Menu Links/Pages
 	 * @param   boolean  $all         True if all can be selected
 	 * @param   boolean  $unassigned  True if unassigned can be selected
 	 * @param   int      $clientId    The client id
