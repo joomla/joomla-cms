@@ -16,6 +16,7 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -534,7 +535,7 @@ class PluginAdapter extends InstallerAdapter
 			foreach ($file_list as $file)
 			{
 				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
-				$file = \JFile::stripExt($file);
+				$file = File::stripExt($file);
 
 				// Ignore example plugins
 				if ($file === 'example' || $manifest_details === false)
@@ -567,7 +568,7 @@ class PluginAdapter extends InstallerAdapter
 					$manifest_details = Installer::parseXMLInstallFile(
 						JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder . '/' . $file
 					);
-					$file = \JFile::stripExt($file);
+					$file = File::stripExt($file);
 
 					if ($file === 'example' || $manifest_details === false)
 					{

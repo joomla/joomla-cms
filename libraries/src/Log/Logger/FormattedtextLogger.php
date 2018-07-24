@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -155,7 +156,7 @@ class FormattedtextLogger extends Logger
 		// Write the new entry to the file.
 		$line .= "\n";
 
-		if (!\JFile::append($this->path, $line))
+		if (!File::append($this->path, $line))
 		{
 			throw new \RuntimeException('Cannot write to log file.');
 		}
@@ -206,7 +207,7 @@ class FormattedtextLogger extends Logger
 	protected function initFile()
 	{
 		// We only need to make sure the file exists
-		if (\JFile::exists($this->path))
+		if (File::exists($this->path))
 		{
 			return;
 		}
@@ -217,7 +218,7 @@ class FormattedtextLogger extends Logger
 		// Build the log file header.
 		$head = $this->generateFileHeader();
 
-		if (!\JFile::write($this->path, $head))
+		if (!File::write($this->path, $head))
 		{
 			throw new \RuntimeException('Cannot write to log file.');
 		}

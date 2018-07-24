@@ -14,6 +14,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -154,7 +155,7 @@ class FileAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		\JFile::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
+		File::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
 
 		$db = $this->parent->getDbo();
 
@@ -273,7 +274,7 @@ class FileAdapter extends InstallerAdapter
 					else
 					{
 						$fileName = $targetFolder . '/' . $eFileName;
-						\JFile::delete($fileName);
+						File::delete($fileName);
 					}
 				}
 			}

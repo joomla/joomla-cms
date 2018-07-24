@@ -15,6 +15,7 @@ use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -95,7 +96,7 @@ abstract class InstallerHelper
 		}
 
 		// Write buffer to file
-		\JFile::write($target, $response->body);
+		File::write($target, $response->body);
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
@@ -306,12 +307,12 @@ abstract class InstallerHelper
 		// Is the package file a valid file?
 		if (is_file($package))
 		{
-			\JFile::delete($package);
+			File::delete($package);
 		}
 		elseif (is_file(\JPath::clean($config->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			\JFile::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
 		}
 	}
 }

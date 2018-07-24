@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -261,7 +262,7 @@ class LibraryAdapter extends InstallerAdapter
 	protected function removeExtensionFiles()
 	{
 		$this->parent->removeFiles($this->getManifest()->files, -1);
-		\JFile::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
+		File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
 
 		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
@@ -486,7 +487,7 @@ class LibraryAdapter extends InstallerAdapter
 		foreach ($file_list as $file)
 		{
 			$manifest_details = Installer::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
-			$file = \JFile::stripExt($file);
+			$file = File::stripExt($file);
 			$extension = Table::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);

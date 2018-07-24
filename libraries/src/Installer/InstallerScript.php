@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -317,7 +318,7 @@ class InstallerScript
 		{
 			foreach ($this->deleteFiles as $file)
 			{
-				if (file_exists(JPATH_ROOT . $file) && !\JFile::delete(JPATH_ROOT . $file))
+				if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
 				{
 					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
 				}
@@ -351,7 +352,7 @@ class InstallerScript
 			{
 				$name = basename($file);
 
-				if (file_exists(JPATH_ROOT . $file) && !\JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
+				if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
 				{
 					echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}

@@ -19,6 +19,7 @@ use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -380,7 +381,7 @@ class Installer extends \JAdapter
 			{
 				case 'file':
 					// Remove the file
-					$stepval = \JFile::delete($step['path']);
+					$stepval = File::delete($step['path']);
 					break;
 
 				case 'folder':
@@ -1328,7 +1329,7 @@ class Installer extends \JAdapter
 
 				foreach ($deletions['files'] as $deleted_file)
 				{
-					\JFile::delete($destination . '/' . $deleted_file);
+					File::delete($destination . '/' . $deleted_file);
 				}
 			}
 		}
@@ -1707,7 +1708,7 @@ class Installer extends \JAdapter
 					}
 					else
 					{
-						if (!\JFile::copy($filesource, $filedest, null))
+						if (!File::copy($filesource, $filedest, null))
 						{
 							\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), \JLog::WARNING, 'jerror');
 
@@ -1883,7 +1884,7 @@ class Installer extends \JAdapter
 			}
 			else
 			{
-				$val = \JFile::delete($path);
+				$val = File::delete($path);
 			}
 
 			if ($val === false)
@@ -2272,8 +2273,8 @@ class Installer extends \JAdapter
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename = \JFile::getName($path);
-			$data['filename'] = \JFile::stripExt($filename);
+			$filename = File::getName($path);
+			$data['filename'] = File::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
 			{

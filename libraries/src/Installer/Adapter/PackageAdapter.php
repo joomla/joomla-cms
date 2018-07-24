@@ -21,6 +21,7 @@ use Joomla\Event\Event;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Package installer
@@ -328,7 +329,7 @@ class PackageAdapter extends InstallerAdapter
 			$update->delete($uid);
 		}
 
-		\JFile::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+		File::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
 
 		$folder = $this->parent->getPath('extension_root');
 

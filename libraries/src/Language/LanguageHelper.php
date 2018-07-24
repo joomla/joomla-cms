@@ -14,6 +14,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Language helper class
@@ -432,7 +433,7 @@ class LanguageHelper
 		// Write override.ini file with the strings.
 		$registry = new Registry($strings);
 
-		return \JFile::write($filename, $registry->toString('INI'));
+		return File::write($filename, $registry->toString('INI'));
 	}
 
 	/**
