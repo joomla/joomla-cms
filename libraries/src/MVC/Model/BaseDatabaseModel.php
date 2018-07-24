@@ -21,6 +21,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Base class for a database aware Joomla Model
@@ -349,7 +350,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   \JDatabaseQuery|string  $query  The query.
+	 * @param   DatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -357,8 +358,8 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on \JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
-		if ($query instanceof \JDatabaseQuery
+		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
+		if ($query instanceof DatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
 			&& $query->merge === null
@@ -375,8 +376,8 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a \JDatabaseQuery object
-		if ($query instanceof \JDatabaseQuery)
+		// Remove the limit and offset part if it's a DatabaseQuery object
+		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
 			$query->clear('limit')->clear('offset');

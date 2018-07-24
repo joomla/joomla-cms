@@ -49,7 +49,7 @@ class ListModel extends BaseDatabaseModel
 	/**
 	 * An internal cache for the last query used.
 	 *
-	 * @var    \JDatabaseQuery[]
+	 * @var    DatabaseQuery[]
 	 * @since  1.6
 	 */
 	protected $query = array();
@@ -117,7 +117,7 @@ class ListModel extends BaseDatabaseModel
 	 *
 	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  DatabaseQuery  A DatabaseQuery object
 	 *
 	 * @since   1.6
 	 */
@@ -200,9 +200,9 @@ class ListModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
+	 * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */

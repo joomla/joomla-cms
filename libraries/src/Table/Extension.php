@@ -106,7 +106,7 @@ class Extension extends Table
 	 */
 	public function find($options = array())
 	{
-		// Get the \JDatabaseQuery object
+		// Get the DatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
 		foreach ($options as $col => $val)

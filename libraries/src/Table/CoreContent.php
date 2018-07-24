@@ -373,7 +373,7 @@ class CoreContent extends Table
 
 		$pksImploded = implode(',', $pks);
 
-		// Get the JDatabaseQuery object
+		// Get the DatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
