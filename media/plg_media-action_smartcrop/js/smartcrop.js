@@ -15,12 +15,13 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	path = '/images' + path[1];
 
 	// Setting the focus area in the editor
-	var getFocusPoints = function(width){
+	var getFocusPoints = function(width) {
 		Joomla.request({
-			url: resolveBaseUrl() +"/administrator/index.php?option=com_media&task=adaptiveimage.cropBoxData&path="+path+"&width="+width,
+			url: resolveBaseUrl() +"/administrator/index.php?option=com_media&task=adaptiveimage.cropBoxData&path=" + path + "&width=" + width,
 			method: 'GET',
 			onSuccess: (response) => {
-				if(response!=''){
+				
+				if (response != '') {
 					var data = JSON.parse(response);
 					Joomla.MediaManager.Edit.smartcrop.cropper.setData({
 						"x"      : data["box-left"],
@@ -36,22 +37,28 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	// Saveing the focus points to the storage
 	function saveFocusPoints(width) {
 		// Data to be saved in the storage
-		var data = "&box-left="+Joomla.MediaManager.Edit.smartcrop.cropper.boxLeft+
-					"&box-top="+Joomla.MediaManager.Edit.smartcrop.cropper.boxTop+
-					"&box-width="+Joomla.MediaManager.Edit.smartcrop.cropper.boxWidth+
-					"&box-height="+Joomla.MediaManager.Edit.smartcrop.cropper.boxHeight+
-					"&width="+width;
+		var data = "&box-left=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxLeft +
+					"&box-top=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxTop +
+					"&box-width=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxWidth +
+					"&box-height=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxHeight +
+					"&width=" + width;
 
 		Joomla.request({
-			url: resolveBaseUrl() +"/administrator/index.php?option=com_media&task=adaptiveimage.setfocus&path="+path+data,
+			url: resolveBaseUrl() + "/administrator/index.php?option=com_media&task=adaptiveimage.setfocus&path=" + path + data,
 			method: 'GET',
 		});
 	}
 
 	// At Deactivate crop the images and save to cache.
-	function cropImages(){
+	function cropImages() {
+		var widths = document.getElementById("jform_requestedWidth");
+		var cropWidths = [];
+		
+		for (var i = 0 ; i < widths.length; i++) {
+			cropWidths[i] = widths[i].value;
+		}
 		Joomla.request({
-			url: resolveBaseUrl() +"/administrator/index.php?option=com_media&task=adaptiveimage.cropImage&path="+path,
+			url: resolveBaseUrl() + "/administrator/index.php?option=com_media&task=adaptiveimage.cropImage&path=" + path + "&widths=" + JSON.stringify(cropWidths),
 			method: 'GET',
 		});
 	}
@@ -60,8 +67,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	function getQueryVariable(variable) {
 		var query = window.location.search.substring(1);
 		var vars = query.split('&');
+		
 		for (var i = 0; i < vars.length; i++) {
 			var pair = vars[i].split('=');
+			
 			if (decodeURIComponent(pair[0]) == variable) {
 				return decodeURIComponent(pair[1]);
 			}
@@ -73,10 +82,36 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	function resolveBaseUrl() {
 		var basePath = window.location.origin;
 		var url = window.location.pathname.split('/');
-		if (url[1]!='administrator') {
-			return basePath+"/"+url[1];
+		
+		if (url[1] != 'administrator') {
+			return basePath + "/" + url[1];
 		}
 		return basePath;
+	}
+
+	function addCustomWidths() {
+		var widths = Joomla.getOptions('js-smartcrop-widths');
+		var widthDropDown = document.getElementById("jform_requestedWidth");
+		var defaultWidthLength = widthDropDown.length;
+		var customWidthLength  = widths.length;
+		
+		if (customWidthLength > 0) {
+			// Remove all the previous widths from the dropdown.
+			for (var i = 0; i < defaultWidthLength; i++) {
+				widthDropDown.remove(widthDropDown.i);
+			}
+				
+			// Sort Custom Widths in accending order.
+			widths.sort();
+			
+			// Add Custom Wdiths to the dropdown.
+			for (var i = 0; i < customWidthLength; i++) {
+				var option = document.createElement('option');
+				option.text = widths[i] + "px";
+				option.value = widths[i];
+				widthDropDown.add(option, i);
+			}
+		}
 	}
 
 	// Register the Events
@@ -84,14 +119,17 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		Activate: function (mediaData) {
 			// Initialize
 			initSmartCrop(mediaData);
+			addCustomWidths();
 		},
 		Deactivate: function () {
 			var width = document.getElementById("jform_requestedWidth").value;
 			saveFocusPoints(width);
 			cropImages();
+			
 			if (!Joomla.MediaManager.Edit.smartcrop.cropper) {
 				return;
 			}
+			
 			// Destroy the instance
 			Joomla.MediaManager.Edit.smartcrop.cropper.destroy();
 		}
@@ -139,24 +177,22 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 		// Wait for the image to load its data
 		image.addEventListener('load', function() {
-
 			// Set default aspect ratio after numeric check
 			var defaultCropFactor = image.naturalWidth / image.naturalHeight;
 			Joomla.MediaManager.Edit.smartcrop.cropper.setAspectRatio(defaultCropFactor);
-
 		});
+
 		var width = document.getElementById("jform_requestedWidth");
 		var preWidth = width.value;
 		
 		getFocusPoints(preWidth);
 
-		width.addEventListener('change', function(){
+		width.addEventListener('change', function() {
 			saveFocusPoints(preWidth);
 			var newWidth = width.value
 			getFocusPoints(newWidth);
 			preWidth = newWidth;
 		});
-		
 	};
 })();
 

@@ -23,4 +23,24 @@
         <language tag="en-GB">en-GB.plg_media-action_smartcrop.ini</language>
         <language tag="en-GB">en-GB.plg_media-action_smartcrop.sys.ini</language>
     </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field  name="customWidth" 
+                        type="subform"
+                        layout="joomla.form.field.subform.repeatable-table"
+                        multiple="true"
+                        description="PLG_MEDIA-ACTION_SMARTCROP_FIELD-SET_DESCRIPTION"
+                        button="add,remove"
+                        label="PLG_MEDIA-ACTION_SMARTCROP_FIELD-SET_LABEL">
+                        <form>
+                            <field
+                                name="width"
+                                type="number"
+                            />
+                        </form>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
 </extension>
