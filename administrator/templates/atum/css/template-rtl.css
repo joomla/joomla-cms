@@ -999,26 +999,16 @@ iframe {
       line-height: 2.65rem;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.2); }
-  .subhead .btn-group {
-    margin-right: .75rem; }
-    .subhead .btn-group [class^='icon-'],
-    .subhead .btn-group [class*=' icon-'],
-    .subhead .btn-group [class^='fa-'],
-    .subhead .btn-group [class*=' fa-'] {
-      margin-right: 0;
-      background-color: transparent; }
-  .subhead .dropdown-toggle {
-    padding: 0 16px; }
-    .subhead .dropdown-toggle.btn {
-      background-color: rgba(0, 0, 0, 0.2); }
-    .subhead .dropdown-toggle.btn-primary {
-      background-color: #285f9b; }
-    .subhead .dropdown-toggle.btn-success {
-      background-color: #245f26; }
-    .subhead .dropdown-toggle.btn-info {
-      background-color: #128294; }
-    .subhead .dropdown-toggle.btn-danger {
-      background-color: #a32120; }
+  .subhead .dropdown-toggle.btn {
+    background-color: rgba(0, 0, 0, 0.2); }
+  .subhead .dropdown-toggle.btn-primary {
+    background-color: #285f9b; }
+  .subhead .dropdown-toggle.btn-success {
+    background-color: #245f26; }
+  .subhead .dropdown-toggle.btn-info {
+    background-color: #128294; }
+  .subhead .dropdown-toggle.btn-danger {
+    background-color: #a32120; }
 
 .treeselect {
   display: block;
