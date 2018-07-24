@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Language helper class
@@ -245,7 +246,7 @@ class LanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						\JLog::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}
@@ -253,7 +254,7 @@ class LanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->metadata))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						\JLog::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}
@@ -270,7 +271,7 @@ class LanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						\JLog::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}
@@ -278,7 +279,7 @@ class LanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->manifest))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						\JLog::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}

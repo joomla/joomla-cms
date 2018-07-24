@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Menu class
@@ -99,7 +100,7 @@ abstract class AbstractMenu
 	{
 		if (!$client)
 		{
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+			throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 		}
 
 		if (empty(self::$instances[$client]))

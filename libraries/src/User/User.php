@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * User class.  Handles all application interaction with a user
@@ -609,7 +610,7 @@ class User extends \JObject
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				Factory::getApplication()->enqueueMessage(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
 				return false;
 			}
@@ -637,7 +638,7 @@ class User extends \JObject
 			{
 				if ($array['password'] != $array['password2'])
 				{
-					$this->setError(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+					$this->setError(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 
 					return false;
 				}
@@ -647,7 +648,7 @@ class User extends \JObject
 				// Check if the user is reusing the current password if required to reset their password
 				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
 				{
-					$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+					$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
@@ -682,7 +683,7 @@ class User extends \JObject
 		// Bind the array
 		if (!$this->setProperties($array))
 		{
-			$this->setError(\JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+			$this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
 
 			return false;
 		}
@@ -864,7 +865,7 @@ class User extends \JObject
 			// Reset to guest user
 			$this->guest = 1;
 
-			\JLog::add(\JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

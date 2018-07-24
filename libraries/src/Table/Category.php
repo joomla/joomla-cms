@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Observer\ContentHistory;
 use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Category table
@@ -150,7 +151,7 @@ class Category extends Nested
 		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 
 			return false;
 		}
@@ -254,7 +255,7 @@ class Category extends Nested
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
 			return false;
 		}

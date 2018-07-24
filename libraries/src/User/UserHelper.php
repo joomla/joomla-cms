@@ -22,6 +22,7 @@ use Joomla\CMS\Authentication\Password\SHA256Handler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -333,7 +334,7 @@ abstract class UserHelper
 		}
 		else
 		{
-			\JLog::add(\JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

@@ -10,6 +10,8 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Tags table
  *
@@ -82,7 +84,7 @@ class ContentType extends Table
 
 		if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0))
 		{
-			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}

@@ -17,6 +17,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Prototype admin model.
@@ -264,7 +265,7 @@ abstract class AdminModel extends FormModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('JGLOBAL_NO_ITEM_SELECTED'));
 
 			return false;
 		}
@@ -319,7 +320,7 @@ abstract class AdminModel extends FormModel
 
 		if (!$done)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 
 			return false;
 		}
@@ -363,7 +364,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -421,7 +422,7 @@ abstract class AdminModel extends FormModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -516,7 +517,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -556,7 +557,7 @@ abstract class AdminModel extends FormModel
 		{
 			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -574,7 +575,7 @@ abstract class AdminModel extends FormModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -651,7 +652,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -847,7 +848,7 @@ abstract class AdminModel extends FormModel
 					}
 					else
 					{
-						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						\JLog::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1013,7 +1014,7 @@ abstract class AdminModel extends FormModel
 					// Prune items that you can't change.
 					unset($pks[$i]);
 
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1021,7 +1022,7 @@ abstract class AdminModel extends FormModel
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
 				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
 				{
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), \JLog::WARNING, 'jerror');
 
 					// Prune items that you can't change.
 					unset($pks[$i]);
@@ -1090,7 +1091,7 @@ abstract class AdminModel extends FormModel
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->checkin($pk);
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 					$allowed = false;
 					continue;
 				}
@@ -1241,7 +1242,7 @@ abstract class AdminModel extends FormModel
 			if ($associations && $table->language === '*')
 			{
 				Factory::getApplication()->enqueueMessage(
-					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
+					Text::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
 			}
@@ -1319,7 +1320,7 @@ abstract class AdminModel extends FormModel
 
 		if (empty($pks))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
 
 			return false;
 		}
@@ -1336,7 +1337,7 @@ abstract class AdminModel extends FormModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+				\JLog::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 			}
 			elseif ($this->table->$orderingField != $order[$i])
 			{
@@ -1415,7 +1416,7 @@ abstract class AdminModel extends FormModel
 				}
 				else
 				{
-					$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 					return false;
 				}
@@ -1424,7 +1425,7 @@ abstract class AdminModel extends FormModel
 
 		if (empty($categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 			return false;
 		}
@@ -1435,7 +1436,7 @@ abstract class AdminModel extends FormModel
 
 		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 			return false;
 		}

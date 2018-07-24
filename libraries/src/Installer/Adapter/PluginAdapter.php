@@ -15,6 +15,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -61,9 +62,9 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					\JText::_('JLIB_INSTALLER_' . $this->route),
+					Text::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -86,9 +87,9 @@ class PluginAdapter extends InstallerAdapter
 		if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false)
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_PLG_COPY_FILES',
-					\JText::_('JLIB_INSTALLER_' . $this->route)
+					Text::_('JLIB_INSTALLER_' . $this->route)
 				)
 			);
 		}
@@ -105,9 +106,9 @@ class PluginAdapter extends InstallerAdapter
 				{
 					// Install failed, rollback changes
 					throw new \RuntimeException(
-						\JText::sprintf(
+						Text::sprintf(
 							'JLIB_INSTALLER_ABORT_PLG_INSTALL_MANIFEST',
-							\JText::_('JLIB_INSTALLER_' . $this->route)
+							Text::_('JLIB_INSTALLER_' . $this->route)
 						)
 					);
 				}
@@ -178,9 +179,9 @@ class PluginAdapter extends InstallerAdapter
 			{
 				// Install failed, rollback changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP',
-						\JText::_('JLIB_INSTALLER_' . $this->route)
+						Text::_('JLIB_INSTALLER_' . $this->route)
 					)
 				);
 			}
@@ -382,9 +383,9 @@ class PluginAdapter extends InstallerAdapter
 		if (empty($this->element) && empty($this->group))
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_PLG_INSTALL_NO_FILE',
-					\JText::_('JLIB_INSTALLER_' . $this->route)
+					Text::_('JLIB_INSTALLER_' . $this->route)
 				)
 			);
 		}
@@ -404,7 +405,7 @@ class PluginAdapter extends InstallerAdapter
 		// Get the plugin folder so we can properly build the plugin path
 		if (trim($this->extension->folder) === '')
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
 		}
 
 		// Set the plugin root path
@@ -445,7 +446,7 @@ class PluginAdapter extends InstallerAdapter
 			if (!$this->extension->store())
 			{
 				// Install failed, roll back changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'));
 			}
 
 			return;
@@ -458,9 +459,9 @@ class PluginAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
 					)
 				);
@@ -500,9 +501,9 @@ class PluginAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->extension->getError()
 					)
 				);
@@ -623,7 +624,7 @@ class PluginAdapter extends InstallerAdapter
 		}
 		else
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Site Application class
@@ -97,7 +98,7 @@ final class SiteApplication extends CMSApplication
 
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				$this->redirect($url);
 			}
 			else
@@ -108,11 +109,11 @@ final class SiteApplication extends CMSApplication
 				// If we are already in the homepage raise an exception
 				if ($menus->getActive()->id == $home_item->id)
 				{
-					throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+					throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 				}
 
 				// Otherwise redirect to the homepage and show an error
-				$this->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$this->redirect(\JRoute::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
@@ -412,7 +413,7 @@ final class SiteApplication extends CMSApplication
 		{
 			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
 
 			if ($params)
@@ -536,7 +537,7 @@ final class SiteApplication extends CMSApplication
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
 			// Try to find data for 'cassiopeia' template
 			$original_tmpl = $template->template;
@@ -553,7 +554,7 @@ final class SiteApplication extends CMSApplication
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 			}
 		}
 

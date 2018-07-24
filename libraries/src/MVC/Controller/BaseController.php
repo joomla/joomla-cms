@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base class for a Joomla Controller
@@ -314,14 +315,14 @@ class BaseController implements ControllerInterface
 			}
 			else
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
 		// Instantiate the class.
 		if (!class_exists($class))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
+			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
@@ -702,7 +703,7 @@ class BaseController implements ControllerInterface
 		}
 		else
 		{
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+			throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
 		}
 
 		// Record the actual task being fired
@@ -773,7 +774,7 @@ class BaseController implements ControllerInterface
 
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -845,7 +846,7 @@ class BaseController implements ControllerInterface
 			}
 			else
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
 			}
 		}
 
@@ -1062,7 +1063,7 @@ class BaseController implements ControllerInterface
 				$referrer = 'index.php';
 			}
 
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'warning');
 			$this->app->redirect($referrer);
 		}
 

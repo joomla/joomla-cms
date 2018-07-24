@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Captcha base object
@@ -217,7 +218,7 @@ class Captcha implements DispatcherAwareInterface
 
 		if (!is_file($path))
 		{
-			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Require plugin file
@@ -228,7 +229,7 @@ class Captcha implements DispatcherAwareInterface
 
 		if (!$plugin)
 		{
-			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Check for already loaded params

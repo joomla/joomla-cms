@@ -17,6 +17,7 @@ use Joomla\Event\Event;
 use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Editor class to handle WYSIWYG editors
@@ -171,7 +172,7 @@ class Editor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if ($this->_editor === null)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}
@@ -302,7 +303,7 @@ class Editor implements DispatcherAwareInterface
 
 		if (!is_file($path))
 		{
-			\JLog::add(\JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

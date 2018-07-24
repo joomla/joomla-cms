@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Help system class
@@ -101,7 +102,7 @@ class Help
 		$jlang   = explode('-', $lang->getTag());
 
 		$debug  = $lang->setDebug(false);
-		$keyref = \JText::_($ref);
+		$keyref = Text::_($ref);
 		$lang->setDebug($debug);
 
 		// Replace substitution codes in help URL.

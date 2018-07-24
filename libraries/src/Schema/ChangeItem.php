@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
@@ -83,7 +84,7 @@ abstract class ChangeItem
 	public $queryType = null;
 
 	/**
-	 * Array with values for use in a \JText::sprintf statment indicating what was checked
+	 * Array with values for use in a Text::sprintf statment indicating what was checked
 	 *
 	 * Tells you what the message should be, based on which elements are defined, as follows:
 	 *     For ADD_TABLE: table

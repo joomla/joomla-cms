@@ -105,7 +105,7 @@ class Router
 
 			if (!class_exists($classname))
 			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class

@@ -19,6 +19,7 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Abstract Table class
@@ -1800,7 +1801,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 				// We don't have a full primary key - return false
 				else
 				{
-					$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+					$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 					return false;
 				}

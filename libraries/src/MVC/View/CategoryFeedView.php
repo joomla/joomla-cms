@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base feed View class for a category
@@ -73,7 +74,7 @@ class CategoryFeedView extends HtmlView
 		// Don't display feed if category id missing or non existent
 		if ($category == false || $category->alias === 'root')
 		{
-			throw new \Exception(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		foreach ($items as $item)

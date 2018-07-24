@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -58,7 +58,7 @@ abstract class InstallerHelper
 		}
 		catch (\RuntimeException $exception)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -69,7 +69,7 @@ abstract class InstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -226,7 +226,7 @@ abstract class InstallerHelper
 
 		if (!$files || !count($files))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -254,7 +254,7 @@ abstract class InstallerHelper
 			return $type;
 		}
 
-		\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+		\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 		// Free up memory.
 		unset($xml);

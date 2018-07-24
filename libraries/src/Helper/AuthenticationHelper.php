@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Authentication helper class
@@ -36,7 +37,7 @@ abstract class AuthenticationHelper
 
 		// Generate array with two factor auth methods.
 		$options = array(
-			\JHtml::_('select.option', 'none', \JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
+			\JHtml::_('select.option', 'none', Text::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
 		);
 
 		if (!empty($identities))

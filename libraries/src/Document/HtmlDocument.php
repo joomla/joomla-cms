@@ -16,6 +16,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 jimport('joomla.utilities.utility');
 
@@ -152,7 +153,7 @@ class HtmlDocument extends Document
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
-		$data['scriptText']  = \JText::getScriptStrings();
+		$data['scriptText']  = Text::getScriptStrings();
 
 		return $data;
 	}
@@ -261,7 +262,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['scriptText'] as $key => $string)
 			{
-				\JText::script($key, $string);
+				Text::script($key, $string);
 			}
 		}
 

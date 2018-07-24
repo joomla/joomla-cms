@@ -15,6 +15,7 @@ use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Dispatcher\Dispatcher;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Component helper class
@@ -307,7 +308,7 @@ class ComponentHelper
 
 		if (empty($option))
 		{
-			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
@@ -344,7 +345,7 @@ class ComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option))
 		{
-			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		ob_start();
@@ -430,7 +431,7 @@ class ComponentHelper
 
 				if (Factory::$language)
 				{
-					$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+					$msg = Text::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 				}
 				else
 				{

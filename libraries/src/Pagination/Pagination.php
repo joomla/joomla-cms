@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -266,7 +267,7 @@ class Pagination
 
 		if ($this->pagesTotal > 1)
 		{
-			$html .= \JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
+			$html .= Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
 		}
 
 		return $html;
@@ -297,12 +298,12 @@ class Pagination
 		// If there are results found.
 		if ($this->total > 0)
 		{
-			$msg = \JText::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
+			$msg = Text::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
 			$html .= "\n" . $msg;
 		}
 		else
 		{
-			$html .= "\n" . \JText::_('JLIB_HTML_NO_RECORDS_FOUND');
+			$html .= "\n" . Text::_('JLIB_HTML_NO_RECORDS_FOUND');
 		}
 
 		return $html;
@@ -570,9 +571,9 @@ class Pagination
 			$limits[] = \JHtml::_('select.option', "$i");
 		}
 
-		$limits[] = \JHtml::_('select.option', '50', \JText::_('J50'));
-		$limits[] = \JHtml::_('select.option', '100', \JText::_('J100'));
-		$limits[] = \JHtml::_('select.option', '0', \JText::_('JALL'));
+		$limits[] = \JHtml::_('select.option', '50', Text::_('J50'));
+		$limits[] = \JHtml::_('select.option', '100', Text::_('J100'));
+		$limits[] = \JHtml::_('select.option', '0', Text::_('JALL'));
 
 		$selected = $this->viewall ? 0 : $this->limit;
 
@@ -671,7 +672,7 @@ class Pagination
 	{
 		$html = "<div class=\"list-footer\">\n";
 
-		$html .= "\n<div class=\"limit\">" . \JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "</div>";
+		$html .= "\n<div class=\"limit\">" . Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">" . $list['pagescounter'] . "</div>";
 
@@ -771,7 +772,7 @@ class Pagination
 			}
 		}
 
-		$data->all = new PaginationObject(\JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
+		$data->all = new PaginationObject(Text::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
 
 		if (!$this->viewall)
 		{
@@ -780,8 +781,8 @@ class Pagination
 		}
 
 		// Set the start and previous data objects.
-		$data->start    = new PaginationObject(\JText::_('JLIB_HTML_START'), $this->prefix);
-		$data->previous = new PaginationObject(\JText::_('JPREV'), $this->prefix);
+		$data->start    = new PaginationObject(Text::_('JLIB_HTML_START'), $this->prefix);
+		$data->previous = new PaginationObject(Text::_('JPREV'), $this->prefix);
 
 		if ($this->pagesCurrent > 1)
 		{
@@ -797,8 +798,8 @@ class Pagination
 		}
 
 		// Set the next and end data objects.
-		$data->next = new PaginationObject(\JText::_('JNEXT'), $this->prefix);
-		$data->end  = new PaginationObject(\JText::_('JLIB_HTML_END'), $this->prefix);
+		$data->next = new PaginationObject(Text::_('JNEXT'), $this->prefix);
+		$data->end  = new PaginationObject(Text::_('JLIB_HTML_END'), $this->prefix);
 
 		if ($this->pagesCurrent < $this->pagesTotal)
 		{

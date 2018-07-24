@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base HTML View class for the a Category list
@@ -127,12 +128,12 @@ class CategoryView extends HtmlView
 
 		if ($category == false)
 		{
-			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)
 		{
-			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		// Check whether category access level allows access.
@@ -140,7 +141,7 @@ class CategoryView extends HtmlView
 
 		if (!in_array($category->access, $groups))
 		{
-			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check whether category access level allows access.
@@ -148,7 +149,7 @@ class CategoryView extends HtmlView
 
 		if (!in_array($category->access, $groups))
 		{
-			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$items      = $this->get('Items');
@@ -283,7 +284,7 @@ class CategoryView extends HtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_($this->defaultPageTitle));
+			$this->params->def('page_heading', Text::_($this->defaultPageTitle));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -294,11 +295,11 @@ class CategoryView extends HtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

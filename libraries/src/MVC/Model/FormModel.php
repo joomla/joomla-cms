@@ -16,6 +16,7 @@ use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Prototype form model.
@@ -109,7 +110,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 			// Check if this is the user having previously checked out the row.
 			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
 				return false;
 			}
@@ -164,7 +165,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 			// Check if this is the user having previously checked out the row.
 			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
 				return false;
 			}

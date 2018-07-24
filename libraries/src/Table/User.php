@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users table
@@ -188,14 +189,14 @@ class User extends Table
 		// Validate user information
 		if ($filterInput->clean($this->name, 'TRIM') == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
 
 			return false;
 		}
 
 		if ($filterInput->clean($this->username, 'TRIM') == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
 
 			return false;
 		}
@@ -203,14 +204,14 @@ class User extends Table
 		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
 			|| $filterInput->clean($this->username, 'TRIM') !== $this->username)
 		{
-			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
+			$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
 			return false;
 		}
 
 		if (($filterInput->clean($this->email, 'TRIM') == '') || !\JMailHelper::isEmailAddress($this->email))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
 			return false;
 		}
@@ -248,7 +249,7 @@ class User extends Table
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
 
 			return false;
 		}
@@ -264,7 +265,7 @@ class User extends Table
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
 
 			return false;
 		}
@@ -285,7 +286,7 @@ class User extends Table
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
 				|| $xid && $xid == (int) $this->id && $rootUser != $this->username)
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
 
 				return false;
 			}

@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Core content table
@@ -105,7 +106,7 @@ class CoreContent extends Table
 
 		if (trim($this->core_title) === '')
 		{
-			$this->setError(\JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -363,7 +364,7 @@ class CoreContent extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}

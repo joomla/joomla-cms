@@ -18,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Administrator Application class
@@ -100,7 +101,7 @@ class AdministratorApplication extends CMSApplication
 				break;
 		}
 
-		$document->setTitle($this->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
+		$document->setTitle($this->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
 		$document->setDescription($this->get('MetaDesc'));
 		$document->setGenerator('Joomla! - Open Source Content Management');
 
@@ -214,7 +215,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
 		}
@@ -224,7 +225,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
 		}
 
 		if ($params)
@@ -417,7 +418,7 @@ class AdministratorApplication extends CMSApplication
 			if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser)
 			{
 				$this->enqueueMessage(
-					\JText::sprintf(
+					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER',
 						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
 					),
@@ -428,7 +429,7 @@ class AdministratorApplication extends CMSApplication
 			elseif (Factory::getUser()->authorise('core.admin'))
 			{
 				$this->enqueueMessage(
-					\JText::sprintf(
+					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER_ADMIN',
 						$rootUser,
 						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'

@@ -16,6 +16,7 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -58,9 +59,9 @@ class TemplateAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					\JText::_('JLIB_INSTALLER_' . $this->route),
+					Text::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -83,7 +84,7 @@ class TemplateAdapter extends InstallerAdapter
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_FILES',
 					'files'
 				)
@@ -93,7 +94,7 @@ class TemplateAdapter extends InstallerAdapter
 		if ($this->parent->parseFiles($this->getManifest()->images, -1) === false)
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_FILES',
 					'images'
 				)
@@ -103,7 +104,7 @@ class TemplateAdapter extends InstallerAdapter
 		if ($this->parent->parseFiles($this->getManifest()->css, -1) === false)
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_FILES',
 					'css'
 				)
@@ -121,9 +122,9 @@ class TemplateAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					throw new \RuntimeException(
-						\JText::sprintf(
+						Text::sprintf(
 							'JLIB_INSTALLER_ABORT_MANIFEST',
-							\JText::_('JLIB_INSTALLER_' . strtoupper($this->getRoute()))
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->getRoute()))
 						)
 					);
 				}
@@ -164,7 +165,7 @@ class TemplateAdapter extends InstallerAdapter
 			if (!$this->parent->copyManifest(-1))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
 			}
 		}
 	}
@@ -306,7 +307,7 @@ class TemplateAdapter extends InstallerAdapter
 
 			$values = array(
 				$db->quote($this->extension->element), $this->extension->client_id, $db->quote(0),
-				$db->quote(\JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', \JText::_($this->extension->name))),
+				$db->quote(Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name))),
 				$db->quote($this->extension->params),
 			);
 
@@ -360,7 +361,7 @@ class TemplateAdapter extends InstallerAdapter
 		}
 		else
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), \JLog::WARNING, 'jerror');
 		}
 	}
 
@@ -384,7 +385,7 @@ class TemplateAdapter extends InstallerAdapter
 
 			if ($client === false)
 			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
+				throw new \RuntimeException(Text::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
 			}
 
 			$basePath = $client->path;
@@ -401,9 +402,9 @@ class TemplateAdapter extends InstallerAdapter
 		if (empty($this->element))
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE',
-					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
@@ -428,7 +429,7 @@ class TemplateAdapter extends InstallerAdapter
 		// For a template the id will be the template name which represents the subfolder of the templates folder that the template resides in.
 		if (!$name)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'));
 		}
 
 		// Deny remove default template
@@ -442,7 +443,7 @@ class TemplateAdapter extends InstallerAdapter
 
 		if ($db->loadResult() != 0)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'));
 		}
 
 		// Get the template root path
@@ -450,7 +451,7 @@ class TemplateAdapter extends InstallerAdapter
 
 		if (!$client)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
 		}
 
 		$this->parent->setPath('extension_root', $client->path . '/templates/' . strtolower($name));
@@ -468,7 +469,7 @@ class TemplateAdapter extends InstallerAdapter
 			// Make sure we delete the folders
 			\JFolder::delete($this->parent->getPath('extension_root'));
 
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 		}
 
 		// Attempt to load the language file; might have uninstall strings
@@ -499,7 +500,7 @@ class TemplateAdapter extends InstallerAdapter
 			if (!$this->extension->store())
 			{
 				// Install failed, roll back changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'));
 			}
 
 			return;
@@ -512,7 +513,7 @@ class TemplateAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_ALREADY_INSTALLED')
+					Text::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_ALREADY_INSTALLED')
 				);
 			}
 
@@ -543,9 +544,9 @@ class TemplateAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 					$this->extension->getError()
 				)
 			);
@@ -641,7 +642,7 @@ class TemplateAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * RssRenderer is a feed that implements RSS 2.0 Specification
@@ -66,11 +67,11 @@ class RssRenderer extends DocumentRenderer
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');

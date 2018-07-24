@@ -8,13 +8,14 @@
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Factory;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Language\Text;
 
 /**
  * Abstract adapter for the installer.
@@ -216,9 +217,9 @@ abstract class InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					\JText::_('JLIB_INSTALLER_' . $this->route),
+					Text::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -260,9 +261,9 @@ abstract class InstallerAdapter
 			{
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->type,
 						$this->parent->getPath('extension_root')
 					)
@@ -299,9 +300,9 @@ abstract class InstallerAdapter
 			if (!$created = \JFolder::create($this->parent->getPath('extension_root')))
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
 				);
@@ -339,7 +340,7 @@ abstract class InstallerAdapter
 
 		if ($description)
 		{
-			$this->parent->message = \JText::_($description);
+			$this->parent->message = Text::_($description);
 		}
 		else
 		{
@@ -488,7 +489,7 @@ abstract class InstallerAdapter
 				// Only rollback if installing
 				if ($route === 'install')
 				{
-					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
+					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 
 				return false;
@@ -665,7 +666,7 @@ abstract class InstallerAdapter
 
 		if ($description)
 		{
-			$this->parent->message = \JText::_($description);
+			$this->parent->message = Text::_($description);
 		}
 		else
 		{
@@ -885,7 +886,7 @@ abstract class InstallerAdapter
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions())
 			{
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 			}
 
 			// Set the schema version to be the latest update version
@@ -903,7 +904,7 @@ abstract class InstallerAdapter
 				if ($result === false)
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
+					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 			}
 		}
@@ -1077,9 +1078,9 @@ abstract class InstallerAdapter
 
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								\JText::sprintf(
+								Text::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									\JText::_('JLIB_INSTALLER_' . $this->route)
+									Text::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -1099,9 +1100,9 @@ abstract class InstallerAdapter
 
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								\JText::sprintf(
+								Text::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									\JText::_('JLIB_INSTALLER_' . $this->route)
+									Text::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -1135,7 +1136,7 @@ abstract class InstallerAdapter
 	{
 		if (!$this->extension->load((int) $id))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1143,7 +1144,7 @@ abstract class InstallerAdapter
 		// Protected extensions cannot be removed
 		if ($this->extension->protected)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1155,7 +1156,7 @@ abstract class InstallerAdapter
 		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
 		{
 			\JLog::add(
-				\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
+				Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
 				\JLog::WARNING,
 				'jerror'
 			);

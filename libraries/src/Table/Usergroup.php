@@ -10,6 +10,8 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Usergroup table class.
  *
@@ -52,7 +54,7 @@ class Usergroup extends Table
 		// Validate the title.
 		if ((trim($this->title)) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
 			return false;
 		}
@@ -70,7 +72,7 @@ class Usergroup extends Table
 
 		if ($db->loadResult() > 0)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
 
 			return false;
 		}

@@ -20,6 +20,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base class for a database aware Joomla Model
@@ -210,7 +211,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!class_exists($modelClass))
 			{
-				\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
+				\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -243,7 +244,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
@@ -441,7 +442,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = str_replace(['\\', 'model'], '', strtolower($r[1]));
@@ -504,7 +505,7 @@ abstract class BaseDatabaseModel extends CMSObject
 			return $table;
 		}
 
-		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -540,7 +541,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if ($historyTable->ucm_type_id != $typeId)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
 
 			$key = $table->getKeyName();
 

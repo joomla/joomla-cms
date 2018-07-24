@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Menu class
@@ -106,14 +107,14 @@ class SiteMenu extends AbstractMenu
 			}
 			catch (\JDatabaseExceptionExecuting $databaseException)
 			{
-				$this->app->enqueueMessage(\JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
+				$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
 
 				return false;
 			}
 		}
 		catch (\JDatabaseExceptionExecuting $e)
 		{
-			$this->app->enqueueMessage(\JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
+			$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
 
 			return false;
 		}

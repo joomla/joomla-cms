@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Language\Text;
 
 /**
  * Renders a button to render an HTML element in a slider container
@@ -48,7 +49,7 @@ class SliderButton extends ToolbarButton
 
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text']    = \JText::_($text);
+		$options['text']    = Text::_($text);
 		$options['name']    = $name;
 		$options['class']   = $this->fetchIconClass($name);
 		$options['onClose'] = '';

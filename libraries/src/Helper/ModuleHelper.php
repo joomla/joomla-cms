@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Module helper class
@@ -426,7 +427,7 @@ abstract class ModuleHelper
 		catch (\RuntimeException $e)
 		{
 			$app->getLogger()->warning(
-				\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
 				array('category' => 'jerror')
 			);
 

@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
@@ -15,8 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Factory;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -410,7 +411,7 @@ class Installer extends \JAdapter
 					catch (\JDatabaseExceptionExecuting $e)
 					{
 						// The database API will have already logged the error it caught, we just need to alert the user to the issue
-						\JLog::add(\JText::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), \JLog::WARNING, 'jerror');
+						\JLog::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), \JLog::WARNING, 'jerror');
 
 						$stepval = false;
 					}
@@ -469,14 +470,14 @@ class Installer extends \JAdapter
 		}
 		else
 		{
-			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
+			$this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
 
 			return false;
 		}
 
 		if (!$adapter = $this->setupInstall('install', true))
 		{
-			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
@@ -537,21 +538,21 @@ class Installer extends \JAdapter
 	{
 		if (!$eid)
 		{
-			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_EXTENSIONNOTVALID'));
+			$this->abort(Text::_('JLIB_INSTALLER_ABORT_EXTENSIONNOTVALID'));
 
 			return false;
 		}
 
 		if (!$this->extension->load($eid))
 		{
-			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
+			$this->abort(Text::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
 
 			return false;
 		}
 
 		if ($this->extension->state != -1)
 		{
-			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_ALREADYINSTALLED'));
+			$this->abort(Text::_('JLIB_INSTALLER_ABORT_ALREADYINSTALLED'));
 
 			return false;
 		}
@@ -569,7 +570,7 @@ class Installer extends \JAdapter
 
 		if (!method_exists($adapter, 'discover_install') || !$adapter->getDiscoverInstallSupported())
 		{
-			$this->abort(\JText::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $type));
+			$this->abort(Text::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $type));
 
 			return false;
 		}
@@ -678,14 +679,14 @@ class Installer extends \JAdapter
 		}
 		else
 		{
-			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+			$this->abort(Text::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
 
 			return false;
 		}
 
 		if (!$adapter = $this->setupInstall('update', true))
 		{
-			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
@@ -784,14 +785,14 @@ class Installer extends \JAdapter
 		{
 			if (!$this->extension->load($eid))
 			{
-				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
+				$this->abort(Text::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
 
 				return false;
 			}
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
 
 				return false;
 			}
@@ -806,7 +807,7 @@ class Installer extends \JAdapter
 
 			if (!method_exists($adapter, 'refreshManifestCache'))
 			{
-				$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED_TYPE', $this->extension->type));
+				$this->abort(Text::sprintf('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED_TYPE', $this->extension->type));
 
 				return false;
 			}
@@ -823,7 +824,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
+		$this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
 
 		return false;
 	}
@@ -912,7 +913,7 @@ class Installer extends \JAdapter
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
-				\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+				\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -968,7 +969,7 @@ class Installer extends \JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -978,7 +979,7 @@ class Installer extends \JAdapter
 				// Graceful exit and rollback if read not successful
 				if ($buffer === false)
 				{
-					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1008,7 +1009,7 @@ class Installer extends \JAdapter
 					}
 					catch (\JDatabaseExceptionExecuting $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+						\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1174,7 +1175,7 @@ class Installer extends \JAdapter
 							// Graceful exit and rollback if read not successful
 							if ($buffer === false)
 							{
-								\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
+								\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
 
 								return false;
 							}
@@ -1204,14 +1205,14 @@ class Installer extends \JAdapter
 								}
 								catch (\JDatabaseExceptionExecuting $e)
 								{
-									\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+									\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 									return false;
 								}
 
 								$queryString = (string) $query;
 								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-								\JLog::add(\JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), \JLog::INFO, 'Update');
+								\JLog::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), \JLog::INFO, 'Update');
 
 								$update_count++;
 							}
@@ -1237,7 +1238,7 @@ class Installer extends \JAdapter
 					}
 					catch (ExecutionFailureException $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+						\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1363,7 +1364,7 @@ class Installer extends \JAdapter
 
 				if (!\JFolder::create($newdir))
 				{
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1479,7 +1480,7 @@ class Installer extends \JAdapter
 
 				if (!\JFolder::create($newdir))
 				{
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1560,7 +1561,7 @@ class Installer extends \JAdapter
 
 				if (!\JFolder::create($newdir))
 				{
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1671,7 +1672,7 @@ class Installer extends \JAdapter
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1685,7 +1686,7 @@ class Installer extends \JAdapter
 
 					// The destination file already exists and the overwrite flag is false.
 					// Set an error and return false.
-					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1696,7 +1697,7 @@ class Installer extends \JAdapter
 					{
 						if (!\JFolder::copy($filesource, $filedest, null, $overwrite))
 						{
-							\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), \JLog::WARNING, 'jerror');
+							\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), \JLog::WARNING, 'jerror');
 
 							return false;
 						}
@@ -1707,12 +1708,12 @@ class Installer extends \JAdapter
 					{
 						if (!\JFile::copy($filesource, $filedest, null))
 						{
-							\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), \JLog::WARNING, 'jerror');
+							\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), \JLog::WARNING, 'jerror');
 
 							// In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
 							if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs'))
 							{
-								\JLog::add(\JText::_('JLIB_INSTALLER_NOT_ERROR'), \JLog::WARNING, 'jerror');
+								\JLog::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), \JLog::WARNING, 'jerror');
 							}
 
 							return false;
@@ -1988,14 +1989,14 @@ class Installer extends \JAdapter
 			}
 
 			// None of the XML files found were valid install files
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
 		else
 		{
 			// No XML files were found in the install folder
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -2257,8 +2258,8 @@ class Installer extends \JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() === 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ?: \JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ?: \JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;

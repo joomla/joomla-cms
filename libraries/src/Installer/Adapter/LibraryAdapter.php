@@ -15,6 +15,7 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\Manifest\LibraryManifest;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -55,7 +56,7 @@ class LibraryAdapter extends InstallerAdapter
 			else
 			{
 				// Abort the install, no upgrade possible
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
 			}
 		}
 	}
@@ -72,7 +73,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
 		}
 	}
 
@@ -111,7 +112,7 @@ class LibraryAdapter extends InstallerAdapter
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
 			}
 
 			// If there is a manifest script, let's copy it.
@@ -126,9 +127,9 @@ class LibraryAdapter extends InstallerAdapter
 					{
 						// Install failed, rollback changes
 						throw new \RuntimeException(
-							\JText::sprintf(
+							Text::sprintf(
 								'JLIB_INSTALLER_ABORT_MANIFEST',
-								\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+								Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 							)
 						);
 					}
@@ -294,7 +295,7 @@ class LibraryAdapter extends InstallerAdapter
 
 		if (!$group)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
@@ -317,7 +318,7 @@ class LibraryAdapter extends InstallerAdapter
 			// Remove this row entry since its invalid
 			$this->extension->delete($this->extension->extension_id);
 
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 		}
 
 		$manifest = new LibraryManifest($manifestFile);
@@ -333,13 +334,13 @@ class LibraryAdapter extends InstallerAdapter
 		// If we cannot load the XML file return null
 		if (!$xml)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() !== 'extension')
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
 		}
 
 		$this->setManifest($xml);
@@ -372,7 +373,7 @@ class LibraryAdapter extends InstallerAdapter
 			if (!$this->extension->store())
 			{
 				// Install failed, roll back changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
 			}
 
 			return;
@@ -397,7 +398,7 @@ class LibraryAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_LIB_INSTALL_ROLLBACK',
 					$this->extension->getError()
 				)
@@ -524,7 +525,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\CMS\Language\Text;
 
 /**
  * Default factory for creating toolbar objects
@@ -52,9 +53,9 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 			}
 			else
 			{
-				\JLog::add(\JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), \JLog::WARNING, 'jerror');
+				\JLog::add(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), \JLog::WARNING, 'jerror');
 
-				throw new \InvalidArgumentException(\JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
+				throw new \InvalidArgumentException(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
 			}
 		}
 

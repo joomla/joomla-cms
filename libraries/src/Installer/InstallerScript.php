@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installer;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -111,7 +112,7 @@ class InstallerScript
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -119,7 +120,7 @@ class InstallerScript
 		// Check for the minimum Joomla version before continuing
 		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -146,7 +147,7 @@ class InstallerScript
 
 			if (version_compare($this->release, $oldRelease, '<'))
 			{
-				Factory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
+				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
 				return false;
 			}
@@ -318,7 +319,7 @@ class InstallerScript
 			{
 				if (file_exists(JPATH_ROOT . $file) && !\JFile::delete(JPATH_ROOT . $file))
 				{
-					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
+					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
 				}
 			}
 		}
@@ -329,7 +330,7 @@ class InstallerScript
 			{
 				if (\JFolder::exists(JPATH_ROOT . $folder) && !\JFolder::delete(JPATH_ROOT . $folder))
 				{
-					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
+					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
 				}
 			}
 		}
@@ -352,7 +353,7 @@ class InstallerScript
 
 				if (file_exists(JPATH_ROOT . $file) && !\JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
 				{
-					echo \JText::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
+					echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
 			}
 		}

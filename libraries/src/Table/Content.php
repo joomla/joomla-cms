@@ -16,6 +16,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Content table
@@ -187,7 +188,7 @@ class Content extends Table
 
 		if (trim($this->title) == '')
 		{
-			$this->setError(\JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -364,7 +365,7 @@ class Content extends Table
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 
 			return false;
 		}

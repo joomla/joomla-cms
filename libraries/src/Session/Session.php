@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Session\Session as BaseSession;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Class for managing HTTP sessions
@@ -49,7 +50,7 @@ class Session extends BaseSession
 			if ($app->getSession()->isNew())
 			{
 				// Redirect to login screen.
-				$app->enqueueMessage(\JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
+				$app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
 				$app->redirect(\JRoute::_('index.php'));
 
 				return true;
