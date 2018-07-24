@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
+
 
 /**
  * Extended Utility class for batch processing widgets.
@@ -31,7 +33,7 @@ abstract class JHtmlBatch
 	 */
 	public static function access()
 	{
-		JLog::add('The use of JHtml::_("batch.access") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.access") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
 		return LayoutHelper::render('joomla.html.batch.access', array());
 	}
@@ -51,7 +53,7 @@ abstract class JHtmlBatch
 	{
 		$displayData = array('extension' => $extension);
 
-		JLog::add('The use of JHtml::_("batch.item") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.item") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
 		return LayoutHelper::render('joomla.html.batch.item', $displayData);
 	}
@@ -67,7 +69,7 @@ abstract class JHtmlBatch
 	 */
 	public static function language()
 	{
-		JLog::add('The use of JHtml::_("batch.language") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.language") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
 		return LayoutHelper::render('joomla.html.batch.language', array());
 	}
@@ -87,7 +89,7 @@ abstract class JHtmlBatch
 	{
 		$displayData = array('noUser' => $noUser);
 
-		JLog::add('The use of JHtml::_("batch.user") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.user") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
 		return LayoutHelper::render('joomla.html.batch.user', $displayData);
 	}
@@ -103,7 +105,7 @@ abstract class JHtmlBatch
 	 */
 	public static function tag()
 	{
-		JLog::add('The use of JHtml::_("batch.tag") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.tag") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
 		return LayoutHelper::render('joomla.html.batch.tag', array());
 	}

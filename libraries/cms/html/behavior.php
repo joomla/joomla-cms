@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Log\Log;
 
 /**
  * Utility class for JavaScript behaviors
@@ -98,7 +99,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
-		JLog::add('The use of formvalidation is deprecated use formvalidator instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of formvalidation is deprecated use formvalidator instead.', Log::WARNING, 'deprecated');
 
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -303,7 +304,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JLog::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', JLog::WARNING, 'deprecated');
+		Log::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', Log::WARNING, 'deprecated');
 
 		$document = Factory::getDocument();
 		$tag      = Factory::getLanguage()->getTag();
@@ -534,7 +535,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function noframes()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated, add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.', Log::WARNING, 'deprecated');
 
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -581,7 +582,7 @@ abstract class JHtmlBehavior
 	 */
 	protected static function _getJSObject($array = array())
 	{
-		JLog::add('JHtmlBehavior::_getJSObject() is deprecated. HTMLHelper::getJSObject() instead..', JLog::WARNING, 'deprecated');
+		Log::add('JHtmlBehavior::_getJSObject() is deprecated. HTMLHelper::getJSObject() instead..', Log::WARNING, 'deprecated');
 
 		return HTMLHelper::getJSObject($array);
 	}
