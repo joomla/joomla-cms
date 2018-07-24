@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   `hits` INT(11) NOT NULL DEFAULT '1',
   `results` INT(11) NOT NULL DEFAULT '0',
   PRIMARY KEY `md5sum` (`md5sum`),
-  `searchterm` (`searchterm`(191))
+  INDEX `searchterm` (`searchterm`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
