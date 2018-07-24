@@ -20,7 +20,6 @@ use Joomla\CMS\Log\Log;
  */
 class Image extends \Joomla\Image\Image
 {
-
 	/**
 	 * Class constructor.
 	 *
