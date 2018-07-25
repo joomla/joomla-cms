@@ -15,6 +15,9 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Base class for a Joomla Controller
@@ -250,7 +253,7 @@ class BaseController implements ControllerInterface
 			return self::$instance;
 		}
 
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$input = $app->input;
 
 		// Get the environment configuration.
@@ -259,7 +262,7 @@ class BaseController implements ControllerInterface
 		$command  = $input->get('task', 'display');
 
 		// Check for array format.
-		$filter = \JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 
 		if (is_array($command))
 		{
@@ -313,20 +316,20 @@ class BaseController implements ControllerInterface
 			}
 			else
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
 		// Instantiate the class.
 		if (!class_exists($class))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
+			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($class))
+		if (Factory::getContainer()->exists($class))
 		{
-			self::$instance = \JFactory::getContainer()->get($class);
+			self::$instance = Factory::getContainer()->get($class);
 		}
 		else
 		{
@@ -357,7 +360,7 @@ class BaseController implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app   = $app ? $app : \JFactory::getApplication();
+		$this->app   = $app ? $app : Factory::getApplication();
 		$this->input = $input ? $input : $this->app->input;
 
 		if (defined('JDEBUG') && JDEBUG)
@@ -605,7 +608,7 @@ class BaseController implements ControllerInterface
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
@@ -613,7 +616,7 @@ class BaseController implements ControllerInterface
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
@@ -630,13 +633,13 @@ class BaseController implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && \JFactory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && Factory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
 			if (is_array($urlparams))
 			{
-				$this->app = \JFactory::getApplication();
+				$this->app = Factory::getApplication();
 
 				if (!empty($this->app->registeredurlparams))
 				{
@@ -649,7 +652,7 @@ class BaseController implements ControllerInterface
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe URL parameters with variable type as value {@see \JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see InputFilter::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 
@@ -659,7 +662,7 @@ class BaseController implements ControllerInterface
 			try
 			{
 				/** @var \JCacheControllerView $cache */
-				$cache = \JFactory::getCache($option, 'view');
+				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
 			catch (\JCacheException $exception)
@@ -701,7 +704,7 @@ class BaseController implements ControllerInterface
 		}
 		else
 		{
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+			throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
 		}
 
 		// Record the actual task being fired
@@ -739,7 +742,7 @@ class BaseController implements ControllerInterface
 			$model->setState('task', $this->task);
 
 			// Let's get the application object and set menu information if it's available
-			$menu = \JFactory::getApplication()->getMenu();
+			$menu = Factory::getApplication()->getMenu();
 
 			if (is_object($menu) && $item = $menu->getActive())
 			{
@@ -772,7 +775,7 @@ class BaseController implements ControllerInterface
 
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -844,7 +847,7 @@ class BaseController implements ControllerInterface
 			}
 			else
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
 			}
 		}
 
@@ -1038,7 +1041,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with \JHtml::_('form.token') or \JSession::getFormToken.
+	 * Use in conjunction with HTMLHelper::_('form.token') or \JSession::getFormToken.
 	 *
 	 * @param   string   $method    The request method in which to look for the token key.
 	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
@@ -1061,7 +1064,7 @@ class BaseController implements ControllerInterface
 				$referrer = 'index.php';
 			}
 
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'warning');
 			$this->app->redirect($referrer);
 		}
 

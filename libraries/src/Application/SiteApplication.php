@@ -19,6 +19,9 @@ use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Site Application class
@@ -85,7 +88,7 @@ final class SiteApplication extends CMSApplication
 	protected function authorise($itemid)
 	{
 		$menus = $this->getMenu();
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$menus->authorise($itemid))
 		{
@@ -96,7 +99,7 @@ final class SiteApplication extends CMSApplication
 
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				$this->redirect($url);
 			}
 			else
@@ -107,11 +110,11 @@ final class SiteApplication extends CMSApplication
 				// If we are already in the homepage raise an exception
 				if ($menus->getActive()->id == $home_item->id)
 				{
-					throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+					throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 				}
 
 				// Otherwise redirect to the homepage and show an error
-				$this->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$this->redirect(\JRoute::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
@@ -142,8 +145,8 @@ final class SiteApplication extends CMSApplication
 		$router   = static::getRouter();
 		$params   = $this->getParams();
 
-		// Register the document object with \JFactory
-		\JFactory::$document = $document;
+		// Register the document object with Factory
+		Factory::$document = $document;
 
 		switch ($document->getType())
 		{
@@ -390,7 +393,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = \JFactory::getConfig()->get('sef');
+		$options['mode'] = Factory::getConfig()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -411,7 +414,7 @@ final class SiteApplication extends CMSApplication
 		{
 			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
 
 			if ($params)
@@ -446,7 +449,7 @@ final class SiteApplication extends CMSApplication
 			$id = (int) $tid;
 		}
 
-		$cache = \JFactory::getCache('com_templates', '');
+		$cache = Factory::getCache('com_templates', '');
 
 		if ($this->getLanguageFilter())
 		{
@@ -466,7 +469,7 @@ final class SiteApplication extends CMSApplication
 		else
 		{
 			// Load styles
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('id, home, template, s.params')
 				->from('#__template_styles as s')
@@ -530,12 +533,12 @@ final class SiteApplication extends CMSApplication
 		}
 
 		// Need to filter the default value as well
-		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
 			// Try to find data for 'cassiopeia' template
 			$original_tmpl = $template->template;
@@ -552,7 +555,7 @@ final class SiteApplication extends CMSApplication
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 			}
 		}
 
@@ -578,7 +581,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
@@ -730,7 +733,7 @@ final class SiteApplication extends CMSApplication
 					$this->set('themeFile', 'index.php');
 				}
 
-				if ($this->get('offline') && !\JFactory::getUser()->authorise('core.login.offline'))
+				if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline'))
 				{
 					$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
 					$this->set('themeFile', 'offline.php');

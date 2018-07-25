@@ -17,6 +17,7 @@ use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
 use Zend\Diactoros\Stream as StreamResponse;
+use Joomla\CMS\Factory;
 
 /**
  * HTTP transport class for using sockets directly.
@@ -300,6 +301,6 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !\JFactory::getConfig()->get('proxy_enable');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !Factory::getConfig()->get('proxy_enable');
 	}
 }

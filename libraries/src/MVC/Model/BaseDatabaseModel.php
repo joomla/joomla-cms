@@ -20,6 +20,8 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Base class for a database aware Joomla Model
@@ -210,16 +212,16 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!class_exists($modelClass))
 			{
-				\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
+				\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
 
 				return false;
 			}
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($modelClass))
+		if (Factory::getContainer()->exists($modelClass))
 		{
-			return \JFactory::getContainer()->get($modelClass);
+			return Factory::getContainer()->get($modelClass);
 		}
 
 		return new $modelClass($config);
@@ -243,7 +245,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
@@ -279,7 +281,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 		else
 		{
-			$this->_db = \JFactory::getDbo();
+			$this->_db = Factory::getDbo();
 		}
 
 		// Set the default view search path
@@ -348,7 +350,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   \JDatabaseQuery|string  $query  The query.
+	 * @param   DatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -356,8 +358,8 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on \JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
-		if ($query instanceof \JDatabaseQuery
+		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
+		if ($query instanceof DatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
 			&& $query->merge === null
@@ -374,8 +376,8 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a \JDatabaseQuery object
-		if ($query instanceof \JDatabaseQuery)
+		// Remove the limit and offset part if it's a DatabaseQuery object
+		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
 			$query->clear('limit')->clear('offset');
@@ -441,7 +443,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = str_replace(['\\', 'model'], '', strtolower($r[1]));
@@ -504,7 +506,7 @@ abstract class BaseDatabaseModel extends CMSObject
 			return $table;
 		}
 
-		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -540,7 +542,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if ($historyTable->ucm_type_id != $typeId)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
 
 			$key = $table->getKeyName();
 
@@ -570,7 +572,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		$table = $this->getTable();
 		$checkedOutField = $table->getColumnAlias('checked_out');
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != \JFactory::getUser()->id)
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
 		{
 			return true;
 		}
@@ -634,10 +636,10 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = \JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
 			'result'       => true,
 		];
@@ -654,7 +656,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 
 		// Trigger the onContentCleanCache event.
-		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**

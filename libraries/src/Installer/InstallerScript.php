@@ -10,6 +10,10 @@ namespace Joomla\CMS\Installer;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
 
@@ -109,7 +113,7 @@ class InstallerScript
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -117,7 +121,7 @@ class InstallerScript
 		// Check for the minimum Joomla version before continuing
 		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -139,12 +143,12 @@ class InstallerScript
 		// Abort if the extension being installed is not newer than the currently installed version
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
-			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
+			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', Factory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
+				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
 				return false;
 			}
@@ -164,7 +168,7 @@ class InstallerScript
 	 */
 	public function getInstances($isModule)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the item(s) and retrieve the id
@@ -259,7 +263,7 @@ class InstallerScript
 		// Store the combined new and existing values back as a JSON string
 		$paramsString = json_encode($params);
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->paramTable))
 			->set('params = ' . $db->quote($paramsString))
@@ -288,7 +292,7 @@ class InstallerScript
 	public function getItemArray($element, $table, $column, $identifier)
 	{
 		// Get the DB and query objects
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the query
 		$query = $db->getQuery(true)
@@ -314,9 +318,9 @@ class InstallerScript
 		{
 			foreach ($this->deleteFiles as $file)
 			{
-				if (file_exists(JPATH_ROOT . $file) && !\JFile::delete(JPATH_ROOT . $file))
+				if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
 				{
-					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
+					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
 				}
 			}
 		}
@@ -327,7 +331,7 @@ class InstallerScript
 			{
 				if (\JFolder::exists(JPATH_ROOT . $folder) && !\JFolder::delete(JPATH_ROOT . $folder))
 				{
-					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
+					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
 				}
 			}
 		}
@@ -348,9 +352,9 @@ class InstallerScript
 			{
 				$name = basename($file);
 
-				if (file_exists(JPATH_ROOT . $file) && !\JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
+				if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
 				{
-					echo \JText::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
+					echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
 			}
 		}

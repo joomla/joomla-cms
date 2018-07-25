@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
+use Joomla\CMS\Factory;
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -330,7 +331,7 @@ class Document
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = \JFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
+			self::$instances[$signature] = Factory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 		}
 
 		return self::$instances[$signature];
@@ -1281,7 +1282,7 @@ class Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if ($mdate = $this->getModifiedDate())
 		{
@@ -1367,7 +1368,7 @@ class Document
 		// Check if the manager's provider has links, if so add the Link header
 		if ($links = $this->getPreloadManager()->getLinkProvider()->getLinks())
 		{
-			\JFactory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
+			Factory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
 		}
 	}
 }
