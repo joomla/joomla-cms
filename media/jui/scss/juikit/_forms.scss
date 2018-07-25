@@ -44,7 +44,7 @@
   }
 }
 
-select.j-form-control {
+.j-form-control {
   &:not([size]):not([multiple]) {
     $select-border-width: ($border-width * 2);
     height: calc(#{$input-height} + #{$select-border-width});
@@ -98,7 +98,7 @@ select.j-form-control {
 
 .j-form-check-label {
   padding-left: $form-check-input-gutter;
-  margin-bottom: 0; 
+  margin-bottom: 0;
   cursor: pointer;
 }
 
@@ -126,11 +126,11 @@ select.j-form-control {
   vertical-align: middle;
   background: $custom-select-bg url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23333\' d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E") no-repeat scroll right 0.75rem center / 8px 10px;
   background-size: $custom-select-bg-size;
-  box-shadow: $custom-select-box-shadow;
   border: $custom-select-border-width solid $custom-select-border-color;
-  @include border-radius($custom-select-border-radius);
+  box-shadow: $custom-select-box-shadow;
   -moz-appearance: none;
   -webkit-appearance: none;
+  @include border-radius($custom-select-border-radius);
 
   &:focus {
     border-color: $custom-select-focus-border-color;

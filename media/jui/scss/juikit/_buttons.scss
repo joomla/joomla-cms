@@ -4,9 +4,11 @@
 
 .j-btn {
   display: inline-block;
-  color: $btn-default-color;
+  padding: $btn-padding-y $btn-padding-x;
+  font-size: $btn-font-size;
   font-weight: $btn-font-weight;
   line-height: $btn-line-height;
+  color: $btn-default-color;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -15,18 +17,16 @@
   background-image: $btn-default-gradient;
   border: $btn-border-width solid $btn-border-color;
   border-radius: $btn-border-radius;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), -1px -1px 10px rgba(0, 0, 0, 0.03) inset;
-  padding: $btn-padding-y $btn-padding-x;
-  font-size: $btn-font-size;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .1), -1px -1px 10px rgba(0, 0, 0, .03) inset;
   transition: $btn-transition;
 
   // Share hover and focus styles
   &:hover,
   &:focus,
   &.j-focus {
+    color: $btn-default-color;
     text-decoration: none;
     cursor: pointer;
-    color: $btn-default-color;
   }
   &:hover {
     background-color: $btn-hover-background;
@@ -41,8 +41,8 @@
   &.j-disabled,
   &:disabled {
     cursor: $cursor-disabled;
-    opacity: .65;
     box-shadow: none;
+    opacity: .65;
   }
 
   &:active,
@@ -53,7 +53,7 @@
 }
 
 // Future-proof disabling of clicks on `<a>` elements
-a.j-btn.j-disabled,
-fieldset[j-disabled] a.j-btn {
+.j-btn.j-disabled,
+[j-disabled] a.j-btn {
   pointer-events: none;
 }

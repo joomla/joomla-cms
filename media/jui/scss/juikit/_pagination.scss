@@ -12,14 +12,14 @@
   &:first-child {
     .j-page-link {
       margin-left: 0;
-      border-bottom-left-radius: $pagination-border-radius;
       border-top-left-radius: $pagination-border-radius;
+      border-bottom-left-radius: $pagination-border-radius;
     }
   }
   &:last-child {
     .j-page-link {
-      border-bottom-right-radius: $pagination-border-radius;
       border-top-right-radius: $pagination-border-radius;
+      border-bottom-right-radius: $pagination-border-radius;
     }
   }
 
@@ -46,8 +46,8 @@
   margin-left: -1px;
   line-height: $pagination-line-height;
   background-color: $pagination-bg;
-  box-shadow: $pagination-box-shadow;
   border: $pagination-border-width solid $pagination-border-color;
+  box-shadow: $pagination-box-shadow;
 
   &:hover,
   &:focus, {
@@ -58,9 +58,9 @@
   &:hover,
   &:focus,
   &.j-focus {
+    color: $pagination-hover-color;
     text-decoration: none;
     cursor: pointer;
-    color: $pagination-hover-color;
   }
   &:hover {
     background-color: $pagination-hover-bg;

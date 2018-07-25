@@ -5,7 +5,7 @@
 .j-btn-group {
   position: relative;
   display: inline-flex;
-  vertical-align: middle; 
+  vertical-align: middle;
 
   > .j-btn {
     position: relative;
@@ -35,12 +35,12 @@
   margin-left: 0;
 
   &:not(:last-child) {
-    border-bottom-right-radius: 0;
     border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
 .j-btn-group > .j-btn:last-child:not(:first-child), {
-  border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }

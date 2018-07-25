@@ -54,8 +54,8 @@
   border: $input-btn-border-width solid $input-group-addon-border-color;
   @include border-radius($input-border-radius);
 
-  input[type="radio"],
-  input[type="checkbox"] {
+  [type="radio"],
+  [type="checkbox"] {
     margin-top: 0;
   }
 
