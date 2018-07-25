@@ -16,13 +16,11 @@ use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
-use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Database\Mysql\MysqlDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
@@ -151,7 +149,7 @@ class CoreInstallCommand extends AbstractCommand
 
         $validConnection = $this->checkDatabaseConnection($options);
 
-        if ($validConnection)
+        if ($validConnection !== false)
         {
             $model = new ConfigurationModel;
 
@@ -215,8 +213,6 @@ class CoreInstallCommand extends AbstractCommand
 
 		    return false;
 	    }
-//		var_dump($options);
-//		exit;
 
 	    // Ensure that a database name was input.
 	    if (empty($options->db_name))
@@ -261,23 +257,25 @@ class CoreInstallCommand extends AbstractCommand
 		    }
 	    }
 
-	    // Get a database object.
+	    // Build the connection options array.
+	    $settings = [
+		    'driver'   => $options->db_type,
+		    'host'     =>  $options->db_host,
+		    'user'     =>  $options->db_user,
+		    'password' => $options->db_pass,
+		    'database' => $options->db_name,
+		    'prefix'   => $options->db_prefix,
+		    'select'   => isset($options->db_select) ? $options->db_select : false
+	    ];
 	    try
 	    {
-		  return DatabaseHelper::getDbo(
-			    $options->db_type,
-			    $options->db_host,
-			    $options->db_user,
-			    $options->db_pass,
-			    $options->db_name,
-			    $options->db_prefix,
-			    isset($options->db_select) ? $options->db_select : false
-		    );
+		    return DatabaseDriver::getInstance($settings)->connect();
 	    }
 	    catch (\RuntimeException $e)
 	    {
-		    Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
-
+		    Factory::getApplication()->enqueueMessage(
+			    Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
+			    'error');
 		    return false;
 	    }
     }
@@ -311,12 +309,24 @@ class CoreInstallCommand extends AbstractCommand
 
 		$options = $this->registry->loadFile($file, $ext)->toArray();
 
+		$requiredKeys = array_keys($this->getDummyOptions());
+		$providedKeys = array_keys($options);
+
+		if ($requiredKeys != $providedKeys)
+		{
+			$diff = array_diff_key($requiredKeys, $providedKeys);
+			$remainingKeys = implode(', ', $diff);
+			$this->ioStyle->error("These options are required in your file: [$remainingKeys]");
+			exit;
+		}
+
 		if ($validate)
 		{
 			$validator = $this->validate($options);
 
 			return $validator ? $options : null;
 		}
+
 
 		return $options;
 
