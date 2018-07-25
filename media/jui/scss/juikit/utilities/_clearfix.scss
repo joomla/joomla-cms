@@ -3,5 +3,9 @@
 //
 
 .j-clearfix {
-  @include clearfix();
+  &::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
 }
