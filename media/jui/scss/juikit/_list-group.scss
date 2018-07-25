@@ -22,15 +22,16 @@
   border: $list-group-border-width solid $list-group-border-color;
 
   &:first-child {
-    @include border-top-radius($list-group-border-radius);
+    border-radius: $list-group-border-radius 0 0 $list-group-border-radius;
   }
 
   &:last-child {
     margin-bottom: 0;
-    @include border-bottom-radius($list-group-border-radius);
+    border-radius: 0 $list-group-border-radius $list-group-border-radius 0;
   }
 
-  @include hover-focus {
+  &:hover,
+  &:focus {
     text-decoration: none;
   }
 
