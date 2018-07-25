@@ -74,7 +74,7 @@ if ($displayData['active'])
 }
 else
 {
-	$class = (property_exists($item, 'active') && $item->active) ? 'active' : 'disabled';
+	$class = (property_exists($item, 'j-active') && $item->active) ? 'j-active' : 'j-disabled';
 }
 ?>
 <?php if ($displayData['active']) : ?>

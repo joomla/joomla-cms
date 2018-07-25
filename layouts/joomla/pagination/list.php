@@ -11,17 +11,17 @@ defined('JPATH_BASE') or die;
 
 $list = $displayData['list'];
 
-$startDisabled = $list['start']['active'] ? '' : ' disabled'; 
-$prevDisabled  = $list['previous']['active'] ? '' : ' disabled'; 
-$nextDisabled  = $list['next']['active'] ? '' : ' disabled'; 
-$endDisabled   = $list['end']['active'] ? '' : ' disabled'; 
+$startDisabled = $list['start']['active'] ? '' : ' j-disabled'; 
+$prevDisabled  = $list['previous']['active'] ? '' : ' j-disabled'; 
+$nextDisabled  = $list['next']['active'] ? '' : ' j-disabled'; 
+$endDisabled   = $list['end']['active'] ? '' : ' j-disabled'; 
 
 ?>
 <ul class="j-pagination">
 	<li class="pagination-start<?php echo $startDisabled; ?> j-page-item"><?php echo $list['start']['data']; ?></li>
 	<li class="pagination-prev<?php echo $prevDisabled; ?> j-page-item"><?php echo $list['previous']['data']; ?></li>
 	<?php foreach ($list['pages'] as $page) : ?>
-		<?php $disabled = $page['active'] ? '' : ' disabled'; ?>
+		<?php $disabled = $page['active'] ? '' : ' j-disabled'; ?>
 		<?php echo '<li class="j-page-item' . $disabled . '">' . $page['data'] . '</li>'; ?>
 	<?php endforeach; ?>
 	<li class="pagination-next<?php echo $nextDisabled; ?> j-page-item"><?php echo $list['next']['data']; ?></li>
