@@ -205,6 +205,21 @@ fieldset[j-disabled] a.j-btn {
     .j-list-group-item.j-active .j-list-group-item-text {
       color: #b7e9ff; }
 
+.j-nav {
+  display: flex;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none; }
+
+.j-nav-link {
+  display: block;
+  padding: 0.5em 1em; }
+  .j-nav-link:hover, .j-nav-link:focus {
+    text-decoration: none; }
+  .j-nav-link.j-disabled {
+    color: #636c72;
+    cursor: not-allowed; }
+
 .j-pagination {
   display: flex;
   padding-left: 0;
