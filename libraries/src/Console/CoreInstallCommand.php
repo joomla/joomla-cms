@@ -103,7 +103,7 @@ class CoreInstallCommand extends AbstractCommand
 	const PHP_OPTIONS_NOT_SET = 2;
 
 	/**
-	 * Return code when file provided is invalid
+	 * Return code when file provided is invalid or returns non array when parsed
 	 * @since 4.0
 	 */
 	const BAD_INPUT_FLE = 3;
