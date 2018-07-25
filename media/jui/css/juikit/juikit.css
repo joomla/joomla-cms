@@ -1,3 +1,51 @@
+.j-column-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+  position: relative; }
+
+.j-column-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -10px;
+  margin-left: -10px; }
+
+.j-column-3, .j-column-2, .j-column-1, .j-column {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px; }
+  .j-column-3 > .icons, .j-column-2 > .icons, .j-column-1 > .icons, .j-column > .icons {
+    right: 10px !important; }
+
+.j-column {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%; }
+
+.j-column-3 {
+  flex: 0 0 33.33333%;
+  max-width: 33.33333%; }
+
+.j-column-2 {
+  flex: 0 0 50%;
+  max-width: 50%; }
+
+.j-column-1 {
+  flex: 0 0 100%;
+  max-width: 100%; }
+
+@media only screen and (max-width: 768px) {
+  [class^='j-column'], [class*=' j-column'] {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0; } }
+
 .j-btn {
   display: inline-block;
   color: #292b2c;
@@ -64,6 +112,16 @@ fieldset[j-disabled] a.j-btn {
 .j-btn-group > .j-btn:last-child:not(:first-child) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0; }
+
+.j-dl {
+  margin: 1rem 0;
+  font-size: 0.875rem; }
+  .j-dl dd {
+    padding: 0 0.5rem;
+    margin: 0.3rem 0.1rem;
+    line-height: 1.2rem;
+    color: #555;
+    border-left: 2px solid #ddd; }
 
 .j-clearfix::after {
   display: block;

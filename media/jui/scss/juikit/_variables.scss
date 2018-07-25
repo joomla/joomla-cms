@@ -320,12 +320,12 @@ $list-group-link-active-bg:          $gray-lighter !default;
 
 
 // Description Lists
-$dd-padding-x: 					             .5rem;
-$dd-padding-y:					             0;
-$dd-margin-x:					               .1rem;
-$dd-margin-y:					               .3rem;
-
-$dd-color: 						               #555;
-$dd-line-height:				             1.5rem;
-
-$dd-border-left: 				             2px solid #ddd;
+$dl-margin-x:                        0; 
+$dl-margin-y:                        1rem;
+$dd-padding-x: 					     .5rem;
+$dd-padding-y:					     0;
+$dd-margin-x:					     .1rem;
+$dd-margin-y:					     .3rem;
+$dd-color: 						     #555;
+$dd-line-height:				     1.2rem;
+$dd-border-left: 				     2px solid #ddd;

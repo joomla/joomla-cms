@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 $blockPosition = $displayData['params']->get('info_block_position', 0);
 
 ?>
-<dl class="article-info text-mutedj-dl">
+<dl class="article-info text-muted j-dl">
 
 	<?php if ($displayData['position'] === 'above' && ($blockPosition == 0 || $blockPosition == 2)
 			|| $displayData['position'] === 'below' && ($blockPosition == 1)
