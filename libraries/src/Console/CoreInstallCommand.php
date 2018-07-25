@@ -84,6 +84,12 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	private $progressBar;
 
+	const INSTALLATION_SUCCESSFUL = 0;
+	const INSTALLATION_UNSUCCESSFUL = 4;
+	const BAD_INPUT_FLE = 3;
+	const JOOMLA_ALREADY_SETUP = 1;
+	const PHP_OPTIONS_NOT_SET = 2;
+
     /**
      * Configures the IO
      *
@@ -129,7 +135,7 @@ class CoreInstallCommand extends AbstractCommand
 			$this->progressBar->finish();
 			$this->ioStyle->warning("Joomla! is already installed and set up.");
 
-			return 1;
+			return self::JOOMLA_ALREADY_SETUP;
         }
 
 
@@ -146,7 +152,7 @@ class CoreInstallCommand extends AbstractCommand
 			$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
             $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
-            return 2;
+            return self::PHP_OPTIONS_NOT_SET;
         }
 
         $this->progressBar->advance();
@@ -161,7 +167,7 @@ class CoreInstallCommand extends AbstractCommand
 			{
 				$this->progressBar->finish();
 
-				return 3;
+				return self::BAD_INPUT_FILE;
 			}
 
 	        $this->progressBar->setMessage("File loaded");
@@ -179,7 +185,7 @@ class CoreInstallCommand extends AbstractCommand
         $validConnection = $this->checkDatabaseConnection($options);
 		$this->progressBar->advance();
 
-        if ($validConnection !== false)
+        if ($validConnection)
         {
 			$model = new ConfigurationModel;
 
@@ -193,17 +199,17 @@ class CoreInstallCommand extends AbstractCommand
 				$this->progressBar->finish();
 				$this->ioStyle->success("Joomla! installation completed successfully!");
 
-				return 0;
+				return self::INSTALLATION_SUCCESSFUL;
 			}
 
 			$this->progressBar->finish();
 			$this->ioStyle->error("Joomla! installation was unsuccessful!");
 
-			return 4;
+			return self::INSTALLATION_UNSUCCESSFUL;
         }
 
 		$this->progressBar->finish();
-        return 5;
+        return INSTALLATION_UNSUCCESSFUL;
     }
 
 
@@ -307,7 +313,7 @@ class CoreInstallCommand extends AbstractCommand
 	    ];
 	    try
 	    {
-		    return DatabaseDriver::getInstance($settings)->connect();
+		    return DatabaseDriver::getInstance($settings)->connect() !== false;
 	    }
 	    catch (\RuntimeException $e)
 	    {
@@ -326,7 +332,7 @@ class CoreInstallCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 *
-	 * @return array | string
+	 * @return array | null
 	 */
 	public function processUninteractiveInstallation($file, $validate = true)
 	{
