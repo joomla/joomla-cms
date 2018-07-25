@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base class for a Joomla Administrator Controller
@@ -104,7 +106,7 @@ class AdminController extends BaseController
 			}
 			elseif (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->view_list = strtolower($r[2]);
@@ -121,14 +123,14 @@ class AdminController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -141,7 +143,7 @@ class AdminController extends BaseController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{
@@ -174,7 +176,7 @@ class AdminController extends BaseController
 	 * Display is not supported by this controller.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
 	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
 	 *
@@ -195,7 +197,7 @@ class AdminController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -205,7 +207,7 @@ class AdminController extends BaseController
 
 		if (empty($cid))
 		{
-			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -226,7 +228,7 @@ class AdminController extends BaseController
 				{
 					if ($errors)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+						Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
@@ -248,7 +250,7 @@ class AdminController extends BaseController
 
 				if ($ntext !== null)
 				{
-					$this->setMessage(\JText::plural($ntext, count($cid)));
+					$this->setMessage(Text::plural($ntext, count($cid)));
 				}
 			}
 			catch (\Exception $e)
@@ -272,7 +274,7 @@ class AdminController extends BaseController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = $this->getTask() === 'orderup' ? -1 : 1;
@@ -283,7 +285,7 @@ class AdminController extends BaseController
 		if ($return === false)
 		{
 			// Reorder failed.
-			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
@@ -291,7 +293,7 @@ class AdminController extends BaseController
 		else
 		{
 			// Reorder succeeded.
-			$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+			$message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
@@ -308,7 +310,7 @@ class AdminController extends BaseController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -327,7 +329,7 @@ class AdminController extends BaseController
 		if ($return === false)
 		{
 			// Reorder failed
-			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
@@ -335,7 +337,7 @@ class AdminController extends BaseController
 		else
 		{
 			// Reorder succeeded.
-			$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+			$this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
@@ -352,7 +354,7 @@ class AdminController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 
@@ -362,7 +364,7 @@ class AdminController extends BaseController
 		if ($return === false)
 		{
 			// Checkin failed.
-			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
@@ -370,7 +372,7 @@ class AdminController extends BaseController
 		else
 		{
 			// Checkin succeeded.
-			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;

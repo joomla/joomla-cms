@@ -20,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
 
 /**
  * Helper for standard content style extensions.
@@ -73,7 +74,7 @@ class ContentHelper
 		if ($actions === false)
 		{
 			Log::add(
-				\JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
+				Text::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
 			);
 
 			return $result;

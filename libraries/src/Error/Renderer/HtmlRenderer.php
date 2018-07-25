@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML error page renderer
@@ -53,7 +54,7 @@ class HtmlRenderer extends AbstractRenderer
 			ob_end_clean();
 		}
 
-		$this->getDocument()->setTitle(\JText::_('Error') . ': ' . $error->getCode());
+		$this->getDocument()->setTitle(Text::_('Error') . ': ' . $error->getCode());
 
 		return $this->getDocument()->render(
 			false,

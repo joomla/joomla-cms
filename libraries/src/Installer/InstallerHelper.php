@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -57,7 +59,7 @@ abstract class InstallerHelper
 		}
 		catch (\RuntimeException $exception)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -68,7 +70,7 @@ abstract class InstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -94,7 +96,7 @@ abstract class InstallerHelper
 		}
 
 		// Write buffer to file
-		\JFile::write($target, $response->body);
+		File::write($target, $response->body);
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
@@ -132,7 +134,7 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive(array('tmp_path' => \JFactory::getConfig()->get('tmp_path')));
+			$archive = new Archive(array('tmp_path' => Factory::getConfig()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
@@ -225,7 +227,7 @@ abstract class InstallerHelper
 
 		if (!$files || !count($files))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -253,7 +255,7 @@ abstract class InstallerHelper
 			return $type;
 		}
 
-		\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+		\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 		// Free up memory.
 		unset($xml);
@@ -294,7 +296,7 @@ abstract class InstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
@@ -305,12 +307,12 @@ abstract class InstallerHelper
 		// Is the package file a valid file?
 		if (is_file($package))
 		{
-			\JFile::delete($package);
+			File::delete($package);
 		}
 		elseif (is_file(\JPath::clean($config->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			\JFile::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
 		}
 	}
 }

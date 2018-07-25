@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base class for a Joomla View
@@ -233,7 +234,7 @@ abstract class AbstractView extends \JObject
 
 			if (empty($this->_name))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 		}
 
