@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Csp Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReportController extends BaseController
 {
@@ -29,7 +29,7 @@ class ReportController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function log()
 	{
@@ -109,7 +109,7 @@ class ReportController extends BaseController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function isEntryExisting($report)
 	{

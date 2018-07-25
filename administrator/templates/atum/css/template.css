@@ -980,7 +980,7 @@ iframe {
     .subhead .btn-toolbar > * {
       margin-left: .75rem;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
-      .subhead .btn-toolbar > *:first-of-type {
+      .subhead .btn-toolbar > *:first-child {
         margin-left: 0; }
   .subhead .btn {
     padding: 0 22px;
@@ -1375,7 +1375,12 @@ iframe {
 
 .table thead th {
   white-space: nowrap;
-  border-bottom-width: 0; }
+  border-bottom-width: 0;
+  font-weight: normal;
+  color: #343a40; }
+
+.table thead td {
+  padding: 0; }
 
 .table thead a {
   font-weight: normal;
