@@ -1071,29 +1071,29 @@ class PlgSystemDebug extends CMSPlugin
 
 				$htmlProfile = $info[$id]->profile ?: Text::_('PLG_DEBUG_NO_PROFILE');
 
-				$htmlAccordions = HTMLHelper::_(
-					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
-						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '',
-					)
-				);
+				// We are using a pure CSS accordion because of performance issues when a lot of queries are run
+				$htmlAccordions = '<ul class="debug-accordion" id="dbg_query_' . $id .'">';
 
-				$htmlAccordions .= HTMLHelper::_('bootstrap.addSlide', 'dbg_query_' . $id, Text::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $id)
-					. $info[$id]->explain
-					. HTMLHelper::_('bootstrap.endSlide');
+				$htmlAccordions .= '<li id="dbg_query_explain_' . $id . '"><input type="checkbox" checked>'
+					. '<h3>' . Text::_('PLG_DEBUG_EXPLAIN') . '</h3>'
+					. '<div class="content">' . $info[$id]->explain . '</div>'
+					. '</li>';
 
-				$htmlAccordions .= HTMLHelper::_('bootstrap.addSlide', 'dbg_query_' . $id, $title, 'dbg_query_profile_' . $id)
-					. $htmlProfile
-					. HTMLHelper::_('bootstrap.endSlide');
+				$htmlAccordions .= '<li id="dbg_query_profile_' . $id . '"><input type="checkbox" checked>'
+					. '<h3>' . $title . '</h3>'
+					. '<div class="content">' . $htmlProfile . '</div>'
+					. '</li>';
 
 				// Call stack and back trace.
 				if (isset($callStacks[$id]))
 				{
-					$htmlAccordions .= HTMLHelper::_('bootstrap.addSlide', 'dbg_query_' . $id, Text::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $id)
-						. $this->renderCallStack($callStacks[$id])
-						. HTMLHelper::_('bootstrap.endSlide');
+					$htmlAccordions .= '<li id="dbg_query_callstack_' . $id . '"><input type="checkbox" checked>'
+						. '<h3>' . Text::_('PLG_DEBUG_CALL_STACK') . '</h3>'
+						. '<div class="content">' . $this->renderCallStack($callStacks[$id]) . '</div>'
+						. '</li>';
 				}
 
-				$htmlAccordions .= HTMLHelper::_('bootstrap.endAccordion');
+				$htmlAccordions .= '</ul>';
 
 				$did = md5($query);
 
