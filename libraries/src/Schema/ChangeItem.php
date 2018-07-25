@@ -117,8 +117,8 @@ abstract class ChangeItem
 	 * Constructor: builds check query and message from $updateQuery
 	 *
 	 * @param   DatabaseDriver  $db     Database connector object
-	 * @param   string            $file   Full path name of the sql file
-	 * @param   string            $query  Text of the sql query (one line of the file)
+	 * @param   string          $file   Full path name of the sql file
+	 * @param   string          $query  Text of the sql query (one line of the file)
 	 *
 	 * @since   2.5
 	 */
@@ -134,8 +134,8 @@ abstract class ChangeItem
 	 * Returns a reference to the ChangeItem object.
 	 *
 	 * @param   DatabaseDriver  $db     Database connector object
-	 * @param   string            $file   Full path name of the sql file
-	 * @param   string            $query  Text of the sql query (one line of the file)
+	 * @param   string          $file   Full path name of the sql file
+	 * @param   string          $query  Text of the sql query (one line of the file)
 	 *
 	 * @return  ChangeItem  instance based on the database driver
 	 *

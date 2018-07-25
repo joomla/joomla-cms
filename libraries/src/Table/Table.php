@@ -137,7 +137,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @param   string               $table       Name of the table to model.
 	 * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   DatabaseDriver     $db          DatabaseDriver object.
+	 * @param   DatabaseDriver       $db          DatabaseDriver object.
 	 * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
 	 *
 	 * @since   11.1

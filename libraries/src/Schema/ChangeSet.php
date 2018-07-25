@@ -63,7 +63,7 @@ class ChangeSet
 	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
 	 * @param   DatabaseDriver  $db      The current database object
-	 * @param   string            $folder  The full path to the folder containing the update queries
+	 * @param   string          $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
@@ -140,7 +140,7 @@ class ChangeSet
 	 * Returns a reference to the ChangeSet object, only creating it if it doesn't already exist.
 	 *
 	 * @param   DatabaseDriver  $db      The current database object
-	 * @param   string            $folder  The full path to the folder containing the update queries
+	 * @param   string          $folder  The full path to the folder containing the update queries
 	 *
 	 * @return  ChangeSet
 	 *

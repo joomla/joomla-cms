@@ -121,9 +121,9 @@ abstract class InstallerAdapter
 	/**
 	 * Constructor
 	 *
-	 * @param   Installer         $parent   Parent object
-	 * @param   DatabaseDriver    $db       Database object
-	 * @param   array             $options  Configuration Options
+	 * @param   Installer       $parent   Parent object
+	 * @param   DatabaseDriver  $db       Database object
+	 * @param   array           $options  Configuration Options
 	 *
 	 * @since   3.4
 	 */

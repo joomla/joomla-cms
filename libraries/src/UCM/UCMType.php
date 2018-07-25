@@ -83,7 +83,7 @@ class UCMType implements UCM
 	 * Class constructor
 	 *
 	 * @param   string               $alias        The alias for the item
-	 * @param   DatabaseDriver     $database     The database object
+	 * @param   DatabaseDriver       $database     The database object
 	 * @param   AbstractApplication  $application  The application object
 	 *
 	 * @since   3.1
