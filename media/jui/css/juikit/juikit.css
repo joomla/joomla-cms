@@ -123,6 +123,56 @@ fieldset[j-disabled] a.j-btn {
     color: #555;
     border-left: 2px solid #ddd; }
 
+.j-pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none; }
+
+.j-page-item:first-child .j-page-link {
+  margin-left: 0;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px; }
+
+.j-page-item:last-child .j-page-link {
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px; }
+
+.j-page-item.j-active .j-page-link {
+  z-index: 2;
+  color: #fff;
+  background-color: #007eb7;
+  border-color: #007eb7; }
+
+.j-page-item.j-disabled .j-page-link {
+  color: #636c72;
+  pointer-events: none;
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ccc; }
+
+.j-page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1;
+  background-color: #fff;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), -1px -1px 10px rgba(0, 0, 0, 0.03) inset;
+  border: 1px solid #ccc; }
+  .j-page-link:hover, .j-page-link:focus {
+    text-decoration: none;
+    background-color: #eceeef;
+    border-color: #ccc; }
+  .j-page-link:hover, .j-page-link:focus, .j-page-link.j-focus {
+    text-decoration: none;
+    cursor: pointer;
+    color: #00496b; }
+  .j-page-link:hover {
+    background-color: #eceeef;
+    border-color: #ccc; }
+  .j-page-link:focus, .j-page-link.j-focus {
+    outline: 0; }
+
 .j-clearfix::after {
   display: block;
   content: "";

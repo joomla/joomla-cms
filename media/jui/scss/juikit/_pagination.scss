@@ -6,19 +6,20 @@
   display: flex;
   padding-left: 0;
   list-style: none;
-  @include border-radius();
 }
 
 .j-page-item {
   &:first-child {
     .j-page-link {
       margin-left: 0;
-      @include border-left-radius($border-radius);
+      border-bottom-left-radius: $pagination-border-radius;
+      border-top-left-radius: $pagination-border-radius;
     }
   }
   &:last-child {
     .j-page-link {
-      @include border-right-radius($border-radius);
+      border-bottom-right-radius: $pagination-border-radius;
+      border-top-right-radius: $pagination-border-radius;
     }
   }
 
@@ -48,10 +49,26 @@
   box-shadow: $pagination-box-shadow;
   border: $pagination-border-width solid $pagination-border-color;
 
-  @include hover-focus {
+  &:hover,
+  &:focus, {
     text-decoration: none;
     background-color: $pagination-hover-bg;
     border-color: $pagination-hover-border;
+  }
+  &:hover,
+  &:focus,
+  &.j-focus {
+    text-decoration: none;
+    cursor: pointer;
+    color: $pagination-hover-color;
+  }
+  &:hover {
+    background-color: $pagination-hover-bg;
+    border-color: $pagination-hover-border;
+  }
+  &:focus,
+  &.j-focus {
+    outline: 0;
   }
 }
 

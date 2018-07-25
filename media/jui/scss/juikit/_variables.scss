@@ -256,13 +256,14 @@ $nav-disabled-link-color:       	   $gray-light !default;
 
 $pagination-padding-x:               .75rem !default;
 $pagination-padding-y:               .5rem !default;
-$pagination-line-height:             1.25 !default;
+$pagination-line-height:             1 !default;
 
 $pagination-color:                   $link-color !default;
 $pagination-bg:                      $white !default;
+$pagination-border-radius:           4px;
 $pagination-border-width:            $border-width !default;
 $pagination-border-color:            #ccc !default;
-$pagination-box-shadow: 			       $btn-box-shadow !default;
+$pagination-box-shadow: 			 $btn-box-shadow !default;
 
 $pagination-hover-color:             $link-hover-color !default;
 $pagination-hover-bg:                $gray-lighter !default;
