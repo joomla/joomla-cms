@@ -86,6 +86,26 @@ a.j-btn.j-disabled,
 fieldset[j-disabled] a.j-btn {
   pointer-events: none; }
 
+.j-table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid #eceeef; }
+  .j-table th,
+  .j-table td {
+    padding: 0.5rem;
+    vertical-align: top;
+    border: 1px solid #eceeef; }
+  .j-table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #eceeef; }
+  .j-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.04); }
+  .j-table tbody + tbody {
+    border-top: 2px solid #eceeef; }
+  .j-table .j-table {
+    background-color: #fff; }
+
 .j-badge {
   display: inline-block;
   background-color: #636c72;
