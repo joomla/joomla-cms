@@ -90,7 +90,7 @@ abstract class DatabaseQuery implements QueryInterface
 	/**
 	 * The join element.
 	 *
-	 * @var    Query\QueryElement[]
+	 * @var    Query\QueryElement
 	 * @since  1.0
 	 */
 	protected $join = null;
@@ -176,20 +176,20 @@ abstract class DatabaseQuery implements QueryInterface
 	protected $exec = null;
 
 	/**
-	 * The list of query elements, which may include UNION, UNION ALL, EXCEPT and INTERSECT.
+	 * The union element.
 	 *
-	 * @var    Query\QueryElement[]
-	 * @since  __DEPLOY_VERSION__
+	 * @var    Query\QueryElement
+	 * @since  1.0
 	 */
-	protected $merge = null;
+	protected $union = null;
 
 	/**
-	 * The query object.
+	 * The unionAll element.
 	 *
-	 * @var    Query\DatabaseQuery
-	 * @since  __DEPLOY_VERSION__
+	 * @var    Query\QueryElement
+	 * @since  1.5.0
 	 */
-	protected $querySet = null;
+	protected $unionAll = null;
 
 	/**
 	 * Details of window function.
@@ -198,14 +198,6 @@ abstract class DatabaseQuery implements QueryInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $selectRowNumber = null;
-
-	/**
-	 * The list of zero or null representation of a datetime.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $nullDatetimeList = [];
 
 	/**
 	 * Class constructor.
@@ -275,15 +267,6 @@ abstract class DatabaseQuery implements QueryInterface
 					{
 						$query .= (string) $this->having;
 					}
-
-					if ($this->merge)
-					{
-						// Special case for merge
-						foreach ($this->merge as $element)
-						{
-							$query .= (string) $element;
-						}
-					}
 				}
 
 				if ($this->order)
@@ -293,29 +276,8 @@ abstract class DatabaseQuery implements QueryInterface
 
 				break;
 
-			case 'querySet':
-				$query = $this->querySet;
-
-				if ($query->order || ($query instanceof Query\LimitableInterface && ($query->limit || $query->offset)))
-				{
-					// If ORDER BY or LIMIT statement exist then parentheses is required for the first query
-					$query = "($query)";
-				}
-
-				if ($this->merge)
-				{
-					// Special case for merge
-					foreach ($this->merge as $element)
-					{
-						$query .= (string) $element;
-					}
-				}
-
-				if ($this->order)
-				{
-					$query .= (string) $this->order;
-				}
-
+			case 'union':
+				$query .= (string) $this->union;
 				break;
 
 			case 'delete':
@@ -536,11 +498,6 @@ abstract class DatabaseQuery implements QueryInterface
 				$this->autoIncrementField = null;
 				break;
 
-			case 'querySet':
-				$this->querySet = null;
-				$this->type     = null;
-				break;
-
 			case 'from':
 				$this->from = null;
 				break;
@@ -563,10 +520,6 @@ abstract class DatabaseQuery implements QueryInterface
 
 			case 'having':
 				$this->having = null;
-				break;
-
-			case 'merge':
-				$this->merge = null;
 				break;
 
 			case 'order':
@@ -600,6 +553,10 @@ abstract class DatabaseQuery implements QueryInterface
 				$this->offset = 0;
 				break;
 
+			case 'union':
+				$this->union = null;
+				break;
+
 			default:
 				$this->type               = null;
 				$this->select             = null;
@@ -607,20 +564,19 @@ abstract class DatabaseQuery implements QueryInterface
 				$this->delete             = null;
 				$this->update             = null;
 				$this->insert             = null;
-				$this->querySet           = null;
 				$this->from               = null;
 				$this->join               = null;
 				$this->set                = null;
 				$this->where              = null;
 				$this->group              = null;
 				$this->having             = null;
-				$this->merge              = null;
 				$this->order              = null;
 				$this->columns            = null;
 				$this->values             = null;
 				$this->autoIncrementField = null;
 				$this->exec               = null;
 				$this->call               = null;
+				$this->union              = null;
 				$this->offset             = 0;
 				$this->limit              = 0;
 				break;
@@ -1205,35 +1161,6 @@ abstract class DatabaseQuery implements QueryInterface
 	}
 
 	/**
-	 * Generate a SQL statement to check if column represents a zero or null datetime.
-	 *
-	 * Usage:
-	 * $query->where($query->isNullDatetime('modified_date'));
-	 *
-	 * @param   string  $column  A column name.
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function isNullDatetime($column)
-	{
-		if (!$this->db instanceof DatabaseInterface)
-		{
-			throw new \RuntimeException(sprintf('A %s instance is not set to the query object.', DatabaseInterface::class));
-		}
-
-		if ($this->nullDatetimeList)
-		{
-			return "($column IN ("
-			. implode(', ', $this->db->quote($this->nullDatetimeList))
-			. ") OR $column IS NULL)";
-		}
-
-		return "$column IS NULL";
-	}
-
-	/**
 	 * Add a ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
@@ -1586,26 +1513,6 @@ abstract class DatabaseQuery implements QueryInterface
 	}
 
 	/**
-	 * Add a WHERE IN statement to the query
-	 *
-	 * Usage
-	 * $query->whereIn('id', [1, 2, 3]);
-	 *
-	 * @param   string $keyName   key name for the where clause
-	 * @param   array  $keyValues array of values to be matched
-	 *
-	 * @return  $this
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function whereIn($keyName, $keyValues)
-	{
-		return $this->where(
-			$keyName . ' IN (' . implode(', ', $keyValues) . ')'
-		);
-	}
-
-	/**
 	 * Extend the WHERE clause with a single condition or an array of conditions, with a potentially
 	 * different logical operator from the one in the current WHERE clause.
 	 *
@@ -1694,105 +1601,113 @@ abstract class DatabaseQuery implements QueryInterface
 	}
 
 	/**
-	 * Combine a select statement to the current query by one of the set operators.
-	 * Operators: UNION, UNION ALL, EXCEPT or INTERSECT.
-	 *
-	 * @param   string                $name   The name of the set operator with parentheses.
-	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string.
-	 *
-	 * @return  $this
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function merge($name, $query)
-	{
-		$this->type = $this->type ?: 'select';
-
-		$this->merge[] = new Query\QueryElement($name, $query);
-
-		return $this;
-	}
-
-	/**
 	 * Add a query to UNION with the current query.
+	 * Multiple unions each require separate statements and create an array of unions.
 	 *
 	 * Usage:
 	 * $query->union('SELECT name FROM  #__foo')
-	 * $query->union('SELECT name FROM  #__foo', true)
+	 * $query->union('SELECT name FROM  #__foo','distinct')
+	 * $query->union(array('SELECT name FROM  #__foo', 'SELECT name FROM  #__bar'))
 	 *
 	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
 	 * @param   boolean               $distinct  True to only return distinct rows from the union.
+	 * @param   string                $glue      The glue by which to join the conditions.
 	 *
 	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
-	public function union($query, $distinct = true)
+	public function union($query, $distinct = false, $glue = '')
 	{
-		// Set up the name with parentheses, the DISTINCT flag is redundant
-		return $this->merge($distinct ? 'UNION ()' : 'UNION ALL ()', $query);
+		// Clear any ORDER BY clause in UNION query
+		// See https://dev.mysql.com/doc/en/union.html
+		if (!is_null($this->order))
+		{
+			$this->clear('order');
+		}
+
+		// Set up the DISTINCT flag, the name with parentheses, and the glue.
+		if ($distinct)
+		{
+			$name = 'UNION DISTINCT ()';
+			$glue = ')' . PHP_EOL . 'UNION DISTINCT (';
+		}
+		else
+		{
+			$glue = ')' . PHP_EOL . 'UNION (';
+			$name = 'UNION ()';
+		}
+
+		// Get the Query\QueryElement if it does not exist
+		if (is_null($this->union))
+		{
+			$this->union = new Query\QueryElement($name, $query, "$glue");
+		}
+		else
+		// Otherwise append the second UNION.
+		{
+			$this->union->append($query);
+		}
+
+		return $this;
 	}
 
 	/**
 	 * Add a query to UNION ALL with the current query.
+	 * Multiple unions each require separate statements and create an array of unions.
 	 *
 	 * Usage:
-	 * $query->unionAll('SELECT name FROM  #__foo')
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 *
 	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
+	 * @param   boolean               $distinct  Not used - ignored.
+	 * @param   string                $glue      The glue by which to join the conditions.
 	 *
 	 * @return  $this
 	 *
 	 * @see     union
 	 * @since   1.5.0
 	 */
-	public function unionAll($query)
+	public function unionAll($query, $distinct = false, $glue = '')
 	{
-		return $this->union($query, false);
-	}
+		$glue = ')' . PHP_EOL . 'UNION ALL (';
+		$name = 'UNION ALL ()';
 
-	/**
-	 * Set a single query to the query set.
-	 * On this type of DatabaseQuery you can use union(), unioAll(), order() and setLimit()
-	 *
-	 * Usage:
-	 * $query->querySet($query2->select('name')->from('#__foo')->order('id DESC')->setLimit(1))
-	 *       ->unionAll($query3->select('name')->from('#__foo')->order('id')->setLimit(1))
-	 *       ->order('name')
-	 *       ->setLimit(1)
-	 *
-	 * @param   DatabaseQuery  $query  The DatabaseQuery object or string.
-	 *
-	 * @return  $this
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function querySet($query)
-	{
-		$this->type = 'querySet';
+		// Get the QueryElement if it does not exist
+		if (is_null($this->unionAll))
+		{
+			$this->unionAll = new Query\QueryElement($name, $query, "$glue");
+		}
 
-		$this->querySet = $query;
+		// Otherwise append the second UNION.
+		else
+		{
+			$this->unionAll->append($query);
+		}
 
 		return $this;
 	}
 
 	/**
-	 * Create a DatabaseQuery object of type querySet from current query.
+	 * Add a query to UNION DISTINCT with the current query. Simply a proxy to Union with the Distinct clause.
 	 *
 	 * Usage:
-	 * $query->select('name')->from('#__foo')->order('id DESC')->setLimit(1)
-	 *       ->toQuerySet()
-	 *       ->unionAll($query2->select('name')->from('#__foo')->order('id')->setLimit(1))
-	 *       ->order('name')
-	 *       ->setLimit(1)
+	 * $query->unionDistinct('SELECT name FROM  #__foo')
 	 *
-	 * @return  DatabaseQuery  A new object of the DatabaseQuery.
+	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string to union.
+	 * @param   string                $glue   The glue by which to join the conditions.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @return  $this
+	 *
+	 * @since   1.0
 	 */
-	public function toQuerySet()
+	public function unionDistinct($query, $glue = '')
 	{
-		return (new static($this->db))->querySet($this);
+		$distinct = true;
+
+		// Apply the distinct flag to the union.
+		return $this->union($query, $distinct, $glue);
 	}
 
 	/**

@@ -347,13 +347,13 @@ class Access
 
 		// Get the database connection object.
 		$db         = \JFactory::getDbo();
-		$extraQuery = $db->qn('name') . ' = ' . $db->q($extensionName) . ' OR ' . $db->qn('parent_id') . ' = 0';
+		$extraQuery = $db->quoteName('name') . ' = ' . $db->quote($extensionName) . ' OR ' . $db->quoteName('parent_id') . ' = 0';
 
 		// Get a fresh query object.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
-			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $extraQuery);
+			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' LIKE ' . $db->quote($extensionName . '.%') . ' OR ' . $extraQuery);
 
 		// Get the permission map for all assets in the asset extension.
 		$assets = $db->setQuery($query)->loadObjectList();
@@ -421,9 +421,9 @@ class Access
 
 		// Get the asset info for all assets in asset names list.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
-			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
+			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
 
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
@@ -657,28 +657,28 @@ class Access
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
-			->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
-			->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
-			->from($db->qn('#__assets', 'a'));
+			->select($db->quoteName(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
+			->select($db->quoteName(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
+			->from($db->quoteName('#__assets', 'a'));
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		$assetString     = is_numeric($assetKey) ? $db->qn('a.id') . ' = ' . $assetKey : $db->qn('a.name') . ' = ' . $db->q($assetKey);
+		$assetString     = is_numeric($assetKey) ? $db->quoteName('a.id') . ' = ' . $assetKey : $db->quoteName('a.name') . ' = ' . $db->quote($assetKey);
 		$extensionString = '';
 
 		if ($recursiveParentAsset && ($extensionName !== $assetKey || is_numeric($assetKey)))
 		{
-			$extensionString = ' OR ' . $db->qn('a.name') . ' = ' . $db->q($extensionName);
+			$extensionString = ' OR ' . $db->quoteName('a.name') . ' = ' . $db->quote($extensionName);
 		}
 
-		$recursiveString = $recursive ? ' OR ' . $db->qn('a.parent_id') . ' = 0' : '';
+		$recursiveString = $recursive ? ' OR ' . $db->quoteName('a.parent_id') . ' = 0' : '';
 
 		$query->where('(' . $assetString . $extensionString . $recursiveString . ')');
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->join('LEFT', $db->qn('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
-				->order($db->qn('b.lft'));
+			$query->join('LEFT', $db->quoteName('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
+				->order($db->quoteName('b.lft'));
 		}
 
 		// Execute the query and load the rules from the result.
@@ -690,9 +690,9 @@ class Access
 			$assets = new Asset($db);
 
 			$query->clear()
-				->select($db->qn(array('id', 'name', 'parent_id', 'rules')))
-				->from($db->qn('#__assets'))
-				->where($db->qn('id') . ' = ' . $db->q($assets->getRootId()));
+				->select($db->quoteName(array('id', 'name', 'parent_id', 'rules')))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('id') . ' = ' . $db->quote($assets->getRootId()));
 
 			$result = $db->setQuery($query)->loadObjectList();
 		}
