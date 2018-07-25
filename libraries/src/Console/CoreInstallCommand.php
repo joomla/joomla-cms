@@ -112,7 +112,8 @@ class CoreInstallCommand extends AbstractCommand
         $this->configureIO();
 
 
-        if (file_exists(JPATH_CONFIGURATION . '/configuration.php')) {
+        if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+        {
             $this->ioStyle->warning("Joomla! is already installed and set up.");
 
             return 1;
@@ -124,7 +125,8 @@ class CoreInstallCommand extends AbstractCommand
 
         $passed = $this->runChecks();
 
-        if (!$passed) {
+        if (!$passed)
+        {
             $this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
 
             $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
@@ -134,7 +136,8 @@ class CoreInstallCommand extends AbstractCommand
 
         $file = $this->cliInput->getOption('file');
 
-        if ($file) {
+        if ($file)
+        {
             $result = $this->processUninteractiveInstallation($file);
 
             if (!is_array($result)) {
@@ -143,7 +146,9 @@ class CoreInstallCommand extends AbstractCommand
 
             $options = $result;
 
-        } else {
+        }
+        else
+        {
             $options = $this->collectOptions();
         }
 
@@ -155,13 +160,15 @@ class CoreInstallCommand extends AbstractCommand
 
             $completed = $model->setup($options);
 
-            if ($completed) {
+            if ($completed)
+            {
                 $this->ioStyle->success("Joomla! installation completed successfully!");
 
                 return 0;
             }
 
             $this->ioStyle->error("Joomla! installation was unsuccessful!");
+
             return 4;
         }
 
@@ -304,7 +311,9 @@ class CoreInstallCommand extends AbstractCommand
 
 		if (!in_array($ext, $allowedExtension))
 		{
-			return 'The file type specified is not supported';
+            $this->getApplication()->enqueueMessage('The file type specified is not supported');
+
+            return;
 		}
 
 		$options = $this->registry->loadFile($file, $ext)->toArray();
