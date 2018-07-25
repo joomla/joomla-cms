@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Date\Date;
 
 /**
  * Override Plugin
@@ -141,7 +142,6 @@ class PlgInstallerOverride extends CMSPlugin
 				if ($after[$i]->coreFile !== $before[$i]->coreFile)
 				{
 					$after[$i]->action = $action;
-					unset($after[$i]->coreFile);
 					$result[] = $after[$i];
 				}
 			}
@@ -314,7 +314,6 @@ class PlgInstallerOverride extends CMSPlugin
 	private function saveOverrides($pks)
 	{
 		$db = Factory::getDbo();
-		$today = Factory::getDate();
 
 		// Insert columns.
 		$columns = array(
@@ -337,11 +336,18 @@ class PlgInstallerOverride extends CMSPlugin
 		{
 			$insertQuery->clear('values');
 
-			$createdDate = $today->format('y-m-d h:i:s');
+			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
+			$date = new Date('now');
+			$date->setTimezone($tz);
+			$createdDate = $date->toSql(true);
 
-			if (empty($pk->modifiedDate))
+			if (empty($pk->coreFile))
 			{
-				$pk->modifiedDate = '0000-00-00 00:00:00';
+				$modifiedDate = $db->getNullDate();
+			}
+			else
+			{
+				$modifiedDate = $createdDate;
 			}
 
 			if ($this->load($pk->id, $pk->extension_id))
@@ -349,7 +355,7 @@ class PlgInstallerOverride extends CMSPlugin
 				$updateQuery = $db->getQuery(true)
 					->update($db->quoteName('#__template_overrides'))
 					->set(
-						array($db->quoteName('modified_date') . ' = ' . $db->quote($pk->modifiedDate),
+						array($db->quoteName('modified_date') . ' = ' . $db->quote($modifiedDate),
 						$db->quoteName('action') . ' = ' . $db->quote($pk->action),
 						$db->quoteName('state') . ' = ' . 0)
 						)
@@ -379,7 +385,7 @@ class PlgInstallerOverride extends CMSPlugin
 				$db->quote($pk->action),
 				(int) $pk->client,
 				$db->quote($createdDate),
-				$db->quote($pk->modifiedDate)
+				$db->quote($modifiedDate)
 			);
 
 			$insertQuery->values(implode(',', $values));

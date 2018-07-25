@@ -90,12 +90,10 @@ class TemplateModel extends FormModel
 
 		if ($coreFile = $this->getCoreFile($path . $name, $template->client_id))
 		{
-			$temp->modifiedDate = date("y-m-d h:i:s.u", filemtime($coreFile));
 			$temp->coreFile = md5_file($coreFile);
 		}
 		else
 		{
-			$temp->modifiedDate = null;
 			$temp->coreFile = null;
 		}
 
