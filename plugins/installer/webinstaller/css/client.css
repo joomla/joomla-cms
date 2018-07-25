@@ -1,0 +1,256 @@
+/* Extension type badges */
+.com-apps-container .label-jcommercial, .com-apps-container .badge-jcommercial{background-color:#f6c801; color: black; font-weight: normal; font-size: medium; vertical-align: bottom}
+.com-apps-container .label-jmodule, .com-apps-container .badge-jmodule{background-color:#e20a0a}
+.com-apps-container .label-jplugin, .com-apps-container .badge-jplugin{background-color:#57278e}
+.com-apps-container .label-jcomponent, .com-apps-container .badge-jcomponent{background-color: #1e9e33}
+.com-apps-container .label-jspecific, .com-apps-container .badge-jspecific{background-color:#d69b34}
+.com-apps-container .label-jtool, .com-apps-container .badge-jtool{background-color:#333333}
+.com-apps-container .label-jlanguage, .com-apps-container .badge-jlanguage{background-color:golden}
+.com-apps-container .icon-star, .com-apps-container .icon-star-2{color:#f6c801}
+.com-apps-container .icon-star-empty{color:#dcdcdc}
+.com-apps-container ul.item-type {margin:0px}
+.com-apps-container .jbadge{vertical-align:middle}
+
+/* Bootstrap form controls override */
+.com-apps-container .full-item-container .control-group {
+	margin: 0px;
+}
+.com-apps-container .full-item-container .control-label {
+	padding: 0px;
+	margin: 0px;
+}
+.com-apps-container .full-item-container .controls {
+	margin-left: 100px;
+}
+
+.com-apps-container .full-item-container .form-actions {
+	padding-left: 20px;
+}
+
+/* Full view */
+.com-apps-container .item-info-container {margin-left: 25px; line-height: 25px}
+
+/* Grid */
+.com-apps-container .item-image{height:120px}
+.com-apps-container .item-description{height:100px; overflow: hidden}
+.com-apps-container .thumbnail{
+	padding: 16px 12px 16px 12px;
+	cursor: pointer;
+}
+.com-apps-container .grid-container .thumbnail:hover {
+	background-color: #F2F2F2;
+}
+
+/* List */
+.list-container .thumbnails .item {
+	display: block;
+	width: 100%;
+	margin-left:0;
+	border-bottom:1px solid #ccc;
+	margin-bottom:2px;
+	display:inline-block;
+	height: 60px;
+	overflow: hidden;
+}
+.list-container{
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing: border-box;
+}
+.list-container .thumbnails .item:hover{
+	border-color:#185186;
+}
+.list-container .thumbnails .item:hover h4 a,
+.list-container .thumbnails .item:hover .item-description{
+	color:#33608f;
+	text-decoration:none;
+}
+.list-container .thumbnails .item h4{
+	margin: 0px;
+}
+.list-container .thumbnails .item .item-header{
+	text-align:left;
+	margin:0px;
+	margin-right:10px;
+	min-height:34px;
+	border-right:1px solid #ccc;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing: border-box;
+}
+.list-container .thumbnails .item .item-description{
+	float:left;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing: border-box;
+}
+.list-container .thumbnails .item .item-header{
+	width:22%;
+}
+.list-container .thumbnails .item .item-icons{
+	width:22%;
+	float: right;
+	border-left: 1px solid #ccc;
+	padding: 0px;
+}
+.list-container .thumbnails .item .item-description {
+	width:50%;
+	overflow: hidden;
+}
+.list-container .thumbnails .thumbnail {
+	padding: 0px;
+	height: 100%;
+	overflow: hidden;
+}
+.com-apps-container .fader {
+	position: absolute;
+	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 70%, rgba(255,255,255,1) 95%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(70%,rgba(255,255,255,0)), color-stop(95%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 70%,rgba(255,255,255,1) 95%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(255,255,255,0) 70%,rgba(255,255,255,1) 95%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 70%,rgba(255,255,255,1) 95%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(255,255,255,0) 70%,rgba(255,255,255,1) 95%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+	text-align: center;
+	float: left;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	margin-top: 5px;
+}
+.com-apps-container .list-container .fader {
+	position: absolute;
+	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 25%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(25%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 25%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 25%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 25%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 25%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+	text-align: center;
+	float: left;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	margin-top: 5px;
+}
+div.item-description {
+	position: relative;
+}
+.list-container .thumbnails .thumbnail div {
+	float: left;
+	padding: 5px;
+	height: 100%;
+}
+.list-container .thumbnails .thumbnail div.item-icons div {
+	padding: 0px;
+}
+.list-container .thumbnails .item .item-icons div {
+	float: left;
+	width: 100%;
+	text-align: center;
+	height: auto;
+}
+/* Added to fix responsive issues */
+
+.com-apps-container .filter-search.btn-group.pull-left {
+    width: 31%;
+}
+.com-apps-container input {
+    width:90%;
+}
+
+.com-apps-container .btn-group.pull-right.select {
+    width:31%;
+}
+
+.com-apps-container .thumbnail {
+    min-height: 350px;
+}
+
+.com-apps-container .item-description {
+    min-height: 150px;
+}
+
+.com-apps-container .grid-container .row-fluid [class*="span"] {
+    margin-left: 2%;
+}
+
+.com-apps-container .row-fluid [class*="span"]:first-child {
+    margin-left: 0;
+}
+
+/* disallow scrolling when overlay is active */
+body.ifw-busy {
+	overflow: hidden;
+	-ms-overflow-style: none;
+}
+
+#appsloading {
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	opacity: .95;
+	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 95);
+	filter: alpha(opacity = 95);
+	background: url('../../../../media/jui/images/ajax-loader.gif') rgba(255,255,255,0.7) 50% 10px no-repeat;
+}
+/* Put breakpoints in when the design breaks, not at generic widths */
+@media (max-width: 869px) {
+    .com-apps-sidebar .nav-header {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 800px) {
+    .com-apps-container .item-image {
+        min-height: 90px;
+    }
+
+}
+
+/* Fixes images which are too big */
+.com-apps-container .thumbnail .item-image img {
+	max-width: 100%;
+	max-height: 90%;
+}
+
+/* This is where the single column view starts */
+@media (max-width: 768px) {
+    .com-apps-container select {
+        font-size:10px;
+    }
+    .com-apps-container .thumbnail {
+        min-height: 300px;
+    }
+    .com-apps-container .item-description {
+        min-height: 100px;
+    }
+    .com-apps-container .row-fluid [class*="span"] {
+        margin-left: 0;
+    }
+
+}
+
+@media (max-width: 580px) {
+    .nav-tabs > li {
+ 
+ width: 100%;
+    }
+    #myTabTabs {
+        border-top: 1px solid lightgrey;
+        padding-top: 2px;
+    }
+}
+
+@media (max-width: 495px) {
+    /* need to add .search class to the button group */
+    .com-apps-container .btn-group.pull-left.search {
+        display: none;
+        visibility: hidden;
+    }
+}

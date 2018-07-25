@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="plugin" group="installer" method="upgrade">
+	<name>plg_installer_webinstaller</name>
+	<author>Joomla! Project</author>
+	<creationDate>28 April 2017</creationDate>
+	<copyright>Copyright (C) 2013-2017 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.1.1</version>
+	<description>PLG_INSTALLER_WEBINSTALLER_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="webinstaller">webinstaller.php</filename>
+		<folder>css</folder>
+		<folder>js</folder>
+	</files>
+	<scriptfile>webinstaller.script.php</scriptfile>
+	<updateservers>
+		<server type="extension" priority="1" name="WebInstaller Update Site">https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml</server>
+	</updateservers>
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="tab_position" type="radio"
+					class="btn-group"
+					default="0"
+					description="PLG_INSTALLER_WEBINSTALLER_TAB_POSITION_DESC"
+					label="PLG_INSTALLER_WEBINSTALLER_TAB_POSITION_LABEL"
+				>
+					<option value="0">PLG_INSTALLER_WEBINSTALLER_TAB_POSITION_FIRST</option>
+					<option value="1">PLG_INSTALLER_WEBINSTALLER_TAB_POSITION_LAST</option>
+				</field>
+			</fieldset>
+
+		</fields>
+	</config>
+</extension>
