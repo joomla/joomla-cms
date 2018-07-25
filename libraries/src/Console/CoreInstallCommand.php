@@ -320,10 +320,12 @@ class CoreInstallCommand extends AbstractCommand
 
 		$requiredKeys = array_keys($this->getDummyOptions());
 		$providedKeys = array_keys($options);
+		sort($requiredKeys);
+		sort($providedKeys);
 
 		if ($requiredKeys != $providedKeys)
 		{
-			$diff = array_diff_key($requiredKeys, $providedKeys);
+			$diff = array_diff($requiredKeys, $providedKeys);
 			$remainingKeys = implode(', ', $diff);
 			$this->ioStyle->error("These options are required in your file: [$remainingKeys]");
 			exit;
