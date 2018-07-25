@@ -26,6 +26,7 @@ use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * Console command for installing the Joomla CMS
@@ -107,19 +108,23 @@ class CoreInstallCommand extends AbstractCommand
      */
     public function execute(): int
     {
-        define('JPATH_COMPONENT', JPATH_BASE . '/installation');
+        $progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
+	$progressBar->start();
+	define('JPATH_COMPONENT', JPATH_BASE . '/installation');	    
 
         $this->configureIO();
 
 
         if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
         {
-            $this->ioStyle->warning("Joomla! is already installed and set up.");
+            
+		$progressBar->finish();
+		$this->ioStyle->warning("Joomla! is already installed and set up.");
 
-            return 1;
+		return 1;
         }
 
-
+	$progressBar->advance();
         $this->setup = new SetupModel;
         $this->check = new ChecksModel;
 
@@ -127,24 +132,28 @@ class CoreInstallCommand extends AbstractCommand
 
         if (!$passed)
         {
-            $this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
-
-            $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
+            	$progressBar->finish();
+		$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
+            	$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
             return 2;
         }
 
-        $file = $this->cliInput->getOption('file');
+        $progressBar->advance();
+	$file = $this->cliInput->getOption('file');
 
         if ($file)
         {
-            $result = $this->processUninteractiveInstallation($file);
+		$result = $this->processUninteractiveInstallation($file);
 
-            if (!is_array($result)) {
-                return 3;
-            }
+		if (!is_array($result))
+		{
+			$progressBar->finish();
+                	return 3;
+            	}
 
-            $options = $result;
+		$progressBar->advance();
+		$options = $result;
 
         }
         else
@@ -152,26 +161,31 @@ class CoreInstallCommand extends AbstractCommand
             $options = $this->collectOptions();
         }
 
+	$progressBar->advance();
         $validConnection = $this->checkDatabaseConnection($options);
+	$progressBar->advance();
 
         if ($validConnection !== false)
         {
-            $model = new ConfigurationModel;
+		$model = new ConfigurationModel;
+		$completed = $model->setup($options);
+		$progressBar->advance();
 
-            $completed = $model->setup($options);
+		if ($completed)
+		{
+			$progressBar->finish();
+			$this->ioStyle->success("Joomla! installation completed successfully!");
 
-            if ($completed)
-            {
-                $this->ioStyle->success("Joomla! installation completed successfully!");
+			return 0;
+		}
 
-                return 0;
-            }
+		$progressBar->finish();
+		$this->ioStyle->error("Joomla! installation was unsuccessful!");
 
-            $this->ioStyle->error("Joomla! installation was unsuccessful!");
-
-            return 4;
+		return 4;
         }
 
+	$progressBar->finish();
         return 5;
     }
 
