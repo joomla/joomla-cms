@@ -77,6 +77,13 @@ class CoreInstallCommand extends AbstractCommand
      */
     private $registry;
 
+	/**
+	 * Registry Object
+	 * @var ProgressBar
+	 * @since 4.0
+	 */
+	private $progressBar;
+
     /**
      * Configures the IO
      *
@@ -94,6 +101,9 @@ class CoreInstallCommand extends AbstractCommand
 
         $this->registry = new Registry;
         $this->cliInput = $this->getApplication()->getConsoleInput();
+	    ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
+	    $this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
+	    $this->progressBar->setFormat('custom');
         $this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
     }
 
@@ -108,84 +118,91 @@ class CoreInstallCommand extends AbstractCommand
      */
     public function execute(): int
     {
-        $progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
-	$progressBar->start();
-	define('JPATH_COMPONENT', JPATH_BASE . '/installation');	    
-
-        $this->configureIO();
+	    $this->configureIO();
+	    $this->progressBar->setMessage("Starting set Joomla! installation ...");
+	    $this->progressBar->start();
+	    define('JPATH_COMPONENT', JPATH_BASE . '/installation');
 
 
         if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
         {
-            
-		$progressBar->finish();
-		$this->ioStyle->warning("Joomla! is already installed and set up.");
+			$this->progressBar->finish();
+			$this->ioStyle->warning("Joomla! is already installed and set up.");
 
-		return 1;
+			return 1;
         }
 
-	$progressBar->advance();
+
+		$this->progressBar->advance();
         $this->setup = new SetupModel;
         $this->check = new ChecksModel;
 
-        $passed = $this->runChecks();
+	    $this->progressBar->setMessage("Running checks ...");
+	    $passed = $this->runChecks();
 
         if (!$passed)
         {
-            	$progressBar->finish();
-		$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
-            	$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
+            $this->progressBar->finish();
+			$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
+            $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
             return 2;
         }
 
-        $progressBar->advance();
-	$file = $this->cliInput->getOption('file');
+        $this->progressBar->advance();
+		$file = $this->cliInput->getOption('file');
 
         if ($file)
         {
-		$result = $this->processUninteractiveInstallation($file);
+	        $this->progressBar->setMessage("Loading file ...");
+	        $result = $this->processUninteractiveInstallation($file);
 
-		if (!is_array($result))
-		{
-			$progressBar->finish();
-                	return 3;
-            	}
+			if (!is_array($result))
+			{
+				$this->progressBar->finish();
 
-		$progressBar->advance();
-		$options = $result;
+				return 3;
+			}
 
+	        $this->progressBar->setMessage("File loaded");
+	        $this->progressBar->advance();
+			$options = $result;
         }
         else
         {
-            $options = $this->collectOptions();
+	        $this->progressBar->setMessage("Collecting options ...");
+	        $options = $this->collectOptions();
         }
 
-	$progressBar->advance();
+	    $this->progressBar->setMessage("Checking database connection ...");
+	    $this->progressBar->advance();
         $validConnection = $this->checkDatabaseConnection($options);
-	$progressBar->advance();
+		$this->progressBar->advance();
 
         if ($validConnection !== false)
         {
-		$model = new ConfigurationModel;
-		$completed = $model->setup($options);
-		$progressBar->advance();
+			$model = new ConfigurationModel;
 
-		if ($completed)
-		{
-			$progressBar->finish();
-			$this->ioStyle->success("Joomla! installation completed successfully!");
+	        $this->progressBar->setMessage("Writing configuration ...");
+	        $completed = $model->setup($options);
+			$this->progressBar->advance();
 
-			return 0;
-		}
+			if ($completed)
+			{
+				$this->progressBar->setMessage("Finishing installation ...");
+				$this->progressBar->finish();
+				$this->ioStyle->success("Joomla! installation completed successfully!");
 
-		$progressBar->finish();
-		$this->ioStyle->error("Joomla! installation was unsuccessful!");
+				return 0;
+			}
 
-		return 4;
+			$this->progressBar->finish();
+			$this->ioStyle->error("Joomla! installation was unsuccessful!");
+
+			return 4;
         }
 
-	$progressBar->finish();
+		$this->progressBar->finish();
         return 5;
     }
 
