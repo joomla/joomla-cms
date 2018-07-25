@@ -7737,6 +7737,9 @@ ul.manager .height-50 .icon-folder-2 {
 .finder-selects {
 	margin: 0 15px 15px 0;
 }
+.header-search .mod-languages ul {
+	margin: 0 0 5px 0;
+}
 .rtl .navigation .nav-child {
 	left: auto;
 	right: 0;
