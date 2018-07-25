@@ -60,13 +60,13 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 			</h2>
 		<?php endif; ?>
 		<?php if ($this->item->state == 0) : ?>
-			<span class="j-badge j-badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+			<span class="j-badge"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
-			<span class="j-badge j-badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+			<span class="j-badge"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 		<?php if ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate()) : ?>
-			<span class="j-badge j-badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
+			<span class="j-badge"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
@@ -76,7 +76,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<?php endif; ?>
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
-			<div id="pop-print" class="j-btn j-hidden-print">
+			<div id="pop-print" class="j-btn">
 				<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
 			</div>
 		<?php endif; ?>

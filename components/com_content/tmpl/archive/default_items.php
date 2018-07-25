@@ -216,9 +216,9 @@ $params = $this->params;
 	</div>
 	<?php endforeach; ?>
 </div>
-<div class="com-content-archive__navigation w-100">
+<div class="com-content-archive__navigation">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		<p class="com-content-archive__counter counter float-right pt-3 pr-2">
+		<p class="com-content-archive__counter counter j-float-right">
 			<?php echo $this->pagination->getPagesCounter(); ?>
 		</p>
 	<?php endif; ?>

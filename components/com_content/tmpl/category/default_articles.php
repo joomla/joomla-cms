@@ -43,10 +43,10 @@ if (!empty($this->items))
 <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-content-category__articles form-inline">
 
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
-	<fieldset class="com-content-category__filters filters btn-toolbar clearfix">
+	<fieldset class="com-content-category__filters filters j-clearfix">
 		<legend class="hidden-xs-up"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
-			<div class="btn-group">
+			<div class="j-btn-group">
 				<?php if ($this->params->get('filter_field') !== 'tag') : ?>
 					<label class="filter-search-lbl sr-only" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
@@ -61,7 +61,7 @@ if (!empty($this->items))
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="com-content-category__pagination btn-group float-right">
+			<div class="com-content-category__pagination j-btn-group float-right">
 				<label for="limit" class="sr-only">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
@@ -75,9 +75,9 @@ if (!empty($this->items))
 		<input type="hidden" name="task" value="">
 	</fieldset>
 
-	<div class="com-content-category__filter-submit control-group hidden-xs-up float-right">
+	<div class="com-content-category__filter-submit control-group j-float-right">
 		<div class="controls">
-			<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
+			<button type="submit" name="filter_submit" class="j-btn"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
 		</div>
 	</div>
 <?php endif; ?>
@@ -88,7 +88,7 @@ if (!empty($this->items))
 	<?php endif; ?>
 <?php else : ?>
 
-	<table class="com-content-category__table category table table-striped table-bordered table-hover">
+	<table class="com-content-category__table category j-table">
 		<?php
 		$headerTitle    = '';
 		$headerDate     = '';
@@ -191,24 +191,24 @@ if (!empty($this->items))
 								<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 								&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
-								<?php $class = 'badge badge-association badge-' . $association['language']->sef; ?>
+								<?php $class = 'j-badge badge-association badge-' . $association['language']->sef; ?>
 								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ($article->state == 0) : ?>
-					<span class="list-published badge badge-warning">
+					<span class="list-published j-badge">
 						<?php echo JText::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php endif; ?>
 				<?php if (strtotime($article->publish_up) > strtotime(Factory::getDate())) : ?>
-					<span class="list-published badge badge-warning">
+					<span class="list-published j-badge">
 						<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
 					</span>
 				<?php endif; ?>
 				<?php if ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()) : ?>
-					<span class="list-published badge badge-warning">
+					<span class="list-published j-badge">
 						<?php echo JText::_('JEXPIRED'); ?>
 					</span>
 				<?php endif; ?>
@@ -237,21 +237,21 @@ if (!empty($this->items))
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_hits', 1)) : ?>
 				<td headers="categorylist_header_hits" class="list-hits">
-					<span class="badge badge-info">
+					<span class="j-badge">
 						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 					</span>
 				</td>
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_votes" class="list-votes">
-					<span class="badge badge-success">
+					<span class="j-badge">
 						<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
 					</span>
 				</td>
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_ratings" class="list-ratings">
-					<span class="badge badge-warning">
+					<span class="j-badge">
 						<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
 					</span>
 				</td>

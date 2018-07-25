@@ -34,7 +34,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php echo $this->form->yearField; ?>
 		<?php echo $this->form->limitField; ?>
 
-		<button type="submit" class="j-btn j-btn-primary" style="vertical-align: top;"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+		<button type="submit" class="j-btn" style="vertical-align: top;"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
 		<input type="hidden" name="view" value="archive">
 		<input type="hidden" name="option" value="com_content">
 		<input type="hidden" name="limitstart" value="0">
