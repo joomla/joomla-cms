@@ -153,7 +153,7 @@ $btn-border-color:                   #ccc;
 $btn-box-shadow:                     0 0 1px rgba(0, 0, 0, 0.1), -1px -1px 10px rgba(0, 0, 0, 0.03) inset;
 $btn-transition:                     color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
 $btn-default-color:                  $gray-dark !default;
-$btn-default-background:             #fafafa;
+$btn-default-background:             $white;
 $btn-default-gradient:               linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,.02) 100%);
 $btn-hover-background:               $gray-lighter;
 $btn-hover-gradient:                 none;

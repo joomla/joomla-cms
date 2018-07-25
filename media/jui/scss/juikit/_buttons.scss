@@ -11,6 +11,7 @@
   white-space: nowrap;
   vertical-align: middle;
   user-select: none;
+  background-color: $btn-default-background;
   background-image: $btn-default-gradient;
   border: $btn-border-width solid $btn-border-color;
   border-radius: $btn-border-radius;

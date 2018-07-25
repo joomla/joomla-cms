@@ -58,6 +58,7 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  background-color: #fff;
   background-image: linear-gradient(to bottom, transparent 0px, rgba(0, 0, 0, 0.02) 100%);
   border: 1px solid #ccc;
   border-radius: 4px;
