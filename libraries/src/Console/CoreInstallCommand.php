@@ -85,10 +85,10 @@ class CoreInstallCommand extends AbstractCommand
 	private $progressBar;
 
 	const INSTALLATION_SUCCESSFUL = 0;
-	const INSTALLATION_UNSUCCESSFUL = 4;
-	const BAD_INPUT_FLE = 3;
 	const JOOMLA_ALREADY_SETUP = 1;
 	const PHP_OPTIONS_NOT_SET = 2;
+	const BAD_INPUT_FLE = 3;
+	const INSTALLATION_UNSUCCESSFUL = 4;
 
     /**
      * Configures the IO
