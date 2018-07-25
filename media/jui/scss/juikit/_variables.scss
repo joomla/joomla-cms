@@ -281,7 +281,6 @@ $pagination-disabled-border:         #ccc !default;
 // Badges
 
 $badge-default-bg:                   $gray-light !default;
-$badge-primary-bg:                   $blue !default;
 
 $badge-color:                        $white !default;
 $badge-link-hover-color:             $white !default;
@@ -289,6 +288,7 @@ $badge-font-size:                    75% !default;
 $badge-font-weight:                  $font-weight-bold !default;
 $badge-padding-x:                    .4em !default;
 $badge-padding-y:                   .25em !default;
+$badge-border-radius:                4px;
 
 
 // List group

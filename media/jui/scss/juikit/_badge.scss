@@ -4,6 +4,7 @@
 
 .j-badge {
   display: inline-block;
+  background-color: $badge-default-bg;
   padding: $badge-padding-y $badge-padding-x;
   font-size: $badge-font-size;
   font-weight: $badge-font-weight;
@@ -12,7 +13,7 @@
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  @include border-radius();
+  border-radius: $badge-border-radius;
 
   // Empty badges collapse automatically
   &:empty {
@@ -24,14 +25,4 @@
 .j-btn .j-badge {
   position: relative;
   top: -1px;
-}
-
-// Colors
-
-.j-badge-default {
-  @include badge-variant($badge-default-bg);
-}
-
-.j-badge-primary {
-  @include badge-variant($badge-primary-bg);
 }

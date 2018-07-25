@@ -86,6 +86,25 @@ a.j-btn.j-disabled,
 fieldset[j-disabled] a.j-btn {
   pointer-events: none; }
 
+.j-badge {
+  display: inline-block;
+  background-color: #636c72;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 4px; }
+  .j-badge:empty {
+    display: none; }
+
+.j-btn .j-badge {
+  position: relative;
+  top: -1px; }
+
 .j-btn-group {
   position: relative;
   display: inline-flex;
