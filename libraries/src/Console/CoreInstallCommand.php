@@ -317,9 +317,9 @@ class CoreInstallCommand extends AbstractCommand
 		}
 
 		$options = $this->registry->loadFile($file, $ext)->toArray();
-
-		$requiredKeys = array_keys($this->getDummyOptions());
-		$providedKeys = array_keys($options);
+		$optionalKeys = ['language', 'helpurl', 'db_old', 'db_prefix'];
+		$requiredKeys = array_diff(array_keys($this->getDummyOptions()), $optionalKeys);
+		$providedKeys = array_diff(array_keys($options), $optionalKeys);
 		sort($requiredKeys);
 		sort($providedKeys);
 
@@ -330,6 +330,24 @@ class CoreInstallCommand extends AbstractCommand
 			$this->ioStyle->error("These options are required in your file: [$remainingKeys]");
 			exit;
 		}
+
+		array_walk($optionalKeys, function ($value, $key) use (&$options) {
+			if (!isset($options[$value]))
+			{
+				switch ($value)
+				{
+					case 'db_prefix':
+						$options[$value] = (new PrefixField)->getPrefix();
+						break;
+					case 'db_old':
+						$options[$value] = 'backup';
+						break;
+					default:
+						$options[$value] = '';
+						break;
+				}
+			}
+		});
 
 		if ($validate)
 		{
