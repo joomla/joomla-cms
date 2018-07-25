@@ -84,10 +84,34 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	private $progressBar;
 
+	/**
+	 * Return code for successful installation
+	 * @since 4.0
+	 */
 	const INSTALLATION_SUCCESSFUL = 0;
+
+	/**
+	 * Return code when Joomla! is already installed
+	 * @since 4.0
+	 */
 	const JOOMLA_ALREADY_SETUP = 1;
+
+	/**
+	 * Return code when PHP options are not set properly
+	 * @since 4.0
+	 */
 	const PHP_OPTIONS_NOT_SET = 2;
+
+	/**
+	 * Return code when file provided is invalid
+	 * @since 4.0
+	 */
 	const BAD_INPUT_FLE = 3;
+
+	/**
+	 * Return code for unsuccessful installation
+	 * @since 4.0
+	 */
 	const INSTALLATION_UNSUCCESSFUL = 4;
 
     /**
