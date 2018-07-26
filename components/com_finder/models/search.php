@@ -1053,7 +1053,7 @@ class FinderModelSearch extends JModelList
 		// Get the configuration options.
 		$app = JFactory::getApplication();
 		$input = $app->input;
-		$params = $app->getParams();
+		$params = $app->getParams('com_finder');
 		$user = JFactory::getUser();
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
