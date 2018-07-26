@@ -409,16 +409,4 @@ class ContentModelArticles extends JModelList
 		// Return the result
 		return $db->loadObjectList();
 	}
-
-	/**
-	 * Method to get a list of articles.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   1.6.1
-	 */
-	public function getItems()
-	{
-		return parent::getItems();
-	}
 }
