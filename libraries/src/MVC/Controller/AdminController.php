@@ -245,7 +245,7 @@ class AdminController extends BaseController
 					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
 				}
 
-				{
+				else {
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
