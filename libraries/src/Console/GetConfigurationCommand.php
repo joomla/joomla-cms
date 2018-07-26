@@ -37,6 +37,27 @@ class GetConfigurationCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * Constant defining the Database option group
+	 * @var array
+	 * @since 4.0
+	 */
+	const DB_GROUP = ['name' => 'db', 'options' => ['dbtype', 'host', 'user', 'password', 'dbprefix', 'db']];
+
+	/**
+	 * Constant defining the Session option group
+	 * @var array
+	 * @since 4.0
+	 */
+	const SESSION_GROUP = ['name' => 'session', 'options' => ['session_handler', 'shared_session', 'session_metadata']];
+
+	/**
+	 * Constant defining the Mail option group
+	 * @var array
+	 * @since 4.0
+	 */
+	const MAIL_GROUP = ['name' => 'mail', 'options' => ['mailonline', 'mailer', 'mailfrom', 'fromname', 'sendmail', 'smtpauth', 'smtpuser', 'smtppass', 'smtphost', 'smtpsecure', 'smtpport']];
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -109,47 +130,47 @@ class GetConfigurationCommand extends AbstractCommand
 		$configs = $this->getApplication()->getConfig()->toArray();
 		$configs = $this->formatConfig($configs);
 
-		switch ($group)
+		$groups = $this->getGroups();
+
+		$foundGroup = false;
+
+		foreach ($groups as $key => $value)
 		{
-			case 'db':
-				$options[] = ['dbtype', $configs['dbtype']];
-				$options[] = ['host', $configs['host']];
-				$options[] = ['user', $configs['user']];
-				$options[] = ['password', $configs['password']];
-				$options[] = ['db', $configs['db']];
-				$options[] = ['dbprefix', $configs['dbprefix']];
-				break;
-
-			case 'mail':
-				$options[] = ['mailonline', $configs['mailonline']];
-				$options[] = ['mailer', $configs['mailer']];
-				$options[] = ['mailfrom', $configs['mailfrom']];
-				$options[] = ['fromname', $configs['fromname']];
-				$options[] = ['sendmail', $configs['sendmail']];
-				$options[] = ['smtpauth', $configs['smtpauth']];
-				$options[] = ['smtpuser', $configs['smtpuser']];
-				$options[] = ['smtppass', $configs['smtppass']];
-				$options[] = ['smtphost', $configs['smtphost']];
-				$options[] = ['smtpsecure', $configs['smtpsecure']];
-				$options[] = ['smtpport', $configs['smtpport']];
-				break;
-
-			case 'session':
-				$options[] = ['session_handler', $configs['session_handler']];
-				$options[] = ['shared_session', $configs['shared_session']];
-				$options[] = ['session_metadata', $configs['session_metadata']];
-				break;
-
-			default:
-				$this->ioStyle->error('Group not found, available groups are: db, mail, session');
-
-				return 1;
-				break;
+			if ($value['name'] === $group)
+			{
+				$foundGroup = true;
+				$options = [];
+				foreach ($value['options'] as $key => $option)
+				{
+					$options[] = [$option, $configs[$option]];
+				}
+				$this->ioStyle->table(['Option', 'Value'], $options);
+			}
 		}
 
-		$this->ioStyle->table(['Option', 'Value'], $options);
+		if (!$foundGroup)
+		{
+			$this->ioStyle->error("Group *$group* not found");
+			exit;
+		}
 
 		return 0;
+	}
+
+	/**
+	 * Gets the defined option groups
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	public function getGroups()
+	{
+		return [
+				self::DB_GROUP,
+				self::MAIL_GROUP,
+				self::SESSION_GROUP
+		];
 	}
 
 	/**
