@@ -234,6 +234,14 @@ class GetConfigurationCommand extends AbstractCommand
 	 */
 	protected function initialise()
 	{
+		$groups = $this->getGroups();
+		foreach ($groups as $key => $group)
+		{
+			$groupNames[] = $group['name'];
+		}
+
+		$groupNames = implode(', ', $groupNames);
+
 		$this->setName('config:get');
 		$this->setDescription('Displays the current value of a configuration option');
 
@@ -241,7 +249,9 @@ class GetConfigurationCommand extends AbstractCommand
 		$this->addOption('group', 'g', InputOption::VALUE_REQUIRED, 'Name of the option');
 
 		$help = "The <info>%command.name%</info> Displays the current value of a configuration option
-				\nUsage: <info>php %command.full_name%</info> <option>";
+				\nUsage: <info>php %command.full_name%</info> <option>
+				\nGroup usage: <info>php %command.full_name%</info> --group=<groupname>
+				\nAvailable group names: $groupNames";
 
 		$this->setHelp($help);
 	}
