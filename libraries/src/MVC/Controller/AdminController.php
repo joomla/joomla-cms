@@ -244,12 +244,12 @@ class AdminController extends BaseController
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
 				}
-				/*else
+
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
-				}*/
+				}
 
-				if ($ntext !== null)
+				if (count($cid) != 0)
 				{
 					$this->setMessage(\JText::plural($ntext, count($cid)));
 				}
