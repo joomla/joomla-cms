@@ -19,6 +19,7 @@ use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
 
 /**
  * Enhance Toolbar class to add more pre-defined methods.
@@ -489,7 +490,7 @@ trait CoreButtonsTrait
 
 		// Options array for JLayout
 		$options              = array();
-		$options['title']     = \JText::_($text);
+		$options['title']     = Text::_($text);
 		$options['height']    = $height;
 		$options['width']     = $width;
 		$options['itemId']    = $itemId;

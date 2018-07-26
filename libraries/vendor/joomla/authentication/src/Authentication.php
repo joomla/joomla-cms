@@ -124,7 +124,7 @@ class Authentication
 
 			$this->results[$strategy] = $strategyObject->getResult();
 
-			if (is_string($username))
+			if (\is_string($username))
 			{
 				return $username;
 			}

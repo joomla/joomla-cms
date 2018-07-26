@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installer;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Extension object
@@ -120,7 +121,7 @@ class InstallerExtension extends \JObject
 
 					if ($tmp_client_id == null)
 					{
-						\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_EXTENSION_INVALID_CLIENT_IDENTIFIER'), \JLog::WARNING, 'jerror');
+						\JLog::add(Text::_('JLIB_INSTALLER_ERROR_EXTENSION_INVALID_CLIENT_IDENTIFIER'), \JLog::WARNING, 'jerror');
 					}
 					else
 					{

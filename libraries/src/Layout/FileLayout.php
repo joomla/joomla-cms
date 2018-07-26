@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Layout;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Factory;
 
 /**
  * Base class for rendering a display layout
@@ -332,7 +333,7 @@ class FileLayout extends BaseLayout
 	 */
 	public function loadLanguageSuffixes()
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		$langTag = $lang->getTag();
 		$langParts = explode('-', $langTag);
@@ -498,7 +499,7 @@ class FileLayout extends BaseLayout
 				break;
 
 			default:
-				$client = (int) \JFactory::getApplication()->isClient('administrator');
+				$client = (int) Factory::getApplication()->isClient('administrator');
 				break;
 		}
 
@@ -549,7 +550,7 @@ class FileLayout extends BaseLayout
 		if (!empty($component))
 		{
 			// (2) Component template overrides path
-			$paths[] = JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component;
+			$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts/' . $component;
 
 			// (3) Component path
 			if ($this->options->get('client') == 0)
@@ -563,7 +564,7 @@ class FileLayout extends BaseLayout
 		}
 
 		// (4) Standard Joomla! layouts overriden
-		$paths[] = JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts';
+		$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts';
 
 		// (5 - lower priority) Frontend base layouts
 		$paths[] = JPATH_ROOT . '/layouts';
