@@ -42,18 +42,6 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	public function __construct($options = array())
 	{
-		if (!headers_sent())
-		{
-			// Disable transparent sid support
-			ini_set('session.use_trans_sid', '0');
-
-			// Only allow the session ID to come from cookies and nothing else.
-			if ((int) ini_get('session.use_cookies') !== 1)
-			{
-				ini_set('session.use_only_cookies', 1);
-			}
-		}
-
 		// Set options
 		$this->setOptions($options);
 		$this->setCookieParams();
@@ -85,7 +73,21 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 			}
 		}
 
-		return parent::start();
+		// Only change ini if there is no active session.
+        if (!headers_sent() && session_id() == '')
+        {
+            // Disable transparent sid support
+            ini_set('session.use_trans_sid', '0');
+
+            // Only allow the session ID to come from cookies and nothing else.
+            if ((int) ini_get('session.use_cookies') !== 1)
+            {
+                ini_set('session.use_only_cookies', 1);
+            }
+        }
+
+
+        return parent::start();
 	}
 
 	/**
@@ -124,11 +126,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	protected function setCookieParams()
 	{
-		if (headers_sent())
+	    // We can't change cookie params, if there is a valid session or headers have already been sent.
+		if (headers_sent() || session_id() != '')
 		{
 			return;
 		}
-
 		$cookie = session_get_cookie_params();
 
 		if ($this->force_ssl)
