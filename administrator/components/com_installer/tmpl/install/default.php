@@ -37,14 +37,14 @@ $app = JFactory::getApplication();
 					<?php endif; ?>
 					<?php // Show installation tabs at the start ?>
 					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
-                    <?php
-                    $active = '';
+					<?php
+					$active = '';
 
-                    if (isset($tabs[0]))
-                    {
-                        $active = $tabs[0]['name'];
-                    }
-                    ?>
+					if (isset($tabs[0]))
+					{
+						$active = $tabs[0]['name'];
+					}
+					?>
 					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $active)); ?>
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
