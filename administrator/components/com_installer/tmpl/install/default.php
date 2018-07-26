@@ -37,7 +37,7 @@ $app = JFactory::getApplication();
 					<?php endif; ?>
 					<?php // Show installation tabs at the start ?>
 					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
-                    <?php                                                                                //bi alttaki değişiklik tanımsız olmasın diye eklenen fonksiyon
+                    <?php
                     $active = '';
 
                     if (isset($tabs[0]))
