@@ -62,6 +62,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 		static $default;
 		static $registration;
 		static $profile;
+		static $profileEdit;
 		static $login;
 		static $remind;
 		static $resend;
@@ -122,9 +123,16 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				}
 
 				// Check to see if we have found the profile menu item.
-				if (empty($profile) && $item->query['view'] === 'profile')
+				if ($item->query['view'] === 'profile')
 				{
-					$profile = $item->id;
+					if (empty($profile) && $item->query['layout'] == null)
+					{
+						$profile = $item->id;
+					}
+					elseif (empty($profileEdit) && $item->query['layout'] == 'edit')
+					{
+						$profileEdit = $item->id;
+					}
 				}
 			}
 
@@ -132,6 +140,10 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 			if ($profile)
 			{
 				$default = $profile;
+			}
+			elseif ($profileEdit)
+			{
+				$default = $profileEdit;
 			}
 			elseif ($registration)
 			{
@@ -204,21 +216,24 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 
 				default:
 				case 'profile':
-					if (!empty($query['view']))
-					{
-						$segments[] = $query['view'];
-					}
-
+//					if (!empty($query['view']))                 //this only adds "/profile" to the url
+//					{
+//						$segments[] = $query['view'];
+//					}
 					unset($query['view']);
 
-					if ($query['Itemid'] = $profile)
+					$query['Itemid'] = $profile ? $profile : $default;
+
+
+					if ($query['Itemid'] = $profileEdit)
 					{
-						unset($query['view']);
+						unset($query['layout']);
 					}
 					else
 					{
 						$query['Itemid'] = $default;
 					}
+
 
 					// Only append the user id if not "me".
 					$user = JFactory::getUser();
