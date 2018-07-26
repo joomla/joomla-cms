@@ -10,6 +10,7 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 /**
@@ -237,6 +238,22 @@ class AbstractMenu
 		}
 
 		return;
+	}
+
+	/**
+	 * Set the user property
+	 *
+	 * @param   User  $user  The user object
+	 *
+	 * @return  AbstractMenu  The menu object if the user property has been set or null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setUser(User $user)
+	{
+		$this->user = $user;
+
+		return $this;
 	}
 
 	/**
