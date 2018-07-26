@@ -265,7 +265,7 @@ class StateModel extends AdminModel
 
 		if ($table->load(array('id' => $pk)))
 		{
-			if ($table->published !== 1)
+			if ($table->published == 0)
 			{
 				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
