@@ -173,7 +173,7 @@ class HtmlView extends AbstractView
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = URI::base(true);
+		$this->baseurl = Uri::base(true);
 	}
 
 	/**

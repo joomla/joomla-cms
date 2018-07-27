@@ -1063,7 +1063,7 @@ class BaseController implements ControllerInterface
 		{
 			$referrer = $this->input->server->getString('HTTP_REFERER');
 
-			if (!URI::isInternal($referrer))
+			if (!Uri::isInternal($referrer))
 			{
 				$referrer = 'index.php';
 			}

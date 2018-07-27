@@ -598,7 +598,7 @@ abstract class ToolbarHelper
 		$path = urlencode($path);
 		$bar = Toolbar::getInstance('toolbar');
 
-		$uri = (string) URI::getInstance();
+		$uri = (string) Uri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.

@@ -139,7 +139,7 @@ class SiteRouter extends Router
 		 */
 		try
 		{
-			$baseUri = URI::base(true);
+			$baseUri = Uri::base(true);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -593,7 +593,7 @@ class SiteRouter extends Router
 	public function buildBase(&$router, &$uri)
 	{
 		// Add basepath to the uri
-		$uri->setPath(URI::base(true) . '/' . $uri->getPath());
+		$uri->setPath(Uri::base(true) . '/' . $uri->getPath());
 	}
 
 	/**

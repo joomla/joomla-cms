@@ -533,7 +533,7 @@ abstract class UserHelper
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
-		return md5(URI::base() . $uaShort);
+		return md5(Uri::base() . $uaShort);
 	}
 
 	/**

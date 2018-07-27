@@ -104,7 +104,7 @@ class SliderButton extends ToolbarButton
 	{
 		if (strpos($url, 'http') !== 0)
 		{
-			$url = URI::base() . $url;
+			$url = Uri::base() . $url;
 		}
 
 		return $url;

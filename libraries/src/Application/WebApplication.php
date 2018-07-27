@@ -361,14 +361,14 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 
 		if ($siteUri != '')
 		{
-			$uri = URI::getInstance($siteUri);
+			$uri = Uri::getInstance($siteUri);
 			$path = $uri->toString(array('path'));
 		}
 		// No explicit base URI was set so we need to detect it.
 		else
 		{
 			// Start with the requested URI.
-			$uri = URI::getInstance($this->get('uri.request'));
+			$uri = Uri::getInstance($this->get('uri.request'));
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
 			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
