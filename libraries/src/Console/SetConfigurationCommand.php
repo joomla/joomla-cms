@@ -69,7 +69,7 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Collects options from user input
 	 *
-	 * @param array $options Options inputed by users
+	 * @param   array  $options  Options inputed by users
 	 *
 	 * @return array
 	 *
@@ -77,30 +77,30 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function retrieveOptionsFromInput($options)
 	{
-	    $collected = [];
+		$collected = [];
 
-	    foreach ($options as $option)
-	    {
-	        if (strpos($option, '=') === false)
-	        {
-	            $this->ioStyle
-	                ->error('Options and values should be separated by "="');
-	            exit;
-	        }
+		foreach ($options as $option)
+		{
+			if (strpos($option, '=') === false)
+			{
+				$this->ioStyle
+					->error('Options and values should be separated by "="');
+				exit;
+			}
 
-	        list($option, $value) = explode('=', $option);
+			list($option, $value) = explode('=', $option);
 
-	        $collected[$option] = $value;
-	    }
+			$collected[$option] = $value;
+		}
 
-	    return $collected;
+		return $collected;
 	}
 
 
 	/**
 	 * Validates the options provided
 	 *
-	 * @param array $options Options Array
+	 * @param   array  $options  Options Array
 	 *
 	 * @return mixed
 	 *
@@ -113,16 +113,17 @@ class SetConfigurationCommand extends AbstractCommand
 		$configs = $config->toArray();
 
 		array_walk(
-		    $options, function ($value, $key) use ($configs) {
-		        if (!array_key_exists($key, $configs))
-		        {
-		            $this->getApplication()
-		                ->enqueueMessage(
-		                    "Can't find option *$key* in configuration list",
-		                    'error'
-		                );
-		        }
-		});
+			$options, function ($value, $key) use ($configs) {
+				if (!array_key_exists($key, $configs))
+				{
+					$this->getApplication()
+						->enqueueMessage(
+							"Can't find option *$key* in configuration list",
+							'error'
+						);
+				}
+			}
+		);
 
 		return $options;
 	}
@@ -218,31 +219,31 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function saveConfiguration($options)
 	{
-	    $config = $this->getApplication()->getConfig();
+		$config = $this->getApplication()->getConfig();
 
-	    foreach ($options as $key => $value)
-	    {
-	        $value = $value === 'false' ? false : $value;
-	        $value = $value === 'true' ? true : $value;
+		foreach ($options as $key => $value)
+		{
+			$value = $value === 'false' ? false : $value;
+			$value = $value === 'true' ? true : $value;
 
-	        $config->set($key, $value);
-	    }
+			$config->set($key, $value);
+		}
 
-	    $config->remove('cwd');
-	    $config->remove('execution');
-	    $buffer = $config->toString(
-	        'PHP',
-	        array('class' => 'JConfig', 'closingtag' => false)
-	    );
+		$config->remove('cwd');
+		$config->remove('execution');
+		$buffer = $config->toString(
+			'PHP',
+			array('class' => 'JConfig', 'closingtag' => false)
+		);
 
-	    $path = JPATH_CONFIGURATION . '/configuration.php';
+		$path = JPATH_CONFIGURATION . '/configuration.php';
 
-	    if ($this->writeFile($buffer, $path))
-	    {
-	        return true;
-	    }
+		if ($this->writeFile($buffer, $path))
+		{
+			return true;
+		}
 
-	    return false;
+		return false;
 	}
 
 	/**
@@ -254,27 +255,27 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	protected function initialise()
 	{
-	    $this->setName('config:set');
-	    $this->setDescription('Sets a value for a configuration option');
+		$this->setName('config:set');
+		$this->setDescription('Sets a value for a configuration option');
 
-	    $this->addArgument(
-	        'options',
-	        InputArgument::REQUIRED | InputArgument::IS_ARRAY,
-	        'All options you want to set'
-	    );
+		$this->addArgument(
+			'options',
+			InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+			'All options you want to set'
+		);
 
-	    $help = "The <info>%command.name%</info> 
-	              Sets a value for a configuration option
-	            \nUsage: <info>php %command.full_name%</info> <option> <value>";
+		$help = "The <info>%command.name%</info> 
+				Sets a value for a configuration option
+				\nUsage: <info>php %command.full_name%</info> <option> <value>";
 
-	    $this->setHelp($help);
+		$this->setHelp($help);
 	}
 
 	/**
 	 * Writes a string to a given file path
 	 *
-	 * @param string $buffer The string that will be written to the file
-	 * @param string $path   The path to write the file
+	 * @param   string  $buffer  The string that will be written to the file
+	 * @param   string  $path    The path to write the file
 	 *
 	 * @return boolean
 	 *
@@ -282,27 +283,28 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function writeFile($buffer, $path)
 	{
-	    $options = $this->getApplication()->getConfig();
-	    // Determine if the configuration file path is writable.
-	    if (file_exists($path))
-	    {
-	        $canWrite = is_writable($path);
-	    }
-	    else
-	    {
-	        $canWrite = is_writable(JPATH_CONFIGURATION . '/');
-	    }
+		$options = $this->getApplication()->getConfig();
 
-	    /*
-	     * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-	     * is not writable we need to use FTP.
-	     */
-	    $useFTP = false;
+		// Determine if the configuration file path is writable.
+		if (file_exists($path))
+		{
+			$canWrite = is_writable($path);
+		}
+		else
+		{
+			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
+		}
 
-	    if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
-	    {
-	        return false;
-	    }
+		/*
+		* If the file exists but isn't writable OR if the file doesn't exist and the parent directory
+		* is not writable we need to use FTP.
+		*/
+		$useFTP = false;
+
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
+		{
+			return false;
+		}
 
 		// Check for safe mode.
 		if (ini_get('safe_mode'))
@@ -333,7 +335,7 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Verifies database connection
 	 *
-	 * @param $options
+	 * @param   array  $options  Options array
 	 *
 	 * @return bool|\Joomla\Database\DatabaseInterface
 	 *
@@ -342,14 +344,14 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function checkDb($options)
 	{
-	    $options = [
-	        'db_type' => $options['dbtype'],
-	        'db_host' => $options['host'],
-	        'db_prefix' => $options['dbprefix'],
-	        'db_name' => $options['db'],
-	        'db_pass' => $options['password'],
-	        'db_user' => $options['user'],
-	    ];
+		$options = [
+			'db_type' => $options['dbtype'],
+			'db_host' => $options['host'],
+			'db_prefix' => $options['dbprefix'],
+			'db_name' => $options['db'],
+			'db_pass' => $options['password'],
+			'db_user' => $options['user'],
+		];
 
 
 		// Get the options as an object for easier handling.
@@ -430,31 +432,29 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 
 	    // Build the connection options array.
-	    $settings = [
-	        'driver'   => $options->db_type,
-	        'host'     =>  $options->db_host,
-	        'user'     =>  $options->db_user,
-	        'password' => $options->db_pass,
-	        'database' => $options->db_name,
-	        'prefix'   => $options->db_prefix,
-	        'select'   => isset($options->db_select) ? $options->db_select : false
-	    ];
+		$settings = [
+			'driver'   => $options->db_type,
+			'host'     => $options->db_host,
+			'user'     => $options->db_user,
+			'password' => $options->db_pass,
+			'database' => $options->db_name,
+			'prefix'   => $options->db_prefix,
+			'select'   => isset($options->db_select) ? $options->db_select : false
+		];
 
-	    // Get a database object.
+		// Get a database object.
+		try
+		{
+			return DatabaseDriver::getInstance($settings)->connect();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
+				'error'
+			);
 
-
-	    // Get a database object.
-	    try
-	    {
-	        return DatabaseDriver::getInstance($settings)->connect();
-	    }
-	    catch (\RuntimeException $e)
-	    {
-	        Factory::getApplication()->enqueueMessage(
-	            Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
-	            'error');
-
-	        return false;
-	    }
+			return false;
+		}
 	}
 }

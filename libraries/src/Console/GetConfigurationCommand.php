@@ -55,7 +55,15 @@ class GetConfigurationCommand extends AbstractCommand
 	 * @var array
 	 * @since 4.0
 	 */
-	const MAIL_GROUP = ['name' => 'mail', 'options' => ['mailonline', 'mailer', 'mailfrom', 'fromname', 'sendmail', 'smtpauth', 'smtpuser', 'smtppass', 'smtphost', 'smtpsecure', 'smtpport']];
+	const MAIL_GROUP = [
+				'name' => 'mail',
+				'options' => [
+					'mailonline', 'mailer', 'mailfrom',
+					'fromname', 'sendmail', 'smtpauth',
+					'smtpuser', 'smtppass', 'smtphost',
+					'smtpsecure', 'smtpport'
+				]
+	];
 
 	/**
 	 * Configures the IO
@@ -105,7 +113,7 @@ class GetConfigurationCommand extends AbstractCommand
 				$configs,
 				function ($value, $key) use (&$options) {
 					$options[] = [$key, $value];
-			    }
+				}
 			);
 
 			$this->ioStyle->title("Current options in Configuration");
@@ -196,7 +204,7 @@ class GetConfigurationCommand extends AbstractCommand
 			{
 				$newConfig[$key] = $config;
 			}
- 		}
+		}
 
 		return $newConfig;
 	}
