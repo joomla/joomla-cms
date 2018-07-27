@@ -427,7 +427,7 @@ class ComponentHelper
 				/*
 				 * Fatal error
 				 *
-				 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
+				 * It is possible for this error to be reached before the global Language instance has been loaded so we check for its presence
 				 * before logging the error to ensure a human friendly message is always given
 				 */
 

@@ -20,6 +20,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Language\Associations;
 
 /**
  * Prototype admin model.
@@ -795,7 +796,7 @@ abstract class AdminModel extends FormModel
 					}
 
 					// Multilanguage: if associated, delete the item in the _associations table
-					if ($this->associationsContext && \JLanguageAssociations::isEnabled())
+					if ($this->associationsContext && Associations::isEnabled())
 					{
 						$db = $this->getDbo();
 						$query = $db->getQuery(true)
@@ -1224,7 +1225,7 @@ abstract class AdminModel extends FormModel
 
 		$this->setState($this->getName() . '.new', $isNew);
 
-		if ($this->associationsContext && \JLanguageAssociations::isEnabled() && !empty($data['associations']))
+		if ($this->associationsContext && Associations::isEnabled() && !empty($data['associations']))
 		{
 			$associations = $data['associations'];
 

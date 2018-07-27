@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -470,7 +471,7 @@ class Pagination
 			'pagesTotal'   => $this->pagesTotal,
 		);
 
-		return \JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
+		return LayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
 	}
 
 	/**
@@ -696,7 +697,7 @@ class Pagination
 	 */
 	protected function _list_render($list)
 	{
-		return \JLayoutHelper::render('joomla.pagination.list', array('list' => $list));
+		return LayoutHelper::render('joomla.pagination.list', array('list' => $list));
 	}
 
 	/**
@@ -707,7 +708,7 @@ class Pagination
 	 * @return  string  HTML link
 	 *
 	 * @since   1.5
-	 * @note    As of 4.0 this method will proxy to `\JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
+	 * @note    As of 4.0 this method will proxy to `LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
 	 */
 	protected function _item_active(PaginationObject $item)
 	{
@@ -739,7 +740,7 @@ class Pagination
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @note    As of 4.0 this method will proxy to `\JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
+	 * @note    As of 4.0 this method will proxy to `LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
 	 */
 	protected function _item_inactive(PaginationObject $item)
 	{

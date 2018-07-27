@@ -49,7 +49,7 @@ class SliderButton extends ToolbarButton
 	{
 		HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Store all data to the options array for use with JLayout
+		// Store all data to the options array for use with Layout
 		$options = array();
 		$options['text']    = Text::_($text);
 		$options['name']    = $name;
@@ -70,7 +70,7 @@ class SliderButton extends ToolbarButton
 			$options['onClose'] = ' rel="{onClose: function() {' . $onClose . '}}"';
 		}
 
-		// Instantiate a new JLayoutFile instance and render the layout
+		// Instantiate a new LayoutFile instance and render the layout
 		$layout = new FileLayout('joomla.toolbar.slider');
 
 		return $layout->render($options);
