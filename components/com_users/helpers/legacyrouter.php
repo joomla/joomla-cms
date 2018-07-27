@@ -62,7 +62,6 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 		static $default;
 		static $registration;
 		static $profile;
-		static $profileEdit;
 		static $login;
 		static $remind;
 		static $resend;
@@ -216,14 +215,9 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 
 				default:
 				case 'profile':
-//					if (!empty($query['view']))                 //this only adds "/profile" to the url
-//					{
-//						$segments[] = $query['view'];
-//					}
 					unset($query['view']);
 
 					$query['Itemid'] = $profile ? $profile : $default;
-
 
 					if ($query['Itemid'] = $profileEdit)
 					{
@@ -233,7 +227,6 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 					{
 						$query['Itemid'] = $default;
 					}
-
 
 					// Only append the user id if not "me".
 					$user = JFactory::getUser();
