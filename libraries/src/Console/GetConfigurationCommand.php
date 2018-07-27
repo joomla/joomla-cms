@@ -100,6 +100,7 @@ class GetConfigurationCommand extends AbstractCommand
 		if (!$option && !$group)
 		{
 			$options = [];
+
 			array_walk(
 				$configs,
 				function ($value, $key) use (&$options) {
@@ -140,10 +141,12 @@ class GetConfigurationCommand extends AbstractCommand
 			{
 				$foundGroup = true;
 				$options = [];
+
 				foreach ($value['options'] as $key => $option)
 				{
 					$options[] = [$option, $configs[$option]];
 				}
+
 				$this->ioStyle->table(['Option', 'Value'], $options);
 			}
 		}
@@ -235,6 +238,7 @@ class GetConfigurationCommand extends AbstractCommand
 	protected function initialise()
 	{
 		$groups = $this->getGroups();
+
 		foreach ($groups as $key => $group)
 		{
 			$groupNames[] = $group['name'];
