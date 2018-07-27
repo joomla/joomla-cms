@@ -24,7 +24,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command Setting Configuration options
  *
- * @since 4.0.0
+ * @since  4.0.0
  */
 class SetConfigurationCommand extends AbstractCommand
 {
@@ -431,7 +431,7 @@ class SetConfigurationCommand extends AbstractCommand
 			}
 		}
 
-	    // Build the connection options array.
+		// Build the connection options array.
 		$settings = [
 			'driver'   => $options->db_type,
 			'host'     => $options->db_host,
