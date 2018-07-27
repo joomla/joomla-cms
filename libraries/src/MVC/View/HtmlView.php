@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla Html View
@@ -170,7 +171,7 @@ class HtmlView extends AbstractView
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = \JUri::base(true);
+		$this->baseurl = URI::base(true);
 	}
 
 	/**

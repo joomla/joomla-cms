@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Renders a button to render an HTML element in a slider container
@@ -103,7 +104,7 @@ class SliderButton extends ToolbarButton
 	{
 		if (strpos($url, 'http') !== 0)
 		{
-			$url = \JUri::base() . $url;
+			$url = URI::base() . $url;
 		}
 
 		return $url;

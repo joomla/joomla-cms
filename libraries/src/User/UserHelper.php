@@ -23,6 +23,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -530,7 +531,7 @@ abstract class UserHelper
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
-		return md5(\JUri::base() . $uaShort);
+		return md5(URI::base() . $uaShort);
 	}
 
 	/**

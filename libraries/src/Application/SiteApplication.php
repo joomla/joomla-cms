@@ -22,6 +22,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! Site Application class
@@ -95,7 +96,7 @@ final class SiteApplication extends CMSApplication
 			if ($user->get('id') == 0)
 			{
 				// Set the data
-				$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+				$this->setUserState('users.login.form.data', array('return' => URI::getInstance()->toString()));
 
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
@@ -169,7 +170,7 @@ final class SiteApplication extends CMSApplication
 
 				if ($this->get('sef'))
 				{
-					$document->setBase(htmlspecialchars(\JUri::current()));
+					$document->setBase(htmlspecialchars(URI::current()));
 				}
 
 				// Get the template
@@ -182,7 +183,7 @@ final class SiteApplication extends CMSApplication
 				break;
 
 			case 'feed':
-				$document->setBase(htmlspecialchars(\JUri::current()));
+				$document->setBase(htmlspecialchars(URI::current()));
 				break;
 		}
 
@@ -697,7 +698,7 @@ final class SiteApplication extends CMSApplication
 		// Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=user.login';
+			$options['entry_url'] = URI::base() . 'index.php?option=com_users&task=user.login';
 		}
 
 		// Set the access control action to check.
@@ -735,7 +736,7 @@ final class SiteApplication extends CMSApplication
 
 				if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline'))
 				{
-					$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+					$this->setUserState('users.login.form.data', array('return' => URI::getInstance()->toString()));
 					$this->set('themeFile', 'offline.php');
 					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}

@@ -20,7 +20,7 @@ class AdministratorRouter extends Router
 	/**
 	 * Function to convert a route to an internal URI.
 	 *
-	 * @param   \JUri  &$uri     The uri.
+	 * @param   Uri  &$uri     The uri.
 	 * @param   bool   $setVars  Set the parsed data in the internal
 	 *                           storage for current-request-URLs
 	 *
@@ -51,7 +51,7 @@ class AdministratorRouter extends Router
 		$route = $uri->getPath();
 
 		// Add basepath to the uri
-		$uri->setPath(\JUri::base(true) . '/' . $route);
+		$uri->setPath(URI::base(true) . '/' . $route);
 
 		return $uri;
 	}

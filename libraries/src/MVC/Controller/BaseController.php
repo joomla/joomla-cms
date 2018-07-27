@@ -19,6 +19,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla Controller
@@ -1060,7 +1061,7 @@ class BaseController implements ControllerInterface
 		{
 			$referrer = $this->input->server->getString('HTTP_REFERER');
 
-			if (!\JUri::isInternal($referrer))
+			if (!URI::isInternal($referrer))
 			{
 				$referrer = 'index.php';
 			}

@@ -19,6 +19,7 @@ use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -821,7 +822,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				// Check if there is a return value
 				$return = $this->input->get('return', null, 'base64');
 
-				if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+				if (!is_null($return) && URI::isInternal(base64_decode($return)))
 				{
 					$url = base64_decode($return);
 				}

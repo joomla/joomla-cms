@@ -25,6 +25,7 @@ use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla! Web application.
@@ -360,14 +361,14 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 
 		if ($siteUri != '')
 		{
-			$uri = \JUri::getInstance($siteUri);
+			$uri = URI::getInstance($siteUri);
 			$path = $uri->toString(array('path'));
 		}
 		// No explicit base URI was set so we need to detect it.
 		else
 		{
 			// Start with the requested URI.
-			$uri = \JUri::getInstance($this->get('uri.request'));
+			$uri = URI::getInstance($this->get('uri.request'));
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
 			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))

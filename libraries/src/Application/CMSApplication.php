@@ -32,6 +32,7 @@ use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! CMS Application class
@@ -1018,7 +1019,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function route()
 	{
 		// Get the full request URI.
-		$uri = clone \JUri::getInstance();
+		$uri = clone URI::getInstance();
 
 		$router = static::getRouter();
 		$result = $router->parse($uri, true);

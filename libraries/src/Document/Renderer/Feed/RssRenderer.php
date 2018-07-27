@@ -60,7 +60,7 @@ class RssRenderer extends DocumentRenderer
 			$data->lastBuildDate->setTimeZone(new \DateTimeZone($app->get('offset')));
 		}
 
-		$url = \JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$url = URI::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = \JRoute::_('&format=feed&type=rss');
 
 		$title = $data->getTitle();

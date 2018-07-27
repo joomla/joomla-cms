@@ -21,6 +21,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! Administrator Application class
@@ -57,7 +58,7 @@ class AdministratorApplication extends CMSApplication
 		parent::__construct($input, $config, $client, $container);
 
 		// Set the root in the URI based on the application name
-		\JUri::root(null, rtrim(dirname(\JUri::base(true)), '/\\'));
+		URI::root(null, rtrim(dirname(URI::base(true)), '/\\'));
 	}
 
 	/**
@@ -316,7 +317,7 @@ class AdministratorApplication extends CMSApplication
 		// Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=login';
+			$options['entry_url'] = URI::base() . 'index.php?option=com_users&task=login';
 		}
 
 		// Set the access control action to check.
@@ -458,7 +459,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		$uri = \JUri::getInstance();
+		$uri = URI::getInstance();
 
 		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) !== 'https')
 		{
