@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Session\Session;
 
 /**
  * Base class for a Joomla Controller
@@ -1041,7 +1042,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with HTMLHelper::_('form.token') or \JSession::getFormToken.
+	 * Use in conjunction with HTMLHelper::_('form.token') or Session::getFormToken.
 	 *
 	 * @param   string   $method    The request method in which to look for the token key.
 	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
@@ -1049,11 +1050,11 @@ class BaseController implements ControllerInterface
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
 	 * @since   3.7.0
-	 * @see     \JSession::checkToken()
+	 * @see     Session::checkToken()
 	 */
 	public function checkToken($method = 'post', $redirect = true)
 	{
-		$valid = \JSession::checkToken($method);
+		$valid = Session::checkToken($method);
 
 		if (!$valid && $redirect)
 		{

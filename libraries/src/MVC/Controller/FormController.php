@@ -18,6 +18,7 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -294,7 +295,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 */
 	public function cancel($key = null)
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -614,7 +615,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app   = Factory::getApplication();
 		$model = $this->getModel();
@@ -849,7 +850,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app     = Factory::getApplication();
 		$model   = $this->getModel();

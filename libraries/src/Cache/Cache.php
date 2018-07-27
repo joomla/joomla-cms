@@ -14,6 +14,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
 
 /**
  * Joomla! Cache base object
@@ -566,7 +567,7 @@ class Cache
 		// The following code searches for a token in the cached page and replaces it with the proper token.
 		if (isset($data['body']))
 		{
-			$token       = \JSession::getFormToken();
+			$token       = Session::getFormToken();
 			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1">#';
 			$replacement = '<input type="hidden" name="' . $token . '" value="1">';
 
