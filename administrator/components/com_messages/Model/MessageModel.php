@@ -360,40 +360,54 @@ class MessageModel extends AdminModel
 			// Send the email
 			$mailer = Factory::getMailer();
 
-			if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+			try
+			{
+				if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+				{
+					try
+					{
+						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
+					}
+
+					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+					return true;
+				}
+
+				if (!$mailer->addRecipient($toUser->email, $toUser->name))
+				{
+					try
+					{
+						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
+					}
+
+					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+					return true;
+				}
+
+				$mailer->setSubject($subject);
+				$mailer->setBody($msg);
+
+				$mailer->Send();
+			}
+			catch (\Exception $exception)
 			{
 				try
 				{
-					Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
 				}
 				catch (\RuntimeException $exception)
 				{
-					Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
+					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 				}
-
-				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-				return true;
 			}
-
-			if (!$mailer->addRecipient($toUser->email, $toUser->name))
-			{
-				try
-				{
-					Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
-				}
-				catch (\RuntimeException $exception)
-				{
-					Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
-				}
-
-				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-				return true;
-			}
-
-			$mailer->setSubject($subject);
-			$mailer->setBody($msg);
-
-			$mailer->Send();
 		}
 
 		return true;
