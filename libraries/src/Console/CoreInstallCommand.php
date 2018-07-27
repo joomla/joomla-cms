@@ -35,47 +35,47 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class CoreInstallCommand extends AbstractCommand
 {
-    /**
-     * Stores the Input Object
-     * @var Input
-     * @since 4.0
-     */
-    private $cliInput;
+	/**
+	 * Stores the Input Object
+	 * @var Input
+	 * @since 4.0
+	 */
+	private $cliInput;
 
-    /**
-     * SymfonyStyle Object
-     * @var SymfonyStyle
-     * @since 4.0
-     */
-    private $ioStyle;
+	/**
+	 * SymfonyStyle Object
+	 * @var SymfonyStyle
+	 * @since 4.0
+	 */
+	private $ioStyle;
 
-    /**
-     * SetupModel Object
-     * @var SetupModel
-     * @since 4.0
-     */
-    private $setup;
+	/**
+	 * SetupModel Object
+	 * @var SetupModel
+	 * @since 4.0
+	 */
+	private $setup;
 
-    /**
-     * ChecksModel Object
-     * @var ChecksModel
-     * @since 4.0
-     */
-    private $check;
+	/**
+	 * ChecksModel Object
+	 * @var ChecksModel
+	 * @since 4.0
+	 */
+	private $check;
 
-    /**
-     * Environment Options
-     * @var array
-     * @since 4.0
-     */
-    private $envOptions;
+	/**
+	 * Environment Options
+	 * @var array
+	 * @since 4.0
+	 */
+	private $envOptions;
 
-    /**
-     * Registry Object
-     * @var Registry
-     * @since 4.0
-     */
-    private $registry;
+	/**
+	 * Registry Object
+	 * @var Registry
+	 * @since 4.0
+	 */
+	private $registry;
 
 	/**
 	 * Registry Object
@@ -114,78 +114,76 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	const INSTALLATION_UNSUCCESSFUL = 4;
 
-    /**
-     * Configures the IO
-     *
-     * @return void
-     *
-     * @since 4.0
-     *
-     * @throws null
-     */
-    private function configureIO()
-    {
-        $language = Factory::getLanguage();
-        $language->load('', JPATH_INSTALLATION, null, false, false) ||
-        $language->load('', JPATH_INSTALLATION, null, true);
+	/**
+	 * Configures the IO
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 *
+	 * @throws null
+	 */
+	private function configureIO()
+	{
+		$language = Factory::getLanguage();
+		$language->load('', JPATH_INSTALLATION, null, false, false) ||
+		$language->load('', JPATH_INSTALLATION, null, true);
 
-        $this->registry = new Registry;
-        $this->cliInput = $this->getApplication()->getConsoleInput();
-	    ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
-	    $this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
-	    $this->progressBar->setFormat('custom');
-        $this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
-    }
+		$this->registry = new Registry;
+		$this->cliInput = $this->getApplication()->getConsoleInput();
+		ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
+		$this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
+		$this->progressBar->setFormat('custom');
+		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+	}
 
-    /**
-     * Execute the command.
-     *
-     * @return  integer  The exit code for the command.
-     *
-     * @since   4.0.0
-     *
-     * @throws null
-     */
-    public function execute(): int
-    {
-	    $this->configureIO();
-	    $this->progressBar->setMessage("Starting set Joomla! installation ...");
-	    $this->progressBar->start();
-	    define('JPATH_COMPONENT', JPATH_BASE . '/installation');
+	/**
+	 * Execute the command.
+	 *
+	 * @return  integer  The exit code for the command.
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws null
+	 */
+	public function execute(): int
+	{
+		$this->configureIO();
+		$this->progressBar->setMessage("Starting set Joomla! installation ...");
+		$this->progressBar->start();
+		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
 
-
-        if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
-        {
+		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+		{
 			$this->progressBar->finish();
 			$this->ioStyle->warning("Joomla! is already installed and set up.");
 
 			return self::JOOMLA_ALREADY_SETUP;
-        }
-
+		}
 
 		$this->progressBar->advance();
-        $this->setup = new SetupModel;
-        $this->check = new ChecksModel;
+		$this->setup = new SetupModel;
+		$this->check = new ChecksModel;
 
-	    $this->progressBar->setMessage("Running checks ...");
-	    $passed = $this->runChecks();
+		$this->progressBar->setMessage("Running checks ...");
+		$passed = $this->runChecks();
 
-        if (!$passed)
-        {
-            $this->progressBar->finish();
+		if (!$passed)
+		{
+			$this->progressBar->finish();
 			$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
-            $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
+			$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
-            return self::PHP_OPTIONS_NOT_SET;
-        }
+			return self::PHP_OPTIONS_NOT_SET;
+		}
 
-        $this->progressBar->advance();
+		$this->progressBar->advance();
 		$file = $this->cliInput->getOption('file');
 
-        if ($file)
-        {
-	        $this->progressBar->setMessage("Loading file ...");
-	        $result = $this->processUninteractiveInstallation($file);
+		if ($file)
+		{
+			$this->progressBar->setMessage("Loading file ...");
+			$result = $this->processUninteractiveInstallation($file);
 
 			if (!is_array($result))
 			{
@@ -194,27 +192,27 @@ class CoreInstallCommand extends AbstractCommand
 				return self::BAD_INPUT_FILE;
 			}
 
-	        $this->progressBar->setMessage("File loaded");
-	        $this->progressBar->advance();
+			$this->progressBar->setMessage("File loaded");
+			$this->progressBar->advance();
 			$options = $result;
-        }
-        else
-        {
-	        $this->progressBar->setMessage("Collecting options ...");
-	        $options = $this->collectOptions();
-        }
+		}
+		else
+		{
+			$this->progressBar->setMessage("Collecting options ...");
+			$options = $this->collectOptions();
+		}
 
-	    $this->progressBar->setMessage("Checking database connection ...");
-	    $this->progressBar->advance();
-        $validConnection = $this->checkDatabaseConnection($options);
+		$this->progressBar->setMessage("Checking database connection ...");
+		$this->progressBar->advance();
+		$validConnection = $this->checkDatabaseConnection($options);
 		$this->progressBar->advance();
 
-        if ($validConnection)
-        {
+		if ($validConnection)
+		{
 			$model = new ConfigurationModel;
 
-	        $this->progressBar->setMessage("Writing configuration ...");
-	        $completed = $model->setup($options);
+			$this->progressBar->setMessage("Writing configuration ...");
+			$completed = $model->setup($options);
 			$this->progressBar->advance();
 
 			if ($completed)
@@ -230,111 +228,112 @@ class CoreInstallCommand extends AbstractCommand
 			$this->ioStyle->error("Joomla! installation was unsuccessful!");
 
 			return self::INSTALLATION_UNSUCCESSFUL;
-        }
+		}
 
 		$this->progressBar->finish();
-        return INSTALLATION_UNSUCCESSFUL;
-    }
+
+		return INSTALLATION_UNSUCCESSFUL;
+	}
 
 
-    /**
-     * Verifies database connection
-     *
-     * @param   array  $options  Options array
-     *
-     * @return bool|\Joomla\Database\DatabaseInterface
-     *
-     * @throws \Exception
-     */
-    public function checkDatabaseConnection($options)
-    {
-	    // Get the options as an object for easier handling.
-	    $options = ArrayHelper::toObject($options);
+	/**
+	* Verifies database connection
+	*
+	* @param   array  $options  Options array
+	*
+	* @return bool|\Joomla\Database\DatabaseInterface
+	*
+	* @throws \Exception
+	*/
+	public function checkDatabaseConnection($options)
+	{
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
 
-	    // Load the backend language files so that the DB error messages work.
-	    $lang = Factory::getLanguage();
-	    $currentLang = $lang->getTag();
+		// Load the backend language files so that the DB error messages work.
+		$lang = Factory::getLanguage();
+		$currentLang = $lang->getTag();
 
-	    // Load the selected language
-	    if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
-	    {
-		    $lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
-	    }
-	    // Pre-load en-GB in case the chosen language files do not exist.
-	    else
-	    {
-		    $lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
-	    }
+		// Load the selected language
+		if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
+		{
+			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
+		}
+		// Pre-load en-GB in case the chosen language files do not exist.
+		else
+		{
+			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+		}
 
-	    // Ensure a database type was selected.
-	    if (empty($options->db_type))
-	    {
-		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+		// Ensure a database type was selected.
+		if (empty($options->db_type))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
 
-		    return false;
-	    }
+			return false;
+		}
 
-	    // Ensure that a hostname and user name were input.
-	    if (empty($options->db_host) || empty($options->db_user))
-	    {
-		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+		// Ensure that a hostname and user name were input.
+		if (empty($options->db_host) || empty($options->db_user))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
 
-		    return false;
-	    }
+			return false;
+		}
 
-	    // Ensure that a database name was input.
-	    if (empty($options->db_name))
-	    {
-		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+		// Ensure that a database name was input.
+		if (empty($options->db_name))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
-		    return false;
-	    }
+			return false;
+		}
 
-	    // Validate database table prefix.
-	    if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
-	    {
-		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+		// Validate database table prefix.
+		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
 
-		    return false;
-	    }
+			return false;
+		}
 
-	    // Validate length of database table prefix.
-	    if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
-	    {
-		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+		// Validate length of database table prefix.
+		if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
-		    return false;
-	    }
+			return false;
+		}
 
-	    // Validate length of database name.
-	    if (strlen($options->db_name) > 64)
-	    {
-		    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+		// Validate length of database name.
+		if (strlen($options->db_name) > 64)
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
 
-		    return false;
-	    }
+			return false;
+		}
 
-	    // Workaround for UPPERCASE table prefix for PostgreSQL
-	    if (in_array($options->db_type, ['pgsql', 'postgresql']))
-	    {
-		    if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
-		    {
-			    Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+		// Workaround for UPPERCASE table prefix for PostgreSQL
+		if (in_array($options->db_type, ['pgsql', 'postgresql']))
+		{
+			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
-			    return false;
-		    }
-	    }
+				return false;
+			}
+		}
 
-	    // Build the connection options array.
-	    $settings = [
-		    'driver'   => $options->db_type,
-		    'host'     =>  $options->db_host,
-		    'user'     =>  $options->db_user,
-		    'password' => $options->db_pass,
-		    'database' => $options->db_name,
-		    'prefix'   => $options->db_prefix,
-		    'select'   => isset($options->db_select) ? $options->db_select : false
-	    ];
+		// Build the connection options array.
+		$settings = [
+			'driver'   => $options->db_type,
+			'host'     => $options->db_host,
+			'user'     => $options->db_user,
+			'password' => $options->db_pass,
+			'database' => $options->db_name,
+			'prefix'   => $options->db_prefix,
+			'select'   => isset($options->db_select) ? $options->db_select : false
+		];
 	    try
 	    {
 		    return DatabaseDriver::getInstance($settings)->connect() !== false;
