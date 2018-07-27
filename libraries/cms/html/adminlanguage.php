@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\LanguageHelper;
-use \oomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Utility class working with administrator language select lists
