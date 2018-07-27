@@ -10,6 +10,8 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Class to create and parse routes
  *
@@ -51,7 +53,7 @@ class AdministratorRouter extends Router
 		$route = $uri->getPath();
 
 		// Add basepath to the uri
-		$uri->setPath(URI::base(true) . '/' . $route);
+		$uri->setPath(Uri::base(true) . '/' . $route);
 
 		return $uri;
 	}

@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Router;
 
 /**
  * Class to create and parse routes
@@ -103,7 +102,7 @@ class Router
 		if (empty(self::$instances[$client]))
 		{
 			// Create a Router object
-			$classname = 'Router::class' . ucfirst($client);
+			$classname = 'JRouter' . ucfirst($client);
 
 			if (!class_exists($classname))
 			{
