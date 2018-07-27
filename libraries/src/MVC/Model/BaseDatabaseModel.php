@@ -22,6 +22,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Log\Log;
 
 /**
  * Base class for a database aware Joomla Model
@@ -212,7 +213,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!class_exists($modelClass))
 			{
-				\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), Log::WARNING, 'jerror');
 
 				return false;
 			}

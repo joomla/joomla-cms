@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Class that handles all access authorisation routines.
@@ -559,14 +560,14 @@ class Access
 		{
 			if ($extensionName && $assetName !== $extensionName)
 			{
-				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, \JLog::WARNING, 'assets');
+				Log::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, Log::WARNING, 'assets');
 
 				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset, $preload);
 			}
 
 			if (self::$rootAssetId !== null && $assetName !== self::$preloadedAssets[self::$rootAssetId])
 			{
-				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], \JLog::WARNING, 'assets');
+				Log::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], Log::WARNING, 'assets');
 
 				return self::getAssetRules(self::$preloadedAssets[self::$rootAssetId], $recursive, $recursiveParentAsset, $preload);
 			}
@@ -643,7 +644,7 @@ class Access
 		}
 
 		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
-		\JLog::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', \JLog::INFO, 'assets');
+		Log::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', Log::INFO, 'assets');
 
 		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
 
@@ -1131,7 +1132,7 @@ class Access
 	 */
 	public static function getActions($component, $section = 'component')
 	{
-		\JLog::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', Log::WARNING, 'deprecated');
 
 		$actions = self::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',

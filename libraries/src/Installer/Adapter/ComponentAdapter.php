@@ -20,6 +20,7 @@ use Joomla\CMS\Table\Update;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Component installer
@@ -316,14 +317,14 @@ class ComponentAdapter extends InstallerAdapter
 		// Time to build the admin menus
 		if (!$this->_buildAdminMenus($this->extension->extension_id))
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), Log::WARNING, 'jerror');
 		}
 
 		// Make sure that menu items pointing to the component have correct component id assigned to them.
 		// Prevents message "Component 'com_extension' does not exist." after uninstalling / re-installing component.
 		if (!$this->_updateMenus($this->extension->extension_id))
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ABORT_COMP_UPDATESITEMENUS_FAILED'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ABORT_COMP_UPDATESITEMENUS_FAILED'), Log::WARNING, 'jerror');
 		}
 
 		/** @var Asset $asset */
@@ -417,7 +418,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				if (!Folder::delete($this->parent->getPath('extension_site')))
 				{
-					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), Log::WARNING, 'jerror');
 					$retval = false;
 				}
 			}
@@ -427,7 +428,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				if (!Folder::delete($this->parent->getPath('extension_administrator')))
 				{
-					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), Log::WARNING, 'jerror');
 					$retval = false;
 				}
 			}
@@ -439,7 +440,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// No component option defined... cannot delete what we don't know about
-		\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'), \JLog::WARNING, 'jerror');
+		Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'), Log::WARNING, 'jerror');
 
 		return false;
 	}
@@ -1257,7 +1258,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1284,7 +1285,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			return false;
 		}

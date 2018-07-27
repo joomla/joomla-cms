@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Log\Log;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -340,9 +341,9 @@ class Pagination
 			 */
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
-				\JLog::add(
+				Log::add(
 					'pagination_item_active and pagination_item_inactive are deprecated. Use the layout joomla.pagination.link instead.',
-					\JLog::WARNING,
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -355,7 +356,7 @@ class Pagination
 			 */
 			if (function_exists('pagination_list_render'))
 			{
-				\JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', \JLog::WARNING, 'deprecated');
+				Log::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', Log::WARNING, 'deprecated');
 				$listOverride = true;
 			}
 		}
@@ -537,7 +538,7 @@ class Pagination
 
 			if (function_exists('pagination_list_footer'))
 			{
-				\JLog::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', \JLog::WARNING, 'deprecated');
+				Log::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', Log::WARNING, 'deprecated');
 
 				$list = array(
 					'prefix'       => $this->prefix,

@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Module installer
@@ -257,7 +258,7 @@ class ModuleAdapter extends InstallerAdapter
 			}
 			catch (\RuntimeException $e)
 			{
-				\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $e->getMessage()), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $e->getMessage()), Log::WARNING, 'jerror');
 				$retval = false;
 			}
 
@@ -271,7 +272,7 @@ class ModuleAdapter extends InstallerAdapter
 
 				if (!$module->delete())
 				{
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $module->getError()), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $module->getError()), Log::WARNING, 'jerror');
 					$retval = false;
 				}
 			}
@@ -430,7 +431,7 @@ class ModuleAdapter extends InstallerAdapter
 		}
 		else
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

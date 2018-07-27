@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Abstract adapter for the installer.
@@ -1139,7 +1140,7 @@ abstract class InstallerAdapter
 	{
 		if (!$this->extension->load((int) $id))
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1147,7 +1148,7 @@ abstract class InstallerAdapter
 		// Protected extensions cannot be removed
 		if ($this->extension->protected)
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1158,9 +1159,9 @@ abstract class InstallerAdapter
 		 */
 		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
 		{
-			\JLog::add(
+			Log::add(
 				Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
-				\JLog::WARNING,
+				Log::WARNING,
 				'jerror'
 			);
 
@@ -1174,7 +1175,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1197,7 +1198,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1226,7 +1227,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}
@@ -1243,7 +1244,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}
@@ -1260,7 +1261,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}
@@ -1272,7 +1273,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}

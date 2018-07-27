@@ -18,6 +18,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Log\Log;
 
 /**
  * User class.  Handles all application interaction with a user
@@ -866,7 +867,7 @@ class User extends CMSObject
 			// Reset to guest user
 			$this->guest = 1;
 
-			\JLog::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
 
 			return false;
 		}

@@ -25,6 +25,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Log\Log;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -329,14 +330,14 @@ abstract class UserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				\JLog::add($user->getError(), \JLog::WARNING, 'jerror');
+				Log::add($user->getError(), Log::WARNING, 'jerror');
 
 				return false;
 			}
 		}
 		else
 		{
-			\JLog::add(Text::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), Log::WARNING, 'jerror');
 
 			return false;
 		}

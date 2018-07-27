@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Log\Log;
 
 /**
  * Base class for a Joomla Controller
@@ -367,7 +368,7 @@ class BaseController implements ControllerInterface
 
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
+			Log::addLogger(array('text_file' => 'jcontroller.log.php'), Log::ALL, array('controller'));
 		}
 
 		// Determine the methods to exclude from the base class.

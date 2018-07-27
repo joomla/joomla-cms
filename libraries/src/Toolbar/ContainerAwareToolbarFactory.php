@@ -14,6 +14,7 @@ use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
 
 /**
  * Default factory for creating toolbar objects
@@ -54,7 +55,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 			}
 			else
 			{
-				\JLog::add(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), Log::WARNING, 'jerror');
 
 				throw new \InvalidArgumentException(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
 			}
