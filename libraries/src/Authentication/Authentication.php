@@ -15,13 +15,14 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
  * @since  11.1
  */
-class Authentication extends \JObject
+class Authentication extends CMSObject
 {
 	use DispatcherAwareTrait;
 

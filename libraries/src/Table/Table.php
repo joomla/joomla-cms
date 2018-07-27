@@ -21,6 +21,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Abstract Table class
@@ -30,7 +31,7 @@ use Joomla\CMS\Access\Rules;
  * @since  11.1
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class Table extends \JObject implements \JTableInterface, DispatcherAwareInterface
+abstract class Table extends CMSObject implements \JTableInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 

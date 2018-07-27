@@ -17,13 +17,14 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * User class.  Handles all application interaction with a user
  *
  * @since  11.1
  */
-class User extends \JObject
+class User extends CMSObject
 {
 	/**
 	 * A cached switch for if this user has root access rights.

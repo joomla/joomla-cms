@@ -67,7 +67,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * A state object
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  3.0
 	 */
 	protected $state;
@@ -271,7 +271,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 		else
 		{
-			$this->state = new \JObject;
+			$this->state = new CMSObject;
 		}
 
 		// Set the model dbo

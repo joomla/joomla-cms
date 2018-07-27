@@ -24,6 +24,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -285,7 +286,7 @@ abstract class UserHelper
 		// Get the dispatcher and load the user's plugins.
 		PluginHelper::importPlugin('user');
 
-		$data = new \JObject;
+		$data = new CMSObject;
 		$data->id = $userId;
 
 		// Trigger the data preparation event.
