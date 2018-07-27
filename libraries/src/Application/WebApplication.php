@@ -24,6 +24,7 @@ use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
 
 /**
  * Base class for a Joomla! Web application.
@@ -292,14 +293,14 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * but for many applications it will make sense to override this method and create a session,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
+	 * @param   Session  $session  An optional session object. If omitted, the session is created.
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 * @deprecated  5.0  The session should be injected as a service.
 	 */
-	public function loadSession(\JSession $session = null)
+	public function loadSession(Session $session = null)
 	{
 		$this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
 
