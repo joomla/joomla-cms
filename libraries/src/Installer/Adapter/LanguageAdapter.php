@@ -22,8 +22,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
-
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Language installer
@@ -185,7 +184,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Construct the path from the client, the language and the extension element name
 		$path = ApplicationHelper::getClientInfo($this->extension->client_id)->path . '/language/' . $this->extension->element;
 
-		if (!\JFolder::delete($path))
+		if (!Folder::delete($path))
 		{
 			// If deleting failed we'll leave the extension entry in tact just in case
 			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), \JLog::WARNING, 'jerror');
@@ -239,7 +238,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('source', $path);
 
 		// Check it exists
-		if (!\JFolder::exists($path))
+		if (!Folder::exists($path))
 		{
 			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
 			$this->extension->delete();
@@ -378,7 +377,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_site')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_site')))
+			if (!$created = Folder::create($this->parent->getPath('extension_site')))
 			{
 				$this->parent
 					->abort(
@@ -787,8 +786,8 @@ class LanguageAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$site_languages = \JFolder::folders(JPATH_SITE . '/language');
-		$admin_languages = \JFolder::folders(JPATH_ADMINISTRATOR . '/language');
+		$site_languages = Folder::folders(JPATH_SITE . '/language');
+		$admin_languages = Folder::folders(JPATH_ADMINISTRATOR . '/language');
 
 		foreach ($site_languages as $language)
 		{

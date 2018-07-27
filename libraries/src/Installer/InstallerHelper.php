@@ -16,9 +16,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
 \JLoader::import('joomla.filesystem.path');
 
 /**
@@ -179,11 +178,11 @@ abstract class InstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge((array) \JFolder::files($extractdir, ''), (array) \JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
 		if (count($dirList) === 1)
 		{
-			if (\JFolder::exists($extractdir . '/' . $dirList[0]))
+			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
 				$extractdir = \JPath::clean($extractdir . '/' . $dirList[0]);
 			}
@@ -223,7 +222,7 @@ abstract class InstallerHelper
 	public static function detectType($p_dir)
 	{
 		// Search the install dir for an XML file
-		$files = \JFolder::files($p_dir, '\.xml$', 1, true);
+		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
 		if (!$files || !count($files))
 		{
@@ -301,7 +300,7 @@ abstract class InstallerHelper
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
 		{
-			\JFolder::delete($resultdir);
+			Folder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?

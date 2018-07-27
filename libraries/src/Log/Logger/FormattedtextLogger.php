@@ -14,9 +14,7 @@ use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Joomla! Formatted Text File Log class
@@ -213,7 +211,7 @@ class FormattedtextLogger extends Logger
 		}
 
 		// Make sure the folder exists in which to create the log file.
-		\JFolder::create(dirname($this->path));
+		Folder::create(dirname($this->path));
 
 		// Build the log file header.
 		$head = $this->generateFileHeader();

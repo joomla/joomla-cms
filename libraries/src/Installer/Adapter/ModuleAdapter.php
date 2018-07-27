@@ -16,8 +16,7 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
-
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Module installer
@@ -120,8 +119,8 @@ class ModuleAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$site_list = \JFolder::folders(JPATH_SITE . '/modules');
-		$admin_list = \JFolder::folders(JPATH_ADMINISTRATOR . '/modules');
+		$site_list = Folder::folders(JPATH_SITE . '/modules');
+		$admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/modules');
 		$site_info = ApplicationHelper::getClientInfo('site', true);
 		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
@@ -297,9 +296,9 @@ class ModuleAdapter extends InstallerAdapter
 		}
 
 		// Remove the installation folder
-		if (!\JFolder::delete($this->parent->getPath('extension_root')))
+		if (!Folder::delete($this->parent->getPath('extension_root')))
 		{
-			// \JFolder should raise an error
+			// Folder should raise an error
 			$retval = false;
 		}
 

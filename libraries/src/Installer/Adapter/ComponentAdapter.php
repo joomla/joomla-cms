@@ -19,8 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Component installer
@@ -214,7 +213,7 @@ class ComponentAdapter extends InstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_site')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_site')))
+			if (!$created = Folder::create($this->parent->getPath('extension_site')))
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
@@ -245,7 +244,7 @@ class ComponentAdapter extends InstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_administrator')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_administrator')))
+			if (!$created = Folder::create($this->parent->getPath('extension_administrator')))
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
@@ -416,7 +415,7 @@ class ComponentAdapter extends InstallerAdapter
 			// Delete the component site directory
 			if (is_dir($this->parent->getPath('extension_site')))
 			{
-				if (!\JFolder::delete($this->parent->getPath('extension_site')))
+				if (!Folder::delete($this->parent->getPath('extension_site')))
 				{
 					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), \JLog::WARNING, 'jerror');
 					$retval = false;
@@ -426,7 +425,7 @@ class ComponentAdapter extends InstallerAdapter
 			// Delete the component admin directory
 			if (is_dir($this->parent->getPath('extension_administrator')))
 			{
-				if (!\JFolder::delete($this->parent->getPath('extension_administrator')))
+				if (!Folder::delete($this->parent->getPath('extension_administrator')))
 				{
 					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), \JLog::WARNING, 'jerror');
 					$retval = false;
@@ -694,8 +693,8 @@ class ComponentAdapter extends InstallerAdapter
 		if (!$this->getManifest())
 		{
 			// Make sure we delete the folders if no manifest exists
-			\JFolder::delete($this->parent->getPath('extension_administrator'));
-			\JFolder::delete($this->parent->getPath('extension_site'));
+			Folder::delete($this->parent->getPath('extension_administrator'));
+			Folder::delete($this->parent->getPath('extension_site'));
 
 			// Remove the menu
 			$this->_removeAdminMenus($this->extension->extension_id);
@@ -1182,8 +1181,8 @@ class ComponentAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$site_components = \JFolder::folders(JPATH_SITE . '/components');
-		$admin_components = \JFolder::folders(JPATH_ADMINISTRATOR . '/components');
+		$site_components = Folder::folders(JPATH_SITE . '/components');
+		$admin_components = Folder::folders(JPATH_ADMINISTRATOR . '/components');
 
 		foreach ($site_components as $component)
 		{

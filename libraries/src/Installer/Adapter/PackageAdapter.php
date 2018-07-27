@@ -22,6 +22,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Package installer
@@ -257,7 +258,7 @@ class PackageAdapter extends InstallerAdapter
 			// First, we have to create a folder for the script if one isn't present
 			if (!file_exists($this->parent->getPath('extension_root')))
 			{
-				if (!\JFolder::create($this->parent->getPath('extension_root')))
+				if (!Folder::create($this->parent->getPath('extension_root')))
 				{
 					throw new \RuntimeException(
 						Text::sprintf(
@@ -333,9 +334,9 @@ class PackageAdapter extends InstallerAdapter
 
 		$folder = $this->parent->getPath('extension_root');
 
-		if (\JFolder::exists($folder))
+		if (Folder::exists($folder))
 		{
-			\JFolder::delete($folder);
+			Folder::delete($folder);
 		}
 
 		$this->extension->delete();

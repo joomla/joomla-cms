@@ -15,6 +15,7 @@ jimport('joomla.filesystem.folder');
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.
@@ -802,7 +803,7 @@ abstract class DaemonApplication extends CliApplication
 		// Make sure that the folder where we are writing the process id file exists.
 		$folder = dirname($file);
 
-		if (!is_dir($folder) && !\JFolder::create($folder))
+		if (!is_dir($folder) && !Folder::create($folder))
 		{
 			\JLog::add('Unable to create directory: ' . $folder, \JLog::ERROR);
 

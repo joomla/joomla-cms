@@ -18,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Abstract adapter for the installer.
@@ -299,7 +300,7 @@ abstract class InstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_root')))
+			if (!$created = Folder::create($this->parent->getPath('extension_root')))
 			{
 				throw new \RuntimeException(
 					Text::sprintf(

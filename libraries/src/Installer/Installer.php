@@ -20,9 +20,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
 \JLoader::import('joomla.filesystem.path');
 \JLoader::import('joomla.base.adapter');
 
@@ -386,7 +385,7 @@ class Installer extends \JAdapter
 
 				case 'folder':
 					// Remove the folder
-					$stepval = \JFolder::delete($step['path']);
+					$stepval = Folder::delete($step['path']);
 					break;
 
 				case 'query':
@@ -466,7 +465,7 @@ class Installer extends \JAdapter
 	 */
 	public function install($path = null)
 	{
-		if ($path && \JFolder::exists($path))
+		if ($path && Folder::exists($path))
 		{
 			$this->setPath('source', $path);
 		}
@@ -675,7 +674,7 @@ class Installer extends \JAdapter
 	 */
 	public function update($path = null)
 	{
-		if ($path && \JFolder::exists($path))
+		if ($path && Folder::exists($path))
 		{
 			$this->setPath('source', $path);
 		}
@@ -1065,7 +1064,7 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
+					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
 
 					// Update the database
@@ -1139,7 +1138,7 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
+					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
 
 					if (!count($files))
@@ -1324,7 +1323,7 @@ class Installer extends \JAdapter
 
 				foreach ($deletions['folders'] as $deleted_folder)
 				{
-					\JFolder::delete($destination . '/' . $deleted_folder);
+					Folder::delete($destination . '/' . $deleted_folder);
 				}
 
 				foreach ($deletions['files'] as $deleted_file)
@@ -1364,7 +1363,7 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!\JFolder::create($newdir))
+				if (!Folder::create($newdir))
 				{
 					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
@@ -1459,7 +1458,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!\JFolder::exists(dirname($path['dest'])))
+				if (!Folder::exists(dirname($path['dest'])))
 				{
 					continue;
 				}
@@ -1480,7 +1479,7 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!\JFolder::create($newdir))
+				if (!Folder::create($newdir))
 				{
 					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
@@ -1561,7 +1560,7 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!\JFolder::create($newdir))
+				if (!Folder::create($newdir))
 				{
 					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
@@ -1697,7 +1696,7 @@ class Installer extends \JAdapter
 					// Copy the folder or file to the new location.
 					if ($filetype === 'folder')
 					{
-						if (!\JFolder::copy($filesource, $filedest, null, $overwrite))
+						if (!Folder::copy($filesource, $filedest, null, $overwrite))
 						{
 							\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), \JLog::WARNING, 'jerror');
 
@@ -1866,7 +1865,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!\JFolder::exists(dirname($path)))
+				if (!Folder::exists(dirname($path)))
 				{
 					continue;
 				}
@@ -1880,7 +1879,7 @@ class Installer extends \JAdapter
 
 			if (is_dir($path))
 			{
-				$val = \JFolder::delete($path);
+				$val = Folder::delete($path);
 			}
 			else
 			{
@@ -1896,7 +1895,7 @@ class Installer extends \JAdapter
 
 		if (!empty($folder))
 		{
-			\JFolder::delete($source);
+			Folder::delete($source);
 		}
 
 		return $retval;
@@ -1942,16 +1941,16 @@ class Installer extends \JAdapter
 	public function findManifest()
 	{
 		// Do nothing if folder does not exist for some reason
-		if (!\JFolder::exists($this->getPath('source')))
+		if (!Folder::exists($this->getPath('source')))
 		{
 			return false;
 		}
 
 		// Main folder manifests (higher priority)
-		$parentXmlfiles = \JFolder::files($this->getPath('source'), '.xml$', false, true);
+		$parentXmlfiles = Folder::files($this->getPath('source'), '.xml$', false, true);
 
 		// Search for children manifests (lower priority)
-		$allXmlFiles    = \JFolder::files($this->getPath('source'), '.xml$', 1, true);
+		$allXmlFiles    = Folder::files($this->getPath('source'), '.xml$', 1, true);
 
 		// Create an unique array of files ordered by priority
 		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
