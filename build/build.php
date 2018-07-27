@@ -58,13 +58,6 @@ umask(022);
 $repo = dirname(__DIR__);
 $here = __DIR__;
 
-system('cd ' . $repo);
-// run composer install and npm install
-system('composer install');
-system('npm install');
-
-system('cd ' . $here);
-
 // Set paths for the build packages
 $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
@@ -102,6 +95,10 @@ mkdir($fullpath);
 echo "Copy the files from the git repository.\n";
 chdir($repo);
 system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
+
+// run composer install and npm install
+system('composer install --no-dev --optimize-autoloader --ignore-platform-reqs');
+system('npm install --unsafe-perm');
 
 // Import the version class to set the version information
 define('JPATH_PLATFORM', 1);
