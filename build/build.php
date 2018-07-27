@@ -37,13 +37,6 @@ function usage($command)
 	echo PHP_EOL;
 }
 
-if (version_compare(PHP_VERSION, '5.4', '<'))
-{
-	echo "The build script requires PHP 5.4.\n";
-
-	exit(1);
-}
-
 $time = time();
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
