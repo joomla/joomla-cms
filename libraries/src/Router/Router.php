@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Router;
 
 /**
  * Class to create and parse routes
@@ -86,7 +87,7 @@ class Router
 	protected static $instances = array();
 
 	/**
-	 * Returns the global JRouter object, only creating it if it
+	 * Returns the global Router object, only creating it if it
 	 * doesn't already exist.
 	 *
 	 * @param   string  $client   The name of the client
@@ -102,7 +103,7 @@ class Router
 		if (empty(self::$instances[$client]))
 		{
 			// Create a Router object
-			$classname = 'JRouter' . ucfirst($client);
+			$classname = 'Router::class' . ucfirst($client);
 
 			if (!class_exists($classname))
 			{

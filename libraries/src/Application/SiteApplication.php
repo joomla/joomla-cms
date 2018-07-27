@@ -383,12 +383,12 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JRouter object.
+	 * Return a reference to the Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	\JRouter
+	 * @return	Router
 	 *
 	 * @since	3.2
 	 */

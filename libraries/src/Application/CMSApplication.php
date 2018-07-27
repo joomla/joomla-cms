@@ -33,6 +33,7 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Router;
 
 /**
  * Joomla! CMS Application class
@@ -526,12 +527,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Returns the application \JRouter object.
+	 * Returns the application Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter
+	 * @return  Router
 	 *
 	 * @since   3.2
 	 */
@@ -543,7 +544,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$name = $app->getName();
 		}
 
-		return \JRouter::getInstance($name, $options);
+		return Router::getInstance($name, $options);
 	}
 
 	/**
