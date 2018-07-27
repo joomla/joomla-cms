@@ -55,7 +55,8 @@ class ItemsModel extends ListModel
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 				'parent_id', 'a.parent_id',
-				'a.ordering'
+				'a.ordering',
+                'component_id', 'a.component_id'
 			);
 
 			$assoc = Associations::isEnabled();
@@ -111,6 +112,9 @@ class ItemsModel extends ListModel
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
 
+        $componentId = $this->getUserStateFromRequest($this->context . '.filter.component_id', 'filter_component_id');
+        $this->setState('filter.component_id', $componentId);
+
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
@@ -121,14 +125,18 @@ class ItemsModel extends ListModel
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
 
-		// If client_id changed clear menutype and reset pagination
+
+        // If client_id changed clear menutype and reset pagination
 		if ($clientId != $currentClientId)
 		{
+
 			$menuType = '';
 
 			$app->input->set('limitstart', 0);
 			$app->input->set('menutype', '');
+
 		}
+
 
 		// If menutype changed reset pagination.
 		if ($menuType != $currentMenuType)
@@ -227,6 +235,7 @@ class ItemsModel extends ListModel
 		$id .= ':' . $this->getState('filter.parent_id');
 		$id .= ':' . $this->getState('filter.menutype');
 		$id .= ':' . $this->getState('filter.client_id');
+        $id .= ':' . $this->getState('filter.component_id');
 
 		return parent::getStoreId($id);
 	}
@@ -361,6 +370,9 @@ class ItemsModel extends ListModel
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
 
+        // Filter on the component id state.
+        $componentId = $this->getState('filter.component_id');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -369,6 +381,17 @@ class ItemsModel extends ListModel
 		{
 			$query->where('a.published IN (0, 1)');
 		}
+
+		if (!empty($componentId)){
+			if (is_numeric(explode(":",$componentId)[0]))
+			{
+				$query->where('a.component_id = ' . (int)explode(":",$componentId)[0]);
+
+				$query->where("a.menutype = '" . (string)explode(":",$componentId)[1]."'");
+			}
+		}
+
+
 
 		// Filter by search in title, alias or id
 		if ($search = trim($this->getState('filter.search')))
