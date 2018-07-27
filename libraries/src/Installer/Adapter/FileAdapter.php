@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * File installer
@@ -198,7 +199,7 @@ class FileAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
+			$manifestPath = Path::clean($this->parent->getPath('manifest'));
 			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 
@@ -494,7 +495,7 @@ class FileAdapter extends InstallerAdapter
 
 		// Set root folder names
 		$packagePath = $this->parent->getPath('source');
-		$jRootPath = \JPath::clean(JPATH_ROOT);
+		$jRootPath = Path::clean(JPATH_ROOT);
 
 		// Loop through all elements and get list of files and folders
 		foreach ($this->getManifest()->fileset->files as $eFiles)

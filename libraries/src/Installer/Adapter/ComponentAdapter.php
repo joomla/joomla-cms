@@ -21,6 +21,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Component installer
@@ -654,8 +655,8 @@ class ComponentAdapter extends InstallerAdapter
 	protected function setupInstallPaths()
 	{
 		// Set the installation target paths
-		$this->parent->setPath('extension_site', \JPath::clean(JPATH_SITE . '/components/' . $this->element));
-		$this->parent->setPath('extension_administrator', \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->element));
+		$this->parent->setPath('extension_site', Path::clean(JPATH_SITE . '/components/' . $this->element));
+		$this->parent->setPath('extension_administrator', Path::clean(JPATH_ADMINISTRATOR . '/components/' . $this->element));
 
 		// Copy the admin path as it's used as a common base
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
@@ -677,8 +678,8 @@ class ComponentAdapter extends InstallerAdapter
 	protected function setupUninstall()
 	{
 		// Get the admin and site paths for the component
-		$this->parent->setPath('extension_administrator', \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->extension->element));
-		$this->parent->setPath('extension_site', \JPath::clean(JPATH_SITE . '/components/' . $this->extension->element));
+		$this->parent->setPath('extension_administrator', Path::clean(JPATH_ADMINISTRATOR . '/components/' . $this->extension->element));
+		$this->parent->setPath('extension_site', Path::clean(JPATH_SITE . '/components/' . $this->extension->element));
 
 		// Copy the admin path as it's used as a common base
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));

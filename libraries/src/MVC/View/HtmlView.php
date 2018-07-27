@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for a Joomla Html View
@@ -357,13 +358,13 @@ class HtmlView extends AbstractView
 		// Load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$this->_template = \JPath::find($this->_path['template'], $filetofind);
+		$this->_template = Path::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
 		{
 			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-			$this->_template = \JPath::find($this->_path['template'], $filetofind);
+			$this->_template = Path::find($this->_path['template'], $filetofind);
 		}
 
 		if ($this->_template != false)
@@ -411,7 +412,7 @@ class HtmlView extends AbstractView
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$helper = \JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+		$helper = Path::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
 		if ($helper != false)
 		{
@@ -482,7 +483,7 @@ class HtmlView extends AbstractView
 		foreach ((array) $path as $dir)
 		{
 			// Clean up the path
-			$dir = \JPath::clean($dir);
+			$dir = Path::clean($dir);
 
 			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)

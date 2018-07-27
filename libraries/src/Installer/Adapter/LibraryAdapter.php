@@ -20,6 +20,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Library installer
@@ -191,7 +192,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
+			$manifestPath = Path::clean($this->parent->getPath('manifest'));
 			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 

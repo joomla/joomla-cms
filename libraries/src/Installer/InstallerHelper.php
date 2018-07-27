@@ -18,8 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
-
-\JLoader::import('joomla.filesystem.path');
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Installer helper class
@@ -128,8 +127,8 @@ abstract class InstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = \JPath::clean(dirname($p_filename) . '/' . $tmpdir);
-		$archivename = \JPath::clean($archivename);
+		$extractdir = Path::clean(dirname($p_filename) . '/' . $tmpdir);
+		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
 		try
@@ -185,7 +184,7 @@ abstract class InstallerHelper
 		{
 			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
-				$extractdir = \JPath::clean($extractdir . '/' . $dirList[0]);
+				$extractdir = Path::clean($extractdir . '/' . $dirList[0]);
 			}
 		}
 
@@ -309,10 +308,10 @@ abstract class InstallerHelper
 		{
 			File::delete($package);
 		}
-		elseif (is_file(\JPath::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(Path::clean($config->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			File::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(Path::clean($config->get('tmp_path') . '/' . $package));
 		}
 	}
 }

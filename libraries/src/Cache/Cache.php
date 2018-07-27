@@ -15,6 +15,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Joomla! Cache base object
@@ -836,8 +837,7 @@ class Cache
 
 		if (!empty($path) && !in_array($path, $paths))
 		{
-			\JLoader::import('joomla.filesystem.path');
-			array_unshift($paths, \JPath::clean($path));
+			array_unshift($paths, Path::clean($path));
 		}
 
 		return $paths;

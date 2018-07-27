@@ -21,6 +21,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for a Joomla Controller
@@ -495,7 +496,7 @@ class BaseController implements ControllerInterface
 		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(\JPath::check($dir), '/') . '/';
+			$dir = rtrim(Path::check($dir), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);

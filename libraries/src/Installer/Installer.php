@@ -22,8 +22,8 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
-\JLoader::import('joomla.filesystem.path');
 \JLoader::import('joomla.base.adapter');
 
 /**
@@ -1520,7 +1520,7 @@ class Installer extends \JAdapter
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
 
 		$folder = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
-		$destination = \JPath::clean(JPATH_ROOT . '/media' . $folder);
+		$destination = Path::clean(JPATH_ROOT . '/media' . $folder);
 
 		// Here we set the folder we are going to copy the files from.
 
@@ -1664,8 +1664,8 @@ class Installer extends \JAdapter
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
-				$filesource = \JPath::clean($file['src']);
-				$filedest = \JPath::clean($file['dest']);
+				$filesource = Path::clean($file['src']);
+				$filedest = Path::clean($file['dest']);
 				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))
