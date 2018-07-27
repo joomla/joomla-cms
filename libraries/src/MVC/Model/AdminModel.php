@@ -21,6 +21,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Prototype admin model.
@@ -968,7 +969,7 @@ abstract class AdminModel extends FormModel
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.
-		$value = \JComponentHelper::getParams($this->option);
+		$value = ComponentHelper::getParams($this->option);
 		$this->setState('params', $value);
 	}
 

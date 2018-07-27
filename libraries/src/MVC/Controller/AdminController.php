@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Base class for a Joomla Administrator Controller
@@ -86,7 +87,7 @@ class AdminController extends BaseController
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
-			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
+			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
 		// Guess the \JText message prefix. Defaults to the option.
