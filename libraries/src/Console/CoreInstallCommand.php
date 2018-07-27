@@ -334,18 +334,21 @@ class CoreInstallCommand extends AbstractCommand
 			'prefix'   => $options->db_prefix,
 			'select'   => isset($options->db_select) ? $options->db_select : false
 		];
-	    try
-	    {
-		    return DatabaseDriver::getInstance($settings)->connect() !== false;
-	    }
-	    catch (\RuntimeException $e)
-	    {
-		    Factory::getApplication()->enqueueMessage(
-			    Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
-			    'error');
-		    return false;
-	    }
-    }
+
+		try
+		{
+			return DatabaseDriver::getInstance($settings)->connect() !== false;
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
+				'error'
+			);
+
+			return false;
+		}
+	}
 
 	/**
 	 * Handles uninteractive installation
