@@ -34,6 +34,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! CMS Application class
@@ -348,7 +349,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				// Redirect to the profile edit page
 				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(\JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+				$this->redirect(Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
 			}
 		}
 	}

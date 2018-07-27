@@ -20,6 +20,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -161,7 +162,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -175,7 +176,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		// Redirect to the edit screen.
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
 				. $this->getRedirectToItemAppend(), false
 			)
@@ -316,7 +317,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $key), false
 				)
@@ -330,7 +331,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		Factory::getApplication()->setUserState($context . '.data', null);
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. $this->getRedirectToListAppend(), false
 			)
@@ -382,7 +383,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -398,7 +399,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -413,7 +414,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			Factory::getApplication()->setUserState($context . '.data', null);
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -547,7 +548,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage($model->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -573,7 +574,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -585,7 +586,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		$table->store();
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
 				. $this->getRedirectToItemAppend($recordId, $urlVar), false
 			)
@@ -653,7 +654,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 				$this->setRedirect(
-					\JRoute::_(
+					Route::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
 						. $this->getRedirectToItemAppend($recordId, $urlVar), false
 					)
@@ -674,7 +675,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -721,7 +722,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -745,7 +746,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -764,7 +765,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
 					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
@@ -790,7 +791,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					\JRoute::_(
+					Route::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
 						. $this->getRedirectToItemAppend($recordId, $urlVar), false
 					)
@@ -804,7 +805,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					\JRoute::_(
+					Route::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
 						. $this->getRedirectToItemAppend(null, $urlVar), false
 					)
@@ -828,7 +829,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				}
 
 				// Redirect to the list screen.
-				$this->setRedirect(\JRoute::_($url, false));
+				$this->setRedirect(Route::_($url, false));
 				break;
 		}
 
@@ -878,7 +879,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data)))
 		{
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -887,7 +888,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		}
 
 		// The redirect url
-		$redirectUrl = \JRoute::_(
+		$redirectUrl = Route::_(
 			'index.php?option=' . $this->option . '&view=' . $this->view_item .
 			$this->getRedirectToItemAppend($recordId, $urlVar),
 			false

@@ -23,6 +23,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! Site Application class
@@ -98,7 +99,7 @@ final class SiteApplication extends CMSApplication
 				// Set the data
 				$this->setUserState('users.login.form.data', array('return' => URI::getInstance()->toString()));
 
-				$url = \JRoute::_('index.php?option=com_users&view=login', false);
+				$url = Route::_('index.php?option=com_users&view=login', false);
 
 				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				$this->redirect($url);
@@ -116,7 +117,7 @@ final class SiteApplication extends CMSApplication
 
 				// Otherwise redirect to the homepage and show an error
 				$this->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-				$this->redirect(\JRoute::_('index.php?Itemid=' . $home_item->id, false));
+				$this->redirect(Route::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
 	}

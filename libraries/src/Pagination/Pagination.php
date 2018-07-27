@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -778,7 +779,7 @@ class Pagination
 		if (!$this->viewall)
 		{
 			$data->all->base = '0';
-			$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
+			$data->all->link = Route::_($params . '&' . $this->prefix . 'limitstart=');
 		}
 
 		// Set the start and previous data objects.
@@ -793,9 +794,9 @@ class Pagination
 			// @todo remove code: $page = $page == 0 ? '' : $page;
 
 			$data->start->base    = '0';
-			$data->start->link    = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
+			$data->start->link    = Route::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;
-			$data->previous->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+			$data->previous->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $page);
 		}
 
 		// Set the next and end data objects.
@@ -808,9 +809,9 @@ class Pagination
 			$end  = ($this->pagesTotal - 1) * $this->limit;
 
 			$data->next->base = $next;
-			$data->next->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $next);
+			$data->next->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $next);
 			$data->end->base  = $end;
-			$data->end->link  = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $end);
+			$data->end->link  = Route::_($params . '&' . $this->prefix . 'limitstart=' . $end);
 		}
 
 		$data->pages = array();
@@ -825,7 +826,7 @@ class Pagination
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
-				$data->pages[$i]->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				$data->pages[$i]->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}
 			else
 			{
