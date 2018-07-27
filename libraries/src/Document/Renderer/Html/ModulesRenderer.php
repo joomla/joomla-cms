@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML document renderer for a module position
@@ -37,8 +38,8 @@ class ModulesRenderer extends DocumentRenderer
 		$renderer = $this->_doc->loadRenderer('module');
 		$buffer   = '';
 
-		$app          = \JFactory::getApplication();
-		$user         = \JFactory::getUser();
+		$app          = Factory::getApplication();
+		$user         = Factory::getUser();
 		$frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest);
 		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 

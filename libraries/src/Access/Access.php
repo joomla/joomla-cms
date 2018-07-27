@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Factory;
 
 /**
  * Class that handles all access authorisation routines.
@@ -297,7 +298,7 @@ class Access
 		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName]))
 		{
 			// Get the database connection object.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Get a fresh query object:
 			$query    = $db->getQuery(true);
@@ -346,7 +347,7 @@ class Access
 		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
-		$db         = \JFactory::getDbo();
+		$db         = Factory::getDbo();
 		$extraQuery = $db->qn('name') . ' = ' . $db->q($extensionName) . ' OR ' . $db->qn('parent_id') . ' = 0';
 
 		// Get a fresh query object.
@@ -417,7 +418,7 @@ class Access
 		}
 
 		// Get the database connection object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the asset info for all assets in asset names list.
 		$query = $db->getQuery(true)
@@ -653,7 +654,7 @@ class Access
 		}
 
 		// Get the database connection object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
@@ -737,7 +738,7 @@ class Access
 		}
 
 		// No preload. Return root asset id from Assets.
-		$assets = new Asset(\JFactory::getDbo());
+		$assets = new Asset(Factory::getDbo());
 
 		return $assets->getRootId();
 	}
@@ -780,7 +781,7 @@ class Access
 				// Else we have to do an extra db query to fetch it from the table fetch it from table.
 				else
 				{
-					$table = new Asset(\JFactory::getDbo());
+					$table = new Asset(Factory::getDbo());
 					$table->load(array('name' => $assetKey));
 					$loaded[$assetKey] = $table->id;
 				}
@@ -824,7 +825,7 @@ class Access
 			// Else we have to do an extra db query to fetch it from the table fetch it from table.
 			else
 			{
-				$table = new Asset(\JFactory::getDbo());
+				$table = new Asset(Factory::getDbo());
 				$table->load($assetKey);
 				$loaded[$assetKey] = $table->name;
 			}
@@ -904,7 +905,7 @@ class Access
 	public static function getGroupTitle($groupId)
 	{
 		// Fetch the group title from the database
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('title')
 			->from('#__usergroups')
@@ -951,7 +952,7 @@ class Access
 			// Registered user and guest if all groups are requested
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
@@ -1012,7 +1013,7 @@ class Access
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
 		// Get a database object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$test = $recursive ? '>=' : '=';
 
@@ -1049,7 +1050,7 @@ class Access
 		if (empty(self::$viewLevels))
 		{
 			// Get a database object.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Build the base query.
 			$query = $db->getQuery(true)
@@ -1071,7 +1072,7 @@ class Access
 
 		// Check for the recovery mode setting and return early.
 		$user      = \JUser::getInstance($userId);
-		$root_user = \JFactory::getConfig()->get('root_user');
+		$root_user = Factory::getConfig()->get('root_user');
 
 		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{

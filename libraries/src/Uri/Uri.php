@@ -10,6 +10,8 @@ namespace Joomla\CMS\Uri;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * JUri Class
  *
@@ -136,7 +138,7 @@ class Uri extends \Joomla\Uri\Uri
 		// Get the base request path.
 		if (empty(static::$base))
 		{
-			$config = \JFactory::getConfig();
+			$config = Factory::getConfig();
 			$uri = static::getInstance();
 			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
