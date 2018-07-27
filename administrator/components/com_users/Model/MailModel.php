@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Users mail model.
@@ -188,7 +189,22 @@ class MailModel extends AdminModel
 		}
 
 		// Send the Mail
-		$rs = $mailer->Send();
+		try
+		{
+			$rs = $mailer->Send();
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+			}
+		}
+
 
 		// Check for an error
 		if ($rs instanceof \Exception)
