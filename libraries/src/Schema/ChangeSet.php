@@ -8,9 +8,11 @@
 
 namespace Joomla\CMS\Schema;
 
-use Joomla\Database\UTF8MB4SupportInterface;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Database\UTF8MB4SupportInterface;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 jimport('joomla.filesystem.folder');
 
@@ -33,9 +35,9 @@ class ChangeSet
 	protected $changeItems = array();
 
 	/**
-	 * \JDatabaseDriver object
+	 * DatabaseDriver object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  2.5
 	 */
 	protected $db = null;
@@ -60,8 +62,8 @@ class ChangeSet
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
-	 * @param   \JDatabaseDriver  $db      The current database object
-	 * @param   string            $folder  The full path to the folder containing the update queries
+	 * @param   DatabaseDriver  $db      The current database object
+	 * @param   string          $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
@@ -85,7 +87,7 @@ class ChangeSet
 				}
 				catch (\RuntimeException $e)
 				{
-					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 			else
@@ -137,8 +139,8 @@ class ChangeSet
 	/**
 	 * Returns a reference to the ChangeSet object, only creating it if it doesn't already exist.
 	 *
-	 * @param   \JDatabaseDriver  $db      The current database object
-	 * @param   string            $folder  The full path to the folder containing the update queries
+	 * @param   DatabaseDriver  $db      The current database object
+	 * @param   string          $folder  The full path to the folder containing the update queries
 	 *
 	 * @return  ChangeSet
 	 *
@@ -297,7 +299,7 @@ class ChangeSet
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
-			$queries = \JDatabaseDriver::splitSql($buffer);
+			$queries = DatabaseDriver::splitSql($buffer);
 
 			foreach ($queries as $query)
 			{

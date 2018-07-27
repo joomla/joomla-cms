@@ -18,6 +18,9 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Access\Rules;
 
 /**
  * Abstract Table class
@@ -64,7 +67,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	protected $_tbl_keys = array();
 
 	/**
-	 * \JDatabaseDriver object.
+	 * DatabaseDriver object.
 	 *
 	 * @var    DatabaseDriver
 	 * @since  11.1
@@ -82,7 +85,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    \JAccessRules  A \JAccessRules object.
+	 * @var    Rules  A Rules object.
 	 * @since  11.1
 	 */
 	protected $_rules;
@@ -134,12 +137,12 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @param   string               $table       Name of the table to model.
 	 * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   \JDatabaseDriver     $db          JDatabaseDriver object.
+	 * @param   DatabaseDriver       $db          DatabaseDriver object.
 	 * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, \JDatabaseDriver $db, DispatcherInterface $dispatcher = null)
+	public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{
 		parent::__construct();
 
@@ -196,14 +199,14 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		// If the access property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
-			$this->access = (int) \JFactory::getConfig()->get('access');
+			$this->access = (int) Factory::getConfig()->get('access');
 		}
 
 		// Create or set a Dispatcher
 		if (!is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
 		{
 			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
-			$dispatcher = \JFactory::getApplication()->getDispatcher();
+			$dispatcher = Factory::getApplication()->getDispatcher();
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -299,13 +302,13 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			}
 		}
 
-		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
-		$db = $config['dbo'] ?? \JFactory::getDbo();
+		// If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
+		$db = $config['dbo'] ?? Factory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($tableClass))
+		if (Factory::getContainer()->exists($tableClass))
 		{
-			return \JFactory::getContainer()->get($tableClass);
+			return Factory::getContainer()->get($tableClass);
 		}
 
 		// Instantiate a new table class and return it.
@@ -509,9 +512,9 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	}
 
 	/**
-	 * Method to get the \JDatabaseDriver object.
+	 * Method to get the DatabaseDriver object.
 	 *
-	 * @return  \JDatabaseDriver  The internal database driver object.
+	 * @return  DatabaseDriver  The internal database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -521,15 +524,15 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	}
 
 	/**
-	 * Method to set the \JDatabaseDriver object.
+	 * Method to set the DatabaseDriver object.
 	 *
-	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver object to be used by the table object.
+	 * @param   DatabaseDriver  $db  A DatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(\JDatabaseDriver $db)
+	public function setDbo(DatabaseDriver $db)
 	{
 		$this->_db = $db;
 
@@ -539,7 +542,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param   mixed  $input  A \JAccessRules object, JSON string, or array.
+	 * @param   mixed  $input  A Rules object, JSON string, or array.
 	 *
 	 * @return  void
 	 *
@@ -547,20 +550,20 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 */
 	public function setRules($input)
 	{
-		if ($input instanceof \JAccessRules)
+		if ($input instanceof Rules)
 		{
 			$this->_rules = $input;
 		}
 		else
 		{
-			$this->_rules = new \JAccessRules($input);
+			$this->_rules = new Rules($input);
 		}
 	}
 
 	/**
 	 * Method to get the rules for the record.
 	 *
-	 * @return  \JAccessRules object
+	 * @return  Rules object
 	 *
 	 * @since   11.1
 	 */
@@ -947,7 +950,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 				$asset->name      = $name;
 				$asset->title     = $title;
 
-				if ($this->_rules instanceof \JAccessRules)
+				if ($this->_rules instanceof Rules)
 				{
 					$asset->rules = (string) $this->_rules;
 				}
@@ -1196,7 +1199,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		}
 
 		// Get the current time in the database format.
-		$time = \JFactory::getDate()->toSql();
+		$time = Factory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1457,9 +1460,9 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		}
 
 		// This last check can only be relied on if tracking session metadata
-		if (\JFactory::getConfig()->get('session_metadata', true))
+		if (Factory::getConfig()->get('session_metadata', true))
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('COUNT(userid)')
 				->from($db->quoteName('#__session'))
@@ -1799,7 +1802,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 				// We don't have a full primary key - return false
 				else
 				{
-					$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+					$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 					return false;
 				}
@@ -1821,7 +1824,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			// If publishing, set published date/time if not previously set
 			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
 			{
-				$nowDate = $this->_db->quote(\JFactory::getDate()->toSql());
+				$nowDate = $this->_db->quote(Factory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
 			}
 

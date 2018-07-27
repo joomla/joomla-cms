@@ -11,6 +11,7 @@ namespace Joomla\CMS\Categories;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Helper class to load Categorytree
@@ -592,10 +593,10 @@ class CategoryNode extends \JObject
 	{
 		if ($modified_user)
 		{
-			return \JFactory::getUser($this->modified_user_id);
+			return Factory::getUser($this->modified_user_id);
 		}
 
-		return \JFactory::getUser($this->created_user_id);
+		return Factory::getUser($this->created_user_id);
 	}
 
 	/**

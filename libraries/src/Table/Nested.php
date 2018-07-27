@@ -1790,7 +1790,7 @@ class Nested extends Table
 	/**
 	 * Runs a query and unlocks the database on an error.
 	 *
-	 * @param   mixed   $query         A string or \JDatabaseQuery object.
+	 * @param   mixed   $query         A string or DatabaseQuery object.
 	 * @param   string  $errorMessage  Unused.
 	 *
 	 * @return  boolean  void

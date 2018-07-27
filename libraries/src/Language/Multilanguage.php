@@ -10,6 +10,8 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Utitlity class for multilang
  *
@@ -45,7 +47,7 @@ class Multilanguage
 		}
 
 		// Get application object.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
 		if ($app->isClient('site'))
@@ -59,7 +61,7 @@ class Multilanguage
 		if (!$tested)
 		{
 			// Determine status of language filter plugin.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
 				->from($db->quoteName('#__extensions'))
@@ -105,7 +107,7 @@ class Multilanguage
 		if (!isset($multilangSiteHomePages))
 		{
 			// Check for Home pages languages.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('language')
 				->select('id')

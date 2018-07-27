@@ -11,6 +11,10 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Base class for a Joomla List View
  *
@@ -176,7 +180,7 @@ class ListView extends HtmlView
 
 		// Include the component helpers.
 		\JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		if ($this->getLayout() !== 'modal')
 		{
@@ -205,7 +209,7 @@ class ListView extends HtmlView
 	protected function addToolbar()
 	{
 		$canDo = $this->canDo;
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');
@@ -213,7 +217,7 @@ class ListView extends HtmlView
 		$viewName = $this->getName();
 		$singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
-		\JToolbarHelper::title(\JText::_($this->toolbarTitle), $this->toolbarIcon);
+		\JToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
 		if ($canDo->get('core.create'))
 		{
@@ -245,7 +249,7 @@ class ListView extends HtmlView
 			&& $user->authorise('core.edit', $this->option)
 			&& $user->authorise('core.edit.state', $this->option))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new \JLayoutFile('joomla.toolbar.batch');

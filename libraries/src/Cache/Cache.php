@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Cache base object
@@ -46,7 +47,7 @@ class Cache
 	 */
 	public function __construct($options)
 	{
-		$conf = \JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		$this->_options = array(
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
@@ -514,8 +515,8 @@ class Cache
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		$app      = \JFactory::getApplication();
-		$document = \JFactory::getDocument();
+		$app      = Factory::getApplication();
+		$document = Factory::getDocument();
 		$body     = null;
 
 		// Get the document head out of the cache.
@@ -616,8 +617,8 @@ class Cache
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		$app      = \JFactory::getApplication();
-		$document = \JFactory::getDocument();
+		$app      = Factory::getApplication();
+		$document = Factory::getDocument();
 
 		if ($loptions['nomodules'] != 1)
 		{
@@ -750,7 +751,7 @@ class Cache
 	 */
 	public static function makeId()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$registeredurlparams = new \stdClass;
 
@@ -799,7 +800,7 @@ class Cache
 	public static function getPlatformPrefix()
 	{
 		// No prefix when Global Config is set to no platfom specific prefix
-		if (!\JFactory::getConfig()->get('cache_platformprefix', '0'))
+		if (!Factory::getConfig()->get('cache_platformprefix', '0'))
 		{
 			return '';
 		}

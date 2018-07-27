@@ -12,6 +12,9 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 /**
  * Base class for a Joomla Form View
  *
@@ -143,11 +146,11 @@ class FormView extends HtmlView
 		// Set default toolbar title
 		if ($this->item->id)
 		{
-			$this->toolbarTitle = \JText::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_EDIT'));
+			$this->toolbarTitle = Text::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_EDIT'));
 		}
 		else
 		{
-			$this->toolbarTitle = \JText::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_NEW'));
+			$this->toolbarTitle = Text::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_NEW'));
 		}
 	}
 
@@ -160,9 +163,9 @@ class FormView extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$viewName   = $this->getName();
@@ -233,7 +236,7 @@ class FormView extends HtmlView
 
 			if (!$isNew && $this->previewLink)
 			{
-				\JToolbarHelper::preview($this->previewLink, \JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+				\JToolbarHelper::preview($this->previewLink, Text::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
 			}
 
 			\JToolbarHelper::cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');

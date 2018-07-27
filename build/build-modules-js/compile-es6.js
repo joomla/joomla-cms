@@ -1,13 +1,14 @@
 const glob = require('glob');
 const fs = require('fs');
 const babel = require('babel-core');
+const UglifyJS = require('uglify-es');
 const os = require('os');
 
 const pattern = './**/*.es6.js';
 const options = {
   ignore: [
     './node_modules/**',
-    './build/webcomponents/js/**',
+    './build/media/webcomponents/**/js/**',
   ],
 };
 
@@ -36,6 +37,18 @@ const compileFile = (filePath) => {
     fs.writeFile(
       `${fileName}.js`,
       result.code + os.EOL,
+      (fsError) => {
+        if (fsError) {
+          // eslint-disable-next-line no-console
+          console.error(`${fsError}`);
+          process.exit(1);
+        }
+      }
+    );
+    // Also write the minified
+    fs.writeFile(
+      `${fileName}.min.js`,
+      UglifyJS.minify(result.code).code + os.EOL,
       (fsError) => {
         if (fsError) {
           // eslint-disable-next-line no-console

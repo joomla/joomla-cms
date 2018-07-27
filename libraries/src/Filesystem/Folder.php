@@ -338,7 +338,7 @@ abstract class Folder
 
 			if ($file->delete($files) !== true)
 			{
-				// JFile::delete throws an error
+				// File::delete throws an error
 				return false;
 			}
 		}
@@ -355,7 +355,7 @@ abstract class Folder
 
 				if ($file->delete($folder) !== true)
 				{
-					// JFile::delete throws an error
+					// File::delete throws an error
 					return false;
 				}
 			}

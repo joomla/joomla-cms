@@ -1375,7 +1375,12 @@ iframe {
 
 .table thead th {
   white-space: nowrap;
-  border-bottom-width: 0; }
+  border-bottom-width: 0;
+  font-weight: normal;
+  color: #343a40; }
+
+.table thead td {
+  padding: 0; }
 
 .table thead a {
   font-weight: normal;
