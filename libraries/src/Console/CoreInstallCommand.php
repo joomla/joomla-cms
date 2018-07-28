@@ -374,9 +374,9 @@ class CoreInstallCommand extends AbstractCommand
 
 		if (!in_array($ext, $allowedExtension))
 		{
-            $this->getApplication()->enqueueMessage('The file type specified is not supported');
+			$this->getApplication()->enqueueMessage('The file type specified is not supported');
 
-            return;
+			return;
 		}
 
 		$options = $this->registry->loadFile($file, $ext)->toArray();
@@ -394,23 +394,25 @@ class CoreInstallCommand extends AbstractCommand
 			exit;
 		}
 
-		array_walk($optionalKeys, function ($value, $key) use (&$options) {
-			if (!isset($options[$value]))
-			{
-				switch ($value)
+		array_walk(
+			$optionalKeys, function ($value, $key) use (&$options) {
+				if (!isset($options[$value]))
 				{
-					case 'db_prefix':
-						$options[$value] = (new PrefixField)->getPrefix();
-						break;
-					case 'db_old':
-						$options[$value] = 'backup';
-						break;
-					default:
-						$options[$value] = '';
-						break;
+					switch ($value)
+					{
+						case 'db_prefix':
+							$options[$value] = (new PrefixField)->getPrefix();
+							break;
+						case 'db_old':
+							$options[$value] = 'backup';
+							break;
+						default:
+							$options[$value] = '';
+							break;
+					}
 				}
 			}
-		});
+		);
 
 		if ($validate)
 		{
