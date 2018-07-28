@@ -31,21 +31,17 @@ Joomla = window.Joomla || {};
 
   Joomla.showAssociationMessage = function () {
     var controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
+    var associations = document.getElementById('associations');
+
+    if (associations) {
+      var html = document.createElement('joomla-alert');
+      html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+
+      associations.insertAdjacentElement('afterbegin', html);
+    }
 
     controlGroup.forEach(function (element) {
       element.style.display = 'none';
-
-      var associations = document.getElementById('associations');
-
-      if (associations) {
-        var html = document.createElement('div');
-        html.classList.add('alert');
-        html.classList.add('alert-info');
-        html.id = 'associations-notice';
-        html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
-
-        associations.insertAdjacentElement('afterbegin', html);
-      }
     });
   };
 
