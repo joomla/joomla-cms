@@ -137,6 +137,40 @@ class PlgUserTerms extends JPlugin
 		}
 
 		return true;
+	}
 
+	/**
+	 * Saves user profile data
+	 *
+	 * @param   array    $data    entered user data
+	 * @param   boolean  $isNew   true if this is a new user
+	 * @param   boolean  $result  true if saving the user worked
+	 * @param   string   $error   error message
+	 *
+	 * @return  boolean
+	 */
+	public function onUserAfterSave($data, $isNew, $result, $error)
+	{
+		if (!$isNew || !$result)
+		{
+			return true;
+		}
+
+		JLoader::register('ActionlogsModelActionlog', JPATH_ADMINISTRATOR . '/components/com_actionlogs/models/actionlog.php');
+		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+		$message = array(
+			'action'      => 'consent',
+			'id'          => $userId,
+			'title'       => $data['name'],
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			'userid'      => $userId,
+			'username'    => $data['username'],
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+		);
+
+		/* @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLog(array($message), 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
 }
