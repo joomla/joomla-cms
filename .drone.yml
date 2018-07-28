@@ -39,19 +39,17 @@ pipeline:
       - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
 
   javascript:
-    image: joomlaprojects/docker-systemtests:latest
+    image: joomlaprojects/docker-systemtests:develop
     commands:
-      - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
-      - mv -f drone-package.json package.json
       - fluxbox  > /dev/null 2>&1 &
-      - npm install
+      - npm install --unsafe-perm
       - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
 
   system-tests:
-      image: joomlaprojects/docker-systemtests:latest
+      image: joomlaprojects/docker-systemtests:develop
       commands:
         - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
 
