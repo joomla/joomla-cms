@@ -34,22 +34,19 @@ $modalAttrs['data-toggle'] = 'modal';
 
 if (!empty($listCheck))
 {
-	Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-	Text::script('ERROR');
-	$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-	$alert = 'Joomla.renderMessages(' . $message . ')';
-
-	$modalAttrs['onclick'] = <<<JS
-if (document.adminForm.boxchecked.value==0){ $alert } else { jQuery( '#$selector' ).modal('show'); return true; }
-JS;
+	$modalAttrs['onclick'] = 'jQuery(\'#' . $selector . '\' ).modal(\'show\');';
 }
 else
 {
 	$modalAttrs['data-target'] = '#' . $selector;
 }
+
+$idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
+$listAttr = !empty($listCheck)      ? ' list-selection' : '';
+
 ?>
+<joomla-toolbar-button <?php echo $idAttr.$listAttr; ?>>
 <<?php echo $tagName; ?>
-	id="<?php echo $id; ?>"
 	value="<?php echo $doTask; ?>"
 	class="<?php echo $btnClass; ?>"
 	<?php echo $htmlAttributes; ?>
@@ -58,3 +55,4 @@ else
 	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </<?php echo $tagName; ?>>
+</joomla-toolbar-button>
