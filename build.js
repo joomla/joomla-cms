@@ -7,10 +7,10 @@
  *
  * For dedicated tasks, please run:
  * node build.js --installer      === will create the error page (for unsupported PHP version)
- * node build.js --update         === will clean the media/vendor folder and then fetch the dependencies from source
+ * node build.js --copyassets     === will clean the media/vendor folder and then will populate the folder from node_modules
  * node build.js --compilejs      === will transpile ES6 files and also uglify the ES6,ES5 files
- * node build.js --compilecejs    === will compile all the given CE or WC with their relative css files
- * node build.js --compilecss   === will compile all the scss defined files and also create a minified version of the css
+ * node build.js --compilece      === will compile all the given CE or WC with their relative css files
+ * node build.js --compilecss     === will compile all the scss defined files and also create a minified version of the css
  *
  */
 
@@ -37,10 +37,10 @@ if ('settings' in settings) {
 // Initialize the CLI
 Program
   .version(options.version)
-  .option('--update', 'Updates the vendor scripts')
+  .option('--copyassets', 'Moving files from node_modules to media folder')
   .option('--compilejs, --compilejs path', 'Compiles ES6 to ES5 scripts')
   .option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
-  .option('--compilecejs, --compilecejs path', 'Compiles/traspiles all the custom elements files')
+  .option('--compilece, --compilece path', 'Compiles/traspiles all the custom elements files')
   .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compilecss and compilejs now).')
   .option('--installer', 'Creates the language file for installer error page')
   .on('--help', () => {
@@ -58,7 +58,7 @@ if (!process.argv.slice(2).length) {
 }
 
 // Update the vendor folder
-if (Program.update) {
+if (Program.copyassets) {
   Promise.resolve()
     .then(update.update(options))
 
@@ -102,6 +102,6 @@ if (Program.compilececss) {
 }
 
 // Compress/transpile the Custom Elements files
-if (Program.compilecejs) {
+if (Program.compilece) {
   CEjs.compile(options, Program.args[0]);
 }
