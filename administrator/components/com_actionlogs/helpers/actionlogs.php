@@ -271,5 +271,8 @@ class ActionlogsHelper
 			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
 			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name, null, false, true);
 		}
+
+		// Load com_privacy too.
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true);
 	}
 }
