@@ -32,9 +32,9 @@ How to get a working installation from the source
 ---------------------
 You will need:
 - PHP - basically the same as you need for running a Joomla Site, but you need the cli (command line interface) Version (see https://docs.joomla.org/Configuring_a_LAMPP_server_for_PHP_development)
-- Composer - for managing Joomla's PHP Dependencies - for help installation composer read the documentation at https://getcomposer.org/doc/00-intro.md
-- Node.js - for compiling Joomla's JS and SASS files - for help installing Node.js please follow the instructions available on https://nodejs.org/en/
-- Git - for version management
+- Composer - for managing Joomla's PHP Dependencies. For help installing composer please read the documentation at https://getcomposer.org/doc/00-intro.md
+- Node.js - for compiling Joomla's Javascript and SASS files. For help installing Node.js please follow the instructions available on https://nodejs.org/en/
+- Git - for version management. Download from here https://git-scm.com/downloads (MacOS users can also use Brew and Linux users can use the built-in package manager, eg apt, yum, etc). 
 
 **Steps to setup the local environment:**
 - Clone the repository:
