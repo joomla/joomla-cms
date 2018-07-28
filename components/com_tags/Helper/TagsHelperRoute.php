@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Tags Component Route Helper.
@@ -32,7 +33,7 @@ class TagsHelperRoute extends RouteHelper
 	 * @param   string   $typeAlias         Component type alias
 	 * @param   string   $routerName        Component router
 	 *
-	 * @return  string  URL link to pass to \JRoute
+	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.1
 	 */
@@ -76,7 +77,7 @@ class TagsHelperRoute extends RouteHelper
 	 *
 	 * @param   integer  $id  The ID of the tag
 	 *
-	 * @return  string  URL link to pass to \JRoute
+	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.1
 	 */
@@ -115,7 +116,7 @@ class TagsHelperRoute extends RouteHelper
 	/**
 	 * Tries to load the router for the tags view.
 	 *
-	 * @return  string  URL link to pass to \JRoute
+	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.7
 	 */
@@ -146,7 +147,7 @@ class TagsHelperRoute extends RouteHelper
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menus    = $app->getMenu('site');
 		$language = $needles['language'] ?? '*';
 

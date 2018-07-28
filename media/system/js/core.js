@@ -310,23 +310,6 @@ Joomla.Modal = {
 	};
 
 	/**
-	 * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
-	 * Actually, probably not used anywhere. Can we deprecate in favor of <input type="email">?
-	 *
-	 * Verifies if the string is in a valid email format
-	 *
-	 * @param  {string}  text  The text for validation
-	 *
-	 * @return {boolean}
-	 *
-	 * @deprecated  4.0 No replacement. Use formvalidator
-	 */
-	Joomla.isEmail = function( text ) {
-		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
-		return regex.test( text );
-	};
-
-	/**
 	 * USED IN: all list forms.
 	 *
 	 * Toggles the check state of a group of boxes

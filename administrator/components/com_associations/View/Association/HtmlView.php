@@ -15,6 +15,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of articles.
@@ -77,7 +80,7 @@ class HtmlView extends BaseHtmlView
 			throw new \Exception(implode("\n", $errors), 500);
 		}
 
-		$this->app  = \JFactory::getApplication();
+		$this->app  = Factory::getApplication();
 		$this->form = $this->get('Form');
 		$input      = $this->app->input;
 		$this->referenceId = $input->get('id', 0, 'int');
@@ -160,7 +163,7 @@ class HtmlView extends BaseHtmlView
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
 			$task                   = $this->typeName . '.' . $this->targetAction;
-			$this->defaultTargetSrc = \JRoute::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
+			$this->defaultTargetSrc = Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 
@@ -178,7 +181,7 @@ class HtmlView extends BaseHtmlView
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -205,7 +208,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		// Hide main menu.
-		\JFactory::getApplication()->input->set('hidemainmenu', 1);
+		Factory::getApplication()->input->set('hidemainmenu', 1);
 
 		$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
 		$title  = $helper->getTypeTitle($this->typeName);
@@ -217,20 +220,20 @@ class HtmlView extends BaseHtmlView
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		ToolbarHelper::title(\JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', \JText::_($this->extensionName), \JText::_($languageKey)), 'contract assoc');
+		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'contract assoc');
 
 		$bar = Toolbar::getInstance('toolbar');
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. \JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. \JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
 		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)

@@ -21,8 +21,8 @@
     var hreflang = '';
 
     if (!Joomla.getOptions('xtd-contacts')) {
-      // Something went wrong!
-      window.parent.jModalClose();
+      // Something went wrong
+      window.parent.Joomla.Modal.getCurrent().close();
       return false;
     }
 
@@ -35,7 +35,7 @@
 
     var tag = '<a ' + hreflang + '  href="' + link + '">' + title + '</a>';
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-    window.parent.jModalClose();
+    window.parent.Joomla.Modal.getCurrent().close();
     return true;
   };
 

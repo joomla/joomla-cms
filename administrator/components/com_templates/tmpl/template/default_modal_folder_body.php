@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$input = JFactory::getApplication()->input;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
+$input = Factory::getApplication()->input;
 ?>
 <div id="#template-manager-folder" class="container-fluid">
 	<div class="mt-2 p-2">
@@ -22,14 +27,14 @@ $input = JFactory::getApplication()->input;
 			<div class="col-md-6">
 				<div class="card card-outline-secondary mb-2">
 					<div class="card-body">
-						<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 							<div class="form-group">
-								<label><?php echo JText::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
+								<label><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
 								<input type="text" name="name" class="form-control" required>
 								<input type="hidden" class="address" name="address">
-								<?php echo JHtml::_('form.token'); ?>
+								<?php echo HTMLHelper::_('form.token'); ?>
 							</div>
-							<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
+							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
 						</form>
 					</div>
 				</div>

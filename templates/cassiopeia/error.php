@@ -19,9 +19,6 @@ use Joomla\CMS\Language\Text;
 $app  = Factory::getApplication();
 $lang = Factory::getLanguage();
 
-// Getting params from template
-$params = $this->params;
-
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');

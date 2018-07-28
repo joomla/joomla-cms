@@ -11,6 +11,8 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base class for a Joomla Html View
@@ -328,7 +330,7 @@ class HtmlView extends AbstractView
 		// Clear prior output
 		$this->_output = null;
 
-		$template = \JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -340,7 +342,7 @@ class HtmlView extends AbstractView
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
@@ -388,7 +390,7 @@ class HtmlView extends AbstractView
 			return $this->_output;
 		}
 
-		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
+		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 	}
 
 	/**
@@ -437,7 +439,7 @@ class HtmlView extends AbstractView
 			$component = ApplicationHelper::getComponentName();
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -546,7 +548,7 @@ class HtmlView extends AbstractView
 	 */
 	public function setDocumentTitle($title)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
@@ -555,11 +557,11 @@ class HtmlView extends AbstractView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

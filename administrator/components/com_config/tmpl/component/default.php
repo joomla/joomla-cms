@@ -47,7 +47,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 		<div class="col-md-10" id="config">
 
 			<?php if ($this->fieldsets): ?>
-			<ul class="nav nav-tabs flex-wrap" id="configTabs">
+			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>

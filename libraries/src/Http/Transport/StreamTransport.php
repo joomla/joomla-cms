@@ -17,6 +17,7 @@ use Joomla\CMS\Http\TransportInterface;
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
 use Zend\Diactoros\Stream as StreamResponse;
+use Joomla\CMS\Factory;
 
 /**
  * HTTP transport class for using PHP streams.
@@ -93,7 +94,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 		}
 
 		// Add the proxy configuration, if any.
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		if ($config->get('proxy_enable'))
 		{

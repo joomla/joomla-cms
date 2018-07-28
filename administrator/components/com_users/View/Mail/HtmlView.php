@@ -11,6 +11,10 @@ namespace Joomla\Component\Users\Administrator\View\Mail;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users mail view.
@@ -32,13 +36,15 @@ class HtmlView extends BaseHtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		// Redirect to admin index if mass mailer disabled in conf
-		if (\JFactory::getApplication()->get('massmailoff', 0) == 1)
+		if (Factory::getApplication()->get('massmailoff', 0) == 1)
 		{
-			\JFactory::getApplication()->redirect(\JRoute::_('index.php', false));
+			Factory::getApplication()->redirect(Route::_('index.php', false));
 		}
 
 		// Get data from the model
@@ -54,17 +60,18 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		\JToolbarHelper::title(\JText::_('COM_USERS_MASS_MAIL'), 'users massmail');
-		\JToolbarHelper::custom('mail.send', 'envelope.png', 'send_f2.png', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
-		\JToolbarHelper::cancel('mail.cancel');
-		\JToolbarHelper::divider();
-		\JToolbarHelper::preferences('com_users');
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_USERS_MASS_MAIL_USERS');
+		ToolbarHelper::title(Text::_('COM_USERS_MASS_MAIL'), 'users massmail');
+		ToolbarHelper::custom('mail.send', 'envelope.png', 'send_f2.png', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
+		ToolbarHelper::cancel('mail.cancel');
+		ToolbarHelper::divider();
+		ToolbarHelper::preferences('com_users');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_USERS_MASS_MAIL_USERS');
 	}
 }

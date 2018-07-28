@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Association edit controller class.
@@ -40,8 +43,8 @@ class AssociationController extends FormController
 		// Check if reference item can be edited.
 		if (!AssociationsHelper::allowEdit($extensionName, $typeName, $id))
 		{
-			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_associations&view=associations', false));
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_associations&view=associations', false));
 
 			return false;
 		}
@@ -60,7 +63,7 @@ class AssociationController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
 
@@ -83,6 +86,6 @@ class AssociationController extends FormController
 			}
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_associations&view=associations', false));
+		$this->setRedirect(Route::_('index.php?option=com_associations&view=associations', false));
 	}
 }

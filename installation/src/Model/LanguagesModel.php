@@ -702,31 +702,29 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Publish the Installed Content Languages.
 	 *
-	 * @return  boolean
+	 * @return  array  List of languages that failed to be published. Empty array if all successful
 	 *
 	 * @since   3.7.0
 	 */
 	public function publishContentLanguages()
 	{
-		$app = Factory::getApplication();
-
 		// Publish the Content Languages.
 		$tableLanguage = Table::getInstance('Language');
-
 		$siteLanguages = $this->getInstalledlangs('site');
+		$failedLanguages = [];
 
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$failedLanguages[] = $siteLang->name;
 
 				continue;
 			}
 		}
 
-		return true;
+		return $failedLanguages;
 	}
 
 	/**
