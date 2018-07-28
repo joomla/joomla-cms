@@ -309,24 +309,14 @@ class PlgActionlogJoomla extends JPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams('com_config.application');
-
-		// Not found a valid content type, don't process further
-		if ($params === null)
-		{
-			return;
-		}
-
-		$extensionType = $params->type_title;
-
-		$messageLanguageKey = strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED');
+		$messageLanguageKey = strtoupper('PLG_ACTIONLOG_JOOMLA_APPLICATION_CONFIG_UPDATED');
 		$action             = 'update';
 
 		$user = JFactory::getUser();
 
 		$message = array(
 			'action'         => $action,
-			'type'           => strtoupper('PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType),
+			'type'           => strtoupper('PLG_ACTIONLOG_JOOMLA_TYPE_APPLICATION_CONFIG'),
 			'extension_name' => 'com_config.application',
 			'itemlink'       => 'index.php?option=com_config',
 			'userid'         => $user->id,
