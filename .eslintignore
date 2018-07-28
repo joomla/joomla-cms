@@ -3,3 +3,4 @@
 *.js
 !*.es6.js
 *.vue
+media-source/components/media/vue/node_modules/uri-js/node_modules/punycode/punycode.es6.js

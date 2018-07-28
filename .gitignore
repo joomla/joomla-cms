@@ -32,6 +32,7 @@ composer.phar
 !libraries/vendor/.gitkeep
 
 /media/vendor
+/media-source/components/media/vue/node_modules
 !media/vendor/.gitkeep
 
 # Stubs file holding mapped classes

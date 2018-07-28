@@ -1,0 +1,65 @@
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+((Awesomplete) => {
+  'use strict';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchWords = [].slice.call(document.querySelectorAll('.js-finder-search-query'));
+
+    searchWords.forEach((searchword) => {
+      // Handle the auto suggestion
+      if (Joomla.getOptions('finder-search')) {
+        searchword.awesomplete = new Awesomplete(searchword);
+
+        // If the current value is empty, set the previous value.
+        searchword.addEventListener('keyup', (event) => {
+          if (event.target.value.length > 1) {
+            event.target.awesomplete.list = [];
+
+            Joomla.request({
+              url: `${Joomla.getOptions('finder-search').url}&q=${event.target.value}`,
+              method: 'GET',
+              data: { q: event.target.value },
+              perform: true,
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              onSuccess: (resp) => {
+                const response = JSON.parse(resp);
+                if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
+                  event.target.awesomplete.list = response.suggestions;
+                }
+              },
+              onError: (xhr) => {
+                if (xhr.status > 0) {
+                  Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+                }
+              },
+            },
+            );
+          }
+        });
+      }
+    });
+
+    const forms = [].slice.call(document.querySelectorAll('.js-finder-searchform'));
+
+    forms.forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.stopPropagation();
+        const advanced = event.target.querySelector('.js-finder-advanced');
+
+        // Disable select boxes with no value selected.
+        if (advanced.length) {
+          const fields = [].slice.call(advanced.querySelectorAll('select'));
+
+          fields.forEach((field) => {
+            if (!field.value) {
+              field.setAttribute('disabled', 'disabled');
+            }
+          });
+        }
+      });
+    });
+  });
+})(window.Awesomplete);
