@@ -61,7 +61,7 @@ class Session implements ServiceProviderInterface
 				$name = ApplicationHelper::getHash($config->get('session_name', AdministratorApplication::class));
 
 				// Calculate the session lifetime.
-				$lifetime = ($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900;
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
 
 				// Initialize the options for the Session object.
 				$options = [
@@ -96,7 +96,7 @@ class Session implements ServiceProviderInterface
 				$name = ApplicationHelper::getHash($config->get('session_name', InstallationApplication::class));
 
 				// Calculate the session lifetime.
-				$lifetime = ($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900;
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
 
 				// Initialize the options for the Session object.
 				$options = [
@@ -126,7 +126,7 @@ class Session implements ServiceProviderInterface
 				$name = ApplicationHelper::getHash($config->get('session_name', SiteApplication::class));
 
 				// Calculate the session lifetime.
-				$lifetime = ($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900;
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
 
 				// Initialize the options for the Session object.
 				$options = [
@@ -161,7 +161,7 @@ class Session implements ServiceProviderInterface
 				$name = ApplicationHelper::getHash($config->get('session_name', ConsoleApplication::class));
 
 				// Calculate the session lifetime.
-				$lifetime = ($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900;
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
 
 				// Initialize the options for the Session object.
 				$options = [
