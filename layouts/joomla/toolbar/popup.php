@@ -10,10 +10,10 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-toolbar-button.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 
 /**
  * @var  int     $id
@@ -31,18 +31,10 @@ extract($displayData, EXTR_OVERWRITE);
 $tagName = $tagName ?? 'button';
 
 $modalAttrs['data-toggle'] = 'modal';
+$modalAttrs['data-target'] = '#' . $selector;
 
-if (!empty($listCheck))
-{
-	$modalAttrs['onclick'] = 'jQuery(\'#' . $selector . '\' ).modal(\'show\');';
-}
-else
-{
-	$modalAttrs['data-target'] = '#' . $selector;
-}
-
-$idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
-$listAttr = !empty($listCheck)      ? ' list-selection' : '';
+$idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
+$listAttr = !empty($listCheck) ? ' list-selection' : '';
 
 ?>
 <joomla-toolbar-button <?php echo $idAttr.$listAttr; ?>>
