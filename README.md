@@ -20,13 +20,11 @@ What is Joomla?
 * It is a simple and powerful web server application which requires a server with PHP and either MySQL or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
-Do you want to improve Joomla?
---------------------
-* Where to [request a feature](https://issues.joomla.org)?
-* How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
-* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org).
-* Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
-* Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
+Looking for an installable package?
+---------------------
+Joomla is not installable out of the box from this repository, please use:
+- For the latest stable package: https://downloads.joomla.org
+- For a nightly package: https://developer.joomla.org/nightly-builds.html
 
 How to get a working installation from the source
 ---------------------
@@ -53,6 +51,14 @@ composer install
 ```bash
 npm install
 ```
+
+Do you want to improve Joomla?
+--------------------
+* Where to [request a feature](https://issues.joomla.org)?
+* How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org).
+* Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
+* Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 
 Copyright
 ---------------------
