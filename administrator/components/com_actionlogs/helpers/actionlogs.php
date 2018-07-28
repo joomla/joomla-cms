@@ -38,12 +38,13 @@ class ActionlogsHelper
 
 		foreach ($data as $log)
 		{
-			$extension = static::translateExtensionName(strtoupper(strtok($log->extension, '.')));
+			$extension = strtok($log->extension, '.');
+			static::loadTranslationFiles($extension);
 			$row               = array();
 			$row['id']         = $log->id;
 			$row['message']    = strip_tags(static::getHumanReadableLogMessage($log));
 			$row['date']       = JHtml::_('date', $log->log_date, JText::_('DATE_FORMAT_LC6'));
-			$row['extension']  = $extension;
+			$row['extension']  = JText::_($extension);
 			$row['name']       = $log->name;
 			$row['ip_address'] = JText::_($log->ip_address);
 
@@ -54,23 +55,55 @@ class ActionlogsHelper
 	}
 
 	/**
-	 * Change the retrieved extension name to more user friendly name
+	 * Load the translation files for an extension
 	 *
 	 * @param   string  $extension  Extension name
 	 *
-	 * @return  string  Translated extension name
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function translateExtensionName($extension)
+	public static function loadTranslationFiles($extension)
 	{
+		static $cache = array();
+
+		if (isset($cache[$extension]))
+		{
+			return;
+		}
+
 		$lang   = JFactory::getLanguage();
-		$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+
+		switch (substr($extension, 0, 3))
+		{
+			case 'com':
+			default:
+				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+				break;
+
+			case 'lib':
+				$source = JPATH_LIBRARIES . '/' . substr($extension, 4);
+				break;
+
+			case 'mod':
+				$source = JPATH_SITE . '/modules/' . $extension;
+				break;
+
+			case 'plg':
+				$parts = explode('_', $extension, 3);
+				$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
+				break;
+
+			case 'tpl':
+				$source = JPATH_BASE . '/templates/' . substr($extension, 4);
+				break;
+
+		}
 
 		$lang->load(strtolower($extension), JPATH_ADMINISTRATOR, null, false, true)
 			|| $lang->load(strtolower($extension), $source, null, false, true);
 
-		return JText::_($extension);
+		$cache[$extension] = true;
 	}
 
 	/**
@@ -143,7 +176,8 @@ class ActionlogsHelper
 		// Special handling for translation extension name
 		if (isset($messageData['extension_name']))
 		{
-			$messageData['extension_name'] = static::translateExtensionName($messageData['extension_name']);
+			static::loadTranslationFiles($messageData['extension_name']);
+			$messageData['extension_name'] = JText::_($messageData['extension_name']);
 		}
 
 		$linkMode = JFactory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;

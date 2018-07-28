@@ -136,11 +136,12 @@ class ActionlogsModelActionlog extends JModelLegacy
 		}
 
 		$layout    = new JLayoutFile('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
-		$extension = ActionlogsHelper::translateExtensionName(strtoupper(strtok($context, '.')));
+		$extension = strtok($context, '.');
+		ActionlogsHelper::loadTranslationFiles($extension);
 
 		foreach ($messages as $message)
 		{
-			$message->extension = $extension;
+			$message->extension = JText::_($extension);
 			$message->message   = ActionlogsHelper::getHumanReadableLogMessage($message);
 		}
 
