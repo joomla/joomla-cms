@@ -62,7 +62,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 <?php endif; ?>
 <?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-		<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
+	<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 <?php endif; ?>
 
 <?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
