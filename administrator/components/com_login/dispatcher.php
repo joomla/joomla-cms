@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_login
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LoginDispatcher extends Dispatcher
 {
@@ -24,22 +24,19 @@ class LoginDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Login';
 
 	/**
-	 * Constructor for Dispatcher
+	 * Dispatch a controller task.
 	 *
-	 * @param   CMSApplication  $app    The application for the dispatcher
-	 * @param   \JInput         $input  The input object
+	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, \JInput $input = null)
+	public function dispatch()
 	{
-		parent::__construct($app, $input);
-
 		// Only accept two values login and logout for `task`
 		$task = $this->input->get('task');
 
@@ -47,6 +44,8 @@ class LoginDispatcher extends Dispatcher
 		{
 			$this->input->set('task', '');
 		}
+
+		parent::dispatch();
 	}
 
 	/**

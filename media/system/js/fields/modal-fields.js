@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@
 			// Submit button on child iframe so we can check out.
 			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
 
-			jQuery('#' + modalId).modal('hide');
+			Joomla.Modal.getCurrent().close();
 		}
 		// For Save (apply task) and Save & Close (save task).
 		else
@@ -184,7 +184,7 @@
 	 */
 	window.processModalSelect = function(itemType, fieldPrefix, id, title, catid, object, url, language) {
 		window.processModalParent(fieldPrefix, id, title, catid, url, language, object);
-		jQuery('#ModalSelect' + itemType + '_' + fieldPrefix).modal('hide');
+		Joomla.Modal.getCurrent().close();
 
 		return false;
 	};

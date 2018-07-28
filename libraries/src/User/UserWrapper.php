@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -137,7 +137,9 @@ class UserWrapper
 	/**
 	 * Helper wrapper method for hashPassword
 	 *
-	 * @param   string  $password  The plaintext password to encrypt.
+	 * @param   string   $password   The plaintext password to encrypt.
+	 * @param   integer  $algorithm  The hashing algorithm to use, represented by `PASSWORD_*` constants.
+	 * @param   array    $options    The options for the algorithm to use.
 	 *
 	 * @return  string  The encrypted password.
 	 *
@@ -145,9 +147,9 @@ class UserWrapper
 	 * @since   3.4
 	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
-	public function hashPassword($password)
+	public function hashPassword($password, $algorithm = PASSWORD_BCRYPT, array $options = array())
 	{
-		return UserHelper::hashPassword($password);
+		return UserHelper::hashPassword($password, $algorithm, $options);
 	}
 
 	/**

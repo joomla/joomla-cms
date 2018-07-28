@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,9 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Administrator Application class
@@ -76,10 +79,10 @@ class AdministratorApplication extends CMSApplication
 		$this->loadDocument();
 
 		// Set up the params
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
-		// Register the document object with \JFactory
-		\JFactory::$document = $document;
+		// Register the document object with Factory
+		Factory::$document = $document;
 
 		switch ($document->getType())
 		{
@@ -99,7 +102,7 @@ class AdministratorApplication extends CMSApplication
 				break;
 		}
 
-		$document->setTitle($this->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
+		$document->setTitle($this->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
 		$document->setDescription($this->get('MetaDesc'));
 		$document->setGenerator('Joomla! - Open Source Content Management');
 
@@ -189,10 +192,10 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = \JFactory::getUser()->getParam('admin_style');
+		$admin_style = Factory::getUser()->getParam('admin_style');
 
 		// Load the template name from the database
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('template, s.params')
 			->from('#__template_styles as s')
@@ -208,12 +211,12 @@ class AdministratorApplication extends CMSApplication
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
-		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
 		}
@@ -223,7 +226,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
 		}
 
 		if ($params)
@@ -245,7 +248,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
@@ -345,10 +348,10 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$userid = $user->get('id');
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__messages_cfg'))
@@ -372,7 +375,7 @@ class AdministratorApplication extends CMSApplication
 		if ($purge > 0)
 		{
 			// Purge old messages at day set in message configuration
-			$past = \JFactory::getDate(time() - $purge * 86400);
+			$past = Factory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toSql();
 
 			$query->clear()
@@ -411,16 +414,30 @@ class AdministratorApplication extends CMSApplication
 		// Safety check for when configuration.php root_user is in use.
 		$rootUser = $this->get('root_user');
 
-		if (property_exists('\JConfig', 'root_user')
-			&& (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser))
+		if (property_exists('\JConfig', 'root_user'))
 		{
-			$this->enqueueMessage(
-				\JText::sprintf(
-					'JWARNING_REMOVE_ROOT_USER',
-					'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
-				),
-				'notice'
-			);
+			if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser)
+			{
+				$this->enqueueMessage(
+					Text::sprintf(
+						'JWARNING_REMOVE_ROOT_USER',
+						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+					),
+					'error'
+				);
+			}
+			// Show this message to superusers too
+			elseif (Factory::getUser()->authorise('core.admin'))
+			{
+				$this->enqueueMessage(
+					Text::sprintf(
+						'JWARNING_REMOVE_ROOT_USER_ADMIN',
+						$rootUser,
+						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+					),
+					'error'
+				);
+			}
 		}
 
 		parent::render();
@@ -459,19 +476,13 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @return  string  The component to access.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function findOption()
+	public function findOption(): string
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$option = strtolower($app->input->get('option'));
 		$user = $app->getIdentity();
-
-		if (!$user)
-		{
-			$app->loadIdentity(\JFactory::getUser());
-			$user = $app->getIdentity();
-		}
 
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{

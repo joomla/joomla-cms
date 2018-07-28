@@ -3,14 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Supports an HTML select list of fonts
@@ -19,7 +20,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.codemirror
  * @since       3.4
  */
-class JFormFieldFonts extends JFormFieldList
+class JFormFieldFonts extends ListField
 {
 	/**
 	 * The form field type.
@@ -43,7 +44,7 @@ class JFormFieldFonts extends JFormFieldList
 
 		foreach ($fonts as $key => $info)
 		{
-			$options[] = JHtml::_('select.option', $key, $info->name);
+			$options[] = HTMLHelper::_('select.option', $key, $info->name);
 		}
 
 		// Merge any additional options in the XML definition.

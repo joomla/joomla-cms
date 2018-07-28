@@ -1,0 +1,115 @@
+// Bootstrap functions
+@import "../../vendor/bootstrap/scss/functions";
+
+// Bootstrap other
+@import "../../vendor/bootstrap/scss/mixins";
+@import "../../vendor/bootstrap/scss/variables";
+
+// Extension variables
+$extension-types: (
+  "jcommercial": #f6c801,
+  "jcomponent":  #1e9e33,
+  "jlanguage":   $dark,
+  "jmodule":     #e20a0a,
+  "jplugin":     #57278e,
+  "jspecific":   #d69b34,
+  "jtool":       #333
+);
+
+.com-apps-container {
+  // Extension type badges
+  .badge {
+    margin: 1px;
+  }
+
+  @each $color, $value in $extension-types {
+    .badge-#{$color} {
+      @include badge-variant($value);
+    }
+  }
+
+  .fader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: 5px;
+    text-align: center;
+    @include gradient-y(rgba(255,255,255,0), rgba(255,255,255,1), 70%, 95%);
+  }
+
+  .com-apps-sidebar {
+    // Bootstrap 4 does not indent second level navigation
+    .nav {
+      .nav {
+        padding-left: 15px;
+      }
+    }
+
+    a {
+      &:hover,
+      &.active {
+        color: $white;
+        text-decoration: none;
+        background-color: #33608f;
+      }
+    }
+  }
+
+  .grid-container {
+    .card {
+      height: 400px;
+      margin-bottom: 10px;
+
+      &:hover {
+        background-color: $white;
+      }
+    }
+
+    .card-text {
+      height: 160px;
+      overflow: hidden;
+    }
+
+    .card-body {
+      cursor: pointer;
+    }
+  }
+
+  .list-container {
+    box-sizing: border-box;
+
+    // Override fader gradient
+    .fader {
+      @include gradient-y(rgba(255,255,255,0), rgba(255,255,255,1), 0%, 25%);
+    }
+
+    .list-group-item {
+      margin-bottom: 10px;
+
+      &:hover {
+        background-color: #f8f8f8;
+      }
+
+      .row {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// Disallow scrolling when overlay is active
+.ifw-busy {
+  overflow: hidden;
+}
+
+.ifw-loading-container {
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background: url("../../system/images/ajax-loader.gif") rgba(255,255,255,.7) 50% 10px no-repeat;
+  opacity: .95;
+}

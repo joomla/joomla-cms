@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 	<fieldset>
 		<field
 			name="id"
@@ -47,7 +47,6 @@
 			id="client_id"
 			default="0"
 			class="switcher switcher-primary"
-			required="true"
 			>
 			<option value="0">JSITE</option>
 			<option value="1">JADMINISTRATOR</option>
@@ -69,7 +68,7 @@
 			filter="rules"
 			component="com_menus"
 			section="menu"
-			validate="rules" 
+			validate="rules"
 		/>
 	</fieldset>
 </form>

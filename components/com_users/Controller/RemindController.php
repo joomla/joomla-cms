@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Site\Controller;
@@ -11,6 +11,8 @@ namespace Joomla\Component\Users\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
 /**
  * Reset controller class for Users.
@@ -43,8 +45,8 @@ class RemindController extends BaseController
 		{
 			// The request failed.
 			// Go back to the request form.
-			$message = \JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=remind', false), $message, 'notice');
+			$message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
 		}
@@ -52,8 +54,8 @@ class RemindController extends BaseController
 		{
 			// The request succeeded.
 			// Proceed to step two.
-			$message = \JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false), $message);
+			$message = Text::_('COM_USERS_REMIND_REQUEST_SUCCESS');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 			return true;
 		}

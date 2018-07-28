@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Cleanup model for the Joomla Core Installer.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CleanupModel extends BaseInstallationModel
 {
@@ -23,9 +23,9 @@ class CleanupModel extends BaseInstallationModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	protected function deleteInstallationFolder()
+	public function deleteInstallationFolder()
 	{
 		$return = \JFolder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || \JFile::delete(JPATH_ROOT . '/joomla.xml'));
 

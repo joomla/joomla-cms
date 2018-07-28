@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,8 @@ if (!defined('_JEXEC'))
 {
 	define('_JEXEC', 1);
 }
+
+use Joomla\CMS\Language\Text;
 
 if (!function_exists('jimport'))
 {
@@ -49,7 +51,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -63,7 +65,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be deleted
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -75,22 +77,22 @@ if (!class_exists('JFile'))
 	}
 }
 
-// Fake the JFolder class, mapping it to Restore's post-processing class
-if (!class_exists('JFolder'))
+// Fake the Folder class, mapping it to Restore's post-processing class
+if (!class_exists('Folder'))
 {
 	/**
-	 * JFolder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+	 * Folder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
 	 *
 	 * @since  3.5.1
 	 */
-	abstract class JFolder
+	abstract class Folder
 	{
 		/**
 		 * Proxies checking a folder exists to the native php version
 		 *
 		 * @param   string  $folderName  The path to the folder to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -115,15 +117,15 @@ if (!class_exists('JFolder'))
 	}
 }
 
-// Fake the JText class - we aren't going to show errors to people anyhow
-if (!class_exists('JText'))
+// Fake the Text class - we aren't going to show errors to people anyhow
+if (!class_exists('Text'))
 {
 	/**
-	 * JText mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+	 * Text mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
 	 *
 	 * @since  3.5.1
 	 */
-	abstract class JText
+	abstract class Text
 	{
 		/**
 		 * No need for translations in a non-interactive script, so always return an empty string here
@@ -181,10 +183,6 @@ if (!function_exists('finalizeRestore'))
 		if (function_exists('opcache_reset'))
 		{
 			opcache_reset();
-		}
-		elseif (function_exists('apc_clear_cache'))
-		{
-			@apc_clear_cache();
 		}
 	}
 }

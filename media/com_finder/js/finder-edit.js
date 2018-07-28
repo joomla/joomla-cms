@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,15 +10,22 @@ Joomla = window.Joomla || {};
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		// Update the count
-		var filterNode = document.querySelectorAll('.filter-node');
+		// Handle toggle all
+		[].slice.call(document.querySelectorAll('.filter-toggle-all')).forEach(function(button) {
+			button.addEventListener('click', function(e) {
+				[].slice.call(document.querySelectorAll('.filter-node')).forEach(function(node) {
+					node.click();
+				});
+			});
+		});
 
-		for (var i = 0; i < filterNode.length; i++) {
+		// Update the count
+		[].slice.call(document.querySelectorAll('.filter-node')).forEach(function(node) {
 			var count = document.getElementById('jform_map_count');
 			if (count) {
 				count.value = document.querySelectorAll('input[type="checkbox"]:checked').length;
 			}
-		}
+		});
 
 		// Expand/collapse
 		var expandAccordion = document.getElementById('expandAccordion');

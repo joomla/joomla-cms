@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,8 @@ use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 jimport('joomla.filesystem.folder');
 
@@ -100,7 +102,7 @@ class ComponentAdapter extends InstallerAdapter
 				{
 					// If the site exists say so.
 					throw new \RuntimeException(
-						\JText::sprintf(
+						Text::sprintf(
 							'JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE',
 							$this->parent->getPath('extension_site')
 						)
@@ -109,7 +111,7 @@ class ComponentAdapter extends InstallerAdapter
 
 				// If the admin exists say so
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN',
 						$this->parent->getPath('extension_administrator')
 					)
@@ -145,9 +147,9 @@ class ComponentAdapter extends InstallerAdapter
 			if ($result === false)
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_COMP_FAIL_SITE_FILES',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 					)
 				);
 			}
@@ -168,9 +170,9 @@ class ComponentAdapter extends InstallerAdapter
 			if ($result === false)
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_COMP_FAIL_ADMIN_FILES',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 					)
 				);
 			}
@@ -187,9 +189,9 @@ class ComponentAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					throw new \RuntimeException(
-						\JText::sprintf(
+						Text::sprintf(
 							'JLIB_INSTALLER_ABORT_COMP_COPY_MANIFEST',
-							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 						)
 					);
 				}
@@ -215,9 +217,9 @@ class ComponentAdapter extends InstallerAdapter
 			if (!$created = \JFolder::create($this->parent->getPath('extension_site')))
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_site')
 					)
 				);
@@ -246,9 +248,9 @@ class ComponentAdapter extends InstallerAdapter
 			if (!$created = \JFolder::create($this->parent->getPath('extension_administrator')))
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_site')
 					)
 				);
@@ -304,9 +306,9 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_COMP_COPY_SETUP',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 					)
 				);
 			}
@@ -315,14 +317,14 @@ class ComponentAdapter extends InstallerAdapter
 		// Time to build the admin menus
 		if (!$this->_buildAdminMenus($this->extension->extension_id))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), \JLog::WARNING, 'jerror');
 		}
 
 		// Make sure that menu items pointing to the component have correct component id assigned to them.
 		// Prevents message "Component 'com_extension' does not exist." after uninstalling / re-installing component.
 		if (!$this->_updateMenus($this->extension->extension_id))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATESITEMENUS_FAILED'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ABORT_COMP_UPDATESITEMENUS_FAILED'), \JLog::WARNING, 'jerror');
 		}
 
 		/** @var Asset $asset */
@@ -342,9 +344,9 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_ROLLBACK',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->extension->getError()
 					)
 				);
@@ -357,7 +359,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function finaliseUninstall(): bool
@@ -409,12 +411,14 @@ class ComponentAdapter extends InstallerAdapter
 		// Now we need to delete the installation directories. This is the final step in uninstalling the component.
 		if (trim($this->extension->element))
 		{
+			$retval = true;
+
 			// Delete the component site directory
 			if (is_dir($this->parent->getPath('extension_site')))
 			{
 				if (!\JFolder::delete($this->parent->getPath('extension_site')))
 				{
-					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), \JLog::WARNING, 'jerror');
 					$retval = false;
 				}
 			}
@@ -424,7 +428,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				if (!\JFolder::delete($this->parent->getPath('extension_administrator')))
 				{
-					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), \JLog::WARNING, 'jerror');
+					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), \JLog::WARNING, 'jerror');
 					$retval = false;
 				}
 			}
@@ -436,7 +440,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// No component option defined... cannot delete what we don't know about
-		\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'), \JLog::WARNING, 'jerror');
+		\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'), \JLog::WARNING, 'jerror');
 
 		return false;
 	}
@@ -530,7 +534,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function parseQueries()
@@ -618,7 +622,7 @@ class ComponentAdapter extends InstallerAdapter
 			}
 			catch (\RuntimeException $e)
 			{
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), $e->getCode(), $e);
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), $e->getCode(), $e);
 			}
 		}
 	}
@@ -628,7 +632,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function removeExtensionFiles()
@@ -659,7 +663,7 @@ class ComponentAdapter extends InstallerAdapter
 		// Make sure that we have an admin element
 		if (!$this->getManifest()->administration)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
 		}
 	}
 
@@ -668,7 +672,7 @@ class ComponentAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setupUninstall()
 	{
@@ -697,7 +701,7 @@ class ComponentAdapter extends InstallerAdapter
 			$this->_removeAdminMenus($this->extension->extension_id);
 
 			// Raise a warning
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'));
 		}
 
 		// Attempt to load the admin language file; might have uninstall strings
@@ -771,11 +775,11 @@ class ComponentAdapter extends InstallerAdapter
 			$db = $this->parent->getDbo();
 
 			$query = $db->getQuery(true)
-						->select($db->qn('extension_id'))
-						->from($db->qn('#__extensions'))
-						->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
-						->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
-						->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
+				->select($db->qn('extension_id'))
+				->from($db->qn('#__extensions'))
+				->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
+				->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
+				->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
 
 			$db->setQuery($query);
 
@@ -817,7 +821,7 @@ class ComponentAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK',
 					$this->extension->getError()
 				)
@@ -848,13 +852,13 @@ class ComponentAdapter extends InstallerAdapter
 
 		// If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
 		$query = $db->getQuery(true)
-					->select('m.id, e.extension_id')
-					->from('#__menu AS m')
-					->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-					->where('m.parent_id = 1')
-					->where('m.client_id = 1')
-					->where('m.menutype = ' . $db->quote('main'))
-					->where('e.element = ' . $db->quote($option));
+			->select('m.id, e.extension_id')
+			->from('#__menu AS m')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('m.parent_id = 1')
+			->where('m.client_id = 1')
+			->where('m.menutype = ' . $db->quote('main'))
+			->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
 
@@ -1060,11 +1064,11 @@ class ComponentAdapter extends InstallerAdapter
 
 		// Get the ids of the menu items
 		$query = $db->getQuery(true)
-					->select('id')
-					->from('#__menu')
-					->where($db->quoteName('client_id') . ' = 1')
-					->where($db->quoteName('menutype') . ' = ' . $db->q('main'))
-					->where($db->quoteName('component_id') . ' = ' . (int) $id);
+			->select('id')
+			->from('#__menu')
+			->where($db->quoteName('client_id') . ' = 1')
+			->where($db->quoteName('menutype') . ' = ' . $db->q('main'))
+			->where($db->quoteName('component_id') . ' = ' . (int) $id);
 
 		$db->setQuery($query);
 
@@ -1078,9 +1082,9 @@ class ComponentAdapter extends InstallerAdapter
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)
 			{
-				if (!$table->delete((int) $menuid))
+				if (!$table->delete((int) $menuid, false))
 				{
-					\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+					Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 					$result = false;
 				}
@@ -1126,13 +1130,13 @@ class ComponentAdapter extends InstallerAdapter
 		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
 		// to use the new component id.
 		$query = $db->getQuery(true)
-					->update('#__menu')
-					->set('component_id = ' . $db->quote($component_id))
-					->where('type = ' . $db->quote('component'))
-					->where('(' .
-						'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR ' .
-						'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false) .
-					')');
+			->update('#__menu')
+			->set('component_id = ' . $db->quote($component_id))
+			->where('type = ' . $db->quote('component'))
+			->where('('
+				. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
+				. 'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false)
+				. ')');
 
 		if (isset($clientId))
 		{
@@ -1254,7 +1258,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1290,14 +1294,14 @@ class ComponentAdapter extends InstallerAdapter
 		{
 			// The menu item already exists. Delete it and retry instead of throwing an error.
 			$query = $db->getQuery(true)
-						->select('id')
-						->from('#__menu')
-						->where('menutype = ' . $db->q($data['menutype']))
-						->where('client_id = 1')
-						->where('link = ' . $db->q($data['link']))
-						->where('type = ' . $db->q($data['type']))
-						->where('parent_id = ' . $db->q($data['parent_id']))
-						->where('home = ' . $db->q($data['home']));
+				->select('id')
+				->from('#__menu')
+				->where('menutype = ' . $db->q($data['menutype']))
+				->where('client_id = 1')
+				->where('link = ' . $db->q($data['link']))
+				->where('type = ' . $db->q($data['type']))
+				->where('parent_id = ' . $db->q($data['parent_id']))
+				->where('home = ' . $db->q($data['home']));
 
 			$db->setQuery($query);
 			$menu_id = $db->loadResult();
@@ -1305,7 +1309,7 @@ class ComponentAdapter extends InstallerAdapter
 			if (!$menu_id)
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
-				\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+				Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 				return false;
 			}
@@ -1322,7 +1326,7 @@ class ComponentAdapter extends InstallerAdapter
 				if (!$table->bind($data) || !$table->check() || !$table->store())
 				{
 					// Install failed, warn user and rollback changes
-					\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+					Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
 					return false;
 				}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Fields\Administrator\Table;
@@ -15,6 +15,9 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Fields Table
@@ -26,7 +29,7 @@ class FieldTable extends Table
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver object.
+	 * @param   DatabaseDriver  $db  DatabaseDriver object.
 	 *
 	 * @since   3.7.0
 	 */
@@ -92,7 +95,7 @@ class FieldTable extends Table
 		// Check for valid name
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+			$this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
 			return false;
 		}
@@ -112,11 +115,11 @@ class FieldTable extends Table
 		$this->name = str_replace(',', '-', $this->name);
 
 		// Verify that the name is unique
-		$table = new Field($this->_db);
+		$table = new static($this->_db);
 
 		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+			$this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
 			return false;
 		}
@@ -128,8 +131,8 @@ class FieldTable extends Table
 			$this->type = 'text';
 		}
 
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{

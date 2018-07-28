@@ -3,18 +3,21 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Vote plugin.
  *
  * @since  1.5
  */
-class PlgContentVote extends JPlugin
+class PlgContentVote extends CMSPlugin
 {
 	/**
 	 * Application object
@@ -121,7 +124,7 @@ class PlgContentVote extends JPlugin
 		$this->loadLanguage();
 
 		// Get the path for the rating summary layout file
-		$path = JPluginHelper::getLayoutPath('content', 'vote', 'rating');
+		$path = PluginHelper::getLayoutPath('content', 'vote', 'rating');
 
 		// Render the layout
 		ob_start();
@@ -131,7 +134,7 @@ class PlgContentVote extends JPlugin
 		if ($this->app->input->getString('view', '') === 'article' && $row->state == 1)
 		{
 			// Get the path for the voting form layout file
-			$path = JPluginHelper::getLayoutPath('content', 'vote', 'vote');
+			$path = PluginHelper::getLayoutPath('content', 'vote', 'vote');
 
 			// Render the layout
 			ob_start();

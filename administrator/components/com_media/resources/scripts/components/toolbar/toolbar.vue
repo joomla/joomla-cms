@@ -9,20 +9,23 @@
             </a>
         </div>
         <media-breadcrumb></media-breadcrumb>
+        <div class="media-view-search-input">
+            <input type="text" @input="changeSearch" :placeholder="translate('COM_MEDIA_SEARCH')"/>
+        </div>
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-decrease-grid-size"
                v-if="isGridView"
                :class="{disabled: isGridSize('xs')}"
                @click.stop.prevent="decreaseGridSize()" 
                :aria-label="translate('COM_MEDIA_DECREASE_GRID')">
-                <span class="fa fa-minus" aria-hidden="true"></span>
+                <span class="fa fa-search-minus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-increase-grid-size"
                v-if="isGridView"
                :class="{disabled: isGridSize('xl')}"
                @click.stop.prevent="increaseGridSize()" 
                :aria-label="translate('COM_MEDIA_INCREASE_GRID')">
-                <span class="fa fa-plus" aria-hidden="true"></span>
+                <span class="fa fa-search-plus" aria-hidden="true"></span>
             </a>
             <a href="#" class="media-toolbar-icon media-toolbar-list-view"
                @click.stop.prevent="changeListView()"
@@ -48,7 +51,7 @@
                 return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
             },
             toggleSelectAllBtnIcon() {
-                return (this.allItemsSelected) ? 'fa fa fa-square-o' : 'fa fa-check-square-o'
+                return (this.allItemsSelected) ? 'fa fa-check-square-o' : 'fa fa-square-o'
             },
             isLoading() {
                 return this.$store.state.isLoading;
@@ -97,6 +100,9 @@
             },
             isGridSize(size) {
                 return (this.$store.state.gridSize === size);
+            },
+            changeSearch(query){
+                this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
             }
         }
     }

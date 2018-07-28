@@ -255,7 +255,7 @@
 
 		<field
 			name="readmore_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
@@ -402,7 +402,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
 			default="10"
@@ -718,28 +718,28 @@
 
 		<field 
 			name="num_leading_articles"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			default="1"			
 		/>
 
 		<field 
 			name="num_intro_articles"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			default="4"
 		/>
 
 		<field 
 			name="num_columns"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			default="2"
 		/>
 
 		<field 
 			name="num_links"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			default="4"
 		/>
@@ -1021,31 +1021,6 @@
 			label="JGLOBAL_SEF_NOIDS_LABEL"
 			filter="integer"
 		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="sef_advanced"
-			type="radio"
-			class="switcher switcher-primary"
-			default="0"
-			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			description="JGLOBAL_SEF_ADVANCED_DESC"
-			filter="integer"
-		>
-			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
-		</field>
-
-		<field
-			name="sef_ids"
-			type="radio"
-			class="switcher"
-			default="0"
-			label="JGLOBAL_SEF_NOIDS_LABEL"
-			showon="sef_advanced:1"
-			filter="integer">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>

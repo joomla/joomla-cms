@@ -27,7 +27,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
 			default="5"
@@ -143,7 +143,7 @@
 		
 		<field
 			name="tag_list_item_maximum_characters"
-			type="text"
+			type="number"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			filter="integer"
 			showon="tag_list_show_item_description:1"
@@ -190,7 +190,7 @@
 		
 		<field
 			name="maximum"
-			type="text"
+			type="number"
 			label="COM_TAGS_LIST_MAX_LABEL"
 			default="200"
 			filter="integer"
@@ -268,7 +268,7 @@
 		
 		<field
 			name="all_tags_tag_maximum_characters"
-			type="text"
+			type="number"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			filter="integer"
 			showon="all_tags_show_tag_descripion:1"

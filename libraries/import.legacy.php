@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,8 +51,6 @@ if (!class_exists('JLoader'))
 
 // Setup the autoloaders.
 JLoader::setup();
-
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))

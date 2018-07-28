@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Installer\Administrator\Model;
@@ -11,8 +11,8 @@ namespace Joomla\Component\Installer\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Table\Extension;
-use Joomla\Component\Templates\Administrator\Table\Style;
+use Joomla\Component\Templates\Administrator\Table\StyleTable;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Installer Manage Model
@@ -71,6 +71,7 @@ class ManageModel extends InstallerModel
 		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+		$this->setState('filter.core', $this->getUserStateFromRequest($this->context . '.filter.core', 'filter_core', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -120,7 +121,7 @@ class ManageModel extends InstallerModel
 
 			if ($table->type == 'template')
 			{
-				$style = new Style($this->getDbo());
+				$style = new StyleTable($this->getDbo());
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
@@ -284,7 +285,7 @@ class ManageModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  DatabaseQuery  The database query
 	 *
 	 * @since   1.6
 	 */
@@ -301,14 +302,15 @@ class ManageModel extends InstallerModel
 		$type     = $this->getState('filter.type');
 		$clientId = $this->getState('filter.client_id');
 		$folder   = $this->getState('filter.folder');
+		$core     = $this->getState('filter.core');
 
-		if ($status != '')
+		if ($status !== '')
 		{
-			if ($status == '2')
+			if ($status === '2')
 			{
 				$query->where('protected = 1');
 			}
-			elseif ($status == '3')
+			elseif ($status === '3')
 			{
 				$query->where('protected = 0');
 			}
@@ -324,14 +326,37 @@ class ManageModel extends InstallerModel
 			$query->where('type = ' . $this->_db->quote($type));
 		}
 
-		if ($clientId != '')
+		if ($clientId !== '')
 		{
 			$query->where('client_id = ' . (int) $clientId);
 		}
 
-		if ($folder != '')
+		if ($folder !== '')
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+		}
+
+		if ($core !== '')
+		{
+			$coreExtensions = \JExtensionHelper::getCoreExtensions();
+			$elements       = array();
+
+			foreach ($coreExtensions as $extension)
+			{
+				$elements[] = $this->getDbo()->quote($extension[1]);
+			}
+
+			if ($elements)
+			{
+				if ($core === '1')
+				{
+					$query->where($this->getDbo()->quoteName('element') . ' IN (' . implode(',', $elements) . ')');
+				}
+				elseif ($core === '0')
+				{
+					$query->where($this->getDbo()->quoteName('element') . ' NOT IN (' . implode(',', $elements) . ')');
+				}
+			}
 		}
 
 		// Process search filter (extension id).

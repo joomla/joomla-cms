@@ -1,0 +1,40 @@
+//
+// Used in conjunction with global variables to enable certain theme features.
+
+@import "functions";
+@import "variables";
+
+// Single side border-radius
+@mixin border-radius($radius: $border-radius) {
+  @if $border-rounded {
+    border-radius: $radius;
+  }
+}
+
+@mixin border-top-radius($radius) {
+  @if $border-rounded {
+    border-top-left-radius: $radius;
+    border-top-left-radius: $radius;
+  }
+}
+
+@mixin border-right-radius($radius) {
+  @if $border-rounded {
+    border-top-right-radius: $radius;
+    border-top-right-radius: $radius;
+  }
+}
+
+@mixin border-bottom-radius($radius) {
+  @if $border-rounded {
+    border-bottom-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+  }
+}
+
+@mixin border-left-radius($radius) {
+  @if $border-rounded {
+    border-top-left-radius: $radius;
+    border-top-left-radius: $radius;
+  }
+}

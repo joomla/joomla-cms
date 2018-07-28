@@ -185,15 +185,21 @@
 		checkFilter: function (element) {
 			var self = this;
 			var option = element.querySelector('option:checked');
-			if (option.value !== '') {
-				self.activeFilter(element, self);
-			} else {
-				self.deactiveFilter(element, self);
-			}
+			if (option) {
+                if (option.value !== '') {
+                    self.activeFilter(element, self);
+                } else {
+                    self.deactiveFilter(element, self);
+                }
+            }
 		},
 		clear: function () {
 			var self = this;
-
+			
+			if (self.searchField) {
+                		self.searchField.value = '';
+			}
+			
 			if (self.getFilterFields()) {
 				self.getFilterFields().forEach(function(i) {
 					i.value = '';
@@ -318,16 +324,16 @@
 
 			var self = this;
 
-			if (!this.orderField.length)
+			if (!this.orderField)
 			{
-				this.orderField = createElement('<input>');
+				this.orderField = document.createElement('input');
 				this.orderField.setAttribute('type', 'hidden');
 				this.orderField.setAttribute('id', 'js-stools-field-order');
 				this.orderField.setAttribute('class', 'js-stools-field-order');
 				this.orderField.setAttribute('name', self.options.orderFieldName);
 				this.orderField.setAttribute('value', self.activeOrder + ' ' + this.activeDirection);
 
-				this.theForm.innerHTML+= this.orderField;
+				this.theForm.innerHTML+= this.orderField.outerHTML;
 			}
 
 			// Add missing columns to the order select

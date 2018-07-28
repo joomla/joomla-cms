@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
+use Joomla\CMS\Date\Date;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
+use Joomla\CMS\Factory;
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -72,13 +74,14 @@ class Document
 	 * Document generator
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $_generator = 'Joomla! - Open Source Content Management';
 
 	/**
 	 * Document modified date
 	 *
-	 * @var    string
+	 * @var    string|Date
 	 * @since  11.1
 	 */
 	public $_mdate = '';
@@ -150,7 +153,7 @@ class Document
 	/**
 	 * Array of scripts options
 	 *
-	 *  @var    array
+	 * @var    array
 	 */
 	protected $scriptOptions = array();
 
@@ -222,7 +225,7 @@ class Document
 	 * Factory for creating JDocument API objects
 	 *
 	 * @var    FactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $factory;
 
@@ -230,7 +233,7 @@ class Document
 	 * Preload manager
 	 *
 	 * @var    PreloadManagerInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $preloadManager = null;
 
@@ -238,7 +241,7 @@ class Document
 	 * The supported preload types
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $preloadTypes = ['preload', 'dns-prefetch', 'preconnect', 'prefetch', 'prerender'];
 
@@ -319,7 +322,8 @@ class Document
 	 *
 	 * @return  static  The document object.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the \Joomla\CMS\Document\FactoryInterface instead
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -327,7 +331,7 @@ class Document
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = \JFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
+			self::$instances[$signature] = Factory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 		}
 
 		return self::$instances[$signature];
@@ -340,7 +344,7 @@ class Document
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setFactory(FactoryInterface $factory): self
 	{
@@ -951,7 +955,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setPreloadManager(PreloadManagerInterface $preloadManager): self
 	{
@@ -965,7 +969,7 @@ class Document
 	 *
 	 * @return  PreloadManagerInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getPreloadManager(): PreloadManagerInterface
 	{
@@ -1017,7 +1021,7 @@ class Document
 	}
 
 	/**
-	 * Return the title of the page.
+	 * Return the description of the document.
 	 *
 	 * @return  string
 	 *
@@ -1087,14 +1091,27 @@ class Document
 	/**
 	 * Sets the document modified date
 	 *
-	 * @param   string  $date  The date to be set
+	 * @param   string|Date  $date  The date to be set
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @throws  \InvalidArgumentException
 	 */
 	public function setModifiedDate($date)
 	{
+		if (!is_string($date) && !($date instanceof Date))
+		{
+			throw new \InvalidArgumentException(
+				sprintf(
+					'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
+					__METHOD__ . '()',
+					'Joomla\\CMS\\Date\\Date',
+					gettype($date) === 'object' ? (get_class($date) . ' instance') : gettype($date)
+				)
+			);
+		}
+
 		$this->_mdate = $date;
 
 		return $this;
@@ -1103,7 +1120,7 @@ class Document
 	/**
 	 * Returns the document modified date
 	 *
-	 * @return  string
+	 * @return  string|Date
 	 *
 	 * @since   11.1
 	 */
@@ -1265,10 +1282,15 @@ class Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if ($mdate = $this->getModifiedDate())
 		{
+			if (!($mdate instanceof Date))
+			{
+				$mdate = new Date($mdate);
+			}
+
 			$app->modifiedDate = $mdate;
 		}
 
@@ -1287,7 +1309,7 @@ class Document
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preloadAssets()
 	{
@@ -1346,7 +1368,7 @@ class Document
 		// Check if the manager's provider has links, if so add the Link header
 		if ($links = $this->getPreloadManager()->getLinkProvider()->getLinks())
 		{
-			\JFactory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
+			Factory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
 		}
 	}
 }

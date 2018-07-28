@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contenthistory\Administrator\View\Preview;
@@ -11,6 +11,8 @@ namespace Joomla\Component\Contenthistory\Administrator\View\Preview;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of contenthistory.
@@ -49,9 +51,9 @@ class HtmlView extends BaseHtmlView
 
 		if (false === $this->item)
 		{
-			\JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
+			Factory::getLanguage()->load('com_content', JPATH_SITE, null, true);
 
-			throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 
 			return false;
 		}

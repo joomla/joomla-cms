@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class LanguageController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function set()
 	{
@@ -79,7 +79,7 @@ class LanguageController extends JSONController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setdefault()
 	{
@@ -87,7 +87,7 @@ class LanguageController extends JSONController
 
 		$app = $this->app;
 
-		// Get the languages model.
+		/** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
 		$model = $this->getModel('Languages');
 
 		// Check for request forgeries in the administrator language
@@ -133,7 +133,7 @@ class LanguageController extends JSONController
 		}
 
 		// Check if user has activated the multilingual site
-		$data = $this->getInput()->post->get('jform', array(), 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 
 		if ((int) $data['activateMultilanguage'])
 		{
@@ -156,7 +156,6 @@ class LanguageController extends JSONController
 			}
 
 			// Add menus
-			\JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
 			$siteLanguages       = $model->getInstalledlangsFrontend();
@@ -250,6 +249,6 @@ class LanguageController extends JSONController
 
 		// Redirect to the final page.
 		$r->view = 'remove';
-		$app->sendJsonResponse($r);
+		$this->sendJsonResponse($r);
 	}
 }

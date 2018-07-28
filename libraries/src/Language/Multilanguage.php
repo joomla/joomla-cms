@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Utitlity class for multilang
@@ -17,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
  */
 class Multilanguage
 {
+	/**
+	* Flag indicating multilanguage functionality is enabled.
+ 	*
+ 	* @var    boolean
+ 	* @since  4.0.0
+ 	*/
+	public static $enabled = false;
+
 	/**
 	 * Method to determine if the language filter plugin is enabled.
 	 * This works for both site and administrator.
@@ -30,25 +40,28 @@ class Multilanguage
 		// Flag to avoid doing multiple database queries.
 		static $tested = false;
 
-		// Status of language filter plugin.
-		static $enabled = false;
+		// Do not proceed with testing if the flag is true
+		if (static::$enabled)
+		{
+			return true;
+		}
 
 		// Get application object.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
 		if ($app->isClient('site'))
 		{
-			$enabled = $app->getLanguageFilter();
+			static::$enabled = $app->getLanguageFilter();
 
-			return $enabled;
+			return static::$enabled;
 		}
 
 		// If already tested, don't test again.
 		if (!$tested)
 		{
 			// Determine status of language filter plugin.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
 				->from($db->quoteName('#__extensions'))
@@ -57,11 +70,11 @@ class Multilanguage
 				->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
 			$db->setQuery($query);
 
-			$enabled = $db->loadResult();
+			static::$enabled = $db->loadResult();
 			$tested = true;
 		}
 
-		return (bool) $enabled;
+		return (bool) static::$enabled;
 	}
 
 	/**
@@ -94,7 +107,7 @@ class Multilanguage
 		if (!isset($multilangSiteHomePages))
 		{
 			// Check for Home pages languages.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('language')
 				->select('id')

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Service registry for loggers
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class LoggerRegistry
 {
@@ -21,7 +21,7 @@ final class LoggerRegistry
 	 * Array holding the registered services
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $loggerMap = [
 		'callback'      => Logger\CallbackLogger::class,
@@ -40,7 +40,7 @@ final class LoggerRegistry
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function getLoggerClass(string $key): string
@@ -60,7 +60,7 @@ final class LoggerRegistry
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hasLogger(string $key): bool
 	{
@@ -76,7 +76,7 @@ final class LoggerRegistry
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(string $key, string $class, bool $replace = false)
 	{

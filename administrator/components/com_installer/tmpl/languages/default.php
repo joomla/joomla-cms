@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,24 +24,22 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<div id="j-main-container" class="j-main-container">
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 					<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+						<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 					<?php else : ?>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
-								<th style="width:5%"></th>
-								<th class="nowrap">
+								<td style="width:5%"></td>
+								<th scope="col" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:15%" class="text-center">
+								<th scope="col" style="width:15%" class="text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th style="width:35%" class="nowrap hidden-sm-down">
+								<th scope="col" style="width:35%" class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>
@@ -68,9 +66,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
 									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
 								</td>
-								<td>
-                                    <?php echo $language->name; ?>
-								</td>
+								<th scope="row">
+									<?php echo $language->name; ?>
+								</th>
 								<td class="text-center">
 									<?php echo $language->code; ?>
 								</td>
@@ -83,7 +81,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<span class="badge badge-success"><?php echo $language->version; ?></span>
 										<?php endif; ?>
 								</td>
-								<td class="small hidden-sm-down">
+								<td class="small d-none d-md-table-cell">
 									<a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
 								</td>
 							</tr>

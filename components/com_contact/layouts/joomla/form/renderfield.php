@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData);
 
@@ -21,8 +23,8 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
-	JHtml::_('jquery.framework');
-	JHtml::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('jquery.framework');
+	HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
@@ -40,7 +42,7 @@ $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
  */
 preg_match('/class=\"([^\"]+)\"/i', $input, $match);
 
-$required      = (strpos($input, 'aria-required="true"') !== false || (!empty($match[1]) && strpos($match[1], 'required') !== false));
+$required      = !empty($match[1]) && strpos($match[1], 'required') !== false;
 $typeOfSpacer  = (strpos($label, 'spacer-lbl') !== false);
 
 ?>

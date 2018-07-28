@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,11 +15,12 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * JDocument metas renderer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MetasRenderer extends DocumentRenderer
 {
@@ -32,7 +33,7 @@ class MetasRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
@@ -45,7 +46,7 @@ class MetasRenderer extends DocumentRenderer
 
 		if ($this->_doc->getScriptOptions())
 		{
-			\JHtml::_('behavior.core');
+			HTMLHelper::_('behavior.core');
 		}
 
 		// Trigger the onBeforeCompileHead event

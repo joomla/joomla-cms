@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Renders a button to render an HTML element in a slider container
@@ -44,11 +46,11 @@ class SliderButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Slider', $name = '', $text = '', $url = '', $width = 640, $height = 480, $onClose = '')
 	{
-		\JHtml::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text']    = \JText::_($text);
+		$options['text']    = Text::_($text);
 		$options['name']    = $name;
 		$options['class']   = $this->fetchIconClass($name);
 		$options['onClose'] = '';
@@ -85,7 +87,7 @@ class SliderButton extends ToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-slider-' . $name;
+		return $this->parent->getName() . '-slider-' . $name;
 	}
 
 	/**

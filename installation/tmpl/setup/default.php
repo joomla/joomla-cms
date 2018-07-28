@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 	<form action="index.php" method="post" id="languageForm" class="lang-select">
 		<fieldset class="j-install-step active">
 			<legend class="j-install-step-header">
-				<span class="fa fa-language" aria-hidden="true"></span> <?php echo JText::_('Change language'); ?>
+				<span class="fa fa-language" aria-hidden="true"></span> <?php echo JText::_('INSTL_SELECT_INSTALL_LANG'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 	<form action="index.php" method="post" id="adminForm" class="form-validate">
 		<fieldset id="installStep1" class="j-install-step active">
 			<legend class="j-install-step-header">
-				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SETUP_LOGIN_DATA'); ?>
+				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SETUP_SITE_NAME'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
@@ -54,12 +54,12 @@ defined('_JEXEC') or die;
 					<?php echo $this->form->getInput('admin_user'); ?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->form->getLabel('admin_email'); ?>
-					<?php echo $this->form->getInput('admin_email'); ?>
-				</div>
-				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_password'); ?>
 					<?php echo $this->form->getInput('admin_password'); ?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('admin_email'); ?>
+					<?php echo $this->form->getInput('admin_email'); ?>
 				</div>
 				<div class="form-group">
 					<button class="btn btn-primary btn-block" id="step2"><?php echo JText::_('INSTL_CONNECT_DB'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>

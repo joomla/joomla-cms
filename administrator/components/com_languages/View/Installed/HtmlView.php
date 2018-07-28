@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Languages\Administrator\View\Installed;
@@ -24,7 +24,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * True, if FTP settings should be shown, or an exception.
 	 *
-	 * @var boolean|\JException
+	 * @var boolean|\Exception
 	 */
 	protected $ftp = null;
 
@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var    \JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $state;
 
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters;
 
@@ -77,7 +77,7 @@ class HtmlView extends BaseHtmlView
 	 * The sidebar markup
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $sidebar;
 

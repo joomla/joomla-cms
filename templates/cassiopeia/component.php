@@ -3,22 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /** @var JDocumentHtml $this */
 
 // Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+HTMLHelper::_('bootstrap.framework');
 
 // Add Stylesheets
-JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
-//JHtml::_('bootstrap.loadCss', false, $this->direction);
+//HTMLHelper::_('bootstrap.loadCss', false, $this->direction);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -26,7 +28,7 @@ JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<jdoc:include type="head" />
 </head>
-<body>
+<body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>

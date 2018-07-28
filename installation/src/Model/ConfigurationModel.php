@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$options->db_created = 1;
 
 		// Handle old db if exists
-		if (!$databaseModel->handleOldDatabase($options))
+		if (!$databaseModel->handleOldDatabase())
 		{
 			$this->deleteConfiguration();
 
@@ -83,7 +83,7 @@ class ConfigurationModel extends BaseInstallationModel
 		}
 
 		// Install CMS data
-		if (!$databaseModel->installCmsData($options))
+		if (!$databaseModel->installCmsData())
 		{
 			$this->deleteConfiguration();
 
@@ -96,7 +96,7 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the configuration file
 	 *
-	 * @param   array  $options  The session options
+	 * @param   \stdClass  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -108,7 +108,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry = new Registry;
 
 		// Site settings.
-		$registry->set('offline', '0');
+		$registry->set('offline', false);
 		$registry->set('offline_message', \JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
@@ -157,7 +157,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('smtppass', '');
 		$registry->set('smtphost', 'localhost');
 		$registry->set('smtpsecure', 'none');
-		$registry->set('smtpport', '25');
+		$registry->set('smtpport', 25);
 
 		// Cache settings.
 		$registry->set('caching', 0);
@@ -190,6 +190,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
 		$registry->set('shared_session', false);
+		$registry->set('session_metadata', true);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
@@ -218,12 +219,6 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 
 			// $useFTP = true;
-		}
-
-		// Check for safe mode.
-		if (ini_get('safe_mode'))
-		{
-			$useFTP = true;
 		}
 
 		// Enable/Disable override.
@@ -281,11 +276,8 @@ class ConfigurationModel extends BaseInstallationModel
 
 		$cryptpass = UserHelper::hashPassword($options->admin_password);
 
-		// Take the admin user id.
+		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
 		$userId = DatabaseModel::getUserId();
-
-		// We don't need the randUserId in the session any longer, let's remove it.
-		DatabaseModel::resetRandUserId();
 
 		// Create the admin user.
 		date_default_timezone_set('UTC');
@@ -397,7 +389,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function deleteConfiguration()
 	{

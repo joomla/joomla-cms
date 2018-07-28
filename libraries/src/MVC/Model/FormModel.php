@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,12 @@ namespace Joomla\CMS\MVC\Model;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Prototype form model.
@@ -21,8 +26,10 @@ use Joomla\Utilities\ArrayHelper;
  * @see    \JFormRule
  * @since  1.6
  */
-abstract class FormModel extends BaseDatabaseModel
+abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface
 {
+	use FormFactoryAwareTrait;
+
 	/**
 	 * Array of form objects.
 	 *
@@ -42,13 +49,14 @@ abstract class FormModel extends BaseDatabaseModel
 	/**
 	 * Constructor
 	 *
-	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   3.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
 		$config['events_map'] = $config['events_map'] ?? array();
 
@@ -60,6 +68,8 @@ abstract class FormModel extends BaseDatabaseModel
 		);
 
 		parent::__construct($config, $factory);
+
+		$this->setFormFactory($formFactory);
 	}
 
 	/**
@@ -76,7 +86,7 @@ abstract class FormModel extends BaseDatabaseModel
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
@@ -100,7 +110,7 @@ abstract class FormModel extends BaseDatabaseModel
 			// Check if this is the user having previously checked out the row.
 			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
 				return false;
 			}
@@ -150,12 +160,12 @@ abstract class FormModel extends BaseDatabaseModel
 				return true;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
 				return false;
 			}
@@ -228,7 +238,33 @@ abstract class FormModel extends BaseDatabaseModel
 
 		try
 		{
-			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
+			$formFactory = $this->getFormFactory();
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			// @Todo can be removed when the constructor argument becomes mandatory
+			$formFactory = Factory::getContainer()->get(FormFactoryInterface::class);
+		}
+
+		try
+		{
+			$form = $formFactory->createForm($name, $options);
+
+			// Load the data.
+			if (substr($source, 0, 1) == '<')
+			{
+				if ($form->load($source, false, $xpath) == false)
+				{
+					throw new \RuntimeException('Form::loadForm could not load form');
+				}
+			}
+			else
+			{
+				if ($form->loadFile($source, false, $xpath) == false)
+				{
+					throw new \RuntimeException('Form::loadForm could not load file');
+				}
+			}
 
 			if (isset($options['load_data']) && $options['load_data'])
 			{
@@ -289,7 +325,7 @@ abstract class FormModel extends BaseDatabaseModel
 		\JPluginHelper::importPlugin($group);
 
 		// Trigger the data preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array($context, &$data));
+		Factory::getApplication()->triggerEvent('onContentPrepareData', array($context, &$data));
 	}
 
 	/**
@@ -311,7 +347,7 @@ abstract class FormModel extends BaseDatabaseModel
 		\JPluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
@@ -324,7 +360,7 @@ abstract class FormModel extends BaseDatabaseModel
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
 	 * @see     \JFormRule
-	 * @see     \JFilterInput
+	 * @see     InputFilter
 	 * @since   1.6
 	 */
 	public function validate($form, $data, $group = null)
@@ -332,7 +368,7 @@ abstract class FormModel extends BaseDatabaseModel
 		// Include the plugins for the delete events.
 		\JPluginHelper::importPlugin($this->events_map['validate']);
 
-		\JFactory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);

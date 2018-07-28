@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -17,7 +17,7 @@
 
 		if (!Joomla.getOptions('xtd-menus')) {
 			// Something went wrong!
-			window.parent.jModalClose();
+			window.parent.Joomla.Modal.getCurrent().close();
 			return false;
 		}
 
@@ -31,7 +31,10 @@
 		tag = '<a href=\"' + uri + thislang + lang + '">' + title + '</a>';
 
 		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-		window.parent.jModalClose();
+
+		if (window.parent.Joomla.currentModal) {
+			window.parent.Joomla.Modal.getCurrent().close();
+		}
 	};
 
 	document.addEventListener('DOMContentLoaded', function(){

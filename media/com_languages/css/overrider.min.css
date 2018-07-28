@@ -1,0 +1,1 @@
+#overrider-spinner,#overrider-spinner-btn,#refresh-status,#more-results,#language-results,#results-container{display:none}#overrider-spinner.show,#refresh-status.show,#more-results.show,#results-container.show,#language-results.show{display:block}#overrider-spinner-btn.show{display:inline-block}.result-key{color:#666}.result-string{padding-left:20px}

@@ -58,6 +58,7 @@
 			type="list"
 			label="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_LABEL"
 			default="1"
+			class="chzn-color"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -127,8 +128,9 @@
 			type="list"
 			label="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_LABEL"
 			default="1"
+			class="chzn-color"
 			>
-			<option	value="0">JHIDE</option>
+			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
+use Joomla\CMS\Language\Text;
 
 /**
  * Extension class for updater
@@ -143,7 +144,7 @@ class ExtensionAdapter extends UpdateAdapter
 					else
 					{
 						// Notify the user of the potential update
-						$msg = \JText::sprintf(
+						$msg = Text::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
@@ -175,11 +176,11 @@ class ExtensionAdapter extends UpdateAdapter
 							if (!$dbMatch)
 							{
 								// Notify the user of the potential update
-								$dbMsg = \JText::sprintf(
+								$dbMsg = Text::sprintf(
 									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 									$this->currentUpdate->name,
 									$this->currentUpdate->version,
-									\JText::_($db->name),
+									Text::_($db->name),
 									$dbVersion,
 									$minumumVersion
 								);
@@ -190,11 +191,11 @@ class ExtensionAdapter extends UpdateAdapter
 						else
 						{
 							// Notify the user of the potential update
-							$dbMsg = \JText::sprintf(
+							$dbMsg = Text::sprintf(
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								\JText::_($db->name)
+								Text::_($db->name)
 							);
 
 							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
@@ -330,7 +331,7 @@ class ExtensionAdapter extends UpdateAdapter
 
 			$app = Factory::getApplication();
 			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}
@@ -382,7 +383,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{

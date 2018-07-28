@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Installer\Administrator\View\Installer;
@@ -25,7 +25,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var    \JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $state;
 
@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	 * True if there are extension messages to be displayed
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $showMessage;
 
@@ -41,7 +41,7 @@ class HtmlView extends BaseHtmlView
 	 * The HTML markup for the sidebar
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $sidebar;
 

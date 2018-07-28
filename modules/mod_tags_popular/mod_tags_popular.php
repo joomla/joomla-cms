@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,6 @@ if (!count($list) && !$params->get('no_results_text'))
 	return;
 }
 
-$display_count   = $params->get('display_count', 0);
+$display_count = $params->get('display_count', 0);
 
 require ModuleHelper::getLayoutPath('mod_tags_popular', $params->get('layout', 'default'));
