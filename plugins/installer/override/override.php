@@ -336,10 +336,8 @@ class PlgInstallerOverride extends CMSPlugin
 		{
 			$insertQuery->clear('values');
 
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
 			$date = new Date('now');
-			$date->setTimezone($tz);
-			$createdDate = $date->toSql(true);
+			$createdDate = $date->toSql();
 
 			if (empty($pk->coreFile))
 			{

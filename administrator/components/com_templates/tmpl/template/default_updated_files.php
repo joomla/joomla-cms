@@ -57,13 +57,15 @@ $input = Factory::getApplication()->input;
 									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $value->extension_id . '&file=' . $value->hash_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>"><?php echo base64_decode($value->hash_id); ?></a>
 								</td>
 								<td>
-									<?php echo $value->created_date; ?>
+									<?php $created_date = $value->created_date; ?>
+									<?php echo $created_date > 0 ? HTMLHelper::_('date', $created_date, Text::_('DATE_FORMAT_FILTER_DATETIME')) : '-'; ?>
 								</td>
 								<td>
 									<?php if ($value->modified_date === '0000-00-00 00:00:00') : ?>
 										<span class="badge badge-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
 									<?php else : ?>
-										<?php echo $value->modified_date; ?>
+										<?php $modified_date = $value->modified_date; ?>
+										<?php echo $modified_date > 0 ? HTMLHelper::_('date', $modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')) : '-'; ?>
 									<?php endif; ?>
 								</td>
 								<td>
