@@ -173,8 +173,16 @@ class InstallationModelDatabase extends JModelBase
 			'::1',
 		);
 
+		$explodedHost = explode(':', $options->db_host);
+		$hostToCheck  = $explodedHost[0];
+
+		if (substr($options->db_host, 0, 5) == '[::1]' || substr($options->db_host, 0, 3) == '::1')
+		{
+			$hostToCheck = '::1';
+		}
+
 		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
+		if ($shouldCheckLocalhost && !in_array($hostToCheck, $localhost))
 		{
 			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
 
