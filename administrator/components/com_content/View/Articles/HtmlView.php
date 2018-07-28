@@ -179,6 +179,7 @@ class HtmlView extends BaseHtmlView
 				->toggleSplit(false)
 				->icon('fa fa-globe')
 				->buttonClass('btn btn-info')
+				->listCheck(true)
 				->configure(
 				function (Toolbar $childBar)
 				{

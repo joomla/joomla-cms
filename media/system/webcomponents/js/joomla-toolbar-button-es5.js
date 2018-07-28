@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -56,7 +56,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       // because we cannot currently extend HTMLButtonElement
       var _this = _possibleConstructorReturn(this, (JoomlaToolbarButton.__proto__ || Object.getPrototypeOf(JoomlaToolbarButton)).call(this));
 
-      _this.buttonElement = _this.querySelector('button');
+      _this.buttonElement = _this.querySelector('button, a');
       _this.disabled = false;
 
       // If list selection are required, set button to disabled by default
@@ -97,11 +97,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         // Make sure we have a boolean value
         this.disabled = !!disabled;
 
+        // Switch attribute for current element
+        if (this.disabled) {
+          this.setAttribute('disabled', true);
+        } else {
+          this.removeAttribute('disabled');
+        }
+
+        // Switch attribute for native element
+        // An anchor do not support "disabled" attribute, so use class
         if (this.buttonElement) {
           if (this.disabled) {
-            this.buttonElement.setAttribute('disabled', true);
+            if (this.buttonElement.nodeName === 'BUTTON') {
+              this.buttonElement.setAttribute('disabled', true);
+            } else {
+              this.buttonElement.classList.add('disabled');
+            }
           } else {
-            this.buttonElement.removeAttribute('disabled');
+            if (this.buttonElement.nodeName === 'BUTTON') {
+              this.buttonElement.removeAttribute('disabled');
+            } else {
+              this.buttonElement.classList.remove('disabled');
+            }
           }
         }
       }
@@ -119,8 +136,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         if (this.task) {
           Joomla.submitbutton(this.task, this.form, this.formValidation);
-        } else {
-          throw new Error('"task" attribute must be preset to perform an action.');
         }
 
         return true;
