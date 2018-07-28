@@ -37,9 +37,22 @@ You will need:
 - Git - for version management
 
 **Steps to setup the local environment:**
-- Clone the repository
-- run `composer install` from the root of the git repo
-- run `npm install` from the root of the git repo
+- Clone the repository:
+```bash
+git clone git@github.com:joomla/joomla-cms.git
+```
+- Go to the joomla-cms folder:
+```bash
+cd joomla-cms
+```
+- Install all the needed composer packages:
+```bash
+composer install
+```
+- Install all the needed npm packages:
+```bash
+npm install
+```
 
 Copyright
 ---------------------
