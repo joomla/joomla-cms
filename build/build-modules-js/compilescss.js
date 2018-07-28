@@ -74,8 +74,8 @@ const compileFiles = (options, path) => {
         );
         const prefixer = postcss([autoprefixer]);
 
-        cleaner.process(result.css.toString())
-          .then(cleaned => prefixer.process(cleaned.css))
+        cleaner.process(result.css.toString(), {from: undefined})
+          .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
           .then((res) => {
             fs.writeFileSync(
               cssFile,
