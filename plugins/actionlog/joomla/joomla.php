@@ -291,6 +291,53 @@ class PlgActionlogJoomla extends JPlugin
 	}
 
 	/**
+	 * On Saving application configuration logging method
+	 * Method is called when the application config is being saved
+	 *
+	 * @param   JRegistry  $config  JRegistry object with the new config
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onApplicationAfterSave($config)
+	{
+		$option = $this->app->input->getCmd('option');
+
+		if (!$this->checkLoggable($option))
+		{
+			return;
+		}
+
+		$params = ActionlogsHelper::getLogContentTypeParams('com_config.application');
+
+		// Not found a valid content type, don't process further
+		if ($params === null)
+		{
+			return;
+		}
+
+		$extensionType = $params->type_title;
+
+		$messageLanguageKey = strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED');
+		$action             = 'update';
+
+		$user = JFactory::getUser();
+
+		$message = array(
+			'action'         => $action,
+			'type'           => strtoupper('PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType),
+			'extension_name' => 'com_config.application',
+			'itemlink'       => 'index.php?option=com_config',
+			'userid'         => $user->id,
+			'username'       => $user->username,
+			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+
+		$this->addLog(array($message), $messageLanguageKey, 'com_config.application');
+	}
+
+	/**
 	 * On installing extensions logging method
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called when an extension is installed

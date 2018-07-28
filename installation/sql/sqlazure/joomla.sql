@@ -3190,7 +3190,9 @@ SELECT 16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_ACT
 UNION ALL
 SELECT 17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'
 UNION ALL
-SELECT 18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA';
+SELECT 18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'
+UNION ALL
+SELECT 19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA';
 
 SET IDENTITY_INSERT [#__action_log_config]  OFF;
 
