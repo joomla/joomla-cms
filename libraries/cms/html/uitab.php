@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class for the Joomla core UI Tab element.
  *
@@ -39,7 +41,7 @@ abstract class JHtmlUiTab
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include the custom element
-			JHtml::_('webcomponent', 'system/webcomponents/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
+			HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
