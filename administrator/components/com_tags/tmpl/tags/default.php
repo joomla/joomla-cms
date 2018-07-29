@@ -72,53 +72,53 @@ if ($saveOrder && !empty($this->items))
 			<table class="table" id="categoryList">
 				<thead>
 					<tr>
-						<th style="width:1%" class="nowrap d-none d-md-table-cell center">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell center">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th style="width:1%">
+						<td style="width:1%">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
-						</th>
-						<th style="width:1%" class="nowrap text-center">
+						</td>
+						<th scope="col" style="width:1%" class="nowrap text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th>
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-							<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-							<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-							<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-							<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
  
-						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (Multilanguage::isEnabled()) : ?>
-							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 							</th>
 						<?php endif; ?>
-						<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -193,7 +193,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
 								</div>
 							</td>
-							<td>
+							<th scope="row">
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php if ($item->checked_out) : ?>
 									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
@@ -212,7 +212,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 									<?php endif; ?>
 								</span>
-							</td>
+							</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<td class="text-center btns d-none d-md-table-cell">

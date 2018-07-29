@@ -510,7 +510,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private static function arrayBuilder($name, $link, $icon): array
 	{

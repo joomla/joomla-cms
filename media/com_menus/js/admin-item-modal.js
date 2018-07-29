@@ -5,7 +5,7 @@
 
 Joomla = window.Joomla || {};
  
-(function(Joomla, document) {
+(function(Joomla) {
 	'use strict';
 
 	Joomla.setMenuType = function(type, tmpl) {
@@ -18,4 +18,4 @@ Joomla = window.Joomla || {};
 		}
 	};
 
-})(Joomla, document);
+})(Joomla);
