@@ -20,8 +20,8 @@ pipeline:
       volumes:
         - /tmp/cache:/cache
 
-  initdb:
-    image: joomlaprojects/docker-php70:develop
+  prepare:
+    image: joomlaprojects/docker-tools:develop
     commands:
       - composer install --no-progress --no-suggest
       # needed for unit testing
@@ -29,6 +29,7 @@ pipeline:
       # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
+      - npm install --unsafe-perm
 
   php70-unit:
     group: unit
@@ -55,7 +56,6 @@ pipeline:
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
-      - npm install --unsafe-perm
       - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
 
   system-tests:
