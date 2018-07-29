@@ -89,13 +89,6 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 					</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="<?php echo $colSpan; ?>">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
 				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
@@ -159,6 +152,9 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+
+		<?php // load the pagination. ?>
+		<?php echo $this->pagination->getListFooter(); ?>
 
 	<?php endif; ?>
 
