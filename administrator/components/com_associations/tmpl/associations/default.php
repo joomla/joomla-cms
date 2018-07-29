@@ -141,6 +141,10 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 					<?php endforeach; ?>
 					</tbody>
 					</table>
+					
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>

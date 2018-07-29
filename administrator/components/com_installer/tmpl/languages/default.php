@@ -82,6 +82,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+					
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php endif; ?>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="return" value="<?php echo base64_encode('index.php?option=com_installer&view=languages') ?>">

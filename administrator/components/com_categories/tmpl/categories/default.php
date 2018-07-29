@@ -266,6 +266,10 @@ if ($saveOrder && !empty($this->items))
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+					
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php // Load the batch processing form. ?>
 					<?php if ($user->authorise('core.create', $extension)
 						&& $user->authorise('core.edit', $extension)

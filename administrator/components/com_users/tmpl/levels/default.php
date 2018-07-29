@@ -113,6 +113,10 @@ if ($saveOrder)
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+					
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

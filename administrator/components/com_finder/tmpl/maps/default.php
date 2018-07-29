@@ -120,6 +120,10 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+					
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 			</div>
 

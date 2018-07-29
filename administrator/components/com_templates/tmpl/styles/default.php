@@ -137,6 +137,10 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+					
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

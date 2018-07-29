@@ -93,6 +93,10 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+					
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<input type="hidden" name="task" value="display">
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>

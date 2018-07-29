@@ -267,7 +267,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 						</tbody>
 					</table>
 					
-					<?php // load the paagination. ?>
+					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 					<?php // Load the batch processing form. ?>

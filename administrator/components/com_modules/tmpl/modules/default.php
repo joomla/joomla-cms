@@ -190,6 +190,10 @@ $colSpan = $clientId === 1 ? 8 : 10;
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+					
+			<?php // load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif; ?>
 
 		<?php // Load the batch processing form. ?>
