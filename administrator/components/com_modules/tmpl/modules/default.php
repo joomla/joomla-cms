@@ -31,7 +31,6 @@ if ($saveOrder && !empty($this->items))
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
-$colSpan = $clientId === 1 ? 8 : 10;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">

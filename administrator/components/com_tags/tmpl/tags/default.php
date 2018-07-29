@@ -34,7 +34,6 @@ $parts     = explode('.', $extension);
 $component = $parts[0];
 $section   = null;
 $mode      = false;
-$columns   = 7;
 
 if (count($parts) > 1)
 {
@@ -89,25 +88,21 @@ if ($saveOrder && !empty($this->items))
 							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
-							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
-							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
-							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 								<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
-							<?php $columns++; ?>
 						<?php endif; ?>
  
 						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">

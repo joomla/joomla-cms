@@ -22,7 +22,6 @@ HTMLHelper::_('behavior.multiselect');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
-$colSpan          = 5;
 
 $iconStates = array(
 	-2 => 'icon-trash',
@@ -47,7 +46,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 						<tr>
 							<?php if (!empty($this->typeSupports['state'])) : ?>
 								<th scope="col" style="width:1%" class="text-center nowrap">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<th scope="col" class="nowrap">
@@ -64,12 +63,12 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 							</th>
 							<?php if (!empty($this->typeFields['menutype'])) : ?>
 								<th scope="col" style="width:10%" class="nowrap">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if (!empty($this->typeFields['access'])) : ?>
 								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell text-center">

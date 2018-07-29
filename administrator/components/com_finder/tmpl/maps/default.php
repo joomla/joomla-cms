@@ -16,7 +16,6 @@ $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = JFactory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
-$colSpan       = $branchFilter ? 5 : 6;
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 'auto']);
 ?>

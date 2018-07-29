@@ -39,12 +39,7 @@ if ($saveOrder && $menuType && !empty($this->items))
 }
 
 $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
-$colSpan = $assoc ? 10 : 9;
 
-if ($menuType == '')
-{
-	$colSpan--;
-}
 ?>
 <?php // Set up the filter bar. ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"

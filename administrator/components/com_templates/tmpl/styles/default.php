@@ -26,7 +26,6 @@ $user      = Factory::getUser();
 $clientId = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$colSpan = $clientId === 1 ? 5 : 6;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
