@@ -56,13 +56,6 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="7">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 						<?php foreach ($this->items as $i => $item) : ?>

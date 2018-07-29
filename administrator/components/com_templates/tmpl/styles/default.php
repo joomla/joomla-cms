@@ -62,13 +62,6 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="<?php echo $colSpan; ?>">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 							<?php foreach ($this->items as $i => $item) :
 								$canCreate = $user->authorise('core.create',     'com_templates');

@@ -87,13 +87,6 @@ $saveOrder = $listOrder == 'a.id';
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="8">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php $canChange  = $user->authorise('core.edit.state', 'com_csp'); ?>

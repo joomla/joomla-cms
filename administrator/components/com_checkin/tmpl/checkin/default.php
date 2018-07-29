@@ -42,13 +42,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="3">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 							<?php $i = 0; ?>
 							<?php foreach ($this->items as $table => $count) : ?>

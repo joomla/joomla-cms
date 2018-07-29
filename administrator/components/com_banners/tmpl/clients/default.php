@@ -90,13 +90,6 @@ $params     = $this->state->params ?? new JObject;
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="11">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 							<?php foreach ($this->items as $i => $item) :
 								$canCreate  = $user->authorise('core.create',     'com_banners');

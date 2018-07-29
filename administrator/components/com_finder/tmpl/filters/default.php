@@ -56,13 +56,6 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="7">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php
 						$canCreate                  = $user->authorise('core.create',     'com_finder');

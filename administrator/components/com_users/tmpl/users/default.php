@@ -74,13 +74,6 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="10">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							$canEdit   = $this->canDo->get('core.edit');

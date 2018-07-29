@@ -77,13 +77,6 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="<?php echo $colSpan; ?>">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 					<?php foreach ($this->items as $i => $item) :
 						$canCheckin = true;

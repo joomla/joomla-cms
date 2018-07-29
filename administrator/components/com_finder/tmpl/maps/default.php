@@ -58,13 +58,6 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="<?php echo $colSpan; ?>">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 						<?php foreach ($this->items as $i => $item) : ?>

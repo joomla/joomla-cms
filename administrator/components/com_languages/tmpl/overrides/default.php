@@ -68,13 +68,6 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="5">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages'); ?>
 						<?php $i = 0; ?>

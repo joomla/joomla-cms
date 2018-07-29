@@ -64,13 +64,6 @@ if ($saveOrder)
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="5">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
