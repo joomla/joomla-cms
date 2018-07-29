@@ -163,7 +163,7 @@ class MenuRules implements RulesInterface
 
 		// Check if the active menuitem matches the requested language
 		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\LanguageMultilang::isEnabled()))
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;
