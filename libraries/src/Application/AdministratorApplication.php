@@ -20,6 +20,8 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! Administrator Application class
@@ -56,7 +58,7 @@ class AdministratorApplication extends CMSApplication
 		parent::__construct($input, $config, $client, $container);
 
 		// Set the root in the URI based on the application name
-		\JUri::root(null, rtrim(dirname(\JUri::base(true)), '/\\'));
+		Uri::root(null, rtrim(dirname(Uri::base(true)), '/\\'));
 	}
 
 	/**
@@ -156,12 +158,12 @@ class AdministratorApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JRouter object.
+	 * Return a reference to the Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter
+	 * @return  Router
 	 *
 	 * @since	3.2
 	 */
@@ -315,7 +317,7 @@ class AdministratorApplication extends CMSApplication
 		// Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=login';
+			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=login';
 		}
 
 		// Set the access control action to check.
@@ -421,7 +423,7 @@ class AdministratorApplication extends CMSApplication
 				$this->enqueueMessage(
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER',
-						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
 					),
 					'error'
 				);
@@ -433,7 +435,7 @@ class AdministratorApplication extends CMSApplication
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER_ADMIN',
 						$rootUser,
-						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
 					),
 					'error'
 				);
@@ -457,7 +459,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		$uri = \JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) !== 'https')
 		{
