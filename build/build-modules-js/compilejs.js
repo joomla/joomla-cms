@@ -38,6 +38,10 @@ const uglifyJs = (options, path) => {
       (files) => {
         files.forEach(
             (file) => {
+            // Skip vendor
+            if (file.includes('media/vendor')) {
+                return;
+            }
             if (file.match(/.es6.js/)) {
               // Transpile the file
               transpileEs5.compileFile(file);
