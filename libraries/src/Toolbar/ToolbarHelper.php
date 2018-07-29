@@ -11,9 +11,10 @@ namespace Joomla\CMS\Toolbar;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\Cms\Table\Table;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for the button bar.
@@ -597,7 +598,7 @@ abstract class ToolbarHelper
 		$path = urlencode($path);
 		$bar = Toolbar::getInstance('toolbar');
 
-		$uri = (string) \JUri::getInstance();
+		$uri = (string) Uri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.
@@ -631,7 +632,7 @@ abstract class ToolbarHelper
 		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
-		// Options array for JLayout
+		// Options array for Layout
 		$options              = array();
 		$options['title']     = Text::_($alt);
 		$options['height']    = $height;

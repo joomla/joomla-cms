@@ -14,6 +14,9 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Base class for a Joomla Administrator Controller
@@ -84,7 +87,7 @@ class AdminController extends BaseController
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
-			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
+			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
 		// Guess the \JText message prefix. Defaults to the option.
@@ -123,7 +126,7 @@ class AdminController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -154,7 +157,7 @@ class AdminController extends BaseController
 			$this->postDeleteHook($model, $cid);
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
@@ -197,7 +200,7 @@ class AdminController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -261,7 +264,7 @@ class AdminController extends BaseController
 
 		$extension = $this->input->get('extension');
 		$extensionURL = $extension ? '&extension=' . $extension : '';
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 
 	/**
@@ -274,7 +277,7 @@ class AdminController extends BaseController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = $this->getTask() === 'orderup' ? -1 : 1;
@@ -286,7 +289,7 @@ class AdminController extends BaseController
 		{
 			// Reorder failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
@@ -294,7 +297,7 @@ class AdminController extends BaseController
 		{
 			// Reorder succeeded.
 			$message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
 		}
@@ -310,7 +313,7 @@ class AdminController extends BaseController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -330,7 +333,7 @@ class AdminController extends BaseController
 		{
 			// Reorder failed
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
@@ -338,7 +341,7 @@ class AdminController extends BaseController
 		{
 			// Reorder succeeded.
 			$this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
 		}
@@ -354,7 +357,7 @@ class AdminController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 
@@ -365,7 +368,7 @@ class AdminController extends BaseController
 		{
 			// Checkin failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
@@ -373,7 +376,7 @@ class AdminController extends BaseController
 		{
 			// Checkin succeeded.
 			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
 		}

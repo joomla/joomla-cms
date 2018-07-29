@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for rendering a display layout
@@ -139,8 +140,6 @@ class FileLayout extends BaseLayout
 	 */
 	protected function getPath()
 	{
-		\JLoader::import('joomla.filesystem.path');
-
 		$layoutId     = $this->getLayoutId();
 		$includePaths = $this->getIncludePaths();
 		$suffixes     = $this->getSuffixes();
@@ -189,7 +188,7 @@ class FileLayout extends BaseLayout
 				$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
 				$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-				if ($foundLayout = \JPath::find($this->includePaths, $rawPath))
+				if ($foundLayout = Path::find($this->includePaths, $rawPath))
 				{
 					$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 
@@ -204,7 +203,7 @@ class FileLayout extends BaseLayout
 		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
 		$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-		$foundLayout = \JPath::find($this->includePaths, $rawPath);
+		$foundLayout = Path::find($this->includePaths, $rawPath);
 
 		if (!$foundLayout)
 		{
