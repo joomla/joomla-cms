@@ -30,7 +30,6 @@ $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
-$colSpan          = 4;
 
 $iconStates = array(
 	-2 => 'icon-trash',
