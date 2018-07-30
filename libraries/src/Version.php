@@ -11,6 +11,7 @@ namespace Joomla\CMS;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\LibraryHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Version information class for the Joomla CMS.
@@ -227,7 +228,7 @@ final class Version
 	 */
 	public function generateMediaVersion(): string
 	{
-		return md5($this->getLongVersion() . \JFactory::getConfig()->get('secret') . (new \JDate)->toSql());
+		return md5($this->getLongVersion() . Factory::getConfig()->get('secret') . (new \JDate)->toSql());
 	}
 
 	/**
