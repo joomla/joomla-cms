@@ -82,7 +82,7 @@ else
 		</a>
 	</li>
 <?php elseif (isset($item->active) && $item->active) : ?>
-	<?php $aria = JText::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower ($item->text)); ?>
+	<?php $aria = JText::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
 	<li class="<?php echo $class; ?> page-link current">
 		<span aria-current="true" aria-label="<?php echo $aria; ?>"><?php echo $display; ?></span>
 	</li>
