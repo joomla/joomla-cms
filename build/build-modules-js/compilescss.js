@@ -9,8 +9,10 @@ const debounce = require('lodash.debounce');
 const rootPath = require('./rootpath.js')._();
 
 const watches = [
-  `${rootPath}/templates/cassiopeia/scss`,
-  `${rootPath}/administrator/templates/atum/scss`,
+  `${rootPath}/media-source/templates/site/cassiopeia/scss`,
+  `${rootPath}/media-source/templates/site/system/scss`,
+  `${rootPath}/media-source/templates/administrator/atum/scss`,
+  `${rootPath}/media-source/templates/administrator/system/scss`,
   `${rootPath}/media/plg_installer_webinstaller/scss`,
   `${rootPath}/media`,
 ];
@@ -31,12 +33,19 @@ const compileFiles = (options, path) => {
     }
   } else {
     files = [
-      `${rootPath}/templates/cassiopeia/scss/template.scss`,
-      `${rootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-      `${rootPath}/administrator/templates/atum/scss/bootstrap.scss`,
-      `${rootPath}/administrator/templates/atum/scss/font-awesome.scss`,
-      `${rootPath}/administrator/templates/atum/scss/template.scss`,
-      `${rootPath}/administrator/templates/atum/scss/template-rtl.scss`,
+      `${rootPath}/media-source/templates/site/cassiopeia/scss/template.scss`,
+      `${rootPath}/media-source/templates/site/cassiopeia/scss/template-rtl.scss`,
+      `${rootPath}/media-source/templates/site/system/scss/editor.scss`,
+      `${rootPath}/media-source/templates/site/system/scss/error.scss`,
+      `${rootPath}/media-source/templates/site/system/scss/error_rtl.scss`,
+      `${rootPath}/media-source/templates/site/system/scss/offline.scss`,
+      `${rootPath}/media-source/templates/site/system/scss/offline_rtl.scss`,
+      `${rootPath}/media-source/templates/administrator/atum/scss/bootstrap.scss`,
+      `${rootPath}/media-source/templates/administrator/atum/scss/font-awesome.scss`,
+      `${rootPath}/media-source/templates/administrator/atum/scss/template.scss`,
+      `${rootPath}/media-source/templates/administrator/atum/scss/template-rtl.scss`,
+      `${rootPath}/media-source/templates/administrator/system/scss/error.scss`,
+      `${rootPath}/media-source/templates/administrator/system/scss/system.scss`,
       `${rootPath}/media/plg_installer_webinstaller/scss/client.scss`,
     ];
 
@@ -47,7 +56,11 @@ const compileFiles = (options, path) => {
 
   // Loop to get some text for the packgage.json
   files.forEach((file) => {
-    const cssFile = file.replace('scss', 'css').replace('.scss', '.css');
+    let cssFile = file.replace('scss', 'css').replace('.scss', '.css');
+
+    if (file.includes('/media-source/templates/')) {
+	    cssFile = cssFile.replace('/media-source/templates/administrator', '/administrator/templates').replace('/media-source/templates/site', '/templates');
+    }
 
     Sass.render({
       file,
@@ -74,8 +87,8 @@ const compileFiles = (options, path) => {
         );
         const prefixer = postcss([autoprefixer]);
 
-        cleaner.process(result.css.toString())
-          .then(cleaned => prefixer.process(cleaned.css))
+        cleaner.process(result.css.toString(), {from: undefined})
+          .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
           .then((res) => {
             fs.writeFileSync(
               cssFile,

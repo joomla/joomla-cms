@@ -6,11 +6,11 @@
  * npm install
  *
  * For dedicated tasks, please run:
- * node build.js --installer      === will create the error page (for unsupported PHP version)
- * node build.js --copyassets     === will clean the media/vendor folder and then will populate the folder from node_modules
- * node build.js --compilejs      === will transpile ES6 files and also uglify the ES6,ES5 files
- * node build.js --compilece      === will compile all the given CE or WC with their relative css files
- * node build.js --compilecss     === will compile all the scss defined files and also create a minified version of the css
+ * node build.js --installer       === will create the error page (for unsupported PHP version)
+ * node build.js --copy-assets     === will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.js --compile-js      === will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compile-ce      === will compile all the given CE or WC with their relative css files
+ * node build.js --compile-css     === will compile all the scss defined files and also create a minified version of the css
  *
  */
 
@@ -37,11 +37,11 @@ if ('settings' in settings) {
 // Initialize the CLI
 Program
   .version(options.version)
-  .option('--copyassets', 'Moving files from node_modules to media folder')
-  .option('--compilejs, --compilejs path', 'Compiles ES6 to ES5 scripts')
-  .option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
-  .option('--compilece, --compilece path', 'Compiles/traspiles all the custom elements files')
-  .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compilecss and compilejs now).')
+  .option('--copy-assets', 'Moving files from node_modules to media folder')
+  .option('--compile-js, --compile-js path', 'Compiles ES6 to ES5 scripts')
+  .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
+  .option('--compile-ce, --compile-ce path', 'Compiles/traspiles all the custom elements files')
+  .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compile-css and compile-js now).')
   .option('--installer', 'Creates the language file for installer error page')
   .on('--help', () => {
     // eslint-disable-next-line no-console
@@ -58,7 +58,7 @@ if (!process.argv.slice(2).length) {
 }
 
 // Update the vendor folder
-if (Program.copyassets) {
+if (Program.copyAssets) {
   Promise.resolve()
     .then(update.update(options))
 
@@ -79,7 +79,7 @@ if (Program.installer) {
 }
 
 // Convert scss to css
-if (Program.compilecss) {
+if (Program.compileCss) {
   if (Program.watch) {
     css.watch(options, null, true);
   } else {
@@ -88,7 +88,7 @@ if (Program.compilecss) {
 }
 
 // Compress/transpile the javascript files
-if (Program.compilejs) {
+if (Program.compileJs) {
   if (Program.watch) {
     Js.watch(options, null, false);
   } else {
@@ -97,11 +97,6 @@ if (Program.compilejs) {
 }
 
 // Compress/transpile the Custom Elements files
-if (Program.compilececss) {
-  CEcss.compile(options, Program.args[0]);
-}
-
-// Compress/transpile the Custom Elements files
-if (Program.compilece) {
+if (Program.compileCe) {
   CEjs.compile(options, Program.args[0]);
 }
