@@ -192,7 +192,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		if ($this->saveConfiguration($options))
 		{
-			$this->ioStyle->success('Configuration set');
+			$this->options ?: $this->ioStyle->success('Configuration set');
 
 			return self::CONFIG_SET_SUCCESSFUL;
 		}
