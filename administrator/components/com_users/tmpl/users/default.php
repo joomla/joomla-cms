@@ -168,7 +168,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							<?php endforeach; ?>
 						</tbody>
 					</table>
-					
+
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 

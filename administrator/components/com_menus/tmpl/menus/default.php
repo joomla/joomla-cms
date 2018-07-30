@@ -220,7 +220,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 							<?php endforeach; ?>
 						</tbody>
 					</table>
-					
+
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 

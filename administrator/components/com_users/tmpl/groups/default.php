@@ -109,7 +109,7 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 							<?php endforeach; ?>
 						</tbody>
 					</table>
-					
+
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 

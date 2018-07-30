@@ -102,7 +102,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-					
+
 				<?php // load the pagination. ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 

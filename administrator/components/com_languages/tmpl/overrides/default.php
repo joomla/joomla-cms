@@ -104,7 +104,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						<?php endforeach; ?>
 						</tbody>
 					</table>
-					
+
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 

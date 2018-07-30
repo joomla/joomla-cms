@@ -133,7 +133,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-					
+
 			<?php // load the pagination. ?>
 			<?php echo $this->pagination->getListFooter(); ?>
 

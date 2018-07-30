@@ -145,7 +145,7 @@ if ($saveOrder)
 							<?php endforeach; ?>
 						</tbody>
 					</table>
-					
+
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
