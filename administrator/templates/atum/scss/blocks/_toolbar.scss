@@ -50,8 +50,8 @@
       background-color: rgba(0, 0, 0, .2);
     }
 
-    &[disabled='true'],
-    &.dropdown-toggle[disabled='true'] {
+    &[disabled],
+    &.dropdown-toggle[disabled] {
       background-color: #7c838f;
     }
   }
