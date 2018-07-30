@@ -62,6 +62,24 @@ class UpdateCoreCommand extends AbstractCommand
 	public $progressBar;
 
 	/**
+	 * Return code for successful update
+	 * @since 4.0
+	 */
+	const UPDATE_SUCCESSFUL = 0;
+
+	/**
+	 * Return code for failed update
+	 * @since 4.0
+	 */
+	const UPDATE_FAILED = 2;
+
+	/**
+	 * Return code for failed checks
+	 * @since 4.0
+	 */
+	const CHECKS_FAILED = 1;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -71,7 +89,7 @@ class UpdateCoreCommand extends AbstractCommand
 	private function configureIO()
 	{
 		ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
-		$this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
+		$this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 8);
 		$this->progressBar->setFormat('custom');
 
 		$this->cliInput = $this->getApplication()->getConsoleInput();
@@ -131,28 +149,40 @@ class UpdateCoreCommand extends AbstractCommand
 	{
 		$this->configureIO();
 
+		$this->progressBar->setMessage("Starting up ...");
+		$this->progressBar->start();
+
 		$model = $this->getUpdateModel();
 
 		$this->setUpdateInfo($model->getUpdateInformation());
 
+		$this->progressBar->advance();
+		$this->progressBar->setMessage('Running checks ...');
+
 		if ($this->runChecks())
 		{
+			$this->progressBar->finish();
 			$this->ioStyle->note('You already have the latest Joomla! version.');
 
-			return 1;
+			return self::CHECKS_FAILED;
 		}
+
+		$this->progressBar->advance();
+		$this->progressBar->setMessage('Starting Joomla! update ...');
 
 		if ($this->updateJoomlaCore($model) && $this->runChecks(true))
 		{
+			$this->progressBar->finish();
 			$this->ioStyle->success('Joomla core updated successfully.');
 
-			return 0;
+			return self::UPDATE_SUCCESSFUL;
 		}
 		else
 		{
+			$this->progressBar->finish();
 			$this->ioStyle->note('Update cannot be performed.');
 
-			return 2;
+			return self::UPDATE_FAILED;
 		}
 	}
 
@@ -188,12 +218,19 @@ class UpdateCoreCommand extends AbstractCommand
 
 		if (!empty($updateInformation['hasUpdate']))
 		{
+			$this->progressBar->advance();
+			$this->progressBar->setMessage("Processing update package ...");
 			$package = $this->processUpdatePackage($updateInformation);
 
+			$this->progressBar->advance();
+			$this->progressBar->setMessage("Finalizing update ...");
 			$result = $updatemodel->finaliseUpgrade();
 
 			if ($result)
 			{
+				$this->progressBar->advance();
+				$this->progressBar->setMessage("Cleaning up ...");
+
 				// Remove the xml
 				if (file_exists(JPATH_BASE . '/joomla.xml'))
 				{
@@ -283,13 +320,19 @@ class UpdateCoreCommand extends AbstractCommand
 			return false;
 		}
 
+		$this->progressBar->advance();
+		$this->progressBar->setMessage("Downloading update package ...");
 		$file = $this->downloadFile($updateInformation['object']->downloadurl->_data);
 
 		$tmpPath    = $this->getApplication()->get('tmp_path');
 		$updatePackage = $tmpPath . '/' . $file;
 
+		$this->progressBar->advance();
+		$this->progressBar->setMessage("Extracting update package ...");
 		$package = $this->extractFile($updatePackage);
 
+		$this->progressBar->advance();
+		$this->progressBar->setMessage("Copying files ...");
 		$this->copyFileTo($package['extractdir'], JPATH_BASE);
 
 		return ['file' => $updatePackage, 'extractdir' => $package['extractdir']];
