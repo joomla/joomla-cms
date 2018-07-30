@@ -195,7 +195,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		if ($handler !== 'database' && $time % 5 === 0)
 		{
 			$this->registerEvent(
-				'onAfterResponse',
+				'onAfterRespond',
 				function () use ($session, $time)
 				{
 					// TODO: At some point we need to get away from having session data always in the db.

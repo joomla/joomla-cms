@@ -51,16 +51,17 @@
 					type="list"
 					label="PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY"
 					default="no-referrer-when-downgrade"
+					validate="options"
 					>
 					<option value="disabled">JDISABLED</option>
-					<option value="no-referrer">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_NO_REFERRER</option>
-					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_NO_REFERRER_WHEN_DOWNGRADE</option>
-					<option value="same-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_SAME_ORIGIN</option>
-					<option value="origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_ORIGIN</option>
-					<option value="strict-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_STRICT_ORIGIN</option>
-					<option value="origin-when-cross-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_ORIGIN_WHEN_CROSS_ORIGIN</option>
-					<option value="strict-origin-when-cross-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_STRICT_ORIGIN_WEHN_CROSS_ORIGIN</option>
-					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_UNSAFE_URL</option>
+					<option value="no-referrer">no-referrer</option>
+					<option value="no-referrer-when-downgrade">no-referrer-when-downgrade</option>
+					<option value="same-origin">same-origin</option>
+					<option value="origin">origin</option>
+					<option value="strict-origin">strict-origin</option>
+					<option value="origin-when-cross-origin">origin-when-cross-origin</option>
+					<option value="strict-origin-when-cross-origin">strict-origin-when-cross-origin</option>
+					<option value="unsafe-url">unsafe-url</option>
 				</field>
 				<field
 					name="additional_httpheader"
@@ -71,12 +72,11 @@
 					multiple="true"
 				/>
 			</fieldset>
-			<fieldset name="hsts">
+			<fieldset name="hsts" label="Strict-Transport-Security (HSTS)">
 				<field
 					name="hsts"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
-					description="PLG_SYSTEM_HTTPHEADERS_HSTS_DESC"
 					class="switcher"
 					default="0"
 					>
@@ -117,12 +117,11 @@
 					<option value="1">JENABLED</option>
 				</field>
 			</fieldset>
-			<fieldset name="csp">
+			<fieldset name="csp" label="Content-Security-Policy (CSP)">
 				<field
 					name="contentsecuritypolicy"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY"
-					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_DESC"
 					class="switcher"
 					default="0"
 					>

@@ -121,7 +121,7 @@ abstract class ToolbarButton
 		else
 		{
 			$options['tagName'] = 'button';
-			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
+			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-primary');
 			$options['attributes']['type'] = 'button';
 		}
 	}

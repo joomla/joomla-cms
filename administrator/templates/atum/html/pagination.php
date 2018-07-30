@@ -188,13 +188,16 @@ function pagination_item_active(&$item)
 		$limit = 'limitstart.value=0';
 	}
 
-	$title = '';
+	$title      = '';
+	$titleClass = '';
+
 	if (!is_numeric($item->text))
 	{
-		$title = ' class="hasTooltip" title="' . $item->text . '"';
+		$title      = ' title="' . $item->text . '"';
+		$titleClass = ' hasTooltip';
 	}
 
-	return '<li' . $class . '><a class="page-link"' . $title . ' href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
+	return '<li' . $class . '><a class="page-link' . $titleClass . '"' . $title . ' href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
 }
 
 /**

@@ -63,24 +63,65 @@ function modChrome_well($module, &$params, &$attribs)
 
 		echo '<div class="' . $moduleClass . '">';
 		echo '<' . $moduleTag . ' class="card mb-3' . $moduleClassSfx . '">';
-		echo '<div class="card-body">';
 
-			if ($canEdit)
-			{
-				echo '<div class="module-actions">';
-				echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
-					. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
-				echo '</div>';
-			}
+		if ($canEdit)
+		{
+			echo '<div class="module-actions">';
+			echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+				. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
+			echo '</div>';
+		}
 
-			if ($module->showtitle)
-			{
-				echo '<h2 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h2>';
-			}
+		if ($module->showtitle)
+		{
+			echo '<h2 class="card-header' . $headerClass . '">' . $module->title . '</h2>';
+		}
 
-			echo $module->content;
+		echo $module->content;
 
+		echo '</' . $moduleTag . '>';
 		echo '</div>';
+	}
+}
+
+function modChrome_body($module, &$params, &$attribs)
+{
+	if ($module->content)
+	{
+		// Permission checks
+		$user           = JFactory::getUser();
+		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+
+		$moduleTag      = $params->get('module_tag', 'div');
+		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
+		$moduleClass    = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+		$headerTag      = htmlspecialchars($params->get('header_tag', 'h2'));
+		$moduleClassSfx = $params->get('moduleclass_sfx', '');
+
+		// Temporarily store header class in variable
+		$headerClass    = $params->get('header_class');
+		$headerClass    = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+
+		echo '<div class="' . $moduleClass . '">';
+		echo '<' . $moduleTag . ' class="card mb-3' . $moduleClassSfx . '">';
+
+		if ($canEdit)
+		{
+			echo '<div class="module-actions">';
+			echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+				. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
+			echo '</div>';
+		}
+
+		if ($module->showtitle)
+		{
+			echo '<h2 class="card-header' . $headerClass . '">' . $module->title . '</h2>';
+		}
+
+		echo '<div class="module-body">';
+		echo $module->content;
+		echo '</div>';
+
 		echo '</' . $moduleTag . '>';
 		echo '</div>';
 	}

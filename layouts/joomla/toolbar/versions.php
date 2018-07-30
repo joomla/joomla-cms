@@ -49,8 +49,8 @@ echo HTMLHelper::_(
 );
 ?>
 <button<?php echo $id ?? ''; ?>
-	onclick="document.getElementById('versionsModal').open()"
-	class="btn btn-sm btn-outline-primary"
+    onclick="document.getElementById('versionsModal').open()"
+	class="btn btn-primary"
 	data-toggle="modal"
 	title="<?php echo $title; ?>">
 	<span class="fa fa-code-fork" aria-hidden="true"></span><?php echo $title; ?>

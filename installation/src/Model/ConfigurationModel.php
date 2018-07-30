@@ -221,12 +221,6 @@ class ConfigurationModel extends BaseInstallationModel
 			// $useFTP = true;
 		}
 
-		// Check for safe mode.
-		if (ini_get('safe_mode'))
-		{
-			$useFTP = true;
-		}
-
 		// Enable/Disable override.
 		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
 		{

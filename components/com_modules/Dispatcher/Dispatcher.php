@@ -41,16 +41,16 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 	 *
 	 * @since   4.0.0
 	 */
-	public function dispatch()
+	public function checkAccess()
 	{
+		parent::checkAccess();
+
 		if ($this->input->get('view') === 'modules'
 			&& $this->input->get('layout') === 'modal'
 			&& !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
 		{
 			throw new NotAllowed;
 		}
-
-		parent::dispatch();
 	}
 
 	/**

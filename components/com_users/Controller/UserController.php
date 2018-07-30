@@ -8,19 +8,43 @@
  */
 namespace Joomla\Component\Users\Site\Controller;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Controller\BaseController;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\User\User;
 
 /**
  * Registration controller class for Users.
  *
  * @since  1.6
  */
-class UserController extends BaseController
+class UserController extends FormController
 {
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+	 *
+	 * @since   1.6.4
+	 */
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, array('ignore_request' => false));
+	}
+
 	/**
 	 * Method to log in a user.
 	 *
@@ -49,7 +73,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -86,7 +110,7 @@ class UserController extends BaseController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($data['return']))
+			if (!Uri::isInternal($data['return']))
 			{
 				$data['return'] = '';
 			}
@@ -122,7 +146,7 @@ class UserController extends BaseController
 			$data['password'] = '';
 			$data['secretkey'] = '';
 			$app->setUserState('users.login.form.data', $data);
-			$app->redirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		// Success
@@ -132,7 +156,7 @@ class UserController extends BaseController
 		}
 
 		$app->setUserState('users.login.form.data', array());
-		$app->redirect(\JRoute::_($app->getUserState('users.login.form.return'), false));
+		$app->redirect(Route::_($app->getUserState('users.login.form.return'), false));
 	}
 
 	/**
@@ -161,7 +185,7 @@ class UserController extends BaseController
 		// Check if the log out succeeded.
 		if ($error instanceof \Exception)
 		{
-			$app->redirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		// Get the return URL from the request and validate that it is internal.
@@ -173,7 +197,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -210,7 +234,7 @@ class UserController extends BaseController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($return))
+			if (!Uri::isInternal($return))
 			{
 				$return = '';
 			}
@@ -219,11 +243,11 @@ class UserController extends BaseController
 		// In case redirect url is not set, redirect user to homepage
 		if (empty($return))
 		{
-			$return = \JUri::root();
+			$return = Uri::root();
 		}
 
 		// Redirect the user.
-		$app->redirect(\JRoute::_($return, false));
+		$app->redirect(Route::_($return, false));
 	}
 
 	/**
@@ -244,7 +268,7 @@ class UserController extends BaseController
 		{
 			if ($itemid)
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -288,11 +312,11 @@ class UserController extends BaseController
 		else
 		{
 			// URL to redirect after logout, default page if no ItemID is set
-			$url = $itemid ? 'index.php?Itemid=' . $itemid : \JUri::root();
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : Uri::root();
 		}
 
 		// Logout and redirect
-		$this->setRedirect('index.php?option=com_users&task=user.logout&' . \JSession::getFormToken() . '=1&return=' . base64_encode($url));
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url));
 	}
 
 	/**
@@ -321,10 +345,10 @@ class UserController extends BaseController
 			// Get the error message to display.
 			$message = $app->get('error_reporting')
 				? $return->getMessage()
-				: \JText::_('COM_USERS_REMIND_REQUEST_ERROR');
+				: Text::_('COM_USERS_REMIND_REQUEST_ERROR');
 
 			// Go back to the complete form.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=remind', false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'error');
 
 			return false;
 		}
@@ -332,15 +356,15 @@ class UserController extends BaseController
 		if ($return === false)
 		{
 			// Go back to the complete form.
-			$message = \JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=remind', false), $message, 'notice');
+			$message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
 		}
 
 		// Proceed to the login form.
-		$message = \JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-		$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false), $message);
+		$message = Text::_('COM_USERS_REMIND_REQUEST_SUCCESS');
+		$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 		return true;
 	}
@@ -356,5 +380,196 @@ class UserController extends BaseController
 	{
 		// Check for request forgeries
 		// $this->checkToken('post');
+	}
+
+	/**
+	 * Method to submit the contact form and send an email.
+	 *
+	 * @return  boolean  True on success sending the email. False on failure.
+	 *
+	 * @since   1.5.19
+	 * @throws  \Exception
+	 */
+	public function submit()
+	{
+		// Check for request forgeries.
+		$this->checkToken();
+
+		$app    = Factory::getApplication();
+		$model  = $this->getModel('user');
+
+		$params = ComponentHelper::getParams('com_users');
+
+		$stub   = $this->input->getString('id');
+		$id     = (int) $stub;
+
+		// Get the data from POST
+		$data    = $this->input->post->get('jform', array(), 'array');
+		$contact = $model->getItem($id);
+
+		$params->merge($contact->params);
+
+		// Check for a valid session cookie
+		if ($params->get('validate_session', 0))
+		{
+			if (Factory::getSession()->getState() !== 'active')
+			{
+				$this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
+
+				// Save the data in the session.
+				$this->app->setUserState('com_users.contact.data', $data);
+
+				// Redirect back to the contact form.
+				$this->setRedirect(Route::_('index.php?option=com_users&view=user&id=' . $stub, false));
+
+				return false;
+			}
+		}
+
+		// Validate the posted data.
+		$form = $model->getForm();
+
+		if (!$form)
+		{
+			throw new \Exception($model->getError(), 500);
+
+			return false;
+		}
+
+		if (!$model->validate($form, $data))
+		{
+			$errors = $model->getErrors();
+
+			foreach ($errors as $error)
+			{
+				$errorMessage = $error;
+
+				if ($error instanceof \Exception)
+				{
+					$errorMessage = $error->getMessage();
+				}
+
+				$app->enqueueMessage($errorMessage, 'error');
+			}
+
+			$app->setUserState('com_users.contact.data', $data);
+
+			$this->setRedirect(Route::_('index.php?option=com_users&view=user&id=' . $stub, false));
+
+			return false;
+		}
+
+		// Send the email
+		$sent = false;
+
+		if (!$params->get('custom_reply'))
+		{
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+		}
+
+		// Set the success message if it was a success
+		if (!($sent instanceof \Exception))
+		{
+			$msg = Text::_('COM_USERS_CONTACT_EMAIL_THANKS');
+		}
+		else
+		{
+			$msg = '';
+		}
+
+		// Flush the data from the session
+		$this->app->setUserState('com_users.contact.data', null);
+
+		// Redirect if it is set in the parameters, otherwise redirect back to where we came from
+		if ($contact->params->get('redirect'))
+		{
+			$this->setRedirect($contact->params->get('redirect'), $msg);
+		}
+		else
+		{
+			$this->setRedirect(Route::_('index.php?option=com_users&view=user&id=' . $stub, false), $msg);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to send an email.
+	 *
+	 * @param   array      $data                  The data to send in the email.
+	 * @param   \stdClass  $contact               The user information to send the email to
+	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 *
+	 * @return  boolean  True on success sending the email, false on failure.
+	 *
+	 * @since   1.6.4
+	 */
+	private function _sendEmail($data, $contact, $copy_email_activated)
+	{
+		$app = $this->app;
+
+		if ($contact->email == '' && $contact->id != 0)
+		{
+			$contact_user      = User::getInstance($contact->id);
+			$contact->email = $contact_user->get('email');
+		}
+
+		$mailfrom = $app->get('mailfrom');
+		$fromname = $app->get('fromname');
+		$sitename = $app->get('sitename');
+
+		$name    = $data['contact_name'];
+		$email   = PunycodeHelper::emailToPunycode($data['contact_email']);
+		$subject = $data['contact_subject'];
+		$body    = $data['contact_message'];
+
+		// Prepare email body
+		$prefix = Text::sprintf('COM_USERS_CONTACT_ENQUIRY_TEXT', Uri::base());
+		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
+
+		// Load the custom fields
+		if (!empty($data['com_fields']) && $fields = \FieldsHelper::getFields('com_users.contact', $contact, true, $data['com_fields']))
+		{
+			$output = \FieldsHelper::render(
+				'com_users.contact',
+				'fields.render',
+				array(
+					'context' => 'com_users.contact',
+					'item'    => $contact,
+					'fields'  => $fields,
+				)
+			);
+
+			if ($output)
+			{
+				$body .= "\r\n\r\n" . $output;
+			}
+		}
+
+		$mail = Factory::getMailer();
+		$mail->addRecipient($contact->email);
+		$mail->addReplyTo($email, $name);
+		$mail->setSender(array($mailfrom, $fromname));
+		$mail->setSubject($sitename . ': ' . $subject);
+		$mail->setBody($body);
+		$sent = $mail->Send();
+
+		// Check whether email copy function activated
+		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+		{
+			$copytext    = Text::sprintf('COM_USERS_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+			$copytext    .= "\r\n\r\n" . $body;
+			$copysubject = Text::sprintf('COM_USERS_CONTACT_COPYSUBJECT_OF', $subject);
+
+			$mail = Factory::getMailer();
+			$mail->addRecipient($email);
+			$mail->addReplyTo($email, $name);
+			$mail->setSender(array($mailfrom, $fromname));
+			$mail->setSubject($copysubject);
+			$mail->setBody($copytext);
+			$sent = $mail->Send();
+		}
+
+		return $sent;
 	}
 }

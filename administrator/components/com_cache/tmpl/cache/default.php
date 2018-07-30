@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (count($this->data) > 0) : ?>
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
 							<th style="width:1%" class="nowrap text-center">

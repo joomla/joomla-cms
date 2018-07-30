@@ -62,7 +62,7 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 	</div>
 
 	<form action="<?php echo JRoute::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
-		<table class="table table-striped table-sm">
+		<table class="table table-sm">
 			<thead>
 				<tr>
 					<th style="width:1%" class="text-center">

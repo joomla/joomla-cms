@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Users Html Helper
  *
@@ -34,7 +38,7 @@ abstract class JHtmlUsers
 
 		if (empty($value))
 		{
-			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
+			return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
 
 		elseif (!is_array($value))
@@ -114,7 +118,7 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('title')
 				->from('#__template_styles')
@@ -150,13 +154,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$file = JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
+			$file = LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
 			if (is_file($file))
 			{
-				$result = JLanguageHelper::parseXMLLanguageFile($file);
+				$result = LanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
@@ -187,13 +191,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$file = JLanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
+			$file = LanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
 			if (is_file($file))
 			{
-				$result = JLanguageHelper::parseXMLLanguageFile($file);
+				$result = LanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
@@ -224,8 +228,8 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$db = JFactory::getDbo();
-			$lang = JFactory::getLanguage();
+			$db = Factory::getDbo();
+			$lang = Factory::getLanguage();
 			$query = $db->getQuery(true)
 				->select('name')
 				->from('#__extensions')
@@ -237,10 +241,10 @@ abstract class JHtmlUsers
 			if ($title)
 			{
 				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
+				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
 				$lang->load($title . '.sys');
 
-				return JText::_($title);
+				return Text::_($title);
 			}
 			else
 			{

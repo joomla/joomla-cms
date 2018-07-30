@@ -44,7 +44,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="menuList">
+					<table class="table" id="menuList">
 						<thead>
 							<tr>
 								<th style="width:1%">

@@ -68,19 +68,22 @@ class Factory implements FactoryInterface
 	 *
 	 * @param   Document  $document  The Document instance to attach to the renderer
 	 * @param   string    $type      The renderer type to instantiate
+	 * @param   string    $docType   The document type the renderer is part of
 	 *
 	 * @return  RendererInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function createRenderer(Document $document, string $type): RendererInterface
+	public function createRenderer(Document $document, string $type, string $docType = ''): RendererInterface
 	{
+		$docType = $docType ? ucfirst($docType) : ucfirst($document->getType());
+
 		// Determine the path and class
-		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst($document->getType()) . '\\' . ucfirst($type) . 'Renderer';
+		$class = __NAMESPACE__ . '\\Renderer\\' . $docType . '\\' . ucfirst($type) . 'Renderer';
 
 		if (!class_exists($class))
 		{
-			$class = 'JDocumentRenderer' . ucfirst($document->getType()) . ucfirst($type);
+			$class = 'JDocumentRenderer' . $docType . ucfirst($type);
 		}
 
 		if (!class_exists($class))

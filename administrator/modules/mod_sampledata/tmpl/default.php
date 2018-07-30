@@ -36,8 +36,8 @@ Factory::getDocument()->addScriptOptions(
 						<span class="fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
-					<a href="#" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
-					<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?></a>
+					<button type="button" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
+					<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?></button>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
 			</li>
@@ -54,5 +54,5 @@ Factory::getDocument()->addScriptOptions(
 		<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+	<joomla-alert type="warning"><?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?></joomla-alert>
 <?php endif; ?>

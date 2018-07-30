@@ -34,10 +34,11 @@ interface FactoryInterface
 	 *
 	 * @param   Document  $document  The Document instance to attach to the renderer
 	 * @param   string    $type      The renderer type to instantiate
+	 * @param   string    $docType   The document type the renderer is part of
 	 *
 	 * @return  RendererInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function createRenderer(Document $document, string $type): RendererInterface;
+	public function createRenderer(Document $document, string $type, string $docType = ''): RendererInterface;
 }

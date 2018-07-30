@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Banner model for the Joomla Banners component.
@@ -75,7 +77,7 @@ class BannerModel extends BaseDatabaseModel
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = \JFactory::getDate()->format('Y-m-d H');
+			$trackDate = Factory::getDate()->format('Y-m-d H');
 
 			$query->clear()
 				->select($db->quoteName('count'))
@@ -146,7 +148,7 @@ class BannerModel extends BaseDatabaseModel
 		if (!isset($this->_item))
 		{
 			/** @var \JCacheControllerCallback $cache */
-			$cache = \JFactory::getCache('com_banners', 'callback');
+			$cache = Factory::getCache('com_banners', 'callback');
 
 			$id = $this->getState('banner.id');
 
@@ -177,7 +179,7 @@ class BannerModel extends BaseDatabaseModel
 			{
 				$this->_item = $cache->get($loader, array($id), md5(__METHOD__ . $id));
 			}
-			catch (\JCacheException $e)
+			catch (CacheExceptionInterface $e)
 			{
 				$this->_item = $loader($id);
 			}

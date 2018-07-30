@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Login view class for Users.
@@ -37,14 +41,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The logged in user
 	 *
-	 * @var  \JUser
+	 * @var  User
 	 */
 	protected $user;
 
@@ -72,11 +76,12 @@ class HtmlView extends BaseHtmlView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->user   = \JFactory::getUser();
+		$this->user   = Factory::getUser();
 		$this->form   = $this->get('Form');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
@@ -88,7 +93,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for layout override
-		$active = \JFactory::getApplication()->getMenu()->getActive();
+		$active = Factory::getApplication()->getMenu()->getActive();
 
 		if (isset($active->query['layout']))
 		{
@@ -112,12 +117,13 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 		$login = $user->get('guest') ? true : false;
 		$title = null;
 
@@ -131,7 +137,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', $login ? \JText::_('JLOGIN') : \JText::_('JLOGOUT'));
+			$this->params->def('page_heading', $login ? Text::_('JLOGIN') : Text::_('JLOGOUT'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -142,11 +148,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

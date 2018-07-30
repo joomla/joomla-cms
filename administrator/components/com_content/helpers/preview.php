@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+
 /**
  * Preview Link Helper
  *
@@ -31,7 +35,7 @@ class ContentHelperPreview
 		$sef  = '';
 
 		// Get the home Itemid for the language
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
@@ -40,7 +44,7 @@ class ContentHelperPreview
 			->where($db->qn('published') . '= 1')
 			->where($db->qn('client_id') . '= 0');
 
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			$query->where($db->qn('language') . ' = ' . $db->q($article->language));
 		}
@@ -53,7 +57,7 @@ class ContentHelperPreview
 
 		$Itemid = '&amp;Itemid=' . (int) $db->loadResult();
 
-		if ($article->language && JLanguageMultilang::isEnabled())
+		if ($article->language && Multilanguage::isEnabled())
 		{
 			// Get the sef prefix for the language
 			$query->clear()
@@ -71,7 +75,7 @@ class ContentHelperPreview
 			}
 		}
 
-		return JUri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
+		return Uri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
 		. '&amp;catid=' . (int) $article->catid . $lang . $Itemid;
 	}
 }

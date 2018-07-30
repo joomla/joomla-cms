@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Tags component
@@ -86,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -102,7 +105,7 @@ class HtmlView extends BaseHtmlView
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
 
 		if (!empty($items))
@@ -195,7 +198,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -209,7 +212,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
 		if ($menu && $menu->query['option'] !== 'com_tags')
@@ -257,11 +260,11 @@ class HtmlView extends BaseHtmlView
 			}
 			elseif ($app->get('sitename_pagetitles', 0) == 1)
 			{
-				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 			}
 			elseif ($app->get('sitename_pagetitles', 0) == 2)
 			{
-				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
 
 			$this->document->setTitle($title);
@@ -315,11 +318,11 @@ class HtmlView extends BaseHtmlView
 
 			if ($pos == 1)
 			{
-				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 			}
 			else
 			{
-				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
 
 			$this->document->setTitle($title);
@@ -330,9 +333,9 @@ class HtmlView extends BaseHtmlView
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

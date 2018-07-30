@@ -597,16 +597,6 @@ abstract class JHtmlBehavior
 	 */
 	public static function tabstate()
 	{
-		if (isset(self::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// @TODO remove the dependencies, deprecate this and incorporate the functionality in the tabs custom element!
-		JHtml::_('jquery.framework');
-		JHtml::_('behavior.polyfill', ['wgxpath']);
-		JHtml::_('script', 'legacy/tabs-state.min.js', ['version' => 'auto', 'relative' => true]);
-		self::$loaded[__METHOD__] = true;
 	}
 
 	/**

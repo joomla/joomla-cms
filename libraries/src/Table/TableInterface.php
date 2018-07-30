@@ -122,4 +122,15 @@ interface TableInterface
 	 * @since  4.0
 	 */
 	public function getId();
+
+	/**
+	 * Check if the record has a property (applying a column alias if it exists)
+	 *
+	 * @param   string  $key  key to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasField($key);
 }

@@ -110,7 +110,7 @@ class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	/**
 	 * Get all listeners contained in this queue, sorted according to their priority.
 	 *
-	 * @return  object[]  An array of listeners.
+	 * @return  callable[]  An array of listeners.
 	 *
 	 * @since   1.0
 	 */

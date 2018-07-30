@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="csp" label="COM_CSP_FIELDSET_CONFIG_REPORTER_OPTIONS_LABEL">
+		<field
+			name="enable_reporter"
+			type="radio"
+			label="COM_CSP_CONFIG_ENABLE_REPORTER_LABEL"
+			description="COM_CSP_CONFIG_ENABLE_REPORTER_DESC"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_csp"
+			section="component"
+		/>
+	</fieldset>
+</config>

@@ -59,9 +59,16 @@ $readMeFiles = array(
 			'/README.txt',
 			);
 
-// Change copyright date exclusions. Some systems may try to scan the .git directory, exclude it.
+/*
+ * Change copyright date exclusions.
+ * Some systems may try to scan the .git directory, exclude it.
+ * Also exclude build resources such as the packaging space or the API documentation build.
+ */
 $directoryLoopExcludeDirectories = array(
 			'/.git',
+			'/build/api/',
+			'/build/coverage/',
+			'/build/tmp/',
 			'/libraries/vendor/',
 			'/libraries/php-encryption/',
 			'/libraries/phpass/',

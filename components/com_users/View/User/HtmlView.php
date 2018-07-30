@@ -45,6 +45,22 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * The form object for the user contact item
+	 *
+	 * @var    \JForm
+	 * @since  1.6
+	 */
+	protected $form;
+
+	/**
+	 * Should we show a captcha form for the submission of the contact request?
+	 *
+	 * @var   bool
+	 * @since 3.6.3
+	 */
+	protected $captchaEnabled = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -52,12 +68,15 @@ class HtmlView extends BaseHtmlView
 	 * @return  mixed   A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
-		$app        = Factory::getApplication();
-		$this->item  = $this->get('Item');
-		$this->state      = $this->get('State');
+		$app            = Factory::getApplication();
+		$this->item     = $this->get('Item');
+		$this->state    = $this->get('State');
+		$this->form = $this->get('Form');
+		$this->params   = $this->state->get('params');
 		$user = Factory::getUser();
 
 		/**
@@ -91,6 +110,34 @@ class HtmlView extends BaseHtmlView
 		$results = $app->triggerEvent('onContentAfterDisplay', array('com_users.user', &$this->item, &$this->item->params, $offset));
 		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
 
+		$captchaSet = $this->item->params->get('captcha', Factory::getApplication()->get('captcha', '0'));
+
+		foreach (PluginHelper::getPlugin('captcha') as $plugin)
+		{
+			if ($captchaSet === $plugin->name)
+			{
+				$this->captchaEnabled = true;
+				break;
+			}
+		}
+
+		$this->_prepareDocument();
+
 		return parent::display($tpl);
+	}
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 *
+	 * @throws  \Exception
+	 */
+	protected function _prepareDocument()
+	{
+		$app     = Factory::getApplication();
+		$pathway = $app->getPathway();
+
+		$pathway->addItem($this->item->name, '');
+
 	}
 }

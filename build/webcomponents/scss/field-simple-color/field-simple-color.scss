@@ -19,11 +19,11 @@ joomla-field-simple-color {
   button {
     width: 20px;
     height: 20px;
-    border: solid 1px #ccc;
-    vertical-align: middle;
-    border-radius: 3px;
     overflow: hidden;
+    vertical-align: middle;
     background: none;
+    border: solid 1px #ccc;
+    border-radius: 3px;
     -webkit-appearence: none;
   }
 
@@ -38,7 +38,7 @@ joomla-field-simple-color {
   }
 
   .nocolor {
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3ggRDQENU0dyawAAACZJREFUGNNjPHXqDAMSMDY2ROYyMeAFNJVm/Pv3LzL/7Nnzg8VpAKebCGpIIxHBAAAAAElFTkSuQmCC') !important;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3ggRDQENU0dyawAAACZJREFUGNNjPHXqDAMSMDY2ROYyMeAFNJVm/Pv3LzL/7Nnzg8VpAKebCGpIIxHBAAAAAElFTkSuQmCC") !important;
   }
   .simplecolors-panel .swatch {
     margin: 0 4px 4px 0;

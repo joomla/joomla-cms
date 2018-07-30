@@ -53,6 +53,11 @@ class FinderHelper
 			'index.php?option=com_finder&view=filters',
 			$vName === 'filters'
 		);
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_FINDER_SUBMENU_SEARCHES'),
+			'index.php?option=com_finder&view=searches',
+			$vName === 'searches'
+		);
 	}
 
 	/**

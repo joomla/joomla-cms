@@ -23,7 +23,7 @@ $authorised = Factory::getUser()->getAuthorisedViewLevels();
 		<?php foreach ($displayData as $i => $tag) : ?>
 			<?php if (in_array($tag->access, $authorised)) : ?>
 				<?php $tagParams = new Registry($tag->params); ?>
-				<?php $link_class = $tagParams->get('tag_link_class', 'label label-info'); ?>
+				<?php $link_class = $tagParams->get('tag_link_class', 'badge badge-info'); ?>
 				<li class="list-inline-item tag-<?php echo $tag->tag_id; ?> tag-list<?php echo $i; ?>" itemprop="keywords">
 					<a href="<?php echo Route::_(TagsHelperRoute::getTagRoute($tag->tag_id . ':' . $tag->alias)); ?>" class="<?php echo $link_class; ?>">
 						<?php echo $this->escape($tag->title); ?>

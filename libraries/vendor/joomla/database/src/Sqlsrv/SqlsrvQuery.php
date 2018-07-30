@@ -65,6 +65,14 @@ class SqlsrvQuery extends DatabaseQuery implements LimitableInterface
 	protected $limit;
 
 	/**
+	 * The list of zero or null representation of a datetime.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $nullDatetimeList = ['1900-01-01 00:00:00'];
+
+	/**
 	 * Magic function to convert the query to a string.
 	 *
 	 * @return  string  The completed query.

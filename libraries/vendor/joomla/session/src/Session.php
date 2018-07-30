@@ -644,6 +644,24 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	}
 
 	/**
+	 * Aborts the current session
+	 *
+	 * @return  boolean
+	 *
+	 * @see     session_abort()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function abort()
+	{
+		if (!$this->isActive())
+		{
+			return true;
+		}
+
+		return $this->store->abort();
+	}
+
+	/**
 	 * Create a token-string
 	 *
 	 * @param   integer  $length  Length of string

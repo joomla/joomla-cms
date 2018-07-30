@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * Query HTML behavior class for Finder.
  *

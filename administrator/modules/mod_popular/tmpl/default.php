@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 			<?php $hits = (int) $item->hits; ?>
 			<?php $hits_class = ($hits >= 10000 ? 'danger' : ($hits >= 1000 ? 'warning' : ($hits >= 100 ? 'info' : 'secondary'))); ?>
 			<li class="d-flex justify-content-start list-group-item">
-				<div class="fg-1">
+				<div class="flex-grow-1">
 					<span class="mr-2 badge badge-<?php echo $hits_class; ?> hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JGLOBAL_HITS'); ?>"><?php echo $item->hits; ?></span>
 					<?php if ($item->checked_out) : ?>
 						<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>

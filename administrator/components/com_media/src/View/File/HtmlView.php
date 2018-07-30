@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.filesystem.file');
 
@@ -67,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
+		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
 		ToolbarHelper::apply('apply');
 		ToolbarHelper::save('save');

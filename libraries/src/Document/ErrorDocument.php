@@ -11,24 +11,14 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Uri\Uri;
 
 /**
- * ErrorDocument class, provides an easy interface to parse and display an error page
+ * ErrorDocument class, provides an easy interface to parse and display an HTML based error page
  *
- * @since       11.1
- * @deprecated  5.0  Use \Joomla\CMS\Error\RendererInterface objects instead
+ * @since  11.1
  */
-class ErrorDocument extends Document
+class ErrorDocument extends HtmlDocument
 {
-	/**
-	 * Document base URL
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $baseurl = '';
-
 	/**
 	 * Flag if debug mode has been enabled
 	 *
@@ -44,22 +34,6 @@ class ErrorDocument extends Document
 	 * @since  11.1
 	 */
 	public $error;
-
-	/**
-	 * Name of the template
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $template = null;
-
-	/**
-	 * File name
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	public $_file = null;
 
 	/**
 	 * Error Object
@@ -79,9 +53,6 @@ class ErrorDocument extends Document
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
-
-		// Set mime type
-		$this->_mime = 'text/html';
 
 		// Set document type
 		$this->_type = 'error';
@@ -106,6 +77,22 @@ class ErrorDocument extends Document
 		}
 
 		return false;
+	}
+
+	/**
+	 * Load a renderer
+	 *
+	 * @param   string  $type  The renderer type
+	 *
+	 * @return  RendererInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function loadRenderer($type)
+	{
+		// Need to force everything to go to the HTML renderers or we duplicate all the things
+		return $this->factory->createRenderer($this, $type, 'html');
 	}
 
 	/**
@@ -143,69 +130,13 @@ class ErrorDocument extends Document
 
 		\JFactory::getApplication()->setHeader('status', $status);
 
-		$file = 'error.php';
-
-		// Check template
-		$directory = $params['directory'] ?? 'templates';
-		$template = isset($params['template']) ? \JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
-
-		if (!file_exists($directory . '/' . $template . '/' . $file))
-		{
-			$template = 'system';
-		}
-
 		// Set variables
-		$this->baseurl = Uri::base(true);
-		$this->template = $template;
 		$this->debug = $params['debug'] ?? false;
 		$this->error = $this->_error;
 
-		// Load the language file for the template if able
-		if (\JFactory::$language)
-		{
-			$lang = \JFactory::getLanguage();
+		$params['file'] = 'error.php';
 
-			// 1.5 or core then 1.6
-			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-				|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
-		}
-
-		// Load
-		$data = $this->_loadTemplate($directory . '/' . $template, $file);
-
-		parent::render();
-
-		return $data;
-	}
-
-	/**
-	 * Load a template file
-	 *
-	 * @param   string  $directory  The name of the template
-	 * @param   string  $filename   The actual filename
-	 *
-	 * @return  string  The contents of the template
-	 *
-	 * @since   11.1
-	 */
-	public function _loadTemplate($directory, $filename)
-	{
-		$contents = '';
-
-		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
-		{
-			// Store the file path
-			$this->_file = $directory . '/' . $filename;
-
-			// Get the file content
-			ob_start();
-			require_once $directory . '/' . $filename;
-			$contents = ob_get_contents();
-			ob_end_clean();
-		}
-
-		return $contents;
+		return parent::render($cache, $params);
 	}
 
 	/**

@@ -175,7 +175,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		 * add any necessary secret query parameters to the URL. The plugins are supposed to have a method with the
 		 * signature:
 		 *
-		 * public function onBuildAdministratorLoginURL(JUri &$uri);
+		 * public function onBuildAdministratorLoginURL(Uri &$uri);
 		 *
 		 * The plugins should modify the $uri object directly and return null.
 		 */

@@ -25,12 +25,14 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   boolean        $cachable   If true, the view output will be cached
+	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
+	 *                                     for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{

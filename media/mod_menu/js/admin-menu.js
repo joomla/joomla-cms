@@ -35,18 +35,23 @@ Joomla = window.Joomla || {};
 		return null;
 	}
 
-	var wrapper = document.getElementById('wrapper');
-	var sidebar = document.getElementById('sidebar-wrapper');
-	var body    = document.body;
+	var wrapper        = document.getElementById('wrapper');
+	var sidebar        = document.getElementById('sidebar-wrapper');
+	var menuToggleIcon = document.getElementById('menu-collapse-icon');
+	var body           = document.body;
 
 	// Set the initial state of the sidebar based on the localStorage value
 	if (Joomla.localStorageEnabled()) {
 		var sidebarState = localStorage.getItem('atum-sidebar');
 		if (sidebarState === 'open' || sidebarState === null) {
 			wrapper.classList.remove('closed');
+			menuToggleIcon.classList.remove('fa-toggle-off');
+			menuToggleIcon.classList.add('fa-toggle-on');
 			localStorage.setItem('atum-sidebar', 'open');
 		} else {
 			wrapper.classList.add('closed');
+			menuToggleIcon.classList.remove('fa-toggle-on');
+			menuToggleIcon.classList.add('fa-toggle-off');
 			localStorage.setItem('atum-sidebar', 'closed');
 		}
 	}
@@ -80,6 +85,8 @@ Joomla = window.Joomla || {};
 		// Toggle menu
 		menuToggle.addEventListener('click', function(e) {
 			wrapper.classList.toggle('closed');
+			menuToggleIcon.classList.toggle('fa-toggle-on');
+			menuToggleIcon.classList.toggle('fa-toggle-off');
 
 			var listItems = document.querySelectorAll('.main-nav > li');
 			for (var i = 0; i < listItems.length; i++) {

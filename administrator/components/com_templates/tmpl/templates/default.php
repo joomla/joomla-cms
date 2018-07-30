@@ -28,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>
-					<table class="table table-striped" id="template-mgr">
+					<table class="table" id="template-mgr">
 						<thead>
 							<tr>
 								<th class="col1template d-none d-md-table-cell" style="width:20%">

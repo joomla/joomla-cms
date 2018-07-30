@@ -621,7 +621,7 @@ class BaseController implements ControllerInterface
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
 		// Get/Create the model
-		if ($model = $this->getModel($viewName))
+		if ($model = $this->getModel($viewName, '', array('base_path' => $this->basePath)))
 		{
 			// Push the model into the view (as default)
 			$view->setModel($model, true);

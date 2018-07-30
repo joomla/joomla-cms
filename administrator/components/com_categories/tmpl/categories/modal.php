@@ -38,7 +38,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
-			<table class="table table-striped" id="categoryList">
+			<table class="table" id="categoryList">
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap text-center">

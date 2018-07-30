@@ -23,6 +23,6 @@ HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => '
 	scrolling="<?php echo $scroll; ?>"
 	frameborder="<?php echo $frameborder; ?>"
     title="<?php echo $ititle; ?>"
-	class="wrapper">
+	class="mod-wrapper wrapper">
 	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

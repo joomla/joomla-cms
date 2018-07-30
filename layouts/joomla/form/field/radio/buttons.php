@@ -59,7 +59,7 @@ if (!empty($disabled))
 
 if (!empty($required))
 {
-	$attribs[] = 'required aria-required="true"';
+	$attribs[] = 'required';
 }
 
 if (!empty($autofocus))
@@ -114,7 +114,7 @@ if ($readonly || $disabled)
 			$attributes = array_filter(array($checked, $optionClass, $disabled, $style, $onchange, $onclick));
 			?>
 			<?php if ($required) : ?>
-				<?php $attributes[] = 'required aria-required="true"'; ?>
+				<?php $attributes[] = 'required'; ?>
 			<?php endif; ?>
 			<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style);; ?>">
 				<input type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>

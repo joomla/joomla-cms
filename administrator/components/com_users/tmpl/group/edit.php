@@ -9,15 +9,19 @@
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 
-JHtml::_('behavior.formvalidator');
+// Include the component HTML helpers.
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+HTMLHelper::_('behavior.formvalidator');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<fieldset>
-		<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS'); ?></legend>
+		<legend><?php echo Text::_('COM_USERS_USERGROUP_DETAILS'); ?></legend>
 		<div class="control-group">
 			<div class="control-label">
 				<?php echo $this->form->getLabel('title'); ?>
@@ -39,5 +43,5 @@ JHtml::_('behavior.formvalidator');
 		</div>
 	</fieldset>
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

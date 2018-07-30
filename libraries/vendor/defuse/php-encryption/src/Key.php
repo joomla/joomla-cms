@@ -84,11 +84,10 @@ final class Key
      */
     private function __construct($bytes)
     {
-        if (Core::ourStrlen($bytes) !== self::KEY_BYTE_SIZE) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Bad key length.'
-            );
-        }
+        Core::ensureTrue(
+            Core::ourStrlen($bytes) === self::KEY_BYTE_SIZE,
+            'Bad key length.'
+        );
         $this->key_bytes = $bytes;
     }
 

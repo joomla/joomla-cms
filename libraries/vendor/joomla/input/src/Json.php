@@ -34,7 +34,7 @@ class Json extends Input
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(array $source = array(), array $options = array())
+	public function __construct($source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{
@@ -45,7 +45,7 @@ class Json extends Input
 			$this->filter = new Filter\InputFilter;
 		}
 
-		if (is_null($source) || empty($source))
+		if (is_null($source))
 		{
 			$this->raw = file_get_contents('php://input');
 

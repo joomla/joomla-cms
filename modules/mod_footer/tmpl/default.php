@@ -11,5 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 ?>
-<div class="footer1"><?php echo $lineone; ?></div>
-<div class="footer2"><?php echo Text::_('MOD_FOOTER_LINE2'); ?></div>
+<div class="mod-footer">
+	<div class="footer1"><?php echo $lineone; ?></div>
+	<div class="footer2"><?php echo Text::_('MOD_FOOTER_LINE2'); ?></div>
+</div>

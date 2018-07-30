@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if ($this->total > 0) : ?>
-					<table id="global-checkin" class="table table-striped">
+					<table id="global-checkin" class="table">
 						<thead>
 							<tr>
 								<th style="width:1%"><?php echo JHtml::_('grid.checkall'); ?></th>

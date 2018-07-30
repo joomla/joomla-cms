@@ -9,13 +9,16 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 ?>
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)) : ?>
-	<fieldset id="users-profile-custom">
-		<legend><?php echo JText::_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
+	<fieldset id="users-profile-custom" class="com-users-profile__params">
+		<legend><?php echo Text::_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
 		<dl class="dl-horizontal">
 			<?php foreach ($fields as $field) : ?>
 				<?php if (!$field->hidden) : ?>
@@ -23,14 +26,14 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 						<?php echo $field->title; ?>
 					</dt>
 					<dd>
-						<?php if (JHtml::isRegistered('users.' . $field->id)) : ?>
-							<?php echo JHtml::_('users.' . $field->id, $field->value); ?>
-						<?php elseif (JHtml::isRegistered('users.' . $field->fieldname)) : ?>
-							<?php echo JHtml::_('users.' . $field->fieldname, $field->value); ?>
-						<?php elseif (JHtml::isRegistered('users.' . $field->type)) : ?>
-							<?php echo JHtml::_('users.' . $field->type, $field->value); ?>
+						<?php if (HTMLHelper::isRegistered('users.' . $field->id)) : ?>
+							<?php echo HTMLHelper::_('users.' . $field->id, $field->value); ?>
+						<?php elseif (HTMLHelper::isRegistered('users.' . $field->fieldname)) : ?>
+							<?php echo HTMLHelper::_('users.' . $field->fieldname, $field->value); ?>
+						<?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
+							<?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
 						<?php else : ?>
-							<?php echo JHtml::_('users.value', $field->value); ?>
+							<?php echo HTMLHelper::_('users.value', $field->value); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>

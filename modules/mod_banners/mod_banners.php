@@ -17,6 +17,8 @@ $headerText = trim($params->get('header_text'));
 $footerText = trim($params->get('footer_text'));
 
 BannersHelper::updateReset();
-$list = &ModBannersHelper::getList($params);
+
+$model = $app->bootComponent('com_banners')->createMVCFactory($app)->createModel('Banners', 'Site', ['ignore_request' => true]);
+$list  = ModBannersHelper::getList($params, $model, $app);
 
 require ModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));

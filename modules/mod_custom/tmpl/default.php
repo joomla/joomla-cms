@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 ?>
 
 
-<div class="custom" <?php if ($params->get('backgroundimage')) : ?> style="background-image:url(<?php echo $params->get('backgroundimage'); ?>)"<?php endif; ?>>
+<div class="mod-custom custom" <?php if ($params->get('backgroundimage')) : ?> style="background-image:url(<?php echo $params->get('backgroundimage'); ?>)"<?php endif; ?>>
 	<?php echo $module->content; ?>
 </div>

@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
+
 	<field
 		name="key"
-		type="text"
+		type="list"
 		label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_KEY"
-	/>
+		validate="options"
+		>
+		<option value="strict-transport-security">Strict-Transport-Security</option>
+		<option value="content-security-policy">Content-Security-Policy</option>
+		<option value="content-security-policy-report-only">Content-Security-Policy-Report-Only</option>
+		<option value="x-frame-options">X-Frame-Options</option>
+		<option value="x-xss-protection">X-XSS-Protection</option>
+		<option value="x-content-type-options">X-Content-Type-Options</option>
+		<option value="referrer-policy">Referrer-Policy</option>
+		<option value="expect-ct">Expect-CT</option>
+	</field>
 	<field
 		name="value"
 		type="text"

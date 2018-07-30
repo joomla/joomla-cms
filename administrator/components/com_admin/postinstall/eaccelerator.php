@@ -13,6 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Checks if the eAccelerator caching method is enabled.
@@ -28,7 +33,7 @@ use Joomla\Utilities\ArrayHelper;
  */
 function admin_postinstall_eaccelerator_condition()
 {
-	$app = JFactory::getApplication();
+	$app = Factory::getApplication();
 	$cacheHandler = $app->get('cacheHandler', '');
 
 	return (ucfirst($cacheHandler) == 'Eaccelerator');
@@ -55,27 +60,27 @@ function admin_postinstall_eaccelerator_action()
 	$file = JPATH_CONFIGURATION . '/configuration.php';
 
 	// Get the new FTP credentials.
-	$ftp = JClientHelper::getCredentials('ftp', true);
+	$ftp = ClientHelper::getCredentials('ftp', true);
 
 	// Attempt to make the file writeable if using FTP.
-	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 	}
 
 	// Attempt to write the configuration file as a PHP class named JConfig.
 	$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
-	if (!JFile::write($file, $configuration))
+	if (!File::write($file, $configuration))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 
 		return;
 	}
 
 	// Attempt to make the file unwriteable if using FTP.
-	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 	}
 }
