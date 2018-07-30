@@ -140,7 +140,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 					<?php endforeach; ?>
 					</tbody>
 					</table>
-					
+
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
