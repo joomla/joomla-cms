@@ -36,6 +36,7 @@ $idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck)      ? ' list-selection' : '';
 $formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
 $validate = !empty($formValidation) ? ' form-validation' : '';
+$msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
 
 if (!empty($task))
 {
