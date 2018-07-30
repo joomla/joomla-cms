@@ -402,10 +402,18 @@ class MessageModel extends AdminModel
 				try
 				{
 					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+
+					return false;
 				}
 				catch (\RuntimeException $exception)
 				{
 					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+
+					return false;
 				}
 			}
 		}
