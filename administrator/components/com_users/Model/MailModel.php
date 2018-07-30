@@ -171,26 +171,26 @@ class MailModel extends AdminModel
 		$mailer = Factory::getMailer();
 		$params = ComponentHelper::getParams('com_users');
 
-		// Build email message format.
-		$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
-		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
-		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-		$mailer->IsHtml($mode);
-
-		// Add recipients
-		if ($bcc)
-		{
-			$mailer->addBcc($rows);
-			$mailer->addRecipient($app->get('mailfrom'));
-		}
-		else
-		{
-			$mailer->addRecipient($rows);
-		}
-
-		// Send the Mail
 		try
 		{
+			// Build email message format.
+			$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
+			$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
+			$mailer->setBody($message_body . $params->get('mailBodySuffix'));
+			$mailer->IsHtml($mode);
+
+			// Add recipients
+			if ($bcc)
+			{
+				$mailer->addBcc($rows);
+				$mailer->addRecipient($app->get('mailfrom'));
+			}
+			else
+			{
+				$mailer->addRecipient($rows);
+			}
+
+			// Send the Mail
 			$rs = $mailer->Send();
 		}
 		catch (\Exception $exception)
@@ -198,16 +198,20 @@ class MailModel extends AdminModel
 			try
 			{
 				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$rs = false;
 			}
 			catch (\RuntimeException $exception)
 			{
 				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$rs = false;
 			}
 		}
 
 
 		// Check for an error
-		if ($rs instanceof \Exception)
+		if ($rs !== true)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError($rs->getError());

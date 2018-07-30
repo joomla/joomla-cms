@@ -157,23 +157,31 @@ class DisplayController extends BaseController
 		// Try to send the email
 		try
 		{
-			if (Factory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)
-			{
-				$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
-
-				return $this->mailto();
-			}
+			$return = Factory::getMailer()->sendMail($from, $sender, $email, $subject, $body);
 		}
 		catch (\Exception $exception)
 		{
 			try
 			{
 				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
 			}
 			catch (\RuntimeException $exception)
 			{
 				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$return = false;
 			}
+		}
+
+		if ($return !== true)
+		{
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+
+			$this->setRedirect('index.php', 'COM_MAILTO_EMAIL_NOT_SENT');
+			return $this->redirect();
+			//return $this->mailto();
 		}
 
 		$this->input->set('view', 'sent');

@@ -248,20 +248,23 @@ class ContactController extends FormController
 				$mail->setBody($copytext);
 				$sent = $mail->Send();
 			}
-
-			return $sent;
-
 		}
 		catch (\Exception $exception)
 		{
 			try
 			{
 				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$sent = false;
 			}
 			catch (\RuntimeException $exception)
 			{
 				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$sent = false;
 			}
 		}
+
+		return $sent;
 	}
 }

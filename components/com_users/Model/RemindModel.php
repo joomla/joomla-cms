@@ -195,27 +195,33 @@ class RemindModel extends FormModel
 		try
 		{
 			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
-
-			// Check for an error.
-			if ($return !== true)
-			{
-				$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
-
-				return false;
-			}
 		}
 		catch (\Exception $exception)
 		{
 			try
 			{
 				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
 			}
 			catch (\RuntimeException $exception)
 			{
 				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$return = false;
 			}
 		}
 
-		return true;
+		// Check for an error.
+		if ($return !== true)
+		{
+			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
+
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 }
