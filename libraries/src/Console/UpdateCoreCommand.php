@@ -15,6 +15,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\AbstractCommand;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 
@@ -54,6 +55,13 @@ class UpdateCoreCommand extends AbstractCommand
 	public $updateModel;
 
 	/**
+	 * Progress Bar object
+	 * @var ProgressBar
+	 * @since 4.0
+	 */
+	public $progressBar;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -62,6 +70,10 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	private function configureIO()
 	{
+		ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
+		$this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
+		$this->progressBar->setFormat('custom');
+
 		$this->cliInput = $this->getApplication()->getConsoleInput();
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
