@@ -61,7 +61,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
 						<th scope="col" style="width:1%" class="center nowrap">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<th scope="col" class="nowrap">
@@ -75,12 +75,12 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th scope="col" style="width:10%" class="nowrap">
-							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
 						<th scope="col" style="width:5%" class="nowrap d-none d-sm-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<th scope="col" style="width:1%" class="nowrap d-none d-sm-table-cell">
