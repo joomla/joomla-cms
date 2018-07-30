@@ -131,9 +131,11 @@ class CoreInstallCommand extends AbstractCommand
 
 		$this->registry = new Registry;
 		$this->cliInput = $this->getApplication()->getConsoleInput();
+
 		ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
 		$this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
 		$this->progressBar->setFormat('custom');
+
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
 
@@ -149,7 +151,7 @@ class CoreInstallCommand extends AbstractCommand
 	public function execute(): int
 	{
 		$this->configureIO();
-		$this->progressBar->setMessage("Starting set Joomla! installation ...");
+		$this->progressBar->setMessage("Starting Joomla! installation ...");
 		$this->progressBar->start();
 		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
 
