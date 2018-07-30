@@ -14,6 +14,8 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users List view class for Users.
@@ -25,14 +27,31 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\Registry\Registry
 	 */
 	protected $state;
 
 	/**
+	 * User items data
+	 *
 	 * @var array
 	 */
 	protected $items;
+
+	/**
+	 * The group
+	 *
+	 * @var CMSObject
+	 */
+	protected $group;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  4.0.0
+	 */
+	protected $params = null;
 
 	/**
 	 * Execute and display a template script.
@@ -45,8 +64,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app        = Factory::getApplication();
+		$app          = Factory::getApplication();
 		$this->items  = $this->get('Items');
+		$this->state  = $this->get('State');
+		$this->params = $this->state->get('params');
+		$this->group  = $this->get('Group');
 
 		PluginHelper::importPlugin('content');
 
@@ -70,6 +92,46 @@ class HtmlView extends BaseHtmlView
 			$results = $app->triggerEvent('onContentAfterDisplay', array('com_users.user', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
+
+		$menus   = $app->getMenu();
+		$menu = $menus->getActive();
+
+		if ($menu
+			&& $menu->component == 'com_users'
+			&& isset($menu->query['view'], $menu->query['id'])
+			&& $menu->query['view'] == 'users'
+			&& $menu->query['id'] == $this->group->id)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+			$title = $this->params->get('page_title', $menu->title);
+		}
+		else
+		{
+			$this->params->def('page_heading', $this->group->title);
+			$title = $this->group->title;
+			$this->params->set('page_title', $title);
+		}
+
+		// Check for empty title and add site name if param is set
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		if (empty($title))
+		{
+			$title = $this->group->title;
+		}
+
+		$this->document->setTitle($title);
 
 		return parent::display($tpl);
 	}
