@@ -79,8 +79,8 @@ const compile = (options) => {
           const prefixer = postcss([autoprefixer]);
 
           if (typeof result === 'object' && result.css) {
-            cleaner.process(result.css.toString())
-              .then(cleaned => prefixer.process(cleaned.css))
+            cleaner.process(result.css.toString(), {from: undefined})
+              .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
               .then((res) => {
                 if (/{{CSS_CONTENTS_PLACEHOLDER}}/.test(es6File)) {
                   if (typeof res === 'object' && res.css) {

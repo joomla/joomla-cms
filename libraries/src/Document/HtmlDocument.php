@@ -15,6 +15,9 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 
 jimport('joomla.utilities.utility');
 
@@ -151,7 +154,7 @@ class HtmlDocument extends Document
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
-		$data['scriptText']  = \JText::getScriptStrings();
+		$data['scriptText']  = Text::getScriptStrings();
 
 		return $data;
 	}
@@ -260,7 +263,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['scriptText'] as $key => $string)
 			{
-				\JText::script($key, $string);
+				Text::script($key, $string);
 			}
 		}
 
@@ -467,7 +470,7 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules')
 		{
-			$cache = \JFactory::getCache('com_modules', '');
+			$cache = Factory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
@@ -623,8 +626,8 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = \JFactory::getDbo();
-			$app = \JFactory::getApplication();
+			$db = Factory::getDbo();
+			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
@@ -701,7 +704,7 @@ class HtmlDocument extends Document
 	{
 		// Check
 		$directory = $params['directory'] ?? 'templates';
-		$filter = \JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
 
@@ -716,7 +719,7 @@ class HtmlDocument extends Document
 		}
 
 		// Load the language file for the template
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)

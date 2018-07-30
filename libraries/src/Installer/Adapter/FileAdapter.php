@@ -13,8 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Table\Table;
-
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * File installer
@@ -57,12 +60,12 @@ class FileAdapter extends InstallerAdapter
 		// Now that we have folder list, lets start creating them
 		foreach ($this->folderList as $folder)
 		{
-			if (!\JFolder::exists($folder))
+			if (!Folder::exists($folder))
 			{
-				if (!$created = \JFolder::create($folder))
+				if (!$created = Folder::create($folder))
 				{
 					throw new \RuntimeException(
-						\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder)
+						Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder)
 					);
 				}
 
@@ -112,7 +115,7 @@ class FileAdapter extends InstallerAdapter
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_COPY_SETUP'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_COPY_SETUP'));
 		}
 
 		// If there is a manifest script, let's copy it.
@@ -121,7 +124,7 @@ class FileAdapter extends InstallerAdapter
 			// First, we have to create a folder for the script if one isn't present
 			if (!file_exists($this->parent->getPath('extension_root')))
 			{
-				\JFolder::create($this->parent->getPath('extension_root'));
+				Folder::create($this->parent->getPath('extension_root'));
 			}
 
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
@@ -133,9 +136,9 @@ class FileAdapter extends InstallerAdapter
 				{
 					// Install failed, rollback changes
 					throw new \RuntimeException(
-						\JText::sprintf(
+						Text::sprintf(
 							'JLIB_INSTALLER_ABORT_MANIFEST',
-							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 						)
 					);
 				}
@@ -153,7 +156,7 @@ class FileAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		\JFile::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
+		File::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
 
 		$db = $this->parent->getDbo();
 
@@ -196,7 +199,7 @@ class FileAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
+			$manifestPath = Path::clean($this->parent->getPath('manifest'));
 			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 
@@ -272,7 +275,7 @@ class FileAdapter extends InstallerAdapter
 					else
 					{
 						$fileName = $targetFolder . '/' . $eFileName;
-						\JFile::delete($fileName);
+						File::delete($fileName);
 					}
 				}
 			}
@@ -280,11 +283,11 @@ class FileAdapter extends InstallerAdapter
 			// Delete any folders that don't have any content in them.
 			foreach ($folderList as $folder)
 			{
-				$files = \JFolder::files($folder);
+				$files = Folder::files($folder);
 
 				if (!count($files))
 				{
-					\JFolder::delete($folder);
+					Folder::delete($folder);
 				}
 			}
 		}
@@ -292,9 +295,9 @@ class FileAdapter extends InstallerAdapter
 		// Lastly, remove the extension_root
 		$folder = $this->parent->getPath('extension_root');
 
-		if (\JFolder::exists($folder))
+		if (Folder::exists($folder))
 		{
-			\JFolder::delete($folder);
+			Folder::delete($folder);
 		}
 
 		$this->parent->removeFiles($this->getManifest()->languages);
@@ -338,7 +341,7 @@ class FileAdapter extends InstallerAdapter
 			// Remove this row entry since its invalid
 			$this->extension->delete($this->extension->extension_id);
 
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 		}
 
 		// Set the files root path
@@ -352,13 +355,13 @@ class FileAdapter extends InstallerAdapter
 		// If we cannot load the XML file return null
 		if (!$xml)
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_MANIFEST'));
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() != 'extension')
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
 		}
 
 		$this->setManifest($xml);
@@ -392,9 +395,9 @@ class FileAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_ROLLBACK',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->extension->getError()
 					)
 				);
@@ -422,9 +425,9 @@ class FileAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_ROLLBACK',
-						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->extension->getError()
 					)
 				);
@@ -492,7 +495,7 @@ class FileAdapter extends InstallerAdapter
 
 		// Set root folder names
 		$packagePath = $this->parent->getPath('source');
-		$jRootPath = \JPath::clean(JPATH_ROOT);
+		$jRootPath = Path::clean(JPATH_ROOT);
 
 		// Loop through all elements and get list of files and folders
 		foreach ($this->getManifest()->fileset->files as $eFiles)
@@ -516,7 +519,7 @@ class FileAdapter extends InstallerAdapter
 				$folderName .= '/' . $dir;
 
 				// Check if folder exists, if not then add to the array for folder creation
-				if (!\JFolder::exists($folderName))
+				if (!Folder::exists($folderName))
 				{
 					$this->folderList[] = $folderName;
 				}
@@ -527,9 +530,9 @@ class FileAdapter extends InstallerAdapter
 			$targetFolder = empty($target) ? $jRootPath : $jRootPath . '/' . $target;
 
 			// Check if source folder exists
-			if (!\JFolder::exists($sourceFolder))
+			if (!Folder::exists($sourceFolder))
 			{
-				\JLog::add(\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder), Log::WARNING, 'jerror');
 
 				// If installation fails, rollback
 				$this->parent->abort();
@@ -559,7 +562,7 @@ class FileAdapter extends InstallerAdapter
 			}
 			else
 			{
-				$files = \JFolder::files($sourceFolder);
+				$files = Folder::files($sourceFolder);
 
 				foreach ($files as $file)
 				{
@@ -596,7 +599,7 @@ class FileAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}
