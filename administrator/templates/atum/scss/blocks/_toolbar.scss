@@ -49,6 +49,18 @@
       color: #fff;
       background-color: rgba(0, 0, 0, .2);
     }
+
+    &[disabled='true'],
+    &.dropdown-toggle[disabled='true'] {
+      background-color: #7C838F;
+    }
+  }
+
+  .dropdown-item {
+
+    &:hover {
+      color: #212529;
+    }
   }
 
   .dropdown-toggle {

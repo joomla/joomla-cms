@@ -999,6 +999,10 @@ iframe {
       line-height: 2.65rem;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.2); }
+    .subhead .btn[disabled='true'], .subhead .btn.dropdown-toggle[disabled='true'] {
+      background-color: #7C838F; }
+  .subhead .dropdown-item:hover {
+    color: #212529; }
   .subhead .dropdown-toggle.btn {
     background-color: rgba(0, 0, 0, 0.2); }
   .subhead .dropdown-toggle.btn-primary {
