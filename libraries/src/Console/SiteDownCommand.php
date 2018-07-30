@@ -28,6 +28,18 @@ class SiteDownCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * Return code if site:down failed
+	 * @since 4.0
+	 */
+	const SITE_DOWN_FAILED = 1;
+
+	/**
+	 * Return code if site:down was successful
+	 * @since 4.0
+	 */
+	const SITE_DOWN_SUCCESSFUL = 0;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -60,11 +72,11 @@ class SiteDownCommand extends AbstractCommand
 		{
 			$this->ioStyle->success("Successfully set site to offline");
 
-			return 0;
+			return self::SITE_DOWN_SUCCESSFUL;
 		}
 
 
-		return 1;
+		return self::SITE_DOWN_FAILED;
 	}
 
 	/**

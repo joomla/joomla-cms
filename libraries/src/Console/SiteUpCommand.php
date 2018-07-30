@@ -28,6 +28,18 @@ class SiteUpCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * Return code if site:up failed
+	 * @since 4.0
+	 */
+	const SITE_UP_FAILED = 1;
+
+	/**
+	 * Return code if site:up was successful
+	 * @since 4.0
+	 */
+	const SITE_UP_SUCCESSFUL = 0;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @return void
@@ -60,11 +72,11 @@ class SiteUpCommand extends AbstractCommand
 		{
 			$this->ioStyle->success("Website is now online");
 
-			return 0;
+			return self::SITE_UP_SUCCESSFUL;
 		}
 
 
-		return 1;
+		return self::SITE_UP_FAILED;
 	}
 
 	/**

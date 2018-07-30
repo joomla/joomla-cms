@@ -49,6 +49,31 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	private $options;
 
+
+	/**
+	 * Return code if configuration is set successfully
+	 * @since 4.0
+	 */
+	const CONFIG_SET_SUCCESSFUL = 0;
+
+	/**
+	 * Return code if configuration set failed
+	 * @since 4.0
+	 */
+	const CONFIG_SET_FAILED = 3;
+
+	/**
+	 * Return code if database validation failed
+	 * @since 4.0
+	 */
+	const DB_VALIDATION_FAILED = 1;
+
+	/**
+	 * Return code if config validation failed
+	 * @since 4.0
+	 */
+	const CONFIG_VALIDATION_FAILED = 2;
+
 	/**
 	 * Configures the IO
 	 *
@@ -150,7 +175,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		if (!$options)
 		{
-			return 2;
+			return self::CONFIG_VALIDATION_FAILED;
 		}
 
 
@@ -161,7 +186,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		if ($db === false)
 		{
-			return 1;
+			return self::DB_VALIDATION_FAILED;
 		}
 
 
@@ -169,10 +194,10 @@ class SetConfigurationCommand extends AbstractCommand
 		{
 			$this->ioStyle->success('Configuration set');
 
-			return 0;
+			return self::CONFIG_SET_SUCCESSFUL;
 		}
 
-		return 3;
+		return self::CONFIG_SET_FAILED;
 	}
 
 
