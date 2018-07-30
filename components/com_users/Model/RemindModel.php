@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Remind model class for Users.
@@ -190,15 +191,29 @@ class RemindModel extends FormModel
 			$data['link_text']
 		);
 
-		// Send the password reset request email.
-		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
-
-		// Check for an error.
-		if ($return !== true)
+		// Try to send the password reset request email.
+		try
 		{
-			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
-			return false;
+			// Check for an error.
+			if ($return !== true)
+			{
+				$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
+
+				return false;
+			}
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+			}
 		}
 
 		return true;
