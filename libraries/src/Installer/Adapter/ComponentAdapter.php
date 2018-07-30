@@ -983,34 +983,14 @@ class ComponentAdapter extends InstallerAdapter
 			// Set the menu link
 			$request = array();
 
-			if ((string) $menuElement->attributes()->act)
-			{
-				$request[] = 'act=' . $menuElement->attributes()->act;
-			}
-
 			if ((string) $menuElement->attributes()->task)
 			{
 				$request[] = 'task=' . $menuElement->attributes()->task;
 			}
 
-			if ((string) $menuElement->attributes()->controller)
-			{
-				$request[] = 'controller=' . $menuElement->attributes()->controller;
-			}
-
 			if ((string) $menuElement->attributes()->view)
 			{
 				$request[] = 'view=' . $menuElement->attributes()->view;
-			}
-
-			if ((string) $menuElement->attributes()->layout)
-			{
-				$request[] = 'layout=' . $menuElement->attributes()->layout;
-			}
-
-			if ((string) $menuElement->attributes()->sub)
-			{
-				$request[] = 'sub=' . $menuElement->attributes()->sub;
 			}
 
 			$qstring = count($request) ? '&' . implode('&', $request) : '';
