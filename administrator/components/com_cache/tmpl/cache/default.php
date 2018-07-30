@@ -66,7 +66,7 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 						<?php $i++; endforeach; ?>
 					</tbody>
 				</table>
-					
+
 				<?php // load the pagination. ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 
