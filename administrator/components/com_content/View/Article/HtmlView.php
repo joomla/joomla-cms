@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -65,10 +66,11 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
@@ -113,6 +115,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -139,13 +142,13 @@ class HtmlView extends BaseHtmlView
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
 			$saveGroup->configure(
-					function (Toolbar $childBar)
-					{
-						$childBar->apply('article.apply');
-						$childBar->save('article.save');
-						$childBar->save2new('article.save2new');
-					}
-				);
+				function (Toolbar $childBar)
+				{
+					$childBar->apply('article.apply');
+					$childBar->save('article.save');
+					$childBar->save2new('article.save2new');
+				}
+			);
 		}
 		else
 		{
@@ -153,28 +156,28 @@ class HtmlView extends BaseHtmlView
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
 			$saveGroup->configure(
-					function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+				{
+					// Can't save the record if it's checked out and editable
+					if (!$checkedOut && $itemEditable)
 					{
-						// Can't save the record if it's checked out and editable
-						if (!$checkedOut && $itemEditable)
-						{
-							$childBar->apply('article.apply');
-							$childBar->save('article.save');
+						$childBar->apply('article.apply');
+						$childBar->save('article.save');
 
-							// We can save this record, but check the create permission to see if we can return to make a new one.
-							if ($canDo->get('core.create'))
-							{
-								$childBar->save2new('article.save2new');
-							}
-						}
-
-						// If checked out, we can still save
+						// We can save this record, but check the create permission to see if we can return to make a new one.
 						if ($canDo->get('core.create'))
 						{
-							$childBar->save2copy('article.save2copy');
+							$childBar->save2new('article.save2new');
 						}
 					}
-				);
+
+					// If checked out, we can still save
+					if ($canDo->get('core.create'))
+					{
+						$childBar->save2copy('article.save2copy');
+					}
+				}
+			);
 
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
@@ -191,6 +194,78 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
+
+		// New Menu Item Modal
+
+		/*echo  '<a'
+			. ' class="btn btn-secondary hasTooltip"'
+			. ' id="jform_request_id_new"'
+			. ' data-toggle="modal"'
+			. ' role="button"'
+			. ' href="#ModalNewItem_jform_request_id"'
+			. ' title="' . HTMLHelper::tooltipText('COM_MENUS_NEW_MENUITEM') . '">'
+			. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+			. '</a>';*/
+
+		$this->id = 'jform_request_id';
+
+		ToolbarHelper::modal('ModalNewItem_' . $this->id, 'icon-new', 'New Menu Item');
+
+
+		// Add the modal field script to the document head.
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+
+		echo HTMLHelper::_(
+			'bootstrap.renderModal',
+			'ModalNewItem_jform_request_id',
+			array(
+				'title' => Text::_('COM_MENUS_NEW_MENUITEM'),
+				'backdrop' => 'static',
+				'keyboard' => false,
+				'closeButton' => false,
+				'url' => 'index.php?option=com_menus&view=item&layout=modal&client_id=0&tmpl=component&task=item.add',
+				'height' => '400px',
+				'width' => '800px',
+				'bodyHeight' => 70,
+				'modalWidth' => 80,
+				'footer' => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
+					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+					. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
+					. Text::_('JSAVE') . '</a>'
+					. '<a role="button" class="btn btn-success" aria-hidden="true"'
+					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
+					. Text::_('JAPPLY') . '</a>'
+			)
+		);
+
+		/*
+		HTMLHelper::_(
+			'bootstrap.renderModal',
+			'ModalNew' . $modalId,
+			array(
+				'title'       => Text::_('COM_MENUS_NEW_MENUITEM'),
+				'backdrop'    => 'static',
+				'keyboard'    => false,
+				'closeButton' => false,
+				'url'         => $urlNew,
+				'height'      => '400px',
+				'width'       => '800px',
+				'bodyHeight'  => 70,
+				'modalWidth'  => 80,
+				'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
+					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+					. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
+					. Text::_('JSAVE') . '</a>'
+					. '<a role="button" class="btn btn-success" aria-hidden="true"'
+					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
+					. Text::_('JAPPLY') . '</a>',
+			)
+		);*/
 
 		$toolbar->divider();
 		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
