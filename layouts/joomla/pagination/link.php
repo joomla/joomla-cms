@@ -21,31 +21,31 @@ switch ((string) $item->text)
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
 		$icon = 'fa fa-angle-double-left';
-		$aria= JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
 		$icon = 'fa fa-angle-left';
-		$aria= JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
 		$icon = 'fa fa-angle-right';
-		$aria= JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
 		$icon = 'fa fa-angle-double-right';
-		$aria= JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	default:
 		$icon = null;
-		$aria= JText::sprintf('JLIB_HTML_GOTO_PAGE', strtolower($item->text));
+		$aria = JText::sprintf('JLIB_HTML_GOTO_PAGE', strtolower($item->text));
 		break;
 }
 
@@ -66,7 +66,7 @@ if ($displayData['active'])
 	}
 
 	$cssClasses = array();
-	$class = "active";
+	$class = 'active';
 	$title = 'title="' . $item->text . '"';
 	$onClick = 'document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;';
 }
