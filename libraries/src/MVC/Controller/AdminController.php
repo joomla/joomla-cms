@@ -249,7 +249,7 @@ class AdminController extends BaseController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				if (count($cid) != 0)
+				if (count($cid))
 				{
 					$this->setMessage(\JText::plural($ntext, count($cid)));
 				}
