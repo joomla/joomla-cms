@@ -96,7 +96,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @return bool
 	 */
 	public function hasStartedMeasure($name): bool
-    {
+	{
 		return isset($this->startedMeasures[$name]);
 	}
 
@@ -180,7 +180,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @return array
 	 */
 	public function getMeasures(): array
-    {
+	{
 		return $this->measures;
 	}
 
@@ -191,7 +191,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @return float
 	 */
 	public function getRequestStartTime(): float
-    {
+	{
 		return $this->requestStartTime;
 	}
 
@@ -202,7 +202,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @return float
 	 */
 	public function getRequestEndTime(): float
-    {
+	{
 		return $this->requestEndTime;
 	}
 
@@ -213,7 +213,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @return float
 	 */
 	public function getRequestDuration(): float
-    {
+	{
 		if ($this->requestEndTime !== null)
 		{
 			return $this->requestEndTime - $this->requestStartTime;

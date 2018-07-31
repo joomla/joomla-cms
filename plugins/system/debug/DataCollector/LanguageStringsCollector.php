@@ -157,10 +157,10 @@ class LanguageStringsCollector extends AbstractDataCollector
 		$untranslated = [];
 		$count = 1;
 
-        /* @type DataFormatter $formatter */
-        $formatter = $this->getDataFormatter();
+		/* @type DataFormatter $formatter */
+		$formatter = $this->getDataFormatter();
 
-        foreach ($guesses as $file => $keys)
+		foreach ($guesses as $file => $keys)
 		{
 			foreach ($keys as $key)
 			{

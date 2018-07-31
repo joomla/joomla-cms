@@ -35,10 +35,10 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 		$paths = Factory::getLanguage()->getPaths();
 		$loaded = [];
 
-        /* @type DataFormatter $formatter */
-        $formatter = $this->getDataFormatter();
+		/* @type DataFormatter $formatter */
+		$formatter = $this->getDataFormatter();
 
-        foreach ($paths as $extension => $files)
+		foreach ($paths as $extension => $files)
 		{
 			$loaded[$extension] = [];
 			foreach ($files as $file => $status)
