@@ -87,7 +87,7 @@ class LanguageErrorsCollector extends AbstractDataCollector
 		$errors     = [];
 
 		/* @type DataFormatter $formatter */
-        $formatter = $this->getDataFormatter();
+		$formatter = $this->getDataFormatter();
 
 		if (\count($errorFiles))
 		{
