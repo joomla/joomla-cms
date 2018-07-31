@@ -81,13 +81,6 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="15">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							$canEdit        = $user->authorise('core.edit',   'com_menus.menu.' . (int) $item->id);
@@ -227,6 +220,10 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

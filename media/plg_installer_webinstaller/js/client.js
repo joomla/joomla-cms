@@ -74,11 +74,12 @@ if (!Joomla) {
     }, {
       key: 'loadweb',
       value: function loadweb(url) {
+        var _this = this;
+
         if (!url) {
           return false;
         }
 
-        var self = this;
         var pattern1 = new RegExp(webInstallerOptions.options.base_url);
         var pattern2 = new RegExp('^index.php');
 
@@ -128,18 +129,18 @@ if (!Joomla) {
 
             document.getElementById('com-apps-searchbox').addEventListener('keypress', function (event) {
               if (event.which === 13) {
-                self.initiateSearch();
+                _this.initiateSearch();
               }
             });
 
             document.getElementById('search-extensions').addEventListener('click', function () {
-              self.initiateSearch();
+              _this.initiateSearch();
             });
 
             document.getElementById('search-reset').addEventListener('click', function () {
               var searchBox = document.getElementById('com-apps-searchbox');
               searchBox.value = '';
-              self.initiateSearch();
+              _this.initiateSearch();
             });
 
             var orderingSelect = document.getElementById('com-apps-ordering');
@@ -148,12 +149,12 @@ if (!Joomla) {
               orderingSelect.addEventListener('change', function () {
                 var index = orderingSelect.selectedIndex;
                 webInstallerOptions.ordering = orderingSelect.options[index].value;
-                self.installfromwebajaxsubmit();
+                _this.installfromwebajaxsubmit();
               });
             }
 
             if (webInstallerOptions.options.installfrom_url !== '') {
-              self.installfromweb(webInstallerOptions.options.installfrom_url);
+              WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
             }
           },
           fail: function fail() {
@@ -169,14 +170,14 @@ if (!Joomla) {
               installAtField.value = webInstallerOptions.options.installat_url;
             }
 
-            self.clickforlinks();
+            _this.clickforlinks();
             WebInstaller.clicker();
 
             if (webInstallerOptions.view !== 'extension') {
               [].slice.call(document.querySelectorAll('div.load-extension')).forEach(function (element) {
                 element.addEventListener('click', function (event) {
                   event.preventDefault();
-                  self.processLinkClick(element.getAttribute('data-url'));
+                  _this.processLinkClick(element.getAttribute('data-url'));
                 });
 
                 element.setAttribute('href', '#');
@@ -189,7 +190,7 @@ if (!Joomla) {
 
               if (installExtensionButton) {
                 installExtensionButton.addEventListener('click', function () {
-                  self.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+                  WebInstaller.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
                 });
               }
 
@@ -243,14 +244,14 @@ if (!Joomla) {
     }, {
       key: 'clickforlinks',
       value: function clickforlinks() {
-        var self = this;
+        var _this2 = this;
 
         [].slice.call(document.querySelectorAll('a.transcode')).forEach(function (element) {
           var ajaxurl = element.getAttribute('href');
 
           element.addEventListener('click', function (event) {
             event.preventDefault();
-            self.processLinkClick(ajaxurl);
+            _this2.processLinkClick(ajaxurl);
           });
 
           element.setAttribute('href', '#');
@@ -339,7 +340,9 @@ if (!Joomla) {
 
     }, {
       key: 'installfromweb',
-      value: function installfromweb(installUrl, name) {
+      value: function installfromweb(installUrl) {
+        var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
         if (!installUrl) {
           alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 

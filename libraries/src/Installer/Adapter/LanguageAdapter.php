@@ -22,8 +22,8 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
-
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Language installer
@@ -161,7 +161,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		if (!empty($count))
 		{
-			\JLog::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), \JLog::NOTICE, 'jerror');
+			Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
 		}
 
 		// Remove the extension table entry
@@ -185,10 +185,10 @@ class LanguageAdapter extends InstallerAdapter
 		// Construct the path from the client, the language and the extension element name
 		$path = ApplicationHelper::getClientInfo($this->extension->client_id)->path . '/language/' . $this->extension->element;
 
-		if (!\JFolder::delete($path))
+		if (!Folder::delete($path))
 		{
 			// If deleting failed we'll leave the extension entry in tact just in case
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), Log::WARNING, 'jerror');
 
 			$this->ignoreUninstallQueries = true;
 		}
@@ -239,7 +239,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('source', $path);
 
 		// Check it exists
-		if (!\JFolder::exists($path))
+		if (!Folder::exists($path))
 		{
 			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
 			$this->extension->delete();
@@ -378,7 +378,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_site')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_site')))
+			if (!$created = Folder::create($this->parent->getPath('extension_site')))
 			{
 				$this->parent
 					->abort(
@@ -409,19 +409,19 @@ class LanguageAdapter extends InstallerAdapter
 				if (file_exists($this->parent->getPath('extension_site')))
 				{
 					// If the site exists say so.
-					\JLog::add(
+					Log::add(
 						Text::sprintf('JLIB_INSTALLER_ABORT', Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_site'))),
-						\JLog::WARNING, 'jerror'
+						Log::WARNING, 'jerror'
 					);
 				}
 				else
 				{
 					// If the admin exists say so.
-					\JLog::add(
+					Log::add(
 						Text::sprintf('JLIB_INSTALLER_ABORT',
 							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))
 						),
-						\JLog::WARNING, 'jerror'
+						Log::WARNING, 'jerror'
 					);
 				}
 
@@ -564,9 +564,9 @@ class LanguageAdapter extends InstallerAdapter
 
 			if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
 			{
-				\JLog::add(
+				Log::add(
 					Text::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
-					\JLog::NOTICE,
+					Log::NOTICE,
 					'jerror'
 				);
 			}
@@ -787,8 +787,8 @@ class LanguageAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$site_languages = \JFolder::folders(JPATH_SITE . '/language');
-		$admin_languages = \JFolder::folders(JPATH_ADMINISTRATOR . '/language');
+		$site_languages = Folder::folders(JPATH_SITE . '/language');
+		$admin_languages = Folder::folders(JPATH_ADMINISTRATOR . '/language');
 
 		foreach ($site_languages as $language)
 		{
@@ -861,7 +861,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -895,7 +895,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 		else
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

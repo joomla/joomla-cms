@@ -17,6 +17,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for
@@ -24,7 +25,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  11.1
  */
-class Update extends \JObject
+class Update extends CMSObject
 {
 	/**
 	 * Update manifest `<name>` element

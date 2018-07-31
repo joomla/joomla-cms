@@ -20,10 +20,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
-\JLoader::import('joomla.filesystem.path');
 \JLoader::import('joomla.base.adapter');
 
 /**
@@ -372,7 +372,7 @@ class Installer extends \JAdapter
 		// Raise abort warning
 		if ($msg)
 		{
-			\JLog::add($msg, \JLog::WARNING, 'jerror');
+			Log::add($msg, Log::WARNING, 'jerror');
 		}
 
 		while ($step != null)
@@ -386,7 +386,7 @@ class Installer extends \JAdapter
 
 				case 'folder':
 					// Remove the folder
-					$stepval = \JFolder::delete($step['path']);
+					$stepval = Folder::delete($step['path']);
 					break;
 
 				case 'query':
@@ -413,7 +413,7 @@ class Installer extends \JAdapter
 					catch (\JDatabaseExceptionExecuting $e)
 					{
 						// The database API will have already logged the error it caught, we just need to alert the user to the issue
-						\JLog::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), \JLog::WARNING, 'jerror');
+						Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
 
 						$stepval = false;
 					}
@@ -466,7 +466,7 @@ class Installer extends \JAdapter
 	 */
 	public function install($path = null)
 	{
-		if ($path && \JFolder::exists($path))
+		if ($path && Folder::exists($path))
 		{
 			$this->setPath('source', $path);
 		}
@@ -675,7 +675,7 @@ class Installer extends \JAdapter
 	 */
 	public function update($path = null)
 	{
-		if ($path && \JFolder::exists($path))
+		if ($path && Folder::exists($path))
 		{
 			$this->setPath('source', $path);
 		}
@@ -915,7 +915,7 @@ class Installer extends \JAdapter
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
-				\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -971,7 +971,7 @@ class Installer extends \JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -981,7 +981,7 @@ class Installer extends \JAdapter
 				// Graceful exit and rollback if read not successful
 				if ($buffer === false)
 				{
-					\JLog::add(Text::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1011,7 +1011,7 @@ class Installer extends \JAdapter
 					}
 					catch (\JDatabaseExceptionExecuting $e)
 					{
-						\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1065,7 +1065,7 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
+					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
 
 					// Update the database
@@ -1139,7 +1139,7 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
+					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
 
 					if (!count($files))
@@ -1177,7 +1177,7 @@ class Installer extends \JAdapter
 							// Graceful exit and rollback if read not successful
 							if ($buffer === false)
 							{
-								\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
+								Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
 
 								return false;
 							}
@@ -1207,14 +1207,14 @@ class Installer extends \JAdapter
 								}
 								catch (\JDatabaseExceptionExecuting $e)
 								{
-									\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
 									return false;
 								}
 
 								$queryString = (string) $query;
 								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-								\JLog::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), \JLog::INFO, 'Update');
+								Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
 
 								$update_count++;
 							}
@@ -1240,7 +1240,7 @@ class Installer extends \JAdapter
 					}
 					catch (ExecutionFailureException $e)
 					{
-						\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
+						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1324,7 +1324,7 @@ class Installer extends \JAdapter
 
 				foreach ($deletions['folders'] as $deleted_folder)
 				{
-					\JFolder::delete($destination . '/' . $deleted_folder);
+					Folder::delete($destination . '/' . $deleted_folder);
 				}
 
 				foreach ($deletions['files'] as $deleted_file)
@@ -1364,9 +1364,9 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!\JFolder::create($newdir))
+				if (!Folder::create($newdir))
 				{
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1459,7 +1459,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!\JFolder::exists(dirname($path['dest'])))
+				if (!Folder::exists(dirname($path['dest'])))
 				{
 					continue;
 				}
@@ -1480,9 +1480,9 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!\JFolder::create($newdir))
+				if (!Folder::create($newdir))
 				{
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1520,7 +1520,7 @@ class Installer extends \JAdapter
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
 
 		$folder = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
-		$destination = \JPath::clean(JPATH_ROOT . '/media' . $folder);
+		$destination = Path::clean(JPATH_ROOT . '/media' . $folder);
 
 		// Here we set the folder we are going to copy the files from.
 
@@ -1561,9 +1561,9 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!\JFolder::create($newdir))
+				if (!Folder::create($newdir))
 				{
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1664,8 +1664,8 @@ class Installer extends \JAdapter
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
-				$filesource = \JPath::clean($file['src']);
-				$filedest = \JPath::clean($file['dest']);
+				$filesource = Path::clean($file['src']);
+				$filedest = Path::clean($file['dest']);
 				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))
@@ -1674,7 +1674,7 @@ class Installer extends \JAdapter
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1688,7 +1688,7 @@ class Installer extends \JAdapter
 
 					// The destination file already exists and the overwrite flag is false.
 					// Set an error and return false.
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1697,9 +1697,9 @@ class Installer extends \JAdapter
 					// Copy the folder or file to the new location.
 					if ($filetype === 'folder')
 					{
-						if (!\JFolder::copy($filesource, $filedest, null, $overwrite))
+						if (!Folder::copy($filesource, $filedest, null, $overwrite))
 						{
-							\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), \JLog::WARNING, 'jerror');
+							Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), Log::WARNING, 'jerror');
 
 							return false;
 						}
@@ -1710,12 +1710,12 @@ class Installer extends \JAdapter
 					{
 						if (!File::copy($filesource, $filedest, null))
 						{
-							\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), \JLog::WARNING, 'jerror');
+							Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), Log::WARNING, 'jerror');
 
 							// In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
 							if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs'))
 							{
-								\JLog::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), \JLog::WARNING, 'jerror');
+								Log::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), Log::WARNING, 'jerror');
 							}
 
 							return false;
@@ -1866,7 +1866,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!\JFolder::exists(dirname($path)))
+				if (!Folder::exists(dirname($path)))
 				{
 					continue;
 				}
@@ -1880,7 +1880,7 @@ class Installer extends \JAdapter
 
 			if (is_dir($path))
 			{
-				$val = \JFolder::delete($path);
+				$val = Folder::delete($path);
 			}
 			else
 			{
@@ -1889,14 +1889,14 @@ class Installer extends \JAdapter
 
 			if ($val === false)
 			{
-				\JLog::add('Failed to delete ' . $path, \JLog::WARNING, 'jerror');
+				Log::add('Failed to delete ' . $path, Log::WARNING, 'jerror');
 				$retval = false;
 			}
 		}
 
 		if (!empty($folder))
 		{
-			\JFolder::delete($source);
+			Folder::delete($source);
 		}
 
 		return $retval;
@@ -1942,16 +1942,16 @@ class Installer extends \JAdapter
 	public function findManifest()
 	{
 		// Do nothing if folder does not exist for some reason
-		if (!\JFolder::exists($this->getPath('source')))
+		if (!Folder::exists($this->getPath('source')))
 		{
 			return false;
 		}
 
 		// Main folder manifests (higher priority)
-		$parentXmlfiles = \JFolder::files($this->getPath('source'), '.xml$', false, true);
+		$parentXmlfiles = Folder::files($this->getPath('source'), '.xml$', false, true);
 
 		// Search for children manifests (lower priority)
-		$allXmlFiles    = \JFolder::files($this->getPath('source'), '.xml$', 1, true);
+		$allXmlFiles    = Folder::files($this->getPath('source'), '.xml$', 1, true);
 
 		// Create an unique array of files ordered by priority
 		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
@@ -1991,14 +1991,14 @@ class Installer extends \JAdapter
 			}
 
 			// None of the XML files found were valid install files
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 			return false;
 		}
 		else
 		{
 			// No XML files were found in the install folder
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

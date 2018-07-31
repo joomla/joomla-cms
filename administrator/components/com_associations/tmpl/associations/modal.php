@@ -30,7 +30,6 @@ $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
-$colSpan          = 4;
 
 $iconStates = array(
 	-2 => 'icon-trash',
@@ -62,7 +61,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
 						<th scope="col" style="width:1%" class="center nowrap">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<th scope="col" class="nowrap">
@@ -76,12 +75,12 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th scope="col" style="width:10%" class="nowrap">
-							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
 						<th scope="col" style="width:5%" class="nowrap d-none d-sm-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<th scope="col" style="width:1%" class="nowrap d-none d-sm-table-cell">
@@ -89,13 +88,6 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 					</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="<?php echo $colSpan; ?>">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
 				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
@@ -159,6 +151,9 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+
+		<?php // load the pagination. ?>
+		<?php echo $this->pagination->getListFooter(); ?>
 
 	<?php endif; ?>
 

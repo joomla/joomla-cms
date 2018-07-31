@@ -14,6 +14,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * AtomRenderer is a feed that implements the atom specification
@@ -61,7 +62,7 @@ class AtomRenderer extends DocumentRenderer
 		$data = $this->_doc;
 
 		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = \JRoute::_('&format=feed&type=atom');
+		$syndicationURL = Route::_('&format=feed&type=atom');
 
 		$title = $data->getTitle();
 
