@@ -20,12 +20,13 @@ const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
-const buildCheck = require('./build/build-modules-js/build-check.js');
-const installer = require('./build/build-modules-js/installation.js');
-const update = require('./build/build-modules-js/update.js');
-const css = require('./build/build-modules-js/compilescss.js');
-const Js = require('./build/build-modules-js/compilejs.js');
-const CEjs = require('./build/build-modules-js/compilecejs.js');
+const buildCheck = require('./build/build-modules-js/build-check');
+const installer = require('./build/build-modules-js/installation');
+const update = require('./build/build-modules-js/update');
+const css = require('./build/build-modules-js/compilescss');
+const Js = require('./build/build-modules-js/compilejs');
+const CEjs = require('./build/build-modules-js/compilecejs');
+const fixVend = require('./build/build-modules-js/minify-vendor');
 
 // The settings
 const options = require('./package.json');
@@ -64,6 +65,7 @@ if (!process.argv.slice(2).length) {
 if (Program.copyAssets) {
   Promise.resolve()
     .then(update.update(options))
+    .then(fixVend.compile(options))
 
     // Exit with success
     .then(() => process.exit(0))
