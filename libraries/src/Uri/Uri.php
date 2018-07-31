@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 
 /**
- * JUri Class
+ * Uri Class
  *
  * This class serves two purposes. First it parses a URI and provides a common interface
  * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
@@ -24,7 +24,7 @@ use Joomla\CMS\Factory;
 class Uri extends \Joomla\Uri\Uri
 {
 	/**
-	 * @var    Uri[]  An array of JUri instances.
+	 * @var    Uri[]  An array of Uri instances.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
@@ -48,7 +48,7 @@ class Uri extends \Joomla\Uri\Uri
 	protected static $current;
 
 	/**
-	 * Returns the global JUri object, only creating it if it doesn't already exist.
+	 * Returns the global Uri object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $uri  The URI to parse.  [optional: if null uses script URI]
 	 *
@@ -262,7 +262,7 @@ class Uri extends \Joomla\Uri\Uri
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		// @see JUriTest
+		// @see UriTest
 		if (empty($host) && strpos($uri->path, 'index.php') === 0
 			|| !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
 			|| !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
