@@ -25,8 +25,8 @@ const installer = require('./build/build-modules-js/installation');
 const copyAssets = require('./build/build-modules-js/update');
 const compileCSS = require('./build/build-modules-js/compilescss');
 const compileJS = require('./build/build-modules-js/compilejs');
-const WebComponents = require('./build/build-modules-js/compilecejs');
-const fixVendor = require('./build/build-modules-js/minify-vendor');
+const compileWebComponents = require('./build/build-modules-js/compilecejs');
+const minifyVendor = require('./build/build-modules-js/minify-vendor');
 
 // The settings
 const options = require('./package.json');
@@ -65,7 +65,7 @@ if (!process.argv.slice(2).length) {
 if (Program.copyAssets) {
   Promise.resolve()
     .then(copyAssets.copyAssets(options))
-    .then(fixVendor.compile(options))
+    .then(minifyVendor.compile(options))
 
     // Exit with success
     .then(() => process.exit(0))
@@ -108,5 +108,5 @@ if (Program.compileJs) {
 
 // Compress/transpile the Custom Elements files
 if (Program.compileCe) {
-  WebComponents.compile(options, Program.args[0]);
+  compileWebComponents.compile(options, Program.args[0]);
 }
