@@ -211,13 +211,15 @@ class HtmlView extends BaseHtmlView
 							{
 								// Get XML file from component folder for standard layouts
 								$file = JPATH_SITE . '/components/' . $item->componentname . '/tmpl/' . $vars['view']
-	                                . '/' . $vars['layout'] . '.xml';
+									. '/' . $vars['layout'] . '.xml';
+								
 								if (!file_exists($file))
 								{
 									$file = JPATH_SITE . '/components/' . $item->componentname . '/views/'
 										. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 								}
-								else{
+								else
+								{
 									$file = JPATH_SITE . '/components/' . $item->componentname . '/view/'
 										. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 								}
