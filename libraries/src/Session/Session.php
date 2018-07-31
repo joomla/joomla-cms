@@ -14,6 +14,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Session\Session as BaseSession;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Log\Log;
 
 /**
  * Class for managing HTTP sessions
@@ -51,7 +53,7 @@ class Session extends BaseSession
 			{
 				// Redirect to login screen.
 				$app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
-				$app->redirect(\JRoute::_('index.php'));
+				$app->redirect(Route::_('index.php'));
 
 				return true;
 			}
@@ -88,9 +90,9 @@ class Session extends BaseSession
 	 */
 	public static function getInstance()
 	{
-		\JLog::add(
+		Log::add(
 			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().',
-			\JLog::WARNING,
+			Log::WARNING,
 			'deprecated'
 		);
 
@@ -116,9 +118,9 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				\JLog::add(
+				Log::add(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-					\JLog::WARNING,
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -148,9 +150,9 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				\JLog::add(
+				Log::add(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-					\JLog::WARNING,
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -179,9 +181,9 @@ class Session extends BaseSession
 
 			if (!empty($args[1]))
 			{
-				\JLog::add(
+				Log::add(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-					\JLog::WARNING,
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -208,9 +210,9 @@ class Session extends BaseSession
 
 			if (!empty($args[0]))
 			{
-				\JLog::add(
+				Log::add(
 					'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . __CLASS__ . '::remove() instead.',
-					\JLog::WARNING,
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -219,9 +221,9 @@ class Session extends BaseSession
 				// Also check for a namespace
 				if (func_num_args() > 1 && !empty($args[1]))
 				{
-					\JLog::add(
+					Log::add(
 						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-						\JLog::WARNING,
+						Log::WARNING,
 						'deprecated'
 					);
 
