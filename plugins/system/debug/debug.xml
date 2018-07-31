@@ -174,7 +174,7 @@
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -185,7 +185,7 @@
 					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
 					multiple="true"
 					default="all"
-				>
+					>
 					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
 					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
 					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
