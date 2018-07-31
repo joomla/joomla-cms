@@ -982,7 +982,7 @@ iframe {
   .subhead .btn {
     padding: 0 22px;
     font-size: 1rem;
-    line-height: 2.65rem;
+    line-height: 2.3rem;
     color: #fff; }
     .subhead .btn [class^='icon-'],
     .subhead .btn [class*=' icon-'],
@@ -990,10 +990,10 @@ iframe {
     .subhead .btn [class*=' fa-'] {
       z-index: -1;
       display: inline-block;
-      width: 40px;
+      width: 38px;
       height: auto;
       margin: 0 16px 0 -22px;
-      line-height: 2.65rem;
+      line-height: 2.3rem;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.2); }
   .subhead .btn-group {
