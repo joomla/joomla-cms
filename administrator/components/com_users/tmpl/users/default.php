@@ -74,13 +74,6 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="10">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							$canEdit   = $this->canDo->get('core.edit');
@@ -175,6 +168,10 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php // Load the batch processing form if user is allowed ?>
 					<?php if ($loggeduser->authorise('core.create', 'com_users')
 						&& $loggeduser->authorise('core.edit', 'com_users')

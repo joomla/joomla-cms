@@ -63,13 +63,6 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 						</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="8">
-							<?php echo $this->pagination->getListFooter(); ?>
-						</td>
-					</tr>
-				</tfoot>
 				<tbody>
 					<?php
 					$iconStates = array(
@@ -106,6 +99,10 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+
+			<?php // load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">
