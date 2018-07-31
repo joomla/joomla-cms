@@ -79,7 +79,7 @@ abstract class JHtmlFilter
 			->where('t.state = 1')
 			->where('t.access IN (' . $groups . ')')
 			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
-			->order('t.ordering, t.title');
+			->order('t.lft, t.title');
 
 		// Limit the branch children to a predefined filter.
 		if ($filter)
@@ -128,7 +128,7 @@ abstract class JHtmlFilter
 				->where('t.parent_id = ' . (int) $bk)
 				->where('t.state = 1')
 				->where('t.access IN (' . $groups . ')')
-				->order('t.ordering, t.title');
+				->order('t.lft, t.title');
 
 			// Self-join to get the parent title.
 			$query->select('e.title AS parent_title')
@@ -273,8 +273,8 @@ abstract class JHtmlFilter
 				->where('c.access IN (' . $groups . ')')
 				->group($db->quoteName('t.id'))
 				->group($db->quoteName('t.parent_id'))
-				->group('t.title, t.state, t.access, t.ordering')
-				->order('t.ordering, t.title');
+				->group('t.title, t.state, t.access, t.lft')
+				->order('t.lft, t.title');
 
 			// Limit the branch children to a predefined filter.
 			if (!empty($filter->data))
@@ -313,10 +313,11 @@ abstract class JHtmlFilter
 				$query->clear()
 					->select('t.*')
 					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-					->where('t.parent_id = ' . (int) $bk)
+					->where('t.lft >= ' . (int) $bv->lft)
+					->where('t.rgt <= ' . (int) $bv->rgt)
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
-					->order('t.ordering, t.title');
+					->order('t.lft, t.title');
 
 				// Self-join to get the parent title.
 				$query->select('e.title AS parent_title')
@@ -355,7 +356,14 @@ abstract class JHtmlFilter
 						$title = $language->hasKey($key) ? JText::_($key) : $node->title;
 					}
 
-					$branches[$bk]->nodes[$node_id]->title = $title;
+					if ($node->level > 2)
+					{
+						$branches[$bk]->nodes[$node_id]->title = str_repeat('-', $node->level - 2) . $title;
+					}
+					else
+					{
+						$branches[$bk]->nodes[$node_id]->title = $title;
+					}
 				}
 
 				// Add the Search All option to the branch.

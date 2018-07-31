@@ -375,9 +375,6 @@ class FinderIndexerResult
 		// Get the taxonomy branch if available.
 		if ($branch !== null && isset($this->taxonomy[$branch]))
 		{
-			// Filter the input.
-			$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
-
 			return $this->taxonomy[$branch];
 		}
 
@@ -396,16 +393,47 @@ class FinderIndexerResult
 	 *
 	 * @since   2.5
 	 */
-	public function addTaxonomy($branch, $title, $state = 1, $access = 1)
+	public function addTaxonomy($branch, $title, $state = 1, $access = 1, $path = '')
 	{
 		// Filter the input.
 		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 		// Create the taxonomy node.
-		$node = new JObject;
+		$node = new stdClass;
 		$node->title = $title;
+		$node->path = $path;
 		$node->state = (int) $state;
 		$node->access = (int) $access;
+		$node->nested = false;
+
+		// Add the node to the taxonomy branch.
+		$this->taxonomy[$branch][$node->title] = $node;
+	}
+
+	/**
+	 * Method to add a taxonomy map for an item.
+	 *
+	 * @param   string   $branch  The title of the taxonomy branch to add the node to.
+	 * @param   string   $title   The title of the taxonomy node.
+	 * @param   integer  $state   The published state of the taxonomy node. [optional]
+	 * @param   integer  $access  The access level of the taxonomy node. [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	public function addNestedTaxonomy($branch, $contentNode, $state = 1, $access = 1)
+	{
+		// Filter the input.
+		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
+
+		// Create the taxonomy node.
+		$node = new stdClass;
+		$node->title = $contentNode->title;
+		$node->state = (int) $state;
+		$node->access = (int) $access;
+		$node->nested = true;
+		$node->node = $contentNode;
 
 		// Add the node to the taxonomy branch.
 		$this->taxonomy[$branch][$node->title] = $node;

@@ -263,7 +263,15 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			foreach ($nodes as $node)
 			{
 				// Add the node to the tree.
-				$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access);
+				if ($node->nested)
+				{
+					$nodeId = FinderIndexerTaxonomy::addNestedNode($branch, $node->node, $node->state, $node->access);
+					unset($node->node);
+				}
+				else
+				{
+					$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access);
+				}
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);

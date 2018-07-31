@@ -255,7 +255,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			foreach ($nodes as $node)
 			{
 				// Add the node to the tree.
-				$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access);
+				$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->path);
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
