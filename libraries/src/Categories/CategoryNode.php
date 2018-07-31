@@ -12,13 +12,14 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Helper class to load Categorytree
  *
  * @since  1.6
  */
-class CategoryNode extends \JObject
+class CategoryNode extends CMSObject
 {
 	/**
 	 * Primary key

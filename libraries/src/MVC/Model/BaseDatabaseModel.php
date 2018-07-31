@@ -22,6 +22,8 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for a database aware Joomla Model
@@ -67,7 +69,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * A state object
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  3.0
 	 */
 	protected $state;
@@ -126,12 +128,12 @@ abstract class BaseDatabaseModel extends CMSObject
 			{
 				if (!in_array($includePath, $paths[$prefix]))
 				{
-					array_unshift($paths[$prefix], \JPath::clean($includePath));
+					array_unshift($paths[$prefix], Path::clean($includePath));
 				}
 
 				if (!in_array($includePath, $paths['']))
 				{
-					array_unshift($paths[''], \JPath::clean($includePath));
+					array_unshift($paths[''], Path::clean($includePath));
 				}
 			}
 		}
@@ -196,11 +198,11 @@ abstract class BaseDatabaseModel extends CMSObject
 		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = \JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+			$path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)
 			{
-				$path = \JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+				$path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 
 			if (!$path)
@@ -212,7 +214,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!class_exists($modelClass))
 			{
-				\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -271,7 +273,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 		else
 		{
-			$this->state = new \JObject;
+			$this->state = new CMSObject;
 		}
 
 		// Set the model dbo

@@ -13,8 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
-
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
@@ -273,7 +272,7 @@ class ChangeSet
 			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 		}
 
-		return \JFolder::files(
+		return Folder::files(
 			$this->folder . '/' . $sqlFolder, '\.sql$', 1, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX'), array('^\..*', '.*~'), true
 		);
 	}

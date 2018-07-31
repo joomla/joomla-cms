@@ -18,8 +18,9 @@ use Joomla\CMS\Table\Update;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Filesystem\File;
-
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Library installer
@@ -191,7 +192,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
+			$manifestPath = Path::clean($this->parent->getPath('manifest'));
 			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 
@@ -266,15 +267,15 @@ class LibraryAdapter extends InstallerAdapter
 
 		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
-		if (\JFolder::exists($this->parent->getPath('extension_root')))
+		if (Folder::exists($this->parent->getPath('extension_root')))
 		{
 			if (is_dir($this->parent->getPath('extension_root')))
 			{
-				$files = \JFolder::files($this->parent->getPath('extension_root'));
+				$files = Folder::files($this->parent->getPath('extension_root'));
 
 				if (!count($files))
 				{
-					\JFolder::delete($this->parent->getPath('extension_root'));
+					Folder::delete($this->parent->getPath('extension_root'));
 				}
 			}
 		}
@@ -482,7 +483,7 @@ class LibraryAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$file_list = \JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
+		$file_list = Folder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 
 		foreach ($file_list as $file)
 		{
@@ -527,7 +528,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

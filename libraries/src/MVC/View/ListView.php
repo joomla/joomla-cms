@@ -14,6 +14,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Base class for a Joomla List View
@@ -41,14 +43,14 @@ class ListView extends HtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $canDo;
 
@@ -140,7 +142,7 @@ class ListView extends HtmlView
 		}
 
 		// Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-		$this->canDo = new \JObject;
+		$this->canDo = new CMSObject;
 	}
 
 	/**
@@ -251,8 +253,8 @@ class ListView extends HtmlView
 		{
 			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new \JLayoutFile('joomla.toolbar.batch');
+			// Instantiate a new LayoutFile instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');

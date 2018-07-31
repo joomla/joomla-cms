@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Help system class
@@ -66,7 +67,7 @@ class Help
 			if ($useComponent)
 			{
 				// Look for help URL in component parameters.
-				$params = \JComponentHelper::getParams($component);
+				$params = ComponentHelper::getParams($component);
 				$url    = $params->get('helpURL');
 
 				if ($url == '')

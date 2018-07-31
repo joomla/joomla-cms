@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
 
 /**
  * Module helper class
@@ -153,7 +154,7 @@ abstract class ModuleHelper
 		{
 			if (JDEBUG)
 			{
-				\JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), \JLog::ALL, array('modulehelper'));
+				Log::addLogger(array('text_file' => 'jmodulehelper.log.php'), Log::ALL, array('modulehelper'));
 				$app->getLogger()->debug(
 					__METHOD__ . '() - The $module parameter should be a module object.',
 					array('category' => 'modulehelper')
