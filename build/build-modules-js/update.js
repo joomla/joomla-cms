@@ -16,6 +16,9 @@ const cleanVendors = () => {
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
 
+  // And here some assets from a PHP package
+  fsExtra.copySync(Path.join(rootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(rootPath, 'media/vendor/debugbar'));
+
   // eslint-disable-next-line no-console
   console.error('/media/vendor has been removed.');
 };
