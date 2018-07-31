@@ -178,7 +178,7 @@ class ArticleModel extends AdminModel
 			}
 
 			// Run event for copied article
-            Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
+			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
 		}
 
 		// Clean the cache
