@@ -1,5 +1,6 @@
 const Promise = require('bluebird');
 const fs = require('fs');
+const Path = require('path');
 const Recurs = require('recursive-readdir');
 const Sass = require('node-sass');
 const UglyCss = require('uglifycss');
@@ -12,10 +13,10 @@ const watches = [
   `${rootPath}/templates/cassiopeia/scss`,
   `${rootPath}/administrator/templates/atum/scss`,
   `${rootPath}/media/plg_installer_webinstaller/scss`,
-  `${rootPath}/media`,
+  `${rootPath}/build/media_src`,
 ];
 
-const compileFiles = (options, path) => {
+const compileCSSFiles = (options, path) => {
   let files = [];
   let folders = [];
 
@@ -37,17 +38,17 @@ const compileFiles = (options, path) => {
       `${rootPath}/administrator/templates/atum/scss/font-awesome.scss`,
       `${rootPath}/administrator/templates/atum/scss/template.scss`,
       `${rootPath}/administrator/templates/atum/scss/template-rtl.scss`,
-      `${rootPath}/media/plg_installer_webinstaller/scss/client.scss`,
+      `${rootPath}/build/media_src/plg_installer_webinstaller/scss/client.scss`,
     ];
 
     folders = [
-      `${rootPath}/media`,
+      `${rootPath}/build/media_src`,
     ];
   }
 
   // Loop to get some text for the packgage.json
   files.forEach((file) => {
-    const cssFile = file.replace('scss', 'css').replace('.scss', '.css');
+    const cssFile = file.replace('/scss/', '/css/').replace('.scss', '.css').replace('/build/media_src/', '/media/');
 
     Sass.render({
       file,
@@ -77,6 +78,17 @@ const compileFiles = (options, path) => {
         cleaner.process(result.css.toString(), {from: undefined})
           .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
           .then((res) => {
+            // Ensure the folder exists or create it
+            const currentDir = Path.dirname(cssFile);
+            try{
+              fs.lstatSync(currentDir).isDirectory()
+            }catch(e){
+              if(e.code === 'ENOENT'){
+                // Directory needs to be created
+                fs.mkdirSync(currentDir);
+              }
+            }
+
             fs.writeFileSync(
               cssFile,
               res.css.toString(),
@@ -97,28 +109,6 @@ const compileFiles = (options, path) => {
       }
     });
   });
-
-  // Loop to get some text for the packgage.json
-  folders.forEach((folder) => {
-    Recurs(folder, ['*.min.css', '*.map', '*.js', '*.scss', '*.svg', '*.png', '*.swf']).then(
-      (filez) => {
-        filez.forEach((file) => {
-          if (file.match(/.css/) && !file.toLowerCase().match(/license/)) {
-            // Write the file
-            fs.writeFileSync(
-              file.replace('.css', '.min.css'),
-              UglyCss.processFiles([file], { expandVars: false }),
-              { encoding: 'utf8' },
-            );
-          }
-        },
-        (error) => {
-          // eslint-disable-next-line no-console
-          console.error(`something exploded ${error}`);
-        },
-        );
-      });
-  });
 };
 
 const watchFiles = (options, folders, compileFirst = false) => {
@@ -132,18 +122,18 @@ const watchFiles = (options, folders, compileFirst = false) => {
     Recurs(folder, ['*.css', '*.map', '*.js', '*.svg', '*.png', '*.swf']).then(
       (files) => {
         files.forEach((file) => {
-          if (file.match(/.scss/)) {
-            fs.watchFile(file, () => {
-              // eslint-disable-next-line no-console
-              console.log(`File: ${file} changed.`);
-              debounce(() => compileFiles(options), 150)();
-            });
-          }
-        },
-        (error) => {
-          // eslint-disable-next-line no-console
-          console.error(`something exploded ${error}`);
-        },
+            if (file.match(/\.scss/)) {
+              fs.watchFile(file, () => {
+                // eslint-disable-next-line no-console
+                console.log(`File: ${file} changed.`);
+                debounce(() => compileFiles(options), 150)();
+              });
+            }
+          },
+          (error) => {
+            // eslint-disable-next-line no-console
+            console.error(`something exploded ${error}`);
+          },
         );
       });
   });
@@ -152,10 +142,10 @@ const watchFiles = (options, folders, compileFirst = false) => {
   console.log('Now watching SASS files...');
 };
 
-const sass = (options, path) => {
+const compileCSS = (options, path) => {
   Promise.resolve()
-    // Compile the scss files
-    .then(() => compileFiles(options, path))
+  // Compile the scss files
+    .then(() => compileCSSFiles(options, path))
 
     // Handle errors
     .catch((err) => {
@@ -165,5 +155,5 @@ const sass = (options, path) => {
     });
 };
 
-module.exports.compile = sass;
+module.exports.compileCSS = compileCSS;
 module.exports.watch = watchFiles;

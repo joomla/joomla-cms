@@ -22,11 +22,11 @@ const Program = require('commander');
 // Joomla Build modules
 const buildCheck = require('./build/build-modules-js/build-check');
 const installer = require('./build/build-modules-js/installation');
-const update = require('./build/build-modules-js/update');
-const css = require('./build/build-modules-js/compilescss');
-const Js = require('./build/build-modules-js/compilejs');
-const CEjs = require('./build/build-modules-js/compilecejs');
-const fixVend = require('./build/build-modules-js/minify-vendor');
+const copyAssets = require('./build/build-modules-js/update');
+const compileCSS = require('./build/build-modules-js/compilescss');
+const compileJS = require('./build/build-modules-js/compilejs');
+const compileWebComponents = require('./build/build-modules-js/compilecejs');
+const minifyVendor = require('./build/build-modules-js/minify-vendor');
 
 // The settings
 const options = require('./package.json');
@@ -64,8 +64,8 @@ if (!process.argv.slice(2).length) {
 // Update the vendor folder
 if (Program.copyAssets) {
   Promise.resolve()
-    .then(update.update(options))
-    .then(fixVend.compile(options))
+    .then(copyAssets.copyAssets(options))
+    .then(minifyVendor.compile(options))
 
     // Exit with success
     .then(() => process.exit(0))
@@ -91,22 +91,22 @@ if (Program.buildcheck) {
 // Convert scss to css
 if (Program.compileCss) {
   if (Program.watch) {
-    css.watch(options, null, true);
+    compileCSS.watch(options, null, true);
   } else {
-    css.compile(options, Program.args[0]);
+    compileCSS.compileCSS(options, Program.args[0]);
   }
 }
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
   if (Program.watch) {
-    Js.watch(options, null, false);
+    compileJS.watch(options, null, false);
   } else {
-    Js.compile(options, Program.args[0]);
+    compileJS.compileJS(options, Program.args[0]);
   }
 }
 
 // Compress/transpile the Custom Elements files
 if (Program.compileCe) {
-  CEjs.compile(options, Program.args[0]);
+  compileWebComponents.compile(options, Program.args[0]);
 }

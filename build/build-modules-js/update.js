@@ -2,6 +2,9 @@ const Promise = require('bluebird');
 const fs = require('fs');
 const fsExtra = require('fs-extra');
 const Path = require('path');
+const copydir = require('copy-dir');
+const UglifyJS = require('uglify-es');
+const UglyCss = require('uglifycss');
 const rootPath = require('./rootpath.js')._();
 
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
@@ -11,13 +14,13 @@ const cleanVendors = () => {
   // Remove the vendor folder
   fsExtra.removeSync(Path.join(rootPath, 'media/vendor'));
 
+  // eslint-disable-next-line no-console
+  console.error('/media/vendor has been removed.');
+
   // Restore our code on the vendor folders
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
-
-  // eslint-disable-next-line no-console
-  console.error('/media/vendor has been removed.');
 };
 
 // Copies all the files from a directory
@@ -219,13 +222,90 @@ const copyFiles = (options) => {
   // );
 };
 
-const update = (options) => {
+const recreateMediaFolder = () => {
+	// eslint-disable-next-line no-console
+	console.log(`Recreating the media folder...`);
+
+    copydir.sync(Path.join(rootPath, 'build/media'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
+        if (stat === 'directory' && (filename === 'webcomponents' || filename === 'scss')) {
+            return false;
+        }
+        return true;
+    }, function(err){
+        if (!err) {
+            console.log('Legacy media files restored');
+        }
+    });
+
+    copydir.sync(Path.join(rootPath, 'build/media_src'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
+        if (stat === 'directory' && filename === 'scss') {
+            return false;
+        }
+        return true;
+    }, function(err){
+        if (!err) {
+            console.log('Media folder structure was created');
+        }
+    });
+};
+
+// List all files in a directory recursively in a synchronous fashion
+const walkSync = function(dir, filelist) {
+	const files = fs.readdirSync(dir);
+	filelist = filelist || [];
+	files.forEach(function(file) {
+		if (fs.statSync(Path.join(dir, file)).isDirectory()) {
+			filelist = walkSync(Path.join(dir, file), filelist);
+		}
+		else {
+			filelist.push(Path.join(dir, file));
+		}
+	});
+	return filelist;
+};
+
+const uglifyLegacyFiles = () => {
+    // Minify the legacy files
+    console.log('Minifying legacy stylesheets/scripts...');
+	const files = walkSync(`${rootPath}/media`);
+
+	if (files.length) {
+		files.forEach(
+			(file) => {
+			    if (file.match('/vendor')) {
+			        return;
+                }
+				if (file.match(/.js/) && !file.match(/.min.js/) && !file.toLowerCase().match(/license/)) {
+					console.log(`Processing: ${file}`);
+					// Create the minified file
+					fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
+				}
+				if (file.match(/.css/) && !file.match(/.min.css/) && !file.match(/.css.map/) && !file.toLowerCase().match(/license/)) {
+					console.log(`Processing: ${file}`);
+					// Create the minified file
+					fs.writeFileSync(
+						file.replace('.css', '.min.css'),
+						UglyCss.processFiles([file], { expandVars: false }),
+						{ encoding: 'utf8' },
+					);
+				}
+			});
+	}
+};
+
+const copyAssets = (options) => {
   Promise.resolve()
     // Copy a fresh version of the files
     .then(cleanVendors())
 
     // Copy a fresh version of the files
+    .then(recreateMediaFolder())
+
+    // Copy a fresh version of the files
     .then(copyFiles(options))
+
+    // Uglify the legacy css/js files
+    .then(uglifyLegacyFiles(options))
 
     // Handle errors
     .catch((err) => {
@@ -235,4 +315,4 @@ const update = (options) => {
     });
 };
 
-module.exports.update = update;
+module.exports.copyAssets = copyAssets;
