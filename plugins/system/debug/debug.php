@@ -323,7 +323,7 @@ class PlgSystemDebug extends CMSPlugin
 		$html[] = '</div>';
 
 		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
-		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/plg_system_debug/debugbar/');
+		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
 		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
 
