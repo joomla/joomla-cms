@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	 Joomla.Administrator
+ * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	 GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -58,7 +58,7 @@ class MenusControllerAjax extends JControllerLegacy
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
 			$menuTable = JTable::getInstance('Menu', 'JTable', array());
 
-			foreach($associations as $lang => $association)
+			foreach ($associations as $lang => $association)
 			{
 				$menuTable->load($association->id);
 				$associations[$lang]->title = $menuTable->title;

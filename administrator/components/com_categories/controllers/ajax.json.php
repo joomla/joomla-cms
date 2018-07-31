@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	 Joomla.Administrator
+ * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	 GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -58,7 +58,7 @@ class CategoriesControllerAjax extends JControllerLegacy
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
 			$categoryTable = JTable::getInstance('Category', 'JTable');
 
-			foreach($associations as $lang => $association)
+			foreach ($associations as $lang => $association)
 			{
 				$categoryTable->load($association->id);
 				$associations[$lang]->title = $categoryTable->title;

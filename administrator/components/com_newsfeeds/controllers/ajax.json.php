@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	 Joomla.Administrator
+ * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	 GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -57,7 +57,7 @@ class NewsfeedsControllerAjax extends JControllerLegacy
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_newsfeeds/tables');
 			$newsfeedsTable = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
 
-			foreach($associations as $lang => $association)
+			foreach ($associations as $lang => $association)
 			{
 				$newsfeedsTable->load($association->id);
 				$associations[$lang]->title = $newsfeedsTable->name;

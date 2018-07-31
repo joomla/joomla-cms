@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	 Joomla.Administrator
+ * @package     Joomla.Administrator
  * @subpackage  com_content
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	 GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -56,7 +56,7 @@ class ContentControllerAjax extends JControllerLegacy
 			// Add the title to each of the associated records
 			$contentTable = JTable::getInstance('Content', 'JTable');
 
-			foreach($associations as $lang => $association)
+			foreach ($associations as $lang => $association)
 			{
 				$contentTable->load($association->id);
 				$associations[$lang]->title = $contentTable->title;
