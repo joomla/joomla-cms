@@ -20,7 +20,7 @@ const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
-const buildCheck = require('./build/build-modules-js/build-check.js');
+const buildCheck = require('./build/build-modules-js/build-check');
 const installer = require('./build/build-modules-js/installation');
 const update = require('./build/build-modules-js/update');
 const css = require('./build/build-modules-js/compilescss');
