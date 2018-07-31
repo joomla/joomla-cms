@@ -17,8 +17,8 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
-
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Plugin installer
@@ -212,7 +212,7 @@ class PluginAdapter extends InstallerAdapter
 		$this->extension->delete($this->extension->extension_id);
 
 		// Remove the plugin's folder
-		\JFolder::delete($this->parent->getPath('extension_root'));
+		Folder::delete($this->parent->getPath('extension_root'));
 
 		return true;
 	}
@@ -526,11 +526,11 @@ class PluginAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$folder_list = \JFolder::folders(JPATH_SITE . '/plugins');
+		$folder_list = Folder::folders(JPATH_SITE . '/plugins');
 
 		foreach ($folder_list as $folder)
 		{
-			$file_list = \JFolder::files(JPATH_SITE . '/plugins/' . $folder, '\.xml$');
+			$file_list = Folder::files(JPATH_SITE . '/plugins/' . $folder, '\.xml$');
 
 			foreach ($file_list as $file)
 			{
@@ -557,11 +557,11 @@ class PluginAdapter extends InstallerAdapter
 				$results[] = $extension;
 			}
 
-			$folder_list = \JFolder::folders(JPATH_SITE . '/plugins/' . $folder);
+			$folder_list = Folder::folders(JPATH_SITE . '/plugins/' . $folder);
 
 			foreach ($folder_list as $plugin_folder)
 			{
-				$file_list = \JFolder::files(JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder, '\.xml$');
+				$file_list = Folder::files(JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder, '\.xml$');
 
 				foreach ($file_list as $file)
 				{
@@ -625,7 +625,7 @@ class PluginAdapter extends InstallerAdapter
 		}
 		else
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

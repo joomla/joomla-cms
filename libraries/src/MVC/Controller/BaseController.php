@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for a Joomla Controller
@@ -365,7 +369,7 @@ class BaseController implements ControllerInterface
 
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
+			Log::addLogger(array('text_file' => 'jcontroller.log.php'), Log::ALL, array('controller'));
 		}
 
 		// Determine the methods to exclude from the base class.
@@ -492,7 +496,7 @@ class BaseController implements ControllerInterface
 		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(\JPath::check($dir), '/') . '/';
+			$dir = rtrim(Path::check($dir), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -1041,7 +1045,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with HTMLHelper::_('form.token') or \JSession::getFormToken.
+	 * Use in conjunction with HTMLHelper::_('form.token') or Session::getFormToken.
 	 *
 	 * @param   string   $method    The request method in which to look for the token key.
 	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
@@ -1049,17 +1053,17 @@ class BaseController implements ControllerInterface
 	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
 	 *
 	 * @since   3.7.0
-	 * @see     \JSession::checkToken()
+	 * @see     Session::checkToken()
 	 */
 	public function checkToken($method = 'post', $redirect = true)
 	{
-		$valid = \JSession::checkToken($method);
+		$valid = Session::checkToken($method);
 
 		if (!$valid && $redirect)
 		{
 			$referrer = $this->input->server->getString('HTTP_REFERER');
 
-			if (!\JUri::isInternal($referrer))
+			if (!Uri::isInternal($referrer))
 			{
 				$referrer = 'index.php';
 			}

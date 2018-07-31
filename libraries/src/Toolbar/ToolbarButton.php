@@ -186,7 +186,7 @@ abstract class ToolbarButton
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 		$options['btnClass'] = 'button-' . $this->getName() . ' ' . ($options['btnClass'] ?? '');
 
-		// Instantiate a new JLayoutFile instance and render the layout
+		// Instantiate a new LayoutFile instance and render the layout
 		$layout = new FileLayout($this->layout);
 
 		return $layout->render($options);

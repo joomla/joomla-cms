@@ -14,6 +14,8 @@ use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Default factory for creating toolbar objects
@@ -48,13 +50,13 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 
 			jimport('joomla.filesystem.path');
 
-			if ($buttonFile = \JPath::find($dirs, $file))
+			if ($buttonFile = Path::find($dirs, $file))
 			{
 				include_once $buttonFile;
 			}
 			else
 			{
-				\JLog::add(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), Log::WARNING, 'jerror');
 
 				throw new \InvalidArgumentException(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
 			}

@@ -22,6 +22,8 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! Site Application class
@@ -95,9 +97,9 @@ final class SiteApplication extends CMSApplication
 			if ($user->get('id') == 0)
 			{
 				// Set the data
-				$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+				$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
 
-				$url = \JRoute::_('index.php?option=com_users&view=login', false);
+				$url = Route::_('index.php?option=com_users&view=login', false);
 
 				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				$this->redirect($url);
@@ -115,7 +117,7 @@ final class SiteApplication extends CMSApplication
 
 				// Otherwise redirect to the homepage and show an error
 				$this->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-				$this->redirect(\JRoute::_('index.php?Itemid=' . $home_item->id, false));
+				$this->redirect(Route::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
 	}
@@ -169,7 +171,7 @@ final class SiteApplication extends CMSApplication
 
 				if ($this->get('sef'))
 				{
-					$document->setBase(htmlspecialchars(\JUri::current()));
+					$document->setBase(htmlspecialchars(Uri::current()));
 				}
 
 				// Get the template
@@ -182,7 +184,7 @@ final class SiteApplication extends CMSApplication
 				break;
 
 			case 'feed':
-				$document->setBase(htmlspecialchars(\JUri::current()));
+				$document->setBase(htmlspecialchars(Uri::current()));
 				break;
 		}
 
@@ -382,12 +384,12 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JRouter object.
+	 * Return a reference to the Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	\JRouter
+	 * @return	Router
 	 *
 	 * @since	3.2
 	 */
@@ -697,7 +699,7 @@ final class SiteApplication extends CMSApplication
 		// Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=user.login';
+			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=user.login';
 		}
 
 		// Set the access control action to check.
@@ -735,7 +737,7 @@ final class SiteApplication extends CMSApplication
 
 				if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline'))
 				{
-					$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+					$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
 					$this->set('themeFile', 'offline.php');
 					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}

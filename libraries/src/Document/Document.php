@@ -14,6 +14,7 @@ use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -502,7 +503,7 @@ class Document
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
-			\JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
+			Log::add('The addScript method signature used has changed, use (url, options, attributes) instead.', Log::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -554,7 +555,7 @@ class Document
 	 */
 	public function addScriptVersion($url, $options = array(), $attribs = array())
 	{
-		\JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
+		Log::add('The method is deprecated, use addScript(url, attributes, options) instead.', Log::WARNING, 'deprecated');
 
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
@@ -685,7 +686,7 @@ class Document
 		// B/C before 3.7.0
 		if (is_string($options))
 		{
-			\JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
+			Log::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', Log::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -745,7 +746,7 @@ class Document
 	 */
 	public function addStyleSheetVersion($url, $options = array(), $attribs = array())
 	{
-		\JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
+		Log::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', Log::WARNING, 'deprecated');
 
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))

@@ -488,7 +488,7 @@ trait CoreButtonsTrait
 		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
-		// Options array for JLayout
+		// Options array for Layout
 		$options              = array();
 		$options['title']     = Text::_($text);
 		$options['height']    = $height;

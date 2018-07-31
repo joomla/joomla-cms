@@ -13,9 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
-
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
@@ -113,7 +112,7 @@ class InstallerScript
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
 		{
-			\JLog::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -121,7 +120,7 @@ class InstallerScript
 		// Check for the minimum Joomla version before continuing
 		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
 		{
-			\JLog::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -329,7 +328,7 @@ class InstallerScript
 		{
 			foreach ($this->deleteFolders as $folder)
 			{
-				if (\JFolder::exists(JPATH_ROOT . $folder) && !\JFolder::delete(JPATH_ROOT . $folder))
+				if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
 				{
 					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
 				}
