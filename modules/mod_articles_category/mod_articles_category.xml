@@ -342,6 +342,7 @@
 					<option value="month_year">MOD_ARTICLES_CATEGORY_OPTION_MONTHYEAR_VALUE</option>
 					<option value="author">JAUTHOR</option>
 					<option value="category_title">JCATEGORY</option>
+					<option value="tags">JTAG</option>
 				</field>
 
 				<field
