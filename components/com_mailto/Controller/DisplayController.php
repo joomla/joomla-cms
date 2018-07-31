@@ -180,8 +180,8 @@ class DisplayController extends BaseController
 			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 
 			$this->setRedirect('index.php', 'COM_MAILTO_EMAIL_NOT_SENT');
-			return $this->redirect();
-			//return $this->mailto();
+
+			return $this->mailto();
 		}
 
 		$this->input->set('view', 'sent');
