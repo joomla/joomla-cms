@@ -250,7 +250,6 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-            $fields =
 			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
 
 			$fieldsData = array();
