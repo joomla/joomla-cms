@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Base class for a Joomla View
@@ -21,7 +22,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends \JObject
+abstract class AbstractView extends CMSObject
 {
 	/**
 	 * The active document object
@@ -146,7 +147,7 @@ abstract class AbstractView extends \JObject
 			}
 		}
 
-		// Degrade to \JObject::get
+		// Degrade to CMSObject::get
 		return parent::get($property, $default);
 	}
 

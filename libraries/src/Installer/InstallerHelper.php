@@ -16,10 +16,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
-
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
-\JLoader::import('joomla.filesystem.path');
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Installer helper class
@@ -59,7 +58,7 @@ abstract class InstallerHelper
 		}
 		catch (\RuntimeException $exception)
 		{
-			\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -70,7 +69,7 @@ abstract class InstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -128,8 +127,8 @@ abstract class InstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = \JPath::clean(dirname($p_filename) . '/' . $tmpdir);
-		$archivename = \JPath::clean($archivename);
+		$extractdir = Path::clean(dirname($p_filename) . '/' . $tmpdir);
+		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
 		try
@@ -179,13 +178,13 @@ abstract class InstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge((array) \JFolder::files($extractdir, ''), (array) \JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
 		if (count($dirList) === 1)
 		{
-			if (\JFolder::exists($extractdir . '/' . $dirList[0]))
+			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
-				$extractdir = \JPath::clean($extractdir . '/' . $dirList[0]);
+				$extractdir = Path::clean($extractdir . '/' . $dirList[0]);
 			}
 		}
 
@@ -223,11 +222,11 @@ abstract class InstallerHelper
 	public static function detectType($p_dir)
 	{
 		// Search the install dir for an XML file
-		$files = \JFolder::files($p_dir, '\.xml$', 1, true);
+		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
 		if (!$files || !count($files))
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -255,7 +254,7 @@ abstract class InstallerHelper
 			return $type;
 		}
 
-		\JLog::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+		Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 		// Free up memory.
 		unset($xml);
@@ -301,7 +300,7 @@ abstract class InstallerHelper
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
 		{
-			\JFolder::delete($resultdir);
+			Folder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?
@@ -309,10 +308,10 @@ abstract class InstallerHelper
 		{
 			File::delete($package);
 		}
-		elseif (is_file(\JPath::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(Path::clean($config->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			File::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(Path::clean($config->get('tmp_path') . '/' . $package));
 		}
 	}
 }

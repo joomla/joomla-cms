@@ -15,7 +15,6 @@ use Joomla\CMS\Table\Table;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
-\JLoader::import('joomla.filesystem.path');
 \JLoader::import('joomla.base.adapter');
 
 /**

@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Tree\NodeInterface;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\CMS\Tree\NodeInterface;
  *
  * @since  1.6
  */
-class CategoryNode extends \JObject implements NodeInterface
+class CategoryNode extends CMSObject implements NodeInterface
 {
 	/**
 	 * Primary key

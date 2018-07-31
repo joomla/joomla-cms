@@ -6,6 +6,7 @@
  * npm install
  *
  * For dedicated tasks, please run:
+ * node build.js --buildcheck     === will create the error page (for incomplete repo build)
  * node build.js --installer       === will create the error page (for unsupported PHP version)
  * node build.js --copy-assets     === will clean the media/vendor folder and then will populate the folder from node_modules
  * node build.js --compile-js      === will transpile ES6 files and also uglify the ES6,ES5 files
@@ -19,11 +20,13 @@ const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
-const installer = require('./build/build-modules-js/installation.js');
-const update = require('./build/build-modules-js/update.js');
-const css = require('./build/build-modules-js/compilescss.js');
-const Js = require('./build/build-modules-js/compilejs.js');
-const CEjs = require('./build/build-modules-js/compilecejs.js');
+const buildCheck = require('./build/build-modules-js/build-check');
+const installer = require('./build/build-modules-js/installation');
+const update = require('./build/build-modules-js/update');
+const css = require('./build/build-modules-js/compilescss');
+const Js = require('./build/build-modules-js/compilejs');
+const CEjs = require('./build/build-modules-js/compilecejs');
+const fixVend = require('./build/build-modules-js/minify-vendor');
 
 // The settings
 const options = require('./package.json');
@@ -43,6 +46,7 @@ Program
   .option('--compile-ce, --compile-ce path', 'Compiles/traspiles all the custom elements files')
   .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compile-css and compile-js now).')
   .option('--installer', 'Creates the language file for installer error page')
+  .option('--buildcheck', 'Creates the language file for build check error page')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -61,6 +65,7 @@ if (!process.argv.slice(2).length) {
 if (Program.copyAssets) {
   Promise.resolve()
     .then(update.update(options))
+    .then(fixVend.compile(options))
 
     // Exit with success
     .then(() => process.exit(0))
@@ -76,6 +81,11 @@ if (Program.copyAssets) {
 // Create the languages file for the error page on the installer
 if (Program.installer) {
   installer.installation();
+}
+
+// Create the languages file for the error page on incomplete repo build
+if (Program.buildcheck) {
+    buildCheck.buildCheck();
 }
 
 // Convert scss to css
