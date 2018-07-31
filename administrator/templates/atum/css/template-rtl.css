@@ -982,8 +982,7 @@ iframe {
   .subhead .btn {
     padding: 0 22px;
     font-size: 1rem;
-    line-height: 2.3rem;
-    color: #fff; }
+    line-height: 2.3rem; }
     .subhead .btn [class^='icon-'],
     .subhead .btn [class*=' icon-'],
     .subhead .btn [class^='fa-'],
