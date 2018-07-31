@@ -190,82 +190,47 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
 					->bodyHeight(80)
 					->modalWidth(90);
+
+				// New Menu Item Modal
+
+				$this->id = 'jform_request_id';
+
+				// Add button to open the modal
+				ToolbarHelper::modal('ModalNewItem_' . $this->id, 'icon-new', 'New Menu Item');
+
+				// Add the modal field script to the document head.
+				HTMLHelper::_('jquery.framework');
+				HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+
+				// Add the modal html to the document
+				echo HTMLHelper::_(
+					'bootstrap.renderModal',
+					'ModalNewItem_jform_request_id',
+					array(
+						'title' => Text::_('COM_MENUS_NEW_MENUITEM'),
+						'backdrop' => 'static',
+						'keyboard' => false,
+						'closeButton' => false,
+						'url' => 'index.php?option=com_menus&view=item&layout=modal&client_id=0&tmpl=component&task=item.add',
+						'height' => '400px',
+						'width' => '800px',
+						'bodyHeight' => 70,
+						'modalWidth' => 80,
+						'footer' => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
+							. Text::_('JSAVE') . '</a>'
+							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
+							. Text::_('JAPPLY') . '</a>'
+					)
+				);
 			}
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
-
-		// New Menu Item Modal
-
-		/*echo  '<a'
-			. ' class="btn btn-secondary hasTooltip"'
-			. ' id="jform_request_id_new"'
-			. ' data-toggle="modal"'
-			. ' role="button"'
-			. ' href="#ModalNewItem_jform_request_id"'
-			. ' title="' . HTMLHelper::tooltipText('COM_MENUS_NEW_MENUITEM') . '">'
-			. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
-			. '</a>';*/
-
-		$this->id = 'jform_request_id';
-
-		ToolbarHelper::modal('ModalNewItem_' . $this->id, 'icon-new', 'New Menu Item');
-
-
-		// Add the modal field script to the document head.
-		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
-
-		echo HTMLHelper::_(
-			'bootstrap.renderModal',
-			'ModalNewItem_jform_request_id',
-			array(
-				'title' => Text::_('COM_MENUS_NEW_MENUITEM'),
-				'backdrop' => 'static',
-				'keyboard' => false,
-				'closeButton' => false,
-				'url' => 'index.php?option=com_menus&view=item&layout=modal&client_id=0&tmpl=component&task=item.add',
-				'height' => '400px',
-				'width' => '800px',
-				'bodyHeight' => 70,
-				'modalWidth' => 80,
-				'footer' => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
-					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-					. '<a role="button" class="btn btn-primary" aria-hidden="true"'
-					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-					. Text::_('JSAVE') . '</a>'
-					. '<a role="button" class="btn btn-success" aria-hidden="true"'
-					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-					. Text::_('JAPPLY') . '</a>'
-			)
-		);
-
-		/*
-		HTMLHelper::_(
-			'bootstrap.renderModal',
-			'ModalNew' . $modalId,
-			array(
-				'title'       => Text::_('COM_MENUS_NEW_MENUITEM'),
-				'backdrop'    => 'static',
-				'keyboard'    => false,
-				'closeButton' => false,
-				'url'         => $urlNew,
-				'height'      => '400px',
-				'width'       => '800px',
-				'bodyHeight'  => 70,
-				'modalWidth'  => 80,
-				'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
-					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-					. '<a role="button" class="btn btn-primary" aria-hidden="true"'
-					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-					. Text::_('JSAVE') . '</a>'
-					. '<a role="button" class="btn btn-success" aria-hidden="true"'
-					. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-					. Text::_('JAPPLY') . '</a>',
-			)
-		);*/
 
 		$toolbar->divider();
 		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
