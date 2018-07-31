@@ -42,7 +42,7 @@ class QueryCollector extends AbstractDataCollector
 	{
 		$this->queryMonitor = $queryMonitor;
 
-		return parent::__construct($params);
+		parent::__construct($params);
 	}
 
 
@@ -118,6 +118,6 @@ class QueryCollector extends AbstractDataCollector
 	 */
 	private function getCount()
 	{
-		return count($this->queryMonitor->getLog());
+		return \count($this->queryMonitor->getLog());
 	}
 }

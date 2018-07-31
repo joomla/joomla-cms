@@ -9,7 +9,10 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\DataFormatter;
 
 /**
  * LanguageStringsDataCollector
@@ -84,11 +87,11 @@ class LanguageStringsCollector extends AbstractDataCollector
 		$stripPref = $this->params->get('strip-prefix');
 		$stripSuff = $this->params->get('strip-suffix');
 
-		$orphans = \JFactory::getLanguage()->getOrphans();
+		$orphans = Factory::getLanguage()->getOrphans();
 
 		if (!count($orphans))
 		{
-			return [\JText::_('JNONE')];
+			return [Text::_('JNONE')];
 		}
 
 		ksort($orphans, SORT_STRING);
@@ -154,12 +157,14 @@ class LanguageStringsCollector extends AbstractDataCollector
 		$untranslated = [];
 		$count = 1;
 
-		foreach ($guesses as $file => $keys)
+        /* @type DataFormatter $formatter */
+        $formatter = $this->getDataFormatter();
+
+        foreach ($guesses as $file => $keys)
 		{
 			foreach ($keys as $key)
 			{
-
-				$untranslated[$count . ' ' . $this->getDataFormatter()->formatPath($file)] = $key;
+				$untranslated[$count . ' ' . $formatter->formatPath($file)] = $key;
 				$count ++;
 			}
 		}
@@ -176,6 +181,6 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 */
 	private function getCount()
 	{
-		return count(\JFactory::getLanguage()->getOrphans());
+		return \count(Factory::getLanguage()->getOrphans());
 	}
 }

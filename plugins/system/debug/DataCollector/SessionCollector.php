@@ -9,6 +9,7 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
@@ -31,7 +32,7 @@ class SessionCollector  extends AbstractDataCollector
 	{
 		$data = [];
 
-		foreach (\JFactory::getApplication()->getSession()->all() as $key => $value)
+		foreach (Factory::getApplication()->getSession()->all() as $key => $value)
 		{
 			$data[$key] = $this->getDataFormatter()->formatVar($value);
 		}

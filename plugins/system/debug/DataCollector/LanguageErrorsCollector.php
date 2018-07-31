@@ -9,7 +9,10 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\DataFormatter;
 
 /**
  * LanguageErrorsDataCollector
@@ -27,7 +30,7 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	 *
 	 * @return array Collected data
 	 */
-	public function collect()
+	public function collect(): array
 	{
 		return [
 			'data'  => $this->getData(),
@@ -42,7 +45,7 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -55,7 +58,7 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	 *
 	 * @return array
 	 */
-	public function getWidgets()
+	public function getWidgets(): array
 	{
 		return [
 			'errors'       => [
@@ -78,23 +81,26 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getData()
+	private function getData(): array
 	{
-		$errorFiles = \JFactory::getLanguage()->getErrorFiles();
+		$errorFiles = Factory::getLanguage()->getErrorFiles();
 		$errors     = [];
 
-		if (count($errorFiles))
+		/* @type DataFormatter $formatter */
+        $formatter = $this->getDataFormatter();
+
+		if (\count($errorFiles))
 		{
 			$count = 1;
 			foreach ($errorFiles as $error)
 			{
-				$errors[$count] = $this->getDataFormatter()->formatPath($error);
+				$errors[$count] = $formatter->formatPath($error);
 				$count++;
 			}
 		}
 		else
 		{
-			$errors[] = \JText::_('JNONE');
+			$errors[] = Text::_('JNONE');
 		}
 
 		return $errors;
@@ -107,8 +113,8 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getCount()
+	private function getCount(): int
 	{
-		return count(\JFactory::getLanguage()->getErrorFiles());
+		return \count(Factory::getLanguage()->getErrorFiles());
 	}
 }

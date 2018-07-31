@@ -51,7 +51,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 * @since __DEPLOY_VERSION__
 	 * @return DataFormatterInterface
 	 */
-	public function getDataFormatter()
+	public function getDataFormatter(): DataFormatterInterface
 	{
 		if ($this->dataFormater === null)
 		{
@@ -67,7 +67,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 * @since __DEPLOY_VERSION__
 	 * @return DataFormatterInterface
 	 */
-	public static function getDefaultDataFormatter()
+	public static function getDefaultDataFormatter(): DataFormatterInterface
 	{
 		if (self::$defaultDataFormatter === null)
 		{

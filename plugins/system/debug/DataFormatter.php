@@ -27,8 +27,8 @@ class DataFormatter extends DebugBarDataFormatter
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function formatPath($path)
-	{
+	public function formatPath($path): string
+    {
 		return str_replace(JPATH_ROOT, 'JROOT', $path);
 	}
 }

@@ -63,7 +63,7 @@ class ProfileCollector extends AbstractDataCollector
 			$this->requestStartTime = microtime(true);
 		}
 
-		return parent::__construct($params);
+		parent::__construct($params);
 	}
 
 	/**
@@ -95,8 +95,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @since __DEPLOY_VERSION__
 	 * @return bool
 	 */
-	public function hasStartedMeasure($name)
-	{
+	public function hasStartedMeasure($name): bool
+    {
 		return isset($this->startedMeasures[$name]);
 	}
 
@@ -110,7 +110,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @throws DebugBarException
 	 * @return void
 	 */
-	public function stopMeasure($name, $params = array())
+	public function stopMeasure($name, array $params = array())
 	{
 		$end = microtime(true);
 		if (!$this->hasStartedMeasure($name))
@@ -139,7 +139,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @since __DEPLOY_VERSION__
 	 * @return void
 	 */
-	public function addMeasure($label, $start, $end, $params = array(), $collector = null)
+	public function addMeasure($label, $start, $end, array $params = array(), $collector = null)
 	{
 		$this->measures[] = array(
 			'label'          => $label,
@@ -169,7 +169,7 @@ class ProfileCollector extends AbstractDataCollector
 		$name = spl_object_hash($closure);
 		$this->startMeasure($name, $label, $collector);
 		$result = $closure();
-		$params = is_array($result) ? $result : array();
+		$params = \is_array($result) ? $result : array();
 		$this->stopMeasure($name, $params);
 	}
 
@@ -179,8 +179,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @since __DEPLOY_VERSION__
 	 * @return array
 	 */
-	public function getMeasures()
-	{
+	public function getMeasures(): array
+    {
 		return $this->measures;
 	}
 
@@ -190,8 +190,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @since __DEPLOY_VERSION__
 	 * @return float
 	 */
-	public function getRequestStartTime()
-	{
+	public function getRequestStartTime(): float
+    {
 		return $this->requestStartTime;
 	}
 
@@ -201,8 +201,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @since __DEPLOY_VERSION__
 	 * @return float
 	 */
-	public function getRequestEndTime()
-	{
+	public function getRequestEndTime(): float
+    {
 		return $this->requestEndTime;
 	}
 
@@ -212,8 +212,8 @@ class ProfileCollector extends AbstractDataCollector
 	 * @since __DEPLOY_VERSION__
 	 * @return float
 	 */
-	public function getRequestDuration()
-	{
+	public function getRequestDuration(): float
+    {
 		if ($this->requestEndTime !== null)
 		{
 			return $this->requestEndTime - $this->requestStartTime;
@@ -229,7 +229,7 @@ class ProfileCollector extends AbstractDataCollector
 	 *
 	 * @return array Collected data
 	 */
-	public function collect()
+	public function collect(): array
 	{
 		$this->requestEndTime = microtime(true);
 
@@ -251,7 +251,7 @@ class ProfileCollector extends AbstractDataCollector
 			$this->measures,
 			function ($a, $b)
 			{
-				if ($a['start'] == $b['start'])
+				if ($a['start'] === $b['start'])
 				{
 					return 0;
 				}
@@ -276,7 +276,7 @@ class ProfileCollector extends AbstractDataCollector
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return 'profile';
 	}
@@ -289,7 +289,7 @@ class ProfileCollector extends AbstractDataCollector
 	 *
 	 * @return array
 	 */
-	public function getWidgets()
+	public function getWidgets(): array
 	{
 		return array(
 			'profileTime' => array(

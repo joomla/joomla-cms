@@ -36,7 +36,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	{
 		$this->requestId = $requestId;
 
-		return parent::__construct($params);
+		parent::__construct($params);
 	}
 
 	/**
@@ -98,8 +98,8 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	public function getAssets()
 	{
 		return array(
-			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.js',
-			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.css',
+			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.css',
 		);
 	}
 }

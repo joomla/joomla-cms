@@ -10,7 +10,9 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
+use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\DataFormatter;
 
 /**
  * LanguageFilesDataCollector
@@ -30,15 +32,18 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 */
 	public function collect()
 	{
-		$paths = \JFactory::getLanguage()->getPaths();
+		$paths = Factory::getLanguage()->getPaths();
 		$loaded = [];
 
-		foreach ($paths as $extension => $files)
+        /* @type DataFormatter $formatter */
+        $formatter = $this->getDataFormatter();
+
+        foreach ($paths as $extension => $files)
 		{
 			$loaded[$extension] = [];
 			foreach ($files as $file => $status)
 			{
-				$loaded[$extension][$this->getDataFormatter()->formatPath($file)] = $status;
+				$loaded[$extension][$formatter->formatPath($file)] = $status;
 			}
 		}
 
@@ -90,8 +95,8 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	public function getAssets()
 	{
 		return array(
-			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.js',
-			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.css',
+			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
 		);
 	}
 }
