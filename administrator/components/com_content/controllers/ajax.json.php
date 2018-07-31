@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\LanguageHelper;
+
 /**
  * The article controller for ajax requests
  *
@@ -42,7 +44,7 @@ class ContentControllerAjax extends JControllerLegacy
 
 			if ($assocId == 0)
 			{
-				echo new JResponseJson(null, JText::_('JLIB_FORM_VALIDATE_FIELD_INVALID', "assocId"), true);
+				echo new JResponseJson(null, JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'assocId'), true);
 
 				return;
 			}
@@ -62,7 +64,23 @@ class ContentControllerAjax extends JControllerLegacy
 				$associations[$lang]->title = $contentTable->title;
 			}
 
-			$message = JText::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE');
+			$message = null;
+
+			$countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1)));
+
+			if (count($associations) == 0)
+			{
+				$message = JText::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');
+			}
+			elseif ($countContentLanguages > count($associations) + 2)
+			{
+				$tags    = implode(', ', array_keys($associations));
+				$message = JText::sprintf('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_SOME', $tags);
+			}
+			else
+			{
+				$message = JText::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_ALL');
+			}
 
 			echo new JResponseJson($associations, $message);
 		}
