@@ -235,7 +235,8 @@ class ContactController extends FormController
 			// If we are supposed to copy the sender, do so.
 
 			// Check whether email copy function activated
-			if ($copy_email_activated == true && !empty($data['contact_email_copy'])) {
+			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			{
 				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 				$copytext .= "\r\n\r\n" . $body;
 				$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
