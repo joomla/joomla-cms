@@ -81,7 +81,7 @@ class ArticleModel extends AdminModel
 	//	$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
-	//	JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Parent exists so we let's proceed
 		while (!empty($pks))
@@ -109,7 +109,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-		//	$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -221,7 +221,7 @@ class ArticleModel extends AdminModel
 		PluginHelper::importPlugin('system');
 
 		// Register FieldsHelper
-		//JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
@@ -251,7 +251,9 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			//$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
+            $fields =
+			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+
 			$fieldsData = array();
 
 			if (!empty($fields))
