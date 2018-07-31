@@ -78,7 +78,6 @@ class ArticleModel extends AdminModel
 		}
 
 		PluginHelper::importPlugin('system');
-	//	$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
@@ -279,7 +278,7 @@ class ArticleModel extends AdminModel
 
 			if (!empty($this->type))
 			{
-			//	$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 			}
 
 			// Store the row.
