@@ -31,30 +31,23 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class="nowrap">
+							<th scope="col" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_PHRASE', 'a.searchterm', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:15%" class="nowrap">
+							<th scope="col" style="width:15%" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="nowrap text-center">
 								<?php echo JText::_('COM_FINDER_HEADING_RESULTS'); ?>
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="3">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="break-word">
+							<th scope="row" class="break-word">
 								<?php echo $this->escape($item->searchterm); ?>
-							</td>
+							</th>
 							<td>
 								<?php echo (int) $item->hits; ?>
 							</td>
@@ -65,6 +58,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

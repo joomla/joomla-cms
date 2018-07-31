@@ -1,14 +1,14 @@
 const glob = require('glob');
 const fs = require('fs');
 const babel = require('babel-core');
+const UglifyJS = require('uglify-es');
 const os = require('os');
-const chalk = require('chalk');
 
 const pattern = './**/*.es6.js';
 const options = {
   ignore: [
     './node_modules/**',
-    './build/webcomponents/js/**',
+    './build/media/webcomponents/**/js/**',
   ],
 };
 
@@ -29,7 +29,7 @@ const compileFile = (filePath) => {
   babel.transformFile(filePath, babelOptions, (error, result) => {
     if (error) {
       // eslint-disable-next-line no-console
-      console.error(`${chalk.red(error)}`);
+      console.error(`${error}`);
       process.exit(1);
     }
 
@@ -40,7 +40,19 @@ const compileFile = (filePath) => {
       (fsError) => {
         if (fsError) {
           // eslint-disable-next-line no-console
-          console.error(`${chalk.red(fsError)}`);
+          console.error(`${fsError}`);
+          process.exit(1);
+        }
+      }
+    );
+    // Also write the minified
+    fs.writeFile(
+      `${fileName}.min.js`,
+      UglifyJS.minify(result.code).code + os.EOL,
+      (fsError) => {
+        if (fsError) {
+          // eslint-disable-next-line no-console
+          console.error(`${fsError}`);
           process.exit(1);
         }
       }
@@ -52,7 +64,7 @@ const compileFile = (filePath) => {
 glob(pattern, options, (error, files) => {
   if (error) {
     // eslint-disable-next-line no-console
-    console.error(`${chalk.red(error)}`);
+    console.error(`${error}`);
     process.exit(1);
   }
 

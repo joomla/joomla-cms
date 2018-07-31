@@ -26,4 +26,6 @@ $attr = array(
 	'list.select' => $this->item->position,
 );
 
+JHtml::_('formbehavior.chosen', '#jform_position');
+
 echo HTMLHelper::_('select.groupedlist', $positions, 'jform[position]', $attr);

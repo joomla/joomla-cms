@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Rule to identify the right Itemid for a view in a component
@@ -162,7 +163,7 @@ class MenuRules implements RulesInterface
 
 		// Check if the active menuitem matches the requested language
 		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;

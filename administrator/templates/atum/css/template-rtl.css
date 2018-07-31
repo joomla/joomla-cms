@@ -542,8 +542,8 @@ legend {
   text-align: center;
   background-color: transparent;
   border: 0; }
-  .tbody-icon span[class^='icon-']:not(.icon-checkedout),
-  .tbody-icon span[class*=' icon-']:not(.icon-checkedout) {
+  .tbody-icon [class^='icon-'],
+  .tbody-icon [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -555,11 +555,8 @@ legend {
     color: #2f7d32;
     border-color: #2f7d32; }
   .tbody-icon .icon-featured {
-    color: #b35900;
-    border-color: #b35900; }
-  .tbody-icon .icon-unpublish {
-    color: #c52827;
-    border-color: #c52827; }
+    color: #3073bb;
+    border-color: #3073bb; }
   .tbody-icon .icon-archive {
     color: #495057;
     border-color: #495057; }
@@ -980,23 +977,22 @@ iframe {
     .subhead .btn-toolbar > * {
       margin-left: .75rem;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
-      .subhead .btn-toolbar > *:first-of-type {
+      .subhead .btn-toolbar > *:first-child {
         margin-left: 0; }
   .subhead .btn {
     padding: 0 22px;
     font-size: 1rem;
-    line-height: 2.65rem;
-    color: #fff; }
+    line-height: 2.3rem; }
     .subhead .btn [class^='icon-'],
     .subhead .btn [class*=' icon-'],
     .subhead .btn [class^='fa-'],
     .subhead .btn [class*=' fa-'] {
       z-index: -1;
       display: inline-block;
-      width: 40px;
+      width: 38px;
       height: auto;
       margin: 0 16px 0 -22px;
-      line-height: 2.65rem;
+      line-height: 2.3rem;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.2); }
   .subhead .btn-group {
@@ -1375,7 +1371,12 @@ iframe {
 
 .table thead th {
   white-space: nowrap;
-  border-bottom-width: 0; }
+  border-bottom-width: 0;
+  font-weight: normal;
+  color: #343a40; }
+
+.table thead td {
+  padding: 0; }
 
 .table thead a {
   font-weight: normal;
@@ -1487,6 +1488,9 @@ iframe {
 .com-cpanel-help a {
   color: #343a40; }
 
+.com-cpanel-help h2 {
+  font-size: 1rem; }
+
 .com-cpanel-help .list-group {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
 
@@ -1505,6 +1509,8 @@ iframe {
       margin-right: 5px; }
   .com-cpanel-system a {
     color: #343a40; }
+  .com-cpanel-system h2 {
+    font-size: 1rem; }
   .com-cpanel-system .list-group {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
   @media (max-width: 991.98px) {
@@ -1593,6 +1599,9 @@ iframe {
 .com_users.view-debuggroup .legend, .com_users.view-debuguser .legend {
   margin: 1rem 1rem 0; }
 
+.com_users.view-mail .form-control {
+  max-width: 100%; }
+
 .container-main,
 .system-debug {
   padding-bottom: 50px; }
@@ -1632,7 +1641,7 @@ ol,
 ul {
   padding-right: 0; }
 
-th {
+body {
   text-align: right; }
 
 .close {
@@ -1646,7 +1655,7 @@ th {
   text-align: right; }
 
 .control-group .controls {
-  margin-right: 220px;
+  margin-right: 0;
   margin-left: 0; }
 
 .control-group .custom-select {
@@ -1713,9 +1722,6 @@ th {
 .main-nav li a span {
   float: right; }
 
-.main-nav .collapse-level-1 .menuitem-group, .main-nav .collapse-level-1 > li:first-of-type {
-  text-align: right; }
-
 .child-open > .open > a::before {
   right: 0;
   left: auto; }
@@ -1749,7 +1755,7 @@ th {
 .subhead .btn-toolbar > * {
   margin-right: .75rem;
   margin-left: 0; }
-  .subhead .btn-toolbar > *:first-of-type {
+  .subhead .btn-toolbar > *:first-child {
     margin-right: 0; }
 
 .com_cpanel .card .list-group > .published {
@@ -1785,5 +1791,19 @@ th {
   margin-right: 0 !important;
   margin-left: .5rem; }
 
-p, .table td {
-  text-align: right; }
+#helpsite-refresh {
+  float: right;
+  margin-right: 4px;
+  margin-top: 1px; }
+
+.field-calendar {
+  float: right; }
+
+.form-text {
+  float: right; }
+
+.field-user-wrapper {
+  float: right; }
+
+.field-media-input {
+  margin-right: 220px; }

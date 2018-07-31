@@ -2,31 +2,22 @@ const Promise = require('bluebird');
 const fs = require('fs');
 const fsExtra = require('fs-extra');
 const Path = require('path');
-const chalk = require('chalk');
 const rootPath = require('./rootpath.js')._();
 
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 // rm -rf media/vendor
 const cleanVendors = () => {
-  // Let's keep some tinyMCE folders
-  fsExtra.copySync(Path.join(rootPath, 'media/vendor/tinymce/langs'), Path.join(rootPath, 'build/tiny_langs'));
-  fsExtra.copySync(Path.join(rootPath, 'media/vendor/tinymce/templates'), Path.join(rootPath, 'build/tiny_templates'));
-  fsExtra.copySync(Path.join(rootPath, 'media/vendor/jquery-ui'), Path.join(rootPath, 'build/jquery-ui'));
-
+  // Remove the vendor folder
   fsExtra.removeSync(Path.join(rootPath, 'media/vendor'));
-  fsExtra.removeSync(Path.join(rootPath, 'media/system/js/polyfills'));
 
-  // Restore and erase the tmp folders
-  fsExtra.copySync(Path.join(rootPath, 'build/tiny_langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
-  fsExtra.copySync(Path.join(rootPath, 'build/tiny_templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
-  fsExtra.copySync(Path.join(rootPath, 'build/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
-  fsExtra.removeSync(Path.join(rootPath, 'build/tiny_langs'));
-  fsExtra.removeSync(Path.join(rootPath, 'build/tiny_templates'));
-  fsExtra.removeSync(Path.join(rootPath, 'build/jquery-ui'));
+  // Restore our code on the vendor folders
+  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
+  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
+  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
 
   // eslint-disable-next-line no-console
-  console.error(chalk.blue('/media/vendor has been removed.'));
+  console.error('/media/vendor has been removed.');
 };
 
 // Copies all the files from a directory
@@ -217,7 +208,7 @@ const copyFiles = (options) => {
     registry.vendors[vendorName] = registryItem;
 
     // eslint-disable-next-line no-console
-    console.log(chalk.green(`${packageName} was updated.`));
+    console.log(`${packageName} was updated.`);
   }
 
   // Write assets registry
@@ -239,7 +230,7 @@ const update = (options) => {
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(chalk.red(err));
+      console.error(err);
       process.exit(-1);
     });
 };
