@@ -14,6 +14,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * RssRenderer is a feed that implements RSS 2.0 Specification
@@ -60,8 +61,8 @@ class RssRenderer extends DocumentRenderer
 			$data->lastBuildDate->setTimeZone(new \DateTimeZone($app->get('offset')));
 		}
 
-		$url = \JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = \JRoute::_('&format=feed&type=rss');
+		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$syndicationURL = Route::_('&format=feed&type=rss');
 
 		$title = $data->getTitle();
 
