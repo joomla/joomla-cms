@@ -113,10 +113,12 @@ class ProfileCollector extends AbstractDataCollector
 	public function stopMeasure($name, array $params = array())
 	{
 		$end = microtime(true);
+
 		if (!$this->hasStartedMeasure($name))
 		{
 			throw new DebugBarException("Failed stopping measure '$name' because it hasn't been started");
 		}
+
 		$this->addMeasure(
 			$this->startedMeasures[$name]['label'],
 			$this->startedMeasures[$name]['start'],
@@ -124,6 +126,7 @@ class ProfileCollector extends AbstractDataCollector
 			$params,
 			$this->startedMeasures[$name]['collector']
 		);
+
 		unset($this->startedMeasures[$name]);
 	}
 
