@@ -184,10 +184,14 @@ class PlgUserJoomla extends CMSPlugin
 			try
 			{
 				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$res = false;
 			}
 			catch (\RuntimeException $exception)
 			{
 				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$res = false;
 			}
 		}
 
