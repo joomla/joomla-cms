@@ -42,34 +42,34 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 					<table class="table" id="userList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="nowrap text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th class="nowrap">
+								</td>
+								<th scope="col" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap text-center">
+								<th scope="col" style="width:5%" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:5%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:12%" class="nowrap text-center">
+								<th scope="col" style="width:12%" class="nowrap text-center">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
+								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
+								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
+								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -99,7 +99,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									<?php endif; ?>
 								</td>
-								<td>
+								<th scope="row">
 									<div class="name break-word">
 									<?php if ($canEdit) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo Text::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
@@ -128,7 +128,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 										<div class="small"><a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 										<?php echo Text::_('COM_USERS_DEBUG_USER'); ?></a></div>
 									<?php endif; ?>
-								</td>
+								</th>
 								<td class="break-word text-center">
 									<?php echo $this->escape($item->username); ?>
 								</td>

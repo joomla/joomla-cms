@@ -37,37 +37,37 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<th class="nowrap" style="width:1%">
+										<td class="nowrap" style="width:1%">
 											<?php echo HTMLHelper::_('grid.checkall'); ?>
-										</th>
-										<th class="nowrap">
+										</td>
+										<th scope="col" class="nowrap">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirection, $listOrder); ?>
 										</th>
-										<th class="text-center" style="width:10%">
+										<th scope="col" class="text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th class="text-center" style="width:10%">
+										<th scope="col" class="text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
-										<th class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
-										<th class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
-										<th class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th class="nowrap d-none d-md-table-cell text-center" style="width:1%">
+										<th scope="col" class="nowrap d-none d-md-table-cell text-center" style="width:1%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 										</th>
 									</tr>
@@ -88,14 +88,14 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<td>
 												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
 											</td>
-											<td>
+											<th scope="row">
 												<label for="cb<?php echo $i; ?>">
 													<span class="hasPopover" data-original-title="<?php echo $extension->name; ?>"
 														data-content="<?php echo Text::_($manifest->description) ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
 														<?php echo $extension->name; ?>
 													</span>
 												</label>
-											</td>
+											</th>
 											<td class="text-center">
 												<?php echo $extension->client_translated; ?>
 											</td>

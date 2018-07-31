@@ -542,8 +542,8 @@ legend {
   text-align: center;
   background-color: transparent;
   border: 0; }
-  .tbody-icon span[class^='icon-']:not(.icon-checkedout),
-  .tbody-icon span[class*=' icon-']:not(.icon-checkedout) {
+  .tbody-icon [class^='icon-'],
+  .tbody-icon [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -555,11 +555,8 @@ legend {
     color: #2f7d32;
     border-color: #2f7d32; }
   .tbody-icon .icon-featured {
-    color: #b35900;
-    border-color: #b35900; }
-  .tbody-icon .icon-unpublish {
-    color: #c52827;
-    border-color: #c52827; }
+    color: #3073bb;
+    border-color: #3073bb; }
   .tbody-icon .icon-archive {
     color: #495057;
     border-color: #495057; }
@@ -980,7 +977,7 @@ iframe {
     .subhead .btn-toolbar > * {
       margin-left: .75rem;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
-      .subhead .btn-toolbar > *:first-of-type {
+      .subhead .btn-toolbar > *:first-child {
         margin-left: 0; }
   .subhead .btn {
     padding: 0 22px;
@@ -1375,7 +1372,12 @@ iframe {
 
 .table thead th {
   white-space: nowrap;
-  border-bottom-width: 0; }
+  border-bottom-width: 0;
+  font-weight: normal;
+  color: #343a40; }
+
+.table thead td {
+  padding: 0; }
 
 .table thead a {
   font-weight: normal;
@@ -1487,6 +1489,9 @@ iframe {
 .com-cpanel-help a {
   color: #343a40; }
 
+.com-cpanel-help h2 {
+  font-size: 1rem; }
+
 .com-cpanel-help .list-group {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
 
@@ -1505,6 +1510,8 @@ iframe {
       margin-right: 5px; }
   .com-cpanel-system a {
     color: #343a40; }
+  .com-cpanel-system h2 {
+    font-size: 1rem; }
   .com-cpanel-system .list-group {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
   @media (max-width: 991.98px) {
@@ -1592,6 +1599,9 @@ iframe {
 
 .com_users.view-debuggroup .legend, .com_users.view-debuguser .legend {
   margin: 1rem 1rem 0; }
+
+.com_users.view-mail .form-control {
+  max-width: 100%; }
 
 .container-main,
 .system-debug {

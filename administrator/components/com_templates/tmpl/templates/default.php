@@ -31,19 +31,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table" id="template-mgr">
 						<thead>
 							<tr>
-								<th class="col1template d-none d-md-table-cell" style="width:20%">
+								<th scope="col" class="col1template d-none d-md-table-cell" style="width:20%">
 									<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
-								<th style="width:30%">
+								<th scope="col" style="width:30%">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th style="width:25%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:25%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
 							</tr>
@@ -62,7 +62,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 									<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
-								<td class="template-name">
+								<th scope="row" class="template-name">
 									<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
 										<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
@@ -76,7 +76,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 									</div>
-								</td>
+								</th>
 								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->xmldata->get('version')); ?>
 								</td>

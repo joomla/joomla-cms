@@ -26,7 +26,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * @var  boolean  $notEmpty  Check if there are links to be displayed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private static $notEmpty;
 

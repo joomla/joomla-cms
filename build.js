@@ -1,29 +1,32 @@
 /**
  * Command line helper
  *
- * For maintainers, please run:
- * node build.js --installer
- * node build.js --update
- * node build.js --compilejs
- * node build.js --compilecejs
- * node build.js --compilecss
- * node build.js --compilececss
- * Before making any PRs or building any package!
+ * To get the complete functional media folder please run
+ *
+ * npm install
+ *
+ * For dedicated tasks, please run:
+ * node build.js --buildcheck     === will create the error page (for incomplete repo build)
+ * node build.js --installer       === will create the error page (for unsupported PHP version)
+ * node build.js --copy-assets     === will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.js --compile-js      === will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compile-ce      === will compile all the given CE or WC with their relative css files
+ * node build.js --compile-css     === will compile all the scss defined files and also create a minified version of the css
  *
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const chalk = require('chalk');
 
 // Joomla Build modules
-const installer = require('./build/build-modules-js/installation.js');
-const update = require('./build/build-modules-js/update.js');
-const css = require('./build/build-modules-js/compilescss.js');
-const Js = require('./build/build-modules-js/compilejs.js');
-const CEcss = require('./build/build-modules-js/compilecescss.js');
-const CEjs = require('./build/build-modules-js/compilecejs.js');
+const buildCheck = require('./build/build-modules-js/build-check');
+const installer = require('./build/build-modules-js/installation');
+const update = require('./build/build-modules-js/update');
+const css = require('./build/build-modules-js/compilescss');
+const Js = require('./build/build-modules-js/compilejs');
+const CEjs = require('./build/build-modules-js/compilecejs');
+const fixVend = require('./build/build-modules-js/minify-vendor');
 
 // The settings
 const options = require('./package.json');
@@ -37,16 +40,16 @@ if ('settings' in settings) {
 // Initialize the CLI
 Program
   .version(options.version)
-  .option('--update', 'Updates the vendor scripts')
-  .option('--compilejs, --compilejs path', 'Compiles ES6 to ES5 scripts')
-  .option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
-  .option('--compilecejs, --compilecejs path', 'Compiles/traspiles all the custom elements files')
-  .option('--compilececss, --compilececss path', 'Compiles/traspiles all the custom elements files')
-  .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compilecss and compilejs now).')
+  .option('--copy-assets', 'Moving files from node_modules to media folder')
+  .option('--compile-js, --compile-js path', 'Compiles ES6 to ES5 scripts')
+  .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
+  .option('--compile-ce, --compile-ce path', 'Compiles/traspiles all the custom elements files')
+  .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compile-css and compile-js now).')
   .option('--installer', 'Creates the language file for installer error page')
+  .option('--buildcheck', 'Creates the language file for build check error page')
   .on('--help', () => {
     // eslint-disable-next-line no-console
-    console.log(chalk.magenta(`Version: ${options.version} `));
+    console.log(`Version: ${options.version}`);
     process.exit(0);
   })
   .parse(process.argv);
@@ -59,9 +62,10 @@ if (!process.argv.slice(2).length) {
 }
 
 // Update the vendor folder
-if (Program.update) {
+if (Program.copyAssets) {
   Promise.resolve()
     .then(update.update(options))
+    .then(fixVend.compile(options))
 
     // Exit with success
     .then(() => process.exit(0))
@@ -69,7 +73,7 @@ if (Program.update) {
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(`${chalk.red(err)}`);
+      console.error(err);
       process.exit(-1);
     });
 }
@@ -79,8 +83,13 @@ if (Program.installer) {
   installer.installation();
 }
 
+// Create the languages file for the error page on incomplete repo build
+if (Program.buildcheck) {
+    buildCheck.buildCheck();
+}
+
 // Convert scss to css
-if (Program.compilecss) {
+if (Program.compileCss) {
   if (Program.watch) {
     css.watch(options, null, true);
   } else {
@@ -89,7 +98,7 @@ if (Program.compilecss) {
 }
 
 // Compress/transpile the javascript files
-if (Program.compilejs) {
+if (Program.compileJs) {
   if (Program.watch) {
     Js.watch(options, null, false);
   } else {
@@ -98,11 +107,6 @@ if (Program.compilejs) {
 }
 
 // Compress/transpile the Custom Elements files
-if (Program.compilececss) {
-  CEcss.compile(options, Program.args[0]);
-}
-
-// Compress/transpile the Custom Elements files
-if (Program.compilecejs) {
+if (Program.compileCe) {
   CEjs.compile(options, Program.args[0]);
 }

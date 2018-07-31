@@ -24,7 +24,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The banners service provider.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 return new class implements ServiceProviderInterface
 {
@@ -35,7 +35,7 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

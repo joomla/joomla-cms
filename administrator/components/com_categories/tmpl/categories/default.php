@@ -73,21 +73,21 @@ if ($saveOrder && !empty($this->items))
 					<table class="table" id="categoryList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th style="width:1%" class="nowrap text-center">
+								</td>
+								<th scope="col" style="width:1%" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap">
+								<th scope="col" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
 										</span>
@@ -95,7 +95,7 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 										</span>
@@ -103,7 +103,7 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
 										</span>
@@ -111,27 +111,27 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
 										</span>
 									</th>
 								<?php endif; ?>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->assoc) :
 									$columns++; ?>
-									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>	
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -205,7 +205,7 @@ if ($saveOrder && !empty($this->items))
 											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
 										</div>
 									</td>
-									<td>
+									<th scope="row">
 										<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
@@ -224,7 +224,7 @@ if ($saveOrder && !empty($this->items))
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 											<?php endif; ?>
 										</span>
-									</td>
+									</th>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 										<td class="text-center btns d-none d-md-table-cell">
 											<a class="badge <?php echo ($item->count_published > 0) ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=1'); ?>">

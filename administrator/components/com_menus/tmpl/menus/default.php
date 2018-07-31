@@ -54,29 +54,29 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 					<table class="table" id="menuList">
 						<thead>
 							<tr>
-								<th style="width:1%">
+								<td style="width:1%">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th>
+								</td>
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<span class="icon-unpublish" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<span class="icon-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap text-center">
 									<span class="icon-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -97,7 +97,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<?php if ($canManageItems) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
@@ -113,7 +113,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											<?php echo $this->escape($item->menutype); ?>
 										<?php endif; ?>
 									</div>
-								</td>
+								</th>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
 										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
