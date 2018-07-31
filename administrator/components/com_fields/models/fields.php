@@ -155,7 +155,7 @@ class FieldsModelFields extends JModelList
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
+		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state, g.note as group_note');
 		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
 
 		// Filter by context

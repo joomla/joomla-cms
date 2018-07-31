@@ -386,7 +386,7 @@ abstract class ModuleHelper
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . $Itemid;
+		$cacheId = $groups . '.' . $clientId . '.' . $Itemid;
 
 		$db = \JFactory::getDbo();
 
