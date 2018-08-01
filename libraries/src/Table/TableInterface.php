@@ -57,9 +57,9 @@ interface TableInterface
 	public function delete($pk = null);
 
 	/**
-	 * Method to get the \JDatabaseDriver object.
+	 * Method to get the DatabaseDriver object.
 	 *
-	 * @return  \JDatabaseDriver  The internal database driver object.
+	 * @return  DatabaseDriver  The internal database driver object.
 	 *
 	 * @since   3.2
 	 */

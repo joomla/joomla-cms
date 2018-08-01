@@ -10,6 +10,8 @@ namespace Joomla\CMS\Menu;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Default factory for creating Menu objects
  *
@@ -35,7 +37,7 @@ class MenuFactory implements MenuFactoryInterface
 
 		if (!class_exists($classname))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 		}
 
 		return new $classname($options);
