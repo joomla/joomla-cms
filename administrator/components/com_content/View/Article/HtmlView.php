@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -193,37 +194,55 @@ class HtmlView extends BaseHtmlView
 
 				// New Menu Item Modal
 
-				$this->id = 'jform_request_id';
+				// Setup variables for display.
+				$linkSuffix = '&amp;layout=modal&amp;client_id=0&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
+				$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
+
+				if (isset($this->element['language']))
+				{
+					$linkItem   .= '&amp;forcedLanguage=' . $this->element['language'];
+				}
+
+				$urlNew    = $linkItem . '&amp;task=item.add';
+
+				$modalId = 'jform_request_id';
 
 				// Add button to open the modal
-				ToolbarHelper::modal('ModalNewItem_' . $this->id, 'icon-new', 'New Menu Item');
+				ToolbarHelper::modal('ModalNewItem_' . $modalId, 'icon-new', 'New Menu Item');
 
 				// Add the modal field script to the document head.
 				HTMLHelper::_('jquery.framework');
 				HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
+				// Load the language files
+				$language = Factory::getLanguage();
+				$language->load('com_menus', JPATH_ADMINISTRATOR, 'en-GB');
+				$language->load('com_menus', JPATH_ADMINISTRATOR, $language->getDefault());
+				$language->load('com_menus', JPATH_ADMINISTRATOR);
+
 				// Add the modal html to the document
 				echo HTMLHelper::_(
 					'bootstrap.renderModal',
-					'ModalNewItem_jform_request_id',
+					'ModalNewItem_' . $modalId,
 					array(
 						'title' => Text::_('COM_MENUS_NEW_MENUITEM'),
 						'backdrop' => 'static',
 						'keyboard' => false,
 						'closeButton' => false,
-						'url' => 'index.php?option=com_menus&view=item&layout=modal&client_id=0&tmpl=component&task=item.add',
+						// 'url' => 'index.php?option=com_menus&view=item&layout=modal&client_id=0&tmpl=component&task=item.add',
+						'url' => $urlNew,
 						'height' => '400px',
 						'width' => '800px',
 						'bodyHeight' => 70,
 						'modalWidth' => 80,
 						'footer' => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
 							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
 							. Text::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
 							. Text::_('JAPPLY') . '</a>'
 					)
 				);
