@@ -164,7 +164,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 		{
 			foreach ($keys as $key)
 			{
-				$untranslated[$count . ' ' . $formatter->formatPath($file)] = $key;
+				$untranslated[$count] = $key . ' in ' . $formatter->formatPath($file);
 				$count ++;
 			}
 		}
