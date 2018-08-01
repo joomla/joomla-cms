@@ -217,6 +217,7 @@ class HtmlView extends BaseHtmlView
 								{
 									$file = JPATH_SITE . '/components/' . $item->componentname . '/views/'
 										. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+
 									if (!file_exists($file))
 									{
 										$file = JPATH_SITE . '/components/' . $item->componentname . '/view/'
