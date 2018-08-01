@@ -488,7 +488,8 @@ class FinderIndexerResult implements Serializable
 			}
 		}
 
-		return serialize([
+		return serialize(
+			[
 			$this->access,
 			$this->defaultLanguage,
 			$this->description,
@@ -508,7 +509,8 @@ class FinderIndexerResult implements Serializable
 			$this->title,
 			$this->type_id,
 			$this->url
-		]);
+			]
+		);
 	}
 
 	/**

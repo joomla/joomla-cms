@@ -62,10 +62,11 @@ class FinderIndexerTaxonomy
 	/**
 	 * Method to add a node to the taxonomy tree.
 	 *
-	 * @param   string   $branch  The title of the branch to store the node in.
-	 * @param   string   $title   The title of the node.
-	 * @param   integer  $state   The published state of the node. [optional]
-	 * @param   integer  $access  The access state of the node. [optional]
+	 * @param   string   $branch    The title of the branch to store the node in.
+	 * @param   string   $title     The title of the node.
+	 * @param   integer  $state     The published state of the node. [optional]
+	 * @param   integer  $access    The access state of the node. [optional]
+	 * @param   string   $language  The language of the node. [optional]
 	 *
 	 * @return  integer  The id of the node.
 	 *
@@ -87,6 +88,20 @@ class FinderIndexerTaxonomy
 		return self::storeNode($node, $branchId);
 	}
 
+	/**
+	 * Method to add a nested node to the taxonomy tree.
+	 * 
+	 * @param   string         $branch    The title of the branch to store the node in.
+	 * @param   NodeInterface  $node      The source-node of the taxonomy node.
+	 * @param   integer        $state     The published state of the node. [optional]
+	 * @param   integer        $access    The access state of the node. [optional]
+	 * @param   string         $language  The language of the node. [optional]
+	 * @param   integer        $branchId  ID of a branch if known. [optional]
+	 * 
+	 * @return  integer  The id of the node.
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '', $branchId = null)
 	{
 		if (!$branchId)
@@ -142,9 +157,9 @@ class FinderIndexerTaxonomy
 		if (!empty($result) && $result->state == $node->state && $result->access == $node->access)
 		{
 			// The data matches, add the item to the cache.
-			static::$nodes[$parent_id . ':'  . $node->title] = $result;
+			static::$nodes[$parent_id . ':' . $node->title] = $result;
 
-			return static::$nodes[$parent_id . ':'  . $node->title]->id;
+			return static::$nodes[$parent_id . ':' . $node->title]->id;
 		}
 
 		/*
