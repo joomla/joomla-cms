@@ -240,8 +240,12 @@ class PlgContentJoomla extends CMSPlugin
 		// Now check to see if this is a known core extension
 		if (isset($tableInfo[$extension]))
 		{
+
+            // Get table name for known core extensions
+            $table = $tableInfo[$extension]['table_name'];
+
 			// See if this category has any content items
-			$count = $this->_countItemsFromState($extension, $pk, $tableInfo[$extension]);
+			$count = $this->_countItemsFromState($extension, $pk, $table);
 
 			// Return false if db error
 			if ($count === false)
@@ -370,12 +374,13 @@ class PlgContentJoomla extends CMSPlugin
 	{
 		$query = $this->db->getQuery(true);
 
-		$query	->select('COUNT(' . $this->db->quoteName('wa.item_id') . ')')
-				->from($query->quoteName('#__workflow_associations', 'wa'))
-				->from($this->db->quoteName($table, 'b'))
-				->where($this->db->quoteName('wa.item_id') . ' = ' . $query->quoteName('b.id'))
-				->where($this->db->quoteName('wa.state_id') . ' = ' . (int) $state_id)
-				->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
+        $query	->select('COUNT(' . $this->db->quoteName('wa.item_id') . ')')
+            ->from($query->quoteName('#__workflow_associations', 'wa'))
+            ->from($this->db->quoteName($table, 'b'))
+            ->where($this->db->quoteName('wa.item_id') . ' = ' . $query->quoteName('b.id'))
+            ->where($this->db->quoteName('wa.state_id') . ' = ' . (int) $state_id)
+            ->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
+
 
 		try
 		{
