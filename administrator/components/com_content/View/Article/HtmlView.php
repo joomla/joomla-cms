@@ -192,9 +192,9 @@ class HtmlView extends BaseHtmlView
 					->bodyHeight(80)
 					->modalWidth(90);
 
-				// New Menu Item Modal
+				// Add necessary code for a new menu item modal
 
-				// Setup variables for display.
+				// Setup variables for display
 				$linkSuffix = '&amp;layout=modal&amp;client_id=0&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 				$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
 
@@ -203,7 +203,7 @@ class HtmlView extends BaseHtmlView
 					$linkItem   .= '&amp;forcedLanguage=' . $this->element['language'];
 				}
 
-				$urlNew    = $linkItem . '&amp;task=item.add';
+				$urlNew  = $linkItem . '&amp;task=item.add';
 
 				$modalId = 'jform_request_id';
 
@@ -229,7 +229,6 @@ class HtmlView extends BaseHtmlView
 						'backdrop' => 'static',
 						'keyboard' => false,
 						'closeButton' => false,
-						// 'url' => 'index.php?option=com_menus&view=item&layout=modal&client_id=0&tmpl=component&task=item.add',
 						'url' => $urlNew,
 						'height' => '400px',
 						'width' => '800px',
