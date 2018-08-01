@@ -56,13 +56,6 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="7">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php
 						$canCreate                  = $user->authorise('core.create',     'com_finder');
@@ -109,6 +102,10 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

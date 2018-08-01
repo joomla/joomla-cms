@@ -13,7 +13,7 @@
     "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "1.1.0",
+    "@webcomponents/webcomponentsjs": "2.0.3",
     "joomla-javascript-tests": "joomla/test-javascript#4.0-dev"
   },
   "license": "GPL-2.0+"

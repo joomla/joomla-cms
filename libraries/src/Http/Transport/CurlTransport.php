@@ -17,6 +17,7 @@ use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
 use Zend\Diactoros\Stream as StreamResponse;
+use Joomla\CMS\Factory;
 
 /**
  * HTTP transport class for using cURL.
@@ -150,7 +151,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		}
 
 		// Proxy configuration
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		if ($config->get('proxy_enable'))
 		{

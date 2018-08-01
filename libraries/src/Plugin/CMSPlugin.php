@@ -10,7 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\DispatcherAwareInterface;
@@ -123,7 +123,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 			if ($appProperty->isPrivate() === false && is_null($this->app))
 			{
-				$this->app = JFactory::getApplication();
+				$this->app = Factory::getApplication();
 			}
 		}
 
@@ -134,7 +134,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 			if ($dbProperty->isPrivate() === false && is_null($this->db))
 			{
-				$this->db = JFactory::getDbo();
+				$this->db = Factory::getDbo();
 			}
 		}
 
@@ -163,7 +163,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 		}
 
 		$extension = strtolower($extension);
-		$lang      = JFactory::getLanguage();
+		$lang      = Factory::getLanguage();
 
 		// If language already loaded, don't load it again.
 		if ($lang->getPaths($extension))
