@@ -275,11 +275,6 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			if (!empty($this->type))
-			{
-				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-			}
-
 			// Store the row.
 			if (!$this->table->store())
 			{
