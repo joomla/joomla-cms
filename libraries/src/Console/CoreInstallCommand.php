@@ -702,7 +702,9 @@ class CoreInstallCommand extends AbstractCommand
 		switch ($data['type'])
 		{
 			case 'question':
-				return $this->ioStyle->ask($data['question'], $default);
+				$value = $this->ioStyle->ask($data['question'], $default);
+
+				return $value === ' ' ? '' : $value;
 				break;
 
 			case 'select':
