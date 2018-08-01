@@ -15,56 +15,54 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface NodeInterface
+interface NodeInterface extends ImmutableNodeInterface
 {
-
-
 	/**
-	 * Get the children of this node
+	 * Set the parent of this node
 	 *
-	 * @param   boolean  $recursive  False by default
+	 * If the node already has a parent, the link is unset
 	 *
-	 * @return  NodeInterface[]  The children
+	 * @param   NodeInterface|null  $parent  NodeInterface for the parent to be set or null
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function &getChildren($recursive = false);
+	public function setParent($parent);
 
 	/**
-	 * Get the parent of this node
+	 * Add child to this node
 	 *
-	 * @return  NodeInterface
+	 * If the child already has a parent, the link is unset
+	 *
+	 * @param   NodeInterface  $child  The child to be added.
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getParent();
+	public function addChild($child);
 
 	/**
-	 * Test if this node has children
+	 * Remove a specific child
 	 *
-	 * @return  boolean  True if there is a child
+	 * @param   integer  $id  ID of a node
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function hasChildren();
+	public function removeChild($id);
 
 	/**
-	 * Test if this node has a parent
+	 * Function to set the left or right sibling of a node
 	 *
-	 * @return  boolean  True if there is a parent
+	 * @param   NodeInterface  $sibling  NodeInterface object for the sibling
+	 * @param   boolean        $right    If set to false, the sibling is the left one
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function hasParent();
-
-	/**
-	 * Returns the right or left sibling of a node
-	 *
-	 * @param   boolean  $right  If set to false, returns the left sibling
-	 *
-	 * @return  NodeInterface  NodeInterface object of the sibling.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getSibling($right = true);
+	public function setSibling($sibling, $right = true);
 }

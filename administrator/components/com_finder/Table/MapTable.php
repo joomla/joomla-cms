@@ -66,6 +66,11 @@ class MapTable extends Nested
 
 		$this->alias = ApplicationHelper::stringURLSafe($this->title, $this->language);
 
+		if (trim($this->alias) == '')
+		{
+			$this->alias = md5(serialise($this));
+		}
+
 		return true;
 	}
 

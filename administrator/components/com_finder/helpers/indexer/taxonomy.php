@@ -54,6 +54,7 @@ class FinderIndexerTaxonomy
 		$node->state = $state;
 		$node->access = $access;
 		$node->parent_id = 1;
+		$node->language = '';
 
 		return self::storeNode($node, 1);
 	}
@@ -71,7 +72,7 @@ class FinderIndexerTaxonomy
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public static function addNode($branch, $title, $state = 1, $access = 1)
+	public static function addNode($branch, $title, $state = 1, $access = 1, $language = '')
 	{
 		// Get the branch id, insert it if it does not exist.
 		$branchId = static::addBranch($branch);
@@ -81,11 +82,12 @@ class FinderIndexerTaxonomy
 		$node->state = $state;
 		$node->access = $access;
 		$node->parent_id = $branchId;
+		$node->language = $language;
 
 		return self::storeNode($node, $branchId);
 	}
 
-	public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $branchId = null)
+	public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '', $branchId = null)
 	{
 		if (!$branchId)
 		{
@@ -97,7 +99,7 @@ class FinderIndexerTaxonomy
 
 		if ($parent && $parent->title !='ROOT')
 		{
-			$parentId = self::addNestedNode($branch, $parent, $state, $access, $branchId);
+			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language = '', $branchId);
 		}
 		else
 		{
@@ -109,6 +111,7 @@ class FinderIndexerTaxonomy
 		$temp->state = $state;
 		$temp->access = $access;
 		$temp->parent_id = $parentId;
+		$temp->language = $language;
 
 		return self::storeNode($temp, $parentId);
 	}
@@ -127,7 +130,9 @@ class FinderIndexerTaxonomy
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parent_id))
-			->where($db->quoteName('title') . ' = ' . $db->quote($node->title));
+			->where($db->quoteName('title') . ' = ' . $db->quote($node->title))
+			->where($db->quoteName('language') . ' = ' . $db->quote($node->language));
+
 		$db->setQuery($query);
 
 		// Get the result.
@@ -156,6 +161,7 @@ class FinderIndexerTaxonomy
 			$nodeTable->title = $node->title;
 			$nodeTable->state = (int) $node->state;
 			$nodeTable->access = (int) $node->access;
+			$nodeTable->language = $node->language;
 			$nodeTable->setLocation((int) $parent_id, 'last-child');
 		}
 		else
@@ -165,6 +171,7 @@ class FinderIndexerTaxonomy
 			$nodeTable->title = $result->title;
 			$nodeTable->state = (int) $result->title;
 			$nodeTable->access = (int) $result->access;
+			$nodeTable->language = $node->language;
 			$nodeTable->setLocation($result->parent_id, 'last-child');
 		}
 

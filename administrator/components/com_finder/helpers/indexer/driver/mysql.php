@@ -265,12 +265,11 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				// Add the node to the tree.
 				if ($node->nested)
 				{
-					$nodeId = FinderIndexerTaxonomy::addNestedNode($branch, $node->node, $node->state, $node->access);
-					unset($node->node);
+					$nodeId = FinderIndexerTaxonomy::addNestedNode($branch, $node->node, $node->state, $node->access, $node->language);
 				}
 				else
 				{
-					$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access);
+					$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
 				}
 
 				// Add the link => node map.
@@ -522,11 +521,11 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		elseif ($memory === false && $state !== false)
 		{
 			// Set the tokens table to MyISAM.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MYISAM');
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = INNODB');
 			$db->execute();
 
 			// Set the tokens aggregate table to MyISAM.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MYISAM');
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = INNODB');
 			$db->execute();
 
 			// Set the internal state.
