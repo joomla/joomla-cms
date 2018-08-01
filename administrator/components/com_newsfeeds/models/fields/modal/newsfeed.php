@@ -176,7 +176,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. '</a>';
 		}
 
-		// Propagate contact button
+		// Propagate newsfeed button
 		if ($allowPropagate && count($languages) > 2)
 		{
 			// Strip off language tag at the end

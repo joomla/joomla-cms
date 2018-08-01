@@ -64,8 +64,6 @@ class ContentControllerAjax extends JControllerLegacy
 				$associations[$lang]->title = $contentTable->title;
 			}
 
-			$message = null;
-
 			$countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1)));
 
 			if (count($associations) == 0)

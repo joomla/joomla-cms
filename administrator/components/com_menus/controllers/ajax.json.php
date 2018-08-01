@@ -66,8 +66,6 @@ class MenusControllerAjax extends JControllerLegacy
 				$associations[$lang]->title = $menuTable->title;
 			}
 
-			$message = null;
-
 			$countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1)));
 
 			if (count($associations) == 0)
