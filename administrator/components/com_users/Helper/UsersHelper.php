@@ -339,6 +339,7 @@ class UsersHelper
 
 		$contexts = array(
 			'com_users.user' => Text::_('COM_USERS'),
+			'com_users.contact' => Text::_('COM_USERS_FIELDS_CONTEXT_CONTACT'),
 		);
 
 		return $contexts;

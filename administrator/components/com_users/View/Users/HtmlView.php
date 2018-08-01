@@ -201,6 +201,7 @@ class HtmlView extends BaseHtmlView
 			'a.username'      => Text::_('JGLOBAL_USERNAME'),
 			'a.block'         => Text::_('COM_USERS_HEADING_ENABLED'),
 			'a.activation'    => Text::_('COM_USERS_HEADING_ACTIVATED'),
+			'access_level'    => Text::_('JGRID_HEADING_ACCESS'),
 			'a.email'         => Text::_('JGLOBAL_EMAIL'),
 			'a.lastvisitDate' => Text::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
 			'a.registerDate'  => Text::_('COM_USERS_HEADING_REGISTRATION_DATE'),
