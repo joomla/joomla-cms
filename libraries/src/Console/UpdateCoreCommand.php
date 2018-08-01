@@ -71,13 +71,13 @@ class UpdateCoreCommand extends AbstractCommand
 	 * Return code for failed update
 	 * @since 4.0
 	 */
-	const UPDATE_FAILED = 2;
+	const ERR_UPDATE_FAILED = 2;
 
 	/**
 	 * Return code for failed checks
 	 * @since 4.0
 	 */
-	const CHECKS_FAILED = 1;
+	const ERR_CHECKS_FAILED = 1;
 
 	/**
 	 * Configures the IO
@@ -164,7 +164,7 @@ class UpdateCoreCommand extends AbstractCommand
 			$this->progressBar->finish();
 			$this->ioStyle->note('You already have the latest Joomla! version.');
 
-			return self::CHECKS_FAILED;
+			return self::ERR_CHECKS_FAILED;
 		}
 
 		$this->progressBar->advance();
@@ -173,7 +173,7 @@ class UpdateCoreCommand extends AbstractCommand
 		if ($this->updateJoomlaCore($model) && $this->runChecks(true))
 		{
 			$this->progressBar->finish();
-			$this->ioStyle->success('Joomla core updated successfully.');
+			$this->ioStyle->success('Joomla core updated successfully!');
 
 			return self::UPDATE_SUCCESSFUL;
 		}
@@ -182,7 +182,7 @@ class UpdateCoreCommand extends AbstractCommand
 			$this->progressBar->finish();
 			$this->ioStyle->note('Update cannot be performed.');
 
-			return self::UPDATE_FAILED;
+			return self::ERR_UPDATE_FAILED;
 		}
 	}
 
