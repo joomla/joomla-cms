@@ -197,7 +197,7 @@ class PlgContentJoomla extends CMSPlugin
 					{
 						$result = false;
 					}
-					elseif ($count > 0)
+					elseif ($count)
 					{
 						$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 							. Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
@@ -255,7 +255,7 @@ class PlgContentJoomla extends CMSPlugin
 			else
 			{
 				// Show error if items are found assigned to the state
-				if ($count > 0)
+				if ($count)
 				{
 					$msg = Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED');
 					Factory::getApplication()->enqueueMessage($msg, 'error');
