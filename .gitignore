@@ -19,6 +19,7 @@
 /.htaccess
 /web.config
 /.php_cs.cache
+/media
 
 # Test Related Files #
 /phpunit.xml

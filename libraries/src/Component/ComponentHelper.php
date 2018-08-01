@@ -17,6 +17,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
 
 /**
  * Component helper class
@@ -406,13 +407,13 @@ class ComponentHelper
 			// Log deprecated warning and display missing component warning only if using deprecated format.
 			try
 			{
-				\JLog::add(
+				Log::add(
 					sprintf(
 						'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
 						__METHOD__,
 						__CLASS__
 					),
-					\JLog::WARNING,
+					Log::WARNING,
 					'deprecated'
 				);
 			}
@@ -426,7 +427,7 @@ class ComponentHelper
 				/*
 				 * Fatal error
 				 *
-				 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
+				 * It is possible for this error to be reached before the global Language instance has been loaded so we check for its presence
 				 * before logging the error to ensure a human friendly message is always given
 				 */
 
@@ -439,7 +440,7 @@ class ComponentHelper
 					$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
 				}
 
-				\JLog::add($msg, \JLog::WARNING, 'jerror');
+				Log::add($msg, Log::WARNING, 'jerror');
 
 				return false;
 			}

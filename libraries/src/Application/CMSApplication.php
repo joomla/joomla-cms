@@ -32,6 +32,9 @@ use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! CMS Application class
@@ -346,7 +349,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				// Redirect to the profile edit page
 				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(\JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+				$this->redirect(Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
 			}
 		}
 	}
@@ -525,12 +528,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Returns the application \JRouter object.
+	 * Returns the application Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter
+	 * @return  Router
 	 *
 	 * @since   3.2
 	 */
@@ -542,7 +545,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$name = $app->getName();
 		}
 
-		return \JRouter::getInstance($name, $options);
+		return Router::getInstance($name, $options);
 	}
 
 	/**
@@ -1018,7 +1021,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function route()
 	{
 		// Get the full request URI.
-		$uri = clone \JUri::getInstance();
+		$uri = clone Uri::getInstance();
 
 		$router = static::getRouter();
 		$result = $router->parse($uri, true);
