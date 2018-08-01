@@ -180,7 +180,7 @@ class PlgContentJoomla extends CMSPlugin
 			else
 			{
 				// Show error if items are found in the category
-				if ($count > 0)
+				if ($count)
 				{
 					$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 						. Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
