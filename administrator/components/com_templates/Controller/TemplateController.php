@@ -115,11 +115,11 @@ class TemplateController extends BaseController
 			}
 			else
 			{
-				if ($value == 1)
+				if ($value === 1)
 				{
 					$ntext = 'COM_TEMPLATES_N_OVERRIDE_CHECKED';
 				}
-				elseif ($value == 0)
+				elseif ($value === 0)
 				{
 					$ntext = 'COM_TEMPLATES_N_OVERRIDE_UNCHECKED';
 				}
