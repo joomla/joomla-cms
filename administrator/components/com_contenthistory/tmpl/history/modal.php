@@ -91,13 +91,6 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="15">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
 			<tbody>
 			<?php $i = 0; ?>
 			<?php foreach ($this->items as $item) : ?>
@@ -143,6 +136,9 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+
+		<?php // load the pagination. ?>
+		<?php echo $this->pagination->getListFooter(); ?>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
