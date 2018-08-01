@@ -58,6 +58,7 @@
 						option.id        = val.id;
 						document.getElementById('jform_parent_id').appendChild(option);
 					});
+
                     var event = document.createEvent('HTMLEvents');
                     event.initEvent('change', true, false);
 					document.getElementById('jform_parent_id').dispatchEvent(event);
