@@ -34,7 +34,6 @@ $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $parts     = explode('.', $extension, 2);
 $component = $parts[0];
 $section   = null;
-$columns   = 7;
 
 if (count($parts) > 1)
 {
@@ -85,32 +84,28 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
-									$columns++; ?>
+								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
 										</span>
 									</th>
 								<?php endif; ?>
-								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
-									$columns++; ?>
+								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 										</span>
 									</th>
 								<?php endif; ?>
-								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
-									$columns++; ?>
+								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
 										</span>
 									</th>
 								<?php endif; ?>
-								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
-									$columns++; ?>
+								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 									<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
 										<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
 											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
@@ -120,8 +115,7 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($this->assoc) :
-									$columns++; ?>
+								<?php if ($this->assoc) : ?>
 									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
@@ -136,13 +130,6 @@ if ($saveOrder && !empty($this->items))
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="<?php echo $columns; ?>">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php
@@ -273,6 +260,10 @@ if ($saveOrder && !empty($this->items))
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php // Load the batch processing form. ?>
 					<?php if ($user->authorise('core.create', $extension)
 						&& $user->authorise('core.edit', $extension)
