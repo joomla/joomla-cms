@@ -159,7 +159,8 @@ class MenusHelper
 					  a.template_style_id,
 					  a.checked_out,
 					  a.language,
-					  a.lft'
+					  a.lft,
+					  a.component_id'
 			)
 			->from('#__menu AS a');
 
@@ -268,9 +269,6 @@ class MenusHelper
 				if (isset($rlu[$link->menutype]))
 				{
 					$rlu[$link->menutype]->links[] = & $link;
-
-					// Cleanup garbage.
-					unset($link->menutype);
 				}
 			}
 
