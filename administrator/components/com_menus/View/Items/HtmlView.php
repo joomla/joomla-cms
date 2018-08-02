@@ -212,7 +212,7 @@ class HtmlView extends BaseHtmlView
 								// Get XML file from component folder for standard layouts
 								$file = JPATH_SITE . '/components/' . $item->componentname . '/tmpl/' . $vars['view']
 									. '/' . $vars['layout'] . '.xml';
-								
+
 								if (!file_exists($file))
 								{
 									$file = JPATH_SITE . '/components/' . $item->componentname . '/views/'
@@ -224,7 +224,6 @@ class HtmlView extends BaseHtmlView
 											. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 									}
 								}
-								
 							}
 
 							if (is_file($file) && $xml = simplexml_load_file($file))
