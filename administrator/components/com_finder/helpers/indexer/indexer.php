@@ -93,7 +93,7 @@ abstract class FinderIndexer
 	/**
 	 * Database driver cache.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    Joomla\Database\DatabaseInterface
 	 * @since  3.8.0
 	 */
 	protected $db;
@@ -101,7 +101,7 @@ abstract class FinderIndexer
 	/**
 	 * Reusable Query Template. To be used with clone.
 	 *
-	 * @var    JDatabaseQuery
+	 * @var    Joomla\Database\QueryInterface
 	 * @since  3.8.0
 	 */
 	protected $addTokensToDbQueryTemplate;

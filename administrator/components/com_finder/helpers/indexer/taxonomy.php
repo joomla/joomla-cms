@@ -131,6 +131,16 @@ class FinderIndexerTaxonomy
 		return self::storeNode($temp, $parentId);
 	}
 
+	/**
+	 * A helper method to store a node in the taxonomy
+	 * 
+	 * @param   object   $node       The node data to include
+	 * @param   integer  $parent_id  The parent id of the node to add.
+	 * 
+	 * @return  integer  The id of the inserted node.
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
 	protected static function storeNode($node, $parent_id)
 	{
 		// Check to see if the node is in the cache.
@@ -196,9 +206,9 @@ class FinderIndexerTaxonomy
 		$nodeTable->rebuildPath($nodeTable->id);
 
 		// Add the node to the cache.
-		static::$nodes[$parent_id . ':'  . $nodeTable->title] = (object) $nodeTable->getProperties();
+		static::$nodes[$parent_id . ':' . $nodeTable->title] = (object) $nodeTable->getProperties();
 
-		return static::$nodes[$parent_id . ':'  . $nodeTable->title]->id;
+		return static::$nodes[$parent_id . ':' . $nodeTable->title]->id;
 	}
 
 	/**

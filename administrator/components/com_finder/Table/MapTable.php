@@ -41,7 +41,7 @@ class MapTable extends Nested
 	 * @return  boolean
 	 *
 	 * @see     Table::check()
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
 	{
@@ -68,7 +68,7 @@ class MapTable extends Nested
 
 		if (trim($this->alias) == '')
 		{
-			$this->alias = md5(serialise($this));
+			$this->alias = md5(serialize($this->getProperties()));
 		}
 
 		return true;
