@@ -20,15 +20,23 @@ use Joomla\Component\Finder\Administrator\Table\MapTable;
 class FinderIndexerTaxonomy
 {
 	/**
-	 * An internal cache of taxonomy branch data.
+	 * An internal cache of taxonomy data.
 	 *
 	 * @var    array
-	 * @since  2.5
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $taxonomies = array();
+
+	/**
+	 * An internal cache of branch data.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $branches = array();
 
 	/**
-	 * An internal cache of taxonomy node data.
+	 * An internal cache of taxonomy node data for inserting it.
 	 *
 	 * @var    array
 	 * @since  2.5
@@ -367,5 +375,80 @@ class FinderIndexerTaxonomy
 		$db->execute();
 
 		return $db->getAffectedRows();
+	}
+
+	/**
+	 * Get a taxonomy based on its id or all taxonomies
+	 * 
+	 * @param   integer  $id  Id of the taxonomy
+	 * 
+	 * @return  object|array  A taxonomy object or an array of all taxonomies
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getTaxonomy($id = 0)
+	{
+		if (!count(self::$taxonomies))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select(array('id','parent_id','lft','rgt','level',
+				'path','title','alias','state','access','language'))
+				->from($db->quoteName('#__finder_taxonomy'))
+				->order($db->quoteName('lft'));
+
+			$db->setQuery($query);
+			self::$taxonomies = $db->loadObjectList('id');
+		}
+
+		if ($id == 0)
+		{
+			return self::$taxonomies;
+		}
+
+		if (isset(self::$taxonomies[$id]))
+		{
+			return self::$taxonomies[$id];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get a taxonomy branch object based on its title or all branches
+	 * 
+	 * @param   string  $title  Title of the branch
+	 * 
+	 * @return  object|array  The object with the branch data or an array of all branches
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getBranch($title = '')
+	{
+		if (!count(self::$branches))
+		{
+			$taxonomies = self::getTaxonomy();
+
+			foreach ($taxonomies as $t)
+			{
+				if ($t->level == 1)
+				{
+					self::$branches[$t->title] = $t;
+				}
+			}
+		}
+
+		if ($title == '')
+		{
+			return self::$branches;
+		}
+
+		if (isset(self::$branches[$title]))
+		{
+			return self::$branches[$title];
+		}
+
+		return false;
 	}
 }

@@ -545,5 +545,15 @@ class FinderIndexerResult implements Serializable
 			$this->type_id,
 			$this->url
 		) = unserialize($serialized);
+
+		foreach ($this->taxonomy as $nodes)
+		{
+			foreach ($nodes as $node)
+			{
+				$curTaxonomy = FinderIndexerTaxonomy::getTaxonomy($node->id);
+				$node->state = $curTaxonomy->state;
+				$node->access = $curTaxonomy->access;
+			}
+		}
 	}
 }
