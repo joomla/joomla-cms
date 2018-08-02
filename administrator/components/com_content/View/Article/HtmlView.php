@@ -247,7 +247,6 @@ class HtmlView extends BaseHtmlView
 
 
 				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" type="text" value="">';
-
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
 		}
