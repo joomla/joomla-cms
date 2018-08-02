@@ -14,7 +14,7 @@
 
                 var link = $('<a />')
                     .text('Info')
-                    .attr('href', 'index.php?option=com_profiler&id=' + data.requestId)
+                    .attr('href', 'index.php?option=com_content&view=debug&id=' + data.requestId)
                     .attr('target', '_blank');
 
                 tr = $('<tr />')
