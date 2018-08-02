@@ -61,4 +61,15 @@ const compileFile = (filePath) => {
   });
 };
 
+// Compile all files of the given pattern
+glob(pattern, options, (error, files) => {
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.error(`${error}`);
+    process.exit(1);
+  }
+
+  files.forEach(compileFile);
+});
+
 module.exports.compileFile = compileFile;
