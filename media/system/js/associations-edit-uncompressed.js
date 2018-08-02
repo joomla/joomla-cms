@@ -109,7 +109,7 @@ window.showAssociationMessage = function()
 		var currentLang = jQuery('#jform_language').find(":selected").val();
 
 		// Find the token so that it can be sent in the Ajax request as well
-		var token = jQuery("#token").attr("name");
+		var token = Joomla.getOptions('csrf.token', '');
 
 		// Find the action url associated with the form - we need to add the token to this
 		var url = jQuery("form[name='adminForm']").attr("action");
