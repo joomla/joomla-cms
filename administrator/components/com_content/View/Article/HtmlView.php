@@ -200,11 +200,10 @@ class HtmlView extends BaseHtmlView
 
 				if (isset($this->element['language']))
 				{
-					$linkItem   .= '&amp;forcedLanguage=' . $this->element['language'];
+					$linkItem .= '&amp;forcedLanguage=' . $this->element['language'];
 				}
 
 				$urlNew  = $linkItem . '&amp;task=item.add';
-
 				$modalId = 'jform_request_id';
 
 				// Add button to open the modal
