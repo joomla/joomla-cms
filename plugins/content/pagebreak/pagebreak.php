@@ -172,6 +172,9 @@ class PlgContentPagebreak extends JPlugin
 				// Traditional mos page navigation
 				$pageNav = new JPagination($n, $page, 1);
 
+				// Flag indicates to not add limitstart=0 to URL
+				$pageNav->hideEmptyLimitstart = true;
+
 				// Page counter.
 				$row->text .= '<div class="pagenavcounter">';
 				$row->text .= $pageNav->getPagesCounter();
@@ -273,7 +276,7 @@ class PlgContentPagebreak extends JPlugin
 		$list[1]          = new stdClass;
 		$list[1]->liClass = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 		$list[1]->class   = $list[1]->liClass;
-		$list[1]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=');
+		$list[1]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 		$list[1]->title   = $heading;
 
 		$i = 2;
@@ -303,7 +306,7 @@ class PlgContentPagebreak extends JPlugin
 			}
 
 			$list[$i]          = new stdClass;
-			$list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($i - 1));
+			$list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1));
 			$list[$i]->title   = $title;
 			$list[$i]->liClass = ($limitstart === $i - 1) ? 'active' : '';
 			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
@@ -314,7 +317,7 @@ class PlgContentPagebreak extends JPlugin
 		if ($this->params->get('showall'))
 		{
 			$list[$i]          = new stdClass;
-			$list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
+			$list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1');
 			$list[$i]->liClass = ($showall === 1) ? 'active' : '';
 			$list[$i]->class   = ($showall === 1) ? 'toclink active' : 'toclink';
 			$list[$i]->title   = JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
@@ -350,7 +353,7 @@ class PlgContentPagebreak extends JPlugin
 		{
 			$page_next = $page + 1;
 
-			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_next);
+			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . $page_next);
 
 			// Next >>
 			$next = '<a href="' . $link_next . '">' . JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') . '</a>';
@@ -362,12 +365,15 @@ class PlgContentPagebreak extends JPlugin
 
 		if ($page > 0)
 		{
-			$page_prev = $page - 1 === 0 ? '' : $page - 1;
+			$link_prev = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
 
-			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_prev);
+			if ($page > 1)
+			{
+				$link_prev .= '&limitstart=' . ($page - 1);
+			}
 
 			// << Prev
-			$prev = '<a href="' . $link_prev . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>';
+			$prev = '<a href="' . JRoute::_($link_prev) . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>';
 		}
 		else
 		{
