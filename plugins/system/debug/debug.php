@@ -263,6 +263,7 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
+		// @todo Remove when a standard autoloader is available.
 		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
 		// Load language.
