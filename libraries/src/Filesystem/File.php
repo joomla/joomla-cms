@@ -10,15 +10,14 @@ namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
-use Joomla\CMS\Filesystem\Wrapper\FolderWrapper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Wrapper\FolderWrapper;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * A File handling class

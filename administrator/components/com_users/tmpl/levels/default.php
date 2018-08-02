@@ -64,13 +64,6 @@ if ($saveOrder)
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="5">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
@@ -120,6 +113,10 @@ if ($saveOrder)
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

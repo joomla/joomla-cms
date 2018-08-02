@@ -44,13 +44,6 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="4">
-							<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php $i = 0; ?>
 						<?php foreach ($this->data as $folder => $item) : ?>
@@ -73,6 +66,10 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 						<?php $i++; endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
