@@ -11,7 +11,7 @@ namespace Joomla\CMS\Event\Table;
 defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
-use JDatabaseQuery;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Event class for JTable's onBeforeReorder event
@@ -25,7 +25,7 @@ class BeforeReorderEvent extends AbstractEvent
 	 *
 	 * Mandatory arguments:
 	 * subject		JTableInterface	The table we are operating on
-	 * query		JDatabaseQuery	The query to get the primary keys and ordering values for the selection.
+	 * query		DatabaseQuery	The query to get the primary keys and ordering values for the selection.
 	 * where		string			WHERE clause to use for limiting the selection of rows to compact the ordering values.
 	 *
 	 * @param   string  $name       The event name.
@@ -51,7 +51,7 @@ class BeforeReorderEvent extends AbstractEvent
 	/**
 	 * Setter for the query argument
 	 *
-	 * @param   JDatabaseQuery  $value  The value to set
+	 * @param   DatabaseQuery  $value  The value to set
 	 *
 	 * @return  mixed
 	 *
@@ -59,9 +59,9 @@ class BeforeReorderEvent extends AbstractEvent
 	 */
 	protected function setQuery($value)
 	{
-		if (!($value instanceof JDatabaseQuery))
+		if (!($value instanceof DatabaseQuery))
 		{
-			throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of JDatabaseQuery type");
+			throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
 		}
 
 		return $value;

@@ -50,13 +50,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="5">
-							<?php echo $this->pagination->getListFooter(); ?>
-						</td>
-					</tr>
-				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$canChange = $user->authorise('core.edit.state', 'com_messages');
@@ -82,6 +75,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+
+			<?php // load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif; ?>
 		<div>
 			<input type="hidden" name="task" value="">
