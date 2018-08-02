@@ -133,9 +133,9 @@ class Installer extends \JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $basepath       Base Path of the adapters
-	 * @param   string  $classprefix    Class prefix of adapters
-	 * @param   string  $adapterfolder  Name of folder to append to base path
+	 * @param   string $basepath      Base Path of the adapters
+	 * @param   string $classprefix   Class prefix of adapters
+	 * @param   string $adapterfolder Name of folder to append to base path
 	 *
 	 * @since   3.1
 	 */
@@ -149,9 +149,9 @@ class Installer extends \JAdapter
 	/**
 	 * Returns the global Installer object, only creating it if it doesn't already exist.
 	 *
-	 * @param   string  $basepath       Base Path of the adapters
-	 * @param   string  $classprefix    Class prefix of adapters
-	 * @param   string  $adapterfolder  Name of folder to append to base path
+	 * @param   string $basepath      Base Path of the adapters
+	 * @param   string $classprefix   Class prefix of adapters
+	 * @param   string $adapterfolder Name of folder to append to base path
 	 *
 	 * @return  Installer  An installer object
 	 *
@@ -182,7 +182,7 @@ class Installer extends \JAdapter
 	/**
 	 * Set the allow overwrite switch
 	 *
-	 * @param   boolean  $state  Overwrite switch state
+	 * @param   boolean $state Overwrite switch state
 	 *
 	 * @return  boolean  True it state is set, false if it is not
 	 *
@@ -219,7 +219,7 @@ class Installer extends \JAdapter
 	/**
 	 * Set the redirect location
 	 *
-	 * @param   string  $newurl  New redirect location
+	 * @param   string $newurl New redirect location
 	 *
 	 * @return  void
 	 *
@@ -245,7 +245,7 @@ class Installer extends \JAdapter
 	/**
 	 * Set whether this installer is uninstalling extensions which are part of a package
 	 *
-	 * @param   boolean  $uninstall  True if a package triggered the uninstall, false otherwise
+	 * @param   boolean $uninstall True if a package triggered the uninstall, false otherwise
 	 *
 	 * @return  void
 	 *
@@ -271,7 +271,7 @@ class Installer extends \JAdapter
 	/**
 	 * Set the upgrade switch
 	 *
-	 * @param   boolean  $state  Upgrade switch state
+	 * @param   boolean $state Upgrade switch state
 	 *
 	 * @return  boolean  True if upgrade, false otherwise
 	 *
@@ -313,8 +313,8 @@ class Installer extends \JAdapter
 	/**
 	 * Get an installer path by name
 	 *
-	 * @param   string  $name     Path name
-	 * @param   string  $default  Default value
+	 * @param   string $name    Path name
+	 * @param   string $default Default value
 	 *
 	 * @return  string  Path
 	 *
@@ -328,8 +328,8 @@ class Installer extends \JAdapter
 	/**
 	 * Sets an installer path by name
 	 *
-	 * @param   string  $name   Path name
-	 * @param   string  $value  Path
+	 * @param   string $name  Path name
+	 * @param   string $value Path
 	 *
 	 * @return  void
 	 *
@@ -343,7 +343,7 @@ class Installer extends \JAdapter
 	/**
 	 * Pushes a step onto the installer stack for rolling back steps
 	 *
-	 * @param   array  $step  Installer step
+	 * @param   array $step Installer step
 	 *
 	 * @return  void
 	 *
@@ -357,8 +357,8 @@ class Installer extends \JAdapter
 	/**
 	 * Installation abort method
 	 *
-	 * @param   string  $msg   Abort message from the installer
-	 * @param   string  $type  Package type if defined
+	 * @param   string $msg  Abort message from the installer
+	 * @param   string $type Package type if defined
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -367,7 +367,7 @@ class Installer extends \JAdapter
 	public function abort($msg = null, $type = null)
 	{
 		$retval = true;
-		$step = array_pop($this->stepStack);
+		$step   = array_pop($this->stepStack);
 
 		// Raise abort warning
 		if ($msg)
@@ -396,7 +396,7 @@ class Installer extends \JAdapter
 
 				case 'extension':
 					// Get database connector object
-					$db = $this->getDbo();
+					$db    = $this->getDbo();
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
@@ -458,7 +458,7 @@ class Installer extends \JAdapter
 	/**
 	 * Package installation method
 	 *
-	 * @param   string  $path  Path to package source folder
+	 * @param   string $path Path to package source folder
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -500,9 +500,9 @@ class Installer extends \JAdapter
 		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
-				'method' => 'install',
-				'type' => $this->manifest->attributes()->type,
-				'manifest' => $this->manifest,
+				'method'    => 'install',
+				'type'      => $this->manifest->attributes()->type,
+				'manifest'  => $this->manifest,
 				'extension' => 0,
 			)
 		);
@@ -530,7 +530,7 @@ class Installer extends \JAdapter
 	/**
 	 * Discovered package installation method
 	 *
-	 * @param   integer  $eid  Extension ID
+	 * @param   integer $eid Extension ID
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -603,9 +603,9 @@ class Installer extends \JAdapter
 		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
-				'method' => 'discover_install',
-				'type' => $this->extension->get('type'),
-				'manifest' => null,
+				'method'    => 'discover_install',
+				'type'      => $this->extension->get('type'),
+				'manifest'  => null,
 				'extension' => $this->extension->get('extension_id'),
 			)
 		);
@@ -667,7 +667,7 @@ class Installer extends \JAdapter
 	/**
 	 * Package update method
 	 *
-	 * @param   string  $path  Path to package source folder
+	 * @param   string $path Path to package source folder
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -731,8 +731,8 @@ class Installer extends \JAdapter
 	/**
 	 * Package uninstallation method
 	 *
-	 * @param   string  $type        Package type
-	 * @param   mixed   $identifier  Package identifier for adapter
+	 * @param   string $type       Package type
+	 * @param   mixed  $identifier Package identifier for adapter
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -775,7 +775,7 @@ class Installer extends \JAdapter
 	/**
 	 * Refreshes the manifest cache stored in #__extensions
 	 *
-	 * @param   integer  $eid  Extension ID
+	 * @param   integer $eid Extension ID
 	 *
 	 * @return  boolean
 	 *
@@ -837,8 +837,8 @@ class Installer extends \JAdapter
 	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type.
 	 *
-	 * @param   string   $route          The install route being followed
-	 * @param   boolean  $returnAdapter  Flag to return the instantiated adapter
+	 * @param   string  $route         The install route being followed
+	 * @param   boolean $returnAdapter Flag to return the instantiated adapter
 	 *
 	 * @return  boolean|InstallerAdapter  InstallerAdapter object if explicitly requested otherwise boolean
 	 *
@@ -871,7 +871,7 @@ class Installer extends \JAdapter
 	 * Backward compatible method to parse through a queries element of the
 	 * installation manifest file and take appropriate action.
 	 *
-	 * @param   \SimpleXMLElement  $element  The XML node to process
+	 * @param   \SimpleXMLElement $element The XML node to process
 	 *
 	 * @return  mixed  Number of queries processed or False on error
 	 *
@@ -880,7 +880,7 @@ class Installer extends \JAdapter
 	public function parseQueries(\SimpleXMLElement $element)
 	{
 		// Get the database connector object
-		$db = & $this->_db;
+		$db = &$this->_db;
 
 		if (!$element || !count($element->children()))
 		{
@@ -902,9 +902,11 @@ class Installer extends \JAdapter
 		$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
 
 		// Process each query in the $queries array (children of $tagName).
-		foreach ($queries as $query)
+		try
 		{
-			try
+			// Begin the transaction
+			$db->transactionStart();
+			foreach ($queries as $query)
 			{
 				if ($isUtf8mb4Db)
 				{
@@ -912,15 +914,18 @@ class Installer extends \JAdapter
 				}
 
 				$db->setQuery($query)->execute();
+				$update_count++;
 			}
-			catch (\JDatabaseExceptionExecuting $e)
-			{
-				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+			//Commit the transaction
+			$db->transactionCommit();
+		}
+		catch (\JDatabaseExceptionExecuting $e)
+		{
+			// Rollback the transaction when any error occurs
+			$db->transactionRollback();
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
-				return false;
-			}
-
-			$update_count++;
+			return false;
 		}
 
 		return $update_count;
@@ -929,7 +934,7 @@ class Installer extends \JAdapter
 	/**
 	 * Method to extract the name of a discreet installation sql file from the installation manifest file.
 	 *
-	 * @param   object  $element  The XML node to process
+	 * @param   object $element The XML node to process
 	 *
 	 * @return  mixed  Number of queries processed or False on error
 	 *
@@ -943,7 +948,7 @@ class Installer extends \JAdapter
 			return 0;
 		}
 
-		$db = & $this->_db;
+		$db = &$this->_db;
 
 		$dbDriver = $db->getServerType();
 
@@ -1027,8 +1032,8 @@ class Installer extends \JAdapter
 	/**
 	 * Set the schema version for an extension by looking at its latest update
 	 *
-	 * @param   \SimpleXMLElement  $schema  Schema Tag
-	 * @param   integer            $eid     Extension ID
+	 * @param   \SimpleXMLElement $schema Schema Tag
+	 * @param   integer           $eid    Extension ID
 	 *
 	 * @return  void
 	 *
@@ -1038,7 +1043,7 @@ class Installer extends \JAdapter
 	{
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db          = Factory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1091,8 +1096,8 @@ class Installer extends \JAdapter
 	/**
 	 * Method to process the updates for an item
 	 *
-	 * @param   \SimpleXMLElement  $schema  The XML node to process
-	 * @param   integer            $eid     Extension Identifier
+	 * @param   \SimpleXMLElement $schema The XML node to process
+	 * @param   integer           $eid    Extension Identifier
 	 *
 	 * @return  boolean           Result of the operations
 	 *
@@ -1105,7 +1110,7 @@ class Installer extends \JAdapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db          = Factory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (count($schemapaths))
@@ -1255,10 +1260,10 @@ class Installer extends \JAdapter
 	 * Method to parse through a files element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   \SimpleXMLElement  $element   The XML node to process
-	 * @param   integer            $cid       Application ID of application to install to
-	 * @param   array              $oldFiles  List of old files (SimpleXMLElement's)
-	 * @param   array              $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
+	 * @param   \SimpleXMLElement $element  The XML node to process
+	 * @param   integer           $cid      Application ID of application to install to
+	 * @param   array             $oldFiles List of old files (SimpleXMLElement's)
+	 * @param   array             $oldMD5   List of old MD5 sums (indexed by filename with value as MD5)
 	 *
 	 * @return  boolean      True on success
 	 *
@@ -1283,12 +1288,12 @@ class Installer extends \JAdapter
 		 */
 		if ($client)
 		{
-			$pathname = 'extension_' . $client->name;
+			$pathname    = 'extension_' . $client->name;
 			$destination = $this->getPath($pathname);
 		}
 		else
 		{
-			$pathname = 'extension_root';
+			$pathname    = 'extension_root';
 			$destination = $this->getPath($pathname);
 		}
 
@@ -1339,16 +1344,16 @@ class Installer extends \JAdapter
 		// Copy the MD5SUMS file if it exists
 		if (file_exists($source . '/MD5SUMS'))
 		{
-			$path['src'] = $source . '/MD5SUMS';
+			$path['src']  = $source . '/MD5SUMS';
 			$path['dest'] = $destination . '/MD5SUMS';
 			$path['type'] = 'file';
-			$copyfiles[] = $path;
+			$copyfiles[]  = $path;
 		}
 
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file)
 		{
-			$path['src'] = $source . '/' . $file;
+			$path['src']  = $source . '/' . $file;
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
@@ -1383,8 +1388,8 @@ class Installer extends \JAdapter
 	 * Method to parse through a languages element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   \SimpleXMLElement  $element  The XML node to process
-	 * @param   integer            $cid      Application ID of application to install to
+	 * @param   \SimpleXMLElement $element The XML node to process
+	 * @param   integer           $cid     Application ID of application to install to
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1449,7 +1454,7 @@ class Installer extends \JAdapter
 				if ((string) $file->attributes()->client !== '')
 				{
 					// Override the client
-					$langclient = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
+					$langclient   = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
 					$path['dest'] = $langclient->path . '/language/' . $file->attributes()->tag . '/' . basename((string) $file);
 				}
 				else
@@ -1466,7 +1471,7 @@ class Installer extends \JAdapter
 			}
 			else
 			{
-				$path['src'] = $source . '/' . $file;
+				$path['src']  = $source . '/' . $file;
 				$path['dest'] = $destination . '/' . $file;
 			}
 
@@ -1499,8 +1504,8 @@ class Installer extends \JAdapter
 	 * Method to parse through a media element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   \SimpleXMLElement  $element  The XML node to process
-	 * @param   integer            $cid      Application ID of application to install to
+	 * @param   \SimpleXMLElement $element The XML node to process
+	 * @param   integer           $cid     Application ID of application to install to
 	 *
 	 * @return  boolean     True on success
 	 *
@@ -1519,7 +1524,7 @@ class Installer extends \JAdapter
 		// Here we set the folder we are going to copy the files to.
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
 
-		$folder = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
+		$folder      = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
 		$destination = Path::clean(JPATH_ROOT . '/media' . $folder);
 
 		// Here we set the folder we are going to copy the files from.
@@ -1545,7 +1550,7 @@ class Installer extends \JAdapter
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file)
 		{
-			$path['src'] = $source . '/' . $file;
+			$path['src']  = $source . '/' . $file;
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
@@ -1635,8 +1640,8 @@ class Installer extends \JAdapter
 	 *
 	 * Copy files from source directory to the target directory
 	 *
-	 * @param   array    $files      Array with filenames
-	 * @param   boolean  $overwrite  True if existing files can be replaced
+	 * @param   array   $files     Array with filenames
+	 * @param   boolean $overwrite True if existing files can be replaced
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1665,8 +1670,8 @@ class Installer extends \JAdapter
 			{
 				// Get the source and destination paths
 				$filesource = Path::clean($file['src']);
-				$filedest = Path::clean($file['dest']);
-				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
+				$filedest   = Path::clean($file['dest']);
+				$filetype   = array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))
 				{
@@ -1748,8 +1753,8 @@ class Installer extends \JAdapter
 	 * Method to parse through a files element of the installation manifest and remove
 	 * the files that were installed
 	 *
-	 * @param   object   $element  The XML node to process
-	 * @param   integer  $cid      Application ID of application to remove from
+	 * @param   object  $element The XML node to process
+	 * @param   integer $cid     Application ID of application to remove from
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1832,12 +1837,12 @@ class Installer extends \JAdapter
 				if ($client)
 				{
 					$pathname = 'extension_' . $client->name;
-					$source = $this->getPath($pathname);
+					$source   = $this->getPath($pathname);
 				}
 				else
 				{
 					$pathname = 'extension_root';
-					$source = $this->getPath($pathname);
+					$source   = $this->getPath($pathname);
 				}
 
 				break;
@@ -1862,7 +1867,7 @@ class Installer extends \JAdapter
 				else
 				{
 					$target_client = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
-					$path = $target_client->path . '/language/' . $file->attributes()->tag . '/' . basename((string) $file);
+					$path          = $target_client->path . '/language/' . $file->attributes()->tag . '/' . basename((string) $file);
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
@@ -1905,7 +1910,7 @@ class Installer extends \JAdapter
 	/**
 	 * Copies the installation manifest file to the extension folder in the given client
 	 *
-	 * @param   integer  $cid  Where to copy the installfile [optional: defaults to 1 (admin)]
+	 * @param   integer $cid Where to copy the installfile [optional: defaults to 1 (admin)]
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
@@ -1920,12 +1925,12 @@ class Installer extends \JAdapter
 
 		if ($client)
 		{
-			$pathname = 'extension_' . $client->name;
+			$pathname     = 'extension_' . $client->name;
 			$path['dest'] = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 		else
 		{
-			$pathname = 'extension_root';
+			$pathname     = 'extension_root';
 			$path['dest'] = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 
@@ -1951,7 +1956,7 @@ class Installer extends \JAdapter
 		$parentXmlfiles = Folder::files($this->getPath('source'), '.xml$', false, true);
 
 		// Search for children manifests (lower priority)
-		$allXmlFiles    = Folder::files($this->getPath('source'), '.xml$', 1, true);
+		$allXmlFiles = Folder::files($this->getPath('source'), '.xml$', 1, true);
 
 		// Create an unique array of files ordered by priority
 		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
@@ -1969,7 +1974,7 @@ class Installer extends \JAdapter
 					// If the root method attribute is set to upgrade, allow file overwrite
 					if ((string) $manifest->attributes()->method === 'upgrade')
 					{
-						$this->upgrade = true;
+						$this->upgrade   = true;
 						$this->overwrite = true;
 					}
 
@@ -2007,7 +2012,7 @@ class Installer extends \JAdapter
 	/**
 	 * Is the XML file a valid Joomla installation manifest file.
 	 *
-	 * @param   string  $file  An xmlfile path to check
+	 * @param   string $file An xmlfile path to check
 	 *
 	 * @return  \SimpleXMLElement|null  A \SimpleXMLElement, or null if the file failed to parse
 	 *
@@ -2048,10 +2053,10 @@ class Installer extends \JAdapter
 	/**
 	 * Cleans up discovered extensions if they're being installed some other way
 	 *
-	 * @param   string   $type     The type of extension (component, etc)
-	 * @param   string   $element  Unique element identifier (e.g. com_content)
-	 * @param   string   $folder   The folder of the extension (plugins; e.g. system)
-	 * @param   integer  $client   The client application (administrator or site)
+	 * @param   string  $type    The type of extension (component, etc)
+	 * @param   string  $element Unique element identifier (e.g. com_content)
+	 * @param   string  $folder  The folder of the extension (plugins; e.g. system)
+	 * @param   integer $client  The client application (administrator or site)
 	 *
 	 * @return  object    Result of query
 	 *
@@ -2059,7 +2064,7 @@ class Installer extends \JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db = Factory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where('type = ' . $db->quote($type))
@@ -2075,8 +2080,8 @@ class Installer extends \JAdapter
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of \SimpleXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of \SimpleXMLElement objects that are the new files
+	 * @param   array $old_files An array of \SimpleXMLElement objects that are the old files
+	 * @param   array $new_files An array of \SimpleXMLElement objects that are the new files
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
@@ -2181,7 +2186,7 @@ class Installer extends \JAdapter
 	/**
 	 * Loads an MD5SUMS file into an associative array
 	 *
-	 * @param   string  $filename  Filename to load
+	 * @param   string $filename Filename to load
 	 *
 	 * @return  array  Associative array with filenames as the index and the MD5 as the value
 	 *
@@ -2195,7 +2200,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		$data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		$data   = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		$retval = array();
 
 		foreach ($data as $row)
@@ -2218,7 +2223,7 @@ class Installer extends \JAdapter
 	 *
 	 * XML Root tag should be 'install' except for languages which use meta file.
 	 *
-	 * @param   string  $path  Full path to XML file.
+	 * @param   string $path Full path to XML file.
 	 *
 	 * @return  array  XML metadata.
 	 *
@@ -2261,19 +2266,19 @@ class Installer extends \JAdapter
 		$data['type'] = $xml->getName() === 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
 		$data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
+		$data['author']       = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
 
-		$data['copyright'] = (string) $xml->copyright;
+		$data['copyright']   = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
-		$data['authorUrl'] = (string) $xml->authorUrl;
-		$data['version'] = (string) $xml->version;
+		$data['authorUrl']   = (string) $xml->authorUrl;
+		$data['version']     = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
-		$data['group'] = (string) $xml->group;
-		$data['namespace'] = (string) $xml->namespace;
+		$data['group']       = (string) $xml->group;
+		$data['namespace']   = (string) $xml->namespace;
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename = File::getName($path);
+			$filename         = File::getName($path);
 			$data['filename'] = File::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
@@ -2292,8 +2297,8 @@ class Installer extends \JAdapter
 	/**
 	 * Gets a list of available install adapters.
 	 *
-	 * @param   array  $options  An array of options to inject into the adapter
-	 * @param   array  $custom   Array of custom install adapters
+	 * @param   array $options An array of options to inject into the adapter
+	 * @param   array $custom  Array of custom install adapters
 	 *
 	 * @return  string[]  An array of the class names of available install adapters.
 	 *
@@ -2366,8 +2371,8 @@ class Installer extends \JAdapter
 	/**
 	 * Method to load an adapter instance
 	 *
-	 * @param   string  $adapter  Adapter name
-	 * @param   array   $options  Adapter options
+	 * @param   string $adapter Adapter name
+	 * @param   array  $options Adapter options
 	 *
 	 * @return  InstallerAdapter
 	 *
