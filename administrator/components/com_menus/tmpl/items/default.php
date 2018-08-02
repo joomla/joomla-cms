@@ -38,68 +38,68 @@ if ($saveOrder && $menuType && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
+$assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
 
 ?>
 <?php // Set up the filter bar. ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"
       id="adminForm">
-	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
+    <div class="row">
+        <div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
-			<div id="j-main-container" class="j-main-container">
+        </div>
+        <div class="col-md-10">
+            <div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+                    <joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table" id="itemList">
-						<thead>
-						<tr>
+                    <table class="table" id="itemList">
+                        <thead>
+                        <tr>
 							<?php if ($menuType) : ?>
-								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+                                <th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-								</th>
+                                </th>
 							<?php endif; ?>
-							<td style="width:1%" class="nowrap text-center">
+                            <td style="width:1%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</td>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+                            </td>
+                            <th scope="col" style="width:1%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-							</th>
-							<th scope="col" class="title">
+                            </th>
+                            <th scope="col" class="title">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
-							</th>
-							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+                            </th>
+                            <th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
-							</th>
+                            </th>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th scope="col" style="width:10%" class="text-center nowrap d-none d-md-table-cell">
+                                <th scope="col" style="width:10%" class="text-center nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
-								</th>
+                                </th>
 							<?php endif; ?>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+                                <th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-								</th>
+                                </th>
 							<?php endif; ?>
 							<?php if ($assoc) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+                                <th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-								</th>
+                                </th>
 							<?php endif; ?>
 							<?php if (($this->state->get('filter.client_id') == 0) && (Multilanguage::isEnabled())) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+                                <th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-								</th>
+                                </th>
 							<?php endif; ?>
-							<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+                            <th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-							</th>
-						</tr>
-						</thead>
-						<tbody <?php if ($saveOrder && $menuType) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody <?php if ($saveOrder && $menuType) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 						<?php
 						foreach ($this->items as $i => $item) :
 							$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
@@ -124,7 +124,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 
 										if (strpos($v, '-' . $_currentParentId . '-') !== false)
 										{
-											$parentsStr .= ' ' . $k;
+											$parentsStr       .= ' ' . $k;
 											$_currentParentId = $k;
 											break;
 										}
@@ -136,11 +136,11 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 								$parentsStr = '';
 							}
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>"
-							    item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
-							    level="<?php echo $item->level; ?>">
+                            <tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>"
+                                item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
+                                level="<?php echo $item->level; ?>">
 								<?php if ($menuType) : ?>
-									<td class="order nowrap text-center d-none d-md-table-cell">
+                                    <td class="order nowrap text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 
@@ -148,45 +148,58 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										{
 											$iconClass = ' inactive';
 										}
-										elseif (!$saveOrder)
+                                        elseif (!$saveOrder)
 										{
 											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 										}
 										?>
-										<span class="sortable-handler<?php echo $iconClass ?>">
+                                        <span class="sortable-handler<?php echo $iconClass ?>">
 											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5"
-											       value="<?php echo $orderkey + 1; ?>">
+                                            <input type="text" style="display:none" name="order[]" size="5"
+                                                   value="<?php echo $orderkey + 1; ?>">
 										<?php endif; ?>
-									</td>
+                                    </td>
 								<?php endif; ?>
-								<td class="text-center">
+                                <td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-								</td>
-								<td class="text-center">
+                                </td>
+                                <td class="text-center">
 									<?php
 									// Show protected items as published always. We don't allow state change for them. Show/Hide is the module's job.
 									$published = $item->protected ? 3 : $item->published;
 									echo HTMLHelper::_('menus.state', $published, $i, $canChange && !$item->protected, 'cb'); ?>
-								</td>
-								<th scope="row">
+                                </td>
+                                <th scope="row">
 									<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 									<?php echo $prefix; ?>
 									<?php if ($item->checked_out) : ?>
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 									<?php endif; ?>
+									<?php
+									/*Breadcrumd relocated here
+								   */
+									$parent_item_id = $item->parent_id;
+									$allparent      = "";
+									while (!empty($parent_item_id) && $parent_item_id > 1)
+									{
+										$parent_item    = $this->getModel()->searchParentItem($parent_item_id);
+										$allparent      = $parent_item->title . "/" . $allparent;
+										$parent_item_id = $parent_item->parent_id;
+									}
+									echo $allparent;
+									?>
 									<?php if ($canEdit && !$item->protected) : ?>
 										<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-										<a class="hasTooltip"
-										   href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
-										   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+                                        <a class="hasTooltip"
+                                           href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
+                                           title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<span class="small">
+                                    <span class="small">
 									<?php if ($item->type != 'url') : ?>
 										<?php if (empty($item->note)) : ?>
 											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
@@ -198,67 +211,67 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php endif; ?>
 									</span>
 									<?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
-									<div title="<?php echo $this->escape($item->path); ?>">
+                                    <div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
-										<span class="small"
-										      title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
+                                        <span class="small"
+                                              title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 											<?php echo $this->escape($item->item_type); ?></span>
-									</div>
-								</th>
-								<td class="small d-none d-md-table-cell text-center">
+                                    </div>
+                                </th>
+                                <td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
-								</td>
+                                </td>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
-									<td class="text-center d-none d-md-table-cell">
+                                    <td class="text-center d-none d-md-table-cell">
 										<?php if ($item->type == 'component') : ?>
 											<?php if ($item->language == '*' || $item->home == '0') : ?>
 												<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
 											<?php elseif ($canChange) : ?>
-												<a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
+                                                <a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
 													<?php if ($item->language_image) : ?>
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>
-														<span class="badge badge-secondary"
-														      title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+                                                        <span class="badge badge-secondary"
+                                                              title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
 													<?php endif; ?>
-												</a>
+                                                </a>
 											<?php else : ?>
 												<?php if ($item->language_image) : ?>
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 												<?php else : ?>
-													<span class="badge badge-secondary"
-													      title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+                                                    <span class="badge badge-secondary"
+                                                          title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 												<?php endif; ?>
 											<?php endif; ?>
 										<?php endif; ?>
-									</td>
+                                    </td>
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+                                    <td class="small d-none d-md-table-cell text-center">
 										<?php echo $this->escape($item->access_level); ?>
-									</td>
+                                    </td>
 								<?php endif; ?>
 								<?php if ($assoc) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+                                    <td class="small d-none d-md-table-cell text-center">
 										<?php if ($item->association) : ?>
 											<?php echo HTMLHelper::_('menus.association', $item->id); ?>
 										<?php endif; ?>
-									</td>
+                                    </td>
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0 && Multilanguage::isEnabled()) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+                                    <td class="small d-none d-md-table-cell text-center">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-									</td>
+                                    </td>
 								<?php endif; ?>
-								<td class="d-none d-md-table-cell text-center">
+                                <td class="d-none d-md-table-cell text-center">
 									<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 										<?php echo (int) $item->id; ?>
 									</span>
-								</td>
-							</tr>
+                                </td>
+                            </tr>
 						<?php endforeach; ?>
-						</tbody>
-					</table>
+                        </tbody>
+                    </table>
 
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
@@ -277,10 +290,10 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 					<?php endif; ?>
 				<?php endif; ?>
 
-				<input type="hidden" name="task" value="">
-				<input type="hidden" name="boxchecked" value="0">
+                <input type="hidden" name="task" value="">
+                <input type="hidden" name="boxchecked" value="0">
 				<?php echo HTMLHelper::_('form.token'); ?>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </form>
