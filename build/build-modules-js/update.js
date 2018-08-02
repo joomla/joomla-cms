@@ -23,6 +23,7 @@ const cleanVendors = () => {
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
 
   // And here some assets from a PHP package
+  // @todo Move it the 'right way' (tm)
   fsExtra.copySync(Path.join(rootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(rootPath, 'media/vendor/debugbar'));
 };
 
