@@ -20,7 +20,7 @@
 /web.config
 /.php_cs.cache
 /plugins/media-action/smartcrop/focus.json
-/images/.cache
+/media/focus
 
 # Test Related Files #
 /phpunit.xml

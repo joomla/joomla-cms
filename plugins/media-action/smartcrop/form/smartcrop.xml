@@ -3,20 +3,20 @@
 	<fieldset name="smartcrop" label="PLG_MEDIA-ACTION_SMARTCROP_LABEL">
 
 		<field
-			name="smartcrop_quality"
-			type="number"
-			label="PLG_MEDIA-ACTION_SMARTCROP_QUALITY"
-			addonBefore="PLG_MEDIA-ACTION_SMARTCROP_QUALITY"
-			min="1"
-			max="100"
-			step="1"
-			default="80"
-		/>
-
-		<field
-			type="spacer"
-			hr="true"
-		/>
+			name="requestedWidth"
+			type="list"
+			label="PLG_MEDIA-ACTION_SMARTCROP_REQUESTED_WIDTH"
+			class="smartcrop-requested-width"
+			default="940"
+			>
+			<option class="smartcrop-requested-width" value="240">240px</option>
+			<option class="smartcrop-requested-width" value="360">360px</option>
+			<option class="smartcrop-requested-width" value="480">480px</option>
+			<option class="smartcrop-requested-width" value="680">680px</option>
+			<option class="smartcrop-requested-width" value="720">720px</option>
+			<option class="smartcrop-requested-width" value="940">940px</option>
+			<option class="smartcrop-requested-width" value="1080">1080px</option>
+		</field>
 
 		<field
 			name="data_focus_x"
@@ -53,22 +53,6 @@
 			addonBefore="PLG_MEDIA-ACTION_SMARTCROP_PARAM_HEIGHT_PRE"
 			pattern="\d*\.?\d*"
 		/>
-
-		<field
-			name="requestedWidth"
-			type="list"
-			label="PLG_MEDIA-ACTION_SMARTCROP_REQUESTED_WIDTH"
-			class="smartcrop-requested-width"
-			default="940"
-			>
-			<option class="smartcrop-requested-width" value="240">240px</option>
-			<option class="smartcrop-requested-width" value="360">360px</option>
-			<option class="smartcrop-requested-width" value="480">480px</option>
-			<option class="smartcrop-requested-width" value="680">680px</option>
-			<option class="smartcrop-requested-width" value="720">720px</option>
-			<option class="smartcrop-requested-width" value="940">940px</option>
-			<option class="smartcrop-requested-width" value="1080">1080px</option>
-		</field>
 
 	</fieldset>
 </form>

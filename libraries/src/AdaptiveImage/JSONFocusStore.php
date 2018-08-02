@@ -32,6 +32,15 @@ class JSONFocusStore implements FocusStoreInterface
 	 * @since 4.0.0
 	 */
 	protected static $dataLocation = JPATH_PLUGINS . '/media-action/smartcrop/focus.json';
+	
+	/**
+	 * Base path for cache images.
+	 *
+	 * @var     string
+	 *
+	 * @since   4.0.0
+	 */
+	protected $cacheDir =  "/media/focus";
 	/**
 	 * Checks the storage at the initilization of the class
 	 * 
@@ -67,7 +76,7 @@ class JSONFocusStore implements FocusStoreInterface
 			)
 		);
 
-		if (filesize(static::$dataLocation))
+		if (filesize(static::$dataLocation) > 0)
 		{
 			$prevData = file_get_contents(static::$dataLocation);
 
@@ -89,9 +98,7 @@ class JSONFocusStore implements FocusStoreInterface
 
 			file_put_contents(static::$dataLocation, json_encode($newEntry));
 		}
-
 		return true;
-
 	}
 
 	/**
@@ -132,6 +139,60 @@ class JSONFocusStore implements FocusStoreInterface
 		}
 	}
 	/**
+	 * Function for removeing the focus points for all widths
+	 * 
+	 * @param   string  $imgSrc  Path of the image
+	 * 
+	 * @return  boolean
+	 * 
+	 * @since 4.0.0
+	 */
+	public function deleteFocus($imgSrc)
+	{
+		if (filesize(static::$dataLocation) > 0)
+		{
+			$prevData = file_get_contents(static::$dataLocation);
+
+			$prevData = json_decode($prevData, true);
+			
+			unset($prevData[$imgSrc]);
+
+			file_put_contents(static::$dataLocation, json_encode($prevData));
+		}
+		return true;
+	}
+	/**
+	 * Function for removeing all the associated resized images
+	 * 
+	 * @param   string  $imgSrc  Path of the image
+	 * 
+	 * @return  boolean
+	 * 
+	 * @since 4.0.0
+	 */
+	public function deleteResizedImages($imgSrc)
+	{
+		$cacheFolderImages = scandir(JPATH_SITE . $this->cacheDir);
+		
+		unset($cacheFolderImages[0]);
+		unset($cacheFolderImages[1]);
+
+		foreach ($cacheFolderImages as $key => $name)
+		{
+			$imgWidth = explode("_", $name);
+			$imgName = explode(".", $imgWidth[1]);
+			$imgWidth = $imgWidth[0];
+			$extension = $imgName[1];
+			$imgName = base64_decode($imgName[0]) . "." . $extension;
+			
+			if ($imgName == $imgSrc)
+			{
+				unlink(JPATH_SITE . $this->cacheDir . "/" . $name);
+			}
+		}
+		return true;
+	}
+	/**
 	 * Check whether the file exist
 	 *
 	 * @param   string  $dataLocation  location of storage file
@@ -146,7 +207,6 @@ class JSONFocusStore implements FocusStoreInterface
 		{
 			touch($dataLocation);
 		}
-
 		return true;
 	}
 	/**

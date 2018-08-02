@@ -29,7 +29,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
-
+	
 	/**
 	 * Base path for cache images.
 	 *
@@ -37,7 +37,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	protected $cacheDir =  "/images/.cache";
+	protected $cacheDir =  "/media/focus";
 	/**
 	 * Plugin that inserts focus points into the image.
 	 *
@@ -50,7 +50,6 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-
 		// Add ResponsifyJS into the client page
 		HTMLHelper::_('script', 'media/plg_media-action_smartcrop/js/responsive-images.min.js', ['version' => 'auto', 'relative' => false]);
 
@@ -64,7 +63,6 @@ class PlgContentAdaptiveImage extends CMSPlugin
 		{
 			return $this->insertFocus($row->text, $params);
 		}
-
 		return $this->insertFocus($row, $params);
 	}
 	/**
@@ -104,18 +102,29 @@ class PlgContentAdaptiveImage extends CMSPlugin
 			// Image Path
 			$imgPath = "/" . $src[1];
 
+			// Check if the original image is present or not
+			if (file_exists($imgPath))
+			{
+				$storage = new JSONFocusStore;
+				$storage->deleteFocus($imgPath);
+				$storage->deleteResizedImages($imgPath);
+				continue;
+			}
+
+			// Filtering only the image name
 			$imageName = explode("/", $imgPath);
 			$imageName = $imageName[max(array_keys($imageName))];
 
 			$cacheImages = array();
 			foreach ($cacheFolderImages as $key => $name)
 			{
+				// Decrypting the image name 
 				$imgWidth = explode("_", $name);
 				$imgName = explode(".", $imgWidth[1]);
 				$imgWidth = $imgWidth[0];
 				$extension = $imgName[1];
 				$imgName = base64_decode($imgName[0]) . "." . $extension;
-
+				
 				if (strpos($imgName, $imageName))
 				{
 					$imgData["width"] = $imgWidth;
@@ -123,9 +132,20 @@ class PlgContentAdaptiveImage extends CMSPlugin
 					array_push($cacheImages, $imgData);
 				}
 			}
+			// Arrangeing widths in the order
 			arsort($cacheImages);
 
+			// Skiping if no resized images are present
+			if (empty($cacheImages))
+			{
+				continue;
+			}
+			
+			// @TODO Use Jlayout for creation of the picture element.
+
+			// Generating the tag
 			$element = "<picture>\n";
+
 			foreach ($cacheImages as $key => $attributes)
 			{
 				$source = "<source media=\"(min-width: " . $attributes["width"] . "px)\" srcset=\"" . $attributes["name"] . "\">\n";
@@ -133,10 +153,9 @@ class PlgContentAdaptiveImage extends CMSPlugin
 			}
 			$element .= $image . "\n</picture>";
 
+			// Replaceing the previous tag with new one in the article.
 			$text = str_replace($image, $element, $text);
-
 		}
-
 		return true;
 	}
 }

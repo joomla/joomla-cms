@@ -65,6 +65,16 @@ class AdaptiveImageController extends BaseController
 				$widths = json_decode($this->input->getString('widths'), true);
 				$this->cropImage($imgPath, $widths);
 				return true;
+			case "deleteFocus" :
+				if ($this->input->getMethod() != 'POST')
+				{
+					return false;
+				}
+				$imgPath = $this->input->getString('path');
+				$storage = new JSONFocusStore;
+				$storage->deleteFocus($imgPath);
+				$storage->deleteResizedImages($imgPath);
+				return true;
 			default :
 				return false;
 		}

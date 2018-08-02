@@ -114,12 +114,37 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		}
 	}
 
+	// Add Delete Button
+	function addDeleteButton() {
+		var deleteDiv = document.createElement("div");
+		deleteDiv.className = "control-group";
+
+		var deleteButton = document.createElement("BUTTON");
+		deleteButton.setAttribute("type", "button");
+		deleteButton.setAttribute("id", "delete-focus");
+		deleteButton.setAttribute("class", "btn btn-danger");
+		deleteButton.appendChild(document.createTextNode("Delete Focus"));
+		deleteButton.addEventListener('click', function() {
+			Joomla.request({
+				url: resolveBaseUrl() + "/administrator/index.php?option=com_media&task=adaptiveimage.deleteFocus&path=" + path,
+				method: 'POST',
+			});
+		});
+
+		deleteDiv.appendChild(deleteButton)
+		var parent = document.getElementById("attrib-smartcrop");
+		parent.appendChild(deleteDiv);
+	}
+
 	// Register the Events
 	Joomla.MediaManager.Edit.smartcrop = {
 		Activate: function (mediaData) {
 			// Initialize
 			initSmartCrop(mediaData);
 			addCustomWidths();
+			if(!document.getElementById("delete-focus")) {
+				addDeleteButton();
+			}
 		},
 		Deactivate: function () {
 			var width = document.getElementById("jform_requestedWidth").value;

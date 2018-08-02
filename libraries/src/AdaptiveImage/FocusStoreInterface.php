@@ -24,13 +24,13 @@ interface FocusStoreInterface
 	 *
 	 * @param   array    $dataFocus  Focus point selected
 	 * @param   integer  $width      Width of the image
-	 * @param   string   $filePath   Path of the image
+	 * @param   string   $imgSrc     Path of the image
 	 *
 	 * @return void
 	 *
 	 * @since 4.0.0
 	 */
-	public function setFocus($dataFocus, $width, $filePath);
+	public function setFocus($dataFocus, $width, $imgSrc);
 
 	/**
 	 * Public function for getting the focus point
@@ -44,5 +44,27 @@ interface FocusStoreInterface
 	 * @since 4.0.0
 	 */
 	public function getFocus($imgSrc, $width);
+
+	/**
+	 * Function for removeing the focus points for all widths
+	 * 
+	 * @param   string  $imgSrc  Path of the image
+	 * 
+	 * @return  boolean
+	 * 
+	 * @since 4.0.0
+	 */
+	public function deleteFocus($imgSrc);
+
+	/**
+	 * Function for removeing all the associated resized images
+	 * 
+	 * @param   string  $imgSrc  Path of the image
+	 * 
+	 * @return  boolean
+	 * 
+	 * @since 4.0.0
+	 */
+	public function deleteResizedImages($imgSrc);
 
 }
