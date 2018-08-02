@@ -245,6 +245,11 @@ class HtmlView extends BaseHtmlView
 							. Text::_('JAPPLY') . '</a>'
 					)
 				);
+
+
+				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" type="text" value="">';
+
+				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
 		}
 
