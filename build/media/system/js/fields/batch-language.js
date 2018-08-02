@@ -24,6 +24,7 @@
 		}
 
 		var batchCopyMove = document.getElementById('batch-copy-move');
+		batchCopyMove.style.display = 'none';
 		if (batchCopyMove) {
 			batchSelector.addEventListener('change', function(){
 				if (batchSelector.value != 0 || batchSelector.value !== '') {
