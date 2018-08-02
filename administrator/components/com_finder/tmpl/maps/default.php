@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -55,6 +57,11 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 								<span class="icon-unpublish" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
+							<?php if (Multilanguage::isEnabled()) : ?>
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+								</th>
+							<?php endif; ?>
 						</tr>
 					</thead>
 					<tbody>
@@ -113,6 +120,11 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 								-
 							<?php endif; ?>
 							</td>
+							<?php if (Multilanguage::isEnabled()) : ?>
+								<td class="small d-none d-md-table-cell text-center">
+									<?php echo $item->language; ?>
+								</td>
+							<?php endif; ?>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

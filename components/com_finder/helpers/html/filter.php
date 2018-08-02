@@ -78,7 +78,7 @@ abstract class JHtmlFilter
 			->where('t.parent_id = 1')
 			->where('t.state = 1')
 			->where('t.access IN (' . $groups . ')')
-			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
+			->group('t.id, t.parent_id, t.state, t.access, t.title, c.parent_id')
 			->order('t.lft, t.title');
 
 		// Limit the branch children to a predefined filter.
@@ -125,7 +125,8 @@ abstract class JHtmlFilter
 			$query->clear()
 				->select('t.*')
 				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-				->where('t.parent_id = ' . (int) $bk)
+				->where('t.lft > ' . (int) $bv->lft)
+				->where('t.rgt < ' . (int) $bv->rgt)
 				->where('t.state = 1')
 				->where('t.access IN (' . $groups . ')')
 				->order('t.lft, t.title');
@@ -188,7 +189,7 @@ abstract class JHtmlFilter
 				$html .= '<div class="form-check">';
 				$html .= '<label class="form-check-label" for="tax-' . $bk . '">';
 				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $bk . '"' . $checked . '> ' . $nv->title;
+					. $bk . '"' . $checked . '> ' . str_repeat('&mdash;', $nv->level - 2) . $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
 			}
