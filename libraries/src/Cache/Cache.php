@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Cache;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\String\StringHelper;
 
 /**
@@ -279,7 +280,19 @@ class Cache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->remove($id, $group);
+		try
+		{
+			return $this->_getStorage()->remove($id, $group);
+		}
+		catch (CacheExceptionInterface $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -300,7 +313,19 @@ class Cache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->clean($group, $mode);
+		try
+		{
+			return $this->_getStorage()->clean($group, $mode);
+		}
+		catch (CacheExceptionInterface $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -312,7 +337,19 @@ class Cache
 	 */
 	public function gc()
 	{
-		return $this->_getStorage()->gc();
+		try
+		{
+			return $this->_getStorage()->gc();
+		}
+		catch (CacheExceptionInterface $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -401,7 +438,7 @@ class Cache
 
 		if ($this->_options['locking'] == true)
 		{
-			$returning->locked = $handler->store(1, $id2, $group);
+			$returning->locked = $handler->store($id2, $group, 1);
 		}
 
 		// Revert lifetime to previous one

@@ -70,6 +70,8 @@ class ParagonIE_Sodium_Core32_SipHash extends ParagonIE_Sodium_Core32_Util
      * @param string $in
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function sipHash24($in, $key)
     {

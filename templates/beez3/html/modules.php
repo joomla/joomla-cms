@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ function modChrome_beezDivision($module, &$params, &$attribs)
 function modChrome_beezHide($module, &$params, &$attribs)
 {
 	$headerLevel = isset($attribs['headerLevel']) ? (int) $attribs['headerLevel'] : 3;
-	$state = isset($attribs['state']) ? (int) $attribs['state'] :0;
+	$state = isset($attribs['state']) ? (int) $attribs['state'] : 0;
 
 	if (!empty ($module->content)) { ?>
 
@@ -60,7 +60,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
  */
 function modChrome_beezTabs($module, $params, $attribs)
 {
-	$area = isset($attribs['id']) ? (int) $attribs['id'] :'1';
+	$area = isset($attribs['id']) ? (int) $attribs['id'] : '1';
 	$area = 'area-'.$area;
 
 	static $modulecount;

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -273,7 +273,6 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$gotResponse = false;
 		$check       = false;
 
-		$http  = JHttpFactory::getHttp();
 		$token = JSession::getFormToken();
 		$nonce = md5($token . uniqid(mt_rand()));
 
@@ -301,6 +300,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 			try
 			{
+				$http     = JHttpFactory::getHttp();
 				$response = $http->get($uri->toString(), null, 6);
 
 				if (!empty($response))

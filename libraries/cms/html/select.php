@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,7 +159,10 @@ abstract class JHtmlSelect
 	{
 		// Log deprecated message
 		JLog::add(
-			'JHtmlSelect::suggestionlist() is deprecated. Create the <datalist> tag directly instead.',
+			sprintf(
+				'%s() is deprecated. Create the <datalist> tag directly instead.',
+				__METHOD__
+			),
 			JLog::WARNING,
 			'deprecated'
 		);

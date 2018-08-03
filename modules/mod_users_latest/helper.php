@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class ModUsersLatestHelper
 				->where('ug.id <> 1');
 		}
 
-		$db->setQuery($query, 0, $params->get('shownumber'));
+		$db->setQuery($query, 0, $params->get('shownumber', 5));
 
 		try
 		{

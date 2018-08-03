@@ -2,16 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
@@ -48,7 +48,7 @@ class Mail extends \PHPMailer
 		parent::__construct($exceptions);
 
 		// PHPMailer has an issue using the relative path for its language files
-		$this->setLanguage('joomla', __DIR__ . '/language');
+		$this->setLanguage('en_gb', __DIR__ . '/language/');
 
 		// Configure a callback function to handle errors when $this->edebug() is called
 		$this->Debugoutput = function ($message, $level)
