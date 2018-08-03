@@ -94,7 +94,7 @@ class MenusModelItem extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if (!empty($record->id) || $record->published != -2)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
