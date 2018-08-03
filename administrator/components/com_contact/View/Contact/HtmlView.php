@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a contact.
@@ -63,7 +66,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -90,9 +93,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -100,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 
-		\JToolbarHelper::title($isNew ? \JText::_('COM_CONTACT_MANAGER_CONTACT_NEW') : \JText::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
+		ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
 
 		// Build the actions for new and existing records.
 		if ($isNew)
@@ -108,7 +111,7 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{
-				\JToolbarHelper::saveGroup(
+				ToolbarHelper::saveGroup(
 					[
 						['apply', 'contact.apply'],
 						['save', 'contact.save'],
@@ -118,7 +121,7 @@ class HtmlView extends BaseHtmlView
 				);
 			}
 
-			\JToolbarHelper::cancel('contact.cancel');
+			ToolbarHelper::cancel('contact.cancel');
 		}
 		else
 		{
@@ -146,20 +149,20 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
 			}
 
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				\JToolbarHelper::versions('com_contact.contact', $this->item->id);
+				ToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}
 
-			\JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
 	}
 }

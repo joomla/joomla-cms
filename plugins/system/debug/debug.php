@@ -1295,7 +1295,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$html[] = '<table class="table table-striped dbg-query-table">';
+		$html[] = '<table class="table dbg-query-table">';
 		$html[] = '<thead>';
 		$html[] = '<tr>';
 
@@ -1857,7 +1857,7 @@ class PlgSystemDebug extends CMSPlugin
 		if ($callStack !== null)
 		{
 			$htmlCallStack .= '<div>';
-			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
+			$htmlCallStack .= '<table class="table dbg-query-table">';
 			$htmlCallStack .= '<thead>';
 			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th>#</th>';

@@ -203,7 +203,7 @@ abstract class Folder
 			// Create the parent directory
 			if (self::create($parent, $mode) !== true)
 			{
-				// JFolder::create throws an error
+				// Folder::create throws an error
 				$nested--;
 
 				return false;
@@ -338,7 +338,7 @@ abstract class Folder
 
 			if ($file->delete($files) !== true)
 			{
-				// JFile::delete throws an error
+				// File::delete throws an error
 				return false;
 			}
 		}
@@ -355,13 +355,13 @@ abstract class Folder
 
 				if ($file->delete($folder) !== true)
 				{
-					// JFile::delete throws an error
+					// File::delete throws an error
 					return false;
 				}
 			}
 			elseif (self::delete($folder) !== true)
 			{
-				// JFolder::delete throws an error
+				// Folder::delete throws an error
 				return false;
 			}
 		}

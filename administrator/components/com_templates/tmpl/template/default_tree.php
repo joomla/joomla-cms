@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
+
 ksort($this->files, SORT_STRING);
 ?>
 
@@ -55,7 +58,7 @@ ksort($this->files, SORT_STRING);
 		<?php endif; ?>
 		<?php if (is_object($value)) : ?>
 			<li>
-				<a class="file" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
+				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
 					<span class="fa fa-fw fa-file-o" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
 				</a>
 			</li>

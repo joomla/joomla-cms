@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class JNamespaceMap
@@ -184,7 +185,7 @@ class JNamespacePsr4Map
 
 		$content[] = ');';
 
-		file_put_contents($this->file, implode("\n", $content));
+		File::write($this->file, implode("\n", $content));
 	}
 
 	/**

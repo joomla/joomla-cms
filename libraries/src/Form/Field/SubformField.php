@@ -280,7 +280,7 @@ class SubformField extends FormField
 		// Prepare renderer
 		$renderer = $this->getRenderer($this->layout);
 
-		// Allow to define some JLayout options as attribute of the element
+		// Allow to define some Layout options as attribute of the element
 		if ($this->element['component'])
 		{
 			$renderer->setComponent((string) $this->element['component']);

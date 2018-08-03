@@ -11,6 +11,8 @@ namespace Joomla\Component\Contact\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Component Controller
@@ -47,8 +49,8 @@ class DisplayController extends BaseController
 		if ($view == 'contact' && $layout == 'edit' && !$this->checkEditId('com_contact.edit.contact', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_contact&view=contacts', false));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contacts', false));
 
 			return false;
 		}

@@ -15,6 +15,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * JDocument metas renderer
@@ -45,7 +46,7 @@ class MetasRenderer extends DocumentRenderer
 
 		if ($this->_doc->getScriptOptions())
 		{
-			\JHtml::_('behavior.core');
+			HTMLHelper::_('behavior.core');
 		}
 
 		// Trigger the onBeforeCompileHead event

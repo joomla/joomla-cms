@@ -246,7 +246,7 @@ class PlgUserProfile extends CMSPlugin
 
 		// Add the registration fields to the form.
 		Form::addFormPath(__DIR__ . '/profiles');
-		$form->loadFile('profile', false);
+		$form->loadFile('profile');
 
 		$fields = array(
 			'address1',

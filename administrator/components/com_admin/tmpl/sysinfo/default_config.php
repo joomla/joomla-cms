@@ -8,17 +8,20 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_CONFIGURATION_FILE'); ?></legend>
-	<table class="table table-striped">
+	<legend><?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?></legend>
+	<table class="table">
 		<thead>
 			<tr>
-				<th style="width:300px">
-					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
+				<th scope="col" style="width:300px">
+					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
-				<th>
-					<?php echo JText::_('COM_ADMIN_VALUE'); ?>
+				<th scope="col">
+					<?php echo Text::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -30,9 +33,9 @@ defined('_JEXEC') or die;
 		<tbody>
 			<?php foreach ($this->config as $key => $value) : ?>
 				<tr>
-					<td>
+					<th scope="row">
 						<?php echo $key; ?>
-					</td>
+					</th>
 					<td>
 						<?php echo htmlspecialchars($value, ENT_QUOTES); ?>
 					</td>

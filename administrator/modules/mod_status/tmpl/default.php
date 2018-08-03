@@ -22,40 +22,34 @@ use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelpe
 $hideLinks = $app->input->getBool('hidemainmenu');
 
 // Check if the multilangstatus module is present in the site
-if (class_exists(MultilangstatusAdminHelper::class))
+if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled())
 {
-	// Check if the module is present and enabled in the extensions table
-	if (MultilangstatusAdminHelper::isEnabled())
-	{
-		// Publish/Unpublish the module if it exists in the modules table
-		// depending on the status of the languagefilter
-		MultilangstatusAdminHelper::publish();
-	}
+	// Publish/Unpublish the module if it exists in the modules table
+	// depending on the status of the languagefilter
+	MultilangstatusAdminHelper::publish();
 }
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
-		<?php if (class_exists(MultilangstatusAdminHelper::class)) : ?>
-			<?php if (Multilanguage::isEnabled() && MultilangstatusAdminHelper::isEnabled()) : ?>
-				<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
-				<?php echo ModuleHelper::renderModule($module); ?>
-			<?php endif; ?>
+		<?php if (class_exists(MultilangstatusAdminHelper::class) && Multilanguage::isEnabled() && MultilangstatusAdminHelper::isEnabled()) : ?>
+			<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
+			<?php echo ModuleHelper::renderModule($module); ?>
 		<?php endif; ?>
 
 		<li class="nav-item">
 			<a class="nav-link" href="<?php echo Uri::root(); ?>" title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
-				<span class="fa fa-external-link-square" aria-hidden="true"></span>
+				<span class="fa fa-external-link" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
 			</a>
 		</li>
 
 		<li class="nav-item">
 			<a class="nav-link dropdown-toggle" href="<?php echo Route::_('index.php?option=com_messages'); ?>" title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
-				<span class="fa fa-envelope" aria-hidden="true"></span>
+				<span class="fa fa-envelope-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
 				<?php $countUnread = Factory::getSession()->get('messages.unread'); ?>
 				<?php if ($countUnread > 0) : ?>
-					<span class="badge badge-pill badge-success"><?php echo $countUnread; ?></span>
+					<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
 				<?php endif; ?>
 			</a>
 		</li>
@@ -63,10 +57,10 @@ if (class_exists(MultilangstatusAdminHelper::class))
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
-				<span class="fa fa-bell" aria-hidden="true"></span>
+				<span class="fa fa-bell-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 				<?php if (count($messages) > 0) : ?>
-					<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
+					<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
 				<?php endif; ?>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
@@ -91,12 +85,12 @@ if (class_exists(MultilangstatusAdminHelper::class))
 
 		<li class="nav-item dropdown header-profile">
 			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
-				<span class="fa fa-user" aria-hidden="true"></span>
+				<span class="fa fa-user-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
-				<div class="dropdown-item header-profile-user">
-					<span class="fa fa-user" aria-hidden="true"></span>
+				<div class="dropdown-header">
+					<span class="fa fa-user-o" aria-hidden="true"></span>
 					<?php echo $user->name; ?>
 				</div>
 				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>

@@ -51,7 +51,7 @@ use Joomla\CMS\Language\Text;
 		<p>
 			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_TEXT') ?>
 		</p>
-		<table class="table table-striped">
+		<table class="table">
 			<tr>
 				<td>
 					<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ACCOUNT') ?>

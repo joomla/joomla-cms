@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
 /**
@@ -33,7 +40,7 @@ class JHtmlNewsfeed
 		$html = '';
 
 		// Get the associations
-		if ($associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $newsfeedid))
+		if ($associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $newsfeedid))
 		{
 			foreach ($associations as $tag => $associated)
 			{
@@ -41,7 +48,7 @@ class JHtmlNewsfeed
 			}
 
 			// Get the associated newsfeed items
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.name as title')
 				->select('l.sef as lang_sef, lang_code')
@@ -69,8 +76,8 @@ class JHtmlNewsfeed
 				foreach ($items as &$item)
 				{
 					$text    = strtoupper($item->lang_sef);
-					$url     = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$url     = Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 					$classes = 'hasPopover badge badge-secondary';
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
@@ -79,9 +86,9 @@ class JHtmlNewsfeed
 				}
 			}
 
-			JHtml::_('bootstrap.popover');
+			HTMLHelper::_('bootstrap.popover');
 
-			$html = JLayoutHelper::render('joomla.content.associations', $items);
+			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;
