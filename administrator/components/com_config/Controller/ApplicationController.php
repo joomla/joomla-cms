@@ -119,7 +119,8 @@ class ApplicationController extends BaseController
 			 */
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(Route::_('index.php?option=com_config', false));
+            $this->app->enqueueMessage(\JText::_('COM_CONFIG_ERROR_VALIDATION'), 'error');
+            $this->app->redirect(\JRoute::_('index.php?option=com_config', false));
 		}
 
 		// Attempt to save the configuration.
