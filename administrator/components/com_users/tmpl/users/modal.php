@@ -65,13 +65,6 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 					</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="6">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
 			<tbody>
                 <?php $i = 0; ?>
                 <?php foreach ($this->items as $item) : ?>
@@ -101,6 +94,10 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+
+		<?php // load the pagination. ?>
+		<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif; ?>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>">

@@ -169,7 +169,7 @@ class Captcha implements DispatcherAwareInterface
 
 		$result = $this->getDispatcher()->dispatch('onInit', $event);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results192
+		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
 		return $result['result'][0];
 	}
 

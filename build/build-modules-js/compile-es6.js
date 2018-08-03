@@ -34,8 +34,9 @@ const compileFile = (filePath) => {
     }
 
     const fileName = filePath.slice(0, -7);
+    console.log(`Compiling: ${fileName.replace('/build/media_src/', '/media/')}.js`);
     fs.writeFile(
-      `${fileName}.js`,
+      `${fileName.replace('/build/media_src/', '/media/')}.js`,
       result.code + os.EOL,
       (fsError) => {
         if (fsError) {
@@ -47,7 +48,7 @@ const compileFile = (filePath) => {
     );
     // Also write the minified
     fs.writeFile(
-      `${fileName}.min.js`,
+      `${fileName.replace('/build/media_src/', '/media/')}.min.js`,
       UglifyJS.minify(result.code).code + os.EOL,
       (fsError) => {
         if (fsError) {
@@ -59,16 +60,5 @@ const compileFile = (filePath) => {
     );
   });
 };
-
-// Compile all files of the given pattern
-glob(pattern, options, (error, files) => {
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.error(`${error}`);
-    process.exit(1);
-  }
-
-  files.forEach(compileFile);
-});
 
 module.exports.compileFile = compileFile;

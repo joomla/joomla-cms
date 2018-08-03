@@ -39,12 +39,7 @@ if ($saveOrder && $menuType && !empty($this->items))
 }
 
 $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
-$colSpan = $assoc ? 10 : 9;
 
-if ($menuType == '')
-{
-	$colSpan--;
-}
 ?>
 <?php // Set up the filter bar. ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"
@@ -104,14 +99,6 @@ if ($menuType == '')
 							</th>
 						</tr>
 						</thead>
-						<tfoot>
-						<tr>
-							<td colspan="<?php echo $colSpan; ?>">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-						</tfoot>
-
 						<tbody <?php if ($saveOrder && $menuType) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 						<?php
 						foreach ($this->items as $i => $item) :
@@ -272,6 +259,10 @@ if ($menuType == '')
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php // Load the batch processing form if user is allowed ?>
 					<?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
 						<?php echo HTMLHelper::_(
