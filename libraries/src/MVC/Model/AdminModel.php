@@ -508,7 +508,7 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function cleanupPostBatchCopy(JTableInterface $table, $newId)
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId)
 	{
 	}
 
