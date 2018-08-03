@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -272,6 +272,8 @@ abstract class JHtmlFilter
 				->where('c.state = 1')
 				->where('c.access IN (' . $groups . ')')
 				->group($db->quoteName('t.id'))
+				->group($db->quoteName('t.parent_id'))
+				->group('t.title, t.state, t.access, t.ordering')
 				->order('t.ordering, t.title');
 
 			// Limit the branch children to a predefined filter.

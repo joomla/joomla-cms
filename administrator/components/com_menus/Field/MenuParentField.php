@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Field;
@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -85,7 +86,7 @@ class MenuParentField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -94,7 +95,7 @@ class MenuParentField extends \JFormFieldList
 			if ($clientId != 0)
 			{
 				// Allow translation of custom admin menus
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . \JText::_($options[$i]->text);
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . Text::_($options[$i]->text);
 			}
 			else
 			{

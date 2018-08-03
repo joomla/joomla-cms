@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,11 +11,12 @@ namespace Joomla\CMS\Categories;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Factory;
 
 /**
  * Trait for component categories service.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait CategoriesServiceTrait
 {
@@ -24,7 +25,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @var  Categories[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $categories;
 
@@ -38,7 +39,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @see Categories::setOptions()
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories
@@ -63,7 +64,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setCategories(array $categories)
 	{
@@ -78,7 +79,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function countItems(array $items, string $section)
@@ -89,7 +90,7 @@ trait CategoriesServiceTrait
 			return;
 		}
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -138,12 +139,12 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function countTagItems(array $items, string $extension)
 	{
 		$parts     = explode('.', $extension);
-		$section   = null;
+		$section   = '';
 
 		if (count($parts) > 1)
 		{
@@ -156,9 +157,9 @@ trait CategoriesServiceTrait
 			return;
 		}
 
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$join  = $db->qn($sectionTable) . ' AS c ON ct.content_item_id=c.id';
-		$state = 'state';
+		$state = $this->getStateColumnForSection($section);
 
 		if ($section === 'category')
 		{
@@ -226,10 +227,24 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
 		return null;
+	}
+
+	/**
+	 * Returns the state column for the count items functions for the given section.
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getStateColumnForSection(string $section = null)
+	{
+		return 'state';
 	}
 }

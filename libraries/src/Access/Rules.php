@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Access;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Access rules class.
@@ -177,14 +179,14 @@ class Rules
 	 *
 	 * @param   mixed  $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  \JObject  Allowed actions for the identity or identities
+	 * @return  CMSObject  Allowed actions for the identity or identities
 	 *
 	 * @since   11.1
 	 */
 	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new \JObject;
+		$allowed = new CMSObject;
 
 		foreach ($this->data as $name => &$action)
 		{

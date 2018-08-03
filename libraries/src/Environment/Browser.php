@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Environment;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Log\Log;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -227,7 +229,7 @@ class Browser
 		{
 			$this->_setPlatform();
 
-			/**
+			/*
 			 * Determine if mobile. Note: Some Handhelds have their screen resolution in the
 			 * user agent string, which we can use to look for mobile agents.
 			 */
@@ -242,15 +244,17 @@ class Browser
 				$this->mobile = true;
 			}
 
-			// We have to check for Edge as the first browser, because Edge has something like:
-			// Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
+			/*
+			 * We have to check for Edge as the first browser, because Edge has something like:
+			 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
+			 */
 			if (preg_match('|Edge\/([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('edge');
 
 				if (strpos($version[1], '.') !== false)
 				{
-					list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+					list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 				}
 				else
 				{
@@ -262,10 +266,12 @@ class Browser
 			{
 				$this->setBrowser('opera');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 
-				/* Due to changes in Opera UA, we need to check Version/xx.yy,
-				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/ */
+				/*
+				 * Due to changes in Opera UA, we need to check Version/xx.yy,
+				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/
+				 */
 				if ($this->majorVersion == 9 && $this->minorVersion >= 80)
 				{
 					$this->identifyBrowserVersion();
@@ -277,7 +283,7 @@ class Browser
 			{
 				$this->setBrowser('opera');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('/Chrome[\/ ]([0-9.]+)/i', $this->agent, $version)
 				|| preg_match('/CrMo[\/ ]([0-9.]+)/i', $this->agent, $version)
@@ -285,7 +291,7 @@ class Browser
 			{
 				$this->setBrowser('chrome');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (strpos($this->lowerAgent, 'elaine/') !== false
 				|| strpos($this->lowerAgent, 'palmsource') !== false
@@ -308,7 +314,7 @@ class Browser
 
 				if (strpos($version[1], '.') !== false)
 				{
-					list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+					list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 				}
 				else
 				{
@@ -336,8 +342,7 @@ class Browser
 			}
 			elseif (preg_match('|[Kk]onqueror\/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
 			{
-				// Konqueror and Apple's Safari both use the KHTML
-				// rendering engine.
+				// Konqueror and Apple's Safari both use the KHTML rendering engine.
 				$this->setBrowser('konqueror');
 				$this->majorVersion = $version[1];
 
@@ -357,7 +362,7 @@ class Browser
 			{
 				$this->setBrowser('firefox');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Lynx\/([0-9]+)|', $this->agent, $version))
 			{
@@ -415,7 +420,7 @@ class Browser
 			{
 				$this->setBrowser('mozilla');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 		}
 	}
@@ -471,7 +476,7 @@ class Browser
 	{
 		if (preg_match('|Version[/ ]([0-9.]+)|', $this->agent, $version))
 		{
-			list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+			list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 
 			return;
 		}
@@ -591,7 +596,7 @@ class Browser
 	public function isViewable($mimetype)
 	{
 		$mimetype = strtolower($mimetype);
-		list ($type, $subtype) = explode('/', $mimetype);
+		list($type, $subtype) = explode('/', $mimetype);
 
 		if (!empty($this->accept))
 		{
@@ -688,9 +693,9 @@ class Browser
 	 */
 	public function isSSLConnection()
 	{
-		\JLog::add(
+		Log::add(
 			'Browser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			\JLog::WARNING,
+			Log::WARNING,
 			'deprecated'
 		);
 

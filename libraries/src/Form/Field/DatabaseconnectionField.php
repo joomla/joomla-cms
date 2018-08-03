@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Form\FormHelper;
 
@@ -20,7 +21,7 @@ FormHelper::loadFieldClass('list');
  * Provides a list of available database connections, optionally limiting to
  * a given list.
  *
- * @see    JDatabaseDriver
+ * @see    DatabaseDriver
  * @since  11.3
  */
 class DatabaseconnectionField extends \JFormFieldList
@@ -37,12 +38,12 @@ class DatabaseconnectionField extends \JFormFieldList
 	 * Method to get the list of database options.
 	 *
 	 * This method produces a drop down list of available databases supported
-	 * by JDatabaseDriver classes that are also supported by the application.
+	 * by DatabaseDriver classes that are also supported by the application.
 	 *
 	 * @return  array  The field option objects.
 	 *
 	 * @since   11.3
-	 * @see     JDatabaseDriver::getConnectors()
+	 * @see     DatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()
 	{
@@ -65,7 +66,7 @@ class DatabaseconnectionField extends \JFormFieldList
 			{
 				if (in_array($support, $available))
 				{
-					$options[$support] = \JText::_(ucfirst($support));
+					$options[$support] = Text::_(ucfirst($support));
 				}
 			}
 		}
@@ -73,7 +74,7 @@ class DatabaseconnectionField extends \JFormFieldList
 		{
 			foreach ($available as $support)
 			{
-				$options[$support] = \JText::_(ucfirst($support));
+				$options[$support] = Text::_(ucfirst($support));
 			}
 		}
 
@@ -81,7 +82,7 @@ class DatabaseconnectionField extends \JFormFieldList
 		// a database that is not available on the server.
 		if (empty($options))
 		{
-			$options[''] = \JText::_('JNONE');
+			$options[''] = Text::_('JNONE');
 		}
 
 		return $options;

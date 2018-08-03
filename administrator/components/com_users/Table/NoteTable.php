@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Table;
@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * User notes table class
@@ -23,14 +26,13 @@ class NoteTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database object
+	 * @param   DatabaseDriver  $db  Database object
 	 *
 	 * @since  2.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_users.note';
-
 		parent::__construct('#__user_notes', 'id', $db);
 	}
 
@@ -45,13 +47,13 @@ class NoteTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate()->toSql();
-		$userId = \JFactory::getUser()->get('id');
+		$date = Factory::getDate()->toSql();
+		$userId = Factory::getUser()->get('id');
 
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = \JFactory::getDbo()->getNullDate();
+			$this->review_time = Factory::getDbo()->getNullDate();
 		}
 
 		if ($this->id)
@@ -86,7 +88,7 @@ class NoteTable extends Table
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		$k = $this->_tbl_key;
+		$k = $this->getPrimaryKey();
 
 		// Sanitize input.
 		$pks = ArrayHelper::toInteger($pks);
@@ -103,15 +105,15 @@ class NoteTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
 		}
 
-		$query = $this->_db->getQuery(true)
-			->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('state') . ' = ' . (int) $state);
+		$query = $this->getDbo()->getQuery(true)
+			->update($this->getDbo()->quoteName($this->_tbl))
+			->set($this->getDbo()->quoteName('state') . ' = ' . (int) $state);
 
 		// Build the WHERE clause for the primary keys.
 		$query->where($k . '=' . implode(' OR ' . $k . '=', $pks));
@@ -128,21 +130,21 @@ class NoteTable extends Table
 		}
 
 		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery($query);
+		$this->getDbo()->setQuery($query);
 
 		try
 		{
-			$this->_db->execute();
+			$this->getDbo()->execute();
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError($this->_db->getMessage());
+			$this->setError($this->getDbo()->getMessage());
 
 			return false;
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (count($pks) == $this->getDbo()->getAffectedRows()))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)
@@ -167,7 +169,7 @@ class NoteTable extends Table
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function check()
 	{
@@ -186,5 +188,7 @@ class NoteTable extends Table
 		{
 			$this->modified_time = $this->getDbo()->getNullDate();
 		}
+
+		return true;
 	}
 }

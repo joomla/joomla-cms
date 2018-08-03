@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console\SessionGcCommand;
+use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ConsoleApplication;
@@ -116,7 +117,8 @@ class Application implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$mapping = [
-						'session:gc' => SessionGcCommand::class,
+						'session:gc'          => SessionGcCommand::class,
+						'session:metadata:gc' => SessionMetadataGcCommand::class,
 					];
 
 					return new ContainerLoader($container, $mapping);

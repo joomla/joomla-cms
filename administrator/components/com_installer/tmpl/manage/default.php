@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,51 +32,44 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if (empty($this->items)) : ?>
 						<joomla-alert type="warning"><?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
 					<?php else : ?>
-					<table class="table table-striped" id="manageList">
+					<table class="table" id="manageList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap">
+								<td style="width:1%" class="nowrap">
 									<?php echo JHtml::_('grid.checkall'); ?>
-								</th>
-								<th style="width:1%" class="nowrap text-center">
+								</td>
+								<th scope="col" style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap">
+								<th scope="col" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
-								<th style="width:5%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="d-none d-md-table-cell text-center">
+								<th scope="col" class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:1%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="11">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected'; ?>">
@@ -90,13 +83,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo JHtml::_('InstallerHtml.Manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
-								<td>
+								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
 										<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
 											<?php echo $item->name; ?>
 										</span>
 									</label>
-								</td>
+								</th>
 								<td class="text-center">
 									<?php echo $item->client_translated; ?>
 								</td>
@@ -127,6 +120,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php endif; ?>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="boxchecked" value="0">

@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\Helper;
+
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Workflow\Workflow;
@@ -15,15 +17,14 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
 use Joomla\Registry\Registry;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Content component helper.
  *
  * @since  1.6
  */
-class ContentHelper extends \JHelperContent
+class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 {
 	public static $extension = 'com_content';
 
@@ -39,26 +40,25 @@ class ContentHelper extends \JHelperContent
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('JGLOBAL_ARTICLES'),
+			Text::_('JGLOBAL_ARTICLES'),
 			'index.php?option=com_content&view=articles',
 			$vName == 'articles'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_CONTENT_SUBMENU_CATEGORIES'),
+			Text::_('COM_CONTENT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories'
 		);
-
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_CONTENT_SUBMENU_FEATURED'),
+			Text::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'
 		);
 
-		if (\JComponentHelper::isEnabled('com_workflow') && \JComponentHelper::getParams('com_content')->get('workflows_enable', 1))
+		if (ComponentHelper::isEnabled('com_workflow') && ComponentHelper::getParams('com_content')->get('workflows_enable', 1))
 		{
 			\JHtmlSidebar::addEntry(
-				\JText::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
+				Text::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
 				'index.php?option=com_workflow&extension=com_content',
 				$vName == 'workflows'
 			);
@@ -69,28 +69,28 @@ class ContentHelper extends \JHelperContent
 				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
 
 				\JHtmlSidebar::addEntry(
-					\JText::_('COM_WORKFLOW_STATES'),
+					Text::_('COM_WORKFLOW_STATES'),
 					'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'states`'
 				);
 
 				\JHtmlSidebar::addEntry(
-					\JText::_('COM_WORKFLOW_TRANSITIONS'),
+					Text::_('COM_WORKFLOW_TRANSITIONS'),
 					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'transitions'
 				);
 			}
 		}
 
-		if (\JComponentHelper::isEnabled('com_fields') && \JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
+		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 		{
 			\JHtmlSidebar::addEntry(
-				\JText::_('JGLOBAL_FIELDS'),
+				Text::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_content.article',
 				$vName == 'fields.fields'
 			);
 			\JHtmlSidebar::addEntry(
-				\JText::_('JGLOBAL_FIELD_GROUPS'),
+				Text::_('JGLOBAL_FIELD_GROUPS'),
 				'index.php?option=com_fields&view=groups&context=com_content.article',
 				$vName == 'fields.groups'
 			);

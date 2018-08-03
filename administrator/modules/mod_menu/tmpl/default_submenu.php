@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,13 +82,13 @@ if ($current->get('link') === '#')
 	$link = '#collapse' . $this->tree->getCounter();
 }
 
-if ($link !== null && $current->get('target') !== null)
+if ($link !== null && $current->get('target') !== null && $current->get('target') !== '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
 		. $iconClass
 		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
 }
-elseif ($link !== null && $current->get('target') === null)
+elseif ($link !== null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. $iconClass

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\Model;
@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Content Component Article Model
@@ -40,7 +42,7 @@ class ArticleModel extends ItemModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');
@@ -54,7 +56,7 @@ class ArticleModel extends ItemModel
 		$this->setState('params', $params);
 
 		// TODO: Tune these values based on other permissions.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
@@ -73,7 +75,7 @@ class ArticleModel extends ItemModel
 	 */
 	public function getItem($pk = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
@@ -121,7 +123,7 @@ class ArticleModel extends ItemModel
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
 				// Join over the categories to get parent category titles
@@ -136,7 +138,7 @@ class ArticleModel extends ItemModel
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
-					$date = \JFactory::getDate();
+					$date = Factory::getDate();
 
 					$nowDate = $db->quote($date->toSql());
 
@@ -159,13 +161,13 @@ class ArticleModel extends ItemModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 				if (is_numeric($published) && $data->condition != $published)
 				{
-					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -208,7 +210,7 @@ class ArticleModel extends ItemModel
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 
 					if ($data->catid == 0 || $data->category_access === null)
@@ -250,7 +252,7 @@ class ArticleModel extends ItemModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
@@ -298,7 +300,7 @@ class ArticleModel extends ItemModel
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -322,7 +324,7 @@ class ArticleModel extends ItemModel
 				}
 				catch (\RuntimeException $e)
 				{
-					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 					return false;
 				}
@@ -349,7 +351,7 @@ class ArticleModel extends ItemModel
 					}
 					catch (\RuntimeException $e)
 					{
-						\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 						return false;
 					}
@@ -363,7 +365,7 @@ class ArticleModel extends ItemModel
 			return true;
 		}
 
-		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
+		Factory::getApplication()->enqueueMessage(Text::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
 
 		return false;
 	}

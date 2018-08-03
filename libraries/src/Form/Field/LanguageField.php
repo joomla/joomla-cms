@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,6 +53,7 @@ class LanguageField extends \JFormFieldList
 
 		// Make sure the languages are sorted base on locale instead of random sorting
 		$languages = LanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true);
+
 		if (count($languages) > 1)
 		{
 			usort(

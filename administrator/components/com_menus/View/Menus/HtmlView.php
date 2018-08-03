@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\View\Menus;
@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The HTML Menus Menu Menus View.
@@ -122,7 +123,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_menus');
 
-		ToolbarHelper::title(\JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
+		ToolbarHelper::title(Text::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 
 		if ($canDo->get('core.create'))
 		{

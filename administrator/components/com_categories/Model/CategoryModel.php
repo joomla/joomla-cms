@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -23,6 +26,11 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Categories Component Category Model
@@ -66,7 +74,7 @@ class CategoryModel extends AdminModel
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		$extension = \JFactory::getApplication()->input->get('extension', 'com_content');
+		$extension = Factory::getApplication()->input->get('extension', 'com_content');
 		$this->typeAlias = $extension . '.category';
 
 		// Add a new batch command
@@ -91,7 +99,7 @@ class CategoryModel extends AdminModel
 			return false;
 		}
 
-		return \JFactory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
+		return Factory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
 	}
 
 	/**
@@ -105,7 +113,7 @@ class CategoryModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing category.
 		if (!empty($record->id))
@@ -150,7 +158,7 @@ class CategoryModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$parentId = $app->input->getInt('parent_id');
 		$this->setState('category.parent_id', $parentId);
@@ -199,11 +207,11 @@ class CategoryModel extends AdminModel
 			$result->metadata = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
-				$date = new \JDate($result->created_time);
+				$date = new Date($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toSql(true);
 			}
@@ -214,7 +222,7 @@ class CategoryModel extends AdminModel
 
 			if ((int) $result->modified_time)
 			{
-				$date = new \JDate($result->modified_time);
+				$date = new Date($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toSql(true);
 			}
@@ -260,7 +268,7 @@ class CategoryModel extends AdminModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		$extension = $this->getState('category.extension');
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		// A workaround to get the extension into the model for save requests.
 		if (empty($extension) && isset($data['extension']))
@@ -291,7 +299,7 @@ class CategoryModel extends AdminModel
 		$parts      = explode('.', $extension);
 		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-		if (!\JFactory::getUser()->authorise('core.edit.state', $assetKey))
+		if (!Factory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -331,7 +339,7 @@ class CategoryModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', array());
 
 		if (empty($data))
@@ -355,7 +363,7 @@ class CategoryModel extends AdminModel
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
 				);
 			}
 		}
@@ -382,21 +390,27 @@ class CategoryModel extends AdminModel
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
-		$extension = \JFactory::getApplication()->input->get('extension', null);
+		$extension = Factory::getApplication()->input->get('extension', null);
 
 		// Get the component form if it exists
 		$name = 'category' . ($section ? ('.' . $section) : '');
 
-		// Looking first in the component models/forms folder
-		$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+		// Looking first in the component forms folder
+		$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+
+		// Looking in the component models/forms folder (J! 3)
+		if (!file_exists($path))
+		{
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+		}
 
 		// Old way: looking in the component folder
 		if (!file_exists($path))
 		{
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
 		}
 
 		if (file_exists($path))
@@ -406,7 +420,7 @@ class CategoryModel extends AdminModel
 
 			if (!$form->loadFile($path, false))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -420,7 +434,7 @@ class CategoryModel extends AdminModel
 		{
 			// Try to find the component helper.
 			$eName = str_replace('com_', '', $component);
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
 
 			if (file_exists($path))
 			{
@@ -499,7 +513,7 @@ class CategoryModel extends AdminModel
 	public function save($data)
 	{
 		$table      = $this->getTable();
-		$input      = \JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
@@ -559,7 +573,7 @@ class CategoryModel extends AdminModel
 		// Bind the rules.
 		if (isset($data['rules']))
 		{
-			$rules = new \JAccessRules($data['rules']);
+			$rules = new Rules($data['rules']);
 			$table->setRules($rules);
 		}
 
@@ -572,7 +586,7 @@ class CategoryModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		if (in_array(false, $result, true))
 		{
@@ -612,7 +626,7 @@ class CategoryModel extends AdminModel
 
 			if ($allLanguage && !empty($associations))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
+				Factory::getApplication()->enqueueMessage(Text::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
 			// Get associationskey for edited item
@@ -687,7 +701,7 @@ class CategoryModel extends AdminModel
 		}
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew, $data));
+		Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew, $data));
 
 		// Rebuild the path for the category:
 		if (!$table->rebuildPath($table->id))
@@ -727,13 +741,13 @@ class CategoryModel extends AdminModel
 	{
 		if (parent::publish($pks, $value))
 		{
-			$extension = \JFactory::getApplication()->input->get('extension');
+			$extension = Factory::getApplication()->input->get('extension');
 
 			// Include the content plugins for the change of category state event.
 			PluginHelper::importPlugin('content');
 
 			// Trigger the onCategoryChangeState event.
-			\JFactory::getApplication()->triggerEvent('onCategoryChangeState', array($extension, $pks, $value));
+			Factory::getApplication()->triggerEvent('onCategoryChangeState', array($extension, $pks, $value));
 
 			return true;
 		}
@@ -857,7 +871,7 @@ class CategoryModel extends AdminModel
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		$type = new \JUcmType;
+		$type = new UCMType;
 		$this->type = $type->getTypeByAlias($this->typeAlias);
 
 		// $value comes as {parent_id}.{extension}
@@ -865,7 +879,7 @@ class CategoryModel extends AdminModel
 		$parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
 		$db = $this->getDbo();
-		$extension = \JFactory::getApplication()->input->get('extension', '', 'word');
+		$extension = Factory::getApplication()->input->get('extension', '', 'word');
 		$newIds = array();
 
 		// Check that the parent exists
@@ -883,7 +897,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Non-fatal error
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -901,7 +915,7 @@ class CategoryModel extends AdminModel
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
-				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -919,7 +933,7 @@ class CategoryModel extends AdminModel
 			// Make sure we can create in root
 			elseif (!$this->user->authorise('core.create', $extension))
 			{
-				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -966,7 +980,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -1070,12 +1084,12 @@ class CategoryModel extends AdminModel
 	protected function batchMove($value, $pks, $contexts)
 	{
 		$parentId = (int) $value;
-		$type = new \JUcmType;
+		$type = new UCMType;
 		$this->type = $type->getTypeByAlias($this->typeAlias);
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$extension = \JFactory::getApplication()->input->get('extension', '', 'word');
+		$extension = Factory::getApplication()->input->get('extension', '', 'word');
 
 		// Check that the parent exists.
 		if ($parentId)
@@ -1092,7 +1106,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Non-fatal error.
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -1110,7 +1124,7 @@ class CategoryModel extends AdminModel
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
-				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -1122,7 +1136,7 @@ class CategoryModel extends AdminModel
 				if (!$this->user->authorise('core.edit', $extension . '.category.' . $pk))
 				{
 					// Error since user cannot edit this category
-					$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
+					$this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
 
 					return false;
 				}
@@ -1148,7 +1162,7 @@ class CategoryModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -1218,7 +1232,7 @@ class CategoryModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$extension = \JFactory::getApplication()->input->get('extension');
+		$extension = Factory::getApplication()->input->get('extension');
 
 		switch ($extension)
 		{
@@ -1286,14 +1300,23 @@ class CategoryModel extends AdminModel
 		if (!$assoc || !$component || !$cname)
 		{
 			$assoc = false;
-		}
-		else
-		{
-			$hname = $cname . 'HelperAssociation';
-			\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-			$assoc = class_exists($hname) && !empty($hname::$category_association);
+			return $assoc;
 		}
+
+		$componentObject = $this->bootComponent($component);
+
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		{
+			$assoc = true;
+
+			return $assoc;
+		}
+
+		$hname = $cname . 'HelperAssociation';
+		\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+
+		$assoc = class_exists($hname) && !empty($hname::$category_association);
 
 		return $assoc;
 	}

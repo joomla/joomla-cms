@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\View\Category;
@@ -14,6 +14,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Content component
@@ -85,7 +87,7 @@ class HtmlView extends CategoryView
 
 		PluginHelper::importPlugin('content');
 
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -186,12 +188,21 @@ class HtmlView extends CategoryView
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if ($menu)
+		if ($menu
+			&& $menu->component == 'com_content'
+			&& isset($menu->query['view'], $menu->query['id'])
+			&& $menu->query['view'] == 'category'
+			&& $menu->query['id'] == $this->category->id)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+			$title = $this->params->get('page_title', $menu->title);
 		}
-
-		$title = $this->params->get('page_title', '');
+		else
+		{
+			$this->params->def('page_heading', $this->category->title);
+			$title = $this->category->title;
+			$this->params->set('page_title', $title);
+		}
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
@@ -200,11 +211,11 @@ class HtmlView extends CategoryView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -225,16 +236,16 @@ class HtmlView extends CategoryView
 
 		if ($this->category->metakey)
 		{
-			$this->document->setMetadata('keywords', $this->category->metakey);
+			$this->document->setMetaData('keywords', $this->category->metakey);
 		}
 		elseif ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		if (!is_object($this->category->metadata))
@@ -253,7 +264,7 @@ class HtmlView extends CategoryView
 		{
 			if ($v)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setMetaData($k, $v);
 			}
 		}
 

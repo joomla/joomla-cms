@@ -6,7 +6,7 @@
         label="PLG_TINY_FIELD_SETACCESS_LABEL"
         multiple="true"
         class="access-select"
-        labelclass="label label-success"
+        labelclass="badge badge-success"
     />
 
     <field

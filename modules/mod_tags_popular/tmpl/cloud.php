@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ $maxsize = $params->get('maxsize', 2);
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 ?>
-<div class="tagspopular tagscloud">
+<div class="mod-tagspopular-cloud tagspopular tagscloud">
 <?php
 if (!count($list)) : ?>
 	<joomla-alert type="info"><?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></joomla-alert>

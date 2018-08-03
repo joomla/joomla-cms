@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,11 @@ namespace Joomla\CMS\Toolbar;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Table\Table;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for the button bar.
@@ -38,9 +41,9 @@ abstract class ToolbarHelper
 		$layout = new FileLayout('joomla.toolbar.title');
 		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		\JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
+		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
 	}
 
 	/**
@@ -475,7 +478,7 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Apply', 'apply', $alt, $task, false);
+		$bar->appendButton('Standard', 'apply', $alt, $task, false);
 	}
 
 	/**
@@ -595,7 +598,7 @@ abstract class ToolbarHelper
 		$path = urlencode($path);
 		$bar = Toolbar::getInstance('toolbar');
 
-		$uri = (string) \JUri::getInstance();
+		$uri = (string) Uri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.
@@ -622,16 +625,16 @@ abstract class ToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
 		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
 		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
-		// Options array for JLayout
+		// Options array for Layout
 		$options              = array();
-		$options['title']     = \JText::_($alt);
+		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
 		$options['itemId']    = $itemId;
@@ -655,10 +658,6 @@ abstract class ToolbarHelper
 	 */
 	public static function saveGroup($buttons = array(), $class = 'btn-success')
 	{
-		// Options array for JLayout
-		$options          = array();
-		$options['class'] = $class;
-
 		$validOptions = array(
 			'apply'     => 'JTOOLBAR_APPLY',
 			'save'      => 'JTOOLBAR_SAVE',
@@ -668,31 +667,26 @@ abstract class ToolbarHelper
 
 		$bar = Toolbar::getInstance('toolbar');
 
-		$layout = new FileLayout('joomla.toolbar.group.groupopen');
-		$bar->appendButton('Custom', $layout->render($options));
-		$firstItem = false;
+		$saveGroup = $bar->dropdownButton('save-group');
 
-		foreach ($buttons as $button)
-		{
-			if (!array_key_exists($button[0], $validOptions))
+		$saveGroup->configure(
+			function (Toolbar $childBar) use ($buttons, $validOptions)
 			{
-				continue;
+				foreach ($buttons as $button)
+				{
+					if (!array_key_exists($button[0], $validOptions))
+					{
+						continue;
+					}
+
+					$options['group'] = true;
+					$altText = $button[2] ?? $validOptions[$button[0]];
+
+					$childBar->{$button[0]}($button[1])
+						->text($altText);
+				}
 			}
-
-			$options['group'] = true;
-			$altText = $button[2] ?? $validOptions[$button[0]];
-			call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText, $firstItem));
-
-			if (!$firstItem)
-			{
-				$layout = new FileLayout('joomla.toolbar.group.groupmid');
-				$bar->appendButton('Custom', $layout->render($options));
-				$firstItem = true;
-			}
-		}
-
-		$layout = new FileLayout('joomla.toolbar.group.groupclose');
-		$bar->appendButton('Custom', $layout->render());
+		);
 	}
 
 	/**
@@ -708,9 +702,9 @@ abstract class ToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		$title = \JText::_($alt);
+		$title = Text::_($alt);
 
-		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-outline-primary btn-sm">
+		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
 			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
 
 		$bar = Toolbar::getInstance('toolbar');

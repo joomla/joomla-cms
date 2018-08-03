@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -15,7 +15,7 @@
 			var value = elements[i].value;
 			if(name) {
 				if ((elements[i].type === 'checkbox' && elements[i].checked === true) || (elements[i].type !== 'checkbox')) {
-					obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + value);
+					obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + encodeURIComponent(value));
 				}
 			}
 		}

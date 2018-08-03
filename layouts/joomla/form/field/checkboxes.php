@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' checkboxes'); ?>"
-	<?php echo $required ? 'required aria-required="true"' : ''; ?>
+	<?php echo $required ? 'required' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
 
 	<?php foreach ($options as $i => $option) : ?>

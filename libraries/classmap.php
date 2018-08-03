@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -276,15 +276,12 @@ JLoader::registerAlias('JCacheControllerCallback',          '\\Joomla\\CMS\\Cach
 JLoader::registerAlias('JCacheControllerOutput',            '\\Joomla\\CMS\\Cache\\Controller\\OutputController', '5.0');
 JLoader::registerAlias('JCacheControllerPage',              '\\Joomla\\CMS\\Cache\\Controller\\PageController', '5.0');
 JLoader::registerAlias('JCacheControllerView',              '\\Joomla\\CMS\\Cache\\Controller\\ViewController', '5.0');
-JLoader::registerAlias('JCacheStorageApc',                  '\\Joomla\\CMS\\Cache\\Storage\\ApcStorage', '5.0');
 JLoader::registerAlias('JCacheStorageApcu',                 '\\Joomla\\CMS\\Cache\\Storage\\ApcuStorage', '5.0');
 JLoader::registerAlias('JCacheStorageHelper',               '\\Joomla\\CMS\\Cache\\Storage\\CacheStorageHelper', '5.0');
 JLoader::registerAlias('JCacheStorageFile',                 '\\Joomla\\CMS\\Cache\\Storage\\FileStorage', '5.0');
 JLoader::registerAlias('JCacheStorageMemcached',            '\\Joomla\\CMS\\Cache\\Storage\\MemcachedStorage', '5.0');
-JLoader::registerAlias('JCacheStorageMemcache',             '\\Joomla\\CMS\\Cache\\Storage\\MemcacheStorage', '5.0');
 JLoader::registerAlias('JCacheStorageRedis',                '\\Joomla\\CMS\\Cache\\Storage\\RedisStorage', '5.0');
 JLoader::registerAlias('JCacheStorageWincache',             '\\Joomla\\CMS\\Cache\\Storage\\WincacheStorage', '5.0');
-JLoader::registerAlias('JCacheStorageXcache',               '\\Joomla\\CMS\\Cache\\Storage\\XcacheStorage', '5.0');
 JLoader::registerAlias('JCacheException',                   '\\Joomla\\CMS\\Cache\\Exception\\CacheExceptionInterface', '5.0');
 JLoader::registerAlias('JCacheExceptionConnecting',         '\\Joomla\\CMS\\Cache\\Exception\\CacheConnectingException', '5.0');
 JLoader::registerAlias('JCacheExceptionUnsupported',        '\\Joomla\\CMS\\Cache\\Exception\\UnsupportedCacheException', '5.0');
@@ -413,14 +410,6 @@ JLoader::registerAlias('JDatabaseExporterPostgresql',       '\\Joomla\\Database\
 JLoader::registerAlias('JDatabaseImporterMysqli',           '\\Joomla\\Database\\Mysqli\\MysqliImporter', '5.0');
 JLoader::registerAlias('JDatabaseImporterPdomysql',         '\\Joomla\\Database\\Mysql\\MysqlImporter', '5.0');
 JLoader::registerAlias('JDatabaseImporterPostgresql',       '\\Joomla\\Database\\Postgresql\\PostgresqlImporter', '5.0');
-JLoader::registerAlias('JDatabaseIteratorMysqli',           '\\Joomla\\Database\\Mysqli\\MysqliIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorOracle',           '\\Joomla\\Database\\Oracle\\OracleIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorPdo',              '\\Joomla\\Database\\Pdo\\PdoIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorPdomysql',         '\\Joomla\\Database\\Mysql\\MysqlIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorPostgresql',       '\\Joomla\\Database\\Postgresql\\PostgresqlIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorSqlazure',         '\\Joomla\\Database\\Sqlazure\\SqlazureIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorSqlite',           '\\Joomla\\Database\\Sqlite\\SqliteIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorSqlsrv',           '\\Joomla\\Database\\Sqlsrv\\SqlsrvIterator', '5.0');
 JLoader::registerAlias('JDatabaseQueryElement',             '\\Joomla\\Database\\Query\\QueryElement', '5.0');
 JLoader::registerAlias('JDatabaseQueryLimitable',           '\\Joomla\\Database\\Query\\LimitableInterface', '5.0');
 JLoader::registerAlias('JDatabaseQueryPreparable',          '\\Joomla\\Database\\Query\\PreparableInterface', '5.0');

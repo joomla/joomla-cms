@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * XmlDocument class, provides an easy interface to parse and display XML output
@@ -57,7 +59,7 @@ class XmlDocument extends Document
 	{
 		parent::render();
 
-		\JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
+		Factory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}

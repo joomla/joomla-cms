@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -180,9 +180,15 @@ class InstallationController extends JSONController
 			$model->install($lids);
 
 			// Publish the Content Languages.
-			$model->publishContentLanguages();
+			$failedLanguages = $model->publishContentLanguages();
 
-			$this->app->enqueueMessage(\JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
+			if (!empty($failedLanguages))
+			{
+				foreach ($failedLanguages as $failedLanguage)
+				{
+					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
+				}
+			}
 		}
 
 		// Redirect to the page.

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -175,7 +175,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		 * add any necessary secret query parameters to the URL. The plugins are supposed to have a method with the
 		 * signature:
 		 *
-		 * public function onBuildAdministratorLoginURL(JUri &$uri);
+		 * public function onBuildAdministratorLoginURL(Uri &$uri);
 		 *
 		 * The plugins should modify the $uri object directly and return null.
 		 */
@@ -201,11 +201,13 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			return;
 		}
 
-		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
+		/*
+		 * Load the appropriate language. We try to load English (UK), the current user's language and the forced
 		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		 * solution! */
+		 * solution!
+		 */
 		$jLanguage = Factory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);

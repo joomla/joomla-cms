@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Module\Menu\Administrator\Menu;
@@ -337,6 +337,19 @@ class CssMenu
 				}
 
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
+			}
+			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif ($item->element === 'com_admin')
+			{
+				parse_str($item->link, $query);
+
+				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin'))
+				{
+					continue;
+				}
 			}
 
 			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
 
 /**
  * Route Helper
@@ -71,8 +72,8 @@ class RouteHelper
 		}
 		else
 		{
-			$this->view = \JFactory::getApplication()->input->getString('view');
-			$this->extension = \JFactory::getApplication()->input->getCmd('option');
+			$this->view = Factory::getApplication()->input->getString('view');
+			$this->extension = Factory::getApplication()->input->getCmd('option');
 		}
 
 		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
@@ -133,7 +134,7 @@ class RouteHelper
 	 */
 	protected function findItem($needles = array())
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menus    = $app->getMenu('site');
 		$language = $needles['language'] ?? '*';
 
@@ -280,7 +281,6 @@ class RouteHelper
 				$catids                = array_reverse($category->getPath());
 				$needles['category']   = $catids;
 				$needles['categories'] = $catids;
-
 			}
 
 			if ($item = static::lookupItem($needles))

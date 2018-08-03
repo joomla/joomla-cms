@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,18 +98,16 @@ class ArticlesArchiveHelper
 		{
 			$date = Factory::getDate($row->created);
 
-			$created_month = $date->format('n');
-			$created_year  = $date->format('Y');
+			$createdMonth = $date->format('n');
+			$createdYear  = $date->format('Y');
 
-			$created_year_cal = HTMLHelper::_('date', $row->created, 'Y');
-			$month_name_cal   = HTMLHelper::_('date', $row->created, 'F');
+			$createdYearCal = HTMLHelper::_('date', $row->created, 'Y');
+			$monthNameCal   = HTMLHelper::_('date', $row->created, 'F');
 
 			$lists[$i] = new \stdClass;
 
-			$route = 'index.php?option=com_content&view=archive' . $states . '&year=' . $created_year . '&month=' . $created_month . $itemid;
-
-			$lists[$i]->link = Route::_($route);
-			$lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
+			$lists[$i]->link = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $itemid);
+			$lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
 
 			$i++;
 		}

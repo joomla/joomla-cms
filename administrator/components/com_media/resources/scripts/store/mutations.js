@@ -351,6 +351,22 @@ export default {
     },
 
     /**
+     * Show the share modal
+     * @param state
+     */
+    [types.SHOW_SHARE_MODAL]: (state) => {
+        state.showShareModal = true;
+    },
+
+    /**
+     * Hide the share modal
+     * @param state
+     */
+    [types.HIDE_SHARE_MODAL]: (state) => {
+        state.showShareModal = false;
+    },
+
+    /**
      * Increase the size of the grid items
      * @param state
      */
@@ -370,5 +386,30 @@ export default {
         if (currentSizeIndex > 0 && currentSizeIndex < gridItemSizes.length) {
             state.gridSize = gridItemSizes[--currentSizeIndex];
         }
+    },
+
+    /**
+    * Set search query
+    * @param state
+    * @param query
+    */
+    [types.SET_SEARCH_QUERY]: (state, query) => {
+        state.search = query;
+    },
+
+    /**
+     * Show the confirm modal
+     * @param state
+     */
+    [types.SHOW_CONFIRM_DELETE_MODAL]: (state) => {
+        state.showConfirmDeleteModal = true;
+    },
+
+    /**
+     * Hide the confirm modal
+     * @param state
+     */
+    [types.HIDE_CONFIRM_DELETE_MODAL]: (state) => {
+        state.showConfirmDeleteModal = false;
     },
 }
