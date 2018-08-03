@@ -29,7 +29,7 @@ class HtmlView extends InstallerViewDefault
 	 * List of change sets
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $changeSet = array();
 
@@ -37,7 +37,7 @@ class HtmlView extends InstallerViewDefault
 	 * The number of errors found
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $errorCount = 0;
 
@@ -45,7 +45,7 @@ class HtmlView extends InstallerViewDefault
 	 * List pagination.
 	 *
 	 * @var    Pagination
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pagination;
 
@@ -53,7 +53,7 @@ class HtmlView extends InstallerViewDefault
 	 * The filter form
 	 *
 	 * @var    Form
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -61,7 +61,7 @@ class HtmlView extends InstallerViewDefault
 	 * A list of form filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters = array();
 

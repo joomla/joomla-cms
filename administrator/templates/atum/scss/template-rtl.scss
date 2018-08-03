@@ -7,7 +7,7 @@ ul {
   padding-right: 0;
 }
 
-th {
+body {
   text-align: right;
 }
 
@@ -28,7 +28,7 @@ th {
   }
 
   .controls {
-    margin-right: 220px;
+    margin-right: 0;
     margin-left: 0;
   }
 
@@ -131,10 +131,6 @@ th {
   li a span {
     float: right;
   }
-
-  .collapse-level-1 .menuitem-group, .collapse-level-1>li:first-of-type {
-    text-align: right;
-  }
 }
 
 .child-open > .open > a::before {
@@ -179,7 +175,7 @@ th {
     margin-right: .75rem;
     margin-left: 0;
 
-    &:first-of-type {
+    &:first-child {
       margin-right: 0;
     }
   }
@@ -238,12 +234,25 @@ th {
   margin-left: .5rem;
 }
 
-p, .table td {
-  text-align: right;
-}
-
 #helpsite-refresh {
   float: right;
   margin-right: 4px;
   margin-top: 1px;
+}
+
+.field-calendar {
+  float: right;
+}
+
+.form-text {
+  float: right;
+}
+
+.field-user-wrapper {
+  float: right;
+}
+
+
+.field-media-input {
+  margin-right: 220px;
 }
