@@ -773,7 +773,7 @@ class FieldsModelField extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id) || $record->state != -2)
+		if (empty($record->id) || $record->state != -2)
 		{
 			return false;
 		}
