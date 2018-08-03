@@ -877,7 +877,7 @@ iframe {
     font-size: 20px;
     text-align: center;
     vertical-align: middle; }
-  .main-nav .collapse-level-1:not(.show) {
+  .main-nav.open .collapse-level-1 {
     display: block; }
   .main-nav .collapse-level-1 a::before {
     display: none; }
