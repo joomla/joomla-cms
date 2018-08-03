@@ -12,10 +12,10 @@
     "npm": ">=5.6.0"
   },
   "scripts": {
-    "build:js": "node build.js --compilejs",
-    "build:css": "node build.js --compilecss",
-    "watch:js": "node build.js --compilejs --watch",
-    "watch:css": "node build.js --compilecss --watch",
+    "build:js": "node build.js --compile-js",
+    "build:css": "node build.js --compile-css",
+    "watch:js": "node build.js --compile-js --watch",
+    "watch:css": "node build.js --compile-css --watch",
     "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
     "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
     "install": "node build.js --copy-assets && node build.js --installer && node build.js --buildcheck",
