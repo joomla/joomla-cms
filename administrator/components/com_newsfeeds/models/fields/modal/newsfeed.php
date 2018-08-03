@@ -188,7 +188,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			. ' id="' . $this->id . '_propagate"'
 			. ' href="#"'
 			. ' title="' . JHtml::tooltipText('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
-			. ' onclick="window.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
+			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
 			. '<span class="icon-refresh" aria-hidden="true"></span>' . JText::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
 			. '</a>';
 		}

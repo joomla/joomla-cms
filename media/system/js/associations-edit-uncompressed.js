@@ -51,7 +51,7 @@ window.showAssociationMessage = function()
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	window.injectAssociations = function(result, callbackFunctionPrefix) 
+	Joomla.injectAssociations = function(result, callbackFunctionPrefix) 
 	{
 		var functionName;
 
@@ -100,7 +100,7 @@ window.showAssociationMessage = function()
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	window.propagateAssociation = function(fieldPrefix, callbackFunctionPrefix) 
+	Joomla.propagateAssociation = function(fieldPrefix, callbackFunctionPrefix) 
 	{
 		// Find the id of the record which has been set as an assocation
 		var assocId = jQuery("#" + fieldPrefix + "_id").val();
@@ -120,7 +120,7 @@ window.showAssociationMessage = function()
 			url:  url,
 			data: { task: "ajax.fetchAssociations", format: "json", assocId: assocId, excludeLang: currentLang },
 
-			success: function(result, status, xhr) { injectAssociations(result, callbackFunctionPrefix); },
+			success: function(result, status, xhr) { Joomla.injectAssociations(result, callbackFunctionPrefix); },
 
 			error: function() { Joomla.renderMessages({"warning":[(Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))]}); },
 		});
