@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,18 +21,19 @@ use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Access to component specific services.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface
 {
 	/**
 	 * @var string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $component;
 
@@ -41,7 +42,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @param   string  $component  The component
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct(string $component)
 	{
@@ -55,7 +56,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
@@ -69,7 +70,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @return  MVCFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
 	{
@@ -92,7 +93,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @see Categories::setOptions()
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories
@@ -127,14 +128,14 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function countItems(array $items, string $section)
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countTagItems')))
+		if (!$helper || !is_callable(array($helper, 'countItems')))
 		{
 			return;
 		}
@@ -150,7 +151,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function countTagItems(array $items, string $extension)
@@ -174,7 +175,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -193,7 +194,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
@@ -212,7 +213,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 *
 	 * @return  bool|string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function loadHelper()
 	{
@@ -223,7 +224,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 			return $className;
 		}
 
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
+		$file = Path::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
 
 		if (!file_exists($file))
 		{

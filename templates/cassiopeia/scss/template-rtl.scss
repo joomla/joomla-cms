@@ -1,0 +1,41 @@
+@import "template";
+
+body, .dropdown-item {
+  text-align: right;
+}
+
+.float-right {
+  float: left !important;
+}
+
+.float-left {
+  float: right !important;
+}
+
+.control-group, form:not(.form-no-margin) .control-group {
+  .control-label {
+    float: right;
+    text-align: right;
+  }
+
+  .controls {
+    margin-right: 220px;
+    margin-left: 0;
+  }
+
+  .custom-select {
+    float: right;
+  }
+}
+
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+  border-radius: .25rem 0 0 .25rem;
+}
+
+.input-group-prepend .btn, .input-group-append .btn {
+  right: -1px;
+}
+
+dd {
+  -webkit-margin-start: 0;
+}

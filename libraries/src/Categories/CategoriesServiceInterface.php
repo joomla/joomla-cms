@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Access to component specific categories.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface CategoriesServiceInterface
 {
@@ -27,7 +27,7 @@ interface CategoriesServiceInterface
 	 *
 	 * @see Categories::setOptions()
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories;
@@ -40,7 +40,7 @@ interface CategoriesServiceInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function countItems(array $items, string $section);
@@ -53,7 +53,7 @@ interface CategoriesServiceInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function countTagItems(array $items, string $extension);

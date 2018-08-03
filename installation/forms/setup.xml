@@ -49,28 +49,6 @@
 		/>
 
 		<field
-				name="site_metadesc"
-				type="textarea"
-				id="site_metadesc"
-				class="form-control text_area noResize"
-				label="INSTL_SITE_METADESC_DESC"
-				rows="3"
-		/>
-
-		<field
-				name="site_offline"
-				type="radio"
-				id="site_offline"
-				class="btn-group"
-				default="0"
-				label="INSTL_SITE_OFFLINE_DESC"
-				filter="integer"
-		>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
-		<field
 				name="db_type"
 				type="databaseconnection"
 				id="db_type"

@@ -1,10 +1,9 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Dispatcher
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -16,7 +15,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 /**
  * Dispatcher factory interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface DispatcherFactoryInterface
 {
@@ -27,7 +26,7 @@ interface DispatcherFactoryInterface
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createDispatcher(CMSApplicationInterface $application): DispatcherInterface;
 }

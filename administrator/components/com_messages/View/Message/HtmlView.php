@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Messages\Administrator\View\Message;
@@ -11,6 +11,10 @@ namespace Joomla\Component\Messages\Administrator\View\Message;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Messages component
@@ -76,24 +80,24 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() == 'edit')
 		{
-			\JFactory::getApplication()->input->set('hidemainmenu', true);
-			\JToolbarHelper::title(\JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-opened new-privatemessage');
-			\JToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
-			\JToolbarHelper::cancel('message.cancel');
-			\JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
+			Factory::getApplication()->input->set('hidemainmenu', true);
+			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-opened new-privatemessage');
+			ToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
+			ToolbarHelper::cancel('message.cancel');
+			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
 		}
 		else
 		{
-			\JToolbarHelper::title(\JText::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
-			$sender = \JUser::getInstance($this->item->user_id_from);
+			ToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
+			$sender = User::getInstance($this->item->user_id_from);
 
 			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
 			{
-				\JToolbarHelper::custom('message.reply', 'redo', null, 'COM_MESSAGES_TOOLBAR_REPLY', false);
+				ToolbarHelper::custom('message.reply', 'redo', null, 'COM_MESSAGES_TOOLBAR_REPLY', false);
 			}
 
-			\JToolbarHelper::cancel('message.cancel');
-			\JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_READ');
+			ToolbarHelper::cancel('message.cancel');
+			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_READ');
 		}
 	}
 }

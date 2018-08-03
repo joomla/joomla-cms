@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,9 +41,6 @@ HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-codemirror.min
 
 ?>
 <joomla-editor-codemirror <?php echo $editor, $addons, $modPath, $fsCombo, $option; ?>>
-<p class="badge badge-secondary">
-    <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $modifier, $params->get('fullScreen', 'F10')); ?>
-</p>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>

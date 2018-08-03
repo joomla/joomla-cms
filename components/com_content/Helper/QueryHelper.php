@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,6 +121,7 @@ class QueryHelper
 
 			case 'vote' :
 				$orderby = 'a.id DESC ';
+
 				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count DESC ';
@@ -129,6 +130,7 @@ class QueryHelper
 
 			case 'rvote' :
 				$orderby = 'a.id ASC ';
+
 				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count ASC ';
@@ -137,6 +139,7 @@ class QueryHelper
 
 			case 'rank' :
 				$orderby = 'a.id DESC ';
+
 				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating DESC ';
@@ -145,6 +148,7 @@ class QueryHelper
 
 			case 'rrank' :
 				$orderby = 'a.id ASC ';
+
 				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating ASC ';

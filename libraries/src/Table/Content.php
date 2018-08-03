@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,9 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Content table
@@ -26,11 +29,11 @@ class Content extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_content.article';
 		parent::__construct('#__content', 'id', $db);
@@ -186,7 +189,7 @@ class Content extends Table
 
 		if (trim($this->title) == '')
 		{
-			$this->setError(\JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -200,7 +203,7 @@ class Content extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
@@ -291,6 +294,7 @@ class Content extends Table
 					$clean_keys[] = trim($key);
 				}
 			}
+
 			// Put array back together delimited by ", "
 			$this->metakey = implode(', ', $clean_keys);
 		}
@@ -311,7 +315,7 @@ class Content extends Table
 	protected function getDefaultAssetValues($component)
 	{
 		// Need to find the asset id by the name of the component.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
@@ -333,8 +337,8 @@ class Content extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{
@@ -362,7 +366,7 @@ class Content extends Table
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 
 			return false;
 		}

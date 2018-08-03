@@ -13,6 +13,8 @@
         <media-create-folder-modal></media-create-folder-modal>
         <media-preview-modal></media-preview-modal>
         <media-rename-modal></media-rename-modal>
+        <media-share-modal></media-share-modal>
+        <media-confirm-delete-modal></media-confirm-delete-modal>
     </div>
 </template>
 

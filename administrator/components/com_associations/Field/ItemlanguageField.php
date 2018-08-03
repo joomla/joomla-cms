@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Associations\Administrator\Field;
@@ -83,7 +83,7 @@ class ItemlanguageField extends \JFormFieldList
 				$itemId                    = (int) $associations[$language->lang_code]['id'];
 				$options[$langCode]->value = $language->lang_code . ':' . $itemId . ':edit';
 
-				 // Check if user does have permission to edit the associated item.
+				// Check if user does have permission to edit the associated item.
 				$canEdit = AssociationsHelper::allowEdit($extensionName, $typeName, $itemId);
 
 				// Check if item can be checked out

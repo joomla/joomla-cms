@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
+use Joomla\CMS\Factory;
 
 /**
  * Service provider for the application's session dependency
@@ -62,7 +63,7 @@ class JoomlaStorage extends NativeStorage
 			'use_trans_sid' => 0,
 		];
 
-		if (!headers_sent())
+		if (!headers_sent() && !$this->isActive())
 		{
 			session_cache_limiter('none');
 		}
@@ -108,7 +109,7 @@ class JoomlaStorage extends NativeStorage
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$config        = \JFactory::getConfig();
+			$config        = Factory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
 			$cookie_path   = $config->get('cookie_path', '/');
 			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
@@ -228,7 +229,7 @@ class JoomlaStorage extends NativeStorage
 	 */
 	protected function setCookieParams()
 	{
-		if (headers_sent())
+		if (headers_sent() || $this->isActive())
 		{
 			return;
 		}
@@ -240,7 +241,7 @@ class JoomlaStorage extends NativeStorage
 			$cookie['secure'] = true;
 		}
 
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		if ($config->get('cookie_domain', '') != '')
 		{

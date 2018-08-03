@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Event class for representing the extensions's `onBeforeExtensionBoot` event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class AfterExtensionBootEvent extends AbstractImmutableEvent
 {
@@ -27,7 +27,7 @@ class AfterExtensionBootEvent extends AbstractImmutableEvent
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getExtensionType(): string
 	{
@@ -39,7 +39,7 @@ class AfterExtensionBootEvent extends AbstractImmutableEvent
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getExtensionName(): string
 	{
@@ -51,7 +51,7 @@ class AfterExtensionBootEvent extends AbstractImmutableEvent
 	 *
 	 * @return  Container
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getContainer(): Container
 	{

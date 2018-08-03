@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Controller;
@@ -14,6 +14,8 @@ use Joomla\CMS\Application\CmsApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Banners list controller class.
@@ -73,7 +75,7 @@ class BannersController extends AdminController
 	public function sticky_publish()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
@@ -82,7 +84,7 @@ class BannersController extends AdminController
 
 		if (empty($ids))
 		{
-			$this->app->enqueueMessage(\JText::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -106,7 +108,7 @@ class BannersController extends AdminController
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
 
-				$this->setMessage(\JText::plural($ntext, count($ids)));
+				$this->setMessage(Text::plural($ntext, count($ids)));
 			}
 		}
 

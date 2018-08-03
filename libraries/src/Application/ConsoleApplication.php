@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Joomla\CMS\Factory;
 
 /**
  * The Joomla! CMS Console Application
@@ -73,7 +74,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
-		$container = $container ?: \JFactory::getContainer();
+		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
 		if ($dispatcher)
@@ -187,7 +188,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getConfig()
 	{

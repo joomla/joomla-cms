@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,8 @@ use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
-
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 
 /**
  * Routing class from com_newsfeeds
@@ -65,7 +66,8 @@ class NewsfeedsRouter extends RouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = \JCategories::getInstance($this->getName())->get($id);
+		$category = Categories::getInstance($this->getName())->get($id);
+
 		if ($category)
 		{
 			$path = array_reverse($category->getPath(), true);
@@ -110,7 +112,7 @@ class NewsfeedsRouter extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('alias'))
 				->from($dbquery->qn('#__newsfeeds'))
@@ -142,7 +144,7 @@ class NewsfeedsRouter extends RouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = \JCategories::getInstance($this->getName(), array('access' => false))->get($query['id']);
+			$category = Categories::getInstance($this->getName(), array('access' => false))->get($query['id']);
 
 			if ($category)
 			{
@@ -194,7 +196,7 @@ class NewsfeedsRouter extends RouterView
 	{
 		if ($this->noIDs)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$dbquery = $db->getQuery(true);
 			$dbquery->select($dbquery->qn('id'))
 				->from($dbquery->qn('#__newsfeeds'))

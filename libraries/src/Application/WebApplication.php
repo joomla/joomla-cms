@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
@@ -22,6 +23,9 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla! Web application.
@@ -128,8 +132,11 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent('onBeforeExecute');
+		// Trigger the onBeforeExecute event
+		$this->getDispatcher()->dispatch(
+			'onBeforeExecute',
+			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+		);
 
 		// Perform application routines.
 		$this->doExecute();
@@ -255,7 +262,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadDocument(Document $document = null)
 	{
-		$this->document = $document ?? \JFactory::getDocument();
+		$this->document = $document ?? Factory::getDocument();
 
 		return $this;
 	}
@@ -275,7 +282,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadLanguage(Language $language = null)
 	{
-		$this->language = $language ?? \JFactory::getLanguage();
+		$this->language = $language ?? Factory::getLanguage();
 
 		return $this;
 	}
@@ -287,14 +294,14 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * but for many applications it will make sense to override this method and create a session,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
+	 * @param   Session  $session  An optional session object. If omitted, the session is created.
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 * @deprecated  5.0  The session should be injected as a service.
 	 */
-	public function loadSession(\JSession $session = null)
+	public function loadSession(Session $session = null)
 	{
 		$this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
 
@@ -340,7 +347,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -349,21 +355,20 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
 
 		if ($siteUri != '')
 		{
-			$uri = \JUri::getInstance($siteUri);
+			$uri = Uri::getInstance($siteUri);
 			$path = $uri->toString(array('path'));
 		}
 		// No explicit base URI was set so we need to detect it.
 		else
 		{
 			// Start with the requested URI.
-			$uri = \JUri::getInstance($this->get('uri.request'));
+			$uri = Uri::getInstance($this->get('uri.request'));
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
 			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
@@ -432,7 +437,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getConfig()
 	{

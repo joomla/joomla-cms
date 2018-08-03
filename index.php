@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,8 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
 	die(
 		str_replace(
-			array('{{PHP_VERSION}}', '{{BASEPATH}}'),
-			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . '/'),
+			'{{PHP_VERSION}}',
+			JOOMLA_MINIMUM_PHP,
 			file_get_contents(dirname(__FILE__) . '/templates/system/incompatible.html')
 		)
 	);

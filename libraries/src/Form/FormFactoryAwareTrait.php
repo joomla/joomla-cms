@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Defines the trait for a FormFactoryInterface Aware Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait FormFactoryAwareTrait
 {
@@ -21,7 +21,7 @@ trait FormFactoryAwareTrait
 	 * FormFactoryInterface
 	 *
 	 * @var    FormFactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $formFactory;
 
@@ -30,7 +30,7 @@ trait FormFactoryAwareTrait
 	 *
 	 * @return  FormFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException May be thrown if the FormFactory has not been set.
 	 */
 	public function getFormFactory()
@@ -50,7 +50,7 @@ trait FormFactoryAwareTrait
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setFormFactory(FormFactoryInterface $formFactory = null)
 	{

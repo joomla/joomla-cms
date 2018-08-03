@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,24 +17,23 @@ use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
-use Joomla\CMS\Extension\Component;
+use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Component class for com_content
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class ContentComponent extends Component implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
+class ContentComponent extends MVCComponent implements
+	BootableExtensionInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
 {
-	use MVCFactoryServiceTrait;
 	use CategoriesServiceTrait;
 	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;
@@ -50,7 +49,7 @@ class ContentComponent extends Component implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{
@@ -70,11 +69,11 @@ class ContentComponent extends Component implements
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
-		if (\JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
 			// On the front end we need to map some sections
 			switch ($section)
@@ -103,15 +102,15 @@ class ContentComponent extends Component implements
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article'    => \JText::_('COM_CONTENT'),
-			'com_content.categories' => \JText::_('JCATEGORY')
+			'com_content.article'    => Text::_('COM_CONTENT'),
+			'com_content.categories' => Text::_('JCATEGORY')
 		);
 
 		return $contexts;
@@ -124,7 +123,7 @@ class ContentComponent extends Component implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{

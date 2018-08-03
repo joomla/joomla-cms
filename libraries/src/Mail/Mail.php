@@ -2,17 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Language\Text;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -106,7 +106,7 @@ class Mail extends PHPMailer
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				throw new \RuntimeException(\JText::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
+				throw new \RuntimeException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
 			}
 
 			try
@@ -142,13 +142,13 @@ class Mail extends PHPMailer
 
 			if ($result == false)
 			{
-				throw new \RuntimeException(\JText::_($this->ErrorInfo), 500);
+				throw new \RuntimeException(Text::_($this->ErrorInfo), 500);
 			}
 
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(\JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 
 		return false;
 	}
@@ -220,7 +220,7 @@ class Mail extends PHPMailer
 			else
 			{
 				// If it is neither, we log a message and throw an exception
-				Log::add(\JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
 				throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, Mail::setSender(%s)', $from));
 			}

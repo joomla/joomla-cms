@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,10 @@ namespace Joomla\Component\Content\Administrator\Field\Modal;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal article picker.
@@ -43,7 +47,7 @@ class ArticleField extends FormField
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
@@ -52,8 +56,8 @@ class ArticleField extends FormField
 		$modalId = 'Article_' . $this->id;
 
 		// Add the modal field script to the document head.
-		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -67,7 +71,7 @@ class ArticleField extends FormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				\JFactory::getDocument()->addScriptDeclaration("
+				Factory::getDocument()->addScriptDeclaration("
 				function jSelectArticle_" . $this->id . "(id, title, catid, object, url, language) {
 					window.processModalSelect('Article', '" . $this->id . "', id, title, catid, object, url, language);
 				}
@@ -78,18 +82,18 @@ class ArticleField extends FormField
 		}
 
 		// Setup variables for display.
-		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
-		$linkArticle  = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
+		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
+		$linkArticle  = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 
 		if (isset($this->element['language']))
 		{
 			$linkArticles .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkArticle  .= '&amp;forcedLanguage=' . $this->element['language'];
-			$modalTitle    = \JText::_('COM_CONTENT_CHANGE_ARTICLE') . ' &#8212; ' . $this->element['label'];
+			$modalTitle    = Text::_('COM_CONTENT_CHANGE_ARTICLE') . ' &#8212; ' . $this->element['label'];
 		}
 		else
 		{
-			$modalTitle    = \JText::_('COM_CONTENT_CHANGE_ARTICLE');
+			$modalTitle    = Text::_('COM_CONTENT_CHANGE_ARTICLE');
 		}
 
 		$urlSelect = $linkArticles . '&amp;function=jSelectArticle_' . $this->id;
@@ -98,7 +102,7 @@ class ArticleField extends FormField
 
 		if ($value)
 		{
-			$db    = \JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__content'))
@@ -111,11 +115,11 @@ class ArticleField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
-		$title = empty($title) ? \JText::_('COM_CONTENT_SELECT_AN_ARTICLE') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		$title = empty($title) ? Text::_('COM_CONTENT_SELECT_AN_ARTICLE') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current article display field.
 		$html  = '';
@@ -140,8 +144,8 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
-				. '<span class="icon-file" aria-hidden="true"></span> ' . \JText::_('JSELECT')
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
+				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</a>';
 		}
 
@@ -154,8 +158,8 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_NEW_ARTICLE') . '">'
-				. '<span class="icon-new" aria-hidden="true"></span> ' . \JText::_('JACTION_CREATE')
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTENT_NEW_ARTICLE') . '">'
+				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</a>';
 		}
 
@@ -168,8 +172,8 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
-				. '<span class="icon-edit" aria-hidden="true"></span> ' . \JText::_('JACTION_EDIT')
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
+				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -181,7 +185,7 @@ class ArticleField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span>' . \JText::_('JCLEAR')
+				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
 				. '</a>';
 		}
 
@@ -193,7 +197,7 @@ class ArticleField extends FormField
 		// Select article modal
 		if ($allowSelect)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -204,7 +208,7 @@ class ArticleField extends FormField
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-										. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 				)
 			);
 		}
@@ -212,11 +216,11 @@ class ArticleField extends FormField
 		// New article modal
 		if ($allowNew)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
-					'title'       => \JText::_('COM_CONTENT_NEW_ARTICLE'),
+					'title'       => Text::_('COM_CONTENT_NEW_ARTICLE'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -227,13 +231,13 @@ class ArticleField extends FormField
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\', \'item-form\'); return false;">'
-							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\', \'item-form\'); return false;">'
-							. \JText::_('JSAVE') . '</a>'
+							. Text::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\', \'item-form\'); return false;">'
-							. \JText::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -241,11 +245,11 @@ class ArticleField extends FormField
 		// Edit article modal
 		if ($allowEdit)
 		{
-			$html .= \JHtml::_(
+			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(
-					'title'       => \JText::_('COM_CONTENT_EDIT_ARTICLE'),
+					'title'       => Text::_('COM_CONTENT_EDIT_ARTICLE'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -256,13 +260,13 @@ class ArticleField extends FormField
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\', \'item-form\'); return false;">'
-							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\', \'item-form\'); return false;">'
-							. \JText::_('JSAVE') . '</a>'
+							. Text::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\', \'item-form\'); return false;">'
-							. \JText::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -271,7 +275,7 @@ class ArticleField extends FormField
 		$class = $this->required ? ' class="required modal-value"' : '';
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(\JText::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
+			. '" data-text="' . htmlspecialchars(Text::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
 
 		return $html;
 	}

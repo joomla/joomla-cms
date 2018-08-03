@@ -60,12 +60,18 @@ export default {
     listView: 'grid',
     // The size of the grid items
     gridSize: 'md',
+    // The state of confirm delete model
+    showConfirmDeleteModal: false,
     // The state of create folder model
     showCreateFolderModal: false,
     // The state of preview model
     showPreviewModal: false,
+    // The state of share model
+    showShareModal: false,
     // The state of  model
     showRenameModal: false,
     // The preview item
     previewItem: null,
+    // The Search Query
+    search: '',
 }
