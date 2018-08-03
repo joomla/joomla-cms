@@ -133,9 +133,9 @@ class Installer extends \JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @param   string $basepath      Base Path of the adapters
-	 * @param   string $classprefix   Class prefix of adapters
-	 * @param   string $adapterfolder Name of folder to append to base path
+	 * @param   string $basepath       Base Path of the adapters
+	 * @param   string $classprefix    Class prefix of adapters
+	 * @param   string $adapterfolder  Name of folder to append to base path
 	 *
 	 * @since   3.1
 	 */
@@ -904,8 +904,11 @@ class Installer extends \JAdapter
 		// Process each query in the $queries array (children of $tagName).
 		try
 		{
-			// Begin the transaction
+			$db->execute("set AUTOCOMMIT = 0");
+
+			// Begin a transaction
 			$db->transactionStart();
+
 			foreach ($queries as $query)
 			{
 				if ($isUtf8mb4Db)
@@ -916,7 +919,8 @@ class Installer extends \JAdapter
 				$db->setQuery($query)->execute();
 				$update_count++;
 			}
-			//Commit the transaction
+
+			// Commit the transaction
 			$db->transactionCommit();
 		}
 		catch (\JDatabaseExceptionExecuting $e)
