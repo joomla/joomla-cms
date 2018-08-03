@@ -63,10 +63,10 @@ interface CategoriesServiceInterface
 	/**
 	 * Prepares the category form
 	 *
-	 * @param \Joomla\CMS\Categories\Form   $form  The form to change
-	 * @param array|object                  $data  The form data
+	 * @param   \Joomla\CMS\Categories\Form  $form  The form to change
+	 * @param   array|object                  $data  The form data
 	 *
-	 * @return void
+	 * @return   void
 	 */
 	public function prepareForm(Form $form, $data);
 }
