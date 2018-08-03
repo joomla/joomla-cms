@@ -931,6 +931,12 @@ class Installer extends \JAdapter
 
 			return false;
 		}
+		catch (\Exception $e)
+		{
+			$db->transactionRollback();
+
+			throw $e;
+		}
 
 		return $update_count;
 	}
