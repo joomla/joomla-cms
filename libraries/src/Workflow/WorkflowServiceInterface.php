@@ -20,6 +20,9 @@ interface WorkflowServiceInterface
 	/**
 	 * Method to filter transitions by given id of state.
 	 *
+	 * @param   array   $transitions   Array of transitions
+	 * @param   int    $pk   id of the state on which the tranistions are performecd
+	 *
 	 * @return  array
 	 *
 	 * @since  __DEPLOY_VERSION__

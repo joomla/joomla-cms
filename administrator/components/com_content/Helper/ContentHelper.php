@@ -335,7 +335,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 * Method to filter transitions by given id of state
 	 *
 	 * @param   int  $transitions  Array of transitions
-	 * @param   int  $pk           Id of state
+	 * @param   int  $pk			Id of state
+	 * @param   int  $workflow_id  Id of the workflow
 	 *
 	 * @return  array
 	 *
@@ -393,8 +394,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	/**
 	 * Prepares a form
 	 *
-	 * @param \Joomla\CMS\Categories\Form   $form  The form to change
-	 * @param array|object                  $data  The form data
+	 * @param   \Joomla\CMS\Categories\Form     $form    The form to change
+	 * @param   array|object     $data    The form data
 	 *
 	 * @return void
 	 */
