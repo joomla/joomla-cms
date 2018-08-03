@@ -584,6 +584,7 @@ class CoreInstallCommand extends AbstractCommand
 			'db_pass' => [
 				'question'  => "Enter database password",
 				'type'      => 'question',
+				'default'   => null,
 			],
 			'db_name' => [
 				'question'  => "Enter database name",
@@ -702,9 +703,16 @@ class CoreInstallCommand extends AbstractCommand
 		switch ($data['type'])
 		{
 			case 'question':
-				$value = $this->ioStyle->ask($data['question'], $default);
+				$placeholder = \uniqid("placeholder");
+				$value = $this->ioStyle->ask(
+					$data['question'],
+					$default,
+					function ($string) use ($placeholder) {
+						return (null == $string) ? $placeholder : $string;
+					}
+				);
 
-				return $value === ' ' ? '' : $value;
+				return str_replace($placeholder, null, $value);
 				break;
 
 			case 'select':
