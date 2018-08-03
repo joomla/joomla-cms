@@ -133,9 +133,9 @@ class Installer extends \JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @param   string $basepath       Base Path of the adapters
-	 * @param   string $classprefix    Class prefix of adapters
-	 * @param   string $adapterfolder  Name of folder to append to base path
+	 * @param   string $basepath      Base Path of the adapters
+	 * @param   string $classprefix   Class prefix of adapters
+	 * @param   string $adapterfolder Name of folder to append to base path
 	 *
 	 * @since   3.1
 	 */
