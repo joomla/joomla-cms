@@ -104,13 +104,13 @@ class Workflow
 			$pks = [(int) $pks];
 		}
 
-		// Check if there are any non numeric values
-		if (count(array_filter($pks, function($value) { return !is_numeric($value); })))
-		{
-			return false;
-		}
-
 		$pks = ArrayHelper::toInteger($pks);
+		$pks = array_filter($pks);
+
+		if (!count($pks))
+		{
+			return true;
+		}
 
 		$db = Factory::getDbo();
 
