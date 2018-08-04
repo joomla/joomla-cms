@@ -139,8 +139,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Method to filter transitions by given id of state.
 	 *
-	 * @param   array  $transitions   The Transitions to filter
-	 * @param   int    $pk            Id of the state
+	 * @param   array  $transitions  The Transitions to filter
+	 * @param   int    $pk           Id of the state
 	 *
 	 * @return  array
 	 *
@@ -169,8 +169,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Prepares the category form
 	 *
-	 * @param   Form           $form  The form to prepare
-	 * @param   array|object   $data  The form data
+	 * @param   Form          $form  The form to prepare
+	 * @param   array|object  $data  The form data
 	 *
 	 * @return void
 	 */
