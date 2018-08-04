@@ -26,7 +26,7 @@ $orderingColumn = 'created';
 
 if (strpos($listOrder, 'modified') !== false)
 {
-    $orderingColumn = 'modified';
+	$orderingColumn = 'modified';
 }
 
 if ($saveOrder)

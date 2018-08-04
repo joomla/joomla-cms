@@ -37,7 +37,7 @@ use Joomla\CMS\Factory;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface, 
+	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface,
 	AssociationServiceInterface, WorkflowServiceInterface
 {
 	use CategoriesServiceTrait;
@@ -138,9 +138,9 @@ class ContentComponent extends MVCComponent implements
 
 	/**
 	 * Method to filter transitions by given id of state.
-	 * 
-	 * @param   array   $transitions   The Transitions
-	 * @param   int   $id  Id of the state
+	 *
+	 * @param   array  $transitions   The Transitions to filter
+	 * @param   int    $pk            Id of the state
 	 *
 	 * @return  array
 	 *
@@ -169,8 +169,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Prepares the category form
 	 *
-	 * @param    \Joomla\CMS\Categories\Form  $form
-	 * @param   array|object                 $data
+	 * @param   Form           $form  The form to prepare
+	 * @param   array|object   $data  The form data
 	 *
 	 * @return void
 	 */

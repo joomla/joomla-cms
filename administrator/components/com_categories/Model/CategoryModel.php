@@ -427,9 +427,9 @@ class CategoryModel extends AdminModel
 		$componentInterface = Factory::getApplication()->bootComponent($component);
 
 		if ($componentInterface instanceof CategoriesServiceInterface)
- 		{
+		{
 			$componentInterface->prepareForm($form, $data);
- 		}
+		}
 		else
 		{
 			// Try to find the component helper.
