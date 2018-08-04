@@ -53,6 +53,23 @@ class FormattedtextLogger extends Logger
 	protected $path;
 
 	/**
+	 * If true, all writes will be deferred as long as possible.
+	 * NOTE: Deferred logs may never be written if the application encounters a fatal error.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $defer = false;
+
+	/**
+	 * If deferring, entries will be stored here prior to writing.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $deferredEntries = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
@@ -91,8 +108,39 @@ class FormattedtextLogger extends Logger
 			$this->format = (string) $this->options['text_entry_format'];
 		}
 
+		// Wait as long as possible before writing logs
+		if (!empty($this->options['defer']))
+		{
+			$this->defer = (boolean) $this->options['defer'];
+		}
+
 		// Build the fields array based on the format string.
 		$this->parseFields();
+	}
+
+	/**
+	 * If deferred, write all pending logs.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __destruct()
+	{
+		// Nothing to do
+		if (!$this->defer || empty($this->deferredEntries))
+		{
+			return;
+		}
+
+		// Initialise the file if not already done.
+		$this->initFile();
+
+		// Format all lines and write to file.
+		$lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
+
+		if (!\JFile::append($this->path, implode("\n", $lines) . "\n"))
+		{
+			throw new RuntimeException('Cannot write to log file.');
+		}
 	}
 
 	/**
@@ -107,9 +155,39 @@ class FormattedtextLogger extends Logger
 	 */
 	public function addEntry(LogEntry $entry)
 	{
-		// Initialise the file if not already done.
-		$this->initFile();
+		// Store the entry to be written later.
+		if ($this->defer)
+		{
+			$this->deferredEntries[] = $entry;
+		}
+		// Write it immediately.
+		else
+		{
+			// Initialise the file if not already done.
+			$this->initFile();
 
+			// Write the new entry to the file.
+			$line = $this->formatLine($entry);
+			$line .= "\n";
+
+			if (!\JFile::append($this->path, $line))
+			{
+				throw new RuntimeException('Cannot write to log file.');
+			}
+		}
+	}
+
+	/**
+	 * Format a line for the log file.
+	 *
+	 * @param   JLogEntry  $entry  The log entry to format as a string.
+	 *
+	 * @return  String
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function formatLine(LogEntry $entry)
+	{
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{

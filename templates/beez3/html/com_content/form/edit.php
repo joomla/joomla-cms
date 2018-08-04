@@ -229,6 +229,22 @@ endif;
 					<?php echo $this->form->getInput('tags'); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('note'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('note'); ?>
+				</div>
+			</div>			
+			<?php if ($params->get('save_history', 0)) : ?>
+				<div class="control-label">
+					<?php echo $this->form->getLabel('version_note'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('version_note'); ?>
+				</div>		
+			<?php endif; ?>
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 			<div class="control-group">
 				<div class="control-label">
