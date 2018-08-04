@@ -13,12 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 'relative' => true));
-
-if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
-{
-	HTMLHelper::_('formbehavior.chosen');
-}
+HTMLHelper::_('stylesheet', 'mod_languages/template.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-language-flag.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="mod-languages">
 <?php if ($headerText) : ?>
@@ -27,7 +23,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 
 <?php if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars(Uri::current(), ENT_COMPAT, 'UTF-8'); ?>">
-	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
+	<select class="inputbox" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
 		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
@@ -41,7 +37,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
 					<span class="caret"></span>
 					<?php if ($language->image) : ?>
-						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+						&nbsp;<joomla-language-flag country="<?php echo substr($language->image, 3); ?>"></joomla-language-flag>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
@@ -53,7 +49,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
 				<a href="<?php echo $language->link; ?>">
 					<?php if ($language->image) : ?>
-						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+						<joomla-language-flag country="<?php echo substr($language->image, 3); ?>"></joomla-language-flag>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
@@ -70,7 +66,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 			<a href="<?php echo $language->link; ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
-					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+					<joomla-language-flag country="<?php echo substr($language->image, 3); ?>"></joomla-language-flag>
 				<?php else : ?>
 					<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>

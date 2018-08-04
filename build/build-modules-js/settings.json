@@ -16,9 +16,14 @@
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
-      "toolbar-button"
+      "toolbar-button",
+      "language-flag"
     ],
     "webcomponents": {
+      "language-flag": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "field-media": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
