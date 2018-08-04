@@ -134,7 +134,7 @@ abstract class ModuleHelper
 	}
 
 	/**
-	 * Render the module.
+	 * Render the module content and the module chrome style.
 	 *
 	 * @param   object  $module   A module object.
 	 * @param   array   $attribs  An array of attributes for the module (probably from the XML).
@@ -261,9 +261,11 @@ abstract class ModuleHelper
 	}
 
 	/**
-	 * @param  object    $module   A module object
-	 * @param  Registry  $params   A module parameters
-	 * @param  array     $attribs  An array of attributes for the module (probably from the XML).
+	 * Render the module content.
+	 *
+	 * @param   object    $module   A module object
+	 * @param   Registry  $params   A module parameters
+	 * @param   array     $attribs  An array of attributes for the module (probably from the XML).
 	 *
 	 * @return  string
 	 *
