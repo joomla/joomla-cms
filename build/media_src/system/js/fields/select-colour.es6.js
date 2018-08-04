@@ -22,10 +22,12 @@
     const colourSelects = [].slice.call(document.querySelectorAll('.custom-select-color-state'));
 
     colourSelects.forEach((colourSelect) => {
+      const value = parseInt(colourSelect.value, 10);
+
       // Add class on page load
-      if (colourSelect.value === 1) {
+      if (value === 1) {
         colourSelect.classList.add('custom-select-success');
-      } else if (colourSelect.value === 0) {
+      } else if (value === 0) {
         colourSelect.classList.add('custom-select-danger');
       }
 
