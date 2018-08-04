@@ -10,8 +10,6 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-\JLoader::import('joomla.filesystem.path');
-
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
@@ -21,6 +19,8 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Abstract Table class
@@ -30,7 +30,7 @@ use Joomla\CMS\Access\Rules;
  * @since  11.1
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class Table extends \JObject implements \JTableInterface, DispatcherAwareInterface
+abstract class Table extends CMSObject implements \JTableInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -282,7 +282,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 
 			while (!class_exists($tableClass) && $pathIndex < count($paths))
 			{
-				if ($tryThis = \JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
+				if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
 					include_once $tryThis;

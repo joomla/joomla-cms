@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Input\Input;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Factory to create MVC objects in legacy mode.
@@ -92,7 +93,7 @@ class LegacyFactory implements MVCFactoryInterface
 		if (!class_exists($viewClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = \JPath::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+			$path = Path::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
 
 			if (!$path)
 			{

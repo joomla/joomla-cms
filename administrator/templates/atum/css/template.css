@@ -542,8 +542,8 @@ legend {
   text-align: center;
   background-color: transparent;
   border: 0; }
-  .tbody-icon span[class^='icon-']:not(.icon-checkedout),
-  .tbody-icon span[class*=' icon-']:not(.icon-checkedout) {
+  .tbody-icon [class^='icon-'],
+  .tbody-icon [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -555,11 +555,8 @@ legend {
     color: #2f7d32;
     border-color: #2f7d32; }
   .tbody-icon .icon-featured {
-    color: #b35900;
-    border-color: #b35900; }
-  .tbody-icon .icon-unpublish {
-    color: #c52827;
-    border-color: #c52827; }
+    color: #3073bb;
+    border-color: #3073bb; }
   .tbody-icon .icon-archive {
     color: #495057;
     border-color: #495057; }
@@ -880,7 +877,7 @@ iframe {
     font-size: 20px;
     text-align: center;
     vertical-align: middle; }
-  .main-nav .collapse-level-1:not(.show) {
+  .main-nav .open .collapse-level-1 {
     display: block; }
   .main-nav .collapse-level-1 a::before {
     display: none; }
@@ -985,18 +982,17 @@ iframe {
   .subhead .btn {
     padding: 0 22px;
     font-size: 1rem;
-    line-height: 2.65rem;
-    color: #fff; }
+    line-height: 2.3rem; }
     .subhead .btn [class^='icon-'],
     .subhead .btn [class*=' icon-'],
     .subhead .btn [class^='fa-'],
     .subhead .btn [class*=' fa-'] {
       z-index: -1;
       display: inline-block;
-      width: 40px;
+      width: 38px;
       height: auto;
       margin: 0 16px 0 -22px;
-      line-height: 2.65rem;
+      line-height: 2.3rem;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.2); }
   .subhead .btn-group {

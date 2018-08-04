@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Library helper class
@@ -185,7 +186,7 @@ class LibraryHelper
 		{
 			// Fatal error.
 			$error = Text::_('JLIB_APPLICATION_ERROR_LIBRARY_NOT_FOUND');
-			\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), Log::WARNING, 'jerror');
 
 			return false;
 		}

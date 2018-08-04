@@ -15,13 +15,15 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Log\Log;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
  * @since  11.1
  */
-class Authentication extends \JObject
+class Authentication extends CMSObject
 {
 	use DispatcherAwareTrait;
 
@@ -94,7 +96,7 @@ class Authentication extends \JObject
 
 		if (!$isLoaded)
 		{
-			\JLog::add(Text::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), Log::WARNING, 'jerror');
 		}
 	}
 
@@ -157,7 +159,7 @@ class Authentication extends \JObject
 			else
 			{
 				// Bail here if the plugin can't be created
-				\JLog::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), Log::WARNING, 'jerror');
 				continue;
 			}
 
