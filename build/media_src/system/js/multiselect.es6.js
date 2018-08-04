@@ -96,10 +96,10 @@
         if (!(event.target.id === this.boxes[currentCheckBox].id)) {
           // We will prevent selecting text to prevent artifacts
           if (event.shiftKey) {
-            this.boxes[currentCheckBox].style['-webkit-user-select'] = 'none';
-            this.boxes[currentCheckBox].style['-moz-user-select'] = 'none';
-            this.boxes[currentCheckBox].style['-ms-user-select'] = 'none';
-            this.boxes[currentCheckBox].style['user-select'] = 'none';
+            document.body.style['-webkit-user-select'] = 'none';
+            document.body.style['-moz-user-select'] = 'none';
+            document.body.style['-ms-user-select'] = 'none';
+            document.body.style['user-select'] = 'none';
           }
 
           this.boxes[currentCheckBox].checked = !this.boxes[currentCheckBox].checked;
@@ -111,10 +111,10 @@
 
         // Restore normality
         if (event.shiftKey) {
-          delete this.boxes[currentCheckBox].style['-webkit-user-select'];
-          delete this.boxes[currentCheckBox].style['-moz-user-select'];
-          delete this.boxes[currentCheckBox].style['-ms-user-select'];
-          delete this.boxes[currentCheckBox].style['user-select'];
+          document.body.style['-webkit-user-select'] = 'none';
+          document.body.style['-moz-user-select'] = 'none';
+          document.body.style['-ms-user-select'] = 'none';
+          document.body.style['user-select'] = 'none';
         }
       }
     }
