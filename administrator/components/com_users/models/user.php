@@ -128,9 +128,9 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
+		// Passwords fields are required when mail to user is set to No in the joomla user plugin
 		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');

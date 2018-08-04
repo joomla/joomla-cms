@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Mail;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform

@@ -76,7 +76,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo $item->count; ?>
 							</td>
 							<td class="hidden-phone">
-								<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4') . ' H:i'); ?>
+								<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC5')); ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>

@@ -21,7 +21,7 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function __construct($config = array())
 	{
@@ -112,9 +112,9 @@ class LanguagesModelOverrides extends JModelList
 	/**
 	 * Method to get the total number of overrides.
 	 *
-	 * @return  int	The total number of overrides.
+	 * @return  integer  The total number of overrides.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function getTotal()
 	{
@@ -190,7 +190,7 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @return  array  Sorted associative array of languages.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function getLanguages()
 	{
@@ -230,9 +230,9 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @param   array  $cids  Array of keys to delete.
 	 *
-	 * @return  integer Number of successfully deleted overrides, boolean false if an error occurred.
+	 * @return  integer  Number of successfully deleted overrides, boolean false if an error occurred.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function delete($cids)
 	{
@@ -277,7 +277,7 @@ class LanguagesModelOverrides extends JModelList
 	/**
 	 * Removes all of the cached strings from the table.
 	 *
-	 * @return  boolean result of operation
+	 * @return  boolean  result of operation
 	 *
 	 * @since   3.4.2
 	 */

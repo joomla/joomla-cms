@@ -112,10 +112,10 @@ class UsersModelNotes extends JModelList
 			$query->where('(a.state IN (0, 1))');
 		}
 
-		// Filter by a single or group of categories.
-		$categoryId = $this->getState('filter.category_id');
+		// Filter by a single category.
+		$categoryId = (int) $this->getState('filter.category_id');
 
-		if ($categoryId && is_scalar($categoryId))
+		if ($categoryId)
 		{
 			$query->where('a.catid = ' . $categoryId);
 		}

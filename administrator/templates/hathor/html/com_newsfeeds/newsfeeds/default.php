@@ -32,7 +32,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -47,40 +47,40 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_published" id="filter_published">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
 			</label>
 			<select name="filter_category_id" id="filter_category_id">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" id="filter_access">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
 			</label>
 			<select name="filter_language" id="filter_language">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_tag">
 				<?php echo JText::_('JOPTION_SELECT_TAG'); ?>
 			</label>
 			<select name="filter_tag" id="filter_tag">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -123,7 +123,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 					<th class="width-5">
 						<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
-				<?php endif;?>
+				<?php endif; ?>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 				</th>
@@ -156,7 +156,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 							<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
 					<p class="smallsub">
-						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
+						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?></p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
@@ -176,7 +176,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" <?php echo $disabled; ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
@@ -196,7 +196,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('newsfeed.association', $item->id); ?>
 						<?php endif; ?>
 					</td>
-				<?php endif;?>
+				<?php endif; ?>
 				<td class="center">
 					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 				</td>
@@ -221,7 +221,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 			),
 			$this->loadTemplate('batch_body')
 		); ?>
-	<?php endif;?>
+	<?php endif; ?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 

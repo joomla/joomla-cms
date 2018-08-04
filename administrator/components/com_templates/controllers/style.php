@@ -54,7 +54,7 @@ class TemplatesControllerStyle extends JControllerForm
 			$context = $this->option . '.edit.' . $this->context;
 			$task = $this->getTask();
 
-			$item = $model->getItem($app->getTemplate('template')->id);
+			$item = $model->getItem($app->getTemplate(true)->id);
 
 			// Setting received params
 			$item->set('params', $data);

@@ -23,7 +23,7 @@ foreach ($list as $item) : ?>
 				(<?php echo $item->numitems; ?>)
 			<?php endif; ?>
 		</a>
-   		</h<?php echo $params->get('item_heading') + $levelup; ?>>
+		</h<?php echo $params->get('item_heading') + $levelup; ?>>
 
 		<?php if ($params->get('show_description', 0)) : ?>
 			<?php echo JHtml::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>

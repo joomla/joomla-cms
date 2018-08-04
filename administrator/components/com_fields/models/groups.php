@@ -8,6 +8,7 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -212,5 +213,32 @@ class FieldsModelGroups extends JModelList
 		$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 
 		return $query;
+	}
+
+	/**
+	 * Gets an array of objects from the results of database query.
+	 *
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitstart  Offset.
+	 * @param   integer  $limit       The number of records.
+	 *
+	 * @return  array  An array of results.
+	 *
+	 * @since   3.8.7
+	 * @throws  RuntimeException
+	 */
+	protected function _getList($query, $limitstart = 0, $limit = 0)
+	{
+		$result = parent::_getList($query, $limitstart, $limit);
+
+		if (is_array($result))
+		{
+			foreach ($result as $group)
+			{
+				$group->params = new Registry($group->params);
+			}
+		}
+
+		return $result;
 	}
 }

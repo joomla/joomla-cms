@@ -28,7 +28,7 @@ $saveOrder = $listOrder == 'ordering';
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -43,23 +43,23 @@ $saveOrder = $listOrder == 'ordering';
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_enabled" id="filter_enabled">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', PluginsHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.enabled'), true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', PluginsHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.enabled'), true); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_folder">
 				<?php echo JText::_('COM_PLUGINS_OPTION_FOLDER'); ?>
 			</label>
 			<select name="filter_folder" id="filter_folder">
-				<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
-				<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
+				<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER'); ?></option>
+				<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder')); ?>
 			</select>
-            		<label class="selectlabel" for="filter_access">
+			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" id="filter_access">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -93,7 +93,7 @@ $saveOrder = $listOrder == 'ordering';
 				<th class="nowrap width-10">
 					<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 				</th>
-                		<th class="title access-col">
+				<th class="title access-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap id-col">
@@ -108,7 +108,7 @@ $saveOrder = $listOrder == 'ordering';
 			$canEdit    = $user->authorise('core.edit',       'com_plugins');
 			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
 			$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
-			?>
+		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
@@ -129,7 +129,7 @@ $saveOrder = $listOrder == 'ordering';
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
-						<?php if ($saveOrder) :?>
+						<?php if ($saveOrder) : ?>
 							<?php if ($listDirn == 'asc') : ?>
 								<span><?php echo $this->pagination->orderUpIcon($i, @$this->items[$i - 1]->folder == $item->folder, 'plugins.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, @$this->items[$i + 1]->folder == $item->folder, 'plugins.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
@@ -139,23 +139,23 @@ $saveOrder = $listOrder == 'ordering';
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
+						<input type="text" name="order[]" value="<?php echo $item->ordering; ?>" <?php echo $disabled; ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
 
 				<td class="nowrap center">
-					<?php echo $this->escape($item->folder);?>
+					<?php echo $this->escape($item->folder); ?>
 				</td>
 				<td class="nowrap center">
-					<?php echo $this->escape($item->element);?>
+					<?php echo $this->escape($item->element); ?>
 				</td>
-                <td class="center">
+				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
-					<?php echo (int) $item->extension_id;?>
+					<?php echo (int) $item->extension_id; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

@@ -37,7 +37,7 @@ if ($this->params->get('presentation_style') === 'sliders') : ?>
 			?>
 			<li>
 				<a href="<?php echo $link; ?>">
-				    <?php echo $label; ?>
+					<?php echo $label; ?>
 				</a>
 			</li>
 		<?php endforeach; ?>

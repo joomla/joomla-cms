@@ -79,6 +79,7 @@
 					description="MOD_LOGIN_FIELD_GREETING_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -90,12 +91,13 @@
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
 					description="MOD_LOGIN_FIELD_NAME_DESC"
 					default="0"
+					filter="integer"
 					showon="greeting:1"
 					>
 					<option value="0">MOD_LOGIN_VALUE_NAME</option>
 					<option value="1">MOD_LOGIN_VALUE_USERNAME</option>
 				</field>
-				
+
 				<field
 					name="profilelink"
 					type="radio"
@@ -103,6 +105,7 @@
 					description="MOD_LOGIN_FIELD_PROFILE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -115,6 +118,7 @@
 					description="MOD_LOGIN_FIELD_USESECURE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -126,6 +130,7 @@
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
 					description="MOD_LOGIN_FIELD_USETEXT_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_LOGIN_VALUE_ICONS</option>
 					<option value="1">MOD_LOGIN_VALUE_TEXT</option>
@@ -154,6 +159,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

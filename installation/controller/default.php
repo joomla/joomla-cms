@@ -26,7 +26,7 @@ class InstallationControllerDefault extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Get the document object.
@@ -105,7 +105,7 @@ class InstallationControllerDefault extends JControllerBase
 			$vClass = 'InstallationViewDefault';
 		}
 
-		/* @var JViewHtml $view */
+		/** @var JViewHtml $view */
 		$view = new $vClass($model, $paths);
 		$view->setLayout($lName);
 

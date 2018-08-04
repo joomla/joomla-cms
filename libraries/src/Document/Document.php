@@ -10,6 +10,8 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
+
 /**
  * Document class, provides an easy interface to parse and display a document
  *
@@ -69,13 +71,14 @@ class Document
 	 * Document generator
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	public $_generator = 'Joomla! - Open Source Content Management';
 
 	/**
 	 * Document modified date
 	 *
-	 * @var    string
+	 * @var    string|Date
 	 * @since  11.1
 	 */
 	public $_mdate = '';
@@ -965,7 +968,7 @@ class Document
 	}
 
 	/**
-	 * Return the title of the page.
+	 * Return the description of the document.
 	 *
 	 * @return  string
 	 *
@@ -1035,14 +1038,27 @@ class Document
 	/**
 	 * Sets the document modified date
 	 *
-	 * @param   string  $date  The date to be set
+	 * @param   string|Date  $date  The date to be set
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @throws  \InvalidArgumentException
 	 */
 	public function setModifiedDate($date)
 	{
+		if (!is_string($date) && !($date instanceof Date))
+		{
+			throw new \InvalidArgumentException(
+				sprintf(
+					'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
+					__METHOD__ . '()',
+					'Joomla\\CMS\\Date\\Date',
+					gettype($date) === 'object' ? (get_class($date) . ' instance') : gettype($date)
+				)
+			);
+		}
+
 		$this->_mdate = $date;
 
 		return $this;
@@ -1051,7 +1067,7 @@ class Document
 	/**
 	 * Returns the document modified date
 	 *
-	 * @return  string
+	 * @return  string|Date
 	 *
 	 * @since   11.1
 	 */
@@ -1252,6 +1268,11 @@ class Document
 
 		if ($mdate = $this->getModifiedDate())
 		{
+			if (!($mdate instanceof Date))
+			{
+				$mdate = new Date($mdate);
+			}
+
 			$app->modifiedDate = $mdate;
 		}
 

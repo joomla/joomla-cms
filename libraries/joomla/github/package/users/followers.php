@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @documentation https://developer.github.com/v3/repos/users/followers
+ * @documentation https://developer.github.com/v3/users/followers
  *
  * @since       12.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead

@@ -13,7 +13,7 @@
 3- Is Joomla! for you?
 	* Joomla! is the right solution for most content web projects: https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More
 	* See Joomla's core features - https://www.joomla.org/core-features.html
-	* Try out our online demo: https://demo.joomla.org
+	* Try out our free hosting service: https://launch.joomla.org
 
 4- How to find a Joomla! translation?
 	* Repository of accredited language packs: https://community.joomla.org/translations.html

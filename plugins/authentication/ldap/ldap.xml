@@ -47,6 +47,7 @@
 					label="PLG_LDAP_FIELD_V3_LABEL"
 					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
@@ -59,6 +60,7 @@
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
@@ -71,6 +73,7 @@
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>

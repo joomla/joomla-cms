@@ -28,7 +28,7 @@ if ($field->context == 'com_contact.mail')
 	return;
 }
 
-if (!$value)
+if (!strlen($value))
 {
 	return;
 }

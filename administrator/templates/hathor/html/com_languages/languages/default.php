@@ -31,7 +31,7 @@ $saveOrder = $listOrder == 'a.ordering';
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -46,8 +46,8 @@ $saveOrder = $listOrder == 'a.ordering';
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_published" id="filter_published">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('languages.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('languages.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true); ?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -133,7 +133,7 @@ $saveOrder = $listOrder == 'a.ordering';
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
@@ -146,18 +146,18 @@ $saveOrder = $listOrder == 'a.ordering';
 								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'languages.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php endif; ?>
 						<?php endif; ?>
-						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+						<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" <?php echo $disabled; ?> class="text-area-order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php if ($item->home == '1') : ?>
-						<?php echo JText::_('JYES');?>
+						<?php echo JText::_('JYES'); ?>
 					<?php else:?>
-						<?php echo JText::_('JNO');?>
-					<?php endif;?>
+						<?php echo JText::_('JNO'); ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->lang_id); ?>

@@ -68,7 +68,7 @@ class ContenthistoryModelPreview extends JModelItem
 			$result->data = ContenthistoryHelper::prepareData($table);
 
 			// Let's use custom calendars when present
-			$result->save_date = JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
+			$result->save_date = JHtml::_('date', $table->save_date, JText::_('DATE_FORMAT_LC6'));
 
 			$dateProperties = array (
 				'modified_time',
@@ -84,7 +84,7 @@ class ContenthistoryModelPreview extends JModelItem
 			{
 				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != '0000-00-00 00:00:00')
 				{
-					$result->data->$dateProperty->value = JHtml::_('date', $result->data->$dateProperty->value, 'Y-m-d H:i:s');
+					$result->data->$dateProperty->value = JHtml::_('date', $result->data->$dateProperty->value, JText::_('DATE_FORMAT_LC6'));
 				}
 			}
 
