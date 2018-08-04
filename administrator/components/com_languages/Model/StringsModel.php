@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Languages\Administrator\Model;
@@ -23,7 +23,7 @@ class StringsModel extends BaseDatabaseModel
 	/**
 	 * Method for refreshing the cache in the database with the known language strings.
 	 *
-	 * @return  boolean  True on success, \Exception object otherwise.
+	 * @return  boolean|\Exception  True on success, \Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */
@@ -46,8 +46,8 @@ class StringsModel extends BaseDatabaseModel
 
 		// Create the insert query.
 		$query = $db->getQuery(true)
-					->insert($db->quoteName('#__overrider'))
-					->columns('constant, string, file');
+			->insert($db->quoteName('#__overrider'))
+			->columns('constant, string, file');
 
 		// Initialize some variables.
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
@@ -76,7 +76,7 @@ class StringsModel extends BaseDatabaseModel
 		$files = array_merge($files, \JFolder::files($base . '/templates', $language . '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, \JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 3, true));
+		$files = array_merge($files, \JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
@@ -113,7 +113,7 @@ class StringsModel extends BaseDatabaseModel
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array  Array of resuls on success, \Exception object otherwise.
+	 * @return  array|\Exception  Array of resuls on success, \Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */
@@ -151,7 +151,7 @@ class StringsModel extends BaseDatabaseModel
 
 			// Check whether there are more results than already loaded.
 			$query->clear('select')->clear('limit')
-						->select('COUNT(id)');
+				->select('COUNT(id)');
 			$db->setQuery($query);
 
 			if ($db->loadResult() > $limitstart + 10)

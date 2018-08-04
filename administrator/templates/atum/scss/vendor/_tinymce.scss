@@ -7,13 +7,11 @@
   }
 
   .mce-tinymce {
-    border: 1px solid $card-border-color;
-    @include border-radius($card-border-radius);
+    border: 1px solid $atum-template-color-dark;
   }
 
   .mce-btn,
   .mce-panel {
-    background: $card-bg-color-light;
+    background: $white-offset;
   }
-
 }

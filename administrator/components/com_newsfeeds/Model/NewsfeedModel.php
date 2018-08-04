@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
@@ -18,6 +18,8 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Newsfeed model.
@@ -91,7 +93,7 @@ class NewsfeedModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -117,6 +119,7 @@ class NewsfeedModel extends AdminModel
 			if (!$this->table->check())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -124,6 +127,7 @@ class NewsfeedModel extends AdminModel
 			if (!$this->table->store())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -158,7 +162,7 @@ class NewsfeedModel extends AdminModel
 				return false;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if (!empty($record->catid))
 			{
@@ -184,7 +188,7 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!empty($record->catid))
 		{
@@ -256,7 +260,7 @@ class NewsfeedModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+		$data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
 
 		if (empty($data))
 		{
@@ -265,7 +269,7 @@ class NewsfeedModel extends AdminModel
 			// Prime some default values.
 			if ($this->getState('newsfeed.id') == 0)
 			{
-				$app = \JFactory::getApplication();
+				$app = Factory::getApplication();
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
 			}
 		}
@@ -286,9 +290,9 @@ class NewsfeedModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
-		 \JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
@@ -332,6 +336,7 @@ class NewsfeedModel extends AdminModel
 					$data['alias'] = '';
 				}
 			}
+
 			$data['published'] = 0;
 		}
 
@@ -397,8 +402,8 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 		$table->alias =  ApplicationHelper::stringURLSafe($table->alias, $table->language);
@@ -470,6 +475,7 @@ class NewsfeedModel extends AdminModel
 	{
 		$condition = array();
 		$condition[] = 'catid = ' . (int) $table->catid;
+
 		return $condition;
 	}
 
@@ -540,12 +546,14 @@ class NewsfeedModel extends AdminModel
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			if ($name == $table->name)
 			{
 				$name = StringHelper::increment($name);
 			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -555,12 +563,12 @@ class NewsfeedModel extends AdminModel
 	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.1
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
+		return Factory::getUser()->authorise('core.create', 'com_newsfeeds');
 	}
 }

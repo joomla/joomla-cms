@@ -3,17 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Categories\Administrator\Helper;
+
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
@@ -49,7 +52,7 @@ class CategoriesHelper
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
@@ -62,12 +65,12 @@ class CategoriesHelper
 			{
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
-					$lang = \JFactory::getLanguage();
+					$lang = Factory::getLanguage();
 
 					// Loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
 					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+					|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 				}
@@ -84,16 +87,16 @@ class CategoriesHelper
 	 * @return  \JObject
 	 *
 	 * @since   1.6
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
+	 * @deprecated  3.2  Use ContentHelper::getActions() instead
 	 */
 	public static function getActions($extension, $categoryId = 0)
 	{
 		// Log usage of deprecated function
 		try
 		{
-			\JLog::add(
+			Log::add(
 				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
@@ -117,11 +120,29 @@ class CategoriesHelper
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-		$associations = array();
+		$associations     = array();
+		$user             = Factory::getUser();
+		$groups           = implode(',', $user->getAuthorisedViewLevels());
 
 		foreach ($langAssociations as $langAssociation)
 		{
-			$associations[$langAssociation->language] = $langAssociation->id;
+			// Include only published categories with user access
+			$arrId    = explode(':', $langAssociation->id);
+			$assocId  = $arrId[0];
+			$db       = \JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->qn('published'))
+				->from($db->qn('#__categories'))
+				->where('access IN (' . $groups . ')')
+				->where($db->qn('id') . ' = ' . (int) $assocId);
+
+			$result = (int) $db->setQuery($query)->loadResult();
+
+			if ($result === 1)
+			{
+				$associations[$langAssociation->language] = $langAssociation->id;
+			}
 		}
 
 		return $associations;

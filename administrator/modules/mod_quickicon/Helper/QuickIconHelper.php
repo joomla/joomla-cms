@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ abstract class QuickIconHelper
 		{
 			$context = $params->get('context', 'mod_quickicon');
 
-			if ($context == 'mod_quickicon')
+			if ($context === 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				Factory::getLanguage()->load('mod_quickicon');

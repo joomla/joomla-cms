@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ $alert = [
 	CMSApplication::MSG_NOTICE    => 'info',
 	CMSApplication::MSG_INFO      => 'info',
 	CMSApplication::MSG_DEBUG     => 'info',
+	'message'                     => 'success'
 ];
 
 ?>
@@ -30,7 +31,7 @@ $alert = [
 	<div id="system-message">
 		<?php if (is_array($msgList) && !empty($msgList)) : ?>
 			<?php foreach ($msgList as $type => $msgs) : ?>
-				<joomla-alert level="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
+				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
 						<h4><?php echo Text::_($type); ?></h4>
 						<div>

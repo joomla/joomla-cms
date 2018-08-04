@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of article records.
@@ -60,7 +63,7 @@ class ArticlesModel extends ListModel
 				'rating_count', 'rating',
 			);
 
-			if (\JLanguageAssociations::isEnabled())
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -83,7 +86,7 @@ class ArticlesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -183,7 +186,7 @@ class ArticlesModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -244,7 +247,7 @@ class ArticlesModel extends ListModel
 			'ua.name',
 		);
 
-		if (\JPluginHelper::isEnabled('content', 'vote'))
+		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
@@ -254,7 +257,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Join over the associations.
-		if (\JLanguageAssociations::isEnabled())
+		if (Associations::isEnabled())
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
@@ -264,6 +267,7 @@ class ArticlesModel extends ListModel
 
 		// Filter by access level.
 		$access = $this->getState('filter.access');
+
 		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
@@ -296,12 +300,13 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by categories and by level
-		$categoryId = $this->getState('filter.category_id');
+		$categoryId = $this->getState('filter.category_id', array());
 		$level = $this->getState('filter.level');
 
-		$categoryId = $categoryId && !is_array($categoryId)
-			? array($categoryId)
-			: $categoryId;
+		if (!is_array($categoryId))
+		{
+			$categoryId = $categoryId ? array($categoryId) : array();
+		}
 
 		// Case: Using both categories filter and by level filter
 		if (count($categoryId))
@@ -319,7 +324,7 @@ class ArticlesModel extends ListModel
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
 
-			$query->where(implode(' OR ', $subCatItemsWhere));
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
 		// Case: Using only the by level filter
@@ -384,6 +389,7 @@ class ArticlesModel extends ListModel
 		{
 			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;
@@ -448,9 +454,9 @@ class ArticlesModel extends ListModel
 	{
 		$items = parent::getItems();
 
-		if (\JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
-			$groups = \JFactory::getUser()->getAuthorisedViewLevels();
+			$groups = Factory::getUser()->getAuthorisedViewLevels();
 
 			foreach (array_keys($items) as $x)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,8 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Database\Event\ConnectionEvent;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Filesytem\File;
 
 JLoader::register('DebugMonitor', __DIR__ . '/debugmonitor.php');
 
@@ -300,11 +302,6 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (JDEBUG)
 		{
-			if (JError::getErrors())
-			{
-				$html[] = $this->display('errors');
-			}
-
 			if ($this->params->get('session', 1))
 			{
 				$html[] = $this->display('session');
@@ -459,16 +456,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$js = "Joomla.toggleContainer('dbg_container_" . $item . "');";
+		$html[] = '<div class="dbg-header' . $status . '" data-debug-toggle="dbg_container_' . $item . '"><a href="#"><h3>' . $title . '</h3></a></div>';
 
-		$class = 'dbg-header' . $status;
-
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
-
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
+		$html[] = '<div class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
 		$html[] = '</div>';
 
@@ -490,17 +480,8 @@ class PlgSystemDebug extends CMSPlugin
 		$title = Text::_('PLG_DEBUG_' . strtoupper($name));
 
 		$html = array();
-
-		$js = "Joomla.toggleContainer('dbg_container_" . $name . "');";
-
-		$class = 'dbg-header';
-
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
-
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
+		$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_' . $name . '"><a href="#"><h3>' . $title . '</h3></a></div>';
+		$html[] = '<div class="dbg-container" id="dbg_container_' . $name . '">';
 		$html[] = call_user_func($callable);
 		$html[] = '</div>';
 
@@ -532,7 +513,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (!is_array($session))
 		{
-			$html[] = $key . '<pre>' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
+			$html[] = '<pre>' . $key . ': ' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
 		}
 		else
 		{
@@ -558,71 +539,23 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$js = "Joomla.toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
-
-					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
-
-					// @todo set with js.. ?
-					$style = ' style="display: none;"';
-
-					$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<a href="#"><h3>' . $sKey . '</h3></a>';
+					$html[] = '</div>';
+					$html[] = '<div class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
 					$id++;
 
 					// Recurse...
-					$this->displaySession($sKey, $entries, $id);
+					$html[] = $this->displaySession($sKey, $entries, $id);
 
 					$html[] = '</div>';
 
 					continue;
 				}
 
-				if (is_array($entries))
-				{
-					$entries = implode($entries);
-				}
-
-				if (is_string($entries))
-				{
-					$html[] = $sKey . '<pre>' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
-				}
+				$html[] = '<pre>' . $sKey . ': ' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
 			}
 		}
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display errors.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displayErrors()
-	{
-		$html = array();
-
-		$html[] = '<ol>';
-
-		while ($error = JError::getError(true))
-		{
-			$col = (E_WARNING == $error->get('level')) ? 'red' : 'orange';
-
-			$html[] = '<li>';
-			$html[] = '<b style="color: ' . $col . '">' . $error->getMessage() . '</b><br>';
-
-			$info = $error->get('info');
-
-			if ($info)
-			{
-				$html[] = '<pre>' . print_r($info, true) . '</pre><br>';
-			}
-
-			$html[] = $this->renderBacktrace($error);
-			$html[] = '</li>';
-		}
-
-		$html[] = '</ol>';
 
 		return implode('', $html);
 	}
@@ -644,7 +577,7 @@ class PlgSystemDebug extends CMSPlugin
 		$totalMem  = 0;
 		$marks     = array();
 
-		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
+		foreach (Profiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
 			$totalMem  += (float) $mark->memory;
@@ -763,7 +696,7 @@ class PlgSystemDebug extends CMSPlugin
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
-					$labelClass = 'badge-important';
+					$labelClass = 'badge-danger';
 				}
 				elseif ($totalQueryTime < ($totalTime * 0.15))
 				{
@@ -1198,7 +1131,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$totalTime = 0;
 
-		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
+		foreach (Profiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
 		}
@@ -1362,7 +1295,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$html[] = '<table class="table table-striped dbg-query-table">';
+		$html[] = '<table class="table dbg-query-table">';
 		$html[] = '<thead>';
 		$html[] = '<tr>';
 
@@ -1469,6 +1402,7 @@ class PlgSystemDebug extends CMSPlugin
 
 			$html[] = '</tr>';
 		}
+
 		$html[] = '</tbody>';
 		$html[] = '</table>';
 
@@ -1749,8 +1683,6 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Render the backtrace.
 	 *
-	 * Stolen from JError to prevent it's removal.
-	 *
 	 * @param   Exception  $error  The Exception object to be rendered.
 	 *
 	 * @return  string     Rendered backtrace.
@@ -1804,14 +1736,14 @@ class PlgSystemDebug extends CMSPlugin
 	protected function displayLogs()
 	{
 		$priorities = array(
-			Log::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
-			Log::ALERT     => '<span class="badge badge-important">ALERT</span>',
-			Log::CRITICAL  => '<span class="badge badge-important">CRITICAL</span>',
-			Log::ERROR     => '<span class="badge badge-important">ERROR</span>',
+			Log::EMERGENCY => '<span class="badge badge-danger">EMERGENCY</span>',
+			Log::ALERT     => '<span class="badge badge-danger">ALERT</span>',
+			Log::CRITICAL  => '<span class="badge badge-danger">CRITICAL</span>',
+			Log::ERROR     => '<span class="badge badge-danger">ERROR</span>',
 			Log::WARNING   => '<span class="badge badge-warning">WARNING</span>',
 			Log::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
 			Log::INFO      => '<span class="badge badge-info">INFO</span>',
-			Log::DEBUG     => '<span class="badge">DEBUG</span>',
+			Log::DEBUG     => '<span class="badge badge-secondary">DEBUG</span>',
 		);
 
 		$out = '';
@@ -1925,7 +1857,7 @@ class PlgSystemDebug extends CMSPlugin
 		if ($callStack !== null)
 		{
 			$htmlCallStack .= '<div>';
-			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
+			$htmlCallStack .= '<table class="table dbg-query-table">';
 			$htmlCallStack .= '<thead>';
 			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th>#</th>';
@@ -2057,12 +1989,12 @@ class PlgSystemDebug extends CMSPlugin
 			}
 		}
 
-		if (JFile::exists($file))
+		if (File::exists($file))
 		{
-			JFile::delete($file);
+			File::delete($file);
 		}
 
 		// Write new file.
-		JFile::write($file, $current);
+		File::write($file, $current);
 	}
 }

@@ -21,6 +21,7 @@
 </template>
 
 <script>
+    import * as types from './../../../store/mutation-types';
     import navigable from "../../../mixins/navigable";
 
     export default {
@@ -45,8 +46,17 @@
             onDblClick() {
                 if (this.isDir) {
                     this.navigateTo(this.item.path);
+                    return;
+                }
+
+                let extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4'];
+
+                // Show preview
+                if (this.item.extension && extensionWithPreview.indexOf(this.item.extension.toLowerCase()) !== -1) {
+                    this.$store.commit(types.SHOW_PREVIEW_MODAL);
+                    this.$store.dispatch('getFullContents', this.item);
                 }
             }
         }
     }
-</script> 
+</script>

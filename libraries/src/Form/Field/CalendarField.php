@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -82,7 +83,7 @@ class CalendarField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -112,7 +113,7 @@ class CalendarField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -206,11 +207,11 @@ class CalendarField extends FormField
 
 			if ($showTime && $showTime != 'false')
 			{
-				$this->format = \JText::_('DATE_FORMAT_CALENDAR_DATETIME');
+				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
 			}
 			else
 			{
-				$this->format = \JText::_('DATE_FORMAT_CALENDAR_DATE');
+				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
 			}
 		}
 
@@ -287,6 +288,10 @@ class CalendarField extends FormField
 		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
 		}
 		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
 		{

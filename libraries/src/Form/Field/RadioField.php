@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,36 @@ class RadioField extends \JFormFieldList
 	 * @var    string
 	 * @since  3.5
 	 */
-	protected $layout = 'joomla.form.field.radio';
+	protected $layout = 'joomla.form.field.radio.buttons';
+
+	/**
+	 * Method to attach a Form object to the field.
+	 *
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
+	{
+		if (!parent::setup($element, $value, $group))
+		{
+			return false;
+		}
+
+		// The layout for Switcher
+		if (!$element['layout'] && strpos(trim($this->class), 'switcher') === 0)
+		{
+			$this->layout = 'joomla.form.field.radio.switcher';
+		}
+
+		return true;
+	}
 
 	/**
 	 * Method to get the radio button field input markup.
@@ -53,7 +82,8 @@ class RadioField extends \JFormFieldList
 			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
 	}
 
 	/**

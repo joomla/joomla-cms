@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,9 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Core content table
@@ -25,11 +28,11 @@ class CoreContent extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__ucm_content', 'core_content_id', $db);
 	}
@@ -104,7 +107,7 @@ class CoreContent extends Table
 
 		if (trim($this->core_title) === '')
 		{
-			$this->setError(\JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -118,17 +121,20 @@ class CoreContent extends Table
 
 		if (trim(str_replace('-', '', $this->core_alias)) === '')
 		{
-			$this->core_alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->core_alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
+
 		// Not Null sanity check
 		if (empty($this->core_images))
 		{
 			$this->core_images = '{}';
 		}
+
 		if (empty($this->core_urls))
 		{
 			$this->core_urls = '{}';
 		}
+
 		// Check the publish down date is not earlier than publish up.
 		if ($this->core_publish_down < $this->core_publish_up && $this->core_publish_down > $this->_db->getNullDate())
 		{
@@ -163,6 +169,7 @@ class CoreContent extends Table
 					$clean_keys[] = trim($key);
 				}
 			}
+
 			// Put array back together delimited by ", "
 			$this->core_metakey = implode(', ', $clean_keys);
 		}
@@ -239,8 +246,8 @@ class CoreContent extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->core_content_id)
 		{
@@ -358,7 +365,7 @@ class CoreContent extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -366,7 +373,7 @@ class CoreContent extends Table
 
 		$pksImploded = implode(',', $pks);
 
-		// Get the JDatabaseQuery object
+		// Get the DatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.

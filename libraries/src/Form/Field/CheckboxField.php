@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class CheckboxField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -63,7 +63,7 @@ class CheckboxField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -137,7 +137,7 @@ class CheckboxField extends FormField
 		$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
 		$disabled  = $this->disabled ? ' disabled' : '';
 		$value     = !empty($this->default) ? $this->default : '1';
-		$required  = $this->required ? ' required aria-required="true"' : '';
+		$required  = $this->required ? ' required' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
 
@@ -146,11 +146,9 @@ class CheckboxField extends FormField
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		$html = '<div class="form-check">';
-		$html .= '<label class="form-check-label">';
 		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
 				. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
 				. $required . $autofocus . '>';
-		$html .= '</label>';
 		$html .= '</div>';
 
 		return $html;

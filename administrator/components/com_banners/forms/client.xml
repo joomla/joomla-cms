@@ -33,7 +33,6 @@
 			label="COM_BANNERS_FIELD_EMAIL_LABEL"
 			size="40"
 			validate="email"
-			required="true"
 		/>
 
 		<field

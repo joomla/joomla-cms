@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,17 +63,21 @@ class PlgUserJoomla extends CMSPlugin
 			return false;
 		}
 
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+		// Only execute this query if using the database session handler
+		if ($this->app->get('session_handler', 'database') === 'database')
+		{
+			$query = $this->db->getQuery(true)
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
 
-		try
-		{
-			$this->db->setQuery($query)->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			return false;
+			try
+			{
+				$this->db->setQuery($query)->execute();
+			}
+			catch (ExecutionFailureException $e)
+			{
+				return false;
+			}
 		}
 
 		$query = $this->db->getQuery(true)
@@ -126,6 +130,7 @@ class PlgUserJoomla extends CMSPlugin
 		if (strpos($this->app->get('mailfrom'), '@') === false)
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
+
 			return;
 		}
 
@@ -234,7 +239,7 @@ class PlgUserJoomla extends CMSPlugin
 		// Load the logged in user to the application
 		$this->app->loadIdentity($instance);
 
-		$session = Factory::getSession();
+		$session = $this->app->getSession();
 
 		// Grab the current session ID
 		$oldSessionId = $session->getId();
@@ -245,8 +250,11 @@ class PlgUserJoomla extends CMSPlugin
 		// Register the needed session variables
 		$session->set('user', $instance);
 
-		// Ensure the new session's metadata is written to the database
-		$this->app->checkSession();
+		// Update the user related fields for the Joomla sessions table if tracking session metadata.
+		if ($this->app->get('session_metadata', true))
+		{
+			$this->app->checkSession();
+		}
 
 		// Purge the old session
 		$query = $this->db->getQuery(true)
@@ -315,8 +323,8 @@ class PlgUserJoomla extends CMSPlugin
 			$session->destroy();
 		}
 
-		// Enable / Disable Forcing logout all users with same userid
-		$forceLogout = $this->params->get('forceLogout', 1);
+		// Enable / Disable Forcing logout all users with same userid, but only if session metadata is tracked
+		$forceLogout = $this->params->get('forceLogout', 1) && $this->app->get('session_metadata', true);
 
 		if ($forceLogout)
 		{

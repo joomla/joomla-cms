@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 1070;
   display: table;
   width: 100%;
   height: 100%;
@@ -34,6 +34,9 @@
     max-height: 70vh;
   }
   .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     background-color: transparent;
     border: 0;
     box-shadow: none;

@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Content Component Route Helper.
@@ -37,7 +40,7 @@ abstract class ContentHelperRoute
 			$link .= '&catid=' . $catid;
 		}
 
-		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && Multilanguage::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 		}
@@ -57,7 +60,7 @@ abstract class ContentHelperRoute
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
-		if ($catid instanceof JCategoryNode)
+		if ($catid instanceof CategoryNode)
 		{
 			$id = $catid->id;
 		}
@@ -74,7 +77,7 @@ abstract class ContentHelperRoute
 		{
 			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
-			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && Multilanguage::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 			}

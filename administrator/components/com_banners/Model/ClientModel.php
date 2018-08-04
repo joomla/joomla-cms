@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Model;
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
 
 /**
  * Client model.
@@ -46,7 +47,7 @@ class ClientModel extends AdminModel
 				return false;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if (!empty($record->catid))
 			{
@@ -69,7 +70,7 @@ class ClientModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!empty($record->catid))
 		{
@@ -112,7 +113,7 @@ class ClientModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_banners.edit.client.data', array());
+		$data = Factory::getApplication()->getUserState('com_banners.edit.client.data', array());
 
 		if (empty($data))
 		{

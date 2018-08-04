@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Language\Text;
 
 /**
  * Dispatcher class for com_content
@@ -40,7 +41,7 @@ class ContactDispatcher extends Dispatcher
 		{
 			if (!$this->app->getIdentity()->authorise('core.create', 'com_contact'))
 			{
-				$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+				$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
 				return;
 			}

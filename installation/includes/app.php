@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,14 @@ defined('_JEXEC') or die;
 define('JPATH_BASE', dirname(__DIR__));
 
 require_once __DIR__ . '/defines.php';
+
+// Check for presence of vendor dependencies not included in the git repository
+if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor'))
+{
+	echo file_get_contents(JPATH_ROOT . '/templates/system/build_incomplete.html');
+
+	exit;
+}
 
 // Launch the application
 require_once __DIR__ . '/framework.php';
@@ -40,4 +48,4 @@ $container = \Joomla\CMS\Factory::getContainer();
 $container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application);
 
 // Instantiate and execute the application
-$container->get('InstallationApplicationWeb')->execute();
+$container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();

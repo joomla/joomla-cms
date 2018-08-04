@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,6 @@ class CMSObject
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @see    JError
 	 * @deprecated  12.3  JError has been deprecated
 	 */
 	protected $_errors = array();
@@ -132,12 +131,11 @@ class CMSObject
 	 * Get the most recent error message.
 	 *
 	 * @param   integer  $i         Option error index.
-	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
+	 * @param   boolean  $toString  Indicates if Exception objects should return their error message.
 	 *
 	 * @return  string   Error message
 	 *
 	 * @since   11.1
-	 * @see     JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getError($i = null, $toString = true)
@@ -170,10 +168,9 @@ class CMSObject
 	/**
 	 * Return all errors, if any.
 	 *
-	 * @return  array  Array of error messages or JErrors.
+	 * @return  array  Array of error messages.
 	 *
 	 * @since   11.1
-	 * @see     JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getErrors()
@@ -234,7 +231,6 @@ class CMSObject
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @see     JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function setError($error)

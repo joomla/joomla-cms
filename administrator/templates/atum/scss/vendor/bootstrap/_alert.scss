@@ -9,6 +9,7 @@
   hr {
     border-top-color: darken($background, 5%);
   }
+
   .alert-link {
     color: darken($background, 10%);
   }
@@ -17,12 +18,15 @@
 .alert-success {
   @include alert-variant(theme-color("success"), theme-color("success"), $gray-200);
 }
+
 .alert-info {
   @include alert-variant(theme-color("info"), theme-color("info"), $gray-200);
 }
+
 .alert-warning {
   @include alert-variant(theme-color("warning"), theme-color("warning"), $gray-200);
 }
+
 .alert-danger {
   @include alert-variant(theme-color("danger"), theme-color("danger"), $gray-200);
 }
