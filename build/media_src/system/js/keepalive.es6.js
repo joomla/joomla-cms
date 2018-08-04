@@ -28,13 +28,11 @@
     }
 
     window.setInterval(() => {
-      Joomla.request(
-        {
-          url: keepaliveUri,
-          onSuccess: () => { /* Do nothing */ },
-          onError: () => { /* Do nothing */ },
-        },
-      );
+      Joomla.request({
+        url: keepaliveUri,
+        onSuccess: () => { /* Do nothing */ },
+        onError: () => { /* Do nothing */ },
+      });
     }, keepaliveInterval);
 
     // Cleanup

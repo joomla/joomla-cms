@@ -1178,16 +1178,11 @@ Joomla.Modal = {
     }
     newParams = newParams || {};
 
-    newElement.dispatchEvent(
-      new CustomEvent(
-        newName,
-        {
-          detail: newParams,
-          bubbles: true,
-          cancelable: true,
-        },
-      ),
-    );
+    newElement.dispatchEvent(new CustomEvent(newName, {
+      detail: newParams,
+      bubbles: true,
+      cancelable: true,
+    }));
   };
 
   /**
