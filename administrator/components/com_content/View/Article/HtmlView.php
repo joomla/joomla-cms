@@ -207,7 +207,7 @@ class HtmlView extends BaseHtmlView
 				$modalId = 'jform_request_id';
 
 				// Add button to open the modal
-				ToolbarHelper::modal('ModalNewItem_' . $modalId, 'icon-new', 'New Menu Item');
+				ToolbarHelper::modal('ModalNewItem_' . $modalId, 'icon-new', 'COM_CONTENT_ADD_NEW_MENU_ITEM');
 
 				// Add the modal field script to the document head.
 				HTMLHelper::_('jquery.framework');
