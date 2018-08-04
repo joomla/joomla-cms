@@ -43,5 +43,5 @@
   document.addEventListener('DOMContentLoaded', updateSelectboxColour, true);
 
   // On Joomla updated
-  document.addEventListener('Joomla:update', updateSelectboxColour, true);
+  document.addEventListener('joomla:updated', updateSelectboxColour, true);
 })();
