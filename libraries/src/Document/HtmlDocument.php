@@ -561,8 +561,8 @@ class HtmlDocument extends Document
 	/**
 	 * Count the modules in the given position
 	 *
-	 * @param   string  $positionName      The position to use
-	 * @param   bool    $withContentOnly   Count only a modules which actually has a content
+	 * @param   string  $positionName     The position to use
+	 * @param   bool    $withContentOnly  Count only a modules which actually has a content
 	 *
 	 * @return  integer  Number of modules found
 	 *
