@@ -1,26 +1,25 @@
-div.mod-languages ul {
+.mod-languages__list {
 	margin: 0;
 	padding: 0;
-	list-style:none;
+	list-style: none;
 }
-div.mod-languages li {
+
+.mod-languages__list li {
 	margin-left: 5px;
 	margin-right: 5px;
 }
 
-div.mod-languages ul.lang-inline li {
+.mod-languages__list.lang-inline {
+	margin: 0;
+	padding: 0;
+	list-style: none;
 	display:inline-block;
 }
 
-div.mod-languages ul.lang-block li {
+.mod-languages__list > .lang-block {
 	display:block;
 }
 
-div.mod-languages img {
-	border:none;
-	display:inline-block;
-}
-
-div.mod-languages a {
+.mod-languages__list > a {
 	text-decoration: none;
 }
