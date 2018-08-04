@@ -209,7 +209,7 @@ Joomla.Modal = {
       // Check for new strings in the optionsStorage, and load them
       const newStrings = Joomla.getOptions('joomla.jtext');
       if (newStrings) {
-        this.load(newStrings);
+        Joomla.Text.load(newStrings);
 
         // Clean up the optionsStorage from useless data
         Joomla.loadOptions({ 'joomla.jtext': null });
@@ -218,7 +218,7 @@ Joomla.Modal = {
       newDef = newDef === undefined ? '' : newDef;
       newKey = newKey.toUpperCase();
 
-      return this.strings[newKey] !== undefined ? this.strings[newKey] : newDef;
+      return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
     },
 
     /**
@@ -243,7 +243,8 @@ Joomla.Modal = {
    *
    * @deprecated 5.0
    */
-  Joomla.Text = Joomla.JText;
+  Joomla.JText = Joomla.Text;
+
   /**
    * Joomla options storage
    *
@@ -593,7 +594,7 @@ Joomla.Modal = {
    */
   Joomla.isChecked = (isitchecked, form) => {
     let newForm = form;
-    if (typeof form === 'undefined') {
+    if (typeof newForm === 'undefined') {
       newForm = document.getElementById('adminForm');
     }
 
@@ -604,7 +605,9 @@ Joomla.Modal = {
     Joomla.Event.dispatch(newForm.boxchecked, 'change');
 
     // If we don't have a checkall-toggle, done.
-    if (!newForm.elements['checkall-toggle']) return;
+    if (!newForm.elements['checkall-toggle']) {
+      return;
+    }
 
     // Toggle main toggle checkbox depending on checkbox selection
     let c = true;
@@ -614,7 +617,7 @@ Joomla.Modal = {
 
     // eslint-disable-next-line no-plusplus
     for (i = 0, n = newForm.elements.length; i < n; i++) {
-      e = form.elements[i];
+      e = newForm.elements[i];
 
       if (e.type === 'checkbox' && e.name !== 'checkall-toggle' && !e.checked) {
         c = false;
