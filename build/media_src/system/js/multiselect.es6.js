@@ -16,14 +16,8 @@
         this.rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
         this.checkallToggle = document.querySelector('[name="checkall-toggle"]');
 
-        this.doSelect = this.doSelect.bind(this);
         this.onCheckallToggleClick = this.onCheckallToggleClick.bind(this);
         this.onRowClick = this.onRowClick.bind(this);
-
-        this.boxes.forEach((box) => {
-          box.addEventListener('click', this.doSelect);
-        });
-
 
         if (this.checkallToggle) {
           this.checkallToggle.addEventListener('click', this.onCheckallToggleClick);
@@ -35,33 +29,6 @@
           });
         }
       }
-    }
-
-    doSelect(event) {
-      const current = event.target;
-      let isChecked;
-      let lastIndex;
-      let currentIndex;
-      let swap;
-
-      if (event.shiftKey && this.last.length) {
-        isChecked = current.hasAttribute(':checked');
-        lastIndex = this.boxes.index(this.last);
-        currentIndex = this.boxes.index(current);
-
-        if (currentIndex < lastIndex) {
-          // handle selection from bottom up
-          swap = lastIndex;
-          lastIndex = currentIndex;
-          currentIndex = swap;
-        }
-
-        this.boxes.slice(lastIndex, currentIndex + 1).setAttribute('checked', isChecked);
-
-        this.changeBg(this.rows[currentIndex], isChecked);
-      }
-
-      this.last = current;
     }
 
     // Changes the background-color on every cell inside a <tr>
