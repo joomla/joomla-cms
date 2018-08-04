@@ -45,5 +45,5 @@
   document.addEventListener('DOMContentLoaded', onSelect, true);
 
   // Joomla updated
-  document.addEventListener('Joomla:update', onSelect, true);
+  document.addEventListener('joomla:updated', onSelect, true);
 })();
