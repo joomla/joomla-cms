@@ -9203,9 +9203,15 @@ header {
 .system-debug {
   display: block; }
 
-.page-link.active.current {
-  background-color: #dee2e6;
-  color: #999; }
+.page-link.active {
+  padding: 0; }
+  .page-link.active.current {
+    color: #999;
+    background-color: #dee2e6;
+    padding: 0.5rem 0.75rem; }
+  .page-link.active a {
+    padding: 0.5rem 0.75rem;
+    line-height: 2.25; }
 
 .page-link.disabled {
   color: #999; }

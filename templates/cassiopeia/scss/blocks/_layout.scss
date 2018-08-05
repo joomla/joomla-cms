@@ -114,9 +114,15 @@ header {
 
 .page-link {
   &.active {
+    padding: 0;
     &.current {
       color: #999;
       background-color: #dee2e6;
+      padding: 0.5rem 0.75rem;
+    }
+    & a {
+      padding: 0.5rem 0.75rem;
+      line-height: 2.25;
     }
   }
   &.disabled {
