@@ -114,8 +114,10 @@ header {
 
 .page-link {
   &.active {
-    color: #999;
-    background-color: #dee2e6;
+    &.current {
+	    background-color: #dee2e6;
+	    color: #999;
+	  }
   }
   &.disabled {
     color: #999;

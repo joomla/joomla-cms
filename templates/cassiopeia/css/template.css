@@ -9203,9 +9203,9 @@ header {
 .system-debug {
   display: block; }
 
-.page-link.active {
-  color: #999;
-  background-color: #dee2e6; }
+.page-link.active.current {
+  background-color: #dee2e6;
+  color: #999; }
 
 .page-link.disabled {
   color: #999; }
