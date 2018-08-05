@@ -10,6 +10,8 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Trait for component categories service.
  *
@@ -87,7 +89,7 @@ trait CategoriesServiceTrait
 			return;
 		}
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -154,7 +156,7 @@ trait CategoriesServiceTrait
 			return;
 		}
 
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$join  = $db->qn($sectionTable) . ' AS c ON ct.content_item_id=c.id';
 		$state = $this->getStateColumnForSection($section);
 

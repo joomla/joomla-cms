@@ -19,10 +19,10 @@ defined('_JEXEC') or die;
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th>
+					<th scope="col">
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_HEADING'); ?>
 					</th>
-					<th>
+					<th scope="col">
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_COUNT'); ?>
 					</th>
 				</tr>
@@ -30,13 +30,13 @@ defined('_JEXEC') or die;
 			<tbody>
 				<?php foreach ($this->data->type_list as $type) : ?>
 				<tr>
-					<td>
+					<th scope="row">
 						<?php
 						$lang_key    = 'PLG_FINDER_STATISTICS_' . str_replace(' ', '_', $type->type_title);
 						$lang_string = JText::_($lang_key);
 						echo $lang_string === $lang_key ? $type->type_title : $lang_string;
 						?>
-					</td>
+					</th>
 					<td>
 						<span class="badge badge-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
 					</td>
