@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Associations controller class.
@@ -55,7 +57,7 @@ class AssociationsController extends AdminController
 	public function purge()
 	{
 		$this->getModel('associations')->purge();
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
@@ -68,7 +70,7 @@ class AssociationsController extends AdminController
 	public function clean()
 	{
 		$this->getModel('associations')->clean();
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
@@ -81,7 +83,7 @@ class AssociationsController extends AdminController
 	public function checkin()
 	{
 		// Set the redirect so we can just stop processing when we find a condition we can't process
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 		// Figure out if the item supports checking and check it in
 		$type = null;
@@ -123,8 +125,8 @@ class AssociationsController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
-			\JText::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
+			Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
+			Text::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
 		);
 
 		return;

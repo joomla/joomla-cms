@@ -27,48 +27,41 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if (empty($this->rows)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
-							<th style="width:1%">
+							<td style="width:1%">
 								&#160;
-							</th>
-							<th style="width:15%" class="nowrap">
+							</td>
+							<th scope="col" style="width:15%" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:15%" class="d-none d-sm-table-cell">
+							<th scope="col" style="width:15%" class="d-none d-sm-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
-							<th class="nowrap text-center">
+							<th scope="col" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:5%" class="nowrap text-center">
+							<th scope="col" style="width:5%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:5%" class="nowrap text-center">
+							<th scope="col" style="width:5%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="10">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 					<?php
 					$version = new JVersion;
@@ -82,11 +75,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<td>
 								<?php echo JHtml::_('languages.id', $i, $row->language); ?>
 							</td>
-							<td>
+							<th scope="row">
 								<label for="cb<?php echo $i; ?>">
 									<?php echo $this->escape($row->name); ?>
 								</label>
-							</td>
+							</th>
 							<td class="hidden-md-down">
 								<?php echo $this->escape($row->nativeName); ?>
 							</td>
@@ -121,6 +114,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

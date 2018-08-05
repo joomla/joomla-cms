@@ -14,6 +14,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Modules Component Positions Model
@@ -94,7 +96,7 @@ class PositionsModel extends ListModel
 	{
 		if (!isset($this->items))
 		{
-			$lang            = \JFactory::getLanguage();
+			$lang            = Factory::getLanguage();
 			$search          = $this->getState('filter.search');
 			$state           = $this->getState('filter.state');
 			$clientId        = $this->getState('client_id');
@@ -146,7 +148,7 @@ class PositionsModel extends ListModel
 			// Load the positions from the installed templates.
 			foreach (ModulesHelper::getTemplates($clientId) as $template)
 			{
-				$path = \JPath::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+				$path = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
 
 				if (file_exists($path))
 				{

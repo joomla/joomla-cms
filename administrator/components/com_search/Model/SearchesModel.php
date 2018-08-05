@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of search terms.
@@ -142,7 +143,7 @@ class SearchesModel extends ListModel
 		if ($this->getState('show_results'))
 		{
 			PluginHelper::importPlugin('search');
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			if (!class_exists('JSite'))
 			{

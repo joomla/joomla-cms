@@ -21,7 +21,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<joomla-alert type="info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></joomla-alert>
 		<?php endif; ?>
 	<?php else : ?>
-	<table class="table table-striped table-sm">
+	<table class="table table-sm">
 		<tbody>
 		<?php if ($this->defaultHome == true) : ?>
 			<tr class="table-warning">
@@ -111,7 +111,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<?php endif; ?>
 		</tbody>
 	</table>
-	<table class="table table-striped table-sm">
+	<table class="table table-sm">
 		<thead>
 			<tr>
 				<th>
@@ -166,7 +166,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			</tr>
 		</tbody>
 	</table>
-	<table class="table table-striped table-sm">
+	<table class="table table-sm">
 		<thead>
 			<tr>
 				<th>

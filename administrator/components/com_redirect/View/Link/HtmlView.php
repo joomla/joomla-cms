@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a redirect link.
@@ -75,12 +78,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = ContentHelper::getActions('com_redirect');
 
-		\JToolbarHelper::title($isNew ? \JText::_('COM_REDIRECT_MANAGER_LINK_NEW') : \JText::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
+		ToolbarHelper::title($isNew ? Text::_('COM_REDIRECT_MANAGER_LINK_NEW') : Text::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
 
 		$toolbarButtons = [];
 
@@ -101,20 +104,20 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2new', 'link.save2new'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('link.cancel');
+			ToolbarHelper::cancel('link.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER_EDIT');
+		ToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER_EDIT');
 	}
 }

@@ -23,6 +23,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Joomla\CMS\Factory;
 
 /**
  * The Joomla! CMS Console Application
@@ -73,7 +74,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
-		$container = $container ?: \JFactory::getContainer();
+		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
 		if ($dispatcher)

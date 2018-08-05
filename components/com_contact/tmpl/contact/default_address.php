@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
+
 /**
  * Marker_class: Class based on the selection of text, none, or icons
  * jicon-text, jicon-none, jicon-icon
@@ -123,7 +125,7 @@ defined('_JEXEC') or die;
 	<dd>
 		<span class="contact-webpage">
 			<a href="<?php echo $this->contact->webpage; ?>" target="_blank" rel="noopener noreferrer" itemprop="url">
-			<?php echo JStringPunycode::urlToUTF8($this->contact->webpage); ?></a>
+			<?php echo PunycodeHelper::urlToUTF8($this->contact->webpage); ?></a>
 		</span>
 	</dd>
 <?php endif; ?>

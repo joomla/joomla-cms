@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -21,7 +24,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<p> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
 	<?php else : ?>
 
-		<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+		<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 		<fieldset class="com-contact-category__filters filters btn-toolbar">
 			<?php if ($this->params->get('filter_field')) : ?>
@@ -56,8 +59,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php $contact_width = 7; ?>
 							<div class="col-md-2">
 								<?php if ($this->items[$i]->image) : ?>
-									<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
-										<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
+									<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+										<?php echo HTMLHelper::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 								<?php endif; ?>
 							</div>
 						<?php else : ?>
@@ -65,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 
 						<div class="list-title col-md-<?php echo $contact_width; ?>">
-							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+							<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
 							<?php if ($this->items[$i]->published == 0) : ?>
 								<span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>

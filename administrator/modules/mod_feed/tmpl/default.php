@@ -86,7 +86,7 @@ else
 
 	<?php // Show items ?>
 	<?php if (!empty($feed)) : ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?> list-group">
 		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) :
 
 			if (!$feed->offsetExists($i)) :
@@ -96,7 +96,7 @@ else
 			$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
 			$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 			?>
-				<li>
+				<li class="list-group-item mb-2">
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
 						<a href="<?php echo $uri; ?>" target="_blank">

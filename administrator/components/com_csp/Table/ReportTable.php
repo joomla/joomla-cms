@@ -15,18 +15,18 @@ use Joomla\CMS\Table\Table;
 /**
  * Report table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReportTable extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__csp', 'id', $db);
 	}
