@@ -9206,11 +9206,11 @@ header {
 .page-link.active {
   padding: 0; }
   .page-link.active.current {
+    padding: .5rem .75rem;
     color: #999;
-    background-color: #dee2e6;
-    padding: 0.5rem 0.75rem; }
+    background-color: #dee2e6; }
   .page-link.active a {
-    padding: 0.5rem 0.75rem;
+    padding: .5rem .75rem;
     line-height: 2.25; }
 
 .page-link.disabled {
