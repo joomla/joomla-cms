@@ -40,11 +40,9 @@ class BannersModelClient extends JModelAdmin
 			return false;
 		}
 
-		$user = JFactory::getUser();
-
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+			return JFactory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
 		}
 
 		return parent::canDelete($record);
