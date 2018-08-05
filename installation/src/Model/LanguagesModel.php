@@ -249,8 +249,16 @@ class LanguagesModel extends BaseInstallationModel
 	{
 		$update = new Update;
 		$update->loadFromXml($remote_manifest);
+		
+		// Get the download url from the remote manifest
+		$downloadUrl = $update->get('downloadurl', false);
+		
+		// Check if the download url exist, otherwise return empty value
+		if ($downloadUrl === false) {
+			return '';
+		}
 
-		return trim($update->get('downloadurl', false)->_data);
+		return trim($downloadUrl->_data);
 	}
 
 	/**
