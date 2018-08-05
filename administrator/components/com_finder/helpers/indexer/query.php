@@ -111,7 +111,7 @@ class FinderIndexerQuery
 	 * Allow empty searches
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $empty;
 
@@ -753,7 +753,6 @@ class FinderIndexerQuery
 		$input  = preg_replace('#\s+#mi', ' ', $input);
 		$input  = trim($input);
 		$debug  = JFactory::getConfig()->get('debug_lang');
-		$params = ComponentHelper::getParams('com_finder');
 		$params = ComponentHelper::getParams('com_finder');
 
 		/*
