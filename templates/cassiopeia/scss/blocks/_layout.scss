@@ -111,3 +111,16 @@ header {
 .system-debug {
   display: block;
 }
+
+.page-link {
+  &.active {
+    background-color: #dee2e6;
+    color: #999;
+  }
+  &.disabled {
+    color: #999;
+    &:hover {
+      background: transparent;
+    }
+  }
+}
