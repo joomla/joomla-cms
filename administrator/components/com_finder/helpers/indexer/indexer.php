@@ -501,8 +501,8 @@ abstract class FinderIndexer
 		if (is_null($filterCommon))
 		{
 			$params = ComponentHelper::getParams('com_finder');
-			$filterCommon = (bool) $params->get('filter_commonwords', false);
-			$filterNumeric = (bool) $params->get('filter_numerics', false);
+			$filterCommon = $params->get('filter_commonwords', false);
+			$filterNumeric = $params->get('filter_numerics', false);
 		}
 
 		// Get the database object.
