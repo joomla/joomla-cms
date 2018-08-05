@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Contenthistory list controller class.
@@ -29,14 +32,14 @@ class HistoryController extends AdminController
 	 */
 	public function delete()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$this->app->enqueueMessage(\JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -49,7 +52,7 @@ class HistoryController extends AdminController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(\JText::plural('COM_CONTENTHISTORY_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{
@@ -58,10 +61,10 @@ class HistoryController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . \JSession::getFormToken() . '=1', false
+				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . Session::getFormToken() . '=1', false
 			)
 		);
 	}
@@ -91,14 +94,14 @@ class HistoryController extends AdminController
 	 */
 	public function keep()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$this->app->enqueueMessage(\JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -111,7 +114,7 @@ class HistoryController extends AdminController
 			// Remove the items.
 			if ($model->keep($cid))
 			{
-				$this->setMessage(\JText::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
+				$this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
 			}
 			else
 			{
@@ -120,10 +123,10 @@ class HistoryController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . \JSession::getFormToken() . '=1', false
+				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . Session::getFormToken() . '=1', false
 			)
 		);
 	}

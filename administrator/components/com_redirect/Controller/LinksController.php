@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Redirect link list controller class.
@@ -30,7 +33,7 @@ class LinksController extends AdminController
 	public function activate()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -38,7 +41,7 @@ class LinksController extends AdminController
 
 		if (empty($ids))
 		{
-			$this->app->enqueueMessage(\JText::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -54,7 +57,7 @@ class LinksController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(\JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
 
@@ -71,7 +74,7 @@ class LinksController extends AdminController
 	public function duplicateUrls()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -79,7 +82,7 @@ class LinksController extends AdminController
 
 		if (empty($ids))
 		{
-			$this->app->enqueueMessage(\JText::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -95,7 +98,7 @@ class LinksController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(\JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
 
@@ -134,13 +137,13 @@ class LinksController extends AdminController
 		{
 			if (!empty($batch_urls_line))
 			{
-				$params = JComponentHelper::getParams('com_redirect');
+				$params = ComponentHelper::getParams('com_redirect');
 				$batch_urls[] = array_map('trim', explode($params->get('separator', '|'), $batch_urls_line));
 			}
 		}
 
 		// Set default message on error - overwrite if successful
-		$this->setMessage(\JText::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
+		$this->setMessage(Text::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
 
 		if (!empty($batch_urls))
 		{
@@ -149,7 +152,7 @@ class LinksController extends AdminController
 			// Execute the batch process
 			if ($model->batchProcess($batch_urls))
 			{
-				$this->setMessage(\JText::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
+				$this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
 			}
 		}
 
@@ -169,11 +172,11 @@ class LinksController extends AdminController
 
 		if ($model->purge())
 		{
-			$message = \JText::_('COM_REDIRECT_CLEAR_SUCCESS');
+			$message = Text::_('COM_REDIRECT_CLEAR_SUCCESS');
 		}
 		else
 		{
-			$message = \JText::_('COM_REDIRECT_CLEAR_FAIL');
+			$message = Text::_('COM_REDIRECT_CLEAR_FAIL');
 		}
 
 		$this->setRedirect('index.php?option=com_redirect&view=links', $message);

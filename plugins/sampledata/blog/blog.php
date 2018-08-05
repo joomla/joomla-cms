@@ -282,7 +282,7 @@ class PlgSampledataBlog extends CMSPlugin
 				return $response;
 			}
 
-			// Get ID from category we just added
+			// Get ID from article we just added
 			$ids[] = $articleModel->getItem()->id;
 		}
 
@@ -957,7 +957,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{

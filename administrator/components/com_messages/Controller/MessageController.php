@@ -11,6 +11,7 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Language\Text;
 
 /**
  * Messages Component Message Model
@@ -53,7 +54,7 @@ class MessageController extends FormController
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_MESSAGES_INVALID_REPLY_ID'));
+			$this->setMessage(Text::_('COM_MESSAGES_INVALID_REPLY_ID'));
 			$this->setRedirect('index.php?option=com_messages&view=messages');
 		}
 	}

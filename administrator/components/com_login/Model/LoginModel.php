@@ -11,6 +11,11 @@ namespace Joomla\Component\Login\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Cache\CacheExceptionInterface;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
 
 /**
  * Login Model
@@ -30,7 +35,7 @@ class LoginModel extends BaseDatabaseModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$input = $app->input;
 		$method = $input->getMethod();
@@ -47,7 +52,7 @@ class LoginModel extends BaseDatabaseModel
 		{
 			$return = base64_decode($return);
 
-			if (!\JUri::isInternal($return))
+			if (!Uri::isInternal($return))
 			{
 				$return = '';
 			}
@@ -130,15 +135,15 @@ class LoginModel extends BaseDatabaseModel
 			return $clean;
 		}
 
-		$app      = \JFactory::getApplication();
-		$lang     = \JFactory::getLanguage()->getTag();
+		$app      = Factory::getApplication();
+		$lang     = Factory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('com_modules', 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getCache('com_modules', 'callback');
 
 		$loader = function () use ($app, $lang, $module) {
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select('m.id, m.title, m.module, m.position, m.showtitle, m.params')
@@ -165,22 +170,22 @@ class LoginModel extends BaseDatabaseModel
 		{
 			return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
 		}
-		catch (\JCacheException $cacheException)
+		catch (CacheExceptionInterface $cacheException)
 		{
 			try
 			{
 				return $loader();
 			}
-			catch (\JDatabaseExceptionExecuting $databaseException)
+			catch (ExecutionFailureException $databaseException)
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 				return array();
 			}
 		}
-		catch (\JDatabaseExceptionExecuting $databaseException)
+		catch (ExecutionFailureException $databaseException)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
 			return array();
 		}

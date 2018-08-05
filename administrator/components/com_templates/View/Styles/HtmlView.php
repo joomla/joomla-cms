@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of template styles.
@@ -112,38 +114,38 @@ class HtmlView extends BaseHtmlView
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
-			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
 		}
 		else
 		{
-			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-			\JToolbarHelper::divider();
+			ToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
-			\JToolbarHelper::divider();
+			ToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
-			\JToolbarHelper::divider();
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_templates');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_templates');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
+		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 
 		\JHtmlSidebar::setAction('index.php?option=com_templates&view=styles');
 	}

@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Model class to display postinstall messages
@@ -45,10 +48,10 @@ class HtmlView extends BaseHtmlView
 
 		$this->toolbar();
 
-		$this->token = \JFactory::getSession()->getFormToken();
+		$this->token = Factory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
-		\JToolbarHelper::title(\JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
+		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
 
 		return parent::display($tpl);
 	}
@@ -63,10 +66,10 @@ class HtmlView extends BaseHtmlView
 	private function toolbar()
 	{
 		// Options button.
-		if (\JFactory::getUser()->authorise('core.admin', 'com_postinstall'))
+		if (Factory::getUser()->authorise('core.admin', 'com_postinstall'))
 		{
-			\JToolbarHelper::preferences('com_postinstall', 550, 875);
-			\JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+			ToolbarHelper::preferences('com_postinstall', 550, 875);
+			ToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
 		}
 	}
 }

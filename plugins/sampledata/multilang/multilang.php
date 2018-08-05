@@ -24,7 +24,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Sampledata - Multilang Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgSampledataMultilang extends CMSPlugin
 {
@@ -33,7 +33,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    JDatabaseDriver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $db;
 
@@ -42,7 +42,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    JApplicationCms
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $app;
 
@@ -51,7 +51,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -60,21 +60,21 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var     MenusModelItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $menuItemModel;
 
 	/**
 	 * @var     string language path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $path = null;
 
 	/**
 	 * @var    Admin Id, author of all generated content.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $adminId;
 
@@ -83,7 +83,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onSampledataGetOverview()
 	{
@@ -102,7 +102,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
@@ -148,7 +148,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
@@ -192,7 +192,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
@@ -231,7 +231,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
@@ -295,7 +295,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
@@ -339,7 +339,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
@@ -426,7 +426,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
@@ -465,7 +465,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
@@ -482,7 +482,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function enablePlugin($pluginName)
 	{
@@ -547,7 +547,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function disableModuleMainMenu()
 	{
@@ -583,7 +583,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addModuleLanguageSwitcher()
 	{
@@ -636,7 +636,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addModuleMenu($itemLanguage)
 	{
@@ -689,7 +689,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addMenuGroup($itemLanguage)
 	{
@@ -733,7 +733,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 
 	private function addAllCategoriesMenuItem($itemLanguage)
@@ -816,7 +816,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addBlogMenuItem($itemLanguage, $categoryId)
 	{
@@ -895,7 +895,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addAssociations($groupedAssociations)
 	{
@@ -934,7 +934,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addModuleInModuleMenu($moduleId)
 	{
@@ -968,7 +968,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addCategory($itemLanguage)
 	{
@@ -1031,7 +1031,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addArticle($itemLanguage, $categoryId)
 	{
@@ -1118,7 +1118,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function publishContentLanguages()
 	{
@@ -1148,7 +1148,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getInstalledlangsAdministrator()
 	{
@@ -1160,7 +1160,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array  List of installed languages in the frontend application.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getInstalledlangsFrontend()
 	{
@@ -1174,7 +1174,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getInstalledlangs($cms_client = 'administrator')
 	{
@@ -1231,7 +1231,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  object  The language data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLanguageList($client_id = 1)
 	{
@@ -1262,7 +1262,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{
@@ -1274,7 +1274,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  string  The path to the languages folders.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getPath()
 	{
@@ -1294,7 +1294,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getClient($client = 'administrator')
 	{
@@ -1308,7 +1308,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  integer|boolean  One Administrator ID.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getAdminId()
 	{

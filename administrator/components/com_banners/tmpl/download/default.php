@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 ?>
 <div class="container-popup">
 	<form
 		class="form-horizontal form-validate"
 		id="download-form"
 		name="adminForm"
-		action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
+		action="<?php echo Route::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
 		method="post">
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>

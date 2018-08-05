@@ -1,7 +1,6 @@
 const Promise = require('bluebird');
 const fs = require('fs');
-// const fsExtra = require('fs-extra');
-const chalk = require('chalk');
+const Path = require('path');
 const Recurs = require('recursive-readdir');
 const Sass = require('node-sass');
 const UglyCss = require('uglifycss');
@@ -14,10 +13,10 @@ const watches = [
   `${rootPath}/templates/cassiopeia/scss`,
   `${rootPath}/administrator/templates/atum/scss`,
   `${rootPath}/media/plg_installer_webinstaller/scss`,
-  `${rootPath}/media`,
+  `${rootPath}/build/media_src`,
 ];
 
-const compileFiles = (options, path) => {
+const compileCSSFiles = (options, path) => {
   let files = [];
   let folders = [];
 
@@ -34,36 +33,37 @@ const compileFiles = (options, path) => {
   } else {
     files = [
       `${rootPath}/templates/cassiopeia/scss/template.scss`,
+      `${rootPath}/templates/cassiopeia/scss/template-rtl.scss`,
       `${rootPath}/administrator/templates/atum/scss/bootstrap.scss`,
       `${rootPath}/administrator/templates/atum/scss/font-awesome.scss`,
       `${rootPath}/administrator/templates/atum/scss/template.scss`,
       `${rootPath}/administrator/templates/atum/scss/template-rtl.scss`,
-      `${rootPath}/media/plg_installer_webinstaller/scss/client.scss`,
+      `${rootPath}/build/media_src/plg_installer_webinstaller/scss/client.scss`,
     ];
 
     folders = [
-      `${rootPath}/media`,
+      `${rootPath}/build/media_src`,
     ];
   }
 
   // Loop to get some text for the packgage.json
   files.forEach((file) => {
-    const cssFile = file.replace('scss', 'css').replace('.scss', '.css');
+    const cssFile = file.replace('/scss/', '/css/').replace('.scss', '.css').replace('/build/media_src/', '/media/');
 
     Sass.render({
       file,
     }, (error, result) => {
       if (error) {
         // eslint-disable-next-line no-console
-        console.error(chalk.red('something exploded', error.column));
+        console.error(`something exploded ${error.column}`);
         // eslint-disable-next-line no-console
-        console.error(chalk.red('something exploded', error.message));
+        console.error(`something exploded ${error.message}`);
         // eslint-disable-next-line no-console
-        console.error(chalk.red('something exploded', error.line));
+        console.error(`something exploded ${error.line}`);
       } else {
         // Auto prefixing
         // eslint-disable-next-line no-console
-        console.log(chalk.bgBlue('Prefixing for: ', options.settings.browsers));
+        console.log(`Prefixing for: ${options.settings.browsers}`);
 
         const cleaner = postcss(
           [
@@ -75,50 +75,39 @@ const compileFiles = (options, path) => {
         );
         const prefixer = postcss([autoprefixer]);
 
-        cleaner.process(
-          result.css.toString())
-          .then(cleaned => prefixer.process(cleaned.css))
+        cleaner.process(result.css.toString(), {from: undefined})
+          .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
           .then((res) => {
+            // Ensure the folder exists or create it
+            const currentDir = Path.dirname(cssFile);
+            try{
+              fs.lstatSync(currentDir).isDirectory()
+            }catch(e){
+              if(e.code === 'ENOENT'){
+                // Directory needs to be created
+                fs.mkdirSync(currentDir);
+              }
+            }
+
             fs.writeFileSync(
               cssFile,
               res.css.toString(),
               { encoding: 'UTF-8' },
             );
+          })
+          .then(() => {
+            // Uglify it now
+            fs.writeFileSync(
+              cssFile.replace('.css', '.min.css'),
+              UglyCss.processFiles([cssFile], { expandVars: false }),
+              { encoding: 'UTF-8' },
+            );
+
+            // eslint-disable-next-line no-console
+            console.log(`File: ${cssFile.replace(/.+\//, '')} was updated. `);
           });
-
-        // Uglify it now
-        fs.writeFileSync(
-          cssFile.replace('.css', '.min.css'),
-          UglyCss.processFiles([cssFile], { expandVars: false }),
-          { encoding: 'UTF-8' },
-        );
-
-        // eslint-disable-next-line no-console
-        console.log(chalk.bgGreen(`File: ${cssFile.replace(/.+\//, '')} was updated. `));
       }
     });
-  });
-
-  // Loop to get some text for the packgage.json
-  folders.forEach((folder) => {
-    Recurs(folder, ['*.min.css', '*.map', '*.js', '*.scss', '*.svg', '*.png', '*.swf']).then(
-      (filez) => {
-        filez.forEach((file) => {
-          if (file.match(/.css/) && !file.toLowerCase().match(/license/)) {
-            // Write the file
-            fs.writeFileSync(
-              file.replace('.css', '.min.css'),
-              UglyCss.processFiles([file], { expandVars: false }),
-              { encoding: 'utf8' },
-            );
-          }
-        },
-        (error) => {
-          // eslint-disable-next-line no-console
-          console.error(chalk.red('something exploded', error));
-        },
-        );
-      });
   });
 };
 
@@ -133,18 +122,18 @@ const watchFiles = (options, folders, compileFirst = false) => {
     Recurs(folder, ['*.css', '*.map', '*.js', '*.svg', '*.png', '*.swf']).then(
       (files) => {
         files.forEach((file) => {
-          if (file.match(/.scss/)) {
-            fs.watchFile(file, () => {
-              // eslint-disable-next-line no-console
-              console.log(`File: ${file} changed.`);
-              debounce(() => compileFiles(options), 150)();
-            });
-          }
-        },
-        (error) => {
-          // eslint-disable-next-line no-console
-          console.error(chalk.red('something exploded', error));
-        },
+            if (file.match(/\.scss/)) {
+              fs.watchFile(file, () => {
+                // eslint-disable-next-line no-console
+                console.log(`File: ${file} changed.`);
+                debounce(() => compileFiles(options), 150)();
+              });
+            }
+          },
+          (error) => {
+            // eslint-disable-next-line no-console
+            console.error(`something exploded ${error}`);
+          },
         );
       });
   });
@@ -153,18 +142,18 @@ const watchFiles = (options, folders, compileFirst = false) => {
   console.log('Now watching SASS files...');
 };
 
-const sass = (options, path) => {
+const compileCSS = (options, path) => {
   Promise.resolve()
-    // Compile the scss files
-    .then(() => compileFiles(options, path))
+  // Compile the scss files
+    .then(() => compileCSSFiles(options, path))
 
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(chalk.red(err));
+      console.error(err);
       process.exit(-1);
     });
 };
 
-module.exports.compile = sass;
+module.exports.compileCSS = compileCSS;
 module.exports.watch = watchFiles;

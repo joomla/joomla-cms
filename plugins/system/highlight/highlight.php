@@ -97,7 +97,7 @@ class PlgSystemHighlight extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onFinderResult($item, $query)
 	{
