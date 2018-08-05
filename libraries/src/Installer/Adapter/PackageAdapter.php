@@ -545,9 +545,9 @@ class PackageAdapter extends InstallerAdapter
 		$row = Table::getInstance('extension');
 		$row->load($id);
 
-		if ($row->protected)
+		if ($row->locked)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOCKED', $row->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

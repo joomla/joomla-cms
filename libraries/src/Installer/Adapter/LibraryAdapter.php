@@ -385,11 +385,11 @@ class LibraryAdapter extends InstallerAdapter
 			return false;
 		}
 
-		// Is the library we are trying to uninstall a core one?
+		// Is the library we are trying to uninstall a locked one?
 		// Because that is not a good idea...
-		if ($row->protected)
+		if ($row->locked)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_WARNCORELIBRARY'), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOCKED', $row->element), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

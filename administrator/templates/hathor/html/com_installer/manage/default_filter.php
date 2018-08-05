@@ -51,6 +51,14 @@ defined('_JEXEC') or die;
 				<?php echo JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.folder'), true); ?>
 			</select>
 
+			<label class="selectlabel" for="filter_locked">
+				<?php echo JText::_('COM_INSTALLER_VALUE_LOCKED_SELECT'); ?>
+			</label>
+			<select name="filter_locked" id="filter_locked">
+				<option value=""><?php echo JText::_('COM_INSTALLER_VALUE_LOCKED_SELECT'); ?></option>
+				<?php echo JHtml::_('select.options', array('1' => JText::_('JYES'), '0' => JText::_('JNO')), 'value', 'text', $this->state->get('filter.locked'), true); ?>
+			</select>
+
 			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 

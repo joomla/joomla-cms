@@ -302,9 +302,9 @@ class FileAdapter extends InstallerAdapter
 			return false;
 		}
 
-		if ($row->protected)
+		if ($row->locked)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_WARNCOREFILE'), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOCKED', $row->element), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

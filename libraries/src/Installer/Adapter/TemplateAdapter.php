@@ -424,11 +424,11 @@ class TemplateAdapter extends InstallerAdapter
 			return false;
 		}
 
-		// Is the template we are trying to uninstall a core one?
+		// Is the template we are trying to uninstall a locked one?
 		// Because that is not a good idea...
-		if ($row->protected)
+		if ($row->locked)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_LOCKED', $row->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

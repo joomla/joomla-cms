@@ -529,11 +529,11 @@ class ModuleAdapter extends InstallerAdapter
 			return false;
 		}
 
-		// Is the module we are trying to uninstall a core one?
+		// Is the module we are trying to uninstall a locked one?
 		// Because that is not a good idea...
-		if ($this->extension->protected)
+		if ($this->extension->locked)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $this->extension->name), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_LOCKED', $this->extension->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

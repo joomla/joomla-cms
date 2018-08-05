@@ -480,11 +480,11 @@ class PluginAdapter extends InstallerAdapter
 			return false;
 		}
 
-		// Is the plugin we are trying to uninstall a core one?
+		// Is the plugin we are trying to uninstall a locked one?
 		// Because that is not a good idea...
-		if ($row->protected)
+		if ($row->locked)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_WARNCOREPLUGIN', $row->name), \JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_LOCKED', $row->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
