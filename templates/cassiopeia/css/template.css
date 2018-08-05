@@ -9204,8 +9204,8 @@ header {
   display: block; }
 
 .page-link.active {
-  background-color: #dee2e6;
-  color: #999; }
+  color: #999;
+  background-color: #dee2e6; }
 
 .page-link.disabled {
   color: #999; }
