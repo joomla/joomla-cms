@@ -21,31 +21,31 @@ switch ((string) $item->text)
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
 		$icon = 'fa fa-angle-double-left';
-		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
 		$icon = 'fa fa-angle-left';
-		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
 		$icon = 'fa fa-angle-right';
-		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
 		$icon = 'fa fa-angle-double-right';
-		$aria = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	default:
 		$icon = null;
-		$aria = JText::sprintf('JLIB_HTML_GOTO_PAGE', strtolower($item->text));
+		$aria = Text::sprintf('JLIB_HTML_GOTO_PAGE', strtolower($item->text));
 		break;
 }
 
@@ -65,7 +65,6 @@ if ($displayData['active'])
 		$limit = 'limitstart.value=0';
 	}
 
-	$cssClasses = array();
 	$class = 'active';
 	$title = 'title="' . $item->text . '"';
 	$onClick = 'document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;';
@@ -77,12 +76,12 @@ else
 ?>
 <?php if ($displayData['active']) : ?>
 	<li class="<?php echo $class; ?> page-link">
-		<a <?php echo $cssClasses ? 'class="' . implode(' ', $cssClasses) . '"' : ''; ?> <?php echo $title; ?> aria-label="<?php echo $aria; ?>" href="#" onclick="<?php echo $onClick; ?>">
+		<a <?php echo $title; ?> aria-label="<?php echo $aria; ?>" href="#" onclick="<?php echo $onClick; ?>">
 			<?php echo $display; ?>
 		</a>
 	</li>
 <?php elseif (isset($item->active) && $item->active) : ?>
-	<?php $aria = JText::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
+	<?php $aria = Text::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
 	<li class="<?php echo $class; ?> page-link current">
 		<span aria-current="true" aria-label="<?php echo $aria; ?>"><?php echo $display; ?></span>
 	</li>
