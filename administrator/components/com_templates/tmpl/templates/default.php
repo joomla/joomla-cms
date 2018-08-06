@@ -97,7 +97,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php if ($this->pluginState) : ?>
 									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->updated)) : ?>
-											<span class="badge badge-warning"><?php echo JText::sprintf('COM_TEMPLATES_UPDATED', $item->updated); ?></span>
+											<span class="badge badge-warning"><?php echo JText::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
 										<?php else : ?>
 											<span class="badge badge-success"><?php echo JText::_('COM_TEMPLATES_UPTODATE'); ?></span>
 										<?php endif; ?>
