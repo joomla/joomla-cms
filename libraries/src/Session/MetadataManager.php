@@ -122,7 +122,7 @@ final class MetadataManager
 
 		$query->bind(':session_id', $sessionId)
 			->bind(':guest', $userIsGuest, ParameterType::BOOLEAN)
-			->bind(':time', $time, ParameterType::INTEGER)
+			->bind(':time', $time)
 			->bind(':user_id', $userId, ParameterType::INTEGER)
 			->bind(':username', $username);
 

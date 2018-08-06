@@ -512,7 +512,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @return  CMSObject
 	 *
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function triggerEvent(string $adapter, string $name, string $path, $data, callable $callback)
 	{

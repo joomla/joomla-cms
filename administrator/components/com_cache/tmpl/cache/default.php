@@ -30,27 +30,20 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 				<table class="table">
 					<thead>
 						<tr>
-							<th style="width:1%" class="nowrap text-center">
+							<td style="width:1%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</th>
-							<th class="title nowrap">
+							</td>
+							<th scope="col" class="title nowrap">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap text-center">
+							<th scope="col" style="width:10%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap text-center">
+							<th scope="col" style="width:10%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="4">
-							<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php $i = 0; ?>
 						<?php foreach ($this->data as $folder => $item) : ?>
@@ -58,11 +51,11 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 								<td>
 									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>" class="cache-entry">
 								</td>
-								<td>
+								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
 										<strong><?php echo $this->escape($item->group); ?></strong>
 									</label>
-								</td>
+								</th>
 								<td class="text-center">
 									<?php echo $item->count; ?>
 								</td>
@@ -73,6 +66,10 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 						<?php $i++; endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

@@ -51,30 +51,23 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					<table class="table" id="overrideList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
-								</th>
-								<th style="width:30%">
+								</td>
+								<th scope="col" style="width:30%">
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 								</th>
-								<th class="d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 								</th>
-								<th class="d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo JText::_('JCLIENT'); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="5">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages'); ?>
 						<?php $i = 0; ?>
@@ -83,14 +76,14 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $key); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<?php if ($canEdit) : ?>
 										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
 											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<span id="string[<?php echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
 								</td>
@@ -111,6 +104,10 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">
