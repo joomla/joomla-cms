@@ -547,12 +547,15 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			parent::transactionCommit($toSavepoint);
+			if ($this->setQuery('COMMIT')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
 		}
-		else
-		{
-			$this->transactionDepth--;
-		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
@@ -571,18 +574,21 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 
 		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			parent::transactionRollback($toSavepoint);
-		}
-		else
-		{
-			$savepoint = 'SP_' . ($this->transactionDepth - 1);
-			$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
-
-			if ($this->execute())
+			if ($this->setQuery('ROLLBACK')->execute())
 			{
-				$this->transactionDepth--;
-				$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($savepoint))->execute();
+				$this->transactionDepth = 0;
 			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
+			$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($savepoint))->execute();
 		}
 	}
 
@@ -602,17 +608,20 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 
 		if (!$asSavepoint || !$this->transactionDepth)
 		{
-			parent::transactionStart($asSavepoint);
-		}
-		else
-		{
-			$savepoint = 'SP_' . $this->transactionDepth;
-			$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
-
-			if ($this->execute())
+			if ($this->setQuery('START TRANSACTION')->execute())
 			{
-				$this->transactionDepth++;
+				$this->transactionDepth = 1;
 			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
 		}
 	}
 
