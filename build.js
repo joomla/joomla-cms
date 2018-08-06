@@ -21,7 +21,6 @@ const Program = require('commander');
 
 // Joomla Build modules
 const buildCheck = require('./build/build-modules-js/build-check');
-const installer = require('./build/build-modules-js/installation');
 const copyAssets = require('./build/build-modules-js/update');
 const compileCSS = require('./build/build-modules-js/compilescss');
 const compileJS = require('./build/build-modules-js/compilejs');
@@ -45,8 +44,7 @@ Program
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--compile-ce, --compile-ce path', 'Compiles/traspiles all the custom elements files')
   .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compile-css and compile-js now).')
-  .option('--installer', 'Creates the language file for installer error page')
-  .option('--buildcheck', 'Creates the language file for build check error page')
+  .option('--build-check', 'Creates the error pages for unsupported PHP version & incomplete environment')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -78,14 +76,10 @@ if (Program.copyAssets) {
     });
 }
 
-// Create the languages file for the error page on the installer
-if (Program.installer) {
-  installer.installation();
-}
 
-// Create the languages file for the error page on incomplete repo build
-if (Program.buildcheck) {
-    buildCheck.buildCheck();
+// Creates the error pages for unsupported PHP version & incomplete environment
+if (Program.buildCheck) {
+    buildCheck.buildCheck(options);
 }
 
 // Convert scss to css
