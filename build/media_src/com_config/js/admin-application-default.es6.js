@@ -4,7 +4,7 @@
  */
 
 // Select first tab
-// @TODO delete this file when custom elements modal is merged
-jQuery(document).ready(function() {
-	jQuery("#configTabs a:first").tab("show");
+// @TODO delete this file when custom elements tabs is merged
+window.jQuery(document).ready(($) => {
+  $('#configTabs a:first').tab('show');
 });
