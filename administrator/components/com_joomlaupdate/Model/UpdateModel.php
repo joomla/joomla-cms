@@ -63,12 +63,12 @@ class UpdateModel extends BaseDatabaseModel
 			// "Minor & Patch Release for Current version AND Next Major Release".
 			case 'sts':
 			case 'next':
-				$updateURL = 'https://update.joomla.org/core/test/next_major_list.xml';
+				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
 
 			// "Testing"
 			case 'testing':
-				$updateURL = 'https://update.joomla.org/core/test/next_major_list.xml';
+				$updateURL = 'https://update.joomla.org/core/test/list_test.xml';
 				break;
 
 			// "Custom"
@@ -92,7 +92,7 @@ class UpdateModel extends BaseDatabaseModel
 			 * case 'nochange':
 			 */
 			default:
-				$updateURL = 'https://update.joomla.org/core/test/next_major_list.xml';
+				$updateURL = 'https://update.joomla.org/core/list.xml';
 		}
 
 		$db = $this->getDbo();

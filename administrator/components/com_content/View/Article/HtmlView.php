@@ -21,6 +21,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Helper\PreviewHelper;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * View to edit an article.
@@ -198,9 +199,10 @@ class HtmlView extends BaseHtmlView
 				$linkSuffix = '&amp;layout=modal&amp;client_id=0&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 				$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
 
-				if (isset($this->element['language']))
+				// Force the language of the menu item when multilang is implemented
+				if (Multilanguage::isEnabled() && $this->form->getValue('language') !== '*')
 				{
-					$linkItem .= '&amp;forcedLanguage=' . $this->element['language'];
+					$linkItem .= '&amp;forcedLanguage=' . $this->form->getValue('language');
 				}
 
 				$urlNew  = $linkItem . '&amp;task=item.add';
@@ -215,9 +217,7 @@ class HtmlView extends BaseHtmlView
 
 				// Load the language files
 				$language = Factory::getLanguage();
-				$language->load('com_menus', JPATH_ADMINISTRATOR, 'en-GB');
-				$language->load('com_menus', JPATH_ADMINISTRATOR, $language->getDefault());
-				$language->load('com_menus', JPATH_ADMINISTRATOR);
+				$language->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
 
 				// Add the modal html to the document
 				echo HTMLHelper::_(
