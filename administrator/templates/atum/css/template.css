@@ -1482,7 +1482,7 @@ iframe {
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
 
-.com_config .field_spacer > .control-label {
+.com_config .field-spacer > .control-label {
   width: auto; }
 
 .com-cpanel-help__header {
