@@ -15,7 +15,7 @@
     const form = document.getElementById('adminForm');
     const element = form.querySelector('button[type="reset"]');
 
-    if (element){
+    if (element) {
       element.addEventListener('click', onClick);
     }
 
