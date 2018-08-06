@@ -12,7 +12,6 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
-use Joomla\Plugin\System\Debug\DataFormatter;
 
 /**
  * LanguageFilesDataCollector
@@ -35,15 +34,12 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 		$paths = Factory::getLanguage()->getPaths();
 		$loaded = [];
 
-		/* @type DataFormatter $formatter */
-		$formatter = $this->getDataFormatter();
-
 		foreach ($paths as $extension => $files)
 		{
 			$loaded[$extension] = [];
 			foreach ($files as $file => $status)
 			{
-				$loaded[$extension][$formatter->formatPath($file)] = $status;
+				$loaded[$extension][$file] = $status;
 			}
 		}
 

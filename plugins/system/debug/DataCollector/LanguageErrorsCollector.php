@@ -12,7 +12,6 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
-use Joomla\Plugin\System\Debug\DataFormatter;
 
 /**
  * LanguageErrorsDataCollector
@@ -86,15 +85,12 @@ class LanguageErrorsCollector extends AbstractDataCollector
 		$errorFiles = Factory::getLanguage()->getErrorFiles();
 		$errors     = [];
 
-		/* @type DataFormatter $formatter */
-		$formatter = $this->getDataFormatter();
-
 		if (\count($errorFiles))
 		{
 			$count = 1;
 			foreach ($errorFiles as $error)
 			{
-				$errors[$count] = $formatter->formatPath($error);
+				$errors[$count] = $error;
 				$count++;
 			}
 		}

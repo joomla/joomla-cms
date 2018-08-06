@@ -12,7 +12,6 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
-use Joomla\Plugin\System\Debug\DataFormatter;
 
 /**
  * LanguageStringsDataCollector
@@ -157,14 +156,11 @@ class LanguageStringsCollector extends AbstractDataCollector
 		$untranslated = [];
 		$count = 1;
 
-		/* @type DataFormatter $formatter */
-		$formatter = $this->getDataFormatter();
-
 		foreach ($guesses as $file => $keys)
 		{
 			foreach ($keys as $key)
 			{
-				$untranslated[$count] = $key . ' in ' . $formatter->formatPath($file);
+				$untranslated[$count] = $key . ' in ' . $file;
 				$count ++;
 			}
 		}
