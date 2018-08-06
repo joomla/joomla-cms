@@ -47,18 +47,21 @@
 					var data = JSON.parse(response);
 					var list = document.querySelectorAll('#jform_parent_id option');
 					list.forEach(function (item) {
-						if (item != '1') {
+						if (item.value !== '1') {
 							item.remove();
 						}
 					});
 
 					data.forEach(function (val) {
 						var option       = document.createElement('option');
-						option.innerText = value;
+						option.innerText = val.title;
 						option.id        = val.id;
 						document.getElementById('jform_parent_id').appendChild(option);
 					});
-					document.getElementById('jform_parent_id').trigger('change');
+
+                    var event = document.createEvent('HTMLEvents');
+                    event.initEvent('change', true, false);
+					document.getElementById('jform_parent_id').dispatchEvent(event);
 				},
 				onError  : function (xhr) {
 					Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
