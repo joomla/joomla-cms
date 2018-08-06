@@ -60,9 +60,8 @@
       }
 
       const buttonValues = [];
-      const arr = Object.keys(options.joomlaExtButtons.names).map(
-        key => options.joomlaExtButtons.names[key],
-      );
+      const arr = Object.keys(options.joomlaExtButtons.names)
+        .map(key => options.joomlaExtButtons.names[key]);
 
       arr.forEach((xtdButton) => {
         const tmp = {};
@@ -127,7 +126,7 @@
   /**
    * Initialize at an initial page load
    */
-  document.addEventListener('DOMContentLoaded', () => { Joomla.JoomlaTinyMCE.setupEditors(document) });
+  document.addEventListener('DOMContentLoaded', () => { Joomla.JoomlaTinyMCE.setupEditors(document); });
 
   /**
    * Initialize when a part of the page was updated
