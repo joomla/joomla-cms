@@ -135,7 +135,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @param   string  $option    set the option name
 	 *
-	 * @param   string  $question  set the question if user gives no value to option
+	 * @param   string  $question  set the question if user enters no value to option
 	 *
 	 * @return  string
 	 *
