@@ -33,7 +33,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 							<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
 							<p class="m-b-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
 						</joomla-alert>
-						<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
 					<?php endif; ?>
 					<div>
 						<input type="hidden" name="boxchecked" value="0">

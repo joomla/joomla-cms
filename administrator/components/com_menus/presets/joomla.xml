@@ -60,6 +60,18 @@
 				link="index.php?option=com_media"
 				class="class:image"
 		/>
+		<menuitem
+				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+				type="component"
+				element="com_modules"
+				link="index.php?option=com_modules&amp;client_id=0"
+		/>
+		<menuitem
+				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
+				type="component"
+				element="com_modules"
+				link="index.php?option=com_modules&amp;client_id=1"
+		/>
 	</menuitem>
 
 

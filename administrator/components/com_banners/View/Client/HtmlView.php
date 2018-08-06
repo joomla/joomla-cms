@@ -10,9 +10,14 @@ namespace Joomla\Component\Banners\Administrator\View\Client;
 
 defined('_JEXEC') or die;
 
-\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
-
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
+
+\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * View to edit a client.
@@ -61,7 +66,7 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = \JHelperContent::getActions('com_banners');
+		$this->canDo = ContentHelper::getActions('com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -83,15 +88,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->id);
 		$canDo      = $this->canDo;
 
-		\JToolbarHelper::title(
-			$isNew ? \JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : \JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
+		ToolbarHelper::title(
+			$isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
 			'bookmark banners-clients'
 		);
 
@@ -115,26 +120,26 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'client.save2copy'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('client.cancel');
+			ToolbarHelper::cancel('client.cancel');
 		}
 		else
 		{
-			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				\JToolbarHelper::versions('com_banners.client', $this->item->id);
+				ToolbarHelper::versions('com_banners.client', $this->item->id);
 			}
 
-			\JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS_EDIT');
 	}
 }

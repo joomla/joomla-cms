@@ -9,11 +9,14 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Factory;
+
 $data = $displayData;
 
 ?>
 <?php if ($data['view'] instanceof \Joomla\Component\Associations\Administrator\View\Associations\HtmlView) : ?>
-	<?php $app = JFactory::getApplication(); ?>
+	<?php $app = Factory::getApplication(); ?>
 	<?php // We will get the component item type and language filters & remove it from the form filters. ?>
 	<?php if ($app->input->get('forcedItemType', '', 'string') == '') : ?>
 		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
@@ -29,4 +32,4 @@ $data = $displayData;
 	<?php endif; ?>
 <?php endif; ?>
 <?php // Display the main joomla layout ?>
-<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data, null, array('component' => 'none')); ?>
+<?php echo LayoutHelper::render('joomla.searchtools.default.bar', $data, null, array('component' => 'none')); ?>

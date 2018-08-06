@@ -174,7 +174,7 @@ class InstallerHelper
 	 *
 	 * @return  \SimpleXMLElement
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getInstallationXML($element, $type, $client_id = 1, $folder = null)
 	{

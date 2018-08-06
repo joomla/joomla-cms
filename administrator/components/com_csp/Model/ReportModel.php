@@ -15,7 +15,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 /**
  * Report Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReportModel extends AdminModel
 {
@@ -23,7 +23,7 @@ class ReportModel extends AdminModel
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $text_prefix = 'COM_CSP';
 
@@ -35,7 +35,7 @@ class ReportModel extends AdminModel
 	 *
 	 * @return  \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

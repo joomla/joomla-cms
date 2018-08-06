@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
@@ -46,7 +48,7 @@ class MenutypesModel extends BaseDatabaseModel
 	{
 		parent::populateState();
 
-		$clientId = \JFactory::getApplication()->input->get('client_id', 0);
+		$clientId = Factory::getApplication()->input->get('client_id', 0);
 
 		$this->state->set('client_id', $clientId);
 	}
@@ -79,7 +81,7 @@ class MenutypesModel extends BaseDatabaseModel
 	{
 		jimport('joomla.filesystem.file');
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$list = array();
 
 		// Get the list of components.
@@ -120,7 +122,7 @@ class MenutypesModel extends BaseDatabaseModel
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		\JFactory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
+		Factory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
 
 		return $list;
 	}
@@ -282,7 +284,7 @@ class MenutypesModel extends BaseDatabaseModel
 				continue;
 			}
 
-			$views = array_merge($views, \JFolder::folders($path, '.', false, true));
+			$views = array_merge($views, Folder::folders($path, '.', false, true));
 		}
 
 		foreach ($views as $viewPath)
@@ -479,7 +481,7 @@ class MenutypesModel extends BaseDatabaseModel
 		$options     = array();
 		$layouts     = array();
 		$layoutNames = array();
-		$lang        = \JFactory::getLanguage();
+		$lang        = Factory::getLanguage();
 		$client      = ApplicationHelper::getClientInfo($this->getState('client_id'));
 
 		// Get the views for this component.
@@ -497,7 +499,7 @@ class MenutypesModel extends BaseDatabaseModel
 				continue;
 			}
 
-			$layouts = array_merge($layouts, \JFolder::files($path, '.xml$', false, true));
+			$layouts = array_merge($layouts, Folder::files($path, '.xml$', false, true));
 		}
 
 		// Build list of standard layout names
@@ -513,7 +515,7 @@ class MenutypesModel extends BaseDatabaseModel
 
 		// Get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
-		$folders = \JFolder::folders($client->path . '/templates', '', false, true);
+		$folders = Folder::folders($client->path . '/templates', '', false, true);
 
 		// Array to hold association between template file names and templates
 		$templateName = array();
@@ -526,7 +528,7 @@ class MenutypesModel extends BaseDatabaseModel
 				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
 				|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
 
-				$templateLayouts = \JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
+				$templateLayouts = Folder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
 				foreach ($templateLayouts as $layout)
 				{
@@ -628,8 +630,8 @@ class MenutypesModel extends BaseDatabaseModel
 			return array();
 		}
 
-		$folders = \JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
-		$folders = array_merge($folders, \JFolder::folders($client->path . '/components/' . $component, '^tmpl?$', false, true));
+		$folders = Folder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
+		$folders = array_merge($folders, Folder::folders($client->path . '/components/' . $component, '^tmpl?$', false, true));
 
 		if (!$folders)
 		{

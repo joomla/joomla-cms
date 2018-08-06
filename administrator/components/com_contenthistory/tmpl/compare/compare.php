@@ -9,27 +9,31 @@
 
 defined('_JEXEC') or die;
 
-JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\HTML\HTMLHelper;
+
+Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 $version2 = $this->items[0];
 $version1 = $this->items[1];
 $object1  = $version1->data;
 $object2  = $version2->data;
 
-JHtml::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <fieldset>
 
-	<h2 class="mb-3"><?php echo JText::sprintf('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h2>
+	<h2 class="mb-3"><?php echo Text::sprintf('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h2>
 
 	<table id="diff" class="table table-sm">
 		<thead>
 			<tr>
-				<th style="width:25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
-				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
-				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
+				<th style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+				<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
+				<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
+				<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
 			</tr>
 		</thead>
 		<tbody>

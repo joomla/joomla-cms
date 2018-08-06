@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View class for a list of search terms.
@@ -81,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app                 = \JFactory::getApplication();
+		$app                 = Factory::getApplication();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
@@ -99,11 +102,11 @@ class HtmlView extends BaseHtmlView
 		// Check if plugin is enabled
 		if ($this->enabled)
 		{
-			$app->enqueueMessage(\JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+			$app->enqueueMessage(Text::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(Text::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
 		}
 
 		$this->addToolbar();
@@ -121,32 +124,32 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(\JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
+		ToolbarHelper::title(Text::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
 
 		$showResults = $this->state->get('show_results', 1, 'int');
 
 		if ($showResults === 0)
 		{
-			\JToolbarHelper::custom('searches.toggleresults', 'zoom-in.png', null, 'COM_SEARCH_SHOW_SEARCH_RESULTS', false);
+			ToolbarHelper::custom('searches.toggleresults', 'zoom-in.png', null, 'COM_SEARCH_SHOW_SEARCH_RESULTS', false);
 		}
 		else
 		{
-			\JToolbarHelper::custom('searches.toggleresults', 'zoom-out.png', null, 'COM_SEARCH_HIDE_SEARCH_RESULTS', false);
+			ToolbarHelper::custom('searches.toggleresults', 'zoom-out.png', null, 'COM_SEARCH_HIDE_SEARCH_RESULTS', false);
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
+			ToolbarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
 		}
 
-		\JToolbarHelper::divider();
+		ToolbarHelper::divider();
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_search');
+			ToolbarHelper::preferences('com_search');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_COMPONENTS_SEARCH');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_SEARCH');
 	}
 }

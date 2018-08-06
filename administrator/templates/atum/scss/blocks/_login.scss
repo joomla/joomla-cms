@@ -2,7 +2,11 @@
 
 .view-login {
   background: $atum-template-color;
-  background-image: url("../../images/joomla-pattern.svg");
+  /**
+   * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
+   * compiled CSS file
+   */
+  background-image: url("../images/joomla-pattern.svg");
   background-size: 200px;
 
   .login-bg-grad {

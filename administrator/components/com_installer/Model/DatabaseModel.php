@@ -36,7 +36,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_context = 'com_installer.discover';
 
@@ -45,7 +45,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $changeSetList = array();
 
@@ -54,7 +54,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $errorCount = 0;
 
@@ -65,7 +65,7 @@ class DatabaseModel extends InstallerModel
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @see     ListModel
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
@@ -93,7 +93,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getErrorCount()
 	{
@@ -109,7 +109,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function fetchSchemaCache($cid = 0)
 	{
@@ -244,7 +244,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function fix($cids = array())
 	{
@@ -289,7 +289,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
@@ -306,7 +306,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  \JDatabaseQuery  The database query
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getListQuery()
 	{
@@ -385,7 +385,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  array  the changeSetList of the merged items
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function mergeSchemaCache($results)
 	{
@@ -412,7 +412,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSchemaVersion($extensionId)
 	{
@@ -436,7 +436,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function fixSchemaVersion($changeSet, $extensionId)
 	{
@@ -482,7 +482,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  mixed  string message with the errors with the update version or null if none
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function compareUpdateVersion($extension)
 	{
@@ -513,7 +513,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  array  Messages with the errors with the update version
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getOtherInformationMessage($status)
 	{
@@ -531,7 +531,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  array  List of messages with the errors in the database
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getErrorsMessage($errors)
 	{
@@ -558,7 +558,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  mixed  string update version if success, false if fail.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function fixUpdateVersion($extensionId)
 	{
@@ -600,7 +600,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  string  default text filters (if any).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDefaultTextFilters()
 	{
@@ -616,7 +616,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function fixDefaultTextFilters()
 	{

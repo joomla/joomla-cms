@@ -41,42 +41,35 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<table class="table">
 							<thead>
 							<tr>
-								<th style="width:1%" class="nowrap">
+								<td style="width:1%" class="nowrap">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th class="nowrap">
+								</td>
+								<th scope="col" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap text-center">
+								<th scope="col" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap text-center">
+								<th scope="col" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="nowrap d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
-								<th class="nowrap center">
+								<th scope="col" class="nowrap center">
 									<?php echo Text::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
-								<th class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="nowrap d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th style="width:40%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:40%" class="nowrap d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 								</th>
 							</tr>
 							</thead>
-							<tfoot>
-							<tr>
-								<td colspan="9">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-							</tfoot>
 							<tbody>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php
@@ -88,13 +81,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td>
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
 									</td>
-									<td>
+									<th scope="row">
 										<label for="cb<?php echo $i; ?>">
 											<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('JGLOBAL_DESCRIPTION'), $item->description ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
 											<?php echo $this->escape($item->name); ?>
 											</span>
 										</label>
-									</td>
+									</th>
 									<td class="center">
 										<?php echo $item->client_translated; ?>
 									</td>
@@ -126,6 +119,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php endforeach; ?>
 							</tbody>
 						</table>
+
+						<?php // load the pagination. ?>
+						<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php endif; ?>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="boxchecked" value="0">

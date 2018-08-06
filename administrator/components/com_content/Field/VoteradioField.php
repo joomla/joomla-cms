@@ -42,7 +42,7 @@ class VoteradioField extends \JFormFieldRadio
 	public function getLabel()
 	{
 		// Requires vote plugin enabled
-		return \JPluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
+		return PluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
 	}
 
 	/**
