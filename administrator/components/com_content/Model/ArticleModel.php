@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\DispatcherFactory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -79,9 +80,6 @@ class ArticleModel extends AdminModel
 
 		PluginHelper::importPlugin('system');
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		// Parent exists so we let's proceed
 		while (!empty($pks))
 		{
@@ -108,7 +106,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -219,9 +217,6 @@ class ArticleModel extends AdminModel
 
 		PluginHelper::importPlugin('system');
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
@@ -250,7 +245,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 
 			$fieldsData = array();
 
