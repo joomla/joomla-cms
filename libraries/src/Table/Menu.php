@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Menu table
@@ -180,7 +181,7 @@ class Menu extends Nested
 			// Verify that a first level menu item alias is not the name of a folder.
 			jimport('joomla.filesystem.folder');
 
-			if (in_array($this->alias, \JFolder::folders(JPATH_ROOT)))
+			if (in_array($this->alias, Folder::folders(JPATH_ROOT)))
 			{
 				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 

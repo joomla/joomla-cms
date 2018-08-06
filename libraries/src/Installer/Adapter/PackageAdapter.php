@@ -22,6 +22,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Package installer
@@ -231,7 +233,7 @@ class PackageAdapter extends InstallerAdapter
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
-				\JLog::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), \JLog::WARNING, 'jerror');
+				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
 			}
 		}
 
@@ -257,7 +259,7 @@ class PackageAdapter extends InstallerAdapter
 			// First, we have to create a folder for the script if one isn't present
 			if (!file_exists($this->parent->getPath('extension_root')))
 			{
-				if (!\JFolder::create($this->parent->getPath('extension_root')))
+				if (!Folder::create($this->parent->getPath('extension_root')))
 				{
 					throw new \RuntimeException(
 						Text::sprintf(
@@ -333,9 +335,9 @@ class PackageAdapter extends InstallerAdapter
 
 		$folder = $this->parent->getPath('extension_root');
 
-		if (\JFolder::exists($folder))
+		if (Folder::exists($folder))
 		{
-			\JFolder::delete($folder);
+			Folder::delete($folder);
 		}
 
 		$this->extension->delete();
@@ -434,12 +436,12 @@ class PackageAdapter extends InstallerAdapter
 				if (!$tmpInstaller->uninstall($extension->type, $id))
 				{
 					$error = true;
-					\JLog::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), \JLog::WARNING, 'jerror');
+					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), Log::WARNING, 'jerror');
 				}
 			}
 			else
 			{
-				\JLog::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
+				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
 			}
 		}
 
@@ -732,7 +734,7 @@ class PackageAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

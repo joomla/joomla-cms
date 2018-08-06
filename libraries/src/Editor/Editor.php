@@ -19,6 +19,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
 
 /**
  * Editor class to handle WYSIWYG editors
@@ -304,7 +305,7 @@ class Editor implements DispatcherAwareInterface
 
 		if (!is_file($path))
 		{
-			\JLog::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
 			return false;
 		}

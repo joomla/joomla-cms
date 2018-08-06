@@ -27,7 +27,6 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'fp.ordering';
-$columns   = 10;
 
 if (strpos($listOrder, 'publish_up') !== false)
 {
@@ -98,11 +97,9 @@ if ($saveOrder)
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->vote) : ?>
-									<?php $columns++; ?>
 									<th scope="col" style="width:3%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 									</th>
-									<?php $columns++; ?>
 									<th scope="col" style="width:3%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
@@ -112,13 +109,6 @@ if ($saveOrder)
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="<?php echo $columns; ?>">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
@@ -237,6 +227,10 @@ if ($saveOrder)
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

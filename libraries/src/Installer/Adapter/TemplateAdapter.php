@@ -17,8 +17,8 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
  * Template installer
@@ -355,13 +355,13 @@ class TemplateAdapter extends InstallerAdapter
 		$this->parent->removeFiles($this->getManifest()->languages, $this->extension->client_id);
 
 		// Delete the template directory
-		if (\JFolder::exists($this->parent->getPath('extension_root')))
+		if (Folder::exists($this->parent->getPath('extension_root')))
 		{
-			\JFolder::delete($this->parent->getPath('extension_root'));
+			Folder::delete($this->parent->getPath('extension_root'));
 		}
 		else
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), Log::WARNING, 'jerror');
 		}
 	}
 
@@ -467,7 +467,7 @@ class TemplateAdapter extends InstallerAdapter
 			$this->extension->delete($this->extension->extension_id);
 
 			// Make sure we delete the folders
-			\JFolder::delete($this->parent->getPath('extension_root'));
+			Folder::delete($this->parent->getPath('extension_root'));
 
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 		}
@@ -561,8 +561,8 @@ class TemplateAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$site_list = \JFolder::folders(JPATH_SITE . '/templates');
-		$admin_list = \JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
+		$site_list = Folder::folders(JPATH_SITE . '/templates');
+		$admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
 		$site_info = ApplicationHelper::getClientInfo('site', true);
 		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
@@ -642,7 +642,7 @@ class TemplateAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(Text::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

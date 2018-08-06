@@ -11,6 +11,7 @@ namespace Joomla\CMS\Cache;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Public cache handler
@@ -100,9 +101,7 @@ class CacheController
 		if (!class_exists($class))
 		{
 			// Search for the class file in the Cache include paths.
-			\JLoader::import('joomla.filesystem.path');
-
-			$path = \JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+			$path = Path::find(self::addIncludePath(), strtolower($type) . '.php');
 
 			if ($path !== false)
 			{
@@ -145,8 +144,7 @@ class CacheController
 
 		if (!empty($path) && !in_array($path, $paths))
 		{
-			\JLoader::import('joomla.filesystem.path');
-			array_unshift($paths, \JPath::clean($path));
+			array_unshift($paths, Path::clean($path));
 		}
 
 		return $paths;

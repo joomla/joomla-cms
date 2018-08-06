@@ -72,13 +72,6 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										</th>
 									</tr>
 								</thead>
-								<tfoot>
-									<tr>
-										<td colspan="9">
-											<?php echo $this->pagination->getListFooter(); ?>
-										</td>
-									</tr>
-								</tfoot>
 								<tbody>
 									<?php foreach ($this->changeSet as $i => $item) : ?>
 										<?php $extension = $item['extension']; ?>
@@ -125,6 +118,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 									<?php endforeach; ?>
 								</tbody>
 							</table>
+
+							<?php // load the pagination. ?>
+							<?php echo $this->pagination->getListFooter(); ?>
+
 						<?php endif; ?>
 					</div>
 					<input type="hidden" name="task" value="">

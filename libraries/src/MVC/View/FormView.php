@@ -14,6 +14,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Base class for a Joomla Form View
@@ -48,7 +49,7 @@ class FormView extends HtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $canDo;
 
@@ -104,7 +105,7 @@ class FormView extends HtmlView
 		}
 
 		// Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-		$this->canDo = new \JObject;
+		$this->canDo = new CMSObject;
 	}
 
 	/**
