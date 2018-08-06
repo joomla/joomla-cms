@@ -83,7 +83,7 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT type')
 			->from('#__extensions');
@@ -174,7 +174,7 @@ class InstallerHelper
 	 *
 	 * @return  \SimpleXMLElement
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getInstallationXML($element, $type, $client_id = 1, $folder = null)
 	{

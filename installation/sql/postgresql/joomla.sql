@@ -474,6 +474,7 @@ CREATE TABLE IF NOT EXISTS "#__csp" (
   "document_uri" varchar(500) NOT NULL DEFAULT '',
   "blocked_uri" varchar(500) NOT NULL DEFAULT '',
   "directive" varchar(500) NOT NULL DEFAULT '',
+  "client" varchar(500) NOT NULL DEFAULT '',
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified"  timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
@@ -857,7 +858,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_logging" (
   "query" bytes NOT NULL,
   "hits" integer NOT NULL DEFAULT 1,
   "results" integer NOT NULL DEFAULT 0,
-  CONSTRAINT "#__finder_logging_idx_md5sum" UNIQUE ("md5sum")
+  PRIMARY KEY ("md5sum")
 );
 CREATE INDEX "#__finder_logging_idx_md5sum" on "#__finder_logging" ("md5sum");
 CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searchterm");

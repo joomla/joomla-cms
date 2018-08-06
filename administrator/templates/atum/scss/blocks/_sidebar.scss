@@ -202,12 +202,13 @@
     vertical-align: middle;
   }
 
+  // 2nd level item with opened sub-menu
+  .open .collapse-level-1 {
+    display: block;
+  }
+
   // 2nd level items
   .collapse-level-1 {
-
-    &:not(.show) {
-      display: block;
-    }
 
     a::before {
       display: none;

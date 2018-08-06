@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Component\Router\RouterInterface;
@@ -272,7 +273,7 @@ class LegacyComponent implements
 			return $className;
 		}
 
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
+		$file = Path::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
 
 		if (!file_exists($file))
 		{

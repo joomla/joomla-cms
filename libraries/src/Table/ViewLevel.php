@@ -10,6 +10,9 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+
 /**
  * Viewlevels table class.
  *
@@ -20,11 +23,11 @@ class ViewLevel extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__viewlevels', 'id', $db);
 	}
@@ -76,7 +79,7 @@ class ViewLevel extends Table
 		// Validate the title.
 		if ((trim($this->title)) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
 
 			return false;
 		}
@@ -92,7 +95,7 @@ class ViewLevel extends Table
 
 		if ($db->loadResult() > 0)
 		{
-			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
+			$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
 
 			return false;
 		}

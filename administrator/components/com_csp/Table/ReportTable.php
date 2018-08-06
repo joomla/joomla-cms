@@ -15,7 +15,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Report table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReportTable extends Table
 {
@@ -24,7 +24,7 @@ class ReportTable extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{

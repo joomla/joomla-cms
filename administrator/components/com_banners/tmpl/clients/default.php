@@ -50,53 +50,46 @@ $params     = $this->state->params ?? new JObject;
 					<table class="table">
 						<thead>
 							<tr>
-								<th style="width:1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th style="width:1%" class="nowrap text-center">
+								</td>
+								<th scope="col" style="width:1%" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
-								<th>
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:15%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:15%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                     <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                     <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                     <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                     <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:3%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:3%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="11">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 							<?php foreach ($this->items as $i => $item) :
 								$canCreate  = $user->authorise('core.create',     'com_banners');
@@ -113,7 +106,7 @@ $params     = $this->state->params ?? new JObject;
 											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
 										</div>
 									</td>
-									<td class="nowrap has-context">
+									<th scope="row" class="nowrap has-context">
 										<div>
 											<?php if ($item->checked_out) : ?>
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
@@ -126,7 +119,7 @@ $params     = $this->state->params ?? new JObject;
 												<?php echo $this->escape($item->name); ?>
 											<?php endif; ?>
 										</div>
-									</td>
+									</th>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php echo $item->contact; ?>
 									</td>
@@ -160,6 +153,10 @@ $params     = $this->state->params ?? new JObject;
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

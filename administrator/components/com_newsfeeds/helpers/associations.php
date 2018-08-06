@@ -57,7 +57,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 	 *
 	 * @return  array   Array of associations for the item
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssociationsForItem($id = 0, $view = null)
 	{
@@ -123,7 +123,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'newsfeed':
-				$table = Table::getInstance('Newsfeed', 'NewsfeedsTable');
+				$table = Table::getInstance('NewsfeedTable', 'Joomla\\Component\\Newsfeeds\\Administrator\\Table\\');
 				break;
 
 			case 'category':
