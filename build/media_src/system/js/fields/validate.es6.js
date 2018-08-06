@@ -75,6 +75,7 @@
       }
 
       element.classList.remove('form-control-danger');
+      element.classList.remove('invalid');
       element.classList.add('form-control-success');
       element.parentNode.classList.remove('has-danger');
       element.parentNode.classList.add('has-success');
@@ -97,6 +98,7 @@
       const label = element.form.querySelector(`label[for="${element.id}"]`);
 
       element.classList.remove('form-control-success');
+      element.classList.remove('valid');
       element.classList.add('form-control-danger');
       element.classList.add('invalid');
       element.parentNode.classList.remove('has-success');
