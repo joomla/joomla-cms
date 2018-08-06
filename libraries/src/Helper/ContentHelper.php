@@ -20,6 +20,8 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Helper for standard content style extensions.
@@ -49,7 +51,7 @@ class ContentHelper
 	 * @param   string   $section    The access section name.
 	 * @param   integer  $id         The item ID.
 	 *
-	 * @return  \JObject
+	 * @return  CMSObject
 	 *
 	 * @since   3.2
 	 */
@@ -62,7 +64,7 @@ class ContentHelper
 			$assetName .= '.' . $section . '.' . (int) $id;
 		}
 
-		$result = new \JObject;
+		$result = new CMSObject;
 
 		$user = Factory::getUser();
 
@@ -73,7 +75,7 @@ class ContentHelper
 		if ($actions === false)
 		{
 			Log::add(
-				\JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
+				Text::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
 			);
 
 			return $result;

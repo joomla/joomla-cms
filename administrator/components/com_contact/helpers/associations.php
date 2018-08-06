@@ -55,7 +55,7 @@ class ContactAssociationsHelper extends AssociationExtensionHelper
 	 *
 	 * @return  array   Array of associations for the item
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssociationsForItem($id = 0, $view = null)
 	{
@@ -121,7 +121,7 @@ class ContactAssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'contact':
-				$table = Table::getInstance('Contact', 'Joomla\\Component\\Contact\\Administrator\\Table\\');
+				$table = Table::getInstance('ContactTable', 'Joomla\\Component\\Contact\\Administrator\\Table\\');
 				break;
 
 			case 'category':

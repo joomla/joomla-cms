@@ -31,39 +31,32 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<table class="table">
 						<thead>
 							<tr>
-								<th class="title">
+								<th scope="col" class="title">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'b.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:20%" class="nowrap">
+								<th scope="col" style="width:20%" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'cl.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_TYPE', 'a.track_type', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_COUNT', 'a.count', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.track_date', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="5">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td>
+									<th scope="row">
 										<?php echo $item->banner_name; ?>
 										<div class="small">
 											<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>
-									</td>
+									</th>
 									<td>
 										<?php echo $item->client_name; ?>
 									</td>
@@ -80,6 +73,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<?php // Load the export form ?>
 				<?php echo HTMLHelper::_(

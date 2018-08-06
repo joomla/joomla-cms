@@ -15,6 +15,9 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Pagination\Pagination;
 
 /**
@@ -55,7 +58,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	/**
 	 * An internal cache for the last query used.
 	 *
-	 * @var    \JDatabaseQuery[]
+	 * @var    DatabaseQuery[]
 	 * @since  1.6
 	 */
 	protected $query = array();
@@ -123,7 +126,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 *
 	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  DatabaseQuery  A DatabaseQuery object
 	 *
 	 * @since   1.6
 	 */
@@ -206,9 +209,9 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	}
 
 	/**
-	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
+	 * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -594,7 +597,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * @param   string   $key        The key of the user state variable.
 	 * @param   string   $request    The name of the variable passed in a request.
 	 * @param   string   $default    The default value for the variable if not found. Optional.
-	 * @param   string   $type       Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
+	 * @param   string   $type       Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
 	 * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
 	 *
 	 * @return  mixed  The request user state.
