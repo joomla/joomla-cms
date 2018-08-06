@@ -411,18 +411,30 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$seq->schema = 'public';
 		$seq->table = 'jos_dbtest';
 		$seq->column = 'id';
-		$seq->data_type = 'bigint';
 
-		if (version_compare(self::$driver->getVersion(), '9.1.0') >= 0)
+		$version = self::$driver->getVersion();
+
+		if (version_compare($version, '9.1.0') >= 0)
 		{
 			$seq->start_value = '1';
 			$seq->minimum_value = '1';
-			$seq->maximum_value = '9223372036854775807';
 			$seq->increment = '1';
 			$seq->cycle_option = 'NO';
+
+			if (version_compare($version, '10') >= 0)
+			{
+				$seq->data_type = 'integer';
+				$seq->maximum_value = '2147483647';
+			}
+			else
+			{
+				$seq->data_type = 'bigint';
+				$seq->maximum_value = '9223372036854775807';
+			}
 		}
 		else
 		{
+			$seq->data_type = 'bigint';
 			$seq->minimum_value = null;
 			$seq->maximum_value = null;
 			$seq->increment = null;
@@ -500,7 +512,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function testGetVersion()
 	{
 		$versionRow = self::$driver->setQuery('SELECT version();')->loadRow();
-		preg_match('/((\d+)\.)((\d+)\.)(\*|\d+)/', $versionRow[0], $versionArray);
+		preg_match('/\d+(?:\.\d+)+/', $versionRow[0], $versionArray);
 
 		$this->assertGreaterThanOrEqual($versionArray[0], self::$driver->getVersion());
 	}
