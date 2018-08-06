@@ -2288,7 +2288,7 @@ class Installer extends \JAdapter
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename         = File::getName($path);
+			$filename = File::getName($path);
 			$data['filename'] = File::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
