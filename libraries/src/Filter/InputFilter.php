@@ -522,7 +522,7 @@ class InputFilter extends BaseInputFilter
 		try
 		{
 			// Get the database driver
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			if ($db instanceof UTF8MB4SupportInterface)
 			{
