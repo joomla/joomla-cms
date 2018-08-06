@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,10 +15,15 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for a database aware Joomla Model
@@ -64,7 +69,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * A state object
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  3.0
 	 */
 	protected $state;
@@ -123,12 +128,12 @@ abstract class BaseDatabaseModel extends CMSObject
 			{
 				if (!in_array($includePath, $paths[$prefix]))
 				{
-					array_unshift($paths[$prefix], \JPath::clean($includePath));
+					array_unshift($paths[$prefix], Path::clean($includePath));
 				}
 
 				if (!in_array($includePath, $paths['']))
 				{
-					array_unshift($paths[''], \JPath::clean($includePath));
+					array_unshift($paths[''], Path::clean($includePath));
 				}
 			}
 		}
@@ -193,11 +198,11 @@ abstract class BaseDatabaseModel extends CMSObject
 		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = \JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+			$path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)
 			{
-				$path = \JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+				$path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 
 			if (!$path)
@@ -209,16 +214,16 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!class_exists($modelClass))
 			{
-				\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), Log::WARNING, 'jerror');
 
 				return false;
 			}
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($modelClass))
+		if (Factory::getContainer()->exists($modelClass))
 		{
-			return \JFactory::getContainer()->get($modelClass);
+			return Factory::getContainer()->get($modelClass);
 		}
 
 		return new $modelClass($config);
@@ -242,7 +247,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
@@ -268,7 +273,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 		else
 		{
-			$this->state = new \JObject;
+			$this->state = new CMSObject;
 		}
 
 		// Set the model dbo
@@ -278,7 +283,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 		else
 		{
-			$this->_db = \JFactory::getDbo();
+			$this->_db = Factory::getDbo();
 		}
 
 		// Set the default view search path
@@ -311,12 +316,18 @@ abstract class BaseDatabaseModel extends CMSObject
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
-		if (!$factory)
+		if ($factory)
 		{
-			$factory = Factory::getApplication()->bootComponent($this->option)->createMVCFactory(Factory::getApplication());
+			$this->factory = $factory;
+			return;
 		}
 
-		$this->factory = $factory;
+		$component = Factory::getApplication()->bootComponent($this->option);
+
+		if ($component instanceof MVCFactoryServiceInterface)
+		{
+			$this->factory = $component->createMVCFactory(Factory::getApplication());
+		}
 	}
 
 	/**
@@ -341,7 +352,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   \JDatabaseQuery|string  $query  The query.
+	 * @param   DatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -349,12 +360,12 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on \JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
-		if ($query instanceof \JDatabaseQuery
+		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
+		if ($query instanceof DatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
-			&& $query->union === null
-			&& $query->unionAll === null
+			&& $query->merge === null
+			&& $query->querySet === null
 			&& $query->having === null)
 		{
 			$query = clone $query;
@@ -367,8 +378,8 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a \JDatabaseQuery object
-		if ($query instanceof \JDatabaseQuery)
+		// Remove the limit and offset part if it's a DatabaseQuery object
+		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
 			$query->clear('limit')->clear('offset');
@@ -434,7 +445,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = str_replace(['\\', 'model'], '', strtolower($r[1]));
@@ -497,7 +508,7 @@ abstract class BaseDatabaseModel extends CMSObject
 			return $table;
 		}
 
-		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -533,7 +544,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if ($historyTable->ucm_type_id != $typeId)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
 
 			$key = $table->getKeyName();
 
@@ -563,7 +574,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		$table = $this->getTable();
 		$checkedOutField = $table->getColumnAlias('checked_out');
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != \JFactory::getUser()->id)
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
 		{
 			return true;
 		}
@@ -619,22 +630,21 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string  $group  The cache group
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null)
 	{
-		$conf = \JFactory::getConfig();
+		$conf = Factory::getConfig();
 
-		$options = array(
-			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
-			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
-			'result' => true,
-		);
+		$options = [
+			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
+			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'result'       => true,
+		];
 
 		try
 		{
@@ -648,7 +658,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 
 		// Trigger the onContentCleanCache event.
-		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**
@@ -658,7 +668,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	 *
 	 * @return  ComponentInterface  The service container
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function bootComponent($component): ComponentInterface
 	{

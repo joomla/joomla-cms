@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
-use Joomla\Input\Input;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base class for a legacy Joomla Dispatcher
  *
  * Executes the single entry file of a legacy component.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LegacyDispatcher implements DispatcherInterface
 {
@@ -27,7 +27,7 @@ class LegacyDispatcher implements DispatcherInterface
 	 * The application instance
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $app;
 
@@ -36,7 +36,7 @@ class LegacyDispatcher implements DispatcherInterface
 	 *
 	 * @param   CMSApplication  $app  The application instance
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(CMSApplication $app)
 	{
@@ -48,7 +48,7 @@ class LegacyDispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{
@@ -64,7 +64,7 @@ class LegacyDispatcher implements DispatcherInterface
 			// Check the class exists and implements the dispatcher interface
 			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
 			{
-				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $this->app->scope), 500);
+				throw new \LogicException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $this->app->scope), 500);
 			}
 
 			// Dispatch the component.
@@ -79,7 +79,7 @@ class LegacyDispatcher implements DispatcherInterface
 		// If component file doesn't exist throw error
 		if (!file_exists($path))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		$lang = $this->app->getLanguage();

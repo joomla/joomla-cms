@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contact\Site\Model;
@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 
 /**
  * Single item model for a contact
@@ -100,6 +102,7 @@ class CategoryModel extends ListModel
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$item = &$items[$i];
+
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);
@@ -125,7 +128,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -171,7 +174,7 @@ class CategoryModel extends ListModel
 
 		// Filter by start and end dates.
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		if ($this->getState('filter.publish_date'))
 		{
@@ -181,6 +184,7 @@ class CategoryModel extends ListModel
 
 		// Filter by search in title
 		$search = $this->getState('list.filter');
+
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . $db->escape($search, true) . '%');
@@ -190,7 +194,7 @@ class CategoryModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Set sortname ordering if selected
@@ -222,7 +226,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_contact');
 
 		// List state information
@@ -259,10 +263,12 @@ class CategoryModel extends ListModel
 		$mergedParams->merge($menuParams);
 
 		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
+
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
@@ -277,7 +283,7 @@ class CategoryModel extends ListModel
 		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{
@@ -305,7 +311,7 @@ class CategoryModel extends ListModel
 	{
 		if (!is_object($this->_item))
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -317,8 +323,9 @@ class CategoryModel extends ListModel
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-			$categories = \JCategories::getInstance('Contact', $options);
+			$categories = Categories::getInstance('Contact', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
+
 			if (is_object($this->_item))
 			{
 				$this->_children = $this->_item->getChildren();
@@ -434,7 +441,7 @@ class CategoryModel extends ListModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

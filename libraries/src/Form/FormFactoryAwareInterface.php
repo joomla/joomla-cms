@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Interface to be implemented by classes depending on a form factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface FormFactoryAwareInterface
 {
@@ -24,7 +24,7 @@ interface FormFactoryAwareInterface
 	 *
 	 * @return  FormFactoryAwareInterface  This method is chainable.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setFormFactory(FormFactoryInterface $factory);
 }

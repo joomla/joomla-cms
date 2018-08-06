@@ -3,16 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $fieldSets = $this->form->getFieldsets('params');
 ?>
 
-<legend><?php echo JText::_('COM_CONFIG_TEMPLATE_SETTINGS'); ?></legend>
+<legend><?php echo Text::_('COM_CONFIG_TEMPLATE_SETTINGS'); ?></legend>
 
 <?php
 
@@ -30,7 +32,7 @@ else
 
 		if (isset($fieldSet->description) && trim($fieldSet->description))
 		{
-			echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+			echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
 		}
 
 		echo $this->form->renderFieldset($name);

@@ -16,19 +16,19 @@
     background-image: none \9;
     background-size: $custom-select-bg-size;
     border: $custom-select-border-width solid $custom-select-border-color;
-    @include border-radius($custom-select-border-radius);
     box-shadow: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+    @include border-radius($custom-select-border-radius);
 
     abbr {
       top: 10px;
     }
 
     &:focus {
+      @include box-shadow($custom-select-focus-box-shadow);
       border-color: $custom-select-focus-border-color;
       outline: none;
-      @include box-shadow($custom-select-focus-box-shadow);
     }
 
     &:disabled {
@@ -40,7 +40,6 @@
     div b {
       background: none;
     }
-
   }
 
   .chzn-drop {
@@ -52,7 +51,6 @@
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
-
 }
 
 // TEMPORARY
@@ -67,5 +65,4 @@
   .chzn-single {
     width: 100% !important;
   }
-
 }

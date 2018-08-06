@@ -87,7 +87,6 @@
 			label="JGLOBAL_HITS"
 			id="hits"
 			class="readonly"
-			size="20"
 			readonly="true"
 			filter="unset" 
 		/>

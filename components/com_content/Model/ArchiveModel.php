@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\Model;
@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Content Component Archive Model
@@ -44,7 +45,7 @@ class ArchiveModel extends ArticlesModel
 	{
 		parent::populateState();
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Add archive properties
 		$params = $this->state->params;
@@ -85,7 +86,7 @@ class ArchiveModel extends ArticlesModel
 	protected function getListQuery()
 	{
 		$params           = $this->state->params;
-		$app              = \JFactory::getApplication();
+		$app              = Factory::getApplication();
 		$catids           = $app->input->getVar('catid', array());
 		$catids           = array_values(array_diff($catids, array('')));
 		$articleOrderDate = $params->get('order_date');
@@ -127,7 +128,7 @@ class ArchiveModel extends ArticlesModel
 	 */
 	public function getData()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -185,7 +186,7 @@ class ArchiveModel extends ArticlesModel
 	{
 		$db = $this->getDbo();
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
 		$years = $query->year($db->qn('created'));
@@ -197,6 +198,7 @@ class ArchiveModel extends ArticlesModel
 			->order('1 ASC');
 
 		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 

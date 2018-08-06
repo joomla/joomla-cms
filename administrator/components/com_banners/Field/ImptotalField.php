@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Field;
@@ -11,6 +11,7 @@ namespace Joomla\Component\Banners\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Total Impressions field.
@@ -47,6 +48,6 @@ class ImptotalField extends FormField
 		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')
 			. '" ' . $class . $onchange . '>'
 			. '<fieldset class="checkbox impunlimited"><input id="' . $this->id . '_unlimited" type="checkbox"' . $checked . $onclick . '>'
-			. '<label for="' . $this->id . '_unlimited" id="jform-imp" type="text">' . \JText::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';
+			. '<label for="' . $this->id . '_unlimited" id="jform-imp" type="text">' . Text::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';
 	}
 }

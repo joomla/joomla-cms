@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,16 +24,16 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form">
+<form id="login-form" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
 	<?php if ($params->get('pretext')) : ?>
-		<div class="pretext">
+		<div class="mod-login__pretext pretext">
 			<p><?php echo $params->get('pretext'); ?></p>
 		</div>
 	<?php endif; ?>
 
-	<div class="userdata">
-		<div class="form-group">
+	<div class="mod-login__userdata userdata">
+		<div class="mod-login__username form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
@@ -48,7 +48,7 @@ Text::script('JHIDE');
 			<?php endif; ?>
 		</div>
 
-		<div class="form-group">
+		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
@@ -64,7 +64,7 @@ Text::script('JHIDE');
 		</div>
 
 		<?php if (count($twofactormethods) > 1) : ?>
-			<div class="form-group">
+			<div class="mod-login__twofactor form-group">
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-group">
 						<span class="input-group-prepend">
@@ -87,7 +87,7 @@ Text::script('JHIDE');
 		<?php endif; ?>
 
 		<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
-			<div class="form-group">
+			<div class="mod-login__remember form-group">
 				<div id="form-login-remember" class="form-check">
 					<label class="form-check-label">
 						<input type="checkbox" name="remember" class="form-check-input" value="yes">
@@ -97,13 +97,13 @@ Text::script('JHIDE');
 			</div>
 		<?php endif; ?>
 
-		<div class="form-group">
+		<div class="mod-login__submit form-group">
 			<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 
 		<?php
 			$usersConfig = ComponentHelper::getParams('com_users'); ?>
-			<ul class="list-unstyled">
+			<ul class="mod-login__options list-unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
 					<a href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
@@ -125,7 +125,7 @@ Text::script('JHIDE');
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 	<?php if ($params->get('posttext')) : ?>
-		<div class="posttext">
+		<div class="mod-login__posttext posttext">
 			<p><?php echo $params->get('posttext'); ?></p>
 		</div>
 	<?php endif; ?>

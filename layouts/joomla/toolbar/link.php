@@ -3,19 +3,32 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-$id     = isset($displayData['id']) ? $displayData['id'] : '';
-$doTask = $displayData['doTask'];
-$class  = $displayData['class'];
-$text   = $displayData['text'];
-$margin = (strpos($doTask, 'index.php?option=com_config') === false) ? '' : ' ml-auto';
+/**
+ * @var  int     $id
+ * @var  string  $name
+ * @var  string  $class
+ * @var  string  $text
+ * @var  string  $btnClass
+ * @var  string  $tagName
+ * @var  string  $htmlAttributes
+ */
+extract($displayData, EXTR_OVERWRITE);
+
+$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : ' ml-auto';
+$target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
-<button<?php echo $id; ?> class="btn btn-outline-danger btn-sm<?php echo $margin; ?>" onclick="location.href='<?php echo $doTask; ?>';">
+<a
+	id="<?php echo $id; ?>"
+	class="<?php echo $btnClass; ?><?php echo $margin; ?>"
+	href="<?php echo $url; ?>"
+	<?php echo $target; ?>
+	<?php echo $htmlAttributes; ?>>
 	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
-</button>
+</a>

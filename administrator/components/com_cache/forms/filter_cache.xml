@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<field
-		name="client_id"
-		type="list"
-		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
-		filtermode="selector"
-		>
-		<option value="0">JSITE</option>
-		<option value="1">JADMINISTRATOR</option>
-	</field>
 	<fields name="filter">
 		<field
 			name="search"

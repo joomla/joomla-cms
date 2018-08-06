@@ -3,12 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Languages\Administrator\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Languages component helper.
@@ -30,17 +32,17 @@ class LanguagesHelper
 	public static function addSubmenu($vName, $client = 0)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
+			Text::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
 			'index.php?option=com_languages&view=installed',
 			$vName == 'installed'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
+			Text::_('COM_LANGUAGES_SUBMENU_CONTENT'),
 			'index.php?option=com_languages&view=languages',
 			$vName == 'languages'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
+			Text::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
 			'index.php?option=com_languages&view=overrides',
 			$vName == 'overrides'
 		);

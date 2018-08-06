@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Site\View\Search;
@@ -40,7 +40,8 @@ class FeedView extends BaseHtmlView
 		$state = $this->get('State');
 		$params = $state->get('params');
 		$query = $this->get('Query');
-		$results = $this->get('Results');
+		$results = $this->get('Items');
+		$total = $this->get('Total');
 
 		// Push out the query data.
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -87,17 +88,7 @@ class FeedView extends BaseHtmlView
 			$item->title       = $result->title;
 			$item->link        = \JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date        = (int) $result->start_date ? \JHtml::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
-
-			// Get the taxonomy data.
-			$taxonomy = $result->getTaxonomy();
-
-			// Add the category to the feed if available.
-			if (isset($taxonomy['Category']))
-			{
-				$node           = array_pop($taxonomy['Category']);
-				$item->category = $node->title;
-			}
+			$item->date        = date('r', strtotime($result->start_date));
 
 			// Loads item info into RSS array
 			$this->document->addItem($item);
