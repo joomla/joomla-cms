@@ -280,7 +280,7 @@ const uglifyLegacyFiles = () => {
 					// Create the minified file
 					fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
 				}
-				if (file.match(/.css/) && !file.match(/.min.css/) && !file.match(/.css.map/) && !file.toLowerCase().match(/license/)) {
+				if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
 					console.log(`Processing: ${file}`);
 					// Create the minified file
 					fs.writeFileSync(
