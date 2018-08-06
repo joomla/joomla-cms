@@ -367,7 +367,7 @@ class Installer extends \JAdapter
 	public function abort($msg = null, $type = null)
 	{
 		$retval = true;
-		$step   = array_pop($this->stepStack);
+		$step = array_pop($this->stepStack);
 
 		// Raise abort warning
 		if ($msg)
@@ -396,7 +396,7 @@ class Installer extends \JAdapter
 
 				case 'extension':
 					// Get database connector object
-					$db    = $this->getDbo();
+					$db = $this->getDbo();
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
@@ -500,9 +500,9 @@ class Installer extends \JAdapter
 		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
-				'method'    => 'install',
-				'type'      => $this->manifest->attributes()->type,
-				'manifest'  => $this->manifest,
+				'method' => 'install',
+				'type' => $this->manifest->attributes()->type,
+				'manifest' => $this->manifest,
 				'extension' => 0,
 			)
 		);
@@ -603,9 +603,9 @@ class Installer extends \JAdapter
 		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
-				'method'    => 'discover_install',
-				'type'      => $this->extension->get('type'),
-				'manifest'  => null,
+				'method' => 'discover_install',
+				'type' => $this->extension->get('type'),
+				'manifest' => null,
 				'extension' => $this->extension->get('extension_id'),
 			)
 		);
@@ -1053,7 +1053,7 @@ class Installer extends \JAdapter
 	{
 		if ($eid && $schema)
 		{
-			$db          = Factory::getDbo();
+			$db = Factory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1120,7 +1120,7 @@ class Installer extends \JAdapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db          = Factory::getDbo();
+			$db = Factory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (count($schemapaths))
