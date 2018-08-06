@@ -11,10 +11,12 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -69,6 +71,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
@@ -113,6 +116,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -139,13 +143,13 @@ class HtmlView extends BaseHtmlView
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
 			$saveGroup->configure(
-					function (Toolbar $childBar)
-					{
-						$childBar->apply('article.apply');
-						$childBar->save('article.save');
-						$childBar->save2new('article.save2new');
-					}
-				);
+				function (Toolbar $childBar)
+				{
+					$childBar->apply('article.apply');
+					$childBar->save('article.save');
+					$childBar->save2new('article.save2new');
+				}
+			);
 		}
 		else
 		{
@@ -153,28 +157,28 @@ class HtmlView extends BaseHtmlView
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
 			$saveGroup->configure(
-					function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+				{
+					// Can't save the record if it's checked out and editable
+					if (!$checkedOut && $itemEditable)
 					{
-						// Can't save the record if it's checked out and editable
-						if (!$checkedOut && $itemEditable)
-						{
-							$childBar->apply('article.apply');
-							$childBar->save('article.save');
+						$childBar->apply('article.apply');
+						$childBar->save('article.save');
 
-							// We can save this record, but check the create permission to see if we can return to make a new one.
-							if ($canDo->get('core.create'))
-							{
-								$childBar->save2new('article.save2new');
-							}
-						}
-
-						// If checked out, we can still save
+						// We can save this record, but check the create permission to see if we can return to make a new one.
 						if ($canDo->get('core.create'))
 						{
-							$childBar->save2copy('article.save2copy');
+							$childBar->save2new('article.save2new');
 						}
 					}
-				);
+
+					// If checked out, we can still save
+					if ($canDo->get('core.create'))
+					{
+						$childBar->save2copy('article.save2copy');
+					}
+				}
+			);
 
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
@@ -187,6 +191,63 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
 					->bodyHeight(80)
 					->modalWidth(90);
+
+				// Add necessary code for a new menu item modal
+
+				// Setup variables for display
+				$linkSuffix = '&amp;layout=modal&amp;client_id=0&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
+				$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
+
+				if (isset($this->element['language']))
+				{
+					$linkItem .= '&amp;forcedLanguage=' . $this->element['language'];
+				}
+
+				$urlNew  = $linkItem . '&amp;task=item.add';
+				$modalId = 'jform_request_id';
+
+				// Add button to open the modal
+				ToolbarHelper::modal('ModalNewItem_' . $modalId, 'icon-new', 'COM_CONTENT_ADD_NEW_MENU_ITEM');
+
+				// Add the modal field script to the document head.
+				HTMLHelper::_('jquery.framework');
+				HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+
+				// Load the language files
+				$language = Factory::getLanguage();
+				$language->load('com_menus', JPATH_ADMINISTRATOR, 'en-GB');
+				$language->load('com_menus', JPATH_ADMINISTRATOR, $language->getDefault());
+				$language->load('com_menus', JPATH_ADMINISTRATOR);
+
+				// Add the modal html to the document
+				echo HTMLHelper::_(
+					'bootstrap.renderModal',
+					'ModalNewItem_' . $modalId,
+					array(
+						'title' => Text::_('COM_MENUS_NEW_MENUITEM'),
+						'backdrop' => 'static',
+						'keyboard' => false,
+						'closeButton' => false,
+						'url' => $urlNew,
+						'height' => '400px',
+						'width' => '800px',
+						'bodyHeight' => 70,
+						'modalWidth' => 80,
+						'footer' => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
+							. Text::_('JSAVE') . '</a>'
+							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
+							. Text::_('JAPPLY') . '</a>'
+					)
+				);
+
+
+				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" type="text" value="">';
+				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
 		}
 
