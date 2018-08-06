@@ -1354,16 +1354,16 @@ class Installer extends \JAdapter
 		// Copy the MD5SUMS file if it exists
 		if (file_exists($source . '/MD5SUMS'))
 		{
-			$path['src']  = $source . '/MD5SUMS';
+			$path['src'] = $source . '/MD5SUMS';
 			$path['dest'] = $destination . '/MD5SUMS';
 			$path['type'] = 'file';
-			$copyfiles[]  = $path;
+			$copyfiles[] = $path;
 		}
 
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file)
 		{
-			$path['src']  = $source . '/' . $file;
+			$path['src'] = $source . '/' . $file;
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
@@ -1464,7 +1464,7 @@ class Installer extends \JAdapter
 				if ((string) $file->attributes()->client !== '')
 				{
 					// Override the client
-					$langclient   = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
+					$langclient = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
 					$path['dest'] = $langclient->path . '/language/' . $file->attributes()->tag . '/' . basename((string) $file);
 				}
 				else
@@ -1481,7 +1481,7 @@ class Installer extends \JAdapter
 			}
 			else
 			{
-				$path['src']  = $source . '/' . $file;
+				$path['src'] = $source . '/' . $file;
 				$path['dest'] = $destination . '/' . $file;
 			}
 
@@ -1534,7 +1534,7 @@ class Installer extends \JAdapter
 		// Here we set the folder we are going to copy the files to.
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
 
-		$folder      = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
+		$folder = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
 		$destination = Path::clean(JPATH_ROOT . '/media' . $folder);
 
 		// Here we set the folder we are going to copy the files from.
@@ -1560,7 +1560,7 @@ class Installer extends \JAdapter
 		// Process each file in the $files array (children of $tagName).
 		foreach ($element->children() as $file)
 		{
-			$path['src']  = $source . '/' . $file;
+			$path['src'] = $source . '/' . $file;
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
@@ -1680,8 +1680,8 @@ class Installer extends \JAdapter
 			{
 				// Get the source and destination paths
 				$filesource = Path::clean($file['src']);
-				$filedest   = Path::clean($file['dest']);
-				$filetype   = array_key_exists('type', $file) ? $file['type'] : 'file';
+				$filedest = Path::clean($file['dest']);
+				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))
 				{
@@ -1847,12 +1847,12 @@ class Installer extends \JAdapter
 				if ($client)
 				{
 					$pathname = 'extension_' . $client->name;
-					$source   = $this->getPath($pathname);
+					$source = $this->getPath($pathname);
 				}
 				else
 				{
 					$pathname = 'extension_root';
-					$source   = $this->getPath($pathname);
+					$source = $this->getPath($pathname);
 				}
 
 				break;
@@ -1877,7 +1877,7 @@ class Installer extends \JAdapter
 				else
 				{
 					$target_client = ApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
-					$path          = $target_client->path . '/language/' . $file->attributes()->tag . '/' . basename((string) $file);
+					$path = $target_client->path . '/language/' . $file->attributes()->tag . '/' . basename((string) $file);
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
@@ -1935,12 +1935,12 @@ class Installer extends \JAdapter
 
 		if ($client)
 		{
-			$pathname     = 'extension_' . $client->name;
+			$pathname = 'extension_' . $client->name;
 			$path['dest'] = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 		else
 		{
-			$pathname     = 'extension_root';
+			$pathname = 'extension_root';
 			$path['dest'] = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 
@@ -1966,7 +1966,7 @@ class Installer extends \JAdapter
 		$parentXmlfiles = Folder::files($this->getPath('source'), '.xml$', false, true);
 
 		// Search for children manifests (lower priority)
-		$allXmlFiles = Folder::files($this->getPath('source'), '.xml$', 1, true);
+		$allXmlFiles    = Folder::files($this->getPath('source'), '.xml$', 1, true);
 
 		// Create an unique array of files ordered by priority
 		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
@@ -1984,7 +1984,7 @@ class Installer extends \JAdapter
 					// If the root method attribute is set to upgrade, allow file overwrite
 					if ((string) $manifest->attributes()->method === 'upgrade')
 					{
-						$this->upgrade   = true;
+						$this->upgrade = true;
 						$this->overwrite = true;
 					}
 
@@ -2074,7 +2074,7 @@ class Installer extends \JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db    = Factory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where('type = ' . $db->quote($type))
@@ -2210,7 +2210,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		$data   = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		$data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		$retval = array();
 
 		foreach ($data as $row)
@@ -2276,15 +2276,15 @@ class Installer extends \JAdapter
 		$data['type'] = $xml->getName() === 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
 		$data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
-		$data['author']       = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
 
-		$data['copyright']   = (string) $xml->copyright;
+		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
-		$data['authorUrl']   = (string) $xml->authorUrl;
-		$data['version']     = (string) $xml->version;
+		$data['authorUrl'] = (string) $xml->authorUrl;
+		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
-		$data['group']       = (string) $xml->group;
-		$data['namespace']   = (string) $xml->namespace;
+		$data['group'] = (string) $xml->group;
+		$data['namespace'] = (string) $xml->namespace;
 
 		if ($xml->files && count($xml->files->children()))
 		{
