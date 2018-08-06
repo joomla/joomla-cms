@@ -15,6 +15,7 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.base.adapterinstance');
 
@@ -285,7 +286,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 			// Log the exact update site name and URL which could not be loaded
 			Log::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, Log::WARNING, 'updater');
 			$app = Factory::getApplication();
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
 
 			return false;
 		}
