@@ -57,6 +57,7 @@
               return;
             }
 
+            // eslint-disable-next-line prefer-destructuring
             success = value.success;
             progressClass = success ? 'bg-success' : 'bg-danger';
 
@@ -108,7 +109,8 @@
     }
 
     // Make sure that use run this not by random clicking on the page links
-    if (!confirm(Joomla.JText._('MOD_SAMPLEDATA_CONFIRM_START'))) {
+    // @todo use the CE Modal here
+    if (!window.confirm(Joomla.JText._('MOD_SAMPLEDATA_CONFIRM_START'))) {
       // eslint-disable-next-line consistent-return
       return false;
     }
