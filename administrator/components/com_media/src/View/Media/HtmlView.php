@@ -99,13 +99,13 @@ class HtmlView extends BaseHtmlView
 			// Add the upload button
 			$layout = new FileLayout('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			$bar->appendButton('Custom', $layout->render([]), 'upload');
 			ToolbarHelper::divider();
 
 			// Add the create folder button
 			$layout = new FileLayout('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'new');
+			$bar->appendButton('Custom', $layout->render([]), 'new');
 			ToolbarHelper::divider();
 		}
 
@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
 			// Instantiate a new FileLayout instance and render the layout
 			$layout = new FileLayout('toolbar.delete');
 
-			$bar->appendButton('Custom', $layout->render(array()), 'delete');
+			$bar->appendButton('Custom', $layout->render([]), 'delete');
 			ToolbarHelper::divider();
 		}
 

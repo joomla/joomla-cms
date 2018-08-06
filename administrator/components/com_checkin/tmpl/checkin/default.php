@@ -31,28 +31,29 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table id="global-checkin" class="table">
 						<thead>
 							<tr>
-								<th style="width:1%"><?php echo HTMLHelper::_('grid.checkall'); ?></th>
-								<th><?php echo HTMLHelper::_('searchtools.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
-								<th><?php echo HTMLHelper::_('searchtools.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?></th>
+								<td style="width:1%">
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
+								</td>
+								<th scope="col">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?>
+								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="3">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 							<?php $i = 0; ?>
 							<?php foreach ($this->items as $table => $count) : ?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td class="text-center"><?php echo HTMLHelper::_('grid.id', $i, $table); ?></td>
-									<td>
+									<td class="text-center">
+										<?php echo HTMLHelper::_('grid.id', $i, $table); ?>
+									</td>
+									<th scope="row">
 										<label for="cb<?php echo $i ?>">
 											<?php echo Text::sprintf('COM_CHECKIN_TABLE', $table); ?>
 										</label>
-									</td>
+									</th>
 									<td>
 										<span class="badge badge-secondary"><?php echo $count; ?></span>
 									</td>
@@ -61,6 +62,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

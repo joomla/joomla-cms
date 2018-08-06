@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="Resize" label="PLG_MEDIA-ACTION_RESIZE_LABEL">
+	<fieldset name="resize" label="PLG_MEDIA-ACTION_RESIZE_LABEL">
 		<field
 			name="resize_quality"
 			type="number"

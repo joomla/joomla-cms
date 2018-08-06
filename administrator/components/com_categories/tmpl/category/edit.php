@@ -46,7 +46,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 	<div>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', JText::_('JCATEGORY')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('JCATEGORY')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->getLabel('description'); ?>
@@ -60,12 +60,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
 				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -78,7 +78,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php if ( ! $isModal && $assoc && $extensionassoc) : ?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc && $extensionassoc) : ?>
@@ -87,7 +87,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('COM_CATEGORIES_FIELDSET_RULES')); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>

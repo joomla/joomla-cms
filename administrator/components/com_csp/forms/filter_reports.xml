@@ -37,6 +37,8 @@
 			<option value="a.directive DESC">COM_CSP_HEADING_DIRECTIVE_DESC</option>
 			<option value="a.created ASC">COM_CSP_HEADING_CREATED_ASC</option>
 			<option value="a.created DESC">COM_CSP_HEADING_CREATED_DESC</option>
+			<option value="a.client ASC">COM_CSP_HEADING_CLIENT_ASC</option>
+			<option value="a.client DESC">COM_CSP_HEADING_CLIENT_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

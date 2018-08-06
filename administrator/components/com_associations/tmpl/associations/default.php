@@ -22,7 +22,6 @@ HTMLHelper::_('behavior.multiselect');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
-$colSpan          = 5;
 
 $iconStates = array(
 	-2 => 'icon-trash',
@@ -46,44 +45,37 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 					<thead>
 						<tr>
 							<?php if (!empty($this->typeSupports['state'])) : ?>
-								<th style="width:1%" class="text-center nowrap">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
+								<th scope="col" style="width:1%" class="text-center nowrap">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<th class="nowrap">
+							<th scope="col" class="nowrap">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:15%" class="nowrap">
+							<th scope="col" style="width:15%" class="nowrap">
 								<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 							</th>
-							<th style="width:5%" class="nowrap">
+							<th scope="col" style="width:5%" class="nowrap">
 								<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 							</th>
-							<th style="width:15%" class="nowrap">
+							<th scope="col" style="width:15%" class="nowrap">
 								<?php echo Text::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
 							</th>
 							<?php if (!empty($this->typeFields['menutype'])) : ?>
-								<th style="width:10%" class="nowrap">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
+								<th scope="col" style="width:10%" class="nowrap">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if (!empty($this->typeFields['access'])) : ?>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<th style="width:1%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="<?php echo $colSpan; ?>">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 					<?php foreach ($this->items as $i => $item) :
 						$canCheckin = true;
@@ -97,7 +89,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 									<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 								</td>
 							<?php endif; ?>
-							<td class="nowrap has-context">
+							<th scope="row" class="nowrap has-context">
 								<?php if (isset($item->level)) : ?>
 									<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php endif; ?>
@@ -121,7 +113,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 										<?php echo Text::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 									</div>
 								<?php endif; ?>
-							</td>
+							</th>
 							<td class="small">
 								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
@@ -148,6 +140,10 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 					<?php endforeach; ?>
 					</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>

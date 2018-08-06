@@ -56,36 +56,29 @@ if (!empty($editor))
 			<table class="table table-sm">
 				<thead>
 					<tr>
-						<th style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="nowrap text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th class="title">
+						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap d-none d-md-table-cell">
+						<th scope="col" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:5%" class="text-center nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:5%" class="text-center nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="7">
-							<?php echo $this->pagination->getListFooter(); ?>
-						</td>
-					</tr>
-				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
@@ -109,7 +102,7 @@ if (!empty($editor))
 						<td class="text-center">
 							<?php echo HTMLHelper::_('menus.state', $item->published, $i, 0); ?>
 						</td>
-						<td>
+						<th scope="row">
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
 							<?php if (!$uselessMenuItem) : ?>
@@ -131,7 +124,7 @@ if (!empty($editor))
 								<span class="small" title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
-						</td>
+						</th>
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
@@ -169,6 +162,10 @@ if (!empty($editor))
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+
+			<?php // load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">
