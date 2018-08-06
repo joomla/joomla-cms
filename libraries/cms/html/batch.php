@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
+
 /**
  * Extended Utility class for batch processing widgets.
  *
@@ -25,13 +28,13 @@ abstract class JHtmlBatch
 	 *
 	 * @since       1.7
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.access'); use JLayoutHelper::render('joomla.html.batch.access', array());
+	 * @deprecated  4.0 instead of JHtml::_('batch.access'); use LayoutHelper::render('joomla.html.batch.access', array());
 	 */
 	public static function access()
 	{
-		JLog::add('The use of JHtml::_("batch.access") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.access") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
-		return JLayoutHelper::render('joomla.html.batch.access', array());
+		return LayoutHelper::render('joomla.html.batch.access', array());
 	}
 
 	/**
@@ -43,15 +46,15 @@ abstract class JHtmlBatch
 	 *
 	 * @since       1.7
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.item'); use JLayoutHelper::render('joomla.html.batch.item', array('extension' => 'com_XXX'));
+	 * @deprecated  4.0 instead of JHtml::_('batch.item'); use LayoutHelper::render('joomla.html.batch.item', array('extension' => 'com_XXX'));
 	 */
 	public static function item($extension)
 	{
 		$displayData = array('extension' => $extension);
 
-		JLog::add('The use of JHtml::_("batch.item") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.item") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
-		return JLayoutHelper::render('joomla.html.batch.item', $displayData);
+		return LayoutHelper::render('joomla.html.batch.item', $displayData);
 	}
 
 	/**
@@ -61,13 +64,13 @@ abstract class JHtmlBatch
 	 *
 	 * @since       2.5
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.language'); use JLayoutHelper::render('joomla.html.batch.language', array());
+	 * @deprecated  4.0 instead of JHtml::_('batch.language'); use LayoutHelper::render('joomla.html.batch.language', array());
 	 */
 	public static function language()
 	{
-		JLog::add('The use of JHtml::_("batch.language") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.language") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
-		return JLayoutHelper::render('joomla.html.batch.language', array());
+		return LayoutHelper::render('joomla.html.batch.language', array());
 	}
 
 	/**
@@ -79,15 +82,15 @@ abstract class JHtmlBatch
 	 *
 	 * @since       2.5
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.user'); use JLayoutHelper::render('joomla.html.batch.user', array());
+	 * @deprecated  4.0 instead of JHtml::_('batch.user'); use LayoutHelper::render('joomla.html.batch.user', array());
 	 */
 	public static function user($noUser = true)
 	{
 		$displayData = array('noUser' => $noUser);
 
-		JLog::add('The use of JHtml::_("batch.user") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.user") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
-		return JLayoutHelper::render('joomla.html.batch.user', $displayData);
+		return LayoutHelper::render('joomla.html.batch.user', $displayData);
 	}
 
 	/**
@@ -97,12 +100,12 @@ abstract class JHtmlBatch
 	 *
 	 * @since       3.1
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.tag'); use JLayoutHelper::render('joomla.html.batch.tag', array());
+	 * @deprecated  4.0 instead of JHtml::_('batch.tag'); use LayoutHelper::render('joomla.html.batch.tag', array());
 	 */
 	public static function tag()
 	{
-		JLog::add('The use of JHtml::_("batch.tag") is deprecated use JLayout instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of JHtml::_("batch.tag") is deprecated use JLayout instead.', Log::WARNING, 'deprecated');
 
-		return JLayoutHelper::render('joomla.html.batch.tag', array());
+		return LayoutHelper::render('joomla.html.batch.tag', array());
 	}
 }

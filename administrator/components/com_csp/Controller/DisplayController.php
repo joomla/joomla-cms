@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Text;
 /**
  * Csp display controller.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DisplayController extends BaseController
 {
@@ -27,7 +27,7 @@ class DisplayController extends BaseController
 	 * The default view.
 	 *
 	 * @var     string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $default_view = 'reports';
 
@@ -39,7 +39,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return  static   This object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{

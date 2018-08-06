@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
 
 /**
  * Route Helper
@@ -71,8 +72,8 @@ class RouteHelper
 		}
 		else
 		{
-			$this->view = \JFactory::getApplication()->input->getString('view');
-			$this->extension = \JFactory::getApplication()->input->getCmd('option');
+			$this->view = Factory::getApplication()->input->getString('view');
+			$this->extension = Factory::getApplication()->input->getCmd('option');
 		}
 
 		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
@@ -133,7 +134,7 @@ class RouteHelper
 	 */
 	protected function findItem($needles = array())
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menus    = $app->getMenu('site');
 		$language = $needles['language'] ?? '*';
 

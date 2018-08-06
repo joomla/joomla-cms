@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -27,6 +28,7 @@ use Joomla\CMS\Factory;
  *
  * @since  1.6
  */
+
 class ArticleModel extends AdminModel
 {
 	/**
@@ -76,10 +78,9 @@ class ArticleModel extends AdminModel
 		}
 
 		PluginHelper::importPlugin('system');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Parent exists so we let's proceed
 		while (!empty($pks))
@@ -107,7 +108,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -177,7 +178,7 @@ class ArticleModel extends AdminModel
 			}
 
 			// Run event for copied article
-			$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$this->table, true, $fieldsData));
+			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
 		}
 
 		// Clean the cache
@@ -217,10 +218,9 @@ class ArticleModel extends AdminModel
 		}
 
 		PluginHelper::importPlugin('system');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
@@ -250,7 +250,8 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -274,11 +275,6 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			if (!empty($this->type))
-			{
-				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-			}
-
 			// Store the row.
 			if (!$this->table->store())
 			{
@@ -288,7 +284,7 @@ class ArticleModel extends AdminModel
 			}
 
 			// Run event for moved article
-			$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
+			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
 		}
 
 		// Clean the cache
