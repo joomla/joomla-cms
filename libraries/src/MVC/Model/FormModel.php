@@ -20,7 +20,6 @@ use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**

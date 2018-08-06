@@ -16,8 +16,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Pagination\Pagination;
 
 /**
