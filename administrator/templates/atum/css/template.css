@@ -574,6 +574,21 @@ iframe {
 .modal iframe {
   width: 100%; }
 
+.page-link.active {
+  padding: 0; }
+  .page-link.active.current {
+    padding: .5rem .75rem;
+    color: #999;
+    background-color: #dee2e6; }
+  .page-link.active a {
+    padding: .5rem .75rem;
+    line-height: 2.25; }
+
+.page-link.disabled {
+  color: #999; }
+  .page-link.disabled:hover {
+    background: transparent; }
+
 .view-login {
   background: #3073bb;
   /**
