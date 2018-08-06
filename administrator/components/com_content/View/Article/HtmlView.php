@@ -217,9 +217,7 @@ class HtmlView extends BaseHtmlView
 
 				// Load the language files
 				$language = Factory::getLanguage();
-				$language->load('com_menus', JPATH_ADMINISTRATOR, 'en-GB');
-				$language->load('com_menus', JPATH_ADMINISTRATOR, $language->getDefault());
-				$language->load('com_menus', JPATH_ADMINISTRATOR);
+				$language->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
 
 				// Add the modal html to the document
 				echo HTMLHelper::_(
