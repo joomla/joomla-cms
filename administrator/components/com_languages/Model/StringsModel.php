@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Languages Strings Model
@@ -29,7 +33,7 @@ class StringsModel extends BaseDatabaseModel
 	 */
 	public function refresh()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$db  = $this->getDbo();
 
 		$app->setUserState('com_languages.overrides.cachedtime', null);
@@ -63,20 +67,20 @@ class StringsModel extends BaseDatabaseModel
 
 		if (is_dir($path))
 		{
-			$files = \JFolder::files($path, $language . '.*ini$', false, true);
+			$files = Folder::files($path, $language . '.*ini$', false, true);
 		}
 
 		// Parse language directories of components.
-		$files = array_merge($files, \JFolder::files($base . '/components', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/components', $language . '.*ini$', 3, true));
 
 		// Parse language directories of modules.
-		$files = array_merge($files, \JFolder::files($base . '/modules', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/modules', $language . '.*ini$', 3, true));
 
 		// Parse language directories of templates.
-		$files = array_merge($files, \JFolder::files($base . '/templates', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/templates', $language . '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, \JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
+		$files = array_merge($files, Folder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
@@ -89,7 +93,7 @@ class StringsModel extends BaseDatabaseModel
 
 				foreach ($strings as $key => $string)
 				{
-					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(\JPath::clean($file)));
+					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(Path::clean($file)));
 				}
 
 				try
@@ -120,8 +124,8 @@ class StringsModel extends BaseDatabaseModel
 	public function search()
 	{
 		$results = array();
-		$input   = \JFactory::getApplication()->input;
-		$filter  = \JFilterInput::getInstance();
+		$input   = Factory::getApplication()->input;
+		$filter  = InputFilter::getInstance();
 		$db      = $this->getDbo();
 		$searchTerm = $input->getString('searchstring');
 
