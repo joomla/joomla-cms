@@ -11,6 +11,11 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
 
 /**
  * Languages Controller.
@@ -27,7 +32,7 @@ class InstalledController extends BaseController
 	public function setDefault()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
@@ -37,14 +42,14 @@ class InstalledController extends BaseController
 			// Switching to the new administrator language for the message
 			if ($model->getState('client_id') == 1)
 			{
-				$language = \JFactory::getLanguage();
-				$newLang = \JLanguage::getInstance($cid);
-				\JFactory::$language = $newLang;
-				\JFactory::getApplication()->loadLanguage($language = $newLang);
+				$language = Factory::getLanguage();
+				$newLang = Language::getInstance($cid);
+				Factory::$language = $newLang;
+				Factory::getApplication()->loadLanguage($language = $newLang);
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 			}
 
-			$msg = \JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+			$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
 			$type = 'message';
 		}
 		else
@@ -65,26 +70,26 @@ class InstalledController extends BaseController
 	public function switchAdminLanguage()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 
 		// Fetching the language name from the xx-XX.xml
 		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
-		$info = \JInstaller::parseXMLInstallFile($file);
+		$info = Installer::parseXMLInstallFile($file);
 		$languageName = $info['name'];
 
 		if ($model->switchAdminLanguage($cid))
 		{
 			// Switching to the new language for the message
-			$language = \JFactory::getLanguage();
-			$newLang = \JLanguage::getInstance($cid);
-			\JFactory::$language = $newLang;
-			\JFactory::getApplication()->loadLanguage($language = $newLang);
+			$language = Factory::getLanguage();
+			$newLang = Language::getInstance($cid);
+			Factory::$language = $newLang;
+			Factory::getApplication()->loadLanguage($language = $newLang);
 			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
-			$msg = \JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
+			$msg = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
 			$type = 'message';
 		}
 		else

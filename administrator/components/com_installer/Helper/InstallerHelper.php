@@ -83,7 +83,7 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT type')
 			->from('#__extensions');
