@@ -203,7 +203,7 @@
   }
 
   // 2nd level item with opened sub-menu
-  &.open .collapse-level-1 {
+  .open .collapse-level-1 {
     display: block;
   }
 
