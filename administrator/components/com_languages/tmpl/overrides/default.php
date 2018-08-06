@@ -72,13 +72,6 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="5">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php $canEdit = Factory::getUser()->authorise('core.edit', 'com_languages'); ?>
 						<?php $i = 0; ?>
@@ -115,6 +108,10 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

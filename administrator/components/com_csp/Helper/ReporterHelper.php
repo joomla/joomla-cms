@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Reporter component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReporterHelper
 {
@@ -24,7 +24,7 @@ class ReporterHelper
 	 *
 	 * @return  integer  The httpheaders system plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getHttpHeadersPluginId()
 	{
