@@ -238,7 +238,9 @@ class ProfileCollector extends AbstractDataCollector
 
 		$start = $this->requestStartTime;
 
-		foreach (\JProfiler::getInstance('Application')->getMarks() as $mark)
+		$marks = \JProfiler::getInstance('Application')->getMarks();
+
+		foreach ($marks as $mark)
 		{
 			$end = $start + $mark->time / 1000;
 			$this->addMeasure($mark->label, $start, $end);
@@ -269,6 +271,7 @@ class ProfileCollector extends AbstractDataCollector
 			'duration'     => $this->getRequestDuration(),
 			'duration_str' => $this->getDataFormatter()->formatDuration($this->getRequestDuration()),
 			'measures'     => array_values($this->measures),
+			'rawMarks'     => $marks,
 		);
 	}
 

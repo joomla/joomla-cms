@@ -10,6 +10,7 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugMonitor;
+use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 
@@ -53,11 +54,18 @@ class QueryCollector extends AbstractDataCollector
 	 *
 	 * @return array Collected data
 	 */
-	public function collect()
+	public function collect(): array
 	{
+		// @todo fetch the database object in a non deprecated way..
+		$database = Factory::$database;
+
 		return [
-			'data'  => $this->getData(),
-			'count' => $this->getCount(),
+			'data'  => $this->queryMonitor->getLog(),
+			'count' => \count($this->queryMonitor->getLog()),
+			'prefix' => $database->getPrefix(),
+			'serverType' => $database->getServerType(),
+			'timings' => $this->queryMonitor->getTimings(),
+			'stacks' => $this->queryMonitor->getCallStacks(),
 		];
 	}
 
@@ -68,7 +76,7 @@ class QueryCollector extends AbstractDataCollector
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -81,7 +89,7 @@ class QueryCollector extends AbstractDataCollector
 	 *
 	 * @return array
 	 */
-	public function getWidgets()
+	public function getWidgets(): array
 	{
 		return [
 			'queries'       => [
@@ -95,29 +103,5 @@ class QueryCollector extends AbstractDataCollector
 				'default' => 'null',
 			],
 		];
-	}
-
-	/**
-	 * Collect data.
-	 *
-	 * @return array
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function getData()
-	{
-		return $this->queryMonitor->getLog();
-	}
-
-	/**
-	 * Get a count value.
-	 *
-	 * @return int
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function getCount()
-	{
-		return \count($this->queryMonitor->getLog());
 	}
 }
