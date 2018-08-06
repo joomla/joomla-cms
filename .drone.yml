@@ -26,3 +26,12 @@ pipeline:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
+  analysis:
+    image: rips/rips-cli
+    secrets:  [rips_username, rips_password]
+    commands:
+      - export RIPS_BASE_URI='https://api.rips.joomla.org'
+      - export RIPS_USERNAME=$RIPS_USERNAME
+      - export RIPS_PASSWORD=$RIPS_PASSWORD
+      - rips-cli rips:scan:start  -a 1 -t 1 -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+
