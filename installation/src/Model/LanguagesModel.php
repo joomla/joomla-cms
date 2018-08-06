@@ -254,7 +254,7 @@ class LanguagesModel extends BaseInstallationModel
 		$downloadUrl = $update->get('downloadurl', false);
 		
 		// Check if the download url exist, otherwise return empty value
-		if ($downloadUrl === false) 
+		if ($downloadUrl === false)
 		{
 			return '';
 		}
