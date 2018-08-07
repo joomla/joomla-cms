@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 // Add Stylesheets
 JHtml::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
-JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css', ['version' => 'auto']);
 JHtml::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
 
 // Add scripts
