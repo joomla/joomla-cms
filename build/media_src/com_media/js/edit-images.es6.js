@@ -89,9 +89,9 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       link.click();
 
       // Move the container to the correct tab
-      const container = document.getElementById('media-manager-edit-container');
+      const mediaContainer = document.getElementById('media-manager-edit-container');
       const tab = document.getElementById(link.id.id.replace('tab-', ''));
-      tab.insertAdjacentElement('afterbegin', container);
+      tab.insertAdjacentElement('afterbegin', mediaContainer);
 
       activate(link.id.replace('tab-attrib-', ''), data);
     });
