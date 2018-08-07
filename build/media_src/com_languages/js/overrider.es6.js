@@ -4,8 +4,7 @@
  */
 
 ((Joomla, document) => {
-
-  class overrider {
+  class Overrider {
     constructor() {
       this.states = {
         refreshing: false,
@@ -19,7 +18,6 @@
       this.moreResults = document.getElementById('more-results');
       this.resultsContainer = document.getElementById('results-container');
       this.refreshStatus = document.getElementById('refresh-status');
-
     }
 
     /**
@@ -218,13 +216,12 @@
      *
      * @since   2.5
      */
+    // eslint-disable-next-line class-methods-use-this
     selectString(id) {
       document.getElementById('jform_key').value = document.getElementById(`override_key${id}`).innerHTML;
       document.getElementById('jform_override').value = document.getElementById(`override_string${id}`).innerHTML;
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    Joomla.overrider = new overrider();
-  })
+  document.addEventListener('DOMContentLoaded', () => { Joomla.overrider = new Overrider(); });
 })(Joomla, document);
