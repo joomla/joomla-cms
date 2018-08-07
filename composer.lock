@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c955656d746edac515ded8ec7f761a7",
+    "content-hash": "5749677e2afdf181fc07ea6b394cbe40",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1486,67 +1486,6 @@
             "time": "2018-03-15T00:43:07+00:00"
         },
         {
-            "name": "maximebf/debugbar",
-            "version": "v1.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "30e7d60937ee5f1320975ca9bc7bcdd44d500f07"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/30e7d60937ee5f1320975ca9bc7bcdd44d500f07",
-                "reference": "30e7d60937ee5f1320975ca9bc7bcdd44d500f07",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "psr/log": "^1.0",
-                "symfony/var-dumper": "^2.6|^3.0|^4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.0|^5.0"
-            },
-            "suggest": {
-                "kriswallsmith/assetic": "The best way to manage assets",
-                "monolog/monolog": "Log using Monolog",
-                "predis/predis": "Redis storage"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.14-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DebugBar\\": "src/DebugBar/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Maxime Bouroumeau-Fuseau",
-                    "email": "maxime.bouroumeau@gmail.com",
-                    "homepage": "http://maximebf.com"
-                },
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "Debug bar in the browser for php application",
-            "homepage": "https://github.com/maximebf/php-debugbar",
-            "keywords": [
-                "debug",
-                "debugbar"
-            ],
-            "time": "2017-12-15T11:13:46+00:00"
-        },
-        {
             "name": "mso/idna-convert",
             "version": "v1.1.0",
             "source": {
@@ -2443,75 +2382,6 @@
                 "shim"
             ],
             "time": "2018-04-26T10:06:28+00:00"
-        },
-        {
-            "name": "symfony/var-dumper",
-            "version": "v3.4.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "e173954a28a44a32c690815fbe4d0f2eac43accb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e173954a28a44a32c690815fbe4d0f2eac43accb",
-                "reference": "e173954a28a44a32c690815fbe4d0f2eac43accb",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|>=7.0.8",
-                "symfony/polyfill-mbstring": "~1.0"
-            },
-            "conflict": {
-                "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
-            },
-            "require-dev": {
-                "ext-iconv": "*",
-                "twig/twig": "~1.34|~2.4"
-            },
-            "suggest": {
-                "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
-                "ext-intl": "To show region name in time zone dump",
-                "ext-symfony_debug": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.4-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "Resources/functions/dump.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Component\\VarDumper\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony mechanism for exploring and dumping PHP variables",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "debug",
-                "dump"
-            ],
-            "time": "2018-06-15T07:47:49+00:00"
         },
         {
             "name": "symfony/web-link",
@@ -3805,12 +3675,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "9020a33c3b14aadb86057eb25b61305e63a15e86"
+                "reference": "13c12ee493a4f5bad482dd601e86db52b2918714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/9020a33c3b14aadb86057eb25b61305e63a15e86",
-                "reference": "9020a33c3b14aadb86057eb25b61305e63a15e86",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/13c12ee493a4f5bad482dd601e86db52b2918714",
+                "reference": "13c12ee493a4f5bad482dd601e86db52b2918714",
                 "shasum": ""
             },
             "require": {
@@ -3848,7 +3718,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2018-05-15T13:46:14+00:00"
+            "time": "2018-08-06T11:31:54+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
@@ -3991,12 +3861,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-system.git",
-                "reference": "411704332c071d2cf857ffb58d3e36f9189c0df6"
+                "reference": "0548840f05f4fcb0671f0ef1ff5acd978565ebb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-system/zipball/411704332c071d2cf857ffb58d3e36f9189c0df6",
-                "reference": "411704332c071d2cf857ffb58d3e36f9189c0df6",
+                "url": "https://api.github.com/repos/joomla/test-system/zipball/0548840f05f4fcb0671f0ef1ff5acd978565ebb1",
+                "reference": "0548840f05f4fcb0671f0ef1ff5acd978565ebb1",
                 "shasum": ""
             },
             "require": {
@@ -4017,7 +3887,7 @@
                 "cms",
                 "joomla"
             ],
-            "time": "2018-07-10T00:11:41+00:00"
+            "time": "2018-07-28T21:13:03+00:00"
         },
         {
             "name": "joomla/test-unit",
