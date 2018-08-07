@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /* @var InstallationViewDefault $this */
 ?>
@@ -27,7 +28,7 @@ use Joomla\CMS\Language\Text;
 				</div>
 				<input type="hidden" name="task" value="language.set">
 				<input type="hidden" name="format" value="json">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</fieldset>
 	</form>
@@ -109,7 +110,7 @@ use Joomla\CMS\Language\Text;
 		</fieldset>
 
 		<input type="hidden" name="admin_password2" id="jform_admin_password2">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 
 </div>
