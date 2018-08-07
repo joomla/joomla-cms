@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Install Sample Data field.
@@ -54,7 +55,7 @@ class SampleField extends RadioField
 		}
 
 		// Get a list of files in the search path with the given filter.
-		$files = \JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
+		$files = Folder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
 
 		// Add option to not install sample data.
 		$options[] = HTMLHelper::_('select.option', '',

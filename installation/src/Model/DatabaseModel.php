@@ -20,6 +20,7 @@ use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -584,7 +585,7 @@ class DatabaseModel extends BaseInstallationModel
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/' . $serverType . '/';
 
-		$files = \JFolder::files($pathPart, '\.sql$');
+		$files = Folder::files($pathPart, '\.sql$');
 
 		if (empty($files))
 		{
