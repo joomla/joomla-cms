@@ -19,6 +19,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -226,7 +227,7 @@ class DatabaseModel extends BaseInstallationModel
 					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
 
 					// When the path is not writable the user needs to create the file manually
-					if (!JFile::write($remoteDbPath, ''))
+					if (!File::write($remoteDbPath, ''))
 					{
 						// Request to create the file manually
 						Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
@@ -596,9 +597,9 @@ class DatabaseModel extends BaseInstallationModel
 
 		foreach ($files as $file)
 		{
-			if (version_compare($version, \JFile::stripExt($file)) < 0)
+			if (version_compare($version, File::stripExt($file)) < 0)
 			{
-				$version = \JFile::stripExt($file);
+				$version = File::stripExt($file);
 			}
 		}
 

@@ -11,6 +11,8 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
+
 /**
  * Cleanup model for the Joomla Core Installer.
  *
@@ -27,12 +29,12 @@ class CleanupModel extends BaseInstallationModel
 	 */
 	public function deleteInstallationFolder()
 	{
-		$return = \JFolder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || \JFile::delete(JPATH_ROOT . '/joomla.xml'));
+		$return = \JFolder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || File::delete(JPATH_ROOT . '/joomla.xml'));
 
 		// Rename the robots.txt.dist file if robots.txt doesn't exist
 		if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
 		{
-			$return = \JFile::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
+			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
 		}
 
 		return $return;
