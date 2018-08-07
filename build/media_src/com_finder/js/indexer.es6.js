@@ -2,12 +2,12 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-/* eslint-disable no-alert*/
+// eslint-disable no-alert
 ((Joomla, document) => {
   'use strict';
 
   if (!Joomla) {
-    throw new Error('core.js was not properly initialised')
+    throw new Error('core.js was not properly initialised');
   }
 
   Joomla.finderIndexer = () => {
@@ -74,6 +74,7 @@
           throw new Error(json);
         }
         if (json.start) {
+          // eslint-disable-next-line prefer-destructuring
           totalItems = json.totalItems;
         }
         offset += json.batchOffset;
@@ -99,6 +100,7 @@
           }
         } catch (ignore) {
           if (error === '') {
+            // eslint-disable-next-line no-ex-assign
             error = Joomla.JText._('COM_FINDER_NO_ERROR_RETURNED');
           }
           if (progressHeader) {
@@ -165,3 +167,8 @@
     initialize();
   };
 })(Joomla, document);
+
+// @todo use directly the Joomla.finderIndexer() instead of the Indexer()!!!
+document.addEventListener('DOMContentLoaded', () => {
+  window.Indexer = Joomla.finderIndexer();
+});
