@@ -9203,6 +9203,21 @@ header {
 .system-debug {
   display: block; }
 
+.page-link.active {
+  padding: 0; }
+  .page-link.active.current {
+    padding: .5rem .75rem;
+    color: #999;
+    background-color: #dee2e6; }
+  .page-link.active a {
+    padding: .5rem .75rem;
+    line-height: 2.25; }
+
+.page-link.disabled {
+  color: #999; }
+  .page-link.disabled:hover {
+    background: transparent; }
+
 .modal .btn {
   margin-right: .5rem; }
 
@@ -9877,3 +9892,13 @@ body, .dropdown-item {
 
 dd {
   -webkit-margin-start: 0; }
+
+.form-check {
+  padding-right: 1.25rem;
+  padding-left: 0; }
+
+.form-check-input {
+  margin-right: -1.25rem; }
+
+.list-unstyled {
+  padding-right: 0; }

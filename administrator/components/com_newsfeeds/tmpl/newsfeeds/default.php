@@ -86,13 +86,6 @@ if ($saveOrder && !empty($this->items))
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="11">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 						<?php foreach ($this->items as $i => $item) :
 							$ordering   = ($listOrder == 'a.ordering');
@@ -178,6 +171,10 @@ if ($saveOrder && !empty($this->items))
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php // Load the batch processing form if user is allowed ?>
 					<?php if ($user->authorise('core.create', 'com_newsfeeds')
 						&& $user->authorise('core.edit', 'com_newsfeeds')
