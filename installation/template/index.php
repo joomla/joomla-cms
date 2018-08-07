@@ -70,9 +70,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 				<jdoc:include type="message" />
 				<div id="javascript-warning">
 					<noscript>
-						<joomla-alert type="danger" class="text-center">
-							<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
-						</joomla-alert>
+						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 					</noscript>
 				</div>
 				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
