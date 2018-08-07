@@ -25,7 +25,7 @@
     button.setAttribute(
       'aria-label',
       (ariaLabel === JText._('JGLOBAL_COLLAPSE_CATEGORIES')
-        || JText._('JGLOBAL_EXPAND_CATEGORIES'))
+        || JText._('JGLOBAL_EXPAND_CATEGORIES')),
     );
   };
 
