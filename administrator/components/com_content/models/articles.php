@@ -219,7 +219,7 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join on voting table
-		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name';
+		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name, c.created_user_id, c.level, parent.title, parent.created_user_id, parent.id';
 
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
