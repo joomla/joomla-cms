@@ -265,7 +265,7 @@ class StateModel extends AdminModel
 
 		if ($table->load(array('id' => $pk)))
 		{
-			if ($table->published !== 1)
+			if (!$table->published)
 			{
 				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
@@ -320,7 +320,7 @@ class StateModel extends AdminModel
 				if ($table->load(array('id' => $pk)) && $table->default)
 				{
 					// Prune items that you can't change.
-					$app->enqueueMessage(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'), 'error');
+					$app->enqueueMessage(\JText::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 					unset($pks[$i]);
 				}
 			}
