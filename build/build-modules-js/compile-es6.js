@@ -1,16 +1,7 @@
-const glob = require('glob');
 const fs = require('fs');
 const babel = require('babel-core');
 const UglifyJS = require('uglify-es');
 const os = require('os');
-
-const pattern = './**/*.es6.js';
-const options = {
-  ignore: [
-    './node_modules/**',
-    './build/media/webcomponents/**/js/**',
-  ],
-};
 
 const headerText = `PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
 OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
