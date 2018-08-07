@@ -12,4 +12,10 @@
       margin-bottom: 2rem;
     }
   }
+
+  .field-spacer {
+    > .control-label {
+      width: auto;
+    }
+  }
 }

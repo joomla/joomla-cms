@@ -1482,6 +1482,9 @@ iframe {
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
 
+.com_config .field-spacer > .control-label {
+  width: auto; }
+
 .com-cpanel-help__header {
   color: #2b5c91; }
 
