@@ -94,7 +94,9 @@ class FieldsHelper
 		if (self::$fieldsCache === null)
 		{
 			// Load the model
-			self::$fieldsCache = Factory::getApplication()->bootComponent('com_fields')->createMVCFactory(Factory::getApplication())->createModel('Fields', 'Administrator', array('ignore_request' => true));
+			self::$fieldsCache = Factory::getApplication()->bootComponent('com_fields')
+				->createMVCFactory(Factory::getApplication())
+				->createModel('Fields', 'Administrator', ['ignore_request' => true]);
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -142,7 +144,9 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = Factory::getApplication()->bootComponent('com_fields')->createMVCFactory(Factory::getApplication())->createModel('Field', 'Administrator', array('ignore_request' => true));
+				self::$fieldCache = Factory::getApplication()->bootComponent('com_fields')
+					->createMVCFactory(Factory::getApplication())
+					->createModel('Field', 'Administrator', ['ignore_request' => true]);
 			}
 
 			$fieldIds = array_map(
@@ -393,7 +397,9 @@ class FieldsHelper
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
-		$model = Factory::getApplication()->bootComponent('com_fields')->createMVCFactory(Factory::getApplication())->createModel('Groups', 'Administrator', array('ignore_request' => true));
+		$model = Factory::getApplication()->bootComponent('com_fields')
+			->createMVCFactory(Factory::getApplication())
+			->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.context', $context);
 
 		/**
@@ -482,7 +488,9 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = Factory::getApplication()->bootComponent('com_fields')->createMVCFactory(Factory::getApplication())->createModel('Field', 'Administrator', array('ignore_request' => true));
+		$model = Factory::getApplication()->bootComponent('com_fields')
+			->createMVCFactory(Factory::getApplication())
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		if ((!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
 			&& Factory::getApplication()->isClient('site'))

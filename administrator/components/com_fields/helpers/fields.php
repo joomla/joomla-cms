@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * FieldsHelper
  *
- * @since  3.7.0
+ * @since       3.7.0
  *
  * @deprecated  5.0 Use \Joomla\Component\Fields\Administrator\Helper\FieldsHelper instead
  */
