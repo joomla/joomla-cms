@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Version;
 use Joomla\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -181,6 +180,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\CleanCacheCommand,
 				new Console\CheckUpdatesCommand,
 				new Console\RemoveOldFilesCommand,
+				new Console\UpdateCoreCommand,
 				new Console\ExtensionsListCommand,
 				new Console\ExtensionInstallCommand,
 				new Console\ExtensionRemoveCommand,
