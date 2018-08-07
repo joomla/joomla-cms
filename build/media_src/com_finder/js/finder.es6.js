@@ -6,7 +6,7 @@
   'use strict';
 
   if (!Joomla) {
-    throw new Error('core.js was not properly initialised')
+    throw new Error('core.js was not properly initialised');
   }
 
   // Handle the autocomplete
@@ -15,23 +15,23 @@
       event.target.awesomplete.list = [];
 
       Joomla.request({
-          url: `${Joomla.getOptions('finder-search').url}&q=${event.target.value}`,
-          method: 'GET',
-          data: { q: event.target.value },
-          perform: true,
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          onSuccess: (resp) => {
-            const response = JSON.parse(resp);
-            if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
-              event.target.awesomplete.list = response.suggestions;
-            }
-          },
-          onError: (xhr) => {
-            if (xhr.status > 0) {
-              Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
-            }
-          },
+        url: `${Joomla.getOptions('finder-search').url}&q=${event.target.value}`,
+        method: 'GET',
+        data: { q: event.target.value },
+        perform: true,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        onSuccess: (resp) => {
+          const response = JSON.parse(resp);
+          if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
+            event.target.awesomplete.list = response.suggestions;
+          }
         },
+        onError: (xhr) => {
+          if (xhr.status > 0) {
+            Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+          }
+        },
+      },
       );
     }
   };
