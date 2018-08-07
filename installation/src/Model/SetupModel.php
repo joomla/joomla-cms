@@ -316,6 +316,14 @@ class SetupModel extends BaseInstallationModel
 			return false;
 		}
 
+		// Validate database name.
+		if (isset($options->db_name) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG'), 'warning');
+
+			return false;
+		}
+
 		// Workaround for UPPERCASE table prefix for postgresql
 		if (in_array($options->db_type, ['pgsql', 'postgresql']))
 		{
