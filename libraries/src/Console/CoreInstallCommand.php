@@ -610,7 +610,7 @@ class CoreInstallCommand extends AbstractCommand
 			'helpurl' => [
 				'question'  => "Help URL",
 				'type'      => 'question',
-				'default'   => 'https://joomla.org',
+				'default'   => '',
 			],
 		];
 	}
@@ -637,7 +637,7 @@ class CoreInstallCommand extends AbstractCommand
 			'db_name' => 'test',
 			'db_prefix' => 'prefix_',
 			'db_old' => 'remove',
-			'helpurl' => 'https://joomla.org',
+			'helpurl' => '',
 		];
 	}
 
