@@ -62,7 +62,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     }
 
     // Clear the DOM
-    document.getElementById('media-manager-edit-container').innerHTML = '';
+    const container = document.getElementById('media-manager-edit-container');
+    container.innerHTML = '';
 
     // Reactivate the current plugin
     const tabsUlElement = document.getElementById('myTab').firstElementChild;
