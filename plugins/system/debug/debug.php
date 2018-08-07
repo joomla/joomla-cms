@@ -282,7 +282,9 @@ class PlgSystemDebug extends CMSPlugin
 
 			if ($this->params->get('queries', 1))
 			{
-				$this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor));
+				// Call $db->disconnect() here to trigger the onAfterDisconnect() method here in this class!
+				$this->db->disconnect();
+				$this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor, $this->sqlShowProfileEach, $this->explains));
 			}
 
 			if (!empty($this->logEntries) && $this->params->get('logs', 1))
@@ -414,7 +416,6 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterDisconnect(ConnectionEvent $event)
 	{
-		return;
 		if (!JDEBUG)
 		{
 			return;

@@ -32,18 +32,35 @@ class QueryCollector extends AbstractDataCollector
 	private $queryMonitor;
 
 	/**
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
+
+	private $profiles;
+	/**
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $explains;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   Registry      $params        Parameters.
-	 * @param   DebugMonitor  $queryMonitor  Query monitor.
+	 * @param   Registry     $params       Parameters.
+	 * @param   DebugMonitor $queryMonitor Query monitor.
+	 * @param   array        $profiles     Profile data.
+	 * @param   array        $explains     Explain data
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct(Registry $params, DebugMonitor $queryMonitor)
+	public function __construct(Registry $params, DebugMonitor $queryMonitor, array $profiles, array $explains)
 	{
 		$this->queryMonitor = $queryMonitor;
 
 		parent::__construct($params);
+
+		$this->profiles = $profiles;
+		$this->explains = $explains;
 	}
 
 
@@ -66,6 +83,8 @@ class QueryCollector extends AbstractDataCollector
 			'serverType' => $database->getServerType(),
 			'timings' => $this->queryMonitor->getTimings(),
 			'stacks' => $this->queryMonitor->getCallStacks(),
+			'profiles' => $this->profiles,
+			'explains' => $this->explains,
 		];
 	}
 
