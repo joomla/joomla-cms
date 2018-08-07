@@ -49,6 +49,13 @@ body {
   color: #fff;
   text-align: right;
   background-color: #0b3257;
+  a {
+    color: $white;
+    text-decoration: underline;
+    &:hover {
+      color: $white;
+    }
+  }
 }
 
 .j-header-logo {
