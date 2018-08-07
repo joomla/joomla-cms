@@ -55,6 +55,10 @@
     }
 
     onRowClick(event) {
+      if (!this.boxes.length) {
+        return;
+      }
+
       const currentRowNum = this.rows.indexOf(event.target.closest('tr'));
       const currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
       let isChecked = this.boxes[currentCheckBox].checked;
