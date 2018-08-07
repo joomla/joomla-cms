@@ -525,7 +525,7 @@ abstract class FinderIndexer
 					. $db->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
+					. $db->escape($token->weight) . ', '
 					. (int) $context . ', '
 					. $db->quote($token->language)
 				);
@@ -539,7 +539,7 @@ abstract class FinderIndexer
 				. $db->quote($tokens->stem) . ', '
 				. (int) $tokens->common . ', '
 				. (int) $tokens->phrase . ', '
-				. (float) $tokens->weight . ', '
+				. $db->escape($tokens->weight) . ', '
 				. (int) $context . ', '
 				. $db->quote($tokens->language)
 			);
