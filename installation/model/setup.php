@@ -48,6 +48,19 @@ class InstallationModelSetup extends JModelBase
 			$options['language'] = JFactory::getLanguage()->getTag();
 		}
 
+		// Store passwords as a separate key that is not used in the forms
+		foreach (array('admin_password', 'db_pass', 'ftp_pass') as $passwordField)
+		{
+			if (isset($options[$passwordField]))
+			{
+				$plainTextKey = $passwordField . '_plain';
+
+				$options[$plainTextKey] = $options[$passwordField];
+
+				unset($options[$passwordField]);
+			}
+		}
+
 		// Get the session
 		$session = JFactory::getSession();
 		$options['helpurl'] = $session->get('setup.helpurl', null);

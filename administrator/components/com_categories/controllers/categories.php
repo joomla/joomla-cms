@@ -68,7 +68,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Save the manual order inputs from the categories list page.
 	 *
-	 * @return      void
+	 * @return      boolean  True on success
 	 *
 	 * @since       1.6
 	 * @see         JControllerAdmin::saveorder()

@@ -591,7 +591,7 @@ class FieldsHelper
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The field category objects
+	 * @param   stdClass[]  $items  The field category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -657,7 +657,7 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);

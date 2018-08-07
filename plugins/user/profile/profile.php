@@ -224,15 +224,8 @@ class PlgUserProfile extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(JForm $form, $data)
 	{
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
@@ -279,11 +272,11 @@ class PlgUserProfile extends JPlugin
 			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
 		}
 
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = $this->params->get('register-require_tos', 0);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = $this->params->get('register-require_tos', 0);
 
 		// We need to be in the registration form and field needs to be enabled
-		if ($name !== 'com_users.registration' || !$tosenabled)
+		if ($name !== 'com_users.registration' || !$tosEnabled)
 		{
 			// We only want the TOS in the registration form
 			$form->removeField('tos', 'profile');
@@ -291,7 +284,7 @@ class PlgUserProfile extends JPlugin
 		else
 		{
 			// Push the TOS article ID into the TOS field.
-			$form->setFieldAttribute('tos', 'article', $tosarticle, 'profile');
+			$form->setFieldAttribute('tos', 'article', $tosArticle, 'profile');
 		}
 
 		foreach ($fields as $field)
@@ -388,11 +381,11 @@ class PlgUserProfile extends JPlugin
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = JFactory::getApplication()->input->getCmd('task');
 		$option     = JFactory::getApplication()->input->getCmd('option');
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// Check that the tos is checked.
-		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
+		if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}

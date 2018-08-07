@@ -125,8 +125,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to instantiate the indexer adapter.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An array that holds the plugin configuration.
+	 * @param   object  $subject  The object to observe.
+	 * @param   array   $config   An array that holds the plugin configuration.
 	 *
 	 * @since   2.5
 	 */

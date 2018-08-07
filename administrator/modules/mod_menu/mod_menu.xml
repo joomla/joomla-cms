@@ -50,6 +50,7 @@
 					description="MOD_MENU_FIELD_CHECK_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="menutype!:*"
 					>
 					<option value="1">JYES</option>
@@ -63,6 +64,7 @@
 					description="MOD_MENU_FIELD_SHOWNEW_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="menutype:*"
 					>
 					<option value="0">JHIDE</option>
@@ -76,6 +78,7 @@
 					description="MOD_MENU_FIELD_SHOWHELP_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="menutype:*"
 					>
 					<option value="0">JHIDE</option>

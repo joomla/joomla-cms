@@ -34,6 +34,7 @@
 					type="number"
 					label="MOD_SEARCH_FIELD_BOXWIDTH_LABEL"
 					description="MOD_SEARCH_FIELD_BOXWIDTH_DESC"
+					filter="integer"
 				/>
 
 				<field
@@ -49,6 +50,7 @@
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTON_DESC"
 					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
@@ -75,6 +77,7 @@
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC"
 					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					showon="button:1"
 					>
@@ -97,6 +100,7 @@
 					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -116,6 +120,7 @@
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
 					description="MOD_SEARCH_FIELD_SETITEMID_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_SEARCH_SELECT_MENU_ITEMID</option>
 				</field>
@@ -142,6 +147,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -153,6 +159,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 
 				<field
