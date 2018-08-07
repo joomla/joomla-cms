@@ -28,6 +28,7 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Joomla! Installation Application class.
@@ -377,8 +378,8 @@ final class InstallationApplication extends CMSApplication
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
