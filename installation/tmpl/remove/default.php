@@ -20,7 +20,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<span class="fa fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
 		</legend>
 		<div class="j-install-step-form">
-			<h3><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h3>
+			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
 			<p><?php echo Text::_('INSTL_COMPLETE_DESC'); ?></p>
 			<div class="form-group">
 				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo Text::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
@@ -82,9 +82,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 				</table>
 
 				<?php endif; ?>
-				<?php	if ($this->development) : ?>
+				<?php if ($this->development) : ?>
 					<div class="alert flex-column">
-						<b><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></b>
+						<strong><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></strong>
 						<div class="form-check">
 							<label class="form-check-label">
 								<input type="checkbox" class="form-check-input">
@@ -191,7 +191,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?>
 			</legend>
 			<div class="j-install-step-form">
-				<h3><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></h3>
+				<h2><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></h2>
 				<p><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
 
 
