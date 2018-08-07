@@ -49,9 +49,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</header>
 			<!-- Container -->
 			<section class="j-container">
-				<div id="system-message-container">
-					<jdoc:include type="message" />
-				</div>
+				<jdoc:include type="message" />
 				<div id="javascript-warning">
 					<noscript>
 						<joomla-alert type="danger" class="text-center">
