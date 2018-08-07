@@ -39,7 +39,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<!-- Header -->
 			<header class="j-header" role="banner">
 				<div class="j-header-logo">
-					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="Joomla" class="logo"/>
+					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="" class="logo"/>
 				</div>
 				<div class="j-header-help">
 					<a href="#">
