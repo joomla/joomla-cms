@@ -560,17 +560,17 @@ class CoreInstallCommand extends AbstractCommand
 				'type'      => 'question',
 			],
 			'admin_email' => [
-				'question'  => "Enter Admin email",
+				'question'  => "Enter admin email",
 				'type'      => 'question',
 				'rules'     => 'isEmail',
 			],
 			'admin_user' => [
-				'question'  => "Enter Admin username",
+				'question'  => "Enter admin username",
 				'type'      => 'question',
 				'rules'     => 'isAlphanumeric',
 			],
 			'admin_password' => [
-				'question'  => "Enter Admin password",
+				'question'  => "Enter admin password",
 				'type'      => 'question',
 			],
 			'db_type' => [
