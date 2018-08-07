@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Install Sample Data field.
@@ -65,8 +66,8 @@ class SampleField extends RadioField
 		{
 			foreach ($files as $file)
 			{
-				$options[] = HTMLHelper::_('select.option', $file, Factory::getLanguage()->hasKey($key = 'INSTL_' . ($file = \JFile::stripExt($file)) . '_SET') ?
-					HTMLHelper::_('tooltip', Text::_('INSTL_' . strtoupper($file = \JFile::stripExt($file)) . '_SET_DESC'), '', '',
+				$options[] = HTMLHelper::_('select.option', $file, Factory::getLanguage()->hasKey($key = 'INSTL_' . ($file = File::stripExt($file)) . '_SET') ?
+					HTMLHelper::_('tooltip', Text::_('INSTL_' . strtoupper($file = File::stripExt($file)) . '_SET_DESC'), '', '',
 						Text::_('JYES')
 					) : $file
 				);
