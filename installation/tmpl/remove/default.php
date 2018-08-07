@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /* @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
@@ -93,7 +94,7 @@ use Joomla\CMS\Language\Text;
 					</div>
 					<!-- <input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo Text::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>"> -->
 				<?php endif; ?>
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 
 				<div class="form-group">
 					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fa fa-eye"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
@@ -172,7 +173,7 @@ use Joomla\CMS\Language\Text;
 					</tbody>
 				</table>
 				<div class="form-group">
-					<?php echo JHtml::_('form.token'); ?>
+					<?php echo HTMLHelper::_('form.token'); ?>
 					<?php endif; ?>
 					<button id="installLanguagesButton" class="btn btn-block btn-primary">
 						<?php echo Text::_('JNEXT'); ?>
@@ -197,7 +198,7 @@ use Joomla\CMS\Language\Text;
 				<form action="index.php" method="post" id="sampleDataForm" class="form-validate">
 					<div class="form-group">
 						<input type="hidden" name="sample_file" value="sample_testing.sql">
-						<?php echo JHtml::_('form.token'); ?>
+						<?php echo HTMLHelper::_('form.token'); ?>
 						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 						<button id="skipSampleData" class="btn btn-block btn-secondary">
 							<?php echo Text::_('JSKIP'); ?>

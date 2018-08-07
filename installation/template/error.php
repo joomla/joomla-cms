@@ -9,16 +9,17 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var JDocumentError $this */
 
 // Add Stylesheets
-JHtml::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
-JHtml::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
 
 // Add scripts
-JHtml::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
-JHtml::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);
