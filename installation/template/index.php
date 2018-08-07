@@ -66,6 +66,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 			</header>
 			<?php // Container ?>
 			<main class="j-container">
+				<h1><?php echo Text::_('INSTL_PAGE_TITLE'); ?></h1>
 				<jdoc:include type="message" />
 				<div id="javascript-warning">
 					<noscript>
