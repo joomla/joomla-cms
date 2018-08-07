@@ -55,9 +55,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<jdoc:include type="message" />
 				<div id="javascript-warning">
 					<noscript>
-						<joomla-alert type="danger" class="text-center">
-							<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
-						</joomla-alert>
+						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 					</noscript>
 				</div>
 				<div class="container-installation flex">
