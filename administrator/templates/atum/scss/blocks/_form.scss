@@ -3,19 +3,6 @@
 .form-control {
   max-width: 240px;
   background-color: $white-offset;
-
-  &.input-xlarge {
-    max-width: 350px;
-  }
-
-  &.input-xxlarge {
-    max-width: 550px;
-  }
-
-  &.input-full {
-    max-width: 100%;
-  }
-
 }
 
 .control-group {
@@ -42,7 +29,6 @@
   .controls {
     margin-left: 220px;
   }
-
 }
 
 .form-no-margin {
@@ -56,9 +42,7 @@
     .control-label {
       float: none;
     }
-
   }
-
 }
 
 .custom-select {
@@ -85,7 +69,6 @@ legend {
     position: static;
     margin-left: 0;
   }
-
 }
 
 .form-check {
@@ -102,6 +85,7 @@ legend {
   color: theme-color("danger");
   border-color: theme-color("danger");
 }
+
 .valid {
   border-color: theme-color("success");
 }
@@ -110,6 +94,6 @@ legend {
   display: block;
 }
 
-[aria-grabbed="true"] {
+[aria-grabbed='true'] {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }

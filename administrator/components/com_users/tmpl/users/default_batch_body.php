@@ -8,18 +8,21 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 // Create the copy/move options.
 $options = array(
-	JHtml::_('select.option', 'add', JText::_('COM_USERS_BATCH_ADD')),
-	JHtml::_('select.option', 'del', JText::_('COM_USERS_BATCH_DELETE')),
-	JHtml::_('select.option', 'set', JText::_('COM_USERS_BATCH_SET'))
+	HTMLHelper::_('select.option', 'add', Text::_('COM_USERS_BATCH_ADD')),
+	HTMLHelper::_('select.option', 'del', Text::_('COM_USERS_BATCH_DELETE')),
+	HTMLHelper::_('select.option', 'set', Text::_('COM_USERS_BATCH_SET'))
 );
 
 // Create the reset password options.
 $resetOptions = array(
-	JHtml::_('select.option', '', JText::_('COM_USERS_NO_ACTION')),
-	JHtml::_('select.option', 'yes', JText::_('JYES')),
-	JHtml::_('select.option', 'no', JText::_('JNO'))
+	HTMLHelper::_('select.option', '', Text::_('COM_USERS_NO_ACTION')),
+	HTMLHelper::_('select.option', 'yes', Text::_('JYES')),
+	HTMLHelper::_('select.option', 'no', Text::_('JNO'))
 );
 
 ?>
@@ -28,18 +31,18 @@ $resetOptions = array(
 	<form>
 		<div class="form-group">
 			<label id="batch-choose-action-lbl" class="control-label" for="batch-group-id">
-				<?php echo JText::_('COM_USERS_BATCH_GROUP'); ?>
+				<?php echo Text::_('COM_USERS_BATCH_GROUP'); ?>
 			</label>
 			<div id="batch-choose-action" class="combo controls">
                 <select class="custom-select" name="batch[group_id]" id="batch-group-id">
-                    <option value=""><?php echo JText::_('JSELECT'); ?></option>
-                    <?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
+                    <option value=""><?php echo Text::_('JSELECT'); ?></option>
+                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
                 </select>
 			</div>
 		</div>
         <div class="form-group">
-            <label><?php echo JText::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
-            <?php echo JHtml::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+            <label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
+            <?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
         </div>
 	</form>
 </div>

@@ -10,9 +10,9 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Form's helper class.
@@ -314,23 +314,13 @@ class FormHelper
 	 */
 	protected static function addPath($entity, $new = null)
 	{
+		if (!isset(self::$paths[$entity]))
+		{
+			self::$paths[$entity] = [];
+		}
+
 		// Reference to an array with paths for current entity
 		$paths = &self::$paths[$entity];
-
-		// Add the default entity's search path if not set.
-		if (empty($paths))
-		{
-			// While we support limited number of entities (form, field and rule)
-			// we can do this simple pluralisation:
-			$entity_plural = $entity . 's';
-
-			/*
-			 * But when someday we would want to support more entities, then we should consider adding
-			 * an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
-			 * See also: pluralization snippet by Paul Osman in JControllerForm's constructor.
-			 */
-			$paths[] = __DIR__ . '/' . $entity_plural;
-		}
 
 		// Force the new path(s) to an array.
 		settype($new, 'array');

@@ -60,11 +60,16 @@ class InstallationController extends JSONController
 		// Check the form
 		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
-		if ($model->checkForm('setup') === false || $model->validateDbConnection() === false)
+		if ($model->checkForm('setup') === false)
 		{
-			$r->messages = Text::_('INSTL_DATABASE_VALIDATION_ERROR');
-			$r->view = 'setup';
+			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+			$r->validated = false;
+			$this->sendJsonResponse($r);
+
+			return;
 		}
+
+		$r->validated = $model->validateDbConnection();
 
 		$this->sendJsonResponse($r);
 	}
@@ -180,9 +185,15 @@ class InstallationController extends JSONController
 			$model->install($lids);
 
 			// Publish the Content Languages.
-			$model->publishContentLanguages();
+			$failedLanguages = $model->publishContentLanguages();
 
-			$this->app->enqueueMessage(\JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
+			if (!empty($failedLanguages))
+			{
+				foreach ($failedLanguages as $failedLanguage)
+				{
+					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
+				}
+			}
 		}
 
 		// Redirect to the page.

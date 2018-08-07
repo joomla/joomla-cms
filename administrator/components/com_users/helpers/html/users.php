@@ -9,6 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Extended Utility class for the Users component.
  *
@@ -24,6 +30,7 @@ class JHtmlUsers
 	 * @return  string  A <img> element if the specified file exists, otherwise, a null string
 	 *
 	 * @since   2.5
+	 * @throws  \Exception
 	 */
 	public static function image($src)
 	{
@@ -31,14 +38,14 @@ class JHtmlUsers
 		$file = JPATH_SITE . '/' . $src;
 
 		jimport('joomla.filesystem.path');
-		JPath::check($file);
+		Path::check($file);
 
 		if (!file_exists($file))
 		{
 			return '';
 		}
 
-		return '<img src="' . JUri::root() . $src . '" alt="">';
+		return '<img src="' . Uri::root() . $src . '" alt="">';
 	}
 
 	/**
@@ -52,11 +59,11 @@ class JHtmlUsers
 	 */
 	public static function addNote($userId)
 	{
-		$title = JText::_('COM_USERS_ADD_NOTE');
+		$title = Text::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-		. '" class="hasTooltip btn btn-secondary btn-sm" title="' . $title . '"><span class="fa fa-plus">'
-		. '</span> ' . $title . '</a>';
+		return '<a href="' . Route::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
+			. '" class="hasTooltip btn btn-secondary btn-sm" title="' . $title . '"><span class="fa fa-plus">'
+			. '</span> ' . $title . '</a>';
 	}
 
 	/**
@@ -76,9 +83,9 @@ class JHtmlUsers
 			return '';
 		}
 
-		$title = JText::_('COM_USERS_FILTER_NOTES');
+		$title = Text::_('COM_USERS_FILTER_NOTES');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
+		return '<a href="' . Route::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
 			. '" class="dropdown-item"><span class="fa fa-list"></span> ' . $title . '</a>';
 	}
 
@@ -99,9 +106,9 @@ class JHtmlUsers
 			return '';
 		}
 
-		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
+		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId 
+		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
 			. '" data-toggle="modal" class="dropdown-item"><span class="fa fa-eye"></span> ' . $title . '</a>';
 	}
 
@@ -122,11 +129,11 @@ class JHtmlUsers
 			return '';
 		}
 
-		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
+		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 		$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JTOOLBAR_CLOSE') . '</button>';
+			. Text::_('JTOOLBAR_CLOSE') . '</button>';
 
-		return JHtml::_(
+		return HTMLHelper::_(
 			'bootstrap.renderModal',
 			'userModal_' . (int) $userId,
 			array(
@@ -135,7 +142,7 @@ class JHtmlUsers
 				'keyboard'    => true,
 				'closeButton' => true,
 				'footer'      => $footer,
-				'url'         => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
+				'url'         => Route::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
 				'height'      => '300px',
 				'width'       => '800px',
 			)

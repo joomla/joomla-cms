@@ -9,53 +9,43 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$colSpan   = 4 + count($this->actions);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="table-responsive">
-			<table class="table table-striped">
+			<table class="table">
 				<thead>
 					<tr>
 						<th class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_TITLE', 'a.title', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
 						<th style="width:6%" class="text-center">
-							<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', $key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
+							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
 						</th>
 						<?php endforeach; ?>
 						<th style="width:6%" class="nowrap text-center">
-							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:3%" class="nowrap text-center">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="<?php echo $colSpan; ?>">
-							<?php echo $this->pagination->getListFooter(); ?>
-							<div class="legend">
-								<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
-								<span class="text-danger icon-ban-circle"></span><?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-								<span class="icon-ok"></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-								<span class="icon-remove icon-remove"></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
-								<br><br>
-							</div>
-						</td>
-					</tr>
-				</tfoot>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row0">
@@ -63,7 +53,7 @@ $colSpan   = 4 + count($this->actions);
 								<?php echo $this->escape($item->title); ?>
 							</td>
 							<td class="nowrap">
-								<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
+								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
 							</td>
 							<?php foreach ($this->actions as $action) : ?>
 								<?php
@@ -98,9 +88,19 @@ $colSpan   = 4 + count($this->actions);
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<div class="legend">
+				<?php echo Text::_('COM_USERS_DEBUG_LEGEND'); ?>
+				<span class="text-danger icon-ban-circle"></span><?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
+				<span class="icon-ok"></span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+				<span class="icon-remove icon-remove"></span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+			</div>
+
+			<?php // load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
+
 		</div>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

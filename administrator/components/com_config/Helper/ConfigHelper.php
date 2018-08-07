@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Components helper for com_config
@@ -29,7 +31,7 @@ class ConfigHelper extends ContentHelper
 	 */
 	public static function getAllComponents()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('element')
 			->from('#__extensions')
@@ -69,7 +71,7 @@ class ConfigHelper extends ContentHelper
 	{
 		$result = array();
 		$components = self::getAllComponents();
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Remove com_config from the array as that may have weird side effects
 		$components = array_diff($components, array('com_config'));
@@ -79,7 +81,7 @@ class ConfigHelper extends ContentHelper
 			if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component)))
 			{
 				self::loadLanguageForComponent($component);
-				$result[$component] = ApplicationHelper::stringURLSafe(\JText::_($component)) . '_' . $component;
+				$result[$component] = ApplicationHelper::stringURLSafe(Text::_($component)) . '_' . $component;
 			}
 		}
 
@@ -121,7 +123,7 @@ class ConfigHelper extends ContentHelper
 			return;
 		}
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Load the core file then
 		// Load extension-local file.

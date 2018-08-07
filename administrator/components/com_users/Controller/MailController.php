@@ -11,6 +11,9 @@ namespace Joomla\Component\Users\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users mail controller.
@@ -31,11 +34,11 @@ class MailController extends BaseController
 		// Redirect to admin index if mass mailer disabled in conf
 		if ($this->app->get('massmailoff', 0) == 1)
 		{
-			$this->app->redirect(\JRoute::_('index.php', false));
+			$this->app->redirect(Route::_('index.php', false));
 		}
 
 		// Check for request forgeries.
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Mail');
 
@@ -62,7 +65,7 @@ class MailController extends BaseController
 	public function cancel()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
 		$this->setRedirect('index.php');
 	}
 }

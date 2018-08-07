@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Filter\InputFilter as BaseInputFilter;
+use Joomla\CMS\Factory;
 
 /**
  * InputFilter is a class for filtering input from any data source
@@ -59,7 +60,7 @@ class InputFilter extends BaseInputFilter
 			try
 			{
 				// Get the database driver
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				if ($db instanceof UTF8MB4SupportInterface)
 				{

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Checkin Model
@@ -100,7 +101,7 @@ class CheckinModel extends ListModel
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, \JFactory::getApplication()->get('dbprefix')) !== 0)
+			if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -166,7 +167,7 @@ class CheckinModel extends ListModel
 			foreach ($tables as $i => $tn)
 			{
 				// Make sure we get the right tables based on prefix.
-				if (stripos($tn, \JFactory::getApplication()->get('dbprefix')) !== 0)
+				if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
 				{
 					unset($tables[$i]);
 					continue;

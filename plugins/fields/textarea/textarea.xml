@@ -26,7 +26,6 @@
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
 					default="10"
-					size="5"
 				/>
 
 				<field
@@ -34,7 +33,6 @@
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
 					default="10"
-					size="5"
 				/>
 
 				<field

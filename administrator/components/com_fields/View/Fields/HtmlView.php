@@ -14,6 +14,13 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
 
 /**
  * Fields View
@@ -91,8 +98,8 @@ class HtmlView extends BaseHtmlView
 		// Display a warning if the fields system plugin is disabled
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
 		// Only add toolbar when not in modal window.
@@ -101,7 +108,7 @@ class HtmlView extends BaseHtmlView
 			$this->addToolbar();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!\JLanguageMultilang::isEnabled())
+			if (!Multilanguage::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
@@ -126,10 +133,10 @@ class HtmlView extends BaseHtmlView
 		$fieldId   = $this->state->get('filter.field_id');
 		$component = $this->state->get('filter.component');
 		$section   = $this->state->get('filter.section');
-		$canDo     = \JHelperContent::getActions($component, 'field', $fieldId);
+		$canDo     = ContentHelper::getActions($component, 'field', $fieldId);
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
@@ -138,11 +145,11 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load extension language file
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		$title = \JText::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', \JText::_(strtoupper($component)));
+		$title = Text::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', Text::_(strtoupper($component)));
 
 		// Prepare the toolbar.
 		ToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
@@ -159,7 +166,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::archiveList('fields.archive');
 		}
 
-		if (\JFactory::getUser()->authorise('core.admin'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::checkin('fields.checkin');
 		}
@@ -167,9 +174,9 @@ class HtmlView extends BaseHtmlView
 		// Add a batch button
 		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new JLayoutFile instance and render the batch button
+			// Instantiate a new FileLayout instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(
@@ -208,13 +215,13 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'    => \JText::_('JSTATUS'),
-			'a.title'    => \JText::_('JGLOBAL_TITLE'),
-			'a.type'     => \JText::_('COM_FIELDS_FIELD_TYPE_LABEL'),
-			'a.access'   => \JText::_('JGRID_HEADING_ACCESS'),
-			'language'   => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'       => \JText::_('JGRID_HEADING_ID'),
+			'a.ordering' => Text::_('JGRID_HEADING_ORDERING'),
+			'a.state'    => Text::_('JSTATUS'),
+			'a.title'    => Text::_('JGLOBAL_TITLE'),
+			'a.type'     => Text::_('COM_FIELDS_FIELD_TYPE_LABEL'),
+			'a.access'   => Text::_('JGRID_HEADING_ACCESS'),
+			'language'   => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'       => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

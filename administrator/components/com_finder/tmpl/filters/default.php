@@ -30,39 +30,32 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
 				<?php else : ?>
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
-							<th style="width:1%" class="nowrap text-center">
+							<td style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
-							</th>
-							<th style="width:1%" class="nowrap">
+							</td>
+							<th scope="col" style="width:1%" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
-							<th class="nowrap">
+							<th scope="col" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap d-none d-md-table-cell">
+							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap d-none d-md-table-cell">
+							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_ON', 'a.created', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:5%" class="nowrap d-none d-md-table-cell">
+							<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:1%" class="nowrap d-none d-md-table-cell">
+							<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="7">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php
 						$canCreate                  = $user->authorise('core.create',     'com_finder');
@@ -82,7 +75,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 							<td class="text-center nowrap">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
 							</td>
-							<td>
+							<th scope="row">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckIn); ?>
 								<?php endif; ?>
@@ -92,7 +85,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 								<?php else : ?>
 									<?php echo $escapedTitle; ?>
 								<?php endif; ?>
-							</td>
+							</th>
 							<td class="nowrap d-none d-md-table-cell">
 								<?php echo $item->created_by_alias ?: $item->user_name; ?>
 							</td>
@@ -109,6 +102,10 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

@@ -27,7 +27,7 @@ if ($this->params->get('show_autosuggest', 1))
 	<?php if (false && $this->state->get('list.ordering') !== 'relevance_dsc') : ?>
 		<input type="hidden" name="o" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>">
 	<?php endif; ?>
-	<fieldset class="word mb-3">
+	<fieldset class="com-finder__search word mb-3">
 		<div class="form-inline">
 			<label for="q" class="mr-2">
 				<?php echo JText::_('COM_FINDER_SEARCH_TERMS'); ?>
@@ -57,15 +57,22 @@ if ($this->params->get('show_autosuggest', 1))
 	</fieldset>
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
-		<div id="advancedSearch" class="js-finder-advanced collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' show'; ?>">
+		<div id="advancedSearch" class="com-finder__advanced js-finder-advanced collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' show'; ?>">
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
-				<div class="card card-outline-secondary mb-3">
+				<div class="com-finder__tips card card-outline-secondary mb-3">
 					<div class="card-body">
-						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_INTRO'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_AND'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_NOT'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_OR'); ?>
+						<?php if ($this->params->get('tuplecount', 1) > 1) : ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_PHRASE'); ?>
+						<?php endif; ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_OUTRO'); ?>
 					</div>
 				</div>
 			<?php endif; ?>
-			<div id="finder-filter-window">
+			<div id="finder-filter-window" class="com-finder__filter">
 				<?php echo JHtml::_('filter.select', $this->query, $this->params); ?>
 			</div>
 		</div>

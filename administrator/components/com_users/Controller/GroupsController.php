@@ -10,6 +10,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
@@ -45,7 +46,7 @@ class GroupsController extends AdminController
 	/**
 	 * Removes an item.
 	 *
-	 * Overrides \JControllerAdmin::delete to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::delete to check the core.admin permission.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
@@ -55,7 +56,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::delete();
@@ -64,7 +65,7 @@ class GroupsController extends AdminController
 	/**
 	 * Method to publish a list of records.
 	 *
-	 * Overrides \JControllerAdmin::publish to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::publish to check the core.admin permission.
 	 *
 	 * @return  void
 	 *
@@ -74,7 +75,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::publish();
@@ -83,7 +84,7 @@ class GroupsController extends AdminController
 	/**
 	 * Changes the order of one or more records.
 	 *
-	 * Overrides \JControllerAdmin::reorder to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::reorder to check the core.admin permission.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -93,7 +94,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::reorder();
@@ -102,7 +103,7 @@ class GroupsController extends AdminController
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * Overrides \JControllerAdmin::saveorder to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::saveorder to check the core.admin permission.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -112,7 +113,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::saveorder();
@@ -121,7 +122,7 @@ class GroupsController extends AdminController
 	/**
 	 * Check in of one or more records.
 	 *
-	 * Overrides \JControllerAdmin::checkin to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\AdminController::checkin to check the core.admin permission.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -131,7 +132,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::checkin();

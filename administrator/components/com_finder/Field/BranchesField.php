@@ -10,16 +10,14 @@ namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_BASE') or die();
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Search Branches field for the Finder package.
  *
  * @since  3.5
  */
-class BranchesField extends \JFormFieldList
+class BranchesField extends ListField
 {
 	/**
 	 * The form field type.

@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Registration controller class for Users.
@@ -26,10 +29,11 @@ class RegistrationController extends BaseController
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function activate()
 	{
-		$user  	 = \JFactory::getUser();
+		$user  	 = Factory::getUser();
 		$input 	 = $this->input;
 		$uParams = ComponentHelper::getParams('com_users');
 
@@ -44,7 +48,7 @@ class RegistrationController extends BaseController
 		// If user registration or account activation is disabled, throw a 403.
 		if ($uParams->get('useractivation') == 0 || $uParams->get('allowUserRegistration') == 0)
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 
 			return false;
 		}
@@ -56,7 +60,7 @@ class RegistrationController extends BaseController
 		// Check that the token is in a valid format.
 		if ($token === null || strlen($token) !== 32)
 		{
-			throw new \Exception(\JText::_('JINVALID_TOKEN'), 403);
+			throw new \Exception(Text::_('JINVALID_TOKEN'), 403);
 
 			return false;
 		}
@@ -68,7 +72,7 @@ class RegistrationController extends BaseController
 		if ($return === false)
 		{
 			// Redirect back to the home page.
-			$this->setMessage(\JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'error');
+			$this->setMessage(Text::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect('index.php');
 
 			return false;
@@ -79,23 +83,23 @@ class RegistrationController extends BaseController
 		// Redirect to the login screen.
 		if ($useractivation == 0)
 		{
-			$this->setMessage(\JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setMessage(Text::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 		elseif ($useractivation == 1)
 		{
-			$this->setMessage(\JText::_('COM_USERS_REGISTRATION_ACTIVATE_SUCCESS'));
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setMessage(Text::_('COM_USERS_REGISTRATION_ACTIVATE_SUCCESS'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 		elseif ($return->getParam('activate'))
 		{
-			$this->setMessage(\JText::_('COM_USERS_REGISTRATION_VERIFY_SUCCESS'));
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setMessage(Text::_('COM_USERS_REGISTRATION_VERIFY_SUCCESS'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=registration&layout=complete', false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_USERS_REGISTRATION_ADMINACTIVATE_SUCCESS'));
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setMessage(Text::_('COM_USERS_REGISTRATION_ADMINACTIVATE_SUCCESS'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=registration&layout=complete', false));
 		}
 
 		return true;
@@ -107,6 +111,7 @@ class RegistrationController extends BaseController
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function register()
 	{
@@ -116,7 +121,7 @@ class RegistrationController extends BaseController
 		// If registration is disabled - Redirect to login page.
 		if (ComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
 		{
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
 		}
@@ -163,7 +168,7 @@ class RegistrationController extends BaseController
 			$app->setUserState('com_users.registration.data', $requestData);
 
 			// Redirect back to the registration screen.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=registration', false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=registration', false));
 
 			return false;
 		}
@@ -179,7 +184,7 @@ class RegistrationController extends BaseController
 
 			// Redirect back to the edit screen.
 			$this->setMessage($model->getError(), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=registration', false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=registration', false));
 
 			return false;
 		}
@@ -190,18 +195,18 @@ class RegistrationController extends BaseController
 		// Redirect to the profile screen.
 		if ($return === 'adminactivate')
 		{
-			$this->setMessage(\JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setMessage(Text::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=registration&layout=complete', false));
 		}
 		elseif ($return === 'useractivate')
 		{
-			$this->setMessage(\JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setMessage(Text::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=registration&layout=complete', false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setMessage(Text::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		return true;

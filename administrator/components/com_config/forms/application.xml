@@ -35,7 +35,7 @@
 			filter="integer"
 			validate="number"
 			showon="caching:1,2"
-			size="6" />
+		 />
 
 		<field
 			name="cache_path"
@@ -92,7 +92,6 @@
 			default="11211"
 			filter="integer"
 			validate="number"
-			size="5"
 		/>
 
 		<field
@@ -128,7 +127,6 @@
 			default="6379"
 			filter="integer"
 			validate="number"
-			size="5"
 		/>
 
 		<field
@@ -148,7 +146,6 @@
 			default="0"
 			filter="integer"
 			showon="cache_handler:redis"
-			size="4"
 		/>
 
 		<field
@@ -159,7 +156,6 @@
 			default="15"
 			filter="integer"
 			validate="number"
-			size="6"
 		/>
 
 		<field
@@ -300,7 +296,6 @@
 			hint="21"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -369,7 +364,6 @@
 			hint="8080"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -520,7 +514,6 @@
 			hint="25"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -803,7 +796,6 @@
 			default="11211"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -842,7 +834,6 @@
 			default="6379"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -864,7 +855,6 @@
 			default="0"
 			filter="integer"
 			showon="session_handler:redis"
-			size="4"
 		/>
 		<field
 			name="lifetime"
@@ -875,7 +865,6 @@
 			default="15"
 			filter="integer"
 			validate="number"
-			size="6"
 		/>
 
 		<field

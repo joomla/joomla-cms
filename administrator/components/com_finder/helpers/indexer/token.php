@@ -98,7 +98,14 @@ class FinderIndexerToken
 	 */
 	public function __construct($term, $lang, $spacer = ' ')
 	{
-		$this->language = $lang;
+		if (!$lang)
+		{
+			$this->language = '*';
+		}
+		else
+		{
+			$this->language = $lang;
+		}
 
 		// Tokens can be a single word or an array of words representing a phrase.
 		if (is_array($term))

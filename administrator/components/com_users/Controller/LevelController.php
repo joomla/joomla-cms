@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * User view level controller class.
@@ -30,7 +32,7 @@ class LevelController extends FormController
 	/**
 	 * Method to check if you can save a new or existing record.
 	 *
-	 * Overrides \JControllerForm::allowSave to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::allowSave to check the core.admin permission.
 	 *
 	 * @param   array   $data  An array of input data.
 	 * @param   string  $key   The name of the key for the primary key.
@@ -47,7 +49,7 @@ class LevelController extends FormController
 	/**
 	 * Removes an item.
 	 *
-	 * Overrides \JControllerAdmin::delete to check the core.admin permission.
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::delete to check the core.admin permission.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
@@ -56,17 +58,17 @@ class LevelController extends FormController
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->get('cid', array(), 'array');
 
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 		elseif (empty($ids))
 		{
-			$this->setMessage(\JText::_('COM_USERS_NO_LEVELS_SELECTED'), 'warning');
+			$this->setMessage(Text::_('COM_USERS_NO_LEVELS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -82,7 +84,7 @@ class LevelController extends FormController
 			}
 			else
 			{
-				$this->setMessage(\JText::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
+				$this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
 			}
 		}
 

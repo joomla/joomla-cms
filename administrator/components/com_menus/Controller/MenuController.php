@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The Menu Type Controller
@@ -32,7 +35,7 @@ class MenuController extends FormController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menus', false));
+		$this->setRedirect(Route::_('index.php?option=com_menus&view=menus', false));
 	}
 
 	/**
@@ -48,7 +51,7 @@ class MenuController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app      = $this->app;
 		$data     = $this->input->post->get('jform', array(), 'array');
@@ -59,10 +62,10 @@ class MenuController extends FormController
 		// Prevent using 'main' as menutype as this is reserved for backend menus
 		if (strtolower($data['menutype']) == 'main')
 		{
-			$this->setMessage(\JText::_('COM_MENUS_ERROR_MENUTYPE'), 'error');
+			$this->setMessage(Text::_('COM_MENUS_ERROR_MENUTYPE'), 'error');
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit', false));
 
 			return false;
 		}
@@ -107,7 +110,7 @@ class MenuController extends FormController
 			$app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit', false));
 
 			return false;
 		}
@@ -126,8 +129,8 @@ class MenuController extends FormController
 			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit', false));
 
 			return false;
 		}
@@ -139,17 +142,17 @@ class MenuController extends FormController
 			{
 				MenusHelper::installPreset($preset, $data['menutype']);
 
-				$this->setMessage(\JText::_('COM_MENUS_PRESET_IMPORT_SUCCESS'));
+				$this->setMessage(Text::_('COM_MENUS_PRESET_IMPORT_SUCCESS'));
 			}
 			catch (\Exception $e)
 			{
 				// Save was successful but the preset could not be loaded. Let it through with just a warning
-				$this->setMessage(\JText::sprintf('COM_MENUS_PRESET_IMPORT_FAILED', $e->getMessage()));
+				$this->setMessage(Text::sprintf('COM_MENUS_PRESET_IMPORT_FAILED', $e->getMessage()));
 			}
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_MENUS_MENU_SAVE_SUCCESS'));
+			$this->setMessage(Text::_('COM_MENUS_MENU_SAVE_SUCCESS'));
 		}
 
 		// Redirect the user and adjust session state based on the chosen task.
@@ -161,7 +164,7 @@ class MenuController extends FormController
 				$this->holdEditId($context, $recordId);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
+				$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 				break;
 
 			case 'save2new':
@@ -170,7 +173,7 @@ class MenuController extends FormController
 				$app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+				$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit', false));
 				break;
 
 			default:
@@ -179,7 +182,7 @@ class MenuController extends FormController
 				$app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menus', false));
+				$this->setRedirect(Route::_('index.php?option=com_menus&view=menus', false));
 				break;
 		}
 	}
@@ -202,14 +205,14 @@ class MenuController extends FormController
 
 		if (!$item->menutype)
 		{
-			$this->setMessage(\JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), 'warning');
+			$this->setMessage(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), 'warning');
 
-			$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menus', false));
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=menus', false));
 
 			return false;
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=menu&menutype=' . $item->menutype . '&format=xml', false));
+		$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&menutype=' . $item->menutype . '&format=xml', false));
 
 		return true;
 	}

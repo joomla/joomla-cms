@@ -29,7 +29,4 @@
 			<language tag="en-GB">language/en-GB.com_mailto.sys.ini</language>
 		</languages>
 	</administration>
-	<params>
-		<param name="view" type="filelist" directory="/components/com_mailto/views" hide_none="1" hide_default="0" filter="." default="0" label="View Style" description="The view style for display" />
-	</params>
 </extension>

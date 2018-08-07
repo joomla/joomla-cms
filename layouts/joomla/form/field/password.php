@@ -75,7 +75,7 @@ $attributes = array(
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
 	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',

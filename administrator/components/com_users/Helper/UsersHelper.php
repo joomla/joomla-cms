@@ -12,6 +12,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
 
 defined('_JEXEC') or die;
 
@@ -23,7 +27,7 @@ defined('_JEXEC') or die;
 class UsersHelper
 {
 	/**
-	 * @var    \JObject  A cache for the available actions.
+	 * @var    CMSObject  A cache for the available actions.
 	 * @since  1.6
 	 */
 	protected static $actions;
@@ -39,8 +43,8 @@ class UsersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_USERS_SUBMENU_USERS'),
+		HTMLHelper::_('sidebar.addEntry',
+			Text::_('COM_USERS_SUBMENU_USERS'),
 			'index.php?option=com_users&view=users',
 			$vName == 'users'
 		);
@@ -50,13 +54,13 @@ class UsersHelper
 
 		if ($canDo->get('core.admin'))
 		{
-			\JHtmlSidebar::addEntry(
-				\JText::_('COM_USERS_SUBMENU_GROUPS'),
+			HTMLHelper::_('sidebar.addEntry',
+				Text::_('COM_USERS_SUBMENU_GROUPS'),
 				'index.php?option=com_users&view=groups',
 				$vName == 'groups'
 			);
-			\JHtmlSidebar::addEntry(
-				\JText::_('COM_USERS_SUBMENU_LEVELS'),
+			HTMLHelper::_('sidebar.addEntry',
+				Text::_('COM_USERS_SUBMENU_LEVELS'),
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
@@ -64,25 +68,25 @@ class UsersHelper
 
 		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 		{
-			\JHtmlSidebar::addEntry(
-				\JText::_('JGLOBAL_FIELDS'),
+			HTMLHelper::_('sidebar.addEntry',
+				Text::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_users.user',
 				$vName == 'fields.fields'
 			);
-			\JHtmlSidebar::addEntry(
-				\JText::_('JGLOBAL_FIELD_GROUPS'),
+			HTMLHelper::_('sidebar.addEntry',
+				Text::_('JGLOBAL_FIELD_GROUPS'),
 				'index.php?option=com_fields&view=groups&context=com_users.user',
 				$vName == 'fields.groups'
 			);
 		}
 
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_USERS_SUBMENU_NOTES'),
+		HTMLHelper::_('sidebar.addEntry',
+			Text::_('COM_USERS_SUBMENU_NOTES'),
 			'index.php?option=com_users&view=notes',
 			$vName == 'notes'
 		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
+		HTMLHelper::_('sidebar.addEntry',
+			Text::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_users',
 			$vName == 'categories'
 		);
@@ -99,8 +103,8 @@ class UsersHelper
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '0', \JText::_('JENABLED'));
-		$options[] = \JHtml::_('select.option', '1', \JText::_('JDISABLED'));
+		$options[] = HTMLHelper::_('select.option', '0', Text::_('JENABLED'));
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('JDISABLED'));
 
 		return $options;
 	}
@@ -116,8 +120,8 @@ class UsersHelper
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '0', \JText::_('COM_USERS_ACTIVATED'));
-		$options[] = \JHtml::_('select.option', '1', \JText::_('COM_USERS_UNACTIVATED'));
+		$options[] = HTMLHelper::_('select.option', '0', Text::_('COM_USERS_ACTIVATED'));
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('COM_USERS_UNACTIVATED'));
 
 		return $options;
 	}
@@ -153,13 +157,13 @@ class UsersHelper
 	public static function getRangeOptions()
 	{
 		$options = array(
-			\JHtml::_('select.option', 'today', \JText::_('COM_USERS_OPTION_RANGE_TODAY')),
-			\JHtml::_('select.option', 'past_week', \JText::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
-			\JHtml::_('select.option', 'past_1month', \JText::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
-			\JHtml::_('select.option', 'past_3month', \JText::_('COM_USERS_OPTION_RANGE_PAST_3MONTH')),
-			\JHtml::_('select.option', 'past_6month', \JText::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')),
-			\JHtml::_('select.option', 'past_year', \JText::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
-			\JHtml::_('select.option', 'post_year', \JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
+			HTMLHelper::_('select.option', 'today', Text::_('COM_USERS_OPTION_RANGE_TODAY')),
+			HTMLHelper::_('select.option', 'past_week', Text::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
+			HTMLHelper::_('select.option', 'past_1month', Text::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
+			HTMLHelper::_('select.option', 'past_3month', Text::_('COM_USERS_OPTION_RANGE_PAST_3MONTH')),
+			HTMLHelper::_('select.option', 'past_6month', Text::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')),
+			HTMLHelper::_('select.option', 'past_year', Text::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
+			HTMLHelper::_('select.option', 'post_year', Text::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
 		);
 
 		return $options;
@@ -172,14 +176,15 @@ class UsersHelper
 	 * @return  array
 	 *
 	 * @since   3.2.0
+	 * @throws  \Exception
 	 */
 	public static function getTwoFactorMethods()
 	{
 		PluginHelper::importPlugin('twofactorauth');
-		$identities = \JFactory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
+		$identities = Factory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
 
 		$options = array(
-			\JHtml::_('select.option', 'none', \JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
+			HTMLHelper::_('select.option', 'none', Text::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
 		);
 
 		if (!empty($identities))
@@ -191,7 +196,7 @@ class UsersHelper
 					continue;
 				}
 
-				$options[] = \JHtml::_('select.option', $identity->method, $identity->title, 'value', 'text');
+				$options[] = HTMLHelper::_('select.option', $identity->method, $identity->title, 'value', 'text');
 			}
 		}
 
@@ -218,7 +223,7 @@ class UsersHelper
 
 		$rules = implode(',', $rules);
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.title AS text')
 			->from('#__usergroups as a')
@@ -243,7 +248,7 @@ class UsersHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -298,10 +303,11 @@ class UsersHelper
 	 * @return  string|null  The new section
 	 *
 	 * @since   3.7.0
+	 * @throws  \Exception
 	 */
 	public static function validateSection($section)
 	{
-		if (\JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
 			switch ($section)
 			{
@@ -329,10 +335,10 @@ class UsersHelper
 	 */
 	public static function getContexts()
 	{
-		\JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_users.user' => \JText::_('COM_USERS'),
+			'com_users.user' => Text::_('COM_USERS'),
 		);
 
 		return $contexts;

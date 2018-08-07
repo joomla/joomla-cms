@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Renders a button to render an HTML element in a slider container
@@ -44,11 +47,11 @@ class SliderButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Slider', $name = '', $text = '', $url = '', $width = 640, $height = 480, $onClose = '')
 	{
-		\JHtml::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Store all data to the options array for use with JLayout
+		// Store all data to the options array for use with Layout
 		$options = array();
-		$options['text']    = \JText::_($text);
+		$options['text']    = Text::_($text);
 		$options['name']    = $name;
 		$options['class']   = $this->fetchIconClass($name);
 		$options['onClose'] = '';
@@ -67,7 +70,7 @@ class SliderButton extends ToolbarButton
 			$options['onClose'] = ' rel="{onClose: function() {' . $onClose . '}}"';
 		}
 
-		// Instantiate a new JLayoutFile instance and render the layout
+		// Instantiate a new LayoutFile instance and render the layout
 		$layout = new FileLayout('joomla.toolbar.slider');
 
 		return $layout->render($options);
@@ -101,7 +104,7 @@ class SliderButton extends ToolbarButton
 	{
 		if (strpos($url, 'http') !== 0)
 		{
-			$url = \JUri::base() . $url;
+			$url = Uri::base() . $url;
 		}
 
 		return $url;
