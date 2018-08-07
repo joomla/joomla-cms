@@ -512,20 +512,12 @@ abstract class FinderIndexer
 
 		$query = clone $this->addTokensToDbQueryTemplate;
 
-		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
 		// Count the number of token values.
 		$values = 0;
 
-		// Break into chunks of no more than 1000 items
-		$chunks = array_chunk($tokens, 1000);
-
-		foreach ($chunks as $tokens)
+		// Iterate through the tokens to create SQL value sets.
+		if (!is_a($tokens, 'FinderIndexerToken'))
 		{
-			$query->clear('values');
-
-			// Iterate through the tokens to create SQL value sets.
 			foreach ($tokens as $token)
 			{
 				$query->values(
@@ -539,9 +531,21 @@ abstract class FinderIndexer
 				);
 				++$values;
 			}
-
-			$db->setQuery($query)->execute();
 		}
+		else
+		{
+			$query->values(
+				$db->quote($tokens->term) . ', '
+				. $db->quote($tokens->stem) . ', '
+				. (int) $tokens->common . ', '
+				. (int) $tokens->phrase . ', '
+				. (float) $tokens->weight . ', '
+				. (int) $context . ', '
+				. $db->quote($tokens->language)
+			);
+			++$values;
+		}
+		$db->setQuery($query)->execute();
 
 		return $values;
 	}
