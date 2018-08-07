@@ -97,11 +97,11 @@ class LanguagesModel extends BaseInstallationModel
 		$db        = Factory::getDbo();
 		$extQuery  = $db->getQuery(true);
 
-		$extQuery->select($db->quotename('extension_id'))
-			->from($db->quotename('#__extensions'))
-			->where($db->quotename('type') . ' = ' . $db->quote('package'))
-			->where($db->quotename('element') . ' = ' . $db->quote('pkg_en-GB'))
-			->where($db->quotename('client_id') . ' = 0');
+		$extQuery->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('pkg_en-GB'))
+			->where($db->quoteName('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
 
@@ -121,9 +121,9 @@ class LanguagesModel extends BaseInstallationModel
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->quotename(array('update_id', 'name', 'element', 'version')))
-				->from($db->quotename('#__updates'))
-				->order($db->quotename('name'));
+			$query->select($db->quoteName(array('update_id', 'name', 'element', 'version')))
+				->from($db->quoteName('#__updates'))
+				->order($db->quoteName('name'));
 
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
@@ -389,12 +389,12 @@ class LanguagesModel extends BaseInstallationModel
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->quotename(array('element', 'name')))
-			->from($db->quotename('#__extensions'))
-			->where($db->quotename('type') . ' = ' . $db->quote('language'))
-			->where($db->quotename('state') . ' = 0')
-			->where($db->quotename('enabled') . ' = 1')
-			->where($db->quotename('client_id') . ' = ' . (int) $client_id);
+		$query->select($db->quoteName(array('element', 'name')))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
+			->where($db->quoteName('state') . ' = 0')
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
 
 		$db->setQuery($query);
 
@@ -574,10 +574,10 @@ class LanguagesModel extends BaseInstallationModel
 
 		$query
 			->clear()
-			->update($db->quotename('#__extensions'))
-			->set($db->quotename('enabled') . ' = 1')
-			->where($db->quotename('name') . ' = ' . $db->quote($pluginName))
-			->where($db->quotename('type') . ' = ' . $db->quote('plugin'));
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('name') . ' = ' . $db->quote($pluginName))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 		$db->setQuery($query);
 
@@ -603,10 +603,10 @@ class LanguagesModel extends BaseInstallationModel
 				. '}';
 			$query
 				->clear()
-				->update($db->quotename('#__extensions'))
-				->set($db->quotename('params') . ' = ' . $db->quote($params))
-				->where($db->quotename('name') . ' = ' . $db->quote('plg_system_languagefilter'))
-				->where($db->quotename('type') . ' = ' . $db->quote('plugin'));
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 			$db->setQuery($query);
 
@@ -692,8 +692,8 @@ class LanguagesModel extends BaseInstallationModel
 
 		// Add Module in Module menus.
 		$query->clear()
-			->insert($db->quotename('#__modules_menu'))
-			->columns(array($db->quotename('moduleid'), $db->quotename('menuid')))
+			->insert($db->quoteName('#__modules_menu'))
+			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 			->values($moduleId . ', 0');
 		$db->setQuery($query);
 
@@ -1113,12 +1113,12 @@ class LanguagesModel extends BaseInstallationModel
 		// Add Module in Module menus.
 		$query
 			->clear()
-			->update($db->quotename('#__modules'))
-			->set($db->quotename('published') . ' = 0')
-			->where($db->quotename('module') . ' = ' . $db->quote('mod_menu'))
-			->where($db->quotename('language') . ' = ' . $db->quote('*'))
-			->where($db->quotename('client_id') . ' = ' . $db->quote('0'))
-			->where($db->quotename('position') . ' = ' . $db->quote('sidebar-right'));
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 0')
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('position') . ' = ' . $db->quote('sidebar-right'));
 		$db->setQuery($query);
 
 		try
@@ -1150,9 +1150,9 @@ class LanguagesModel extends BaseInstallationModel
 
 		$query
 			->clear()
-			->update($db->quotename('#__modules'))
-			->set($db->quotename('published') . ' = 1')
-			->where($db->quotename('module') . ' = ' . $db->quote($moduleName));
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 1')
+			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName));
 		$db->setQuery($query);
 
 		try
@@ -1302,7 +1302,7 @@ class LanguagesModel extends BaseInstallationModel
 		$newId = $article->get('id');
 
 		$query = $db->getQuery(true)
-			->insert($db->quotename('#__content_frontpage'))
+			->insert($db->quoteName('#__content_frontpage'))
 			->values($newId . ', 0');
 
 		$db->setQuery($query);
@@ -1457,22 +1457,22 @@ class LanguagesModel extends BaseInstallationModel
 		// Select the admin user ID
 		$query
 			->clear()
-			->select($db->quotename('u') . '.' . $db->quotename('id'))
-			->from($db->quotename('#__users', 'u'))
+			->select($db->quoteName('u') . '.' . $db->quoteName('id'))
+			->from($db->quoteName('#__users', 'u'))
 			->join(
 				'LEFT',
-				$db->quotename('#__user_usergroup_map', 'map')
-				. ' ON ' . $db->quotename('map') . '.' . $db->quotename('user_id')
-				. ' = ' . $db->quotename('u') . '.' . $db->quotename('id')
+				$db->quoteName('#__user_usergroup_map', 'map')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('user_id')
+				. ' = ' . $db->quoteName('u') . '.' . $db->quoteName('id')
 			)
 			->join(
 				'LEFT',
-				$db->quotename('#__usergroups', 'g')
-				. ' ON ' . $db->quotename('map') . '.' . $db->quotename('group_id')
-				. ' = ' . $db->quotename('g') . '.' . $db->quotename('id')
+				$db->quoteName('#__usergroups', 'g')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('group_id')
+				. ' = ' . $db->quoteName('g') . '.' . $db->quoteName('id')
 			)
 			->where(
-				$db->quotename('g') . '.' . $db->quotename('title')
+				$db->quoteName('g') . '.' . $db->quoteName('title')
 				. ' = ' . $db->quote('Super Users')
 			);
 
