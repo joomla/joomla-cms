@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Extension Manager Update Sites View
@@ -55,7 +56,7 @@ class HtmlView extends InstallerViewDefault
 		}
 
 		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Display the view
 		parent::display($tpl);
