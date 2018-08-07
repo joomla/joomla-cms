@@ -7,33 +7,29 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Cpanel\Administrator\Dispatcher;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Access\Exception\Notallowed;
 
 /**
  * Dispatcher class for com_cpanel
  *
  * @since  4.0.0
  */
-class CpanelDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
 	/**
-	 * The extension namespace
+	 * Method to check component access permission
 	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Cpanel';
-
-	/**
-	 * com_cpanel does not require check permission, so we override checkAccess method and have it empty
+	 * @since   4.0.0
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception|Notallowed
 	 */
 	protected function checkAccess()
 	{
-
 	}
 }
