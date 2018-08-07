@@ -16,7 +16,12 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
 	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new JVersion)->isInDevelopmentState())))
 {
-	if (file_exists(JPATH_INSTALLATION . '/index.php'))
+	if (php_sapi_name() === 'cli')
+	{
+		JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
+		return;
+	}
+	elseif (file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
 		header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
 

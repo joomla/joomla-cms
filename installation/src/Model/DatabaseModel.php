@@ -102,16 +102,21 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
+	 * @param   object  $options  Stores options
+	 *
 	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public function initialise()
+	public function initialise($options = null)
 	{
-		$options = $this->getOptions();
+		if (!$options)
+		{
+			$options = $this->getOptions();
+			$options = ArrayHelper::toObject($options);
+		}
 
 		// Get the options as an object for easier handling.
-		$options = ArrayHelper::toObject($options);
 
 		// Load the backend language files so that the DB error messages work.
 		$lang = Factory::getLanguage();
@@ -316,7 +321,15 @@ class DatabaseModel extends BaseInstallationModel
 
 		$options->db_select = false;
 
-		$db = $this->initialise();
+		if (php_sapi_name() !== "cli")
+		{
+			$db = $this->initialise();
+		}
+		else
+		{
+			$db = $this->initialise($options);
+		}
+
 
 		if ($db === false)
 		{
@@ -540,7 +553,7 @@ class DatabaseModel extends BaseInstallationModel
 		$serverType = $db->getServerType();
 
 		// Set the appropriate schema script based on UTF-8 support.
-		$schema = 'sql/' . $serverType . '/joomla.sql';
+		$schema = JPATH_INSTALLATION . '/sql/' . $serverType . '/joomla.sql';
 
 		// Check if the schema is a valid file
 		if (!is_file($schema))
@@ -655,7 +668,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		$dblocalise = 'sql/' . $serverType . '/localise.sql';
+		$dblocalise = JPATH_INSTALLATION . '/sql/' . $serverType . '/localise.sql';
 
 		if (is_file($dblocalise))
 		{
