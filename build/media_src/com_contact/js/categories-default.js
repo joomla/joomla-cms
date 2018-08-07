@@ -42,6 +42,9 @@
     buttons.forEach((button) => {
       button.addEventListener('click', handleCategoryToggleButtonClick);
     });
+
+    // Cleanup
+    document.removeEventListener('DOMContentLoaded', onBoot);
   };
 
   document.addEventListener('DOMContentLoaded', onBoot);
