@@ -63,9 +63,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			</header>
 			<?php // Container ?>
 			<section class="j-container" role="main">
-				<div id="system-message-container">
-					<jdoc:include type="message" />
-				</div>
+				<jdoc:include type="message" />
 				<div id="javascript-warning">
 					<noscript>
 						<joomla-alert type="danger" class="text-center">
