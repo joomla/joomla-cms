@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -20,8 +22,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-
-defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.updater.update');
 
@@ -166,8 +167,8 @@ class LanguagesModel extends BaseInstallationModel
 			if (!$remote_manifest)
 			{
 				// Could not find the url, the information in the update server may be corrupt.
-				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
 				Factory::getApplication()->enqueueMessage($message, 'warning');
 
@@ -180,8 +181,8 @@ class LanguagesModel extends BaseInstallationModel
 			if (!$package_url)
 			{
 				// Could not find the URL, maybe the URL is wrong in the update server, or there is no internet access.
-				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
 				Factory::getApplication()->enqueueMessage($message, 'warning');
 
@@ -195,8 +196,8 @@ class LanguagesModel extends BaseInstallationModel
 			if (!$installer->install($package['dir']))
 			{
 				// There was an error installing the package.
-				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
 				Factory::getApplication()->enqueueMessage($message, 'warning');
 
@@ -279,7 +280,7 @@ class LanguagesModel extends BaseInstallationModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
 
 			return false;
 		}

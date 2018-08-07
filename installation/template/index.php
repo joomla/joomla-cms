@@ -8,6 +8,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /** @var JDocumentHtml $this */
 
 // Add Stylesheets
@@ -25,21 +27,21 @@ JHtml::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['
 $this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);
 
 // Load JavaScript message titles
-JText::script('ERROR');
-JText::script('WARNING');
-JText::script('NOTICE');
-JText::script('MESSAGE');
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
 
 // Add strings for JavaScript error translations.
-JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
-JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
-JText::script('JLIB_JS_AJAX_ERROR_OTHER');
-JText::script('JLIB_JS_AJAX_ERROR_PARSE');
-JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
+Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('JLIB_JS_AJAX_ERROR_PARSE');
+Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Load the JavaScript translated messages
-JText::script('INSTL_PROCESS_BUSY');
-JText::script('INSTL_FTP_SETTINGS_CORRECT');
+Text::script('INSTL_PROCESS_BUSY');
+Text::script('INSTL_FTP_SETTINGS_CORRECT');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -66,7 +68,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				<div id="javascript-warning">
 					<noscript>
 						<joomla-alert type="danger" class="text-center">
-							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+							<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 						</joomla-alert>
 					</noscript>
 				</div>

@@ -8,6 +8,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /** @var JDocumentError $this */
 
 // Add Stylesheets
@@ -52,14 +54,14 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<div id="javascript-warning">
 					<noscript>
 						<joomla-alert type="danger" class="text-center">
-							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+							<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 						</joomla-alert>
 					</noscript>
 				</div>
 				<div class="container-installation flex">
 					<div class="j-install-step active">
 						<div class="j-install-step-header">
-							<span class="fa fa-exclamation" aria-hidden="true"></span> <?php echo JText::_('INSTL_ERROR'); ?>
+							<span class="fa fa-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
 						</div>
 						<div class="j-install-step-form">
 							<div class="alert preinstall-alert">
@@ -67,7 +69,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 									<span class="alert-icon fa fa-exclamation-triangle"></span>
 								</div>
 								<div class="alert-text">
-									<h2><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
+									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
 									<p class="form-text text-muted small"><span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 								</div>
 							</div>
@@ -81,7 +83,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 										<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
 										<?php $this->setError($this->_error->getPrevious()); ?>
 										<?php while ($loop === true) : ?>
-											<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+											<p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
 											<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 											<?php echo $this->renderBacktrace(); ?>
 											<?php $loop = $this->setError($this->_error->getPrevious()); ?>
