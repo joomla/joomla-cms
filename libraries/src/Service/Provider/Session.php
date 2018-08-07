@@ -75,7 +75,7 @@ class Session implements ServiceProviderInterface
 				}
 
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler()),
+					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -105,7 +105,7 @@ class Session implements ServiceProviderInterface
 				];
 
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler()),
+					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -140,7 +140,7 @@ class Session implements ServiceProviderInterface
 				}
 
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler()),
+					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options

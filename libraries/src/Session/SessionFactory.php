@@ -21,6 +21,7 @@ use Joomla\Session\HandlerInterface;
 use Memcached;
 use Redis;
 use RuntimeException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Factory for creating session API objects
@@ -34,12 +35,19 @@ class SessionFactory implements ContainerAwareInterface
 	/**
 	 * Create a session handler based on the application configuration.
 	 *
+	 * @param   array  $options  The options used to instantiate the SessionInterface instance.
+	 *
 	 * @return  HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createSessionHandler(): HandlerInterface
+	public function createSessionHandler(array $options): HandlerInterface
 	{
+		$resolver = new OptionsResolver;
+		$this->configureSessionHandlerOptions($resolver);
+
+		$options = $resolver->resolve($options);
+
 		/** @var Registry $config */
 		$config = $this->getContainer()->get('config');
 
@@ -86,7 +94,7 @@ class SessionFactory implements ContainerAwareInterface
 				ini_set('session.save_path', "$host:$port");
 				ini_set('session.save_handler', 'memcached');
 
-				return new Handler\MemcachedHandler($memcached, ['ttl' => $lifetime]);
+				return new Handler\MemcachedHandler($memcached, ['ttl' => $options['expire']]);
 
 			case 'redis':
 				if (!Handler\RedisHandler::isSupported())
@@ -127,7 +135,7 @@ class SessionFactory implements ContainerAwareInterface
 					$redis->select($db);
 				}
 
-				return new Handler\RedisHandler($redis, ['ttl' => $lifetime]);
+				return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
 
 			case 'wincache':
 				if (!Handler\WincacheHandler::isSupported())
@@ -140,5 +148,29 @@ class SessionFactory implements ContainerAwareInterface
 			default:
 				throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
 		}
+	}
+
+	/**
+	 * Resolve the options for the session handler.
+	 *
+	 * @param   OptionsResolver  $resolver  The options resolver.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function configureSessionHandlerOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults(
+			[
+				'force_ssl' => false,
+			]
+		);
+
+		$resolver->setRequired(['name', 'expire']);
+
+		$resolver->setAllowedTypes('name', ['string']);
+		$resolver->setAllowedTypes('expire', ['int']);
+		$resolver->setAllowedTypes('force_ssl', ['bool']);
 	}
 }
