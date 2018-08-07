@@ -132,6 +132,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     };
 
 
+    // eslint-disable-next-line prefer-destructuring
     const uploadPath = options.uploadPath;
 
 
