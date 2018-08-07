@@ -35,8 +35,8 @@ class QueryCollector extends AbstractDataCollector
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
 	 */
-
 	private $profiles;
+
 	/**
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
@@ -46,10 +46,10 @@ class QueryCollector extends AbstractDataCollector
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry     $params       Parameters.
-	 * @param   DebugMonitor $queryMonitor Query monitor.
-	 * @param   array        $profiles     Profile data.
-	 * @param   array        $explains     Explain data
+	 * @param   Registry      $params        Parameters.
+	 * @param   DebugMonitor  $queryMonitor  Query monitor.
+	 * @param   array         $profiles      Profile data.
+	 * @param   array         $explains      Explain data
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
