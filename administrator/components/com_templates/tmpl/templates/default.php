@@ -9,17 +9,23 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.multiselect');
+HTMLHelper::_('behavior.multiselect');
 
-$user      = JFactory::getUser();
+$user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -32,23 +38,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<thead>
 							<tr>
 								<th scope="col" class="col1template d-none d-md-table-cell" style="width:20%">
-									<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
+									<?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
 								<th scope="col" style="width:30%">
-									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JVERSION'); ?>
+									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JDATE'); ?>
+									<?php echo Text::_('JDATE'); ?>
 								</th>
 								<th scope="col" style="width:25%" class="d-none d-md-table-cell text-center">
-									<?php echo JText::_('JAUTHOR'); ?>
+									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<?php if ($this->pluginState) : ?>
 									<th style="width:10%" class="d-none d-md-table-cell text-center">
-										<?php echo JText::_('COM_TEMPLATES_OVERRIDES'); ?>
+										<?php echo Text::_('COM_TEMPLATES_OVERRIDES'); ?>
 									</th>
 								<?php endif;?>
 							</tr>
@@ -57,21 +63,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center d-none d-md-table-cell">
-									<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
-									<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
+									<?php echo HTMLHelper::_('templates.thumb', $item->element, $item->client_id); ?>
+									<?php echo HTMLHelper::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
 								<th scope="row" class="template-name">
-									<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
-										<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
+									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
+										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
 									<?php if ($this->preview && $item->client_id == '0') : ?>
-										<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
-										<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+										<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
+										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 										</a>
 									<?php elseif ($item->client_id == '1') : ?>
-										<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
+										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
 									<?php else : ?>
-										<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+										<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 									</div>
 								</th>
@@ -97,9 +103,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php if ($this->pluginState) : ?>
 									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->updated)) : ?>
-											<span class="badge badge-warning"><?php echo JText::sprintf('COM_TEMPLATES_UPDATED', $item->updated); ?></span>
+											<span class="badge badge-warning"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
 										<?php else : ?>
-											<span class="badge badge-success"><?php echo JText::_('COM_TEMPLATES_UPTODATE'); ?></span>
+											<span class="badge badge-success"><?php echo Text::_('COM_TEMPLATES_UPTODATE'); ?></span>
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
@@ -115,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

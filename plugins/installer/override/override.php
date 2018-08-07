@@ -182,7 +182,7 @@ class PlgInstallerOverride extends CMSPlugin
 		if ($num != 0)
 		{
 			$span = '<span class="badge badge-light">' . $num . '</span>';
-			$this->app->enqueueMessage(Text::sprintf('PLG_INSTALLER_OVERRIDE_FILE_UPDATED', $span), 'notice');
+			$this->app->enqueueMessage(Text::plural('PLG_INSTALLER_N_OVERRIDE_FILE_UPDATED', $span), 'notice');
 			$this->saveOverrides($result);
 		}
 
