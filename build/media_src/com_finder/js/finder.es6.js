@@ -31,8 +31,7 @@
             Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
           }
         },
-      },
-      );
+      });
     }
   };
 
