@@ -7,33 +7,27 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Contenthistory\Administrator\Dispatcher;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
- * Dispatcher class for com_contenthistory
+ * Dispatcher class for com_associations
  *
  * @since  4.0.0
  */
-class ContenthistoryDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Contenthistory';
-
 	/**
 	 * Method to check component access permission
 	 *
 	 * @since   4.0.0
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception|Notallowed
 	 */
 	protected function checkAccess()
 	{

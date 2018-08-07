@@ -17,11 +17,13 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 <div class="com-content-archive archive">
 <?php if ($this->params->get('show_page_heading')) : ?>
-<div class="page-header">
-<h1>
-	<?php echo $this->escape($this->params->get('page_heading')); ?>
-</h1>
-</div>
+	<div class="page-header">
+		<h1>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		</h1>
+	</div>
+<?php endif; ?>
+
 <form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-content-archive__form form-inline">
 	<fieldset class="com-content-archive__filters filters">
 	<div class="filter-search">
