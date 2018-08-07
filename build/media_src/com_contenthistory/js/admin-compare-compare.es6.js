@@ -22,7 +22,7 @@
         color = '#f8cbcb';
       }
 
-      mark = document.createElement('mark');
+      span = document.createElement('span');
       span.style.backgroundColor = color;
       span.style.borderRadius = '.2rem';
       span.appendChild(document.createTextNode(part.value));
