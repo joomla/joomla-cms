@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Install Sample Data field.
@@ -55,7 +56,7 @@ class SampleField extends RadioField
 
 		// Add option to not install sample data.
 		$options[] = \JHtml::_('select.option', '',
-			\JHtml::_('tooltip', \JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', \JText::_('JNO'))
+			\JHtml::_('tooltip', Text::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', Text::_('JNO'))
 		);
 
 		// Build the options list from the list of files.
@@ -64,8 +65,8 @@ class SampleField extends RadioField
 			foreach ($files as $file)
 			{
 				$options[] = \JHtml::_('select.option', $file, Factory::getLanguage()->hasKey($key = 'INSTL_' . ($file = \JFile::stripExt($file)) . '_SET') ?
-					\JHtml::_('tooltip', \JText::_('INSTL_' . strtoupper($file = \JFile::stripExt($file)) . '_SET_DESC'), '', '',
-						\JText::_('JYES')
+					\JHtml::_('tooltip', Text::_('INSTL_' . strtoupper($file = \JFile::stripExt($file)) . '_SET_DESC'), '', '',
+						Text::_('JYES')
 					) : $file
 				);
 			}
