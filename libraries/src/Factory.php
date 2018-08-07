@@ -105,7 +105,7 @@ abstract class Factory
 	/**
 	 * Global database object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  11.1
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
@@ -357,9 +357,9 @@ abstract class Factory
 	{
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('JDatabaseDriver'))
+			if (self::getContainer()->exists('DatabaseDriver'))
 			{
-				self::$database = self::getContainer()->get('JDatabaseDriver');
+				self::$database = self::getContainer()->get('DatabaseDriver');
 			}
 			else
 			{
@@ -570,9 +570,9 @@ abstract class Factory
 	/**
 	 * Create a database object
 	 *
-	 * @return  \JDatabaseDriver
+	 * @return  DatabaseDriver
 	 *
-	 * @see     \JDatabaseDriver
+	 * @see     DatabaseDriver
 	 * @since   11.1
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
@@ -600,7 +600,7 @@ abstract class Factory
 
 		try
 		{
-			$db = \JDatabaseDriver::getInstance($options);
+			$db = DatabaseDriver::getInstance($options);
 		}
 		catch (\RuntimeException $e)
 		{

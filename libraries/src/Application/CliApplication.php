@@ -25,6 +25,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Base class for a Joomla! command line application.
@@ -88,7 +89,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 			$this->close();
 		}
 
-		$container = $container ?: \JFactory::getContainer();
+		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
 		$this->output   = $output ?: new Stdout;

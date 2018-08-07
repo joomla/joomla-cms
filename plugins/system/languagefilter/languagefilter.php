@@ -822,7 +822,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 					// Component association
 					case (isset($cassociations[$i])):
-						$language->link = Route::_($cassociations[$i] . '&lang=' . $language->sef);
+						$language->link = Route::_($cassociations[$i]);
 						break;
 
 					// Menu items association

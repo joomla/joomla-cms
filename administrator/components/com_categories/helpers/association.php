@@ -36,8 +36,6 @@ abstract class CategoryHelperAssociation
 
 		if ($id)
 		{
-			// Load route helper
-			jimport('helper.route', JPATH_COMPONENT_SITE);
 			$helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
 
 			$associations = CategoriesHelper::getAssociations($id, $extension);

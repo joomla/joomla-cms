@@ -462,6 +462,7 @@ CREATE TABLE IF NOT EXISTS `#__csp` (
   `document_uri` varchar(500) NOT NULL DEFAULT '',
   `blocked_uri` varchar(500) NOT NULL DEFAULT '',
   `directive` varchar(500) NOT NULL DEFAULT '',
+  `client` varchar(500) NOT NULL DEFAULT '',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `published` tinyint(1) NOT NULL DEFAULT 0,
@@ -856,8 +857,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   `query` BLOB NOT NULL,
   `hits` INT(11) NOT NULL DEFAULT '1',
   `results` INT(11) NOT NULL DEFAULT '0',
-  UNIQUE INDEX `md5sum` (`md5sum`),
-  INDEX `searchterm` (`searchterm`)
+  PRIMARY KEY `md5sum` (`md5sum`),
+  INDEX `searchterm` (`searchterm`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

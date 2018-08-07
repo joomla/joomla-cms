@@ -57,44 +57,37 @@ if ($saveOrder && !empty($this->items))
 					<table class="table" id="fieldList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th style="width:1%" class="nowrap text-center">
+								</td>
+								<th scope="col" style="width:1%" class="nowrap text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
-								<th>
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th class="text-center">
+								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 								</th>
-								<th class="text-center">
+								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'g.title', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="9">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody <?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php $ordering   = ($listOrder == 'a.ordering'); ?>
@@ -125,7 +118,7 @@ if ($saveOrder && !empty($this->items))
 											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
 										</div>
 									</td>
-									<td>
+									<th scope="row">
 										<div class="break-word">
 											<?php if ($item->checked_out) : ?>
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'fields.', $canCheckin); ?>
@@ -156,7 +149,7 @@ if ($saveOrder && !empty($this->items))
                                                 </div>
                                             <?php endif; ?>
 										</div>
-									</td>
+									</th>
 									<td class="small text-center">
 										<?php echo $this->escape($item->type); ?>
 									</td>
@@ -178,6 +171,10 @@ if ($saveOrder && !empty($this->items))
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php //Load the batch processing form. ?>
 					<?php if ($user->authorise('core.create', $component)
 						&& $user->authorise('core.edit', $component)
