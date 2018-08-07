@@ -157,7 +157,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Workaround for UPPERCASE table prefix for postgresql
-		if ($options->db_type === 'postgresql' && strtolower($options->db_prefix) !== $options->db_prefix)
+		if (in_array($options->db_type, array('pgsql', 'postgresql'), true) && strtolower($options->db_prefix) !== $options->db_prefix)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
@@ -601,6 +601,10 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$schema = 'sql/sqlazure/joomla.sql';
 		}
+		elseif ($db->getServerType() === 'postgresql')
+		{
+			$schema = 'sql/postgresql/joomla.sql';
+		}
 		else
 		{
 			$schema = 'sql/' . $type . '/joomla.sql';
@@ -655,6 +659,10 @@ class InstallationModelDatabase extends JModelBase
 		elseif ($serverType === 'mssql')
 		{
 			$pathPart .= 'sqlazure/';
+		}
+		elseif ($serverType === 'postgresql')
+		{
+			$pathPart .= 'postgresql/';
 		}
 		else
 		{
@@ -832,6 +840,10 @@ class InstallationModelDatabase extends JModelBase
 		elseif ($db->getServerType() === 'mssql')
 		{
 			$type = 'sqlazure';
+		}
+		elseif ($db->getServerType() === 'postgresql')
+		{
+			$type = 'postgresql';
 		}
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
