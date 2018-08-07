@@ -44,8 +44,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="" class="logo"/>
 				</div>
 				<div class="j-header-help">
-					<a href="#">
+					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
 						<span class="fa fa-lightbulb-o" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>
 			</header>
