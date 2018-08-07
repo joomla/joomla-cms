@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Console command for checking if there are pending extension updates
+ * Console command for installing extensions
  *
  * @since  4.0.0
  */
@@ -111,7 +111,7 @@ class ExtensionInstallCommand extends AbstractCommand
 		$this->addArgument(
 			'from',
 			InputArgument::REQUIRED,
-			'From where do you want to install? (path OR url)'
+			'Where do you want to install from?? (path OR url)'
 		);
 
 		$this->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path to the extension');

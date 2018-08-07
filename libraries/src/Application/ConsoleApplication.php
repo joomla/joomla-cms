@@ -295,7 +295,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
-	 * Returns the installed language files in the administrative and frontend area.
+	 * Returns the installed language in the administrative and frontend area.
 	 *
 	 * @param   DatabaseInterface  $db  Database driver.
 	 *

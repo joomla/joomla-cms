@@ -173,7 +173,7 @@ class CoreInstallCommand extends AbstractCommand
 		if (!$passed)
 		{
 			$this->progressBar->finish();
-			$this->ioStyle->warning('Some PHP options are not right. Consider making sure all these are OK before proceeding.');
+			$this->ioStyle->warning('These settings are recommended for PHP to ensure full compatibility with Joomla.');
 			$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
 			return self::PHP_OPTIONS_NOT_SET;
@@ -185,7 +185,7 @@ class CoreInstallCommand extends AbstractCommand
 		if ($file)
 		{
 			$this->progressBar->setMessage("Loading file ...");
-			$result = $this->processUninteractiveInstallation($file);
+			$result = $this->processNonInteractiveInstallation($file);
 
 			if (!is_array($result))
 			{
@@ -344,7 +344,13 @@ class CoreInstallCommand extends AbstractCommand
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage(
-				Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
+				Text::sprintf(
+					'Check your database credentials, database type, database name or hostname. 
+					If you have MySQL 8 installed then please read 
+					https://docs.joomla.org/Joomla_and_MySQL_8#Workaround_to_get_Joomla_working_with_MySQL_8 
+					for more information.',
+					null
+				),
 				'error'
 			);
 
@@ -353,7 +359,7 @@ class CoreInstallCommand extends AbstractCommand
 	}
 
 	/**
-	 * Handles uninteractive installation
+	 * Handles non-interactive installation
 	 *
 	 * @param   string   $file      Path to installation
 	 * @param   boolean  $validate  Option to validate the data or not
@@ -362,11 +368,11 @@ class CoreInstallCommand extends AbstractCommand
 	 *
 	 * @return array | null
 	 */
-	public function processUninteractiveInstallation($file, $validate = true)
+	public function processNonInteractiveInstallation($file, $validate = true)
 	{
 		if (!File::exists($file))
 		{
-			$this->getApplication()->enqueueMessage('Unable to locate file specified', 'error');
+			$this->getApplication()->enqueueMessage('Unable to locate the specified file', 'error');
 
 			return;
 		}
@@ -448,7 +454,7 @@ class CoreInstallCommand extends AbstractCommand
 	/**
 	 * Parse an INI file
 	 *
-	 * @param   string  $file  Path fo ini file
+	 * @param   string  $file  Path to ini file
 	 *
 	 * @return array
 	 *
@@ -554,7 +560,7 @@ class CoreInstallCommand extends AbstractCommand
 				'type'      => 'question',
 			],
 			'admin_email' => [
-				'question'  => "Enter admin email",
+				'question'  => "Enter Admin email",
 				'type'      => 'question',
 				'rules'     => 'isEmail',
 			],
@@ -564,11 +570,11 @@ class CoreInstallCommand extends AbstractCommand
 				'rules'     => 'isAlphanumeric',
 			],
 			'admin_password' => [
-				'question'  => "Enter admin password",
+				'question'  => "Enter Admin password",
 				'type'      => 'question',
 			],
 			'db_type' => [
-				'question'  => "What's your connection type",
+				'question'  => "Select your connection type",
 				'type'      => 'select',
 				'optionData'    => $drivers,
 				'default'   => 'mysqli',
@@ -596,7 +602,7 @@ class CoreInstallCommand extends AbstractCommand
 				'default'   => $prefix,
 			],
 			'db_old' => [
-				'question'      => "What do you want to do about old DB",
+				'question'      => "Remove or backup old database",
 				'type'          => 'select',
 				'optionData'    => ['remove', 'backup'],
 				'default'       => 'backup',

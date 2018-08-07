@@ -210,7 +210,7 @@ class GetConfigurationCommand extends AbstractCommand
 	}
 
 	/**
-	 * Handles the command when an single option is requested
+	 * Handles the command when a single option is requested
 	 *
 	 * @param   string  $option  The option we want to get its value
 	 *

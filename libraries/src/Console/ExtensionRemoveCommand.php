@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 
 /**
- * Console command for checking if there are pending extension updates
+ * Console command for removing extensions
  *
  * @since  4.0.0
  */

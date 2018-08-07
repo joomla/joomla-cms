@@ -75,9 +75,9 @@ class PrefixField extends FormField
 		$size = $this->element['size'] ? abs((int) $this->element['size']) : 5;
 
 		// Make sure somebody doesn't put in a too large prefix size value.
-		if ($size > 10)
+		if ($size > 15)
 		{
-			$size = 10;
+			$size = 15;
 		}
 
 		// Create the random prefix.

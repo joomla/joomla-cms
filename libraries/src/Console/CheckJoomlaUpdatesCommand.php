@@ -53,7 +53,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 
 		if (!isset($data['object']->downloadurl->_data))
 		{
-			$symfonyStyle->warning('We cannot find an update URL ');
+			$symfonyStyle->warning('We cannot find an update URL');
 		}
 		return 0;
 	}

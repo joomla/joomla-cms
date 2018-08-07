@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 
 /**
- * Console command for checking if there are pending extension updates
+ * Console command for updating Joomla! core
  *
  * @since  4.0.0
  */
