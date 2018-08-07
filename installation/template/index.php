@@ -65,7 +65,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 				</div>
 			</header>
 			<?php // Container ?>
-			<section class="j-container" role="main">
+			<main class="j-container">
 				<jdoc:include type="message" />
 				<div id="javascript-warning">
 					<noscript>
@@ -77,7 +77,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
 					<jdoc:include type="component" />
 				</div>
-			</section>
+			</main>
 			<jdoc:include type="scripts" />
 			<footer class="j-footer">
 				<a href="https://www.joomla.org" target="_blank">Joomla!</a>
