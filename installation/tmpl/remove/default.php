@@ -121,24 +121,24 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2') ?></p>
 			<?php else : ?>
 			<form action="index.php" method="post" id="languagesForm" class="form-validate">
-				<p id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></p>
 				<p id="wait_installing" style="display: none;">
 					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br>
 				<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 				</p>
 				<table class="table table-sm">
+				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
 					<thead>
 					<tr>
-						<th width="1%" class="text-center">
+						<td width="1%" class="text-center">
 							&nbsp;
-						</th>
-						<th>
+						</td>
+						<th scope="col">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
 						</th>
-						<th width="15%">
+						<th scope="col" width="15%">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
 						</th>
-						<th width="5%" class="text-center">
+						<th scope="col" width="5%" class="text-center">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
 						</th>
 					</tr>
@@ -154,9 +154,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 							<td>
 								<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
 							</td>
-							<td>
+							<th scope="row">
 								<label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>
-							</td>
+							</th>
 							<td>
 								<?php echo $language->code; ?>
 							</td>
