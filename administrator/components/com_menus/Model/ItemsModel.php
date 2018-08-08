@@ -29,8 +29,8 @@ class ItemsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array               $config  An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface $factory The factory.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
@@ -75,8 +75,8 @@ class ItemsModel extends ListModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string $ordering  An optional ordering field.
-	 * @param   string $direction An optional direction (asc|desc).
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -212,7 +212,7 @@ class ItemsModel extends ListModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string $id A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -483,9 +483,9 @@ class ItemsModel extends ListModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm $form  A \JForm object.
-	 * @param   mixed  $data  The data expected for the form.
-	 * @param   string $group The name of the plugin group to import (defaults to "content").
+	 * @param   \JForm  $form   A \JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -513,8 +513,8 @@ class ItemsModel extends ListModel
 	/**
 	 * Get the client id for a menu
 	 *
-	 * @param   string  $menuType The menutype identifier for the menu
-	 * @param   boolean $check    Flag whether to perform check against ACL as well as existence
+	 * @param   string   $menuType  The menutype identifier for the menu
+	 * @param   boolean  $check     Flag whether to perform check against ACL as well as existence
 	 *
 	 * @return  integer
 	 *
@@ -589,24 +589,20 @@ class ItemsModel extends ListModel
 	}
 
 	/*
-     * Search the parent item id to select the parent item name
-     * Breadcrumb
-     * */
+	 * Search the parent item id to select the parent item name
+	 * Breadcrumb
+	 *
+	 * @param   integer  $value  The parent item id
+	 *
+	 * @return  \stdClass
+	 */
 	public function searchParentItem($value)
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select("*")->from("#__menu")->where("id = " . $value);
-		$result = $db->setQuery($query)->loadObject();
-		if (empty($result))
-		{
-			return null;
-		}
-		else
-		{
-
-			return $result;
-		}
-
+		$query->select('*')
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('id') . ' = ' . $value);
+		return $db->setQuery($query)->loadObject();
 	}
 }
