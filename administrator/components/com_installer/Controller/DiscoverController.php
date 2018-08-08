@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Discover Installation Controller
@@ -31,7 +32,7 @@ class DiscoverController extends BaseController
 		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover();
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
 	}
 
 	/**
@@ -46,7 +47,7 @@ class DiscoverController extends BaseController
 		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover_install();
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
 	}
 
 	/**
@@ -61,6 +62,6 @@ class DiscoverController extends BaseController
 		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->purge();
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false), $model->_message);
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false), $model->_message);
 	}
 }
