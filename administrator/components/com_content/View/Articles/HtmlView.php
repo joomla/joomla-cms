@@ -19,10 +19,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Factory;
-
-\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
  * View class for a list of articles.
