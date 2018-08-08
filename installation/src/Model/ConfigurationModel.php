@@ -16,6 +16,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -109,7 +110,7 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Site settings.
 		$registry->set('offline', false);
-		$registry->set('offline_message', \JText::_('INSTL_STD_OFFLINE_MSG'));
+		$registry->set('offline_message', Text::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
 		$registry->set('sitename', $options->site_name);
@@ -269,7 +270,7 @@ class ConfigurationModel extends BaseInstallationModel
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -345,7 +346,7 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Map the super admin to the Super Admin Group
+		// Map the super user to the Super Users group
 		$query->clear()
 			->select($db->quoteName('user_id'))
 			->from($db->quoteName('#__user_usergroup_map'))

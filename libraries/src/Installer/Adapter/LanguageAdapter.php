@@ -616,8 +616,8 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the sef value of all current content languages.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('sef'))
-			->from($db->qn('#__languages'));
+			->select($db->quoteName('sef'))
+			->from($db->quoteName('#__languages'));
 		$db->setQuery($query);
 
 		$siteLanguages = $db->loadObjectList();
