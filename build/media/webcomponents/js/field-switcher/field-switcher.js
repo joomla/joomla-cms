@@ -51,11 +51,11 @@
         throw new Error('`Joomla-switcher` requires two inputs type="radio"');
       }
 
-      this.inputLabel = document.querySelector(`[for="${this.id}"]`);
-
-      if (this.inputLabel) {
-        this.inputLabelText = this.inputLabel.innerText;
-      }
+      // this.inputLabel = document.querySelector(`[for="${this.id}"]`);
+      //
+      // if (this.inputLabel) {
+      //   this.inputLabelText = this.inputLabel.innerText;
+      // }
 
       // Create the markup
       this.createMarkup();
@@ -69,7 +69,7 @@
         this.spans[1].classList.add('active');
 
         // Aria-label ONLY in the container span!
-        this.inputsContainer.setAttribute('aria-label', this.spans[1].innerHTML);
+        this.inputsContainer.setAttribute('aria-label', `${this.id}-lbl`); //this.spans[1].innerHTML);
       } else {
         this.spans[0].classList.add('active');
 
