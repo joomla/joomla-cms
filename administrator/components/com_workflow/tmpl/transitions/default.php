@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper_('behavior.tooltip');
+HTMLHelper::_('behavior.tooltip');
 
 $user      = JFactory::getUser();
 
@@ -27,7 +27,7 @@ $saveOrder = ($listOrder == 't.ordering');
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . JSession::getFormToken() . '=1';
-	HTMLHelper_('draggablelist.draggable');
+	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
@@ -50,25 +50,25 @@ if ($saveOrder)
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_TO_STATE', 't.to_state', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STATE', 't.to_state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -90,7 +90,7 @@ if ($saveOrder)
 										}
 										elseif (!$saveOrder)
 										{
-											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper_('tooltipText', 'JORDERINGDISABLED');
+											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
@@ -100,11 +100,11 @@ if ($saveOrder)
 											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 										<?php endif; ?>									</td>
 									<td class="order nowrap text-center hidden-sm-down">
-										<?php echo HTMLHelper_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo HTMLHelper_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
+											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
 										</div>
 									</td>
 									<td>
@@ -141,7 +141,7 @@ if ($saveOrder)
 				<input type="hidden" name="boxchecked" value="0">
 				<input type="hidden" name="workflow_id" value="<?php echo (int) $this->workflowID ?>">
 				<input type="hidden" name="extension" value="<?php echo $this->extension ?>">
-				<?php echo HTMLHelper_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

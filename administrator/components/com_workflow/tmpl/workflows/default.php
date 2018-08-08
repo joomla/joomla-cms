@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper_('behavior.tooltip');
+HTMLHelper::_('behavior.tooltip');
 
 $columns = 11;
 
@@ -34,7 +34,7 @@ if (strpos($listOrder, 'modified') !== false)
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
-	HTMLHelper_('draggablelist.draggable');
+	HTMLHelper::_('draggablelist.draggable');
 }
 
 $extension = $this->escape($this->state->get('filter.extension'));
@@ -62,16 +62,16 @@ $userId = $user->id;
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th scope="col"  style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_STATES'); ?>
@@ -88,13 +88,13 @@ $userId = $user->id;
 									<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_DATE_' . strtoupper($orderingColumn), 'w.' . $orderingColumn, $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_DATE_' . strtoupper($orderingColumn), 'w.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_AUTHOR', 'w.created_by', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_AUTHOR', 'w.created_by', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
-									<?php echo HTMLHelper_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -120,7 +120,7 @@ $userId = $user->id;
 									}
 									elseif (!$saveOrder)
 									{
-										$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper_('tooltipText', 'JORDERINGDISABLED');
+										$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
@@ -131,11 +131,11 @@ $userId = $user->id;
 									<?php endif; ?>
 								</td>
 								<td class="order nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo HTMLHelper_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 									</div>
 								</td>
 								<td>
@@ -152,7 +152,7 @@ $userId = $user->id;
 									<a href="<?php echo $states; ?>"><?php echo Text::_('COM_WORKFLOW_MANAGE'); ?></a>
 								</td>
 								<td class="text-center hidden-sm-down">
-									<?php echo HTMLHelper_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
+									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
 								<td class="text-center btns hidden-sm-down">
 									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
@@ -165,7 +165,7 @@ $userId = $user->id;
 								<td class="text-center">
 									<?php
 									$date = $item->{$orderingColumn};
-									echo $date > 0 ? HTMLHelper_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
+									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
 								<td class="text-center">
@@ -184,7 +184,7 @@ $userId = $user->id;
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<input type="hidden" name="extension" value="<?php echo $extension ?>">
-				<?php echo HTMLHelper_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>
