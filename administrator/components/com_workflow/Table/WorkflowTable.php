@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Category table
@@ -51,7 +52,7 @@ class WorkflowTable extends Table
 	{
 		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
@@ -122,7 +123,7 @@ class WorkflowTable extends Table
 
 		if (trim($this->title) === '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_WORKFLOW'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_WORKFLOW'));
 
 			return false;
 		}
@@ -131,7 +132,7 @@ class WorkflowTable extends Table
 		{
 			if ((int) $this->published !== 1)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
@@ -152,7 +153,7 @@ class WorkflowTable extends Table
 			{
 				$this->default = '1';
 
-				$this->setError(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'));
+				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
 			}

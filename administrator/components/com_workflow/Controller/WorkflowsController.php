@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The first example class, this is in the same
@@ -67,7 +68,7 @@ class WorkflowsController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or die(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -77,7 +78,7 @@ class WorkflowsController extends AdminController
 
 		if (!$value)
 		{
-			$this->setMessage(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
+			$this->setMessage(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
 			$this->setRedirect(
 				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
@@ -90,11 +91,11 @@ class WorkflowsController extends AdminController
 
 		if (empty($cid) || !is_array($cid))
 		{
-			$this->setMessage(\JText::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
 		}
 		elseif (count($cid) > 1)
 		{
-			$this->setMessage(\JText::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
+			$this->setMessage(Text::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
 		}
 		else
 		{
@@ -120,7 +121,7 @@ class WorkflowsController extends AdminController
 					$ntext = 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
 				}
 
-				$this->setMessage(\JText::_($ntext, count($cid)));
+				$this->setMessage(Text::_($ntext, count($cid)));
 			}
 		}
 

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -29,7 +30,7 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 	<div>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', JText::_('COM_WORKFLOW_DESCRIPTION')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_WORKFLOW_DESCRIPTION')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<div class="control-group">
@@ -69,7 +70,7 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', JText::_('COM_WORKFLOW_RULES_TAB')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 

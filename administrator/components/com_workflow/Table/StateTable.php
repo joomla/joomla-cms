@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Category table
@@ -51,7 +52,7 @@ class StateTable extends Table
 		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
 		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
@@ -115,7 +116,7 @@ class StateTable extends Table
 
 		if (trim($this->title) === '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
 
 			return false;
 		}
@@ -124,7 +125,7 @@ class StateTable extends Table
 		{
 			if ((int) $this->published !== 1)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
@@ -146,7 +147,7 @@ class StateTable extends Table
 			{
 				$this->default = '1';
 
-				$this->setError(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'));
+				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
 			}

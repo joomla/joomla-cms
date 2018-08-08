@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Workflows view class for the Workflow package.
@@ -150,7 +151,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
+			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
