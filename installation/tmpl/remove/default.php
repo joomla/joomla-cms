@@ -109,7 +109,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 			</legend>
 			<div class="j-install-step-form">
 				<?php if (!$this->items) : ?>
-				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET') ?></p>
+				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
 				<p>
 					<a href="#"
 							class="btn btn-primary"
@@ -118,11 +118,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 						<?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 					</a>
 				</p>
-				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2') ?></p>
+				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
 			<?php else : ?>
 			<form action="index.php" method="post" id="languagesForm" class="form-validate">
 				<p id="wait_installing" style="display: none;">
-					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br>
+					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
 				<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 				</p>
 				<table class="table table-sm">
