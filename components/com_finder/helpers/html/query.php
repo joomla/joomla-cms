@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
  * Query HTML behavior class for Finder.
@@ -83,10 +85,12 @@ abstract class JHtmlQuery
 			{
 				// Process the taxonomy nodes.
 				$lang = JFactory::getLanguage();
+
 				foreach ($nodes as $title => $id)
 				{
 					// Translate the title for Types
 					$key = FinderHelperLanguage::branchPlural($title);
+
 					if ($lang->hasKey($key))
 					{
 						$title = JText::_($key);

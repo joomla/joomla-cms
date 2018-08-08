@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,20 +11,25 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use InvalidArgumentException;
-use JFactory;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Application\InstallationApplication;
+use Joomla\CMS\Session\SessionFactory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
-use Joomla\Session\Storage\RuntimeStorage;
-use Joomla\CMS\Session\Validator\AddressValidator;
-use Joomla\CMS\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Session\Handler;
-use Memcache;
-use Memcached;
-use Redis;
-use RuntimeException;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Registry\Registry;
+use Joomla\Session\SessionEvents;
+use Joomla\Session\SessionInterface;
+use Joomla\Session\Storage\RuntimeStorage;
+use Joomla\Session\StorageInterface;
+use Joomla\Session\Validator\AddressValidator;
+use Joomla\Session\Validator\ForwardedValidator;
 
 /**
  * Service provider for the application's session dependency
@@ -44,185 +49,177 @@ class Session implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('session', 'Joomla\Session\SessionInterface')
-			->alias('JSession', 'Joomla\Session\SessionInterface')
-			->alias('Joomla\Session\Session', 'Joomla\Session\SessionInterface')
+		$container->share(
+			'session.web.administrator',
+			function (Container $container)
+			{
+				/** @var Registry $config */
+				$config = $container->get('config');
+				$app    = Factory::getApplication();
+
+				// Generate a session name.
+				$name = ApplicationHelper::getHash($config->get('session_name', AdministratorApplication::class));
+
+				// Calculate the session lifetime.
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
+
+				// Initialize the options for the Session object.
+				$options = [
+					'name'   => $name,
+					'expire' => $lifetime,
+				];
+
+				if ($config->get('force_ssl') >= 1)
+				{
+					$options['force_ssl'] = true;
+				}
+
+				return $this->buildSession(
+					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					$app,
+					$container->get(DispatcherInterface::class),
+					$options
+				);
+			},
+			true
+		);
+
+		$container->share(
+			'session.web.installation',
+			function (Container $container)
+			{
+				/** @var Registry $config */
+				$config = $container->get('config');
+				$app    = Factory::getApplication();
+
+				// Generate a session name.
+				$name = ApplicationHelper::getHash($config->get('session_name', InstallationApplication::class));
+
+				// Calculate the session lifetime.
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
+
+				// Initialize the options for the Session object.
+				$options = [
+					'name'   => $name,
+					'expire' => $lifetime,
+				];
+
+				return $this->buildSession(
+					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					$app,
+					$container->get(DispatcherInterface::class),
+					$options
+				);
+			},
+			true
+		);
+
+		$container->share(
+			'session.web.site',
+			function (Container $container)
+			{
+				/** @var Registry $config */
+				$config = $container->get('config');
+				$app    = Factory::getApplication();
+
+				// Generate a session name.
+				$name = ApplicationHelper::getHash($config->get('session_name', SiteApplication::class));
+
+				// Calculate the session lifetime.
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
+
+				// Initialize the options for the Session object.
+				$options = [
+					'name'   => $name,
+					'expire' => $lifetime,
+				];
+
+				if ($config->get('force_ssl') == 2)
+				{
+					$options['force_ssl'] = true;
+				}
+
+				return $this->buildSession(
+					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					$app,
+					$container->get(DispatcherInterface::class),
+					$options
+				);
+			},
+			true
+		);
+
+		$container->share(
+			'session.cli',
+			function (Container $container)
+			{
+				/** @var Registry $config */
+				$config = $container->get('config');
+				$app    = Factory::getApplication();
+
+				// Generate a session name.
+				$name = ApplicationHelper::getHash($config->get('session_name', ConsoleApplication::class));
+
+				// Calculate the session lifetime.
+				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
+
+				// Initialize the options for the Session object.
+				$options = [
+					'name'   => $name,
+					'expire' => $lifetime,
+				];
+
+				// Unlike the web apps, we will only toggle the force SSL setting based on it being enabled and not based on client
+				if ($config->get('force_ssl') >= 1)
+				{
+					$options['force_ssl'] = true;
+				}
+
+				return $this->buildSession(new RuntimeStorage, $app, $container->get(DispatcherInterface::class), $options);
+			},
+			true
+		);
+
+		$container->alias(SessionFactory::class, 'session.factory')
 			->share(
-				'Joomla\Session\SessionInterface',
+				'session.factory',
 				function (Container $container)
 				{
-					$config = JFactory::getConfig();
-					$app    = JFactory::getApplication();
+					$factory = new SessionFactory;
+					$factory->setContainer($container);
 
-					// Generate a session name.
-					$name = ApplicationHelper::getHash($config->get('session_name', get_class($app)));
-
-					// Calculate the session lifetime.
-					$lifetime = (($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900);
-
-					// Initialize the options for the Session object.
-					$options = array(
-						'name'   => $name,
-						'expire' => $lifetime
-					);
-
-					if ($app->isClient('site') && $config->get('force_ssl') == 2)
-					{
-						$options['force_ssl'] = true;
-					}
-
-					if ($app->isClient('administrator') && $config->get('force_ssl') >= 1)
-					{
-						$options['force_ssl'] = true;
-					}
-
-					// Set up the storage handler
-					$handlerType = $config->get('session_handler', 'filesystem');
-
-					switch ($handlerType)
-					{
-						case 'apc':
-							if (!Handler\ApcHandler::isSupported())
-							{
-								throw new RuntimeException('APC is not supported on this system.');
-							}
-
-							$handler = new Handler\ApcHandler;
-
-							break;
-
-						case 'apcu':
-							if (!Handler\ApcuHandler::isSupported())
-							{
-								throw new RuntimeException('APCu is not supported on this system.');
-							}
-
-							$handler = new Handler\ApcuHandler;
-
-							break;
-
-						case 'database':
-							$handler = new Handler\DatabaseHandler(JFactory::getDbo());
-
-							break;
-
-						case 'filesystem':
-						case 'none':
-							$path = $config->get('session_filesystem_path', '');
-
-							// If no path is given, fall back to the system's temporary directory
-							if (empty($path))
-							{
-								$path = sys_get_temp_dir();
-							}
-
-							$handler = new Handler\FilesystemHandler($path);
-
-							break;
-
-						case 'memcached':
-							if (!Handler\MemcachedHandler::isSupported())
-							{
-								throw new RuntimeException('Memcached is not supported on this system.');
-							}
-
-							$host = $config->get('session_memcached_server_host', 'localhost');
-							$port = $config->get('session_memcached_server_port', 11211);
-
-							$memcached = new Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
-							$memcached->addServer($host, $port);
-
-							$handler = new Handler\MemcachedHandler($memcached, array('ttl' => $lifetime));
-
-							ini_set('session.save_path', "$host:$port");
-							ini_set('session.save_handler', 'memcached');
-
-							break;
-
-						case 'memcache':
-							if (!Handler\MemcacheHandler::isSupported())
-							{
-								throw new RuntimeException('Memcache is not supported on this system.');
-							}
-
-							$host = $config->get('session_memcache_server_host', 'localhost');
-							$port = $config->get('session_memcache_server_port', 11211);
-
-							$memcache = new Memcache($config->get('session_memcache_server_id', 'joomla_cms'));
-							$memcache->addserver($host, $port);
-
-							$handler = new Handler\MemcacheHandler($memcache, array('ttl' => $lifetime));
-
-							ini_set('session.save_path', "$host:$port");
-							ini_set('session.save_handler', 'memcache');
-
-							break;
-
-						case 'redis':
-							if (!Handler\RedisHandler::isSupported())
-							{
-								throw new RuntimeException('Redis is not supported on this system.');
-							}
-
-							$redis = new Redis;
-							$redis->connect(
-								$config->get('session_redis_server_host', '127.0.0.1'),
-								$config->get('session_redis_server_port', 6379)
-							);
-
-							$handler = new Handler\RedisHandler($redis, array('ttl' => $lifetime));
-
-							break;
-
-						case 'wincache':
-							if (!Handler\WincacheHandler::isSupported())
-							{
-								throw new RuntimeException('Wincache is not supported on this system.');
-							}
-
-							$handler = new Handler\WincacheHandler;
-
-							break;
-
-						case 'xcache':
-							if (!Handler\XCacheHandler::isSupported())
-							{
-								throw new RuntimeException('XCache is not supported on this system.');
-							}
-
-							$handler = new Handler\XCacheHandler;
-
-							break;
-
-						default:
-							throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
-					}
-
-					$input = $app->input;
-
-					if ($app->isClient('cli'))
-					{
-						$storage = new RuntimeStorage;
-					}
-					else
-					{
-						$storage = new JoomlaStorage($input, $handler);
-					}
-
-					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
-
-					if (method_exists($app, 'afterSessionStart'))
-					{
-						$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
-					}
-
-					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
-					$session->addValidator(new AddressValidator($input, $session));
-					$session->addValidator(new ForwardedValidator($input, $session));
-
-					return $session;
+					return $factory;
 				},
 				true
 			);
+	}
+
+	/**
+	 * Build the root session service
+	 *
+	 * @param   StorageInterface         $storage     The session storage engine.
+	 * @param   CMSApplicationInterface  $app         The application instance.
+	 * @param   DispatcherInterface      $dispatcher  The event dispatcher.
+	 * @param   array                    $options     The configured session options.
+	 *
+	 * @return  SessionInterface
+	 *
+	 * @since   4.0
+	 */
+	private function buildSession(StorageInterface $storage, CMSApplicationInterface $app, DispatcherInterface $dispatcher,
+		array $options): SessionInterface
+	{
+		$input = $app->input;
+
+		if (method_exists($app, 'afterSessionStart'))
+		{
+			$dispatcher->addListener(SessionEvents::START, [$app, 'afterSessionStart']);
+		}
+
+		$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
+		$session->addValidator(new AddressValidator($input, $session));
+		$session->addValidator(new ForwardedValidator($input, $session));
+
+		return $session;
 	}
 }

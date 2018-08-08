@@ -3,24 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Model for the display of system information.
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseModel
+class SysInfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings
@@ -115,7 +119,6 @@ class SysInfoModel extends BaseModel
 			'live_site',
 			'log_path',
 			'mailfrom',
-			'memcache_server_host',
 			'memcached_server_host',
 			'open_basedir',
 			'Origin',
@@ -127,7 +130,6 @@ class SysInfoModel extends BaseModel
 			'secret',
 			'sendmail',
 			'session.save_path',
-			'session_memcache_server_host',
 			'session_memcached_server_host',
 			'session_redis_server_host',
 			'session_redis_server_auth',
@@ -244,11 +246,10 @@ class SysInfoModel extends BaseModel
 		}
 
 		$this->php_settings = array(
-			'safe_mode'          => ini_get('safe_mode') == '1',
 			'display_errors'     => ini_get('display_errors') == '1',
 			'short_open_tag'     => ini_get('short_open_tag') == '1',
 			'file_uploads'       => ini_get('file_uploads') == '1',
-			'output_buffering'   => (bool) ini_get('output_buffering'),
+			'output_buffering'   => (int) ini_get('output_buffering') !== 0,
 			'open_basedir'       => ini_get('open_basedir'),
 			'session.save_path'  => ini_get('session.save_path'),
 			'session.auto_start' => ini_get('session.auto_start'),
@@ -258,7 +259,6 @@ class SysInfoModel extends BaseModel
 			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'           => extension_loaded('mbstring'),
 			'iconv'              => function_exists('iconv'),
-			'mcrypt'             => extension_loaded('mcrypt'),
 			'max_input_vars'     => ini_get('max_input_vars'),
 		);
 
@@ -309,14 +309,15 @@ class SysInfoModel extends BaseModel
 
 		$this->info = array(
 			'php'                   => php_uname(),
+			'dbserver'		=> $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => PHP_VERSION,
-			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => PHP_SAPI,
+			'phpversion'            => phpversion(),
+			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
+			'sapi_name'             => php_sapi_name(),
 			'version'               => (new Version)->getLongVersion(),
-			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
 
 		return $this->info;
@@ -376,7 +377,7 @@ class SysInfoModel extends BaseModel
 	{
 		if (!$this->phpinfoEnabled())
 		{
-			$this->php_info = \JText::_('COM_ADMIN_PHPINFO_DISABLED');
+			$this->php_info = Text::_('COM_ADMIN_PHPINFO_DISABLED');
 
 			return $this->php_info;
 		}
@@ -392,7 +393,7 @@ class SysInfoModel extends BaseModel
 		$phpInfo = ob_get_contents();
 		ob_end_clean();
 		preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-		$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
+		$output = preg_replace('#<table[^>]*>#', '<table class="table adminlist">', $output[1][0]);
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
 		$output = str_replace('<div class="text-center">', '', $output);
@@ -436,7 +437,7 @@ class SysInfoModel extends BaseModel
 	public function getExtensions()
 	{
 		$installed = array();
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__extensions'));
@@ -450,12 +451,12 @@ class SysInfoModel extends BaseModel
 		{
 			try
 			{
-				\JLog::add(\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
 			}
 			catch (\RuntimeException $exception)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
 					'warning'
 				);
 			}
@@ -478,7 +479,7 @@ class SysInfoModel extends BaseModel
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
-				'state'        => $extension->enabled ? \JText::_('JENABLED') : \JText::_('JDISABLED'),
+				'state'        => $extension->enabled ? Text::_('JENABLED') : Text::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
@@ -518,7 +519,7 @@ class SysInfoModel extends BaseModel
 
 		$this->directories = array();
 
-		$registry = \JFactory::getApplication()->getConfig();
+		$registry = Factory::getApplication()->getConfig();
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
@@ -623,9 +624,10 @@ class SysInfoModel extends BaseModel
 		}
 		else
 		{
-			$this->addDirectory('cache', JPATH_SITE . '/cache', 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 		}
+
+		$this->addDirectory('media/cache', JPATH_ROOT . '/media/cache', 'COM_ADMIN_MEDIA_CACHE_DIRECTORY');
 
 		if ($public)
 		{
@@ -688,7 +690,7 @@ class SysInfoModel extends BaseModel
 			return $this->editor;
 		}
 
-		$this->editor = \JFactory::getApplication()->get('editor');
+		$this->editor = Factory::getApplication()->get('editor');
 
 		return $this->editor;
 	}

@@ -1,0 +1,31 @@
+/**
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.selected {
+	background: #08c;
+	color: #fff;
+}
+.selected:hover,
+.selected:focus {
+	background: #08c !important;
+	color: #fff;
+}
+#deleteFolder {
+	margin: 0;
+}
+
+#image-crop {
+	max-width: 100% !important;
+	width: auto;
+	height: auto;
+}
+
+.tree-holder {
+	overflow-x: auto;
+}
+
+.treeselect a {
+	display: block;
+}

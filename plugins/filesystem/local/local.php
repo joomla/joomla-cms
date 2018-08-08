@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  FileSystem.Local
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\CMS\Language\Text;
 
 /**
  * FileSystem Local plugin.
  *
  * The plugin to deal with the local filesystem in Media Manager.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
@@ -26,7 +27,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -37,7 +38,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return   void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    4.0.0
 	 */
 	public function onSetupProviders(MediaProviderEvent $event)
 	{
@@ -49,7 +50,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getID()
 	{
@@ -61,11 +62,11 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getDisplayName()
 	{
-		return $this->params->get('display_name');
+		return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
 	}
 
 	/**
@@ -73,7 +74,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAdapters()
 	{
@@ -87,6 +88,9 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 			$directories = json_decode($directories);
 			list($directories) = $directories;
 		}
+
+		// TODO: This should be removed once there is proper support for namespaced plugins
+		JLoader::registerNamespace('\\Joomla\\Plugin\\Filesystem\\Local\\Adapter', __DIR__ . '/Adapter', false, true, 'psr4');
 
 		foreach ($directories as $directoryEntity)
 		{

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\MVC\
 JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\MVC\\Model\\FormModel', '5.0');
 JLoader::registerAlias('JModelItem',                        '\\Joomla\\CMS\\MVC\\Model\\ItemModel', '5.0');
 JLoader::registerAlias('JModelList',                        '\\Joomla\\CMS\\MVC\\Model\\ListModel', '5.0');
-JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\MVC\\Model\\BaseModel', '5.0');
+JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel', '5.0');
 JLoader::registerAlias('JViewCategories',                   '\\Joomla\\CMS\\MVC\\View\\CategoriesView', '5.0');
 JLoader::registerAlias('JViewCategory',                     '\\Joomla\\CMS\\MVC\\View\\CategoryView', '5.0');
 JLoader::registerAlias('JViewCategoryfeed',                 '\\Joomla\\CMS\\MVC\\View\\CategoryFeedView', '5.0');
@@ -84,6 +84,7 @@ JLoader::registerAlias('JLanguage',                         '\\Joomla\\CMS\\Lang
 JLoader::registerAlias('JLanguageHelper',                   '\\Joomla\\CMS\\Language\\LanguageHelper', '5.0');
 JLoader::registerAlias('JLanguageStemmer',                  '\\Joomla\\CMS\\Language\\LanguageStemmer', '5.0');
 JLoader::registerAlias('JLanguageMultilang',                '\\Joomla\\CMS\\Language\\Multilanguage', '5.0');
+JLoader::registerAlias('JText',                             '\\Joomla\\CMS\\Language\\Text', '5.0');
 JLoader::registerAlias('JLanguageTransliterate',            '\\Joomla\\CMS\\Language\\Transliterate', '5.0');
 JLoader::registerAlias('JLanguageStemmerPorteren',          '\\Joomla\\CMS\\Language\\Stemmer\\Porteren', '5.0');
 JLoader::registerAlias('JLanguageWrapperText',              '\\Joomla\\CMS\\Language\\Wrapper\\JTextWrapper', '4.0');
@@ -160,7 +161,6 @@ JLoader::registerAlias('JToolbarButtonLink',                '\\Joomla\\CMS\\Tool
 JLoader::registerAlias('JToolbarButtonPopup',               '\\Joomla\\CMS\\Toolbar\\Button\\PopupButton', '5.0');
 JLoader::registerAlias('JToolbarButtonSeparator',           '\\Joomla\\CMS\\Toolbar\\Button\\SeparatorButton', '5.0');
 JLoader::registerAlias('JToolbarButtonSlider',              '\\Joomla\\CMS\\Toolbar\\Button\\SliderButton', '5.0');
-JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '5.0');
 JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '5.0');
 JLoader::registerAlias('JToolbarHelper',                    '\\Joomla\\CMS\\Toolbar\\ToolbarHelper', '5.0');
 JLoader::registerAlias('JButton',                           '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '5.0');
@@ -276,15 +276,12 @@ JLoader::registerAlias('JCacheControllerCallback',          '\\Joomla\\CMS\\Cach
 JLoader::registerAlias('JCacheControllerOutput',            '\\Joomla\\CMS\\Cache\\Controller\\OutputController', '5.0');
 JLoader::registerAlias('JCacheControllerPage',              '\\Joomla\\CMS\\Cache\\Controller\\PageController', '5.0');
 JLoader::registerAlias('JCacheControllerView',              '\\Joomla\\CMS\\Cache\\Controller\\ViewController', '5.0');
-JLoader::registerAlias('JCacheStorageApc',                  '\\Joomla\\CMS\\Cache\\Storage\\ApcStorage', '5.0');
 JLoader::registerAlias('JCacheStorageApcu',                 '\\Joomla\\CMS\\Cache\\Storage\\ApcuStorage', '5.0');
 JLoader::registerAlias('JCacheStorageHelper',               '\\Joomla\\CMS\\Cache\\Storage\\CacheStorageHelper', '5.0');
 JLoader::registerAlias('JCacheStorageFile',                 '\\Joomla\\CMS\\Cache\\Storage\\FileStorage', '5.0');
 JLoader::registerAlias('JCacheStorageMemcached',            '\\Joomla\\CMS\\Cache\\Storage\\MemcachedStorage', '5.0');
-JLoader::registerAlias('JCacheStorageMemcache',             '\\Joomla\\CMS\\Cache\\Storage\\MemcacheStorage', '5.0');
 JLoader::registerAlias('JCacheStorageRedis',                '\\Joomla\\CMS\\Cache\\Storage\\RedisStorage', '5.0');
 JLoader::registerAlias('JCacheStorageWincache',             '\\Joomla\\CMS\\Cache\\Storage\\WincacheStorage', '5.0');
-JLoader::registerAlias('JCacheStorageXcache',               '\\Joomla\\CMS\\Cache\\Storage\\XcacheStorage', '5.0');
 JLoader::registerAlias('JCacheException',                   '\\Joomla\\CMS\\Cache\\Exception\\CacheExceptionInterface', '5.0');
 JLoader::registerAlias('JCacheExceptionConnecting',         '\\Joomla\\CMS\\Cache\\Exception\\CacheConnectingException', '5.0');
 JLoader::registerAlias('JCacheExceptionUnsupported',        '\\Joomla\\CMS\\Cache\\Exception\\UnsupportedCacheException', '5.0');
@@ -413,14 +410,6 @@ JLoader::registerAlias('JDatabaseExporterPostgresql',       '\\Joomla\\Database\
 JLoader::registerAlias('JDatabaseImporterMysqli',           '\\Joomla\\Database\\Mysqli\\MysqliImporter', '5.0');
 JLoader::registerAlias('JDatabaseImporterPdomysql',         '\\Joomla\\Database\\Mysql\\MysqlImporter', '5.0');
 JLoader::registerAlias('JDatabaseImporterPostgresql',       '\\Joomla\\Database\\Postgresql\\PostgresqlImporter', '5.0');
-JLoader::registerAlias('JDatabaseIteratorMysqli',           '\\Joomla\\Database\\Mysqli\\MysqliIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorOracle',           '\\Joomla\\Database\\Oracle\\OracleIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorPdo',              '\\Joomla\\Database\\Pdo\\PdoIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorPdomysql',         '\\Joomla\\Database\\Mysql\\MysqlIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorPostgresql',       '\\Joomla\\Database\\Postgresql\\PostgresqlIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorSqlazure',         '\\Joomla\\Database\\Sqlazure\\SqlazureIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorSqlite',           '\\Joomla\\Database\\Sqlite\\SqliteIterator', '5.0');
-JLoader::registerAlias('JDatabaseIteratorSqlsrv',           '\\Joomla\\Database\\Sqlsrv\\SqlsrvIterator', '5.0');
 JLoader::registerAlias('JDatabaseQueryElement',             '\\Joomla\\Database\\Query\\QueryElement', '5.0');
 JLoader::registerAlias('JDatabaseQueryLimitable',           '\\Joomla\\Database\\Query\\LimitableInterface', '5.0');
 JLoader::registerAlias('JDatabaseQueryPreparable',          '\\Joomla\\Database\\Query\\PreparableInterface', '5.0');
@@ -496,3 +485,31 @@ JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Obje
 JLoader::registerAlias('JExtensionHelper',                  '\\Joomla\\CMS\\Extension\\ExtensionHelper', '5.0');
 
 JLoader::registerAlias('JHtml',                             '\\Joomla\\CMS\\HTML\\HTMLHelper', '5.0');
+
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliInput',       '\\Joomla\\CMS\\Application\\CLI\\CliInput', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliOutput',      '\\Joomla\\CMS\\Application\\CLI\\CliOutput', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\ColorStyle',     '\\Joomla\\CMS\\Application\\CLI\\ColorStyle', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Stdout', '\\Joomla\\CMS\\Application\\CLI\\Output\\Stdout', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Xml',    '\\Joomla\\CMS\\Application\\CLI\\Output\\Xml', '5.0');
+JLoader::registerAlias(
+	'\\Joomla\\Application\\Cli\\Output\\Processor\\ColorProcessor',
+	'\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ColorProcessor',
+	'5.0'
+);
+JLoader::registerAlias(
+	'\\Joomla\\Application\\Cli\\Output\\Processor\\ProcessorInterface',
+	'\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ProcessorInterface',
+	'5.0'
+);
+
+JLoader::registerAlias('JFile',                             '\\Joomla\\CMS\\Filesystem\\File', '5.0');
+JLoader::registerAlias('JFolder',                           '\\Joomla\\CMS\\Filesystem\\Folder', '5.0');
+JLoader::registerAlias('JFilesystemHelper',                 '\\Joomla\\CMS\\Filesystem\\FilesystemHelper', '5.0');
+JLoader::registerAlias('JFilesystemPatcher',                '\\Joomla\\CMS\\Filesystem\\Patcher', '5.0');
+JLoader::registerAlias('JPath',                             '\\Joomla\\CMS\\Filesystem\\Path', '5.0');
+JLoader::registerAlias('JStream',                           '\\Joomla\\CMS\\Filesystem\\Stream', '5.0');
+JLoader::registerAlias('JStreamString',                     '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString', '5.0');
+JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '5.0');
+JLoader::registerAlias('JFilesystemWrapperFile',            '\\Joomla\\CMS\\Filesystem\\Wrapper\\FileWrapper', '5.0');
+JLoader::registerAlias('JFilesystemWrapperFolder',          '\\Joomla\\CMS\\Filesystem\\Wrapper\\FolderWrapper', '5.0');
+JLoader::registerAlias('JFilesystemWrapperPath',            '\\Joomla\\CMS\\Filesystem\\Wrapper\\PathWrapper', '5.0');

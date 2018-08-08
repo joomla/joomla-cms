@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,7 @@ class ClientWrapper
 	 *
 	 * @param   string  $client  The name of the client.
 	 *
-	 * @return  mixed  True, if FTP settings; JError if using legacy tree
+	 * @return  boolean  True, if FTP settings
 	 *
 	 * @see     UserHelper::setCredentialsFromRequest()
 	 * @since   3.4

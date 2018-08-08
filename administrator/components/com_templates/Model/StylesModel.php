@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Templates\Administrator\Model;
@@ -27,7 +27,7 @@ class StylesModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -178,7 +178,8 @@ class StylesModel extends ListModel
 					$db->quoteName('a.home') . ' IN (' . $menuItemLanguageSubQuery . ') OR ' .
 					// Custom template styles override (only if assigned to the selected menu item).
 					'(' . $db->quoteName('a.home') . ' = ' . $db->quote(0) . ' AND ' . $menuItemId . ' IN (' . $templateStylesMenuItemsSubQuery . '))' .
-				')');
+					')'
+				);
 			}
 		}
 

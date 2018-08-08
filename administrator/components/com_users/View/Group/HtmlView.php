@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\View\Group;
@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * View to edit a user group.
@@ -38,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 * @since 1.6
 	 */
 	protected $state;
@@ -72,15 +76,16 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = ContentHelper::getActions('com_users');
 
-		\JToolbarHelper::title(\JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'users groups-add');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'users groups-add');
 
 		$toolbarButtons = [];
 
@@ -101,21 +106,21 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'group.save2copy'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('group.cancel');
+			ToolbarHelper::cancel('group.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_USERS_GROUPS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_USERS_GROUPS_EDIT');
 	}
 }

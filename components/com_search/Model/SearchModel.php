@@ -3,23 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Search\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Search Component Search Model
  *
  * @since  1.5
  */
-class SearchModel extends BaseModel
+class SearchModel extends BaseDatabaseModel
 {
 	/**
 	 * Search data array
@@ -59,8 +60,8 @@ class SearchModel extends BaseModel
 		parent::__construct();
 
 		// Get configuration
-		$app    = \JFactory::getApplication();
-		$config = \JFactory::getConfig();
+		$app    = Factory::getApplication();
+		$config = Factory::getConfig();
 
 		// Get the pagination request variables
 		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
@@ -142,7 +143,7 @@ class SearchModel extends BaseModel
 			$areas = $this->getAreas();
 
 			PluginHelper::importPlugin('search');
-			$results = \JFactory::getApplication()->triggerEvent('onContentSearch', array(
+			$results = Factory::getApplication()->triggerEvent('onContentSearch', array(
 				$this->getState('keyword'),
 				$this->getState('match'),
 				$this->getState('ordering'),
@@ -230,7 +231,7 @@ class SearchModel extends BaseModel
 			$areas = array();
 
 			PluginHelper::importPlugin('search');
-			$searchareas = \JFactory::getApplication()->triggerEvent('onContentSearchAreas');
+			$searchareas = Factory::getApplication()->triggerEvent('onContentSearchAreas');
 
 			foreach ($searchareas as $area)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Modules\Administrator\Model;
@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Modules Component Module Model
@@ -72,7 +74,7 @@ class ModulesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.position', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$layout = $app->input->get('layout', '', 'cmd');
 
@@ -106,6 +108,7 @@ class ModulesModel extends ListModel
 		if ($app->isClient('site') || $layout === 'modal')
 		{
 			$this->setState('client_id', 0);
+			$clientId = 0;
 		}
 		else
 		{
@@ -184,6 +187,7 @@ class ModulesModel extends ListModel
 			// Process pagination.
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
+
 			if ($total < $limitstart)
 			{
 				$limitstart = 0;
@@ -227,7 +231,7 @@ class ModulesModel extends ListModel
 	 */
 	protected function translate(&$items)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		foreach ($items as $item)
@@ -236,23 +240,23 @@ class ModulesModel extends ListModel
 			$source = $clientPath . "/modules/$extension";
 			$lang->load("$extension.sys", $clientPath, null, false, true)
 				|| $lang->load("$extension.sys", $source, null, false, true);
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 
 			if (is_null($item->pages))
 			{
-				$item->pages = \JText::_('JNONE');
+				$item->pages = Text::_('JNONE');
 			}
 			elseif ($item->pages < 0)
 			{
-				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
+				$item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
 			}
 			elseif ($item->pages > 0)
 			{
-				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
+				$item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
 			}
 			else
 			{
-				$item->pages = \JText::_('JALL');
+				$item->pages = Text::_('JALL');
 			}
 		}
 	}
@@ -303,14 +307,24 @@ class ModulesModel extends ListModel
 
 		// Group (careful with PostgreSQL)
 		$query->group(
-				'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, ' .
-					'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name, ' .
-					'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down, e.enabled'
-			);
+			'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, '
+			. 'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name, '
+			. 'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down, e.enabled'
+		);
 
 		// Filter by client.
 		$clientId = $this->getState('client_id');
 		$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
+
+		// Filter by current user access level.
+		$user = Factory::getUser();
+
+		// Get the current user for authorisation checks
+		if ($user->authorise('core.admin') !== true)
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
+		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -320,6 +334,7 @@ class ModulesModel extends ListModel
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');
+
 		if (is_numeric($state))
 		{
 			$query->where($db->quoteName('a.published') . ' = ' . (int) $state);
@@ -375,12 +390,14 @@ class ModulesModel extends ListModel
 					(' . $subQuery1 . ') = 0
 					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
 					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-					)');
+					)'
+				);
 			}
 		}
 
 		// Filter by search in title or note or id:.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -399,7 +416,7 @@ class ModulesModel extends ListModel
 		{
 			if ($language === 'current')
 			{
-				$query->where($db->quoteName('a.language') . ' IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$query->where($db->quoteName('a.language') . ' IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 			else
 			{

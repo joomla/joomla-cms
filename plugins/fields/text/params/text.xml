@@ -21,7 +21,7 @@
 
 			<field
 				name="maxlength"
-				type="text"
+				type="number"
 				label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
 				filter="integer"
 			/>

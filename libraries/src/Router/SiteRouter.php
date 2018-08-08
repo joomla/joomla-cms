@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,12 @@ namespace Joomla\CMS\Router;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\Cms\Uri\Uri as JUri;
+use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 
 /**
@@ -58,7 +60,7 @@ class SiteRouter extends Router
 	 */
 	public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
 	{
-		$this->app  = $app ?: CMSApplication::getInstance('site');
+		$this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
 		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules
@@ -98,7 +100,7 @@ class SiteRouter extends Router
 	 * Force to SSL
 	 *
 	 * @param   Router  &$router  Router object
-	 * @param   JUri    &$uri     URI object to process
+	 * @param   Uri     &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -118,7 +120,7 @@ class SiteRouter extends Router
 	 * Do some initial cleanup before parsing the URL
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -137,7 +139,7 @@ class SiteRouter extends Router
 		 */
 		try
 		{
-			$baseUri = \JUri::base(true);
+			$baseUri = Uri::base(true);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -171,7 +173,7 @@ class SiteRouter extends Router
 	 * Parse the format of the request
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -194,7 +196,7 @@ class SiteRouter extends Router
 	 * Convert a sef route to an internal URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -329,7 +331,7 @@ class SiteRouter extends Router
 	 * Convert a raw route to an internal URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -371,7 +373,7 @@ class SiteRouter extends Router
 	 * Convert limits for pagination
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -391,7 +393,7 @@ class SiteRouter extends Router
 	 * Do some initial processing for building a URL
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -421,7 +423,7 @@ class SiteRouter extends Router
 	 * Run the component preprocess method
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -457,7 +459,7 @@ class SiteRouter extends Router
 	 * Build the SEF route
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -465,9 +467,6 @@ class SiteRouter extends Router
 	 */
 	public function buildSefRoute(&$router, &$uri)
 	{
-		// Get the route
-		$route = $uri->getPath();
-
 		// Get the query data
 		$query = $uri->getQuery(true);
 
@@ -476,37 +475,32 @@ class SiteRouter extends Router
 			return;
 		}
 
+		// Get Menu Item
+		$item = empty($query['Itemid']) ? null : $this->menu->getItem($query['Itemid']);
+
 		// Build the component route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$tmp       = trim(implode('/', $parts));
 
-		if (empty($query['Itemid']) && !empty($itemID))
-		{
-			$query['Itemid'] = $itemID;
-		}
-
 		// Build the application route
-		if (isset($query['Itemid']) && $item = $this->menu->getItem($query['Itemid']))
+		if ($item !== null && $query['option'] === $item->component)
 		{
-			if (is_object($item) && $query['option'] === $item->component)
+			if (!$item->home)
 			{
-				if (!$item->home)
-				{
-					$tmp = !empty($tmp) ? $item->route . '/' . $tmp : $item->route;
-				}
-
-				unset($query['Itemid']);
+				$tmp = $item->route . '/' . $tmp;
 			}
+
+			unset($query['Itemid']);
 		}
 		else
 		{
 			$tmp = 'component/' . substr($query['option'], 4) . '/' . $tmp;
 		}
 
-		$route .= '/' . $tmp;
+		// Get the route
+		$route = $uri->getPath() . '/' . $tmp;
 
 		// Unset unneeded query information
 		unset($query['option']);
@@ -520,7 +514,7 @@ class SiteRouter extends Router
 	 * Convert limits for pagination
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -539,7 +533,7 @@ class SiteRouter extends Router
 	 * Build the format of the request
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -562,7 +556,7 @@ class SiteRouter extends Router
 	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -590,7 +584,7 @@ class SiteRouter extends Router
 	 * Add the basepath to the URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -599,7 +593,7 @@ class SiteRouter extends Router
 	public function buildBase(&$router, &$uri)
 	{
 		// Add basepath to the uri
-		$uri->setPath(JUri::base(true) . '/' . $uri->getPath());
+		$uri->setPath(Uri::base(true) . '/' . $uri->getPath());
 	}
 
 	/**

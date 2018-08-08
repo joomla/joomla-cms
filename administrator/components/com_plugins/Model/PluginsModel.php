@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Plugins\Administrator\Model;
@@ -14,6 +14,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of plugin records.
@@ -28,7 +30,7 @@ class PluginsModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -182,7 +184,7 @@ class PluginsModel extends ListModel
 	 */
 	protected function translate(&$items)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($items as &$item)
 		{
@@ -190,7 +192,7 @@ class PluginsModel extends ListModel
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
 			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
 				|| $lang->load($extension . '.sys', $source, null, false, true);
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 		}
 	}
 

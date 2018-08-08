@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Search\Site\Controller;
@@ -11,6 +11,8 @@ namespace Joomla\Component\Search\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Search Component Controller
@@ -50,7 +52,7 @@ class DisplayController extends BaseController
 	{
 		// Slashes cause errors, <> get stripped anyway later on. # causes problems.
 		$badchars = array('#', '>', '<', '\\');
-		$searchword = trim(str_replace($badchars, '', $this->input->getString('searchword', null, 'post')));
+		$searchword = trim(str_replace($badchars, '', $this->input->post->getString('searchword')));
 
 		// If searchword enclosed in double quotes, strip quotes and do exact match
 		if (substr($searchword, 0, 1) === '"' && substr($searchword, -1) === '"')
@@ -63,9 +65,9 @@ class DisplayController extends BaseController
 			$post['searchword'] = $searchword;
 		}
 
-		$post['ordering']     = $this->input->getWord('ordering', null, 'post');
-		$post['searchphrase'] = $this->input->getWord('searchphrase', 'all', 'post');
-		$post['limit']        = $this->input->getUInt('limit', null, 'post');
+		$post['ordering']     = $this->input->post->getWord('ordering');
+		$post['searchphrase'] = $this->input->post->getWord('searchphrase', 'all');
+		$post['limit']        = $this->input->post->getUInt('limit');
 
 		if ($post['limit'] === null)
 		{
@@ -104,10 +106,10 @@ class DisplayController extends BaseController
 
 		unset($post['task'], $post['submit']);
 
-		$uri = \JUri::getInstance();
+		$uri = Uri::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 
-		$this->setRedirect(\JRoute::_('index.php' . $uri->toString(array('query', 'fragment')), false));
+		$this->setRedirect(Route::_('index.php' . $uri->toString(array('query', 'fragment')), false));
 	}
 }

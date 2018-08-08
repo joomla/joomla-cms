@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,13 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Prototype admin model.
@@ -23,6 +30,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class AdminModel extends FormModel
 {
+	/**
+	 * The type alias for this content type (for example, 'com_content.article').
+	 *
+	 * @var    string
+	 * @since  3.8.6
+	 */
+	public $typeAlias;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -101,17 +116,66 @@ abstract class AdminModel extends FormModel
 	protected $associationsContext = null;
 
 	/**
-	 * Constructor
+	 * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
 	 *
-	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @var     object
+	 * @since   3.8.2
+	 */
+	protected $batchSet = null;
+
+	/**
+	 * The user performing the actions (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   3.8.2
+	 */
+	protected $user = null;
+
+	/**
+	 * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     Table
+	 * @since   3.8.2
+	 */
+	protected $table = null;
+
+	/**
+	 * The class name of the JTable instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 *
+	 * @var     string
+	 * @since   3.8.2
+	 */
+	protected $tableClassName = null;
+
+	/**
+	 * UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   3.8.2
+	 */
+	protected $contentType = null;
+
+	/**
+	 * DB data of UCM Type corresponding to the current model class (re-usable in batch action methods, initialized via initBatch())
+	 *
+	 * @var     object
+	 * @since   3.8.2
+	 */
+	protected $type = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $formFactory);
 
 		if (isset($config['event_after_delete']))
 		{
@@ -205,26 +269,15 @@ abstract class AdminModel extends FormModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('JGLOBAL_NO_ITEM_SELECTED'));
 
 			return false;
 		}
 
 		$done = false;
 
-		// Set some needed variables.
-		$this->user = \JFactory::getUser();
-		$this->table = $this->getTable();
-		$this->tableClassName = get_class($this->table);
-		$this->contentType = new \JUcmType;
-		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->batchSet = true;
-
-		if ($this->type == false)
-		{
-			$type = new \JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-		}
+		// Initialize re-usable member properties
+		$this->initBatch();
 
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
@@ -240,6 +293,7 @@ abstract class AdminModel extends FormModel
 					{
 						$contexts[$new] = $contexts[$old];
 					}
+
 					$pks = array_values($result);
 				}
 				else
@@ -270,7 +324,7 @@ abstract class AdminModel extends FormModel
 
 		if (!$done)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 
 			return false;
 		}
@@ -294,15 +348,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		foreach ($pks as $pk)
 		{
@@ -321,7 +368,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -346,15 +393,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		$categoryId = $value;
 
@@ -386,7 +426,7 @@ abstract class AdminModel extends FormModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -461,15 +501,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		foreach ($pks as $pk)
 		{
@@ -488,7 +521,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -513,15 +546,8 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
-		if (empty($this->batchSet))
-		{
-			// Set some needed variables.
-			$this->user = \JFactory::getUser();
-			$this->table = $this->getTable();
-			$this->tableClassName = get_class($this->table);
-			$this->contentType = new \JUcmType;
-			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		}
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
 
 		$categoryId = (int) $value;
 
@@ -535,7 +561,7 @@ abstract class AdminModel extends FormModel
 		{
 			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -553,7 +579,7 @@ abstract class AdminModel extends FormModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -597,22 +623,21 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		// Set the variables
-		$user = \JFactory::getUser();
-		$table = $this->getTable();
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
+		$tags = array($value);
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$table->reset();
-				$table->load($pk);
-				$tags = array($value);
+				$this->table->reset();
+				$this->table->load($pk);
 
 				$setTagsEvent = \Joomla\CMS\Event\AbstractEvent::create(
-					'TableSetNewTags',
+					'onTableSetNewTags',
 					array(
-						'subject'     => $this,
+						'subject'     => $this->table,
 						'newTags'     => $tags,
 						'replaceTags' => false,
 					)
@@ -620,7 +645,7 @@ abstract class AdminModel extends FormModel
 
 				try
 				{
-					$table->getDispatcher()->dispatch($setTagsEvent);
+					$this->table->getDispatcher()->dispatch('onTableSetNewTags', $setTagsEvent);
 				}
 				catch (\RuntimeException $e)
 				{
@@ -631,7 +656,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -654,7 +679,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -668,7 +693,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -762,7 +787,7 @@ abstract class AdminModel extends FormModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the before delete event.
-					$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -772,7 +797,7 @@ abstract class AdminModel extends FormModel
 					}
 
 					// Multilanguage: if associated, delete the item in the _associations table
-					if ($this->associationsContext && \JLanguageAssociations::isEnabled())
+					if ($this->associationsContext && Associations::isEnabled())
 					{
 						$db = $this->getDbo();
 						$query = $db->getQuery(true)
@@ -811,7 +836,7 @@ abstract class AdminModel extends FormModel
 					}
 
 					// Trigger the after event.
-					\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 				else
 				{
@@ -821,13 +846,13 @@ abstract class AdminModel extends FormModel
 
 					if ($error)
 					{
-						\JLog::add($error, \JLog::WARNING, 'jerror');
+						Log::add($error, Log::WARNING, 'jerror');
 
 						return false;
 					}
 					else
 					{
-						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
 						return false;
 					}
@@ -877,7 +902,7 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  \JObject|boolean  Object on success, false on failure.
+	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -900,9 +925,9 @@ abstract class AdminModel extends FormModel
 			}
 		}
 
-		// Convert to the \JObject before adding other data.
+		// Convert to the CMSObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = ArrayHelper::toObject($properties, '\JObject');
+		$item = ArrayHelper::toObject($properties, CMSObject::class);
 
 		if (property_exists($item, 'params'))
 		{
@@ -940,11 +965,11 @@ abstract class AdminModel extends FormModel
 		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$pk = \JFactory::getApplication()->input->getInt($key);
+		$pk = Factory::getApplication()->input->getInt($key);
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.
-		$value = \JComponentHelper::getParams($this->option);
+		$value = ComponentHelper::getParams($this->option);
 		$this->setState('params', $value);
 	}
 
@@ -974,7 +999,7 @@ abstract class AdminModel extends FormModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -993,7 +1018,7 @@ abstract class AdminModel extends FormModel
 					// Prune items that you can't change.
 					unset($pks[$i]);
 
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1001,7 +1026,7 @@ abstract class AdminModel extends FormModel
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
 				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
 				{
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), Log::WARNING, 'jerror');
 
 					// Prune items that you can't change.
 					unset($pks[$i]);
@@ -1022,7 +1047,7 @@ abstract class AdminModel extends FormModel
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the change state event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
+		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
@@ -1070,7 +1095,7 @@ abstract class AdminModel extends FormModel
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->checkin($pk);
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 					$allowed = false;
 					continue;
 				}
@@ -1122,7 +1147,7 @@ abstract class AdminModel extends FormModel
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
-		if (is_array($data['tags']))
+		if (array_key_exists('tags', $data) && is_array($data['tags']))
 		{
 			$table->newTags = $data['tags'];
 		}
@@ -1164,7 +1189,7 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Trigger the before save event.
-			$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (in_array(false, $result, true))
 			{
@@ -1185,7 +1210,7 @@ abstract class AdminModel extends FormModel
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (\Exception $e)
 		{
@@ -1201,7 +1226,7 @@ abstract class AdminModel extends FormModel
 
 		$this->setState($this->getName() . '.new', $isNew);
 
-		if ($this->associationsContext && \JLanguageAssociations::isEnabled() && !empty($data['associations']))
+		if ($this->associationsContext && Associations::isEnabled() && !empty($data['associations']))
 		{
 			$associations = $data['associations'];
 
@@ -1220,8 +1245,8 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
+				Factory::getApplication()->enqueueMessage(
+					Text::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
 			}
@@ -1286,50 +1311,56 @@ abstract class AdminModel extends FormModel
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  boolean|\JException  Boolean true on success, false on failure, or \JException if no items are selected
+	 * @return  boolean  Boolean true on success, false on failure
 	 *
 	 * @since   1.6
 	 */
 	public function saveorder($pks = array(), $order = null)
 	{
-		$table = $this->getTable();
-		$tableClassName = get_class($table);
-		$contentType = new \JUcmType;
-		$type = $contentType->getTypeByTable($tableClassName);
+		// Initialize re-usable member properties
+		$this->initBatch();
+
 		$conditions = array();
 
 		if (empty($pks))
 		{
-			return \JFactory::getApplication()->enqueueMessage(\JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
+
+			return false;
 		}
 
-		$orderingField = $table->getColumnAlias('ordering');
+		$orderingField = $this->table->getColumnAlias('ordering');
 
 		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
-			$table->load((int) $pk);
+			$this->table->load((int) $pk);
 
 			// Access checks.
-			if (!$this->canEditState($table))
+			if (!$this->canEditState($this->table))
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+				Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 			}
-			elseif ($table->$orderingField != $order[$i])
+			elseif ($this->table->$orderingField != $order[$i])
 			{
-				$table->$orderingField = $order[$i];
+				$this->table->$orderingField = $order[$i];
 
-				if (!$table->store())
+				if ($this->type)
 				{
-					$this->setError($table->getError());
+					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+				}
+
+				if (!$this->table->store())
+				{
+					$this->setError($this->table->getError());
 
 					return false;
 				}
 
 				// Remember to reorder within position and client_id
-				$condition = $this->getReorderConditions($table);
+				$condition = $this->getReorderConditions($this->table);
 				$found = false;
 
 				foreach ($conditions as $cond)
@@ -1343,8 +1374,8 @@ abstract class AdminModel extends FormModel
 
 				if (!$found)
 				{
-					$key = $table->getKeyName();
-					$conditions[] = array($table->$key, $condition);
+					$key = $this->table->getKeyName();
+					$conditions[] = array($this->table->$key, $condition);
 				}
 			}
 		}
@@ -1352,8 +1383,8 @@ abstract class AdminModel extends FormModel
 		// Execute reorder for each category.
 		foreach ($conditions as $cond)
 		{
-			$table->load($cond[0]);
-			$table->reorder($cond[1]);
+			$this->table->load($cond[0]);
+			$this->table->reorder($cond[1]);
 		}
 
 		// Clear the component's cache
@@ -1389,7 +1420,7 @@ abstract class AdminModel extends FormModel
 				}
 				else
 				{
-					$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 					return false;
 				}
@@ -1398,17 +1429,18 @@ abstract class AdminModel extends FormModel
 
 		if (empty($categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 			return false;
 		}
 
 		// Check that the user has create permission for the component
-		$extension = \JFactory::getApplication()->input->get('option', '');
+		$extension = Factory::getApplication()->input->get('option', '');
+		$user = Factory::getUser();
 
-		if (!$this->user->authorise('core.create', $extension . '.category.' . $categoryId))
+		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 			return false;
 		}
@@ -1433,5 +1465,35 @@ abstract class AdminModel extends FormModel
 		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
 		$table->title = $data['0'];
 		$table->alias = $data['1'];
+	}
+
+	/**
+	 * Method to initialize member variables used by batch methods and other methods like saveorder()
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.2
+	 */
+	public function initBatch()
+	{
+		if ($this->batchSet === null)
+		{
+			$this->batchSet = true;
+
+			// Get current user
+			$this->user = Factory::getUser();
+
+			// Get table
+			$this->table = $this->getTable();
+
+			// Get table class name
+			$tc = explode('\\', get_class($this->table));
+			$this->tableClassName = end($tc);
+
+			// Get UCM Type data
+			$this->contentType = new \JUcmType;
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
+				?: $this->contentType->getTypeByAlias($this->typeAlias);
+		}
 	}
 }

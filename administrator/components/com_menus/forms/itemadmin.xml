@@ -83,7 +83,7 @@
 
 		<field
 			name="parent_id"
-			type="menuparent"
+			type="MenuParent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
 			default="1"
 			filter="int"

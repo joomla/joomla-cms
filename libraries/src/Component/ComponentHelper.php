@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Dispatcher\DispatcherInterface;
+use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Log\Log;
 
 /**
  * Component helper class
@@ -42,23 +46,16 @@ class ComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (!isset(static::$components[$option]))
+		$components = static::getComponents();
+
+		if (isset($components[$option]))
 		{
-			if (static::load($option))
-			{
-				$result = static::$components[$option];
-			}
-			else
-			{
-				$result = new ComponentRecord;
-				$result->enabled = $strict ? false : true;
-				$result->setParams(new Registry);
-			}
+			return $components[$option];
 		}
-		else
-		{
-			$result = static::$components[$option];
-		}
+
+		$result = new ComponentRecord;
+		$result->enabled = $strict ? false : true;
+		$result->setParams(new Registry);
 
 		return $result;
 	}
@@ -74,7 +71,9 @@ class ComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		return (bool) static::getComponent($option, true)->enabled;
+		$components = static::getComponents();
+
+		return isset($components[$option]) && $components[$option]->enabled;
 	}
 
 	/**
@@ -88,15 +87,9 @@ class ComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		$db = \JFactory::getDbo();
+		$components = static::getComponents();
 
-		return (int) $db->setQuery(
-			$db->getQuery(true)
-				->select('COUNT(' . $db->quoteName('extension_id') . ')')
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = ' . $db->quote($option))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-		)->loadResult();
+		return isset($components[$option]) ? 1 : 0;
 	}
 
 	/**
@@ -112,7 +105,7 @@ class ComponentHelper
 	 */
 	public static function getParams($option, $strict = false)
 	{
-		return static::getComponent($option, $strict)->params;
+		return static::getComponent($option, $strict)->getParams();
 	}
 
 	/**
@@ -127,11 +120,11 @@ class ComponentHelper
 	public static function filterText($text)
 	{
 		// Punyencoding utf8 email addresses
-		$text = \JFilterInput::getInstance()->emailToPunycode($text);
+		$text = InputFilter::getInstance()->emailToPunycode($text);
 
 		// Filter settings
 		$config     = static::getParams('com_config');
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
@@ -242,7 +235,7 @@ class ComponentHelper
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
 			{
-				$filter = \JFilterInput::getInstance(array(), array(), 1, 1);
+				$filter = InputFilter::getInstance(array(), array(), 1, 1);
 
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
@@ -262,13 +255,14 @@ class ComponentHelper
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
-				$filter = \JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
+
 				// Remove whitelisted attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
@@ -279,12 +273,12 @@ class ComponentHelper
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
-				$filter = \JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
 			{
-				$filter = \JFilterInput::getInstance();
+				$filter = InputFilter::getInstance();
 			}
 
 			$text = $filter->clean($text, 'html');
@@ -306,17 +300,17 @@ class ComponentHelper
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		if (empty($option))
 		{
-			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
@@ -353,43 +347,12 @@ class ComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option))
 		{
-			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingComponentException(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		// Handle template preview outlining.
-		$contents = null;
-
-		// Check if we have a dispatcher
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
-		{
-			require_once JPATH_COMPONENT . '/dispatcher.php';
-			$class = ucwords($file) . 'Dispatcher';
-
-			// Check the class exists and implements the dispatcher interface
-			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
-			{
-				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
-			}
-
-			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app, $app->input));
-		}
-		else
-		{
-			$path = JPATH_COMPONENT . '/' . $file . '.php';
-
-			// If component file doesn't exist throw error
-			if (!file_exists($path))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
-			}
-
-			// Load common and local language files.
-			$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
-
-			// Execute the component.
-			$contents = static::executeComponent($path);
-		}
+		ob_start();
+		$app->bootComponent($option)->getDispatcher($app)->dispatch();
+		$contents = ob_get_clean();
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -398,41 +361,6 @@ class ComponentHelper
 		{
 			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
-
-		return $contents;
-	}
-
-	/**
-	 * Execute the component.
-	 *
-	 * @param   string  $path  The component path.
-	 *
-	 * @return  string  The component output
-	 *
-	 * @since   1.7
-	 */
-	protected static function executeComponent($path)
-	{
-		ob_start();
-		require_once $path;
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * Dispatch the component.
-	 *
-	 * @param   DispatcherInterface  $dispatcher  The dispatcher class.
-	 *
-	 * @return  string  The component output
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected static function dispatchComponent(DispatcherInterface $dispatcher): string
-	{
-		ob_start();
-		$dispatcher->dispatch();
-		$contents = ob_get_clean();
 
 		return $contents;
 	}
@@ -449,26 +377,9 @@ class ComponentHelper
 	 */
 	protected static function load($option)
 	{
-		try
-		{
-			\JLog::add(
-				sprintf(
-					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
-					__METHOD__,
-					__CLASS__
-				),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $e)
-		{
-			// Informational log only
-		}
-
 		$loader = function ()
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'namespace', 'enabled'), array('id', 'option', null, null, null)))
 				->from($db->quoteName('#__extensions'))
@@ -479,7 +390,7 @@ class ComponentHelper
 		};
 
 		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('_system', 'callback');
+		$cache = Factory::getCache('_system', 'callback');
 
 		try
 		{
@@ -490,27 +401,49 @@ class ComponentHelper
 			static::$components = $loader();
 		}
 
-		if (empty(static::$components[$option]))
+		// Core CMS will use '*' as a placeholder for required parameter in this method. In 4.0 this will not be passed at all.
+		if (isset($option) && $option != '*')
 		{
-			/*
-			 * Fatal error
-			 *
-			 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
-			 * before logging the error to ensure a human friendly message is always given
-			 */
-
-			if (\JFactory::$language)
+			// Log deprecated warning and display missing component warning only if using deprecated format.
+			try
 			{
-				$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+				Log::add(
+					sprintf(
+						'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
+						__METHOD__,
+						__CLASS__
+					),
+					Log::WARNING,
+					'deprecated'
+				);
 			}
-			else
+			catch (\RuntimeException $e)
 			{
-				$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
+				// Informational log only
 			}
 
-			\JLog::add($msg, \JLog::WARNING, 'jerror');
+			if (empty(static::$components[$option]))
+			{
+				/*
+				 * Fatal error
+				 *
+				 * It is possible for this error to be reached before the global Language instance has been loaded so we check for its presence
+				 * before logging the error to ensure a human friendly message is always given
+				 */
 
-			return false;
+				if (Factory::$language)
+				{
+					$msg = Text::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+				}
+				else
+				{
+					$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
+				}
+
+				Log::add($msg, Log::WARNING, 'jerror');
+
+				return false;
+			}
 		}
 
 		return true;
@@ -542,13 +475,13 @@ class ComponentHelper
 	 *
 	 * @return  string  The name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getComponentName($object, string $alternativeName): string
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName())
+		if (!$reflect->getNamespaceName() || get_class($object) == Dispatcher::class)
 		{
 			return 'com_' . strtolower($alternativeName);
 		}

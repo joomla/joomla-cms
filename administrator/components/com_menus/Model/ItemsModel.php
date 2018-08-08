@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Model;
@@ -14,6 +14,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * Menu Item List Model for Menus.
@@ -28,7 +31,7 @@ class ItemsModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -80,7 +83,7 @@ class ItemsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -159,6 +162,18 @@ class ItemsModel extends ListModel
 			$this->setState('menutypetitle', $cMenu->title);
 			$this->setState('menutypeid', $cMenu->id);
 		}
+		// This menutype does not exist, leave client id unchanged but reset menutype and pagination
+		else
+		{
+			$menuType = '';
+
+			$app->input->set('limitstart', 0);
+			$app->input->set('menutype', $menuType);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', '');
+			$this->setState('menutypeid', '');
+		}
 
 		// Client id filter
 		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
@@ -219,7 +234,7 @@ class ItemsModel extends ListModel
 	/**
 	 * Builds an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery    A query object.
+	 * @return  \Joomla\Database\DatabaseQuery    A query object.
 	 *
 	 * @since   1.6
 	 */
@@ -228,7 +243,7 @@ class ItemsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select all fields from the table.
 		$query->select(
@@ -497,10 +512,10 @@ class ItemsModel extends ListModel
 	/**
 	 * Get the client id for a menu
 	 *
-	 * @param   string  $menuType  The menutype identifier for the menu
-	 * @param   bool    $check     Flag whether to perform check against ACL as well as existence
+	 * @param   string   $menuType  The menutype identifier for the menu
+	 * @param   boolean  $check     Flag whether to perform check against ACL as well as existence
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   3.7.0
 	 */
@@ -519,12 +534,16 @@ class ItemsModel extends ListModel
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				$this->setError(\JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+				Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
+
+				return false;
 			}
 			// Check if menu type is valid against ACL.
-			elseif (!\JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+				Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
+
+				return false;
 			}
 		}
 
@@ -545,7 +564,7 @@ class ItemsModel extends ListModel
 		if (!isset($this->cache[$store]))
 		{
 			$items = parent::getItems();
-			$lang  = \JFactory::getLanguage();
+			$lang  = Factory::getLanguage();
 
 			if ($items)
 			{
@@ -558,7 +577,7 @@ class ItemsModel extends ListModel
 					}
 
 					// Translate component name
-					$item->title = \JText::_($item->title);
+					$item->title = Text::_($item->title);
 				}
 			}
 

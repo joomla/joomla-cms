@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\Menu\Node;
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Menu\Node;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Menu\Node;
+use Joomla\CMS\Filter\OutputFilter;
 
 /**
  * A Component type of node for MenuTree
@@ -82,7 +83,7 @@ class Component extends Node
 	{
 		$this->title   = $title;
 		$this->element = $element;
-		$this->link    = $link ? \JFilterOutput::ampReplace($link) : 'index.php?option=' . $element;
+		$this->link    = $link ? OutputFilter::ampReplace($link) : 'index.php?option=' . $element;
 		$this->target  = $target;
 		$this->class   = $class;
 		$this->id      = $id;

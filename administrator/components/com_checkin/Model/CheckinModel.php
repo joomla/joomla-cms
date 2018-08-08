@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Checkin\Administrator\Model;
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Checkin Model
@@ -41,7 +42,7 @@ class CheckinModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -100,7 +101,7 @@ class CheckinModel extends ListModel
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, \JFactory::getApplication()->get('dbprefix')) !== 0)
+			if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -166,7 +167,7 @@ class CheckinModel extends ListModel
 			foreach ($tables as $i => $tn)
 			{
 				// Make sure we get the right tables based on prefix.
-				if (stripos($tn, \JFactory::getApplication()->get('dbprefix')) !== 0)
+				if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
 				{
 					unset($tables[$i]);
 					continue;

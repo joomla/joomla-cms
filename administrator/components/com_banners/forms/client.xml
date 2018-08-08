@@ -3,7 +3,7 @@
 	<fieldset name="details">
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
@@ -33,7 +33,6 @@
 			label="COM_BANNERS_FIELD_EMAIL_LABEL"
 			size="40"
 			validate="email"
-			required="true"
 		/>
 
 		<field

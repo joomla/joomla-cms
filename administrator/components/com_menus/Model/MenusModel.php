@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Model;
@@ -27,7 +27,7 @@ class MenusModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -143,9 +143,9 @@ class MenusModel extends ListModel
 		// Inject the values back into the array.
 		foreach ($items as $item)
 		{
-			$item->count_published   = isset($countPublished[$item->menutype]) ? $countPublished[$item->menutype] : 0;
-			$item->count_unpublished = isset($countUnpublished[$item->menutype]) ? $countUnpublished[$item->menutype] : 0;
-			$item->count_trashed     = isset($countTrashed[$item->menutype]) ? $countTrashed[$item->menutype] : 0;
+			$item->count_published   = $countPublished[$item->menutype] ?? 0;
+			$item->count_unpublished = $countUnpublished[$item->menutype] ?? 0;
+			$item->count_trashed     = $countTrashed[$item->menutype] ?? 0;
 		}
 
 		// Add the items to the internal cache.

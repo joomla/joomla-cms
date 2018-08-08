@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -59,7 +60,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$options->db_created = 1;
 
 		// Handle old db if exists
-		if (!$databaseModel->handleOldDatabase($options))
+		if (!$databaseModel->handleOldDatabase())
 		{
 			$this->deleteConfiguration();
 
@@ -83,7 +84,7 @@ class ConfigurationModel extends BaseInstallationModel
 		}
 
 		// Install CMS data
-		if (!$databaseModel->installCmsData($options))
+		if (!$databaseModel->installCmsData())
 		{
 			$this->deleteConfiguration();
 
@@ -96,7 +97,7 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the configuration file
 	 *
-	 * @param   array  $options  The session options
+	 * @param   \stdClass  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -108,8 +109,8 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry = new Registry;
 
 		// Site settings.
-		$registry->set('offline', '0');
-		$registry->set('offline_message', \JText::_('INSTL_STD_OFFLINE_MSG'));
+		$registry->set('offline', false);
+		$registry->set('offline_message', Text::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
 		$registry->set('sitename', $options->site_name);
@@ -136,7 +137,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('gzip', false);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
-		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
+		$registry->set('ftp_host', $options->ftp_host ?? '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
@@ -157,7 +158,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('smtppass', '');
 		$registry->set('smtphost', 'localhost');
 		$registry->set('smtpsecure', 'none');
-		$registry->set('smtpport', '25');
+		$registry->set('smtpport', 25);
 
 		// Cache settings.
 		$registry->set('caching', 0);
@@ -190,6 +191,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
 		$registry->set('shared_session', false);
+		$registry->set('session_metadata', true);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
@@ -218,12 +220,6 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 
 			// $useFTP = true;
-		}
-
-		// Check for safe mode.
-		if (ini_get('safe_mode'))
-		{
-			$useFTP = true;
 		}
 
 		// Enable/Disable override.
@@ -274,18 +270,15 @@ class ConfigurationModel extends BaseInstallationModel
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
 
 			return false;
 		}
 
 		$cryptpass = UserHelper::hashPassword($options->admin_password);
 
-		// Take the admin user id.
+		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
 		$userId = DatabaseModel::getUserId();
-
-		// We don't need the randUserId in the session any longer, let's remove it.
-		DatabaseModel::resetRandUserId();
 
 		// Create the admin user.
 		date_default_timezone_set('UTC');
@@ -353,7 +346,7 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Map the super admin to the Super Admin Group
+		// Map the super user to the Super Users group
 		$query->clear()
 			->select($db->quoteName('user_id'))
 			->from($db->quoteName('#__user_usergroup_map'))
@@ -397,7 +390,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function deleteConfiguration()
 	{

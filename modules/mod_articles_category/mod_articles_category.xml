@@ -3,12 +3,13 @@
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesCategory</namespace>
 	<files>
 		<filename module="mod_articles_category">mod_articles_category.php</filename>
 		<folder>tmpl</folder>
@@ -47,8 +48,8 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
 					default="1"
 					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 
@@ -59,7 +60,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC"
 					default="0"
@@ -117,7 +118,7 @@
 
 				<field
 					name="levels"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_LABEL"
 					default="1"
 				/>
@@ -267,7 +268,7 @@
 
 				<field
 					name="relative_date"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_RELATIVEDATE_LABEL"
 					default="30"
 				/>
@@ -440,7 +441,7 @@
 
 				<field
 					name="introtext_limit"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
 					default="100"
 				/>
@@ -469,7 +470,7 @@
 
 				<field
 					name="readmore_limit"
-					type="text"
+					type="number"
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 					default="15"
 				/>
@@ -503,7 +504,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

@@ -3,7 +3,7 @@
 	<name>plg_system_stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -36,7 +36,7 @@
 
 				<field
 					name="interval"
-					type="text"
+					type="number"
 					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
 					filter="integer"
 					default="12"
@@ -47,7 +47,7 @@
 					type="list"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
 					default="1"
-				>
+					>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>
 					<option value="3">PLG_SYSTEM_STATS_MODE_OPTION_NEVER_SEND</option>

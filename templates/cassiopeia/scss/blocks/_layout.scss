@@ -1,21 +1,39 @@
 // Layout
 
-body {
-  background-color: #fafafa;
-  > div,
-  header > nav,
-  .container-banner,
-  footer {
-    display: flex;
-    width: 100%;
-    max-width: 1080px + ($cassiopeia-grid-gutter * 4);
-    margin-right: auto;
-    margin-left: auto;
+.grid-child {
+  display: flex;
+  width: 100%;
+  max-width: 1080px + ($cassiopeia-grid-gutter * 4);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wrapper-fluid {
+  > .grid-child,
+  .container-header header {
+    padding-right: $cassiopeia-grid-gutter;
+    padding-left: $cassiopeia-grid-gutter;
   }
+  .grid-child,
+  .container-header header {
+    max-width: 100%;
+  }
+
+}
+.container-header header
+
+.site {
+  background-color: #fafafa;
 
   > .full-width {
     max-width: none;
   }
+
+  .container-footer,
+  .system-debug {
+    display: block;
+  }
+
 }
 
 header {
@@ -90,10 +108,27 @@ header {
   }
 }
 
-.container-footer {
+.system-debug {
   display: block;
 }
 
-.system-debug {
-  display: block;
+.page-link {
+  &.active {
+    padding: 0;
+    &.current {
+      padding: .5rem .75rem;
+      color: #999;
+      background-color: #dee2e6;
+    }
+    a {
+      padding: .5rem .75rem;
+      line-height: 2.25;
+    }
+  }
+  &.disabled {
+    color: #999;
+    &:hover {
+      background: transparent;
+    }
+  }
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of newsfeed records.
@@ -28,7 +29,7 @@ class NewsfeedsModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see    \Joomla\CMS\MVC\Model\BaseModel
+	 * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -57,7 +58,8 @@ class NewsfeedsModel extends ListModel
 				'tag',
 			);
 
-			$assoc =  Associations::isEnabled();
+			$assoc = Associations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -81,7 +83,7 @@ class NewsfeedsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -146,7 +148,7 @@ class NewsfeedsModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -286,6 +288,7 @@ class NewsfeedsModel extends ListModel
 		{
 			ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;

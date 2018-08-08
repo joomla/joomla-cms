@@ -3,17 +3,21 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.folderInstaller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * FolderInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerFolderInstaller extends JPlugin
+class PlgInstallerFolderInstaller extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -34,11 +38,11 @@ class PlgInstallerFolderInstaller extends JPlugin
 	{
 		$tab            = array();
 		$tab['name']    = 'folder';
-		$tab['label']   = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
+		$tab['label']   = Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
 
 		// Render the input
 		ob_start();
-		include JPluginHelper::getLayoutPath('installer', 'folderinstaller');
+		include PluginHelper::getLayoutPath('installer', 'folderinstaller');
 		$tab['content'] = ob_get_clean();
 
 		return $tab;

@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -40,7 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 ?>
-<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
-<a class="btn btn-secondary" onclick="document.getElementById('<?php echo $id; ?>').value='';Joomla.submitbutton('plugin.apply');">
-	<span class="icon-refresh"></span> <?php echo JText::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
+<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>">
+<a class="btn btn-secondary" id="js-pstats-reset-uid">
+	<span class="icon-refresh"></span> <?php echo Text::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
 </a>

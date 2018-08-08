@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,15 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Model class for handling lists of items.
  *
  * @since  1.6
  */
-class ListModel extends BaseModel
+class ListModel extends BaseDatabaseModel
 {
 	/**
 	 * Internal memory based cache array of data.
@@ -48,7 +50,7 @@ class ListModel extends BaseModel
 	/**
 	 * An internal cache for the last query used.
 	 *
-	 * @var    \JDatabaseQuery[]
+	 * @var    DatabaseQuery[]
 	 * @since  1.6
 	 */
 	protected $query = array();
@@ -116,7 +118,7 @@ class ListModel extends BaseModel
 	 *
 	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  DatabaseQuery  A DatabaseQuery object
 	 *
 	 * @since   1.6
 	 */
@@ -199,9 +201,9 @@ class ListModel extends BaseModel
 	}
 
 	/**
-	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
+	 * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -440,7 +442,7 @@ class ListModel extends BaseModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState($this->context, new \stdClass);
+		$data = Factory::getApplication()->getUserState($this->context, new \stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
@@ -477,8 +479,8 @@ class ListModel extends BaseModel
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context)
 		{
-			$app         = \JFactory::getApplication();
-			$inputFilter = \JFilterInput::getInstance();
+			$app         = Factory::getApplication();
+			$inputFilter = InputFilter::getInstance();
 
 			// Receive & set filters
 			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
@@ -542,7 +544,6 @@ class ListModel extends BaseModel
 										// Fallback to the default value
 										$value = $ordering . ' ' . $direction;
 									}
-
 								}
 								else
 								{
@@ -664,7 +665,7 @@ class ListModel extends BaseModel
 		\JPluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
@@ -676,7 +677,7 @@ class ListModel extends BaseModel
 	 * @param   string   $key        The key of the user state variable.
 	 * @param   string   $request    The name of the variable passed in a request.
 	 * @param   string   $default    The default value for the variable if not found. Optional.
-	 * @param   string   $type       Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
+	 * @param   string   $type       Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
 	 * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
 	 *
 	 * @return  mixed  The request user state.
@@ -685,10 +686,10 @@ class ListModel extends BaseModel
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
-		$cur_state = $old_state !== null ? $old_state : $default;
+		$cur_state = $old_state ?? $default;
 		$new_state = $input->get($request, null, $type);
 
 		// BC for Search Tools which uses different naming

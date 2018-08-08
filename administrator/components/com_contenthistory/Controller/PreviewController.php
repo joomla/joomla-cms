@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contenthistory\Administrator\Controller;
@@ -26,7 +26,7 @@ class PreviewController extends BaseController
 	 * @param   string  $prefix  The prefix for the model
 	 * @param   array   $config  An additional array of parameters
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model
 	 *
 	 * @since   3.2
 	 */

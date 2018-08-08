@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -39,6 +40,6 @@ class ContentlanguageField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		return array_merge(parent::getOptions(), \JHtml::_('contentlanguage.existing'));
+		return array_merge(parent::getOptions(), HTMLHelper::_('contentlanguage.existing'));
 	}
 }

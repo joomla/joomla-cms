@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\Model;
@@ -12,11 +12,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of articles.
@@ -57,7 +61,6 @@ class ArticlesModel extends ListModel
 				'images', 'a.images',
 				'urls', 'a.urls',
 				'filter_tag',
-				'tag'
 			);
 		}
 
@@ -82,7 +85,7 @@ class ArticlesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// List state information
 		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
@@ -114,7 +117,7 @@ class ArticlesModel extends ListModel
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
@@ -125,7 +128,7 @@ class ArticlesModel extends ListModel
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Process show_noauth parameter
-		if (!$params->get('show_noauth'))
+		if ((!$params->get('show_noauth')) || (!ComponentHelper::getParams('com_content')->get('show_noauth')))
 		{
 			$this->setState('filter.access', true);
 		}
@@ -184,7 +187,7 @@ class ArticlesModel extends ListModel
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -194,7 +197,7 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
+				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
 				'a.checked_out, a.checked_out_time, ' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
@@ -206,7 +209,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -220,6 +223,7 @@ class ArticlesModel extends ListModel
 		{
 			if ($orderby_sec === 'front')
 			{
+				$query->select('fp.ordering');
 				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 			}
 			else
@@ -229,12 +233,13 @@ class ArticlesModel extends ListModel
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
+			$query->select('fp.ordering');
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
-			->select('c.published, c.published AS parents_published')
+			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author and modified_by names.
@@ -250,13 +255,13 @@ class ArticlesModel extends ListModel
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($this->getState('filter.access', true))	
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
@@ -268,9 +273,11 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($published) && $published == 2)
 		{
-			// If category is archived then article has to be published or archived.
-			// If categogy is published then article has to be archived.
-			$query->where('(c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2)');
+			/**
+			 * If category is archived then article has to be published or archived.
+			 * Or categogy is published then article has to be archived.
+			 */
+			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}
 		elseif (is_numeric($published))
 		{
@@ -301,8 +308,7 @@ class ArticlesModel extends ListModel
 
 			case 'show':
 			default:
-				// Normally we do not discriminate
-				// between featured/unfeatured items.
+				// Normally we do not discriminate between featured/unfeatured items.
 				break;
 		}
 
@@ -437,7 +443,7 @@ class ArticlesModel extends ListModel
 
 		// Define null and now dates
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
@@ -506,36 +512,39 @@ class ArticlesModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Filter by a single or group of tags.
-		$hasTag = false;
-		$tagId  = $this->getState('filter.tag');
+		$tagId = $this->getState('filter.tag');
 
-		if (!empty($tagId) && is_numeric($tagId))
+		if (is_array($tagId) && count($tagId) === 1)
 		{
-			$hasTag = true;
-
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$tagId = current($tagId);
 		}
-		elseif (is_array($tagId))
-		{
-			ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
-			if (!empty($tagId))
-			{
-				$hasTag = true;
 
-				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+		if (is_array($tagId))
+		{
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
+
+			if ($tagId)
+			{
+				$subQuery = $db->getQuery(true)
+					->select('DISTINCT content_item_id')
+					->from($db->quoteName('#__contentitem_tag_map'))
+					->where('tag_id IN (' . $tagId . ')')
+					->where('type_alias = ' . $db->quote('com_content.article'));
+
+				$query->innerJoin('(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
 			}
 		}
-
-		if ($hasTag)
+		elseif ($tagId)
 		{
-			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+			$query->innerJoin(
+				$db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON tagmap.tag_id = ' . (int) $tagId
+				. ' AND tagmap.content_item_id = a.id'
+				. ' AND tagmap.type_alias = ' . $db->quote('com_content.article')
 			);
 		}
 
@@ -557,11 +566,11 @@ class ArticlesModel extends ListModel
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$userId = $user->get('id');
 		$guest  = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
-		$input  = \JFactory::getApplication()->input;
+		$input  = Factory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);
@@ -577,9 +586,11 @@ class ArticlesModel extends ListModel
 
 			$item->params = clone $this->getState('params');
 
-			/*For blogs, article params override menu item params only if menu param = 'use_article'
-			Otherwise, menu item params control the layout
-			If menu item is 'use_article' and there is no article param, use global*/
+			/**
+			 * For blogs, article params override menu item params only if menu param = 'use_article'
+			 * Otherwise, menu item params control the layout
+			 * If menu item is 'use_article' and there is no article param, use global
+			 */
 			if (($input->getString('layout') === 'blog') || ($input->getString('view') === 'featured')
 				|| ($this->getState('params')->get('layout_type') === 'blog'))
 			{
@@ -635,8 +646,10 @@ class ArticlesModel extends ListModel
 					break;
 			}
 
-			// Compute the asset access permissions.
-			// Technically guest could edit an article, but lets not check that to improve performance a little.
+			/**
+			 * Compute the asset access permissions.
+			 * Technically guest could edit an article, but lets not check that to improve performance a little.
+			 */
 			if (!$guest)
 			{
 				$asset = 'com_content.article.' . $item->id;
@@ -681,13 +694,13 @@ class ArticlesModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
-				$item->tags = new \JHelperTags;
+				$item->tags = new TagsHelper;
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
-			if ($item->params->get('show_associations'))
+			if (Associations::isEnabled() && $item->params->get('show_associations'))
 			{
-				$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
+				$item->associations = AssociationHelper::displayAssociations($item->id);
 			}
 		}
 

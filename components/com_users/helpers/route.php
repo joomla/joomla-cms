@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Users Route Helper
@@ -24,6 +27,7 @@ class UsersHelperRoute
 	 *
 	 * @since       1.6
 	 * @deprecated  4.0
+	 * @throws      \Exception
 	 */
 	public static function &getItems()
 	{
@@ -32,10 +36,8 @@ class UsersHelperRoute
 		// Get the menu items for this component.
 		if (!isset($items))
 		{
-			$app   = JFactory::getApplication();
-			$menu  = $app->getMenu();
-			$com   = JComponentHelper::getComponent('com_users');
-			$items = $menu->getItems('component_id', $com->id);
+			$component = ComponentHelper::getComponent('com_users');
+			$items     = Factory::getApplication()->getMenu()->getItems('component_id', $component->id);
 
 			// If no items found, set to empty array.
 			if (!$items)
@@ -59,19 +61,17 @@ class UsersHelperRoute
 	{
 		// Get the items.
 		$items  = self::getItems();
-		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
 		{
 			if (isset($item->query['view']) && $item->query['view'] === 'login')
 			{
-				$itemid = $item->id;
-				break;
+				return $item->id;
 			}
 		}
 
-		return $itemid;
+		return null;
 	}
 
 	/**
@@ -86,7 +86,6 @@ class UsersHelperRoute
 	{
 		// Get the items.
 		$items  = self::getItems();
-		$itemid = null;
 
 		// Search for a suitable menu id.
 		// Menu link can only go to users own profile.
@@ -95,12 +94,11 @@ class UsersHelperRoute
 		{
 			if (isset($item->query['view']) && $item->query['view'] === 'profile')
 			{
-				$itemid = $item->id;
-				break;
+				return $item->id;
 			}
 		}
 
-		return $itemid;
+		return null;
 	}
 
 	/**
@@ -115,19 +113,17 @@ class UsersHelperRoute
 	{
 		// Get the items.
 		$items  = self::getItems();
-		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
 		{
 			if (isset($item->query['view']) && $item->query['view'] === 'registration')
 			{
-				$itemid = $item->id;
-				break;
+				return $item->id;
 			}
 		}
 
-		return $itemid;
+		return null;
 	}
 
 	/**
@@ -142,19 +138,17 @@ class UsersHelperRoute
 	{
 		// Get the items.
 		$items  = self::getItems();
-		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
 		{
 			if (isset($item->query['view']) && $item->query['view'] === 'remind')
 			{
-				$itemid = $item->id;
-				break;
+				return $item->id;
 			}
 		}
 
-		return $itemid;
+		return null;
 	}
 
 	/**
@@ -169,19 +163,17 @@ class UsersHelperRoute
 	{
 		// Get the items.
 		$items  = self::getItems();
-		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
 		{
 			if (isset($item->query['view']) && $item->query['view'] === 'resend')
 			{
-				$itemid = $item->id;
-				break;
+				return $item->id;
 			}
 		}
 
-		return $itemid;
+		return null;
 	}
 
 	/**
@@ -196,18 +188,16 @@ class UsersHelperRoute
 	{
 		// Get the items.
 		$items  = self::getItems();
-		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
 		{
 			if (isset($item->query['view']) && $item->query['view'] === 'reset')
 			{
-				$itemid = $item->id;
-				break;
+				return $item->id;
 			}
 		}
 
-		return $itemid;
+		return null;
 	}
 }

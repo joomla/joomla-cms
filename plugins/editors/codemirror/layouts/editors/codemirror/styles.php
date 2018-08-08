@@ -3,15 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 $params     = $displayData->params;
-$fontFamily = isset($displayData->fontFamily) ? $displayData->fontFamily : 'monospace';
+$fontFamily = $displayData->fontFamily ?? 'monospace';
 $fontSize   = $params->get('fontSize', 13) . 'px;';
 $lineHeight = $params->get('lineHeight', 1.2) . 'em;';
 
@@ -29,9 +32,9 @@ $g                   = hexdec($color{3} . $color{4});
 $b                   = hexdec($color{5} . $color{6});
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
-JHtml::_('stylesheet', 'editors/codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'editors/codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
 
-JFactory::getDocument()->addStyleDeclaration(
+Factory::getDocument()->addStyleDeclaration(
 <<<CSS
 		.CodeMirror {
 			font-family: $fontFamily;
