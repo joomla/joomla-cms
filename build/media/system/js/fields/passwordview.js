@@ -18,7 +18,7 @@
 
 			if (passwordInputs[i].getAttribute('type') === 'password') {
 
-				var inputGroup = passwordInputs[i].parentNode.querySelector('.input-group-addon');
+				var inputGroup = passwordInputs[i].parentNode.querySelector('.input-group-text');
 
 				if (inputGroup) {
 					inputGroup.addEventListener('click', function(e) {

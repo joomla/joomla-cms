@@ -228,7 +228,7 @@ abstract class JHtmlGrid
 		$alt = $value ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
 		$action = $value ? Text::_('JLIB_HTML_UNPUBLISH_ITEM') : Text::_('JLIB_HTML_PUBLISH_ITEM');
 
-		return '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+		return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
 			. HTMLHelper::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
 	}
 
@@ -339,7 +339,7 @@ abstract class JHtmlGrid
 			$actions.each(function(){
 				$(this).on(\'click\', function(){
 					args = JSON.decode(this.rel);
-					listItemTask(args.id, args.task);
+					Joomla.listItemTask(args.id, args.task);
 				});
 			});
 			$(\'input.check-all-toggle\').each(function(){
