@@ -151,9 +151,9 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 										<?php echo nl2br($item->group_names); ?>
 									<?php endif; ?>
 								</td>
-                                <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo $this->escape($item->access_level); ?>
-                                </td>
+								<td class="small d-none d-md-table-cell text-center">
+								    <?php echo $this->escape($item->access_level); ?>
+								</td>
 								<td class="d-none d-lg-table-cell break-word text-center">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
 								</td>
