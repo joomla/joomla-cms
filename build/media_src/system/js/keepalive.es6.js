@@ -11,33 +11,36 @@
  * @package  Joomla
  * @since    3.7.0
  */
-((window, document, Joomla) => {
+((document, Joomla) => {
   'use strict';
 
-  const keppAlive = () => {
-    const keepaliveOptions = Joomla.getOptions('system.keepalive');
-    let keepaliveUri = keepaliveOptions && keepaliveOptions.uri ? keepaliveOptions.uri.replace(/&amp;/g, '&') : '';
-    const keepaliveInterval = keepaliveOptions
-    && keepaliveOptions.interval ? keepaliveOptions.interval : 45 * 1000;
-
-    // Fallback in case no keepalive uri was found.
-    if (keepaliveUri === '') {
-      const systemPaths = Joomla.getOptions('system.paths');
-
-      keepaliveUri = `${(systemPaths ? `${systemPaths.root}/index.php` : window.location.pathname)}?option=com_ajax&format=json`;
-    }
-
-    window.setInterval(() => {
-      Joomla.request({
-        url: keepaliveUri,
-        onSuccess: () => { /* Do nothing */ },
-        onError: () => { /* Do nothing */ },
-      });
-    }, keepaliveInterval);
-
-    // Cleanup
-    document.removeEventListener('DOMContentLoaded', keppAlive, true);
+  const keepAlive = (keepAliveUri) => {
+    Joomla.request({ url: keepAliveUri });
   };
 
-  document.addEventListener('DOMContentLoaded', keppAlive, true);
-})(window, document, Joomla);
+  const onBoot = () => {
+    if (!Joomla || (typeof Joomla.getOptions !== 'function'
+      && typeof Joomla.request !== 'function')) {
+      throw new Error('core.js was not properly initialised');
+    }
+
+    const keepAliveOptions = Joomla.getOptions('system.keepalive');
+    const keepAliveInterval = keepAliveOptions
+    && keepAliveOptions.interval ? parseInt(keepAliveOptions.interval, 10) : 45 * 1000;
+    let keepAliveUri = keepAliveOptions && keepAliveOptions.uri ? keepAliveOptions.uri.replace(/&amp;/g, '&') : '';
+
+    // Fallback in case no keepalive uri was found.
+    if (keepAliveUri === '') {
+      const systemPaths = Joomla.getOptions('system.paths');
+
+      keepAliveUri = `${(systemPaths ? `${systemPaths.root}/index.php` : window.location.pathname)}?option=com_ajax&format=json`;
+    }
+
+    setInterval(keepAlive, keepAliveInterval, keepAliveUri);
+
+    // Cleanup
+    document.removeEventListener('DOMContentLoaded', onBoot);
+  };
+
+  document.addEventListener('DOMContentLoaded', onBoot, true);
+})(document, Joomla);
