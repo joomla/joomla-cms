@@ -19,6 +19,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Rest model class for Users.
@@ -486,16 +487,36 @@ class ResetModel extends FormModel
 			$data['link_text']
 		);
 
-		// Send the password reset request email.
-		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		// Try to send the password reset request email.
+		try
+		{
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$return = false;
+			}
+		}
 
 		// Check for an error.
 		if ($return !== true)
 		{
 			return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
 		}
-
-		return true;
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
