@@ -59,41 +59,39 @@ $userId = $user->id;
 					<table class="table table-striped" id="emailList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col"  style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JText::_('COM_WORKFLOW_STATES'); ?>
 								</th>
-								<th style="width:10%" class="text-center nowrap hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-center nowrap hidden-sm-down">
 									<?php echo JText::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th style="width:3%" class="nowrap text-center hidden-sm-down">
-									<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?>">
-										<span class="sr-only"><?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?></span>
-									</span>
+								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
+									<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?>"></span>
+									<span class="sr-only"><?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?></span>
 								</th>
-								<th style="width:3%" class="nowrap text-center hidden-sm-down">
-									<span class="fa fa-arrows-h text-info hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>">
-										<span class="sr-only"><?php echo JText::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?></span>
-									</span>
+								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
+									<span class="fa fa-arrows-h text-info hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>"></span>	
+									<span class="sr-only"><?php echo JText::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?></span>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th scope="col" style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_DATE_' . strtoupper($orderingColumn), 'w.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_AUTHOR', 'w.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-right hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -176,15 +174,10 @@ $userId = $user->id;
 								</td>
 							</tr>
 						<?php endforeach ?>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="<?php echo $columns; ?>">
-								<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 					</table>
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+				
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
