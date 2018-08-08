@@ -7,6 +7,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     if (Joomla.getOptions('menus-default')) {
+      // eslint-disable-next-line prefer-destructuring
       const items = Joomla.getOptions('menus-default').items;
 
       items.forEach((item) => {

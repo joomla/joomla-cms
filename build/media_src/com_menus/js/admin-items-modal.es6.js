@@ -21,6 +21,7 @@
       throw new Error('core.js was not properly initialised');
     }
 
+    // eslint-disable-next-line prefer-destructuring
     const editor = Joomla.getOptions('xtd-menus').editor;
 
     if (lang !== '') {
