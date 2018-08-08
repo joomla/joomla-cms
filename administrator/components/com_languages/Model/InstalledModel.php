@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Languages Component Languages Model
@@ -173,7 +177,7 @@ class InstalledModel extends ListModel
 	{
 		if (is_null($this->ftp))
 		{
-			$this->ftp = \JClientHelper::setCredentialsFromRequest('ftp');
+			$this->ftp = ClientHelper::setCredentialsFromRequest('ftp');
 		}
 
 		return $this->ftp;
@@ -207,7 +211,7 @@ class InstalledModel extends ListModel
 		{
 			$this->data = array();
 
-			$isCurrentLanguageRtl = \JFactory::getLanguage()->isRtl();
+			$isCurrentLanguageRtl = Factory::getLanguage()->isRtl();
 			$params               = ComponentHelper::getParams('com_languages');
 			$installedLanguages   = LanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
 
@@ -396,7 +400,7 @@ class InstalledModel extends ListModel
 		}
 		else
 		{
-			$this->setError(\JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+			$this->setError(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 
 			return false;
 		}
@@ -422,7 +426,7 @@ class InstalledModel extends ListModel
 		{
 			$path = $this->getPath();
 			jimport('joomla.filesystem.folder');
-			$this->folders = \JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
+			$this->folders = Folder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
 		}
 
 		return $this->folders;
@@ -480,12 +484,12 @@ class InstalledModel extends ListModel
 
 			if ($client->name == 'administrator')
 			{
-				\JFactory::getApplication()->setUserState('application.lang', $cid);
+				Factory::getApplication()->setUserState('application.lang', $cid);
 			}
 		}
 		else
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'), 'error');
 
 			return false;
 		}

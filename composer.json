@@ -79,6 +79,7 @@
         "symfony/console": "3.4.*",
         "symfony/debug": "3.4.*",
         "symfony/ldap": "3.4.*",
+        "symfony/options-resolver": "3.4.*",
         "symfony/web-link": "3.4.*",
         "symfony/yaml": "3.4.*",
         "wamania/php-stemmer": "^1.2"
