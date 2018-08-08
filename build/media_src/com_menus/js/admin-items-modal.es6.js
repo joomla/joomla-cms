@@ -2,50 +2,51 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function() {
-  "use strict";
+((Joomla, document) => {
+  'use strict';
+
   /**
    * Javascript to insert the link
    * View element calls jSelectContact when a contact is clicked
    * jSelectContact creates the link tag, sends it to the editor,
    * and closes the select frame.
    */
-
-  window.jSelectMenuItem = function(id, title, uri, object, link, lang)
-  {
-    var thislang = '', tag, editor;
+  window.jSelectMenuItem = (id, title, uri, object, link, lang) => {
+    let thislang = '';
 
     if (!Joomla.getOptions('xtd-menus')) {
       // Something went wrong!
       window.parent.Joomla.Modal.getCurrent().close();
-      return false;
+
+      throw new Error('core.js was not properly initialised');
     }
 
-    editor = Joomla.getOptions('xtd-menus').editor;
+    const editor = Joomla.getOptions('xtd-menus').editor;
 
-    if (lang !== '')
-    {
+    if (lang !== '') {
       thislang = '&lang=';
     }
 
-    tag = '<a href=\"' + uri + thislang + lang + '">' + title + '</a>';
+    const tag = `<a href="${uri + thislang + lang}">${title}</a>`;
 
+    // Insert the link in the editor
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
 
-    if (window.parent.Joomla.Modal) {
+    // Close the modal
+    if (window.parent.Joomla && window.parent.Joomla.Modal) {
       window.parent.Joomla.Modal.getCurrent().close();
     }
   };
 
-  document.addEventListener('DOMContentLoaded', function(){
+  document.addEventListener('DOMContentLoaded', () => {
     // Get the elements
-    var elements = document.querySelectorAll('.select-link');
+    const elements = [].slice.call(document.querySelectorAll('.select-link'));
 
-    for(var i = 0, l = elements.length; l>i; i++) {
+    elements.forEach((element) => {
       // Listen for click event
-      elements[i].addEventListener('click', function (event) {
+      element.addEventListener('click', (event) => {
         event.preventDefault();
-        var functionName = event.target.getAttribute('data-function');
+        const functionName = event.target.getAttribute('data-function');
 
         if (functionName === 'jSelectMenuItem') {
           // Used in xtd_contacts
@@ -55,10 +56,11 @@
           window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
         }
 
+        // Close the modal
         if (window.parent.Joomla.Modal) {
           window.parent.Joomla.Modal.getCurrent().close();
         }
-      })
-    }
+      });
+    });
   });
-})();
+})(Joomla, document);
