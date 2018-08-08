@@ -340,6 +340,7 @@
         const allOptions = [].slice.call(this.orderField.options);
         allOptions.forEach((option) => {
           let value = option.getAttribute('data-order');
+          const name = option.getAttribute('data-name');
           const direction = option.getAttribute('data-direction');
 
           if (value && value.length) {
@@ -348,7 +349,6 @@
             let $option = self.findOption(self.orderField, value);
 
             if (!$option.length) {
-              const name = option.getAttribute('data-name');
               $option = document.createElement('option');
               $option.text = name;
               $option.value = value;
@@ -394,7 +394,7 @@
         } else {
           // If the option does not exist create it on the fly
           const option = document.createElement('option');
-          option.text = name;
+          option.text = newValue;
           option.value = newValue;
           option.setAttribute('selected', 'selected');
 
