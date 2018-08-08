@@ -66,7 +66,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<div class="j-install-step-form">
 							<div class="alert preinstall-alert">
 								<div class="alert-icon">
-									<span class="alert-icon fa fa-exclamation-triangle"></span>
+									<span class="alert-icon fa fa-exclamation-triangle" aria-hidden="true"></span>
 								</div>
 								<div class="alert-text">
 									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
