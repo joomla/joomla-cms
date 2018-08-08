@@ -217,7 +217,6 @@
 				type="list"
 				label="COM_USERS_FIELD_EMAIL_SHOW_FORM_LABEL"
 				useglobal="true"
-
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
