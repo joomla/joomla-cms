@@ -52,7 +52,7 @@ class StatsHelper
 
 			$rows[$i] = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_PHP');
-			$rows[$i]->data  = phpversion();
+			$rows[$i]->data  = PHP_VERSION;
 			$i++;
 
 			$rows[$i] = new \stdClass;
