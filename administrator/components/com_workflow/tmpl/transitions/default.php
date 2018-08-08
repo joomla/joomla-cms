@@ -48,25 +48,25 @@ if ($saveOrder)
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TO_STATE', 't.to_state', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-right hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -132,14 +132,9 @@ if ($saveOrder)
 								</tr>
 							<?php endforeach ?>
 						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="7">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 					</table>
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

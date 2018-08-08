@@ -47,36 +47,29 @@ if ($saveOrder)
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 's.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:1%" class="text-center nowrap hidden-sm-down">
+								<th scope="col" style="width:1%" class="text-center nowrap hidden-sm-down">
 									<?php echo JText::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_CONDITION', 's.condition', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-right hidden-sm-down">
+								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_ID', 's.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="7">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
 							<?php foreach ($this->states as $i => $item):
 								$edit = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
@@ -136,6 +129,9 @@ if ($saveOrder)
 							<?php endforeach ?>
 						</tbody>
 					</table>
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+				
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
