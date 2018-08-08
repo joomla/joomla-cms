@@ -26,6 +26,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Log\Log;
 
 /**
  * Registration model class for Users.
@@ -177,7 +178,25 @@ class RegistrationModel extends FormModel
 
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
-					$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					try
+					{
+						$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					}
+					catch (\Exception $exception)
+					{
+						try
+						{
+							Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+							$return = false;
+						}
+						catch (\RuntimeException $exception)
+						{
+							Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+							$return = false;
+						}
+					}
 
 					// Check for an error.
 					if ($return !== true)
@@ -215,7 +234,25 @@ class RegistrationModel extends FormModel
 				$data['username']
 			);
 
-			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			try
+			{
+				$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			}
+			catch (\Exception $exception)
+			{
+				try
+				{
+					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+					$return = false;
+				}
+				catch (\RuntimeException $exception)
+				{
+					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+					$return = false;
+				}
+			}
 
 			// Check for an error.
 			if ($return !== true)
@@ -594,8 +631,28 @@ class RegistrationModel extends FormModel
 			}
 		}
 
-		// Send the registration email.
-		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		// Try to send the registration email.
+		try
+		{
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+
+				$return = false;
+			}
+		}
 
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
@@ -636,7 +693,25 @@ class RegistrationModel extends FormModel
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
 			{
-				$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				try
+				{
+					$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				}
+				catch (\Exception $exception)
+				{
+					try
+					{
+						Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+						$return = false;
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+						$return = false;
+					}
+				}
 
 				// Check for an error.
 				if ($return !== true)
