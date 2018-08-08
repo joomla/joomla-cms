@@ -173,7 +173,7 @@ class InstallationController extends JSONController
 		if (!$lids)
 		{
 			// No languages have been selected
-			$this->app->enqueueMessage(\JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -247,7 +247,7 @@ class InstallationController extends JSONController
 		// If an error was encountered return an error.
 		if (!$success)
 		{
-			$this->app->enqueueMessage(\JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
+			$this->app->enqueueMessage(Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
 		}
 
 		$this->app->getSession()->destroy();
