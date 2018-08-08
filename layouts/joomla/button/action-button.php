@@ -45,7 +45,7 @@ $checkboxName = $options['checkbox_name'];
 		data-placement="top"
 
 		<?php if(!empty($task) && empty($disabled)): ?>
-			onclick="return listItemTask('<?php echo $checkboxName . $this->escape($row ?? ''); ?>', '<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>')"
+			onclick="return Joomla.listItemTask('<?php echo $checkboxName . $this->escape($row ?? ''); ?>', '<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>')"
 		<?php endif; ?>
 	>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
