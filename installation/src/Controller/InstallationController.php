@@ -250,6 +250,8 @@ class InstallationController extends JSONController
 			$this->app->enqueueMessage(\JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
 		}
 
+		$this->app->getSession()->destroy();
+
 		$r = new \stdClass;
 		$r->view = 'remove';
 
