@@ -1117,7 +1117,7 @@ class LanguagesModel extends BaseInstallationModel
 			->set($db->quoteName('published') . ' = 0')
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
 			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
-			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('client_id') . ' = 0')
 			->where($db->quoteName('position') . ' = ' . $db->quote('sidebar-right'));
 		$db->setQuery($query);
 
