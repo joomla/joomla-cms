@@ -13,17 +13,17 @@ Joomla = window.Joomla || {};
 
       const options = Joomla.getOptions('module-edit');
 
-      if (self !== top) {
-        if (parent.viewLevels) {
+      if (window.self !== window.top) {
+        if (window.parent.viewLevels) {
           // @todo remove the chosen!!!
           const updPosition = window.jQuery('#jform_position').chosen().val();
           const updTitle = document.getElementById('jform_title').value;
           const updMenus = document.querySelector('#jform_assignment').value;
           const updStatus = document.querySelector('#jform_published').value;
           const updAccess = document.querySelector('#jform_access').value;
-          const tmpMenu = parent.document.getElementById(`menus-${options.itemId}`);
-          const tmpRow = parent.document.getElementById(`tr-${options.itemId}`);
-          const tmpStatus = parent.document.getElementById(`status-${options.itemId}`);
+          const tmpMenu = window.parent.document.getElementById(`menus-${options.itemId}`);
+          const tmpRow = window.parent.document.getElementById(`tr-${options.itemId}`);
+          const tmpStatus = window.parent.document.getElementById(`status-${options.itemId}`);
           window.parent.inMenus = [];
           window.parent.numMenus = [].slice.call(document.querySelectorAll('input[name="jform[assigned][]"]')).length;
 
@@ -48,7 +48,7 @@ Joomla = window.Joomla || {};
             if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
           }
           if (parseInt(updMenus, 10) > 0) {
-            if (window.parent.inMenus.indexOf(parent.menuId) >= 0) {
+            if (window.parent.inMenus.indexOf(window.parent.menuId) >= 0) {
               if (window.parent.numMenus === window.parent.inMenus.length) {
                 tmpMenu.innerHTML = `<span class="badge badge-info">${Joomla.JText._('JALL')}</span>`;
                 if (tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.remove('no'); }
@@ -57,13 +57,13 @@ Joomla = window.Joomla || {};
                 if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
               }
             }
-            if (window.parent.inMenus.indexOf(parent.menuId) < 0) {
+            if (window.parent.inMenus.indexOf(window.parent.menuId) < 0) {
               tmpMenu.innerHTML = `<span class="badge badge-danger">${Joomla.JText._('JNO')}</span>`;
               if (!tmpRow.classList.contains('no')) { tmpRow.classList.add('no'); }
             }
           }
           if (parseInt(updMenus, 10) < 0) {
-            if (window.parent.inMenus.indexOf(parent.menuId) >= 0) {
+            if (window.parent.inMenus.indexOf(window.parent.menuId) >= 0) {
               if (window.parent.numMenus === window.parent.inMenus.length) {
                 tmpMenu.innerHTML = `<span class="badge badge-info">${Joomla.JText._('JALL')}</span>`;
                 if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
@@ -72,7 +72,7 @@ Joomla = window.Joomla || {};
                 if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no'); }
               }
             }
-            if (window.parent.inMenus.indexOf(parent.menuId) < 0) {
+            if (window.parent.inMenus.indexOf(window.parent.menuId) < 0) {
               tmpMenu.innerHTML = `<span class="badge badge-danger">${Joomla.JText._('JNO')}</span>`;
               if (!tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.add('no'); }
             }
@@ -90,9 +90,9 @@ Joomla = window.Joomla || {};
             if (!tmpRow.classList.contains('unpublished') || tmpRow.classList.length === 0) { tmpRow.classList.add('unpublished'); }
           }
           if (document.formvalidator.isValid(document.getElementById('module-form'))) {
-            parent.document.querySelector(`#title-${options.itemId}`).innerText = updTitle;
-            parent.document.querySelector(`#position-${options.itemId}`).innerText = updPosition;
-            parent.document.querySelector(`#access-${options.itemId}`).innerHTML = parent.viewLevels[updAccess];
+            window.parent.document.querySelector(`#title-${options.itemId}`).innerText = updTitle;
+            window.parent.document.querySelector(`#position-${options.itemId}`).innerText = updPosition;
+            window.parent.document.querySelector(`#access-${options.itemId}`).innerHTML = window.parent.viewLevels[updAccess];
           }
         }
       }
