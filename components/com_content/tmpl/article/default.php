@@ -59,8 +59,8 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
-		<?php if ($this->item->state == 0) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+		<?php if ($this->item->condition == 2) : ?>
+			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
