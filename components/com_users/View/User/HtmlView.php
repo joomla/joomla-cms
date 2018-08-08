@@ -138,6 +138,5 @@ class HtmlView extends BaseHtmlView
 		$pathway = $app->getPathway();
 
 		$pathway->addItem($this->item->name, '');
-
 	}
 }
