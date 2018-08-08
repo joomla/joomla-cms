@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "5749677e2afdf181fc07ea6b394cbe40",
@@ -3675,12 +3675,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "13c12ee493a4f5bad482dd601e86db52b2918714"
+                "reference": "b5190e0ea15ab6d6550dc8a22e2ea17f83d49f8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/13c12ee493a4f5bad482dd601e86db52b2918714",
-                "reference": "13c12ee493a4f5bad482dd601e86db52b2918714",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/b5190e0ea15ab6d6550dc8a22e2ea17f83d49f8b",
+                "reference": "b5190e0ea15ab6d6550dc8a22e2ea17f83d49f8b",
                 "shasum": ""
             },
             "require": {
@@ -3718,7 +3718,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2018-08-06T11:31:54+00:00"
+            "time": "2018-08-08T12:10:09+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",

@@ -19,6 +19,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Controller for single contact view
@@ -221,30 +222,48 @@ class ContactController extends FormController
 			}
 		}
 
-		$mail = Factory::getMailer();
-		$mail->addRecipient($contact->email_to);
-		$mail->addReplyTo($email, $name);
-		$mail->setSender(array($mailfrom, $fromname));
-		$mail->setSubject($sitename . ': ' . $subject);
-		$mail->setBody($body);
-		$sent = $mail->Send();
-
-		// If we are supposed to copy the sender, do so.
-
-		// Check whether email copy function activated
-		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+		try
 		{
-			$copytext    = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
-			$copytext    .= "\r\n\r\n" . $body;
-			$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
-
 			$mail = Factory::getMailer();
-			$mail->addRecipient($email);
+			$mail->addRecipient($contact->email_to);
 			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));
-			$mail->setSubject($copysubject);
-			$mail->setBody($copytext);
+			$mail->setSubject($sitename . ': ' . $subject);
+			$mail->setBody($body);
 			$sent = $mail->Send();
+
+			// If we are supposed to copy the sender, do so.
+
+			// Check whether email copy function activated
+			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			{
+				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+				$copytext .= "\r\n\r\n" . $body;
+				$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
+
+				$mail = Factory::getMailer();
+				$mail->addRecipient($email);
+				$mail->addReplyTo($email, $name);
+				$mail->setSender(array($mailfrom, $fromname));
+				$mail->setSubject($copysubject);
+				$mail->setBody($copytext);
+				$sent = $mail->Send();
+			}
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$sent = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$sent = false;
+			}
 		}
 
 		return $sent;
