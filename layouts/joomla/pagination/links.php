@@ -61,9 +61,8 @@ if ($currentPage >= $step)
 
 		<?php if ($showPagesLinks && (!empty($pages))) : ?>
 			<ul class="pagination ml-0 mb-4">
-				<?php
-					echo LayoutHelper::render('joomla.pagination.link', $pages['start']);
-					echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
+				<?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
+				<?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 				<?php foreach ($pages['pages'] as $k => $page) : ?>
 
 					<?php $output = LayoutHelper::render('joomla.pagination.link', $page); ?>
@@ -75,9 +74,8 @@ if ($currentPage >= $step)
 
 					<?php echo $output; ?>
 				<?php endforeach; ?>
-				<?php
-					echo LayoutHelper::render('joomla.pagination.link', $pages['next']);
-					echo LayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
+				<?php echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
+				<?php echo LayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
 			</ul>
 		<?php endif; ?>
 
