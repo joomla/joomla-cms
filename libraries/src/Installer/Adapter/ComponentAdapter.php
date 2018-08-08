@@ -603,11 +603,11 @@ class ComponentAdapter extends InstallerAdapter
 			$db = $this->db;
 
 			$query = $db->getQuery(true)
-				->select($db->qn('extension_id'))
-				->from($db->qn('#__extensions'))
-				->where($db->qn('name') . ' = :name')
-				->where($db->qn('type') . ' = :type')
-				->where($db->qn('element') . ' = :element')
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('name') . ' = :name')
+				->where($db->quoteName('type') . ' = :type')
+				->where($db->quoteName('element') . ' = :element')
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':element', $element);
@@ -797,11 +797,11 @@ class ComponentAdapter extends InstallerAdapter
 			$db = $this->db;
 
 			$query = $db->getQuery(true)
-				->select($db->qn('extension_id'))
-				->from($db->qn('#__extensions'))
-				->where($db->qn('name') . ' = :name')
-				->where($db->qn('type') . ' = :type')
-				->where($db->qn('element') . ' = :element')
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('name') . ' = :name')
+				->where($db->quoteName('type') . ' = :type')
+				->where($db->quoteName('element') . ' = :element')
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':element', $element);
@@ -1092,7 +1092,7 @@ class ComponentAdapter extends InstallerAdapter
 			->select('id')
 			->from('#__menu')
 			->where($db->quoteName('client_id') . ' = 1')
-			->where($db->quoteName('menutype') . ' = ' . $db->q('main'))
+			->where($db->quoteName('menutype') . ' = ' . $db->quote('main'))
 			->where($db->quoteName('component_id') . ' = :id')
 			->bind(':id', $id, ParameterType::INTEGER);
 
@@ -1161,7 +1161,7 @@ class ComponentAdapter extends InstallerAdapter
 			->where('type = ' . $db->quote('component'))
 			->where('('
 				. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
-				. 'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false)
+				. 'link LIKE ' . $db->quote($db->escape('index.php?option=' . $option . '&') . '%', false)
 				. ')');
 
 		if (isset($clientId))
