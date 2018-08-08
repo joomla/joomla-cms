@@ -10,23 +10,26 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.tabstate');
 
 HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.item_title', $this); ?>
 
 	<fieldset>
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 			<?php echo $this->form->renderField('title'); ?>
 			<?php echo $this->form->renderField('title_native'); ?>
 			<?php echo $this->form->renderField('lang_code'); ?>
@@ -38,7 +41,7 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['re
 				<div class="controls">
 					<?php echo $this->form->getInput('image'); ?>
 					<span id="flag">
-						<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
 					</span>
 				</div>
 			</div>
@@ -49,18 +52,18 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['re
 			<?php echo $this->form->renderField('access'); ?>
 			<?php echo $this->form->renderField('description'); ?>
 			<?php echo $this->form->renderField('lang_id'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
 		<?php echo $this->form->renderFieldset('metadata'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'site_name', Text::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
 		<?php echo $this->form->renderFieldset('site_name'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
