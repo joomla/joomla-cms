@@ -60,7 +60,7 @@ if ($saveOrder)
 									<?php echo JText::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TITLE', 's.title', $listDirn, $listOrder); ?>
+									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_CONDITION', 's.condition', $listDirn, $listOrder); ?>

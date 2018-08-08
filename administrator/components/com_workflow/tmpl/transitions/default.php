@@ -58,7 +58,7 @@ if ($saveOrder)
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TITLE', 't.title', $listDirn, $listOrder); ?>
+									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>

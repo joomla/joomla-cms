@@ -69,7 +69,7 @@ $userId = $user->id;
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TITLE', 'w.title', $listDirn, $listOrder); ?>
+									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:10%" class="nowrap text-center hidden-sm-down">
 									<?php echo JText::_('COM_WORKFLOW_STATES'); ?>
