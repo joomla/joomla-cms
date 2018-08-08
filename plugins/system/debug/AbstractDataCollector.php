@@ -22,13 +22,17 @@ use Joomla\Registry\Registry;
 abstract class AbstractDataCollector extends DataCollector implements Renderable
 {
 	/**
-	 * @var Registry
+	 * Parameters.
+	 *
+	 * @var   Registry
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $params;
 
 	/**
-	 * @var DataFormatter
+	 * The default formatter.
+	 *
+	 * @var   DataFormatter
 	 * @since __DEPLOY_VERSION__
 	 */
 	private static $defaultDataFormatter;
@@ -48,7 +52,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	/**
 	 * Get a data formatter.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 * @return DataFormatterInterface
 	 */
 	public function getDataFormatter(): DataFormatterInterface
@@ -64,7 +68,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	/**
 	 * Returns the default data formater
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 * @return DataFormatterInterface
 	 */
 	public static function getDefaultDataFormatter(): DataFormatterInterface

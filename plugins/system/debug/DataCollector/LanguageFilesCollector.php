@@ -20,6 +20,12 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  */
 class LanguageFilesCollector extends AbstractDataCollector implements AssetProvider
 {
+	/**
+	 * Collector name.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $name = 'languageFiles';
 
 	/**

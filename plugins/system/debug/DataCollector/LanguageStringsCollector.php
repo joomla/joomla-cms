@@ -20,6 +20,12 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  */
 class LanguageStringsCollector extends AbstractDataCollector
 {
+	/**
+	 * Collector name.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $name = 'languageStrings';
 
 	/**

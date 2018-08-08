@@ -20,8 +20,20 @@ use Joomla\Registry\Registry;
  */
 class InfoCollector extends AbstractDataCollector implements AssetProvider
 {
+	/**
+	 * Collector name.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $name = 'info';
 
+	/**
+	 * Request ID.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $requestId;
 
 	/**

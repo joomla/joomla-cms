@@ -21,6 +21,12 @@ use Joomla\Registry\Registry;
  */
 class QueryCollector extends AbstractDataCollector
 {
+	/**
+	 * Collector name.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $name = 'queries';
 
 	/**
@@ -32,12 +38,16 @@ class QueryCollector extends AbstractDataCollector
 	private $queryMonitor;
 
 	/**
+	 * Profile data.
+	 *
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $profiles;
 
 	/**
+	 * Explain data.
+	 *
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
 	 */

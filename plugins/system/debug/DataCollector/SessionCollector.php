@@ -19,6 +19,12 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  */
 class SessionCollector  extends AbstractDataCollector
 {
+	/**
+	 * Collector name.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $name = 'session';
 
 	/**

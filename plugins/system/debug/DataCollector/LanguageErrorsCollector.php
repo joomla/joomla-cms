@@ -20,6 +20,12 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  */
 class LanguageErrorsCollector extends AbstractDataCollector
 {
+	/**
+	 * Collector name.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
 	private $name = 'languageErrors';
 
 	/**
