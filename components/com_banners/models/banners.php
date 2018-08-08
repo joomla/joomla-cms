@@ -225,11 +225,11 @@ class BannersModelBanners extends JModelList
 		$params = JComponentHelper::getParams('com_banners');
 		$track_frequency = $params->get('track_frequency', 'hourly');
 
-		$trackDate = JFactory::getDate()->format('Y-m-d');
+		$trackDate = JFactory::getDate()->format('Y-m-d 00:00:00');.
 
 		if ($track_frequency == 'hourly')
 		{
-			$trackDate = JFactory::getDate()->format('Y-m-d H');
+			$trackDate = JFactory::getDate()->format('Y-m-d H:00:00');
 		}
 
 		$items     = $this->getItems();
