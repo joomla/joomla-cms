@@ -1007,13 +1007,20 @@ class Language
 		// Search through the backtrace to our caller
 		$continue = true;
 
+		$languageClasses = [
+			'\\Joomla\\CMS\\Language\\Language',
+			'Joomla\\CMS\\Language\\Language',
+			'JText',
+			'Text',
+		];
+
 		while ($continue && next($backtrace))
 		{
 			$step = current($backtrace);
 			$class = @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'JText')
+			if (!\in_array($class, $languageClasses))
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;
