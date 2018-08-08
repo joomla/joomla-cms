@@ -11,7 +11,7 @@
 				name="id"
 				type="usergrouplist"
 				label="COM_USERS_GROUP_LABEL"
-			>
+				>
 			</field>
 		</fieldset>
 	</fields>
@@ -24,7 +24,7 @@
 				type="list"
 				label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>

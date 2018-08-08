@@ -510,7 +510,7 @@ class UserController extends FormController
 
 		if ($contact->email == '' && $contact->id != 0)
 		{
-			$contact_user      = User::getInstance($contact->id);
+			$contact_user   = User::getInstance($contact->id);
 			$contact->email = $contact_user->get('email');
 		}
 

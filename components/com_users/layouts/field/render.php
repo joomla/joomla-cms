@@ -27,6 +27,7 @@ if ($field->context == 'com_users.contact')
 	$value = html_entity_decode($value);
 
 	echo ($showLabel ? $label . ': ' : '') . $value . "\r\n";
+
 	return;
 }
 

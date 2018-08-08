@@ -110,6 +110,5 @@ class UsersRouter extends RouterView
 		}
 
 		return (int) $segment;
-
 	}
 }

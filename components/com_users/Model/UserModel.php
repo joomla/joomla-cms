@@ -54,7 +54,6 @@ class UserModel extends FormModel
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
-
 	}
 
 	/**
@@ -91,7 +90,6 @@ class UserModel extends FormModel
 			$user->params = $this->getState('params');
 			$user->params = clone $this->getState('params');
 			$user->params->merge($registry);
-
 
 			// Compute view access permissions.
 			$user->params->set('access-view', in_array($user->access, $groups));
