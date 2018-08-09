@@ -42,7 +42,7 @@ class FilterController extends FormController
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data = $input->post->get('jform', array(), 'array');
-		$checkin = property_exists($table, 'checked_out');
+		$checkin = $table->hasField('checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 
