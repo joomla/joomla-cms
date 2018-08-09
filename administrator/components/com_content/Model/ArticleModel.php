@@ -212,7 +212,7 @@ class ArticleModel extends AdminModel
 
 		if (!$user->authorise('core.admin', 'com_content'))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
 		}
 
 		// Get state information
@@ -220,14 +220,14 @@ class ArticleModel extends AdminModel
 
 		if (empty($value) || !$state->load($value))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
 
 			return false;
 		}
 
 		if (empty($pks))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
 
 			return false;
 		}
@@ -789,7 +789,7 @@ class ArticleModel extends AdminModel
 
 			if (empty($workflow->id))
 			{
-				$this->setError(\JText::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
 
 				return false;
 			}
@@ -812,7 +812,7 @@ class ArticleModel extends AdminModel
 			// Check if the user is allowed to execute this transition
 			if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $data['transition']))
 			{
-				$this->setError(JText::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
 
 				return false;
 			}
@@ -832,7 +832,7 @@ class ArticleModel extends AdminModel
 
 			if (empty($state->id))
 			{
-				$this->setError(JText::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
 
 				return false;
 			}
@@ -903,7 +903,7 @@ class ArticleModel extends AdminModel
 
 					if (empty($workflow->id))
 					{
-						$this->setError(\JText::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+						$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
 
 						return false;
 					}
@@ -1284,7 +1284,7 @@ class ArticleModel extends AdminModel
 
 		if (!$runTransaction)
 		{
-			$this->setError(\JText::_('COM_CONTENT_ERROR_UPDATE_STATE'));
+			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STATE'));
 
 			return false;
 		}
