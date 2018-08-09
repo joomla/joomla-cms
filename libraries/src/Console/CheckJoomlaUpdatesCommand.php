@@ -10,9 +10,9 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Joomla\CMS\Factory;
 
 /**
  * Console command for checking if there are pending extension updates
@@ -21,8 +21,10 @@ use Joomla\CMS\Factory;
  */
 class CheckJoomlaUpdatesCommand extends AbstractCommand
 {
-	/*
+	/**
 	 * Stores the Update Information
+	 * @var UpdateModel
+	 * @since 4.0
 	 */
 	private $updateInfo;
 
@@ -44,6 +46,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 		if (!$data['hasUpdate'])
 		{
 			$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
+
 			return 0;
 		}
 		else
@@ -55,6 +58,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 		{
 			$symfonyStyle->warning('We cannot find an update URL');
 		}
+
 		return 0;
 	}
 
@@ -82,7 +86,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 */
 	private function getUpdateInformationFromModel()
 	{
-		$app = Factory::getApplication();
+		$app = $this->getApplication();
 		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
 		$updatemodel->purge();
 		$updatemodel->refreshUpdates(true);
@@ -102,6 +106,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 		if (!$this->updateInfo)
 		{
 			$this->setUpdateInfo();
+
 			return $this->updateInfo;
 		}
 		else
