@@ -134,7 +134,7 @@ class StatesController extends AdminController
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function checkin()
 	{
@@ -143,8 +143,8 @@ class StatesController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd("extension")
-				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+				. '&extension=' . $this->input->getCmd('extension')
+				. '&workflow_id=' . $this->input->getCmd('workflow_id'), false
 			)
 		);
 	}
