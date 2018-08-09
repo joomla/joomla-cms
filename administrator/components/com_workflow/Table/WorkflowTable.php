@@ -255,15 +255,15 @@ class WorkflowTable extends Table
 		$assetId = null;
 
 		// Build the query to get the asset id for the parent category.
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('id'))
-			->from($this->_db->quoteName('#__assets'))
-			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
+		$query = $this->getDbo()->getQuery(true)
+			->select($this->getDbo()->quoteName('id'))
+			->from($this->getDbo()->quoteName('#__assets'))
+			->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($this->extension));
 
 		// Get the asset id from the database.
-		$this->_db->setQuery($query);
+		$this->getDbo()->setQuery($query);
 
-		if ($result = $this->_db->loadResult())
+		if ($result = $this->getDbo()->loadResult())
 		{
 			$assetId = (int) $result;
 		}
