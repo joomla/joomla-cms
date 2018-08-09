@@ -256,7 +256,7 @@ class WorkflowsModel extends ListModel
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
