@@ -10,9 +10,6 @@
     <version>4.0.0</version>
     <description>COM_WORKFLOW_XML_DESCRIPTION</description>
     <namespace>Joomla\Component\Workflow</namespace>
-    <!--<languages folder="site">
-        <language tag="en-GB">language/en-GB.com_workflow.ini</language>
-    </languages>-->
     <administration>
         <menu>COM_WORKFLOW</menu>
         <files folder="admin">
@@ -30,9 +27,9 @@
             <folder>tmpl</folder>
             <folder>View</folder>
         </files>
-        <!--<languages folder="admin">
+        <languages folder="admin">
             <language tag="en-GB">language/en-GB.com_workflow.ini</language>
             <language tag="en-GB">language/en-GB.com_workflow.sys.ini</language>
-        </languages>-->
+        </languages>
     </administration>
 </extension>
