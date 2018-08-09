@@ -11,7 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 
