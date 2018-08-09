@@ -15,7 +15,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 
 /**
- * Category table
+ * Workflow table
  *
  * @since  __DEPLOY_VERSION__
  */
