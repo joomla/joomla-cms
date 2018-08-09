@@ -42,7 +42,7 @@ class WorkflowTable extends Table
 	 *
 	 * @param   int  $pk  Extension ids to delete.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 *
@@ -94,10 +94,8 @@ class WorkflowTable extends Table
 		{
 			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
 
-			return;
+			return false;
 		}
-
-		return false;
 	}
 
 	/**
