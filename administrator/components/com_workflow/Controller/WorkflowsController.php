@@ -10,10 +10,13 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The first example class, this is in the same
@@ -30,13 +33,13 @@ class WorkflowsController extends AdminController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                         'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct(array $config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct(array $config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 		$this->registerTask('unsetDefault',	'setDefault');
@@ -49,7 +52,7 @@ class WorkflowsController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -68,7 +71,7 @@ class WorkflowsController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -80,7 +83,7 @@ class WorkflowsController extends AdminController
 		{
 			$this->setMessage(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&extension=' . $this->input->getCmd("extension"), false
 				)
@@ -95,7 +98,7 @@ class WorkflowsController extends AdminController
 		}
 		elseif (count($cid) > 1)
 		{
-			$this->setMessage(Text::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
+			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_ITEMS'), 'error');
 		}
 		else
 		{
@@ -126,7 +129,7 @@ class WorkflowsController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension"), false
 			)
@@ -144,7 +147,7 @@ class WorkflowsController extends AdminController
 	{
 		parent::delete();
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension"), false
 			)

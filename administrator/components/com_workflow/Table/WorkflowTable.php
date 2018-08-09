@@ -42,7 +42,7 @@ class WorkflowTable extends Table
 	 *
 	 * @param   int  $pk  Extension ids to delete.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 *
@@ -50,15 +50,15 @@ class WorkflowTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
-		// Gets the update site names.
+		// Gets the workflow information that is going to be deleted.
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('id', 'title')))
 			->from($db->quoteName('#__workflows'))
@@ -68,12 +68,12 @@ class WorkflowTable extends Table
 
 		if ($workflow->default)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
 
 			return false;
 		}
 
-		// Delete the update site from all tables.
+		// Delete the workflow states, then transitions from all tables.
 		try
 		{
 			$query = $db->getQuery(true)
@@ -92,12 +92,10 @@ class WorkflowTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
 
-			return;
+			return false;
 		}
-
-		return false;
 	}
 
 	/**
@@ -257,15 +255,15 @@ class WorkflowTable extends Table
 		$assetId = null;
 
 		// Build the query to get the asset id for the parent category.
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('id'))
-			->from($this->_db->quoteName('#__assets'))
-			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
+		$query = $this->getDbo()->getQuery(true)
+			->select($this->getDbo()->quoteName('id'))
+			->from($this->getDbo()->quoteName('#__assets'))
+			->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($this->extension));
 
 		// Get the asset id from the database.
-		$this->_db->setQuery($query);
+		$this->getDbo()->setQuery($query);
 
-		if ($result = $this->_db->loadResult())
+		if ($result = $this->getDbo()->loadResult())
 		{
 			$assetId = (int) $result;
 		}
