@@ -67,9 +67,9 @@ $userId = $user->id;
 								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<td style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
+								</td>
 								<th scope="col"  style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
 								</th>
@@ -141,7 +141,7 @@ $userId = $user->id;
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 									</div>
 								</td>
-								<td>
+								<th scope="row">
 									<?php if ($canEdit || $canEditOwn) : ?>
 										<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
@@ -150,7 +150,7 @@ $userId = $user->id;
 									<?php else: ?>
 										<?php echo $item->title; ?>
 									<?php endif; ?>
-								</td>
+								</th>
 								<td class="text-center">
 									<a href="<?php echo $states; ?>"><?php echo Text::_('COM_WORKFLOW_MANAGE'); ?></a>
 								</td>
@@ -182,7 +182,7 @@ $userId = $user->id;
 					</table>
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
-				
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
