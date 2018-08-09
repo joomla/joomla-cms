@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.tooltip');
 
@@ -27,7 +28,7 @@ $saveOrder = ($listOrder == 't.ordering');
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>

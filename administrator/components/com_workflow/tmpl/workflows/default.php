@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.tooltip');
 
@@ -34,7 +35,7 @@ if (strpos($listOrder, 'modified') !== false)
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 

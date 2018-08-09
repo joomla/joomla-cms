@@ -15,6 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The first example class, this is in the same
@@ -70,7 +71,7 @@ class StatesController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
