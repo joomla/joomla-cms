@@ -96,7 +96,7 @@ class StatesController extends AdminController
 		}
 		elseif (count($cid) > 1)
 		{
-			$this->setMessage(Text::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
+			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_ITEMS'), 'error');
 		}
 		else
 		{
