@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 
@@ -84,7 +83,7 @@ class StateModel extends AdminModel
 	public function save($data)
 	{
 		$context             = $this->option . '.' . $this->name;
-		$app                 = \JFactory::getApplication();
+		$app                 = Factory::getApplication();
 		$input               = $app->input;
 		$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
@@ -237,7 +236,7 @@ class StateModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState(
+		$data = Factory::getApplication()->getUserState(
 			'com_workflow.edit.state.data',
 			array()
 		);

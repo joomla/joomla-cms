@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 
 /**
- * Category table
+ * Transition table
  *
  * @since  __DEPLOY_VERSION__
  */

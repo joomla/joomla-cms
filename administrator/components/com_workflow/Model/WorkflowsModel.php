@@ -14,6 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 
 /**
  * Model class for items
@@ -66,7 +67,7 @@ class WorkflowsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'w.ordering', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
@@ -255,7 +256,7 @@ class WorkflowsModel extends ListModel
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
