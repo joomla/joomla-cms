@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 
