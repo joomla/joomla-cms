@@ -3,14 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
@@ -35,7 +34,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 *
 	 * @return array Collected data
 	 */
-	public function collect()
+	public function collect(): array
 	{
 		return [
 			'data' => $this->getData(),
@@ -50,7 +49,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -63,7 +62,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 *
 	 * @return array
 	 */
-	public function getWidgets()
+	public function getWidgets(): array
 	{
 		return [
 			'untranslated' => [
@@ -86,102 +85,28 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getData()
+	private function getData(): array
 	{
-		$stripFirst = $this->params->get('strip-first');
-		$stripPref = $this->params->get('strip-prefix');
-		$stripSuff = $this->params->get('strip-suffix');
-
 		$orphans = Factory::getLanguage()->getOrphans();
 
-		if (!count($orphans))
+		$data = [];
+
+		foreach ($orphans as $orphan => $occurrences)
 		{
-			return [Text::_('JNONE')];
+			$data[$orphan] = $occurrences[0]['file'] ?? 'n/a';
 		}
 
-		ksort($orphans, SORT_STRING);
-
-		$guesses = [];
-
-		foreach ($orphans as $key => $occurance)
-		{
-			if (is_array($occurance) && isset($occurance[0]))
-			{
-				$info = $occurance[0];
-				$file = $info['file'] ? $info['file'] : '';
-
-				if (!isset($guesses[$file]))
-				{
-					$guesses[$file] = [];
-				}
-
-				// Prepare the key.
-				if (($pos = strpos($info['string'], '=')) > 0)
-				{
-					$parts = explode('=', $info['string']);
-					$key = $parts[0];
-					$guess = $parts[1];
-				}
-				else
-				{
-					$guess = str_replace('_', ' ', $info['string']);
-
-					if ($stripFirst)
-					{
-						$parts = explode(' ', $guess);
-
-						if (count($parts) > 1)
-						{
-							array_shift($parts);
-							$guess = implode(' ', $parts);
-						}
-					}
-
-					$guess = trim($guess);
-
-					if ($stripPref)
-					{
-						$guess = trim(preg_replace(chr(1) . '^' . $stripPref . chr(1) . 'i', '', $guess));
-					}
-
-					if ($stripSuff)
-					{
-						$guess = trim(preg_replace(chr(1) . $stripSuff . '$' . chr(1) . 'i', '', $guess));
-					}
-				}
-
-				$key = trim(strtoupper($key));
-				$key = preg_replace('#\s+#', '_', $key);
-				$key = preg_replace('#\W#', '', $key);
-
-				// Prepare the text.
-				$guesses[$file][] = $key . '="' . $guess . '"';
-			}
-		}
-
-		$untranslated = [];
-		$count = 1;
-
-		foreach ($guesses as $file => $keys)
-		{
-			foreach ($keys as $key)
-			{
-				$untranslated[$count] = $key . ' in ' . $file;
-				$count ++;
-			}
-		}
-
-		return $untranslated;
+		return $data;
 	}
 
 	/**
 	 * Get a count value.
 	 *
-	 * @return int
+	 * @return integer
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getCount()
+	private function getCount(): int
 	{
 		return \count(Factory::getLanguage()->getOrphans());
 	}
