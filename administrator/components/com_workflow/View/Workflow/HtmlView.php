@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class to add or edit Workflow
@@ -107,7 +108,7 @@ class HtmlView extends BaseHtmlView
 
 		$canDo = WorkflowHelper::getActions($this->extension, 'workflow', $this->item->id);
 
-		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_WORKFLOWS_ADD') : \JText::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');
+		ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_WORKFLOWS_ADD') : Text::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');
 
 		$toolbarButtons = [];
 

@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The first example class, this is in the same
@@ -115,7 +116,7 @@ class WorkflowModel extends AdminModel
 			$newstate = new \stdClass;
 
 			$newstate->workflow_id = (int) $this->getState($this->getName() . '.id');
-			$newstate->title = \JText::_('COM_WORKFLOW_PUBLISHED');
+			$newstate->title = Text::_('COM_WORKFLOW_PUBLISHED');
 			$newstate->description = '';
 			$newstate->published = 1;
 			$newstate->condition = 1;
@@ -262,7 +263,7 @@ class WorkflowModel extends AdminModel
 		{
 			if ($table->published !== 1)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
@@ -358,7 +359,7 @@ class WorkflowModel extends AdminModel
 		{
 			if ($value != 1 && $table->default)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 				unset($pks[$i]);
 				break;
 			}

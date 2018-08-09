@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The first example class, this is in the same
@@ -123,7 +124,7 @@ class StateModel extends AdminModel
 	{
 		if (empty($record->id) || $record->published != -2)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -137,7 +138,7 @@ class StateModel extends AdminModel
 
 		if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -267,7 +268,7 @@ class StateModel extends AdminModel
 		{
 			if (!$table->published)
 			{
-				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
+				$this->setError(Text::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
 				return false;
 			}
@@ -320,7 +321,7 @@ class StateModel extends AdminModel
 				if ($table->load(array('id' => $pk)) && $table->default)
 				{
 					// Prune items that you can't change.
-					$app->enqueueMessage(\JText::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 					unset($pks[$i]);
 				}
 			}
