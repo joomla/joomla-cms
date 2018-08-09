@@ -13,10 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.tooltip');
 
-$user      = JFactory::getUser();
+$user      = Factory::getUser();
 $userId    = $user->id;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -27,11 +31,11 @@ $saveOrder = ($listOrder == 's.ordering');
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=states.saveOrderAjax&' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=states.saveOrderAjax&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -40,7 +44,7 @@ if ($saveOrder)
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->states)) : ?>
 					<div class="alert alert-warning alert-no-items">
@@ -75,7 +79,7 @@ if ($saveOrder)
 						</thead>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
 							<?php foreach ($this->states as $i => $item):
-								$edit = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
+								$edit = Route::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.state.' . $item->id);
 								// @TODO set proper checkin fields

@@ -41,7 +41,7 @@ class WorkflowModel extends AdminModel
 	{
 		parent::populateState();
 
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
 		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
@@ -83,8 +83,8 @@ class WorkflowModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$user					= \JFactory::getUser();
-		$app					= \JFactory::getApplication();
+		$user					= Factory::getUser();
+		$app					= Factory::getApplication();
 		$input                  = $app->input;
 		$context				= $this->option . '.' . $this->name;
 		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
@@ -196,7 +196,7 @@ class WorkflowModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState(
+		$data = Factory::getApplication()->getUserState(
 			'com_workflow.edit.workflow.data',
 			array()
 		);
