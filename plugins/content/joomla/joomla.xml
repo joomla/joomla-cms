@@ -30,14 +30,37 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field
+					name="check_states"
+					type="radio"
+					class="switcher"
+					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_LABEL"
+					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_DESC"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 
-				<field 
+				<field
 					name="email_new_fe"
 					type="radio"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
 					class="switcher"
 					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="email_new_state"
+					type="radio"
+					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_STATE_LABEL"
+					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_STATE_DESC"
+					class="switcher"
+					default="0"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
