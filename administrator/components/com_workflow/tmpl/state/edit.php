@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('formbehavior.chosen', '.advancedSelect', null, array('disable_search_threshold' => 0));
 
-$app   = JFactory::getApplication();
+$app   = Factory::getApplication();
 $input = $app->input;
 
 // In case of modal

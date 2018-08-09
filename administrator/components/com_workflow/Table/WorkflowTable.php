@@ -50,13 +50,13 @@ class WorkflowTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)

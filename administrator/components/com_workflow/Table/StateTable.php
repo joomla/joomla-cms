@@ -50,13 +50,13 @@ class StateTable extends Table
 	public function delete($pk = null)
 	{
 		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_workflows'))
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
