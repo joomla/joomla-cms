@@ -68,7 +68,7 @@ class WorkflowTable extends Table
 
 		if ($workflow->default)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
 
 			return false;
 		}
@@ -92,7 +92,7 @@ class WorkflowTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
 
 			return;
 		}

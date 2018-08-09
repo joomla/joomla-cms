@@ -68,7 +68,7 @@ class StateTable extends Table
 
 		if ($state->default)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $state->title), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $state->title), 'error');
 
 			return false;
 		}
@@ -87,7 +87,7 @@ class StateTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $state->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $state->title, $e->getMessage()), 'error');
 		}
 
 		return false;

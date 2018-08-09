@@ -52,7 +52,7 @@ class DisplayController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the Text message prefix. Defaults to the option.
 		if (empty($this->extension))
 		{
 			$this->extension = $this->input->get('extension', 'com_content');
