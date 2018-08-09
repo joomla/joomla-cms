@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
@@ -57,12 +57,6 @@ $app = Factory::getApplication();
 					<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 					<?php if (!$tabs) : ?>
 						<?php $app->enqueueMessage(Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
-					<?php endif; ?>
-
-					<?php if ($this->ftp) : ?>
-						<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'ftp', Text::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
-						<?php echo $this->loadTemplate('ftp'); ?>
-						<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
 					<input type="hidden" name="installtype" value="">

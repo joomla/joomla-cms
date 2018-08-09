@@ -10,13 +10,12 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Help\Help;
-use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Help\Help;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Profile controller class for Users.
@@ -36,9 +35,6 @@ class ProfileController extends BaseController
 	public function gethelpsites()
 	{
 		jimport('joomla.filesystem.file');
-
-		// Set FTP credentials, if given
-		ClientHelper::setCredentialsFromRequest('ftp');
 
 		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{

@@ -12,12 +12,11 @@ namespace Joomla\Component\Config\Administrator\View\Application;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the global configuration
@@ -32,6 +31,14 @@ class HtmlView extends BaseHtmlView
 
 	public $data;
 
+	protected $usersParams;
+
+	protected $mediaParams;
+
+	protected $components;
+
+	protected $userIsSuperAdmin;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -41,6 +48,8 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.0
+	 *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -73,12 +82,8 @@ class HtmlView extends BaseHtmlView
 		// Get the params for com_media.
 		$mediaParams = ComponentHelper::getParams('com_media');
 
-		// Load settings for the FTP layer.
-		$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-
 		$this->form        = &$form;
 		$this->data        = &$data;
-		$this->ftp         = &$ftp;
 		$this->usersParams = &$usersParams;
 		$this->mediaParams = &$mediaParams;
 		$this->components  = ConfigHelper::getComponentsWithConfig();

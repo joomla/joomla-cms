@@ -11,12 +11,10 @@ namespace Joomla\CMS\Filesystem;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * A Folder handling class
@@ -43,7 +41,6 @@ abstract class Folder
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
-		$FTPOptions = ClientHelper::getCredentials('ftp');
 		$pathObject = new PathWrapper;
 
 		if ($path)
@@ -72,93 +69,48 @@ abstract class Folder
 			throw new \RuntimeException('Cannot create destination folder', -1);
 		}
 
-		// If we're using ftp and don't have streams enabled
-		if ($FTPOptions['enabled'] == 1 && !$use_streams)
+		if (!($dh = @opendir($src)))
 		{
-			// Connect the FTP client
-			$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+			throw new \RuntimeException('Cannot open source folder', -1);
+		}
+		// Walk through the directory copying files and recursing into folders.
+		while (($file = readdir($dh)) !== false)
+		{
+			$sfid = $src . '/' . $file;
+			$dfid = $dest . '/' . $file;
 
-			if (!($dh = @opendir($src)))
+			switch (filetype($sfid))
 			{
-				throw new \RuntimeException('Cannot open source folder', -1);
-			}
-			// Walk through the directory copying files and recursing into folders.
-			while (($file = readdir($dh)) !== false)
-			{
-				$sfid = $src . '/' . $file;
-				$dfid = $dest . '/' . $file;
+				case 'dir':
+					if ($file != '.' && $file != '..')
+					{
+						$ret = self::copy($sfid, $dfid, null, $force, $use_streams);
 
-				switch (filetype($sfid))
-				{
-					case 'dir':
-						if ($file != '.' && $file != '..')
+						if ($ret !== true)
 						{
-							$ret = self::copy($sfid, $dfid, null, $force);
-
-							if ($ret !== true)
-							{
-								return $ret;
-							}
+							return $ret;
 						}
-						break;
+					}
+					break;
 
-					case 'file':
-						// Translate path for the FTP account
-						$dfid = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
+				case 'file':
+					if ($use_streams)
+					{
+						$stream = Factory::getStream();
 
-						if (!$ftp->store($sfid, $dfid))
+						if (!$stream->copy($sfid, $dfid))
+						{
+							throw new \RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
+						}
+					}
+					else
+					{
+						if (!@copy($sfid, $dfid))
 						{
 							throw new \RuntimeException('Copy file failed', -1);
 						}
-						break;
-				}
-			}
-		}
-		else
-		{
-			if (!($dh = @opendir($src)))
-			{
-				throw new \RuntimeException('Cannot open source folder', -1);
-			}
-			// Walk through the directory copying files and recursing into folders.
-			while (($file = readdir($dh)) !== false)
-			{
-				$sfid = $src . '/' . $file;
-				$dfid = $dest . '/' . $file;
-
-				switch (filetype($sfid))
-				{
-					case 'dir':
-						if ($file != '.' && $file != '..')
-						{
-							$ret = self::copy($sfid, $dfid, null, $force, $use_streams);
-
-							if ($ret !== true)
-							{
-								return $ret;
-							}
-						}
-						break;
-
-					case 'file':
-						if ($use_streams)
-						{
-							$stream = Factory::getStream();
-
-							if (!$stream->copy($sfid, $dfid))
-							{
-								throw new \RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
-							}
-						}
-						else
-						{
-							if (!@copy($sfid, $dfid))
-							{
-								throw new \RuntimeException('Copy file failed', -1);
-							}
-						}
-						break;
-				}
+					}
+					break;
 			}
 		}
 
@@ -177,12 +129,11 @@ abstract class Folder
 	 */
 	public static function create($path = '', $mode = 0755)
 	{
-		$FTPOptions = ClientHelper::getCredentials('ftp');
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean
 		$pathObject = new PathWrapper;
-		$path = $pathObject->clean($path);
+		$path       = $pathObject->clean($path);
 
 		// Check if parent dir exists
 		$parent = dirname($path);
@@ -219,76 +170,62 @@ abstract class Folder
 			return true;
 		}
 
-		// Check for safe mode
-		if ($FTPOptions['enabled'] == 1)
-		{
-			// Connect the FTP client
-			$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+		// We need to get and explode the open_basedir paths
+		$obd = ini_get('open_basedir');
 
-			// Translate path to FTP path
-			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
-			$ret = $ftp->mkdir($path);
-			$ftp->chmod($path, $mode);
-		}
-		else
+		// If open_basedir is set we need to get the open_basedir that the path is in
+		if ($obd != null)
 		{
-			// We need to get and explode the open_basedir paths
-			$obd = ini_get('open_basedir');
-
-			// If open_basedir is set we need to get the open_basedir that the path is in
-			if ($obd != null)
+			if (IS_WIN)
 			{
-				if (IS_WIN)
+				$obdSeparator = ';';
+			}
+			else
+			{
+				$obdSeparator = ':';
+			}
+
+			// Create the array of open_basedir paths
+			$obdArray = explode($obdSeparator, $obd);
+			$inBaseDir = false;
+
+			// Iterate through open_basedir paths looking for a match
+			foreach ($obdArray as $test)
+			{
+				$test = $pathObject->clean($test);
+
+				if (strpos($path, $test) === 0)
 				{
-					$obdSeparator = ';';
-				}
-				else
-				{
-					$obdSeparator = ':';
-				}
-
-				// Create the array of open_basedir paths
-				$obdArray = explode($obdSeparator, $obd);
-				$inBaseDir = false;
-
-				// Iterate through open_basedir paths looking for a match
-				foreach ($obdArray as $test)
-				{
-					$test = $pathObject->clean($test);
-
-					if (strpos($path, $test) === 0)
-					{
-						$inBaseDir = true;
-						break;
-					}
-				}
-
-				if ($inBaseDir == false)
-				{
-					// Return false for JFolder::create because the path to be created is not in open_basedir
-					Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), Log::WARNING, 'jerror');
-
-					return false;
+					$inBaseDir = true;
+					break;
 				}
 			}
 
-			// First set umask
-			$origmask = @umask(0);
-
-			// Create the path
-			if (!$ret = @mkdir($path, $mode))
+			if ($inBaseDir == false)
 			{
-				@umask($origmask);
-				Log::add(
-					__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY') . 'Path: ' . $path, Log::WARNING, 'jerror'
-				);
+				// Return false for JFolder::create because the path to be created is not in open_basedir
+				Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), Log::WARNING, 'jerror');
 
 				return false;
 			}
-
-			// Reset umask
-			@umask($origmask);
 		}
+
+		// First set umask
+		$origmask = @umask(0);
+
+		// Create the path
+		if (!$ret = @mkdir($path, $mode))
+		{
+			@umask($origmask);
+			Log::add(
+				__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY') . 'Path: ' . $path, Log::WARNING, 'jerror'
+			);
+
+			return false;
+		}
+
+		// Reset umask
+		@umask($origmask);
 
 		return $ret;
 	}
@@ -315,8 +252,6 @@ abstract class Folder
 
 			return false;
 		}
-
-		$FTPOptions = ClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
 		$path = $pathObject->clean($path);
@@ -366,33 +301,15 @@ abstract class Folder
 			}
 		}
 
-		if ($FTPOptions['enabled'] == 1)
-		{
-			// Connect the FTP client
-			$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-		}
-
 		// In case of restricted permissions we zap it one way or the other
-		// as long as the owner is either the webserver or the ftp.
-		if (@rmdir($path))
-		{
-			$ret = true;
-		}
-		elseif ($FTPOptions['enabled'] == 1)
-		{
-			// Translate path and delete
-			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
-
-			// FTP connector throws an error
-			$ret = $ftp->delete($path);
-		}
-		else
+		if (!@rmdir($path))
 		{
 			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
-			$ret = false;
+
+			return false;
 		}
 
-		return $ret;
+		return true;
 	}
 
 	/**
@@ -409,7 +326,6 @@ abstract class Folder
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
-		$FTPOptions = ClientHelper::getCredentials('ftp');
 		$pathObject = new PathWrapper;
 
 		if ($path)
@@ -441,32 +357,12 @@ abstract class Folder
 		}
 		else
 		{
-			if ($FTPOptions['enabled'] == 1)
+			if (!@rename($src, $dest))
 			{
-				// Connect the FTP client
-				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-
-				// Translate path for the FTP account
-				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-				// Use FTP rename to simulate move
-				if (!$ftp->rename($src, $dest))
-				{
-					return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
-				}
-
-				$ret = true;
+				return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
 			}
-			else
-			{
-				if (!@rename($src, $dest))
-				{
-					return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
-				}
 
-				$ret = true;
-			}
+			$ret = true;
 		}
 
 		return $ret;

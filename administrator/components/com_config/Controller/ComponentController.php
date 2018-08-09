@@ -11,12 +11,11 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -61,11 +60,8 @@ class ComponentController extends BaseController
 			$this->setRedirect(Route::_('index.php'), Text::_('JINVALID_TOKEN'), 'error');
 		}
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
-
 		/** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
-		$model = $this->getModel('Component', 'Administrator');
+		$model  = $this->getModel('Component', 'Administrator');
 		$form   = $model->getForm();
 		$data   = $this->input->get('jform', array(), 'array');
 		$id     = $this->input->getInt('id');

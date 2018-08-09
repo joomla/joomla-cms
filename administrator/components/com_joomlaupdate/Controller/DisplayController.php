@@ -10,10 +10,9 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Installer\Administrator\Model\WarningsModel;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Joomla! Update Controller
@@ -45,9 +44,6 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-			$view->ftp = &$ftp;
-
 			// Get the model for the view.
 			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');

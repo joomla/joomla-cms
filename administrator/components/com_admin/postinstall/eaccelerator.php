@@ -11,13 +11,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Checks if the eAccelerator caching method is enabled.
@@ -59,11 +58,8 @@ function admin_postinstall_eaccelerator_action()
 	// Set the configuration file path.
 	$file = JPATH_CONFIGURATION . '/configuration.php';
 
-	// Get the new FTP credentials.
-	$ftp = ClientHelper::getCredentials('ftp', true);
-
 	// Attempt to make the file writeable if using FTP.
-	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
+	if (Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 	{
 		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 	}
@@ -79,7 +75,7 @@ function admin_postinstall_eaccelerator_action()
 	}
 
 	// Attempt to make the file unwriteable if using FTP.
-	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
+	if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 	{
 		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 	}

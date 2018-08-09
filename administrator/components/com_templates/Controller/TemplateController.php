@@ -10,14 +10,13 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Installer\Administrator\Model\InstallModel;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
+use Joomla\Component\Installer\Administrator\Model\InstallModel;
 
 /**
  * Template style controller class.
@@ -110,9 +109,6 @@ class TemplateController extends BaseController
 
 				return false;
 			}
-
-			// Set FTP credentials, if given
-			ClientHelper::setCredentialsFromRequest('ftp');
 
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))

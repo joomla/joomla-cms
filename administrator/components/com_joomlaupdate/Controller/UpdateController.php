@@ -10,14 +10,14 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 /**
  * The Joomla! update controller for the Update view
@@ -51,9 +51,7 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 		$file = $model->download();
 
@@ -109,9 +107,7 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
@@ -153,9 +149,7 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->finaliseUpgrade();
@@ -197,9 +191,7 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->cleanUp();
@@ -230,7 +222,7 @@ class UpdateController extends BaseController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Purge updates
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 		$model->purge();
 
@@ -253,9 +245,7 @@ class UpdateController extends BaseController
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
-		$this->_applyCredentials();
-
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		try
@@ -326,7 +316,7 @@ class UpdateController extends BaseController
 		}
 
 		// Get the model
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Get the captive file before the session resets
@@ -395,7 +385,7 @@ class UpdateController extends BaseController
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			// Get the model for the view.
-			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+			/* @var UpdateModel $model */
 			$model = $this->getModel('Update');
 
 			// Push the model into the view (as default).
@@ -408,33 +398,6 @@ class UpdateController extends BaseController
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Applies FTP credentials to Joomla! itself, when required
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5.4
-	 */
-	protected function _applyCredentials()
-	{
-		$this->app->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
-
-		if (!ClientHelper::hasCredentials('ftp'))
-		{
-			$user = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
-			$pass = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', null, 'raw');
-
-			if ($user != '' && $pass != '')
-			{
-				// Add credentials to the session
-				if (!ClientHelper::setCredentials('ftp', $user, $pass))
-				{
-					$this->app->enqueueMessage(Text::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
-				}
-			}
-		}
 	}
 
 	/**
@@ -456,7 +419,7 @@ class UpdateController extends BaseController
 		}
 
 		// Get the model
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Try to log in

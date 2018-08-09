@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -29,9 +29,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<div id="j-main-container" class="j-main-container">
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
-					<?php endif; ?>
-					<?php if ($this->ftp) : ?>
-						<?php echo $this->loadTemplate('ftp'); ?>
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>

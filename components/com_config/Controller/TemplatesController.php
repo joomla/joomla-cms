@@ -12,16 +12,14 @@ namespace Joomla\Component\Config\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Templates\Administrator\Controller\Style;
-use Joomla\Component\Templates\Administrator\Controller\StyleController;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\Component\Templates\Administrator\Controller\Style;
 
 /**
  * Component Controller
@@ -86,9 +84,6 @@ class TemplatesController extends BaseController
 
 			return false;
 		}
-
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
 
 		$app = $this->app;
 

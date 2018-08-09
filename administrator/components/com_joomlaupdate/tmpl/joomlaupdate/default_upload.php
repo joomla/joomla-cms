@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Utility\Utility;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var JoomlaupdateViewDefault $this */
 
@@ -59,54 +59,6 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 					<input class="form-control-file" id="install_package" name="install_package" type="file" size="57">
 					<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize()); ?>
 					<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
-				</td>
-				<td>
-					<?php echo $this->methodSelectUpload; ?>
-				</td>
-			</tr>
-			<tr id="upload_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>">
 				</td>
 			</tr>
 			</tbody>

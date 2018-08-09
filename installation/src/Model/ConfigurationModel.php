@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -137,12 +137,6 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('gzip', false);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
-		$registry->set('ftp_host', $options->ftp_host ?? '');
-		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
-		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
-		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
-		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');

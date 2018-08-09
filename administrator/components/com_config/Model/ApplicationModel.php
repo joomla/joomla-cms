@@ -15,7 +15,6 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -500,15 +499,6 @@ class ApplicationModel extends FormModel
 		// Create the new configuration object.
 		$config = new Registry($data);
 
-		// Overwrite the old FTP credentials with the new ones.
-		$temp = Factory::getConfig();
-		$temp->set('ftp_enable', $data['ftp_enable']);
-		$temp->set('ftp_host', $data['ftp_host']);
-		$temp->set('ftp_port', $data['ftp_port']);
-		$temp->set('ftp_user', $data['ftp_user']);
-		$temp->set('ftp_pass', $data['ftp_pass']);
-		$temp->set('ftp_root', $data['ftp_root']);
-
 		// Clear cache of com_config component.
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
@@ -559,13 +549,10 @@ class ApplicationModel extends FormModel
 		// Set the configuration file path.
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 
-		// Get the new FTP credentials.
-		$ftp = ClientHelper::getCredentials('ftp', true);
-
 		$app = Factory::getApplication();
 
-		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
+		// Attempt to make the file writeable
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
@@ -578,8 +565,8 @@ class ApplicationModel extends FormModel
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
+		// Attempt to make the file unwriteable
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}

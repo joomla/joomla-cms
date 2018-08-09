@@ -10,10 +10,9 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Installer Controller
@@ -45,9 +44,6 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-			$view->ftp = &$ftp;
-
 			// Get the model for the view.
 			$model = $this->getModel($vName);
 

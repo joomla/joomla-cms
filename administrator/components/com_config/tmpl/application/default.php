@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Registry\Registry;
 
 // Load tooltips behavior
 HTMLHelper::_('behavior.formvalidator');
@@ -36,6 +36,7 @@ Text::script('MESSAGE');
 				<?php
 				// Display the submenu position modules
 				$this->submenumodules = ModuleHelper::getModules('submenu');
+
 				foreach ($this->submenumodules as $submenumodule)
 				{
 					$output = ModuleHelper::renderModule($submenumodule);
@@ -54,9 +55,6 @@ Text::script('MESSAGE');
 				<li class="nav-item"><a class="nav-link" href="#page-system" data-toggle="tab"><?php echo Text::_('COM_CONFIG_SYSTEM'); ?></a></li>
 				<li class="nav-item"><a class="nav-link" href="#page-server" data-toggle="tab"><?php echo Text::_('COM_CONFIG_SERVER'); ?></a></li>
 				<li class="nav-item"><a class="nav-link" href="#page-filters" data-toggle="tab"><?php echo Text::_('COM_CONFIG_TEXT_FILTERS'); ?></a></li>
-				<?php if ($this->ftp) : ?>
-					<li class="nav-item"><a class="nav-link" href="#page-ftp" data-toggle="tab"><?php echo Text::_('COM_CONFIG_FTP_SETTINGS'); ?></a></li>
-				<?php endif; ?>
 				<li class="nav-item"><a class="nav-link" href="#page-permissions" data-toggle="tab"><?php echo Text::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
 			</ul>
 			<div id="config-document" class="tab-content">
@@ -87,7 +85,6 @@ Text::script('MESSAGE');
 						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('server'); ?>
 							<?php echo $this->loadTemplate('locale'); ?>
-							<?php echo $this->loadTemplate('ftp'); ?>
 							<?php echo $this->loadTemplate('proxy'); ?>
 						</div>
 						<div class="col-lg-12 col-xl-6">
@@ -103,13 +100,6 @@ Text::script('MESSAGE');
 						</div>
 					</div>
 				</div>
-				<?php if ($this->ftp) : ?>
-					<div id="page-ftp" class="tab-pane">
-						<div class="col-md-12">
-							<?php echo $this->loadTemplate('ftplogin'); ?>
-						</div>
-					</div>
-				<?php endif; ?>
 				<div id="page-permissions" class="tab-pane">
 					<div class="row">
 						<?php echo $this->loadTemplate('permissions'); ?>

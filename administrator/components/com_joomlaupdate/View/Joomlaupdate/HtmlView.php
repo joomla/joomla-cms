@@ -11,12 +11,11 @@ namespace Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Updater\Updater;
 
 /**
  * Joomla! Update's Default View
@@ -42,15 +41,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.6.0
 	 */
 	protected $methodSelect = null;
-
-	/**
-	 * The form field for the upload select
-	 *
-	 * @var   string
-	 *
-	 * @since  3.6.0
-	 */
-	protected $methodSelectUpload = null;
 
 	/**
 	 * PHP options.
@@ -107,12 +97,7 @@ class HtmlView extends BaseHtmlView
 		$this->loadHelper('select');
 
 		// Assign view variables.
-		$ftp           = $model->getFTPOptions();
-		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
-
 		$this->updateInfo         = $model->getUpdateInformation();
-		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
-		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
 		// Get results of pre update check evaluations
 		$this->phpOptions        = $model->getPhpOptions();
@@ -140,8 +125,7 @@ class HtmlView extends BaseHtmlView
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 
-		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
-		$params                 = ComponentHelper::getParams('com_joomlaupdate');
+		$params = ComponentHelper::getParams('com_joomlaupdate');
 
 		switch ($params->get('updatesource', 'default'))
 		{
