@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.tooltip');
 
@@ -42,7 +43,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $user = Factory::getUser();
 $userId = $user->id;
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -100,9 +101,9 @@ $userId = $user->id;
 						</thead>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 						<?php foreach ($this->workflows as $i => $item):
-							$states = JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
-							$transitions = JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
-							$edit = JRoute::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
+							$states = Route::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
+							$transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
+							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
 
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
 							// @TODO set proper checkin fields
@@ -155,11 +156,11 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
 								<td class="text-center btns hidden-sm-down">
-									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_states; ?></a>
 								</td>
 								<td class="text-center btns hidden-sm-down">
-									<a class="badge <?php echo ($item->count_transitions > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+									<a class="badge <?php echo ($item->count_transitions > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_transitions; ?></a>
 								</td>
 								<td class="text-center">
