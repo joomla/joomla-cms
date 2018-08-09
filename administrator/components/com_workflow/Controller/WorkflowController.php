@@ -37,7 +37,7 @@ class WorkflowController extends FormController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication      $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  __DEPLOY_VERSION__
