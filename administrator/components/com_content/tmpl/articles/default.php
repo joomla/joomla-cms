@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\ActionButton;
 use Joomla\CMS\Button\PublishedButton;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
@@ -56,10 +58,22 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$assoc = Associations::isEnabled();
+$js = "
+	;(function($)
+	{
+		$(function()
+		{
+			$('.article-status').on('click', function(e)
+			{
+				e.stopPropagation();
+			});
+		});
+	})(jQuery);
+";
 
-// Configure content state button renderer.
-$publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);
+Factory::getDocument()->addScriptDeclaration($js);
+
+$assoc = Associations::isEnabled();
 
 // Configure featured button renderer.
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
@@ -98,8 +112,8 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<th scope="col" style="min-width:100px" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', 'JALIAS', 'a.title', $listDirn, $listOrder); ?>
+								<th style="width:1%" class="nowrap text-center">
+									<?php echo JText::_("COM_CONTENT_STATE") ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JCATEGORY', 'a.title', $listDirn, $listOrder); ?>
@@ -148,6 +162,18 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
+
+							$hasTransitions = count($transitions) > 0;
+
+							$default = [
+								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '-1', '--------', ['disable' => true])
+							];
+
+							$transitions = array_merge($default, $transitions);
+
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 								<td class="order nowrap text-center d-none d-md-table-cell">
@@ -172,10 +198,48 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
-								<td class="text-center">
-									<div class="btn-group">
-										<?php echo $publishedButton->render($item->state, $i, ['disabled' => !$canChange], $item->publish_up, $item->publish_down); ?>
+								<td class="article-status">
+									<div class="d-flex">
+										<div class="btn-group tbody-icon mr-1">
 										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+										<?php
+
+											$icon = 'publish';
+
+											switch ($item->state_condition) :
+
+												case Workflow::TRASHED:
+													$icon = 'trash';
+													break;
+
+												case Workflow::UNPUBLISHED:
+													$icon = 'unpublish';
+													break;
+
+											endswitch;
+										?>
+										<?php if ($hasTransitions) : ?>
+											<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
+												<span class="icon-<?php echo $icon; ?>"></span>
+											</a>
+										<?php else : ?>
+											<span class="icon-<?php echo $icon; ?>"></span>
+										<?php endif; ?>
+										</div>
+										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<?php if ($hasTransitions) : ?>
+										<div class="d-none">
+											<?php
+												$attribs = [
+													'id'	=> 'transition-select_' . (int) $item->id,
+													'list.attr' => [
+														'class'		=> 'custom-select custom-select-sm form-control form-control-sm',
+														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
+													];
+												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
+											?>
+										</div>
+										<?php endif; ?>
 									</div>
 								</td>
 								<th scope="row" class="has-context">
