@@ -23,7 +23,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 				
 				if (response != '') {
 					var data = JSON.parse(response);
-					Joomla.MediaManager.Edit.smartcrop.cropper.setData({
+					Joomla.MediaManager.Edit.focus.cropper.setData({
 						"x"      : data["box-left"],
 						"y"      : data["box-top"],
 						"width"  : data["box-width"],
@@ -37,10 +37,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	// Saveing the focus points to the storage
 	function saveFocusPoints(width) {
 		// Data to be saved in the storage
-		var data = "&box-left=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxLeft +
-					"&box-top=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxTop +
-					"&box-width=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxWidth +
-					"&box-height=" + Joomla.MediaManager.Edit.smartcrop.cropper.boxHeight +
+		var data = "&box-left=" + Joomla.MediaManager.Edit.focus.cropper.boxLeft +
+					"&box-top=" + Joomla.MediaManager.Edit.focus.cropper.boxTop +
+					"&box-width=" + Joomla.MediaManager.Edit.focus.cropper.boxWidth +
+					"&box-height=" + Joomla.MediaManager.Edit.focus.cropper.boxHeight +
 					"&width=" + width;
 
 		Joomla.request({
@@ -90,7 +90,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	}
 
 	function addCustomWidths() {
-		var widths = Joomla.getOptions('js-smartcrop-widths');
+		var widths = Joomla.getOptions('js-focus-widths');
 		var widthDropDown = document.getElementById("jform_requestedWidth");
 		var defaultWidthLength = widthDropDown.length;
 		var customWidthLength  = widths.length;
@@ -132,12 +132,12 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		});
 
 		deleteDiv.appendChild(deleteButton)
-		var parent = document.getElementById("attrib-smartcrop");
+		var parent = document.getElementById("attrib-focus");
 		parent.appendChild(deleteDiv);
 	}
 
 	// Register the Events
-	Joomla.MediaManager.Edit.smartcrop = {
+	Joomla.MediaManager.Edit.focus = {
 		Activate: function (mediaData) {
 			// Initialize
 			initSmartCrop(mediaData);
@@ -151,12 +151,12 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 			saveFocusPoints(width);
 			cropImages();
 			
-			if (!Joomla.MediaManager.Edit.smartcrop.cropper) {
+			if (!Joomla.MediaManager.Edit.focus.cropper) {
 				return;
 			}
 			
 			// Destroy the instance
-			Joomla.MediaManager.Edit.smartcrop.cropper.destroy();
+			Joomla.MediaManager.Edit.focus.cropper.destroy();
 		}
 	};
 	
@@ -164,7 +164,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		var image = document.getElementById('image-preview');
 		
 		// Initiate the cropper for gathering the focus point
-		Joomla.MediaManager.Edit.smartcrop.cropper = new Cropper(image, { 
+		Joomla.MediaManager.Edit.focus.cropper = new Cropper(image, { 
 			viewMode: 1,
 			responsive: false,
 			restore: true,
@@ -184,10 +184,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 				canvas_height = Math.round(e.detail.height);
 				
 				// Saveing cropbox data for focus area
-				Joomla.MediaManager.Edit.smartcrop.cropper.boxLeft = left;
-				Joomla.MediaManager.Edit.smartcrop.cropper.boxTop = top;
-				Joomla.MediaManager.Edit.smartcrop.cropper.boxWidth = canvas_width;
-				Joomla.MediaManager.Edit.smartcrop.cropper.boxHeight = canvas_height;
+				Joomla.MediaManager.Edit.focus.cropper.boxLeft = left;
+				Joomla.MediaManager.Edit.focus.cropper.boxTop = top;
+				Joomla.MediaManager.Edit.focus.cropper.boxWidth = canvas_width;
+				Joomla.MediaManager.Edit.focus.cropper.boxHeight = canvas_height;
 
 				// Setting the computed focus point into the input fields
 				document.getElementById('jform_data_focus_x').value = left;
@@ -204,7 +204,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		image.addEventListener('load', function() {
 			// Set default aspect ratio after numeric check
 			var defaultCropFactor = image.naturalWidth / image.naturalHeight;
-			Joomla.MediaManager.Edit.smartcrop.cropper.setAspectRatio(defaultCropFactor);
+			Joomla.MediaManager.Edit.focus.cropper.setAspectRatio(defaultCropFactor);
 		});
 
 		var width = document.getElementById("jform_requestedWidth");

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Media-Action.smart-crop
+ * @subpackage  Media-Action.focus
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,11 +14,11 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
 
 /**
- * Media Manager Smart Crop Action
+ * Media Manager focus Action
  *
  * @since  4.0.0
  */
-class PlgMediaActionSmartCrop extends CMSPlugin
+class PlgMediaActionFocus extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -59,7 +59,7 @@ class PlgMediaActionSmartCrop extends CMSPlugin
 			}
 		}
 
-		Factory::getDocument()->addScriptOptions('js-smartcrop-widths', $widths);
+		Factory::getDocument()->addScriptOptions('js-focus-widths', $widths);
 
 		$this->loadCss();
 		$this->loadJs();
