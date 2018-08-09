@@ -1269,8 +1269,8 @@ class ArticleModel extends AdminModel
 	/**
 	 * Runs transition for item.
 	 *
-	 * @param   array  $pk             Id of article
-	 * @param   array  $transition_id  Id of transition
+	 * @param   integer  $pk             Id of article
+	 * @param   integer  $transition_id  Id of transition
 	 *
 	 * @return  boolean
 	 *
