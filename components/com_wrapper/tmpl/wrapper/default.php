@@ -21,7 +21,7 @@ else
 }
 
 
-HTMLHelper::_('webcomponent', ['joomla-iframe' => 'com_wrapper/webcomponents/joomla-iframe.min.js'], ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'com_wrapper/joomla-iframe.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -38,16 +38,16 @@ HTMLHelper::_('webcomponent', ['joomla-iframe' => 'com_wrapper/webcomponents/joo
 			iframe-border="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
 			iframe-class="wrapper <?php echo $this->pageclass_sfx; ?>"
 			iframe-title="<?php echo $title; ?>">
-		<noscript>
-			<iframe name="iframe"
-					title="<?php echo $title; ?>"
-					id="iframe-<?php echo rand(1, 10000); ?>"
-					src="<?php echo $this->escape($this->wrapper->url); ?>"
-					width="<?php echo $this->escape($this->params->get('width')); ?>"
-					height="<?php echo $this->escape($this->params->get('height')); ?>"
-					scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
-					frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
-					class="wrapper <?php echo $this->pageclass_sfx; ?>"></iframe>
-		</noscript>
 	</joomla-iframe>
+	<noscript>
+		<iframe name="iframe"
+				title="<?php echo $title; ?>"
+				id="iframe-<?php echo rand(1, 10000); ?>"
+				src="<?php echo $this->escape($this->wrapper->url); ?>"
+				width="<?php echo $this->escape($this->params->get('width')); ?>"
+				height="<?php echo $this->escape($this->params->get('height')); ?>"
+				scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
+				frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
+				class="wrapper <?php echo $this->pageclass_sfx; ?>"></iframe>
+	</noscript>
 </div>
