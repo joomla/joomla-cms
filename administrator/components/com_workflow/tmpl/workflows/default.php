@@ -59,7 +59,7 @@ $userId = $user->id;
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
-					<table class="table table-striped" id="emailList">
+					<table class="table table-striped">
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
