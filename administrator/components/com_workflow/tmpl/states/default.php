@@ -53,9 +53,9 @@ if ($saveOrder)
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 's.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
+								<td style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
+								</td>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
 								</th>
@@ -112,7 +112,7 @@ if ($saveOrder)
 									<td class="text-center hidden-sm-down">
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'states.', $canChange); ?>
 									</td>
-									<td>
+									<th scope="row">
 										<?php if ($canEdit) : ?>
 											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
@@ -121,7 +121,7 @@ if ($saveOrder)
 										<?php else: ?>
 											<?php echo $item->title; ?>
 										<?php endif; ?>
-									</td>
+									</th>
 									<td class="text-center">
 										<?php echo Text::_($item->condition); ?>
 									</td>
@@ -134,7 +134,7 @@ if ($saveOrder)
 					</table>
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
-				
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
