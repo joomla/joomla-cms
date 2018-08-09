@@ -15,6 +15,7 @@
 				key_field="id"
 				value_field="title"
 				required="true"
+				default="use_default"
 			/>
 		</fieldset>
 	</fields>

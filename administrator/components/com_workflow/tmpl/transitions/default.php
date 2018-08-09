@@ -12,8 +12,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.tooltip');
+HTMLHelper::_('behavior.tooltip');
 
 $user      = JFactory::getUser();
 
@@ -26,7 +27,7 @@ $saveOrder = ($listOrder == 't.ordering');
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . JSession::getFormToken() . '=1';
-	JHtml::_('draggablelist.draggable');
+	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
@@ -42,32 +43,32 @@ if ($saveOrder)
 				?>
 				<?php if (empty($this->transitions)) : ?>
 					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
 					<table class="table table-striped">
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_TO_STATE', 't.to_state', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STATE', 't.to_state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -89,7 +90,7 @@ if ($saveOrder)
 										}
 										elseif (!$saveOrder)
 										{
-											$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
@@ -99,17 +100,17 @@ if ($saveOrder)
 											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 										<?php endif; ?>									</td>
 									<td class="order nowrap text-center hidden-sm-down">
-										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
+											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
 										</div>
 									</td>
 									<td>
 										<?php if ($canEdit) : ?>
 											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-											<a href="<?php echo $edit; ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 												<?php echo $editIcon; ?><?php echo $item->title; ?>
 											</a>
 										<?php else: ?>
@@ -140,7 +141,7 @@ if ($saveOrder)
 				<input type="hidden" name="boxchecked" value="0">
 				<input type="hidden" name="workflow_id" value="<?php echo (int) $this->workflowID ?>">
 				<input type="hidden" name="extension" value="<?php echo $this->extension ?>">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>
