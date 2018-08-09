@@ -112,27 +112,26 @@ class Workflow
 			return true;
 		}
 
-		$db = Factory::getDbo();
-
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$select = $db->quoteName(
-					[
-						't.id',
-						't.to_state_id',
-						't.from_state_id',
-						's.condition',
-					]
-				);
+            [
+                't.id',
+                't.to_state_id',
+                't.from_state_id',
+                's.condition',
+            ]
+        );
 
-		$query	->select($select)
+		$query->select($select)
 				->from($db->quoteName('#__workflow_transitions', 't'))
 				->leftJoin($db->quoteName('#__workflow_states', 's') . ' ON ' . $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_state_id'))
 				->where($db->quoteName('t.id') . ' = ' . (int) $transition_id);
 
 		if (!empty($this->options['published']))
 		{
-			$query	->where($db->quoteName('t.published') . ' = 1');
+			$query->where($db->quoteName('t.published') . ' = 1');
 		}
 
 		$transition = $db->setQuery($query)->loadObject();
@@ -179,8 +178,7 @@ class Workflow
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query
-				->insert($db->quoteName('#__workflow_associations'))
+			$query->insert($db->quoteName('#__workflow_associations'))
 				->columns($db->quoteName(array('item_id', 'state_id', 'extension')))
 				->values((int) $pk . ', ' . (int) $state . ', ' . $db->quote($this->extension));
 
@@ -218,10 +216,9 @@ class Workflow
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query
-				->update($db->quoteName('#__workflow_associations'))
+			$query->update($db->quoteName('#__workflow_associations'))
 				->set($db->quoteName('state_id') . '=' . (int) $state)
-				->where($db->quoteName('item_id') . ' IN(' . implode(',', $pks) . ')')
+				->whereIn($db->quoteName('item_id'), $pks)
 				->where($db->quoteName('extension') . '=' . $db->quote($this->extension));
 
 			$db->setQuery($query)->execute();
@@ -254,7 +251,7 @@ class Workflow
 
 			$query
 				->delete($db->quoteName('#__workflow_associations'))
-				->where($db->quoteName('item_id') . ' IN (' . implode(',', $pks) . ')')
+				->whereIn($db->quoteName('item_id'), $pks)
 				->andWhere($db->quoteName('extension') . '=' . $db->quote($this->extension));
 
 			$db->setQuery($query)->execute();
@@ -283,13 +280,13 @@ class Workflow
 		$query = $db->getQuery(true);
 
 		$select = $db->quoteName(
-					[
-						'item_id',
-						'state_id'
-					]
-				);
+            [
+                'item_id',
+                'state_id'
+            ]
+        );
 
-		$query	->select($select)
+		$query->select($select)
 				->from($db->quoteName('#__workflow_associations'))
 				->where($db->quoteName('item_id') . ' = ' . (int) $item_id)
 				->where($db->quoteName('extension') . ' = ' . $db->quote($this->extension));
