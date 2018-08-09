@@ -58,7 +58,7 @@ class WorkflowTable extends Table
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
 
-		// Gets the update site names.
+		// Gets the workflow information that is going to be deleted.
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('id', 'title')))
 			->from($db->quoteName('#__workflows'))
@@ -73,7 +73,7 @@ class WorkflowTable extends Table
 			return false;
 		}
 
-		// Delete the update site from all tables.
+		// Delete the workflow states, then transitions from all tables.
 		try
 		{
 			$query = $db->getQuery(true)
