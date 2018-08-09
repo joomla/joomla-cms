@@ -194,9 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Always redirect that can show message queue from session
         if (res.data.redirect) {
-          location.href = res.data.redirect;
+          window.location.href = res.data.redirect;
         } else {
-          location.href = 'index.php?option=com_installer&view=install';
+          window.location.href = 'index.php?option=com_installer&view=install';
         }
       },
       onError: (error) => {
