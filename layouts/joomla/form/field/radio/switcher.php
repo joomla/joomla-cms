@@ -95,7 +95,6 @@ if (!empty($onchange))
 }
 
 ?>
-<label id="<?php echo $id; ?>-lbl"><?php echo $label; ?></label>
 <joomla-field-switcher <?php echo implode(' ', $attribs); ?>>
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
