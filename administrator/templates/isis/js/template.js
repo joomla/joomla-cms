@@ -12,112 +12,77 @@ jQuery(function($)
 
 	var $w = $(window);
 
-	$('*[rel=tooltip]').tooltip();
+	$(document.body)
+		// add color classes to chosen field based on value
+		.on('liszt:ready', 'select[class^="chzn-color"], select[class*=" chzn-color"]', function() {
+			var $select = $(this);
+			var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '$1');
+			var $container = $select.next('.chzn-container').find('.chzn-single');
 
-	// Turn radios into btn-group
-	$('.radio.btn-group label').addClass('btn');
+			$container.addClass(cls).attr('rel', 'value_' + $select.val());
+			$select.on('change click', function() {
+				$container.attr('rel', 'value_' + $select.val());
+			});
+		})
+		// Handle clicks to button groups
+		.on('click', '.btn-group label:not(.active)', function() {
+			var $label = $(this);
+			var $input = $('#' + $label.attr('for'));
 
-	$('fieldset.btn-group').each(function() {
+			if ($input.prop('checked'))
+			{
+				return;
+			}
+
+			$label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
+
+			var btnClass = 'primary';
+
+			if ($input.val() != '')
+			{
+				var reversed = $label.closest('.btn-group').hasClass('btn-group-reversed');
+				btnClass = ($input.val() == 0 ? !reversed : reversed) ? 'danger' : 'success';
+			}
+
+			$label.addClass('active btn-' + btnClass);
+			$input.prop('checked', true).trigger('change');
+		})
+		.on('subform-row-add', initTemplate);
+
+	initTemplate();
+
+	// Called once on domready, again when a subform row is added
+	function initTemplate(event, container)
+	{
+		var $container = $(container || document);
+
+		// Create tooltips
+		$container.find('*[rel=tooltip]').tooltip();
+
+		// Turn radios into btn-group
+		$container.find('.radio.btn-group label').addClass('btn');
+
 		// Handle disabled, prevent clicks on the container, and add disabled style to each button
-		if ($(this).prop('disabled')) {
-			$(this).css('pointer-events', 'none').off('click');
-			$(this).find('.btn').addClass('disabled');
-		}
-	});
-
-	$('.btn-group label:not(.active)').click(function()
-	{
-		var label = $(this);
-		var input = $('#' + label.attr('for'));
-
-		if (!input.prop('checked'))
-		{
-			label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
-
-			if (label.closest('.btn-group').hasClass('btn-group-reversed'))
-			{
-				if (input.val() == '')
-				{
-					label.addClass('active btn-primary');
-				}
-				else if (input.val() == 0)
-				{
-					label.addClass('active btn-success');
-				}
-				else
-				{
-					label.addClass('active btn-danger');
-				}
-			}
-			else
-			{
-				if (input.val() == '')
-				{
-					label.addClass('active btn-primary');
-				}
-				else if (input.val() == 0)
-				{
-					label.addClass('active btn-danger');
-				}
-				else
-				{
-					label.addClass('active btn-success');
-				}
-
-			}
-			input.prop('checked', true);
-			input.trigger('change');
-		}
-	});
-	$('.btn-group input[checked=checked]').each(function()
-	{
-		var $self  = $(this);
-		var attrId = $self.attr('id');
-
-		if ($self.parent().hasClass('btn-group-reversed'))
-		{
-			if ($self.val() == '')
-			{
-				$('label[for=' + attrId + ']').addClass('active btn-primary');
-			}
-			else if ($self.val() == 0)
-			{
-				$('label[for=' + attrId + ']').addClass('active btn-success');
-			}
-			else
-			{
-				$('label[for=' + attrId + ']').addClass('active btn-danger');
-			}
-		}
-		else
-		{
-			if ($self.val() == '')
-			{
-				$('label[for=' + attrId + ']').addClass('active btn-primary');
-			}
-			else if ($self.val() == 0)
-			{
-				$('label[for=' + attrId + ']').addClass('active btn-danger');
-			}
-			else
-			{
-				$('label[for=' + attrId + ']').addClass('active btn-success');
-			}
-		}
-	});
-
-	// add color classes to chosen field based on value
-	$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
-		var select = $(this);
-		var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '$1');
-		var container = select.next('.chzn-container').find('.chzn-single');
-		container.addClass(cls).attr('rel', 'value_' + select.val());
-		select.on('change click', function()
-		{
-			container.attr('rel', 'value_' + select.val());
+		$container.find('fieldset.btn-group:disabled').each(function() {
+			$(this).css('pointer-events', 'none').off('click').find('.btn').addClass('disabled');
 		});
 
-	});
+		// Setup coloring for buttons
+		$container.find('.btn-group input:checked').each(function() {
+			var $input  = $(this);
+			var $label = $('label[for=' + $input.attr('id') + ']');
+			var btnClass = 'primary';
+
+			if ($input.val() != '')
+			{
+				var reversed = $input.parent().hasClass('btn-group-reversed');
+				btnClass = ($input.val() == 0 ? !reversed : reversed) ? 'danger' : 'success';
+			}
+
+			$label.addClass('active btn-' + btnClass);
+		});
+	}
+
 
 	/**
 	 * Append submenu items to empty UL on hover allowing a scrollable dropdown
@@ -249,13 +214,11 @@ jQuery(function($)
 
 	}
 
-
 	/**
 	 * USED IN: All views with toolbar and sticky bar enabled
 	 */
 	var navTop;
 	var isFixed = false;
-
 
 	if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 		processScrollInit();
