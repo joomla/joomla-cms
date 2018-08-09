@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The first example class, this is in the same
@@ -117,7 +118,7 @@ class TransitionModel extends AdminModel
 
 		if ($data['to_state_id'] == $data['from_state_id'])
 		{
-			$this->setError(\JText::_('You choose the same state from and to'));
+			$this->setError(Text::_('You choose the same state from and to'));
 
 			return false;
 		}
@@ -139,7 +140,7 @@ class TransitionModel extends AdminModel
 
 		if (!empty($checkDupliaction))
 		{
-			$this->setError(\JText::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
+			$this->setError(Text::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
 
 			return false;
 		}
