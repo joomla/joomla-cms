@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.tooltip');
 
@@ -53,7 +54,7 @@ $userId = $user->id;
 			<div id="j-main-container" class="j-main-container">
 				<?php
 					// Search tools bar
-					echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->workflows)) : ?>
 					<div class="alert alert-warning alert-no-items">
