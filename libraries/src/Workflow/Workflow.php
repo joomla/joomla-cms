@@ -116,13 +116,13 @@ class Workflow
 		$query = $db->getQuery(true);
 
 		$select = $db->quoteName(
-            [
-                't.id',
-                't.to_state_id',
-                't.from_state_id',
-                's.condition',
-            ]
-        );
+			[
+				't.id',
+				't.to_state_id',
+				't.from_state_id',
+				's.condition',
+			]
+		);
 
 		$query->select($select)
 				->from($db->quoteName('#__workflow_transitions', 't'))
@@ -280,11 +280,11 @@ class Workflow
 		$query = $db->getQuery(true);
 
 		$select = $db->quoteName(
-            [
-                'item_id',
-                'state_id'
-            ]
-        );
+			[
+				'item_id',
+				'state_id'
+			]
+		);
 
 		$query->select($select)
 				->from($db->quoteName('#__workflow_associations'))
