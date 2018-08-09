@@ -130,6 +130,26 @@ class StatesController extends AdminController
 	}
 
 	/**
+	 * Check in of one or more records.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   1.6
+	 */
+	public function checkin()
+	{
+		parent::checkin();
+
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&extension=' . $this->input->getCmd("extension")
+				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+			)
+		);
+	}
+
+	/**
 	 * Deletes and returns correctly.
 	 *
 	 * @return  void
