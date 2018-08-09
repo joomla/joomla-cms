@@ -14,6 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.tooltip');
 
@@ -33,7 +36,7 @@ if (strpos($listOrder, 'modified') !== false)
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -42,7 +45,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $user = Factory::getUser();
 $userId = $user->id;
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_workflow&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -51,7 +54,7 @@ $userId = $user->id;
 			<div id="j-main-container" class="j-main-container">
 				<?php
 					// Search tools bar
-					echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->workflows)) : ?>
 					<div class="alert alert-warning alert-no-items">
@@ -64,9 +67,9 @@ $userId = $user->id;
 								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<td style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
+								</td>
 								<th scope="col"  style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
 								</th>
@@ -100,9 +103,9 @@ $userId = $user->id;
 						</thead>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 						<?php foreach ($this->workflows as $i => $item):
-							$states = JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
-							$transitions = JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
-							$edit = JRoute::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
+							$states = Route::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
+							$transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
+							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
 
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
 							// @TODO set proper checkin fields
@@ -138,7 +141,7 @@ $userId = $user->id;
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 									</div>
 								</td>
-								<td>
+								<th scope="row">
 									<?php if ($canEdit || $canEditOwn) : ?>
 										<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
@@ -147,7 +150,7 @@ $userId = $user->id;
 									<?php else: ?>
 										<?php echo $item->title; ?>
 									<?php endif; ?>
-								</td>
+								</th>
 								<td class="text-center">
 									<a href="<?php echo $states; ?>"><?php echo Text::_('COM_WORKFLOW_MANAGE'); ?></a>
 								</td>
@@ -155,11 +158,11 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
 								<td class="text-center btns hidden-sm-down">
-									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_states; ?></a>
 								</td>
 								<td class="text-center btns hidden-sm-down">
-									<a class="badge <?php echo ($item->count_transitions > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+									<a class="badge <?php echo ($item->count_transitions > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_transitions; ?></a>
 								</td>
 								<td class="text-center">
@@ -179,7 +182,7 @@ $userId = $user->id;
 					</table>
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
-				
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

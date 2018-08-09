@@ -14,6 +14,8 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The first example class, this is in the same
@@ -68,7 +70,7 @@ class WorkflowsController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -80,7 +82,7 @@ class WorkflowsController extends AdminController
 		{
 			$this->setMessage(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&extension=' . $this->input->getCmd("extension"), false
 				)
@@ -126,7 +128,7 @@ class WorkflowsController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension"), false
 			)
@@ -144,7 +146,7 @@ class WorkflowsController extends AdminController
 	{
 		parent::delete();
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension"), false
 			)

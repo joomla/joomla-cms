@@ -50,13 +50,13 @@ class WorkflowTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
@@ -68,7 +68,7 @@ class WorkflowTable extends Table
 
 		if ($workflow->default)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
 
 			return false;
 		}
@@ -92,7 +92,7 @@ class WorkflowTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
 
 			return;
 		}
