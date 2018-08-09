@@ -11,12 +11,15 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.tooltip');
 
-$user      = JFactory::getUser();
+$user	= Factory::getUser();
+
+$lang	= Factory::getLanguage();
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -121,11 +124,11 @@ if ($saveOrder)
 									<?php if ($item->from_state_id < 0) : ?>
 										<?php echo Text::_('JALL'); ?>
 									<?php else : ?>
-										<?php echo $item->from_state; ?>
+										<?php echo $this->escape(Text::_($item->from_state)); ?>
 									<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo $this->escape($item->to_state); ?>
+										<?php echo $this->escape(Text::_($item->to_state)); ?>
 									</td>
 									<td class="text-right">
 										<?php echo $item->id; ?>

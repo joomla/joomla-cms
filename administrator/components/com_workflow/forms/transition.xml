@@ -25,6 +25,7 @@
 			required="true"
 			sql_select="id as value, title as from_state_id"
 			sql_from="#__workflow_states"
+			translate="true"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -35,6 +36,7 @@
 			required="true"
 			sql_select="id as value, title as to_state_id"
 			sql_from="#__workflow_states"
+			translate="true"
 		/>
 		<field
 			name="description"

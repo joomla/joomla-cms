@@ -15,6 +15,8 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -63,7 +65,7 @@ class TransitionField extends ListField
 	/**
 	 * Method to get a list of options for a list input.
 	 *
-	 * @return	array  An array of JHtml options.
+	 * @return	array  An array of HTMLHelper options.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -129,13 +131,13 @@ class TransitionField extends ListField
 
 		$workflowName = $db->setQuery($query)->loadResult();
 
-		$default = [\JHtml::_('select.option', '', $workflowName)];
+		$default = [HTMLHelper::_('select.option', '', Text::_($workflowName))];
 
 		$options = array_merge(parent::getOptions(), $items);
 
 		if (count($options))
 		{
-			$default[] = \JHtml::_('select.option', '-1', '--------', ['disable' => true]);
+			$default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
 		}
 
 		// Merge with defaults

@@ -11,13 +11,16 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.tooltip');
 
 $user      = JFactory::getUser();
 $userId    = $user->id;
+
+$lang		= Factory::getLanguage();
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -116,10 +119,10 @@ if ($saveOrder)
 										<?php if ($canEdit) : ?>
 											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-												<?php echo $editIcon; ?><?php echo $item->title; ?>
+												<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>
 											</a>
 										<?php else: ?>
-											<?php echo $item->title; ?>
+											<?php echo $this->escape(Text::_($item->title)); ?>
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
