@@ -181,64 +181,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loading.style.display = 'block';
 
-    // @TODO Allow Joomla.request to make request without header 'content-type'
-    const xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() : new window.ActiveXObject('MSXML2.XMLHTTP.3.0');
-    xhr.open('POST', url, true);
-
-    token = Joomla.getOptions('csrf.token', '');
-
-    if (token) {
-      xhr.setRequestHeader('X-CSRF-Token', token);
-    }
-
-    xhr.onreadystatechange = () => {
-      // Request not finished
-      if (xhr.readyState !== 4) return;
-
-      // Request finished and response is ready
-      if (xhr.status === 200) {
-        const res = JSON.parse(xhr.responseText);
+    Joomla.request({
+      url: url,
+      method: 'POST',
+      perform: true,
+      headers: {'Content-Type': 'false'},
+      onSuccess: (response) => {
+        const res = JSON.parse(response);
         if (!res.success) {
-          // eslint-disable-next-line no-console
           console.log(res.message, res.messages);
         }
         // Always redirect that can show message queue from session
         if (res.data.redirect) {
-          window.location.href = res.data.redirect;
+          location.href = res.data.redirect;
         } else {
-          window.location.href = 'index.php?option=com_installer&view=install';
+          location.href = 'index.php?option=com_installer&view=install';
         }
-      } else {
+      },
+      onError: (error) => {
         loading.style.display = 'none';
-        alert(xhr.statusText);
+        alert(error.statusText);
       }
-    };
-
-    xhr.send(data);
-
-    // @TODO Use Joomla.request once the code is patched to support headerless requests!
-    // Joomla.request({
-    //   url: url,
-    //   method: 'POST',
-    //   perform: true,
-    //   headers: {'Content-Type': 'remove'},
-    //   onSuccess: (response) => {
-    //     console.log(response)
-    //     const res = JSON.parse(response);
-    //     if (!res.success) {
-    //       console.log(res.message, res.messages);
-    //     }
-    //     // Always redirect that can show message queue from session
-    //     if (res.data.redirect) {
-    //       location.href = res.data.redirect;
-    //     } else {
-    //       location.href = 'index.php?option=com_installer&view=install';
-    //     }
-    //   },
-    //   onError: (error) => {
-    //     loading.style.display = 'none';
-    //     alert(error.statusText);
-    //   }
-    // });
+    });
   });
 });
