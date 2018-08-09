@@ -422,30 +422,39 @@ class CategoryModel extends AdminModel
 			}
 		}
 
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
+		$componentInterface = Factory::getApplication()->bootComponent($component);
 
-		if (file_exists($path))
+		if ($componentInterface instanceof CategoriesServiceInterface)
 		{
-			$cName = ucfirst($eName) . ucfirst($section) . 'HelperCategory';
+			$componentInterface->prepareForm($form, $data);
+		}
+		else
+		{
+			// Try to find the component helper.
+			$eName = str_replace('com_', '', $component);
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
 
-			\JLoader::register($cName, $path);
-
-			if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
+			if (file_exists($path))
 			{
-				$lang->load($component, JPATH_BASE, null, false, false)
-					|| $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
-					|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					|| $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
-				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
+				$cName = ucfirst($eName) . ucfirst($section) . 'HelperCategory';
 
-				// Check for an error.
-				if ($form instanceof \Exception)
+				\JLoader::register($cName, $path);
+
+				if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
 				{
-					$this->setError($form->getMessage());
+					$lang->load($component, JPATH_BASE, null, false, false)
+						|| $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
+						|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
+						|| $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+					call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
-					return false;
+					// Check for an error.
+					if ($form instanceof \Exception)
+					{
+						$this->setError($form->getMessage());
+
+						return false;
+					}
 				}
 			}
 		}

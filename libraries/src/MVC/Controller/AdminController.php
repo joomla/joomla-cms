@@ -84,6 +84,9 @@ class AdminController extends BaseController
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
+		// Transition
+		$this->registerTask('runTransition', 'runTransition');
+
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
@@ -251,7 +254,7 @@ class AdminController extends BaseController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				if ($ntext !== null)
+				if (count($cid))
 				{
 					$this->setMessage(Text::plural($ntext, count($cid)));
 				}
@@ -412,5 +415,50 @@ class AdminController extends BaseController
 
 		// Close the application
 		$this->app->close();
+	}
+
+	/**
+	 * Method to run Transition by id of item.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function runTransition()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+
+		if (!count($pks))
+		{
+			return false;
+		}
+
+		$pk = (int) $pks[0];
+
+		$transitionId = $this->input->post->get('transition_' . $pk, -1, 'int');
+
+		// Get the model
+		$model = $this->getModel();
+		$return = $model->runTransition($pk, $transitionId);
+
+		if ($return === false)
+		{
+			// Transition execution failed.
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
+			return false;
+		}
+		else
+		{
+			// Reorder succeeded.
+			$message = \JText::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+			return true;
+		}
+
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 }
