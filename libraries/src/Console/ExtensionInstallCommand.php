@@ -141,8 +141,9 @@ class ExtensionInstallCommand extends AbstractCommand
 	{
 		if (!file_exists($path))
 		{
-			$this->ioStyle->error('The file path specified does not exist.');
-			exit(2);
+			$this->ioStyle->warning('The file path specified does not exist.');
+
+			return false;
 		}
 
 		$tmp_path = $this->getApplication()->get('tmp_path');

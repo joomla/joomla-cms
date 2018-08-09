@@ -196,7 +196,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\SiteDownCommand,
 				new Console\SiteUpCommand,
 				new Console\CoreInstallCommand,
-				new Console\TestCommand,
 			]
 		);
 	}

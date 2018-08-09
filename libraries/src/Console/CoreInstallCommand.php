@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
@@ -106,13 +107,19 @@ class CoreInstallCommand extends AbstractCommand
 	 * Return code when file provided is invalid or returns non array when parsed
 	 * @since 4.0
 	 */
-	const BAD_INPUT_FLE = 3;
+	const BAD_INPUT_FILE = 3;
 
 	/**
 	 * Return code for unsuccessful installation
 	 * @since 4.0
 	 */
 	const INSTALLATION_UNSUCCESSFUL = 4;
+
+	/**
+	 * Return code when installation directory cannot be found
+	 * @since 4.0
+	 */
+	const INSTALLATION_DIRECTORY_NOT_FOUND = 5;
 
 	/**
 	 * Configures the IO
@@ -161,6 +168,13 @@ class CoreInstallCommand extends AbstractCommand
 			$this->ioStyle->warning("Joomla! is already installed and set up.");
 
 			return self::JOOMLA_ALREADY_SETUP;
+		}
+
+		if (!Folder::exists(JPATH_INSTALLATION))
+		{
+			$this->ioStyle->warning("Installation directory cannot be found.");
+
+			return self::INSTALLATION_DIRECTORY_NOT_FOUND;
 		}
 
 		$this->progressBar->advance();
