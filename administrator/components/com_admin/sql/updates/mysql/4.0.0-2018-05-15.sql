@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `asset_id` int(10) DEFAULT 0,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL DEFAULT '',
-  `extension` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `extension` varchar(50) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT NOW(),
@@ -18,13 +18,13 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   KEY `title` (`title`(191)),
-  KEY `extension` (`extension`(191)),
+  KEY `extension` (`extension`),
   KEY `default` (`default`),
   KEY `created` (`created`),
   KEY `created_by` (`created_by`),
   KEY `modified` (`modified`),
   KEY `modified_by` (`modified_by`)
-) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflows`
@@ -40,12 +40,12 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
   `state_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
-  `extension` varchar(100) NOT NULL,
+  `extension` varchar(50) NOT NULL,
   PRIMARY KEY (`item_id`, `state_id`, `extension`),
   KEY `idx_item_id` (`item_id`),
   KEY `idx_state_id` (`state_id`),
-  KEY `idx_extension` (`extension`(100))
-) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
+  KEY `idx_extension` (`extension`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table `#__workflow_states`
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL DEFAULT '',
+  `description` text NOT NULL,
   `condition` enum('0','1','-2') NOT NULL,
   `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   KEY `title` (`title`(191)),
   KEY `asset_id` (`asset_id`),
   KEY `default` (`default`)
-) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_states`
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL DEFAULT '',
+  `description` text NOT NULL,
   `from_state_id` int(10) NOT NULL,
   `to_state_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   KEY `from_state_id` (`from_state_id`),
   KEY `to_state_id` (`to_state_id`),
   KEY `workflow_id` (`workflow_id`)
-) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_transitions`
