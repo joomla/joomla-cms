@@ -76,7 +76,7 @@ class StageTable extends Table
 		// Delete the update site from all tables.
 		try
 		{
-			$query = $db->getQuestage_idry(true)
+			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
 				->where($db->quoteName('to_') . ' = ' . (int) $pk, 'OR')
 				->where($db->quoteName('from_stage_id') . ' = ' . (int) $pk);

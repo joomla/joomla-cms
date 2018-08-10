@@ -23,7 +23,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 class TransitionController extends FormController
 {
 	/**
-	 * The workflow where the transion takes place
+	 * The workflow where the transition takes place
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
