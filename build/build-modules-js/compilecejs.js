@@ -11,8 +11,6 @@ const UglifyJS = require('uglify-es');
 const rootPath = require('./rootpath.js')._();
 
 const createJsFiles = (element, es6File, options) => {
-  console.log(element)
-  console.log(options.settings.webcomponents && options.settings.webcomponents[element])
   const b = browserify();
   const c = browserify();
 
