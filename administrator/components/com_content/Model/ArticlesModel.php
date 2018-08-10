@@ -272,6 +272,10 @@ class ArticlesModel extends ListModel
 			'ag.title',
 			'c.title',
 			'ua.name',
+			'ws.title',
+			'ws.workflow_id',
+			'ws.condition',
+			'wa.state_id'
 		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
