@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -167,14 +168,14 @@ class AdminController extends BaseController
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   \JModelLegacy  $model  The data model object.
-	 * @param   integer        $id     The validated data.
+	 * @param   BaseDatabaseModel  $model  The data model object.
+	 * @param   integer            $id     The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postDeleteHook(\JModelLegacy $model, $id = null)
+	protected function postDeleteHook(BaseDatabaseModel $model, $id = null)
 	{
 	}
 
@@ -184,7 +185,7 @@ class AdminController extends BaseController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+     * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   1.6
 	 */

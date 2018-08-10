@@ -164,7 +164,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * The Application
 	 *
-	 * @var    \JApplicationCms|null
+	 * @var    CMSApplication|null
 	 * @since  4.0.0
 	 */
 	protected $app;
