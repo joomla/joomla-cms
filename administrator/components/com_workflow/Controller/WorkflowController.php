@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
- * Workflow controler
+ * Workflow controller
  *
  * @since  __DEPLOY_VERSION__
  */

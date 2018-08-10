@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 /**
- * Workflows controler
+ * Workflows controller
  *
  * @since  __DEPLOY_VERSION__
  */

@@ -14,7 +14,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 
 /**
- * Workflow Transitions controler
+ * Workflow Transitions controller
  *
  * @since  __DEPLOY_VERSION__
  */
