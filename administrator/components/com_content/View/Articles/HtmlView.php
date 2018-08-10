@@ -204,10 +204,6 @@ class HtmlView extends BaseHtmlView
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
 		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			$toolbar->trash('articles.trash')->listCheck(true);
-		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
 		{
