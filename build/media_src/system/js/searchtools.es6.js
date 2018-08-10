@@ -129,7 +129,6 @@
 
       this.orderCols.forEach((item) => {
         item.addEventListener('click', (event) => {
-
           // Order to set
           const newOrderCol = event.target.getAttribute('data-order');
           const newDirection = event.target.getAttribute('data-direction');
