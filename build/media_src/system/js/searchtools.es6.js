@@ -128,10 +128,10 @@
       this.createOrderField();
 
       this.orderCols.forEach((item) => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (event) => {
           // Order to set
-          const newOrderCol = self.getAttribute('data-order');
-          const newDirection = self.getAttribute('data-direction');
+          const newOrderCol = event.target.getAttribute('data-order');
+          const newDirection = event.target.getAttribute('data-direction');
           const newOrdering = `${newOrderCol} ${newDirection}`;
 
           // The data-order attribute is required
