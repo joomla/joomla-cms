@@ -230,7 +230,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 														'class'		=> 'custom-select custom-select-sm form-control form-control-sm',
 														'onchange'		=> "Joomla.listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
 													];
-												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
+												echo JHtml::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
 											?>
 										</div>
 										<?php endif; ?>
