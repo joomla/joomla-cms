@@ -18,26 +18,26 @@
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 		<field
-			name="from_state"
+			name="from_stage"
 			type="sql"
-			label="COM_WORKFLOW_FROM_STATE"
-			description="COM_WORKFLOW_FROM_STATE_DESC"
+			label="COM_WORKFLOW_FROM_STAGE"
+			description="COM_WORKFLOW_FROM_STAGE_DESC"
 			onchange="this.form.submit();"
-			sql_select="id as value, title as from_state"
-			sql_from="#__workflow_states"
+			sql_select="id as value, title as from_staGe"
+			sql_from="#__workflow_stages"
 			>
-			<option value="">COM_WORKFLOW_SELECT_FROM_STATE</option>
+			<option value="">COM_WORKFLOW_SELECT_FROM_STAGE</option>
 		</field>
 		<field
-			name="to_state"
+			name="to_stage"
 			type="sql"
-			label="COM_WORKFLOW_TO_STATE"
-			description="COM_WORKFLOW_TO_STATE_DESC"
+			label="COM_WORKFLOW_TO_STAGE"
+			description="COM_WORKFLOW_TO_STAGE_DESC"
 			onchange="this.form.submit();"
-			sql_select="id as value, title as to_state"
-			sql_from="#__workflow_states"
+			sql_select="id as value, title as to_stage"
+			sql_from="#__workflow_staGes"
 			>
-			<option value="">COM_WORKFLOW_SELECT_TO_STATE</option>
+			<option value="">COM_WORKFLOW_SELECT_TO_STAGE</option>
 		</field>
 	</fields>
 
