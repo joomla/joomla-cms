@@ -263,25 +263,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	}
 
 	/**
-	 * Returns valid contexts
-	 *
-	 * @return  array
-	 *
-	 * @since   3.7.0
-	 */
-	public static function getContexts()
-	{
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
-
-		$contexts = array(
-			'com_content.article'    => \JText::_('COM_CONTENT'),
-			'com_content.categories' => \JText::_('JCATEGORY')
-		);
-
-		return $contexts;
-	}
-
-	/**
 	 * Check if state can be deleted
 	 *
 	 * @param   int  $stateID  Id of state to delete
