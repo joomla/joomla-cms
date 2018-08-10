@@ -98,33 +98,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	}
 
 	/**
-	 * Applies the content tag filters to arbitrary text as per settings for current user group
-	 *
-	 * @param   text  $text  The string to filter
-	 *
-	 * @return  string  The filtered string
-	 *
-	 * @deprecated  4.0  Use \JComponentHelper::filterText() instead.
-	 */
-	public static function filterText($text)
-	{
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated. Use JComponentHelper::filterText() instead', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return \JComponentHelper::filterText($text);
-	}
-
-	/**
 	 * Adds Count Items for Category Manager.
 	 *
 	 * @param   \stdClass[]  &$items  The banner category objects
