@@ -9,6 +9,7 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use DebugBar\DataCollector\AssetProvider;
 use DebugMonitor;
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
@@ -19,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class QueryCollector extends AbstractDataCollector
+class QueryCollector extends AbstractDataCollector implements AssetProvider
 {
 	/**
 	 * Collector name.
@@ -54,6 +55,22 @@ class QueryCollector extends AbstractDataCollector
 	private $explains;
 
 	/**
+	 * Accumulated Duration.
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $accumulatedDuration = 0;
+
+	/**
+	 * Accumulated Memory.
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $accumulatedMemory = 0;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   Registry      $params        Parameters.
@@ -73,7 +90,6 @@ class QueryCollector extends AbstractDataCollector
 		$this->explains = $explains;
 	}
 
-
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
@@ -86,8 +102,15 @@ class QueryCollector extends AbstractDataCollector
 		// @todo fetch the database object in a non deprecated way..
 		$database = Factory::$database;
 
+		$statements = $this->getStatements();
+
 		return [
-			'data'  => $this->queryMonitor->getLog(),
+			'data'  => [
+				'statements' => $statements,
+				'nb_statements' => \count($statements),
+				'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($this->accumulatedDuration),
+				'memory_usage_str' => $this->getDataFormatter()->formatBytes($this->accumulatedMemory),
+			],
 			'count' => \count($this->queryMonitor->getLog()),
 			'prefix' => $database->getPrefix(),
 			'serverType' => $database->getServerType(),
@@ -123,7 +146,7 @@ class QueryCollector extends AbstractDataCollector
 		return [
 			'queries'       => [
 				'icon' => 'database',
-				'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
+				'widget'  => 'PhpDebugBar.Widgets.SQLQueriesWidget',
 				'map'     => $this->name . '.data',
 				'default' => '[]',
 			],
@@ -132,5 +155,63 @@ class QueryCollector extends AbstractDataCollector
 				'default' => 'null',
 			],
 		];
+	}
+
+	/**
+	 * Assets for the collector.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @return array
+	 */
+	public function getAssets(): array
+	{
+		return array(
+			'css' => 'widgets/sqlqueries/widget.css',
+			'js' => 'widgets/sqlqueries/widget.js'
+		);
+	}
+
+	/**
+	 * Prepare the executed statements data.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @return array
+	 */
+	private function getStatements(): array
+	{
+		$statements = [];
+		$log = $this->queryMonitor->getLog();
+		$timings = $this->queryMonitor->getTimings();
+		$memoryLogs = $this->queryMonitor->getMemoryLogs();
+
+		foreach ($log as $id => $item)
+		{
+			$queryTime = 0;
+			$queryMemory = 0;
+
+			if ($timings && isset($timings[$id * 2 + 1]))
+			{
+				// Compute the query time.
+				$queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]);
+				$this->accumulatedDuration += $queryTime;
+			}
+
+			if ($memoryLogs && isset($memoryLogs[$id * 2 + 1]))
+			{
+				// Compute the query memory usage.
+				$queryMemory = ($memoryLogs[$id * 2 + 1] - $memoryLogs[$id * 2]);
+				$this->accumulatedMemory += $queryMemory;
+			}
+
+			$statements[] = [
+				'sql' => $item,
+				'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
+				'memory_str' => $this->getDataFormatter()->formatBytes($queryMemory),
+			];
+		}
+
+		return $statements;
 	}
 }
