@@ -227,42 +227,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	}
 
 	/**
-	 * Returns a valid section for articles. If it is not valid then null
-	 * is returned.
-	 *
-	 * @param   string  $section  The section to get the mapping for
-	 *
-	 * @return  string|null  The new section
-	 *
-	 * @since   3.7.0
-	 */
-	public static function validateSection($section)
-	{
-		if (\JFactory::getApplication()->isClient('site'))
-		{
-			// On the front end we need to map some sections
-			switch ($section)
-			{
-				// Editing an article
-				case 'form':
-
-					// Category list view
-				case 'featured':
-				case 'category':
-					$section = 'article';
-			}
-		}
-
-		if ($section != 'article')
-		{
-			// We don't know other sections
-			return null;
-		}
-
-		return $section;
-	}
-
-	/**
 	 * Check if state can be deleted
 	 *
 	 * @param   int  $stateID  Id of state to delete
