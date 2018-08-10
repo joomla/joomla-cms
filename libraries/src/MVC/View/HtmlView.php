@@ -376,6 +376,8 @@ class HtmlView extends \JObject
 	 *
 	 * @return  mixed  The escaped value.
 	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 *
 	 * @since   3.0
 	 */
 	public function escape($var)

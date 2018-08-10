@@ -14,7 +14,8 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla Platform HTML View Class
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JViewHtml extends JViewBase
 {
@@ -68,6 +69,8 @@ abstract class JViewHtml extends JViewBase
 	 * @param   string  $output  The output to escape.
 	 *
 	 * @return  string  The escaped output.
+	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @see     JView::escape()
 	 * @since   12.1
