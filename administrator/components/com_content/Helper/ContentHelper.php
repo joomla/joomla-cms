@@ -318,8 +318,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	/**
 	 * Prepares a form
 	 *
-	 * @param   \Joomla\CMS\Categories\Form  $form  The form to change
-	 * @param   array|object                 $data  The form data
+	 * @param   Form          $form  The form to change
+	 * @param   array|object  $data  The form data
 	 *
 	 * @return void
 	 */
