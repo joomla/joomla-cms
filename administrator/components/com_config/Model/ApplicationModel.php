@@ -13,24 +13,25 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Cache\Exception\CacheConnectingException;
-use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Http\HttpFactory;
 
 /**
  * Model for the global configuration
@@ -312,6 +313,43 @@ class ApplicationModel extends FormModel
 				 * through normal garbage collection anyway or if not using the database handler someone can purge the
 				 * table on their own.  Either way, carry on Soldier!
 				 */
+			}
+		}
+
+		// Ensure custom session file path exists or try to create it if changed
+		if (!empty($data['session_filesystem_path']))
+		{
+			$currentPath = $prev['session_filesystem_path'] ?? null;
+
+			if ($currentPath)
+			{
+				$currentPath = Path::clean($currentPath);
+			}
+
+			$data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
+
+			if ($currentPath !== $data['session_filesystem_path'])
+			{
+				if (!Folder::exists($data['session_filesystem_path']) && !Folder::create($data['session_filesystem_path']))
+				{
+					try
+					{
+						\JLog::add(
+							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							\JLog::WARNING,
+							'jerror'
+						);
+					}
+					catch (\RuntimeException $logException)
+					{
+						$app->enqueueMessage(
+							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							'warning'
+						);
+					}
+
+					$data['session_filesystem_path'] = $currentPath;
+				}
 			}
 		}
 

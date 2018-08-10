@@ -42,7 +42,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<?php echo $item->author_name; ?>
 			</td>
 			<td>
-
 				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
