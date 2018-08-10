@@ -17,11 +17,11 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class JHtmlWorkflowStage
+abstract class JHtmlWorkflowState
 {
 
 	/**
-	 * Get a list of the available workflow stages.
+	 * Get a list of the available workflow states.
 	 *
 	 * @param   array  $options  An array of options for the control
 	 *
@@ -45,14 +45,14 @@ abstract class JHtmlWorkflowStage
 							'w.title'
 						],
 						[
-							'workflow_stage_id',
+							'workflow_state_id',
 							'workflow_state_title',
 							'workflow_id',
 							'workflow_title'
 						]
 					)
 				)
-			->from('#__workflow_stages AS ws')
+			->from('#__workflow_states AS ws')
 			->leftJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')
 			->order('ws.ordering');
 
@@ -65,14 +65,14 @@ abstract class JHtmlWorkflowStage
 		foreach ($states as $state)
 		{
 			// Using workflow ID to differentiate workflows having same title
-			$workflowStageKey = $state->workflow_title . ' (' . $state->workflow_id . ')';
+			$workflowStateKey = $state->workflow_title . ' (' . $state->workflow_id . ')';
 
-			if (!array_key_exists($workflowStateKey, $workflowStages))
+			if (!array_key_exists($workflowStateKey, $workflowStates))
 			{
-				$workflowStages[$workflowStageKey] = array();
+				$workflowStates[$workflowStateKey] = array();
 			}
 
-			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $state->workflow_stage_id, $state->workflow_stage_title);
+			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
 		}
 
 		$prefix[] = array(
