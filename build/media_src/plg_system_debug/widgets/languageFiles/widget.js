@@ -11,13 +11,28 @@
             this.bindAttr('data', function (data) {
                 this.$el.empty();
                 var tr;
-                for (var extension in data) {
+                for (var extension in data.loaded) {
                     var ul = $('<ul />');
-                    for (var file in data[extension]) {
-                        var css = data[extension][file] ? 'alert-success' : 'alert-warning';
+                    for (var file in data.loaded[extension]) {
+                        var css = data.loaded[extension][file] ? 'alert-success' : 'alert-warning';
+                        var relPath = file.replace(data.jroot, 'JROOT')
                         var li = $('<li />')
                             .addClass(css)
-                            .text(file).appendTo(ul);
+                        if (data['xdebug-link']) {
+                            var link = $('<a />')
+                                .text(relPath)
+                                .attr(
+                                    'href',
+                                    data['xdebug-link']
+                                        .replace('%f', file)
+                                        .replace('%l', '1')
+                                )
+                            li.append(link)
+                        } else {
+                            li.text(relPath)
+                        }
+
+                        li.appendTo(ul);
                     }
                     tr = $('<tr />')
                         .append($('<td />').text(extension))

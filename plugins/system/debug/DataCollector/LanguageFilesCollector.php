@@ -49,7 +49,11 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 			}
 		}
 
-		return $loaded;
+		return [
+			'loaded' => $loaded,
+			'xdebug-link' => $this->getXdebugLinkTemplate(),
+			'jroot' => JPATH_ROOT,
+		];
 	}
 
 	/**
