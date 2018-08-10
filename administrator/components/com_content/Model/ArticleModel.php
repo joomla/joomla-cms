@@ -17,7 +17,7 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Model\Form;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
-use Joomla\Component\Workflow\Administrator\Table\StageTable;
+use Joomla\Component\Workflow\Administrator\Table\StateTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -216,9 +216,9 @@ class ArticleModel extends AdminModel
 		}
 
 		// Get state information
-		$stage = new StageTable($this->_db);
+		$state = new StateTable($this->_db);
 
-		if (empty($value) || !$stage->load($value))
+		if (empty($value) || !$state->load($value))
 		{
 			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
 
@@ -358,13 +358,13 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$stage = new StageTable($this->_db);
+			$state = new StateTable($this->_db);
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
 			$assoc = $workflow->getAssociation($record->id);
 
-			if (!$stage->load($assoc->stage_id) || $stage->condition != Workflow::TRASHED)
+			if (!$state->load($assoc->state_id) || $state->condition != Workflow::TRASHED)
 			{
 				return false;
 			}
@@ -541,7 +541,7 @@ class ArticleModel extends AdminModel
 				// Transition field
 				$assoc = $workflow->getAssociation($table->id);
 
-				$form->setFieldAttribute('transition', 'workflow_stage', (int) $assoc->stage_id);
+				$form->setFieldAttribute('transition', 'workflow_state', (int) $assoc->state_id);
 			}
 		}
 		else
@@ -794,7 +794,7 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			$stateId = (int) $workflow->stage_id;
+			$stateId = (int) $workflow->state_id;
 			$workflowId = (int) $workflow->id;
 
 			// B/C state
@@ -821,9 +821,9 @@ class ArticleModel extends AdminModel
 			$query = $db->getQuery(true);
 
 			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
-					->from($db->quoteName('#__workflow_stages', 'ws'))
+					->from($db->quoteName('#__workflow_states', 'ws'))
 					->from($db->quoteName('#__workflow_transitions', 'wt'))
-					->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wt.to_state_id') . ' = ' . $db->quoteName('ws.id'))
 					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
 					->where($db->quoteName('ws.published') . ' = 1')
 					->where($db->quoteName('wt.published') . ' = 1');
@@ -908,7 +908,7 @@ class ArticleModel extends AdminModel
 						return false;
 					}
 
-					$stateId = (int) $workflow->stage_id;
+					$stateId = (int) $workflow->state_id;
 					$workflowId = (int) $workflow->id;
 
 					// B/C state
@@ -1218,8 +1218,8 @@ class ArticleModel extends AdminModel
 							]
 						)
 					)
-					->select($db->quoteName('ws.id', 'stage_id'))
-					->from($db->quoteName('#__workflow_stages', 'ws'))
+					->select($db->quoteName('ws.id', 'state_id'))
+					->from($db->quoteName('#__workflow_states', 'ws'))
 					->from($db->quoteName('#__workflows', 'w'))
 					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
 					->where($db->quoteName('ws.default') . ' = 1')
@@ -1246,8 +1246,8 @@ class ArticleModel extends AdminModel
 						]
 					)
 				)
-				->select($db->quoteName('ws.id', 'stage_id'))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
+				->select($db->quoteName('ws.id', 'state_id'))
+				->from($db->quoteName('#__workflow_states', 'ws'))
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.default') . ' = 1')
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
