@@ -11,7 +11,7 @@
 
 		<field
 				name="state"
-				type="workflowstage"
+				type="workflowstate"
 				label="COM_CONTENT_STATES"
 				onchange="this.form.submit();"
 				activeonly="true"
