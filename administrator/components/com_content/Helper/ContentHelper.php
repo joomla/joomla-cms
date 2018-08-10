@@ -108,7 +108,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -165,7 +165,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db      = \JFactory::getDbo();
+		$db      = Factory::getDbo();
 		$parts   = explode('.', $extension);
 		$section = null;
 
@@ -174,8 +174,20 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$section = $parts[1];
 		}
 
-		$join  = $db->quoteName('#__content') . ' AS c ON ct.content_item_id=c.id';
-		$state = 'state';
+		$join = '';
+
+		$join .= '(';
+		$join .= $db->quoteName('#__content', 'c') . ',';
+		$join .= $db->quoteName('#__workflow_states', 's') . ',';
+		$join .= $db->quoteName('#__workflow_associations', 'a');
+		$join .= ') ON (';
+		$join .= $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id') . ' AND ';
+		$join .= $db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id') . ' AND ';
+		$join .= $db->quoteName('s.id') . ' = ' . $db->quoteName('a.state_id') . ' AND ';
+		$join .= $db->quoteName('a.extension') . ' = ' . $db->quote('com_content');
+		$join .= ')';
+
+		$state = 's.condition';
 
 		if ($section === 'category')
 		{
@@ -186,7 +198,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 		foreach ($items as $item)
 		{
 			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
 			$item->count_published   = 0;
 			$query                   = $db->getQuery(true);
@@ -195,28 +206,23 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				->where('ct.tag_id = ' . (int) $item->id)
 				->where('ct.type_alias =' . $db->q($extension))
 				->join('LEFT', $join)
-				->group('state');
+				->group($state);
 			$db->setQuery($query);
 			$contents = $db->loadObjectList();
 
 			foreach ($contents as $content)
 			{
-				if ($content->state == 1)
+				if ($content->condition == 1)
 				{
 					$item->count_published = $content->count;
 				}
 
-				if ($content->state == 0)
+				if ($content->condition == 0)
 				{
 					$item->count_unpublished = $content->count;
 				}
 
-				if ($content->state == 2)
-				{
-					$item->count_archived = $content->count;
-				}
-
-				if ($content->state == -2)
+				if ($content->condition == -2)
 				{
 					$item->count_trashed = $content->count;
 				}
