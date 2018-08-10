@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `extension` varchar(255) NOT NULL,
+  `extension` varchar(50) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT NOW(),
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   KEY `title` (`title`(191)),
-  KEY `extension` (`extension`(191)),
+  KEY `extension` (`extension`),
   KEY `default` (`default`),
   KEY `created` (`created`),
   KEY `created_by` (`created_by`),
@@ -40,11 +40,11 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
   `state_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
-  `extension` varchar(100) NOT NULL,
+  `extension` varchar(50) NOT NULL,
   PRIMARY KEY (`item_id`, `state_id`, `extension`),
   KEY `idx_item_id` (`item_id`),
   KEY `idx_state_id` (`state_id`),
-  KEY `idx_extension` (`extension`(100))
+  KEY `idx_extension` (`extension`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
