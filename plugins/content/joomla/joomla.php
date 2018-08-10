@@ -398,17 +398,17 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Change the stage in core_content if the stage in a table is changed
+	 * Change the state in core_content if the stage in a table is changed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
 	 * @param   array    $pks      A list of primary key ids of the content that has changed stage.
-	 * @param   integer  $value    The value of the stage that the content has been changed to.
+	 * @param   integer  $value    The value of the condition that the content has been changed to
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function onContentChangeStage($context, $pks, $value)
+	public function onContentChangeState($context, $pks, $value)
 	{
 		$pks = ArrayHelper::toInteger($pks);
 
