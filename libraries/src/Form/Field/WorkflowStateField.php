@@ -11,8 +11,9 @@ namespace Joomla\CMS\Form\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\Field\GroupedlistField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Workflow States field.
@@ -125,7 +126,7 @@ class WorkflowStateField extends GroupedlistField
 				$workflowStates[$workflowStateKey] = array();
 			}
 
-			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
+			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_state_id, Text::_($state->workflow_state_title));
 		}
 
 		// Merge any additional options in the XML definition.
