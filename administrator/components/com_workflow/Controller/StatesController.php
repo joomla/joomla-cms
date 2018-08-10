@@ -10,10 +10,13 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The first example class, this is in the same
@@ -69,7 +72,7 @@ class StatesController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -81,7 +84,7 @@ class StatesController extends AdminController
 		{
 			$this->setMessage(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&extension=' . $this->input->getCmd("extension"), false
 				)
@@ -118,10 +121,30 @@ class StatesController extends AdminController
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+			)
+		);
+	}
+
+	/**
+	 * Check in of one or more records.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkin()
+	{
+		parent::checkin();
+
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&extension=' . $this->input->getCmd('extension')
+				. '&workflow_id=' . $this->input->getCmd('workflow_id'), false
 			)
 		);
 	}
@@ -137,7 +160,7 @@ class StatesController extends AdminController
 	{
 		parent::delete();
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false

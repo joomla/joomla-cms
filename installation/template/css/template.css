@@ -8508,8 +8508,8 @@ body {
   max-width: 620px;
   margin: 0 auto; }
   .j-container h1 {
-    text-align: center;
-    color: #fff; }
+    color: #fff;
+    text-align: center; }
 
 .j-footer {
   padding: 10px 20px;
@@ -8607,7 +8607,8 @@ body {
     text-align: center; }
 
 .alert-text {
-  padding: 10px 20px; }
+  padding: 10px 20px;
+  width: 75%; }
 
 .lang-select {
   top: 0;

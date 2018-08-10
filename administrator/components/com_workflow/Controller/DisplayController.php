@@ -11,7 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -52,7 +52,7 @@ class DisplayController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the Text message prefix. Defaults to the option.
 		if (empty($this->extension))
 		{
 			$this->extension = $this->input->get('extension', 'com_content');

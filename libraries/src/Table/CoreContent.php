@@ -384,7 +384,7 @@ class CoreContent extends Table
 		// Determine if there is checkin support for the table.
 		$checkin = false;
 
-		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
+		if ($this->hasField('core_checked_out_user_id') && $this->hasField('core_checked_out_time'))
 		{
 			$checkin = true;
 			$query->where(
