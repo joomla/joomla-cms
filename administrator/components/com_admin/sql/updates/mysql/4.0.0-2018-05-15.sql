@@ -16,14 +16,14 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `modified` datetime NOT NULL DEFAULT NOW(),
   `modified_by` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `asset_id` (`asset_id`),
-  KEY `title` (`title`(191)),
-  KEY `extension` (`extension`),
-  KEY `default` (`default`),
-  KEY `created` (`created`),
-  KEY `created_by` (`created_by`),
-  KEY `modified` (`modified`),
-  KEY `modified_by` (`modified_by`)
+  KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_title` (`title`(191)),
+  KEY `idx_extension` (`extension`),
+  KEY `idx_default` (`default`),
+  KEY `idx_created` (`created`),
+  KEY `idx_created_by` (`created_by`),
+  KEY `idx_modified` (`modified`),
+  KEY `idx_modified_by` (`modified_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -59,13 +59,13 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `condition` enum('0','1','-2') NOT NULL,
+  `condition` int(10) DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `workflow_id` (`workflow_id`),
-  KEY `title` (`title`(191)),
-  KEY `asset_id` (`asset_id`),
-  KEY `default` (`default`)
+  KEY `idx_workflow_id` (`workflow_id`),
+  KEY `idx_title` (`title`(191)),
+  KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_default` (`default`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -73,10 +73,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
 --
 
 INSERT INTO `#__workflow_states` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 0, 1, 1, 1, 'Unpublished', '', '0', 0),
-(2, 0, 2, 1, 1, 'Published', '', '1', 1),
-(3, 0, 3, 1, 1, 'Trashed', '', '-2', 0),
-(4, 0, 4, 1, 1, 'Archived', '', '1', 0);
+(1, 0, 1, 1, 1, 'Unpublished', '', 0, 0),
+(2, 0, 2, 1, 1, 'Published', '', 1, 1),
+(3, 0, 3, 1, 1, 'Trashed', '', -2, 0),
+(4, 0, 4, 1, 1, 'Archived', '', 1, 0);
 
 --
 -- Table structure for table `#__workflow_transitions`
@@ -93,11 +93,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `from_state_id` int(10) NOT NULL,
   `to_state_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `title` (`title`(191)),
-  KEY `asset_id` (`asset_id`),
-  KEY `from_state_id` (`from_state_id`),
-  KEY `to_state_id` (`to_state_id`),
-  KEY `workflow_id` (`workflow_id`)
+  KEY `idx_title` (`title`(191)),
+  KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_from_state_id` (`from_state_id`),
+  KEY `idx_to_state_id` (`to_state_id`),
+  KEY `idx_workflow_id` (`workflow_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
