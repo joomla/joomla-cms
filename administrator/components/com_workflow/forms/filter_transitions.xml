@@ -23,7 +23,7 @@
 			label="COM_WORKFLOW_FROM_STAGE"
 			description="COM_WORKFLOW_FROM_STAGE_DESC"
 			onchange="this.form.submit();"
-			sql_select="id as value, title as from_staGe"
+			sql_select="id as value, title as from_stage"
 			sql_from="#__workflow_stages"
 			>
 			<option value="">COM_WORKFLOW_SELECT_FROM_STAGE</option>
@@ -35,7 +35,7 @@
 			description="COM_WORKFLOW_TO_STAGE_DESC"
 			onchange="this.form.submit();"
 			sql_select="id as value, title as to_stage"
-			sql_from="#__workflow_staGes"
+			sql_from="#__workflow_stages"
 			>
 			<option value="">COM_WORKFLOW_SELECT_TO_STAGE</option>
 		</field>
