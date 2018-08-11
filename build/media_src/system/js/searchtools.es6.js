@@ -1,4 +1,4 @@
-(() => {
+((document, Joomla) => {
   'use strict';
 
   class Searchtools {
@@ -86,6 +86,28 @@
       // Get values
       this.searchString = this.searchField.value;
 
+      // Do some binding
+      this.showFilters = this.showFilters.bind(this);
+      this.hideFilters = this.hideFilters.bind(this);
+      this.showList = this.showList.bind(this);
+      this.hideList = this.hideList.bind(this);
+      this.toggleFilters = this.toggleFilters.bind(this);
+      this.toggleList = this.toggleList.bind(this);
+      this.checkFilter = this.checkFilter.bind(this);
+      this.clear = this.clear.bind(this);
+      this.createOrderField = this.createOrderField.bind(this);
+      this.checkActiveStatus = this.checkActiveStatus.bind(this);
+      this.activeFilter = this.activeFilter.bind(this);
+      this.deactiveFilter = this.deactiveFilter.bind(this);
+      this.getFilterFields = this.getFilterFields.bind(this);
+      this.getListFields = this.getListFields.bind(this);
+      this.hideContainer = this.hideContainer.bind(this);
+      this.showContainer = this.showContainer.bind(this);
+      this.toggleContainer = this.toggleContainer.bind(this);
+      this.toggleDirection = this.toggleDirection.bind(this);
+      this.updateFieldValue = this.updateFieldValue.bind(this);
+      this.findOption = this.findOption.bind(this);
+
       if (this.filterContainer && this.filterContainer.classList.contains('js-stools-container-filters-visible')) {
         this.showFilters();
         this.showList();
@@ -128,10 +150,10 @@
       this.createOrderField();
 
       this.orderCols.forEach((item) => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (event) => {
           // Order to set
-          const newOrderCol = self.getAttribute('data-order');
-          const newDirection = self.getAttribute('data-direction');
+          const newOrderCol = event.target.getAttribute('data-order');
+          const newDirection = event.target.getAttribute('data-direction');
           const newOrdering = `${newOrderCol} ${newDirection}`;
 
           // The data-order attribute is required
@@ -422,6 +444,10 @@
   }
 
   const onBoot = () => {
+    if (!Joomla || typeof Joomla.getOptions !== 'function') {
+      throw new Error('core.js was not properly initialised');
+    }
+
     if (Joomla.getOptions('searchtools')) {
       const options = Joomla.getOptions('searchtools');
       const element = document.querySelector(options.selector);
@@ -436,4 +462,4 @@
 
   // Execute on DOM Loaded Event
   document.addEventListener('DOMContentLoaded', onBoot);
-})();
+})(document, Joomla);
