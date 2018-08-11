@@ -15,7 +15,7 @@
 			name="enabled"
 			type="plugin_status"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
@@ -23,7 +23,7 @@
 			name="folder"
 			type="plugintype"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_PLUGINS_OPTION_FOLDER</option>
 		</field>
 
@@ -33,7 +33,7 @@
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 
@@ -42,7 +42,7 @@
 			type="packagelist"
 			extensiontype="plugin"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JGLOBAL_FILTER_PACKAGE</option>
 		</field>
 	</fields>
@@ -55,7 +55,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
-		>
+			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
