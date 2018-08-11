@@ -24,8 +24,8 @@ CREATE INDEX "#__workflows_idx_extension" ON "#__workflows" ("extension");
 CREATE INDEX "#__workflows_idx_default" ON "#__workflows" ("default");
 CREATE INDEX "#__workflows_idx_created" ON "#__workflows" ("created");
 CREATE INDEX "#__workflows_idx_created_by" ON "#__workflows" ("created_by");
-CREATE INDEX "#__workflows_idx_modified" ON #__workflows" ("modified");
-CREATE INDEX "#__workflows_idx_modified_by" ON #__workflows" ("modified_by");
+CREATE INDEX "#__workflows_idx_modified" ON "#__workflows" ("modified");
+CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
 (1, 0, 1, 'Joomla! Default', '', 'com_content', 1, 1, NOW(), 0, '1970-01-01 00:00:00', 0);
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
   PRIMARY KEY ("item_id", "state_id", "extension")
 );
 CREATE INDEX "#__workflow_associations_idx_item_id" ON "#__workflow_associations" ("item_id");
-CREATE INDEX "#__workflow_associations_idx_state_id" ON "#__workflow_associations ("state_id");
+CREATE INDEX "#__workflow_associations_idx_state_id" ON "#__workflow_associations" ("state_id");
 CREATE INDEX "#__workflow_associations_idx_extension" ON "#__workflow_associations" ("extension");
 
 --
