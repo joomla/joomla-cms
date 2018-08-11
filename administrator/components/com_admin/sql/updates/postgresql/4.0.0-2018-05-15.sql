@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "extension" varchar(50) NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
   "ordering" bigint NOT NULL DEFAULT 0,
-  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created" timestamp without time zone DEFAULT NOW() NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
-  "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified" timestamp without time zone DEFAULT NOW() NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
@@ -28,7 +28,7 @@ CREATE INDEX "#__workflows_idx_modified" ON #__workflows" ("modified");
 CREATE INDEX "#__workflows_idx_modified_by" ON #__workflows" ("modified_by");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
-(1, 0, 1, 'Joomla! Default', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+(1, 0, 1, 'Joomla! Default', '', 'com_content', 1, 1, NOW(), 0, '1970-01-01 00:00:00', 0);
 
 --
 -- Table structure for table "#__workflow_associations"
@@ -80,7 +80,7 @@ INSERT INTO "#__workflow_states" ("id", "asset_id", "ordering", "workflow_id", "
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
-  "id" serial NOT NULL,,
+  "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "workflow_id" bigint DEFAULT 0 NOT NULL,
