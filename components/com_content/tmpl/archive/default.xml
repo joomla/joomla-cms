@@ -29,7 +29,7 @@
 				name="state"
 			    type="sql"
 			    sql_select="id, title"
-			    sql_from="#__workflow_states"
+			    sql_from="#__workflow_stages"
 			    key_field="id"
 			    value_field="title"
 				multiple="true"
