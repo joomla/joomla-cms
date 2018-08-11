@@ -760,7 +760,7 @@ class HtmlDocument extends Document
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
-				if ($type == 'module' || $type == 'modules')
+				if ($type === 'module' || $type === 'modules' || $type === 'message')
 				{
 					$template_tags_first[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}
