@@ -979,13 +979,31 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Initialize a new category.
 		$category = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
 
+		// Get Joomla default workflow // Should be modified when the title is changed to a lang string!
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__workflows'))
+			->where($db->quoteName('extension') . ' = ' . $db->quote('com_content'))
+			->where($db->quoteName('title') . ' = ' . $db->quote('Joomla! Default'));
+		$db->setQuery($query);
+
+		try
+		{
+			$workflowId = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
 		$data = array(
 			'extension'       => 'com_content',
 			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":""}',
+			'params'          => '{"target":"","image":"", "workflow_id":"' . $workflowId . '"}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1098,6 +1116,23 @@ class PlgSampledataMultilang extends CMSPlugin
 		$query = $db->getQuery(true)
 			->insert($db->qn('#__content_frontpage'))
 			->values($newId . ', 0');
+
+		$db->setQuery($query);
+
+		try
+			{
+				$db->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				$this->setError($e->getMessage());
+
+				return false;
+			}
+
+		$query->clear()
+			->insert($db->qn('#__workflow_associations'))
+			->values($newId . ', 2,' . $db->quote('com_content'));
 
 		$db->setQuery($query);
 
