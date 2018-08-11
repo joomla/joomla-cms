@@ -228,7 +228,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</joomla-tab>
 </joomla-field-permissions>
 
-<joomla-alert type="warning">
+<div class="rule-notes">
 	<?php
 	if ($section === 'component' || !$section)
 	{
@@ -239,4 +239,4 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
 	}
 	?>
-</joomla-alert>
+</div>
