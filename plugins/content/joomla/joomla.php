@@ -28,6 +28,12 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PlgContentJoomla extends CMSPlugin
 {
+	/**
+	 * Database Driver Instance
+	 *
+	 * @var    \Joomla\CMS\Database\DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $db;
 
 	/**

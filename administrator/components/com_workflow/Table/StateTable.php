@@ -13,9 +13,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
- * Category table
+ * State table
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -49,13 +50,13 @@ class StateTable extends Table
 	public function delete($pk = null)
 	{
 		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_workflows'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
@@ -67,7 +68,7 @@ class StateTable extends Table
 
 		if ($state->default)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $state->title), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $state->title), 'error');
 
 			return false;
 		}
@@ -86,7 +87,7 @@ class StateTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $state->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $state->title, $e->getMessage()), 'error');
 		}
 
 		return false;
@@ -115,7 +116,7 @@ class StateTable extends Table
 
 		if (trim($this->title) === '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
 
 			return false;
 		}
@@ -124,7 +125,7 @@ class StateTable extends Table
 		{
 			if ((int) $this->published !== 1)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
@@ -146,7 +147,7 @@ class StateTable extends Table
 			{
 				$this->default = '1';
 
-				$this->setError(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'));
+				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
 			}

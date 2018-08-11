@@ -10,9 +10,13 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * The first example class, this is in the same
@@ -29,13 +33,13 @@ class StatesController extends AdminController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                         'view_path' (this list is not meant to be comprehensive).
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct(array $config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct(array $config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -68,7 +72,7 @@ class StatesController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or die(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -78,9 +82,9 @@ class StatesController extends AdminController
 
 		if (!$value)
 		{
-			$this->setMessage(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
+			$this->setMessage(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&extension=' . $this->input->getCmd("extension"), false
 				)
@@ -91,11 +95,11 @@ class StatesController extends AdminController
 
 		if (empty($cid) || !is_array($cid))
 		{
-			$this->setMessage(\JText::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
 		}
 		elseif (count($cid) > 1)
 		{
-			$this->setMessage(\JText::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
+			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_ITEMS'), 'error');
 		}
 		else
 		{
@@ -112,15 +116,35 @@ class StatesController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(\JText::_('COM_WORKFLOW_ITEM_SET_DEFAULT'));
+				$this->setMessage(Text::_('COM_WORKFLOW_ITEM_SET_DEFAULT'));
 			}
 		}
 
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+			)
+		);
+	}
+
+	/**
+	 * Check in of one or more records.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkin()
+	{
+		parent::checkin();
+
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&extension=' . $this->input->getCmd('extension')
+				. '&workflow_id=' . $this->input->getCmd('workflow_id'), false
 			)
 		);
 	}
@@ -136,7 +160,7 @@ class StatesController extends AdminController
 	{
 		parent::delete();
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false

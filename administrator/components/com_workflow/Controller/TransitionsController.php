@@ -11,6 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Router\Route;
 
 /**
  * The first example class, this is in the same
@@ -28,7 +29,7 @@ class TransitionsController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -48,7 +49,7 @@ class TransitionsController extends AdminController
 	{
 		parent::delete();
 		$this->setRedirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
