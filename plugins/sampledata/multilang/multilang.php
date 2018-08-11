@@ -1120,15 +1120,15 @@ class PlgSampledataMultilang extends CMSPlugin
 		$db->setQuery($query);
 
 		try
-			{
-				$db->execute();
-			}
-			catch (JDatabaseExceptionExecuting $e)
-			{
-				$this->setError($e->getMessage());
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			$this->setError($e->getMessage());
 
-				return false;
-			}
+			return false;
+		}
 
 		$query->clear()
 			->insert($db->qn('#__workflow_associations'))
@@ -1142,6 +1142,8 @@ class PlgSampledataMultilang extends CMSPlugin
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
+			$this->setError($e->getMessage());
+
 			return false;
 		}
 
