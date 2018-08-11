@@ -122,3 +122,5 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 --
 INSERT INTO `#__workflow_associations` (`item_id`, `state_id`, `extension`)
 SELECT `id`, CASE WHEN `state` = -2 THEN 3 WHEN `state` = 0 THEN 1 WHEN `state` = 2 THEN 4 ELSE 2 END, 'com_content' FROM `#__content`;
+                   
+ALTER TABLE #__content` MODIFY `state` INTEGER;
