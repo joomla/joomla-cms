@@ -152,7 +152,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	public static function addTablePath($path)
 	{
-		\JTable::addIncludePath($path);
+		Table::addIncludePath($path);
 	}
 
 	/**
@@ -396,12 +396,12 @@ abstract class BaseDatabaseModel extends CMSObject
 	 *
 	 * @param   string  $name    The name of the view
 	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration settings to pass to \JTable::getInstance
+	 * @param   array   $config  Configuration settings to pass to Table::getInstance
 	 *
 	 * @return  Table|boolean  Table object or boolean false if failed
 	 *
 	 * @since   3.0
-	 * @see     \JTable::getInstance()
+	 * @see     Table::getInstance()
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{

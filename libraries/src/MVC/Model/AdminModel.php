@@ -105,6 +105,7 @@ abstract class AdminModel extends FormModel
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag',
+		'workflowstate_id' => 'batchWorkflowState',
 	);
 
 	/**
@@ -1024,7 +1025,7 @@ abstract class AdminModel extends FormModel
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
-				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				if ($table->hasField('checked_out') && $table->checked_out && ($table->checked_out != $user->id))
 				{
 					Log::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), Log::WARNING, 'jerror');
 

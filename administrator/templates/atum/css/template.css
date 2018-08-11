@@ -880,7 +880,7 @@ iframe {
     font-size: 20px;
     text-align: center;
     vertical-align: middle; }
-  .main-nav .collapse-level-1:not(.show) {
+  .main-nav .open .collapse-level-1 {
     display: block; }
   .main-nav .collapse-level-1 a::before {
     display: none; }
@@ -985,18 +985,17 @@ iframe {
   .subhead .btn {
     padding: 0 22px;
     font-size: 1rem;
-    line-height: 2.65rem;
-    color: #fff; }
+    line-height: 2.3rem; }
     .subhead .btn [class^='icon-'],
     .subhead .btn [class*=' icon-'],
     .subhead .btn [class^='fa-'],
     .subhead .btn [class*=' fa-'] {
       z-index: -1;
       display: inline-block;
-      width: 40px;
+      width: 38px;
       height: auto;
       margin: 0 16px 0 -22px;
-      line-height: 2.65rem;
+      line-height: 2.3rem;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.2); }
     .subhead .btn[disabled], .subhead .btn.dropdown-toggle[disabled] {

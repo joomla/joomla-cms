@@ -16,7 +16,6 @@ $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = JFactory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
-$colSpan       = $branchFilter ? 5 : 6;
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 'auto']);
 ?>
@@ -58,13 +57,6 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="<?php echo $colSpan; ?>">
-								<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 						<?php foreach ($this->items as $i => $item) : ?>
@@ -127,6 +119,10 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 			</div>
 

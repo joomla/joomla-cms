@@ -32,7 +32,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 					<div class="control-group">
 						<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 						<?php if (empty($this->changeSet)) : ?>
-							<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+							<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 						<?php else : ?>
 							<table class="table table-striped">
 								<thead>
@@ -72,13 +72,6 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										</th>
 									</tr>
 								</thead>
-								<tfoot>
-									<tr>
-										<td colspan="9">
-											<?php echo $this->pagination->getListFooter(); ?>
-										</td>
-									</tr>
-								</tfoot>
 								<tbody>
 									<?php foreach ($this->changeSet as $i => $item) : ?>
 										<?php $extension = $item['extension']; ?>
@@ -125,6 +118,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 									<?php endforeach; ?>
 								</tbody>
 							</table>
+
+							<?php // load the pagination. ?>
+							<?php echo $this->pagination->getListFooter(); ?>
+
 						<?php endif; ?>
 					</div>
 					<input type="hidden" name="task" value="">

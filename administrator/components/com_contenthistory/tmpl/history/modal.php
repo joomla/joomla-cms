@@ -91,13 +91,6 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="15">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
 			<tbody>
 			<?php $i = 0; ?>
 			<?php foreach ($this->items as $item) : ?>
@@ -120,13 +113,13 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<td>
 						<?php if ($item->keep_forever) : ?>
 							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
-								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
+								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
 								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</a>
 						<?php else : ?>
 							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
-								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
+								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
 								<?php echo Text::_('JNO'); ?>
 							</a>
@@ -143,6 +136,9 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+
+		<?php // load the pagination. ?>
+		<?php echo $this->pagination->getListFooter(); ?>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">

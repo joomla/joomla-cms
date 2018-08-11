@@ -80,20 +80,12 @@ if (!empty($editor))
 						</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="6">
-							<?php echo $this->pagination->getListFooter(); ?>
-						</td>
-					</tr>
-				</tfoot>
 				<tbody>
 				<?php
 				$iconStates = array(
 					-2 => 'icon-trash',
 					0  => 'icon-unpublish',
 					1  => 'icon-publish',
-					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -119,7 +111,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->status)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row">
 							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'
@@ -152,6 +144,10 @@ if (!empty($editor))
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+
+			<?php // load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">

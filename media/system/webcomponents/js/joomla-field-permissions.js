@@ -17,7 +17,7 @@
 	connectedCallback() {
 		const buttonDataSelector = 'data-onchange-task';
 		const buttons=[].slice.call(document.querySelectorAll('[' + buttonDataSelector + ']'));
-		
+
 		if(buttons) {
 			buttons.forEach((button) => {
 				button.addEventListener('change', (e) => {
@@ -28,13 +28,13 @@
 					}
 				});
 			});
-	 	}
+		}
 	}
 
 	sendPermissions(event) {
 		const target = event.target;
 		//set the icon while storing the values
-		const icon = document.getElementById('icon_' + target.id); 
+		const icon = document.getElementById('icon_' + target.id);
 		icon.removeAttribute('class');
 		icon.setAttribute('class','fa fa-spinner fa-spin');
 
@@ -70,11 +70,11 @@
 		} else if (extension == false && view != false) {
 			asset = option + '.' + view + '.' + this.getUrlParam('id');
 			title = document.getElementById('jform_title').value;
-		}		
-		
+		}
+
 		const id                  = target.id.replace('jform_rules_', '');
 		const lastUnderscoreIndex = id.lastIndexOf('_');
-	
+
 		const permissionData = {
 			  comp   : asset,
 			  action : id.substring(0, lastUnderscoreIndex),
@@ -85,7 +85,7 @@
 
 		// Remove JS messages, if they exist.
 		Joomla.removeMessages();
-		
+
 		// Ajax request
 		Joomla.request({
 			url: this.getAttribute('data-uri'),
@@ -126,7 +126,7 @@
 			onError: (xhr) => {
 				// Remove the spinning icon.
 				icon.removeAttribute('style');
-				
+
 				Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
 				icon.setAttribute('class', 'fa fa-times');
 			}
@@ -141,10 +141,10 @@
 			let pair =vars[i].split('=');
 			if(pair[0] == variable) {
 				return pair[1];
-			}	
+			}
 		}
 		return false;
-	}		
+	}
 }
 
 customElements.define('joomla-field-permissions', JoomlaFieldPermissions);

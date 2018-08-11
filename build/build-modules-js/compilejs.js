@@ -26,7 +26,7 @@ const uglifyJs = (options, path) => {
     folders.push(`${rootPath}/${path}`);
   } else {
     folders = [
-      `${rootPath}/media`,
+      `${rootPath}/build/media_src`,
       `${rootPath}/administrator/templates/atum/js`,
       `${rootPath}/templates/cassiopeia/js`,
     ];
@@ -38,15 +38,9 @@ const uglifyJs = (options, path) => {
       (files) => {
         files.forEach(
             (file) => {
-            if (file.match(/.es6.js/)) {
+            if (file.match(/\.es6\.js/)) {
               // Transpile the file
               transpileEs5.compileFile(file);
-              fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-            }
-
-            if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
-              // Write the file
-              fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
             }
           },
           (error) => {
@@ -66,17 +60,17 @@ const watchFiles = (options, folders, compileFirst = false) => {
   }
 
   folderz.forEach(
-  	(folder) => {
+    (folder) => {
       Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
         (files) => {
           files.forEach(
             (file) => {
-              if (file.match(/.js/)) {
+              if (file.match(/\.js/)) {
                 fs.watchFile(file, () => {
                   // eslint-disable-next-line no-console
                   console.warn(`File: ${file} changed.`);
                   debounce(() => {
-                    if (file.match(/.es6.js/)) {
+                    if (file.match(/\.es6\.js/)) {
                       // Transpile the file
                       transpileEs5.compileFile(file);
                       fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
@@ -103,7 +97,7 @@ const watchFiles = (options, folders, compileFirst = false) => {
   console.log(`Now watching JS files...`);
 };
 
-const compile = (options, path) => {
+const compileJS = (options, path) => {
   Promise.resolve()
   // Compile the scss files
     .then(() => uglifyJs(options, path))
@@ -116,5 +110,5 @@ const compile = (options, path) => {
     });
 };
 
-module.exports.compile = compile;
+module.exports.compileJS = compileJS;
 module.exports.watch = watchFiles;

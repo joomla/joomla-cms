@@ -63,7 +63,7 @@ class JoomlaStorage extends NativeStorage
 			'use_trans_sid' => 0,
 		];
 
-		if (!headers_sent())
+		if (!headers_sent() && !$this->isActive())
 		{
 			session_cache_limiter('none');
 		}
@@ -229,7 +229,7 @@ class JoomlaStorage extends NativeStorage
 	 */
 	protected function setCookieParams()
 	{
-		if (headers_sent())
+		if (headers_sent() || $this->isActive())
 		{
 			return;
 		}
