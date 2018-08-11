@@ -301,8 +301,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article'    => \JText::_('COM_CONTENT'),
-			'com_content.categories' => \JText::_('JCATEGORY')
+			'com_content.article'    => Text::_('COM_CONTENT'),
+			'com_content.categories' => Text::_('JCATEGORY')
 		);
 
 		return $contexts;
@@ -394,8 +394,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	/**
 	 * Prepares a form
 	 *
-	 * @param   \Joomla\CMS\Categories\Form  $form  The form to change
-	 * @param   array|object                 $data  The form data
+	 * @param   Form          $form  The form to change
+	 * @param   array|object  $data  The form data
 	 *
 	 * @return void
 	 */

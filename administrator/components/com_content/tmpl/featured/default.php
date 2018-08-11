@@ -210,7 +210,7 @@ $js = "
 													'id'	=> 'transition-select_' . (int) $item->id,
 													'list.attr' => [
 														'class'		=> 'custom-select custom-select-sm  form-control form-control-sm',
-														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
+														'onchange'		=> "Joomla.listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
 												];
 												echo HTMLHelper::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
 												?>
