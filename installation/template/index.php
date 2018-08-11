@@ -8,8 +8,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /** @var JDocumentHtml $this */
 
@@ -42,7 +42,6 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
-Text::script('INSTL_FTP_SETTINGS_CORRECT');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

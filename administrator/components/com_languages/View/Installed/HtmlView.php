@@ -11,11 +11,11 @@ namespace Joomla\Component\Languages\Administrator\View\Installed;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * Displays a list of the installed languages.
@@ -24,13 +24,6 @@ use Joomla\CMS\Toolbar\Toolbar;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * True, if FTP settings should be shown, or an exception.
-	 *
-	 * @var boolean|\Exception
-	 */
-	protected $ftp = null;
-
 	/**
 	 * Option (component) name
 	 *
@@ -93,7 +86,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->ftp           = $this->get('Ftp');
 		$this->option        = $this->get('Option');
 		$this->pagination    = $this->get('Pagination');
 		$this->rows          = $this->get('Data');

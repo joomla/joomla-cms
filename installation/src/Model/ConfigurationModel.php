@@ -203,25 +203,6 @@ class ConfigurationModel extends BaseInstallationModel
 			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
 		}
 
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP.
-		 */
-		$useFTP = false;
-
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
-		{
-			return false;
-
-			// $useFTP = true;
-		}
-
-		// Enable/Disable override.
-		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
-		{
-			$useFTP = false;
-		}
-
 		// Get the session
 		$session = Factory::getSession();
 

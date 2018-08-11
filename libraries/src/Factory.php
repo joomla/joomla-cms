@@ -747,9 +747,16 @@ abstract class Factory
 
 		if ($use_prefix)
 		{
+			$FTPOptions = \JClientHelper::getCredentials('ftp');
 			$SCPOptions = \JClientHelper::getCredentials('scp');
 
-			if ($SCPOptions['enabled'] == 1 && $use_network)
+			if ($FTPOptions['enabled'] == 1 && $use_network)
+			{
+				$prefix = 'ftp://' . $FTPOptions['user'] . ':' . $FTPOptions['pass'] . '@' . $FTPOptions['host'];
+				$prefix .= $FTPOptions['port'] ? ':' . $FTPOptions['port'] : '';
+				$prefix .= $FTPOptions['root'];
+			}
+			elseif ($SCPOptions['enabled'] == 1 && $use_network)
 			{
 				$prefix = 'ssh2.sftp://' . $SCPOptions['user'] . ':' . $SCPOptions['pass'] . '@' . $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':' . $SCPOptions['port'] : '';

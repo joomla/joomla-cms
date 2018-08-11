@@ -387,9 +387,6 @@ class UpdateModel extends BaseDatabaseModel
 		$app = Factory::getApplication();
 		$app->setUserState('com_joomlaupdate.password', $password);
 
-		// Do we have to use FTP?
-		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
-
 		// Get the absolute path to site's root.
 		$siteroot = JPATH_SITE;
 
@@ -417,7 +414,7 @@ class UpdateModel extends BaseDatabaseModel
 	'kickstart.tuning.max_exec_time' => '5',
 	'kickstart.tuning.run_time_bias' => '75',
 	'kickstart.tuning.min_exec_time' => '0',
-	'kickstart.procengine' => '$method',
+	'kickstart.procengine' => 'direct',
 	'kickstart.setup.sourcefile' => '$file',
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',

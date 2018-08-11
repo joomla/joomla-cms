@@ -11,9 +11,9 @@ namespace Joomla\CMS\Cache\Storage;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * File cache storage handler
@@ -547,7 +547,7 @@ class FileStorage extends CacheStorage
 			{
 				$file = $this->_cleanPath($file);
 
-				// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
+				// In case of restricted permissions we zap it one way or the other as long as the owner is the webserver
 				if (@unlink($file) !== true)
 				{
 					Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
@@ -576,7 +576,7 @@ class FileStorage extends CacheStorage
 			}
 		}
 
-		// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
+		// In case of restricted permissions we zap it one way or the other as long as the owner is the webserver
 		if (@rmdir($path))
 		{
 			return true;

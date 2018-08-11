@@ -40,11 +40,6 @@ class InstalledModel extends ListModel
 	protected $user = null;
 
 	/**
-	 * @var boolean|\JExeption True, if FTP settings should be shown, or an exeption
-	 */
-	protected $ftp = null;
-
-	/**
 	 * @var string option name
 	 */
 	protected $option = null;

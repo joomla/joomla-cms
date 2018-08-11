@@ -143,21 +143,6 @@
 		// Create and append the loading layer.
 		Joomla.loadingLayer("load");
 
-		// Check for FTP credentials
-		Joomla.installation = Joomla.installation || {};
-
-		// @todo FTP persistent data ?
-		// Initialize the FTP installation data
-		// if (sessionStorage && sessionStorage.getItem('installation-data')) {
-		// 	var data = sessionStorage.getItem('installData').split(',');
-		// 	Joomla.installation.data = {
-		// 		ftpUsername: data[0],
-		// 		ftpPassword: data[1],
-		// 		ftpHost: data[2],
-		// 		ftpPort: data[3],
-		// 		ftpRoot: data[4]
-		// 	};
-		// }
 		return 'Loaded...'
 	};
 

@@ -58,7 +58,7 @@ function admin_postinstall_eaccelerator_action()
 	// Set the configuration file path.
 	$file = JPATH_CONFIGURATION . '/configuration.php';
 
-	// Attempt to make the file writeable if using FTP.
+	// Attempt to make the file writeable
 	if (Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 	{
 		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
@@ -74,7 +74,7 @@ function admin_postinstall_eaccelerator_action()
 		return;
 	}
 
-	// Attempt to make the file unwriteable if using FTP.
+	// Attempt to make the file unwriteable
 	if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 	{
 		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
