@@ -36,7 +36,9 @@ abstract class LoggedHelper
 			->select('s.time, s.client_id, u.id, u.name, u.username')
 			->from('#__session AS s')
 			->join('LEFT', '#__users AS u ON s.userid = u.id')
-			->where('s.guest = 0');
+			->where('s.guest = 0')
+			->where('s.userid > 0')
+			->order('s.time DESC');
 		$db->setQuery($query, 0, $params->get('count', 5));
 
 		try
