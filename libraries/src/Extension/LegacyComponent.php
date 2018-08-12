@@ -18,11 +18,11 @@ use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Access to component specific services.
