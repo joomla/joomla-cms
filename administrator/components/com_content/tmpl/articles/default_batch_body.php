@@ -46,7 +46,7 @@ $user = \Joomla\CMS\Factory::getUser();
             <div class="controls">
 				<?php
 				$displayData = ['extension' => 'com_content'];
-				echo JLayoutHelper::render('joomla.html.batch.workflowstate', $displayData); ?>
+				echo JLayoutHelper::render('joomla.html.batch.workflowstage', $displayData); ?>
             </div>
         </div>
 		<?php endif; ?>

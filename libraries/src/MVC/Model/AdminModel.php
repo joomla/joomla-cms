@@ -105,7 +105,7 @@ abstract class AdminModel extends FormModel
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag',
-		'workflowstate_id' => 'batchWorkflowState',
+		'workflowstage_id' => 'batchWorkflowState',
 	);
 
 	/**

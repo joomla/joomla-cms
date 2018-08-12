@@ -19,7 +19,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		document.getElementById('batch-language-id').value = '';
 		document.getElementById('batch-user-id').value = '';
 		document.getElementById('batch-tag-id').value = '';
-		document.getElementById('batch-workflowstate-id').value = '';
+		document.getElementById('batch-workflowstage-id').value = '';
 	});
 ");
 
