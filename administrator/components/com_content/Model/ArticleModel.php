@@ -919,7 +919,7 @@ class ArticleModel extends AdminModel
 			}
 
 			// If we have a new state, create the workflow association
-			if (!empty($stateId))
+			if (!empty($stageId))
 			{
 				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stateId);
 			}
