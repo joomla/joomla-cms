@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Plugin\System\Debug;
 
 use Joomla\Database\QueryMonitorInterface;
+
+defined('_JEXEC') or die;
 
 /**
  * Query monitor for the debug plugin

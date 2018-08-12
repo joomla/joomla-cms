@@ -27,10 +27,9 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
+use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
-
-JLoader::register('DebugMonitor', __DIR__ . '/debugmonitor.php');
 
 /**
  * Joomla! Debug plugin.
@@ -161,10 +160,13 @@ class PlgSystemDebug extends CMSPlugin
 		ob_start();
 		ob_implicit_flush(false);
 
+		// @todo Remove when a standard autoloader is available.
+		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
+
 		$this->linkFormat = ini_get('xdebug.file_link_format');
 
 		// Attach our query monitor to the database driver
-		$this->queryMonitor = new DebugMonitor((bool) JDEBUG);
+		$this->queryMonitor = new DebugMonitor(JDEBUG);
 
 		$this->db->setMonitor($this->queryMonitor);
 
@@ -253,9 +255,6 @@ class PlgSystemDebug extends CMSPlugin
 
 			return;
 		}
-
-		// @todo Remove when a standard autoloader is available.
-		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
 		// Load language.
 		$this->loadLanguage();
