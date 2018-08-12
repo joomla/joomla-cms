@@ -47,7 +47,8 @@ class SliderButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Slider', $name = '', $text = '', $url = '', $width = 640, $height = 480, $onClose = '')
 	{
-		HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
+		// @todo split the irrelevant code, this button doesn't need the showon...
+		HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Store all data to the options array for use with Layout
 		$options = array();
