@@ -203,7 +203,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$item->count_published   = 0;
 			$item->count_archived   = 0;
 
-
 			$query                   = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
 				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
