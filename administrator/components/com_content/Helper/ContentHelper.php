@@ -115,6 +115,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$item->count_trashed     = 0;
 			$item->count_unpublished = 0;
 			$item->count_published   = 0;
+			$item->count_archived   = 0;
 
 			$query  = $db->getQuery(true);
 
@@ -200,6 +201,9 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$item->count_trashed     = 0;
 			$item->count_unpublished = 0;
 			$item->count_published   = 0;
+			$item->count_archived   = 0;
+
+
 			$query                   = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
 				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
@@ -212,17 +216,17 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 			foreach ($contents as $content)
 			{
-				if ($content->condition == 1)
+				if ($content->condition == Workflow::PUBLISHED)
 				{
 					$item->count_published = $content->count;
 				}
 
-				if ($content->condition == 0)
+				if ($content->condition == Workflow::UNPUBLISHED)
 				{
 					$item->count_unpublished = $content->count;
 				}
 
-				if ($content->condition == -2)
+				if ($content->condition == Workflow::TRASHED)
 				{
 					$item->count_trashed = $content->count;
 				}
