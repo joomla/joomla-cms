@@ -126,7 +126,7 @@ class TemplateController extends BaseController
 				}
 				elseif ($value === -3)
 				{
-					$ntext = 'COM_TEMPLATES_N_OVERRIDE_DELEATED';
+					$ntext = 'COM_TEMPLATES_N_OVERRIDE_DELETED';
 				}
 
 				$this->setMessage(Text::plural($ntext, count($ids)));

@@ -291,7 +291,7 @@ class HtmlView extends BaseHtmlView
 
 		if (count($this->updatedList) !== 0 && $this->pluginState)
 		{
-			ToolbarHelper::custom('template.deleteOverrideHistory', 'delete', 'move', 'JTOOLBAR_DELETE', true, 'updateForm');
+			ToolbarHelper::custom('template.deleteOverrideHistory', 'delete', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}
 
 		if ($this->type == 'home')
