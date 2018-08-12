@@ -72,7 +72,7 @@ $js = <<<JS
 })();
 JS;
 
-// @todo mode the script to a file
+// @todo move the script to a file
 Factory::getDocument()->addScriptDeclaration($js);
 
 $assoc = Associations::isEnabled();

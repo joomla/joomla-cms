@@ -90,7 +90,7 @@ class TypeField extends \JFormFieldList
 })();
 JS;
 
-		// @todo mode the script to a file
+		// @todo move the script to a file
 		Factory::getDocument()->addScriptDeclaration($js);
 
 		return $options;

@@ -28,7 +28,7 @@ $js = <<<JS
 })();
 JS;
 
-// @todo mode the script to a file
+// @todo move the script to a file
 JFactory::getDocument()->addScriptDeclaration($js);
 
 HTMLHelper::_('script', 'com_content/admin-articles-default-batch-footer.js', ['relative' => true, 'version' => 'auto']);

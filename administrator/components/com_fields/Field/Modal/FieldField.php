@@ -98,7 +98,7 @@ function jClearCategory(id) {
 JS5;
 		}
 
-		// @todo mode the script to a file
+		// @todo move the script to a file
 		// Add the script to the document head.
 		Factory::getDocument()->addScriptDeclaration($script);
 

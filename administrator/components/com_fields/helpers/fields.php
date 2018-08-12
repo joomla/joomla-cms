@@ -329,7 +329,7 @@ class FieldsHelper
 
 			$formControl = $form->getFormControl();
 
-			// @todo mode the script to a file
+			// @todo move the script to a file
 			// Preload spindle-wheel when we need to submit form due to category selector changed
 			Factory::getDocument()->addScriptDeclaration(<<<JS
 function categoryHasChanged(element) {
