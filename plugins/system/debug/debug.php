@@ -422,6 +422,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		$db = $event->getDriver();
 
+		// Set a dummy monitor to avoid monitoring the following queries
+		$db->setMonitor(new DebugMonitor);
+
 		$this->totalQueries = $db->getCount();
 
 		if ($db->getServerType() === 'mysql')
