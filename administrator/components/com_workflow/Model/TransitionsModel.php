@@ -140,8 +140,8 @@ class TransitionsModel extends ListModel
 			't.to_stage_id',
 			't.published',
 			't.ordering',
+			)
 		);
-		)
 
 		$select[] = $db->quoteName('f_stage.title', 'from_stage');
 		$select[] = $db->quoteName('t_stage.title', 'to_stage');
