@@ -21,7 +21,7 @@ abstract class JHtmlWorkflowState
 {
 
 	/**
-	 * Get a list of the available workflow states.
+	 * Get a list of the available workflow stages.
 	 *
 	 * @param   array  $options  An array of options for the control
 	 *
@@ -45,14 +45,14 @@ abstract class JHtmlWorkflowState
 							'w.title'
 						],
 						[
-							'workflow_state_id',
-							'workflow_state_title',
+							'workflow_stage_id',
+							'workflow_stage_title',
 							'workflow_id',
 							'workflow_title'
 						]
 					)
 				)
-			->from('#__workflow_states AS ws')
+			->from($db->quoteName('#__workflow_stages', 'ws'))
 			->leftJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')
 			->order('ws.ordering');
 
@@ -65,20 +65,20 @@ abstract class JHtmlWorkflowState
 		foreach ($states as $state)
 		{
 			// Using workflow ID to differentiate workflows having same title
-			$workflowStateKey = $state->workflow_title . ' (' . $state->workflow_id . ')';
+			$workflowStageKey = $state->workflow_title . ' (' . $state->workflow_id . ')';
 
-			if (!array_key_exists($workflowStateKey, $workflowStates))
+			if (!array_key_exists($workflowStateKey, $workflowStages))
 			{
-				$workflowStates[$workflowStateKey] = array();
+				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $state->workflow_stage_id, $state->workflow_stage_title);
 		}
 
 		$prefix[] = array(
 			HTMLHelper::_('select.option', '', $options['title'])
 		);
 
-		return array_merge($prefix, $workflowStates);
+		return array_merge($prefix, $workflowStages);
 	}
 }

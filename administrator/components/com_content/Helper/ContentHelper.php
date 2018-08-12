@@ -69,8 +69,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
 
 				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_STATES'),
-					'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
+					Text::_('COM_WORKFLOW_STAGES'),
+					'index.php?option=com_workflow&view=stages&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'states`'
 				);
 
@@ -122,10 +122,10 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$query	->select($db->quoteName('condition'))
 					->select('COUNT(*) AS ' . $db->quoteName('count'))
 					->from($db->quoteName('#__content', 'c'))
-					->from($db->quoteName('#__workflow_states', 's'))
+					->from($db->quoteName('#__workflow_stages', 's'))
 					->from($db->quoteName('#__workflow_associations', 'a'))
 					->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
-					->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.state_id'))
+					->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'))
 					->where('catid = ' . (int) $item->id)
 					->where('a.extension = ' . $db->quote('com_content'))
 					->group($db->quoteName('condition'));
@@ -277,7 +277,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$transitions,
 				function ($var) use ($pk, $workflow_id)
 				{
-					return in_array($var['from_state_id'], [-1, $pk]) && $var['to_state_id'] != $pk && $workflow_id == $var['workflow_id'];
+					return in_array($var['from_stage_id'], [-1, $pk]) && $var['to_stage_id'] != $pk && $workflow_id == $var['workflow_id'];
 				}
 			)
 		);

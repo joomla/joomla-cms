@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  __DEPLOY_VERSION__
  */
-class StateModel extends AdminModel
+class StageModel extends AdminModel
 {
 	/**
 	 * Auto-populate the model state.
@@ -129,7 +129,7 @@ class StateModel extends AdminModel
 		}
 
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$parts = explode('.', $extension);
 
@@ -185,7 +185,7 @@ class StateModel extends AdminModel
 		// Get the form.
 		$form = $this->loadForm(
 			'com_workflow.state',
-			'state',
+			'stage',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData

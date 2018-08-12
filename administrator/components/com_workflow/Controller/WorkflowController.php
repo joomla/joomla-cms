@@ -16,9 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Workflow controller
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -163,7 +161,7 @@ class WorkflowController extends FormController
 			$query = $db->getQuery(true);
 
 			$query->select('*')
-				->from($db->quoteName('#__workflow_states'))
+				->from($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . ' = ' . (int) $recordId);
 
 			$statuses = $db->setQuery($query)->loadAssocList();
@@ -203,8 +201,8 @@ class WorkflowController extends FormController
 			{
 				$table = $tmodel->getTable();
 
-				$transition['from_state_id'] = $mapping[$transition['from_state_id']];
-				$transition['to_state_id'] = $mapping[$transition['to_state_id']];
+				$transition['from_stage_id'] = $mapping[$transition['from_stage_id']];
+				$transition['to_stage_id'] = $mapping[$transition['to_stage_id']];
 
 				$transition['workflow_id'] = $workflowID;
 				$transition['id'] = 0;

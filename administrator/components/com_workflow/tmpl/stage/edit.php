@@ -26,9 +26,10 @@ $input = $app->input;
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_workflow&view=state&workflow_id=' . $input->getCmd('workflow_id') . '&extension=' . $input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=stage&workflow_id=' . $input->getCmd('workflow_id') . '&extension=' . $input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -56,6 +57,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 	<?php echo $this->form->getInput('workflow_id'); ?>
-	<input type="hidden" name="task" value="state.edit" />
+	<input type="hidden" name="task" value="stage.edit" />
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

@@ -114,7 +114,7 @@ class FeaturedModel extends ArticlesModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the states.
-		$query->select('wa.state_id AS state_id')
+		$query->select('wa.stage_id AS stage_id')
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
 
 		// Join over the states.
@@ -126,14 +126,14 @@ class FeaturedModel extends ArticlesModel
 						'ws.workflow_id'
 					],
 					[
-						'state_title',
-						'state_condition',
+						'stage_title',
+						'stage_condition',
 						'workflow_id'
 					]
 					)
 				)
-				->innerJoin($query->quoteName('#__workflow_states', 'ws'))
-				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.state_id'));
+				->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
+				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -161,7 +161,7 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_numeric($workflowState))
 		{
-			$query->where('wa.state_id = ' . (int) $workflowState);
+			$query->where('wa.stage_id = ' . (int) $workflowState);
 		}
 
 		$condition = (string) $this->getState('filter.condition');

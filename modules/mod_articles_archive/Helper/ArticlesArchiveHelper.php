@@ -55,7 +55,7 @@ class ArticlesArchiveHelper
 		{
 			$states = ArrayHelper::toInteger($states);
 
-			$query->where($db->qn('wa.state_id') . ' IN (' . implode(', ', $states) . ')');
+			$query->where($db->qn('wa.stage_id') . ' IN (' . implode(', ', $states) . ')');
 		}
 
 		// Filter by language

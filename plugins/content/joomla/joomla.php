@@ -126,7 +126,7 @@ class PlgContentJoomla extends CMSPlugin
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if (!in_array($context, ['com_categories.category', 'com_workflow.state']))
+		if (!in_array($context, ['com_categories.category', 'com_workflow.stage']))
 		{
 			return true;
 		}
@@ -136,8 +136,8 @@ class PlgContentJoomla extends CMSPlugin
 			case 'com_categories.category':
 				return $this->_canDeleteCategories($data);
 
-			case 'com_workflow.state':
-				return $this->_canDeleteStates($data->id);
+			case 'com_workflow.stage':
+				return $this->_canDeleteStages($data->id);
 		}
 	}
 
@@ -218,18 +218,18 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Checks if a given state can be deleted
+	 * Checks if a given stage can be deleted
 	 *
-	 * @param   int  $pk  The state ID
+	 * @param   int  $pk  The stage ID
 	 *
 	 * @return  boolean
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function _canDeleteStates($pk)
+	private function _canDeleteStages($pk)
 	{
 		// Check if this function is enabled.
-		if (!$this->params->def('check_states', 1))
+		if (!$this->params->def('check_stages', 1))
 		{
 			return true;
 		}
@@ -256,7 +256,7 @@ class PlgContentJoomla extends CMSPlugin
 			}
 			else
 			{
-				// Show error if items are found assigned to the state
+				// Show error if items are found assigned to the stage
 				if ($count > 0)
 				{
 					$msg = Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED');
@@ -362,17 +362,17 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Get count of items assigned to a state
+	 * Get count of items assigned to a stage
 	 *
 	 * @param   string   $extension  The extension to search for
-	 * @param   integer  $state_id   ID of the state to check
+	 * @param   integer  $stage_id   ID of the stage to check
 	 * @param   string   $table      The table to search for
 	 *
 	 * @return  mixed  count of items found or false if db error
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function _countItemsFromState($extension, $state_id, $table)
+	private function _countItemsFromState($extension, $stage_id, $table)
 	{
 		$query = $this->db->getQuery(true);
 
@@ -380,7 +380,7 @@ class PlgContentJoomla extends CMSPlugin
 				->from($query->quoteName('#__workflow_associations', 'wa'))
 				->from($this->db->quoteName($table, 'b'))
 				->where($this->db->quoteName('wa.item_id') . ' = ' . $query->quoteName('b.id'))
-				->where($this->db->quoteName('wa.state_id') . ' = ' . (int) $state_id)
+				->where($this->db->quoteName('wa.stage_id') . ' = ' . (int) $stage_id)
 				->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
 
 		try
@@ -398,11 +398,11 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Change the state in core_content if the state in a table is changed
+	 * Change the state in core_content if the stage in a table is changed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
-	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
-	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 * @param   array    $pks      A list of primary key ids of the content that has changed stage.
+	 * @param   integer  $value    The value of the condition that the content has been changed to
 	 *
 	 * @return  boolean
 	 *
@@ -412,7 +412,7 @@ class PlgContentJoomla extends CMSPlugin
 	{
 		$pks = ArrayHelper::toInteger($pks);
 
-		if ($context == 'com_workflow.state' && $value == -2)
+		if ($context == 'com_workflow.stage' && $value == -2)
 		{
 			foreach ($pks as $pk)
 			{
@@ -426,7 +426,7 @@ class PlgContentJoomla extends CMSPlugin
 		}
 
 		// Check if this function is enabled.
-		if (!$this->params->def('email_new_state', 0) || $context != 'com_content.article')
+		if (!$this->params->def('email_new_stage', 0) || $context != 'com_content.article')
 		{
 			return true;
 		}
@@ -480,9 +480,9 @@ class PlgContentJoomla extends CMSPlugin
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['t.id']))
 				->from($db->quoteName('#__workflow_transitions', 't'))
-				->from($db->quoteName('#__workflow_states', 's'))
-				->where($db->quoteName('t.from_state_id') . ' = ' . (int) $assoc->state_id)
-				->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
+				->from($db->quoteName('#__workflow_stages', 's'))
+				->where($db->quoteName('t.from_stage_id') . ' = ' . (int) $assoc->stage_id)
+				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
 				->where($db->quoteName('t.published') . '= 1')
 				->where($db->quoteName('s.published') . '= 1')
 				->order($db->quoteName('t.ordering'));

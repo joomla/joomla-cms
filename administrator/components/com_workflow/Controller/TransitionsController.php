@@ -14,9 +14,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Workflow Transitions controller
  *
  * @since  __DEPLOY_VERSION__
  */
