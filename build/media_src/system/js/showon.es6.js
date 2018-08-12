@@ -75,7 +75,7 @@ Joomla.setcollapse = (url, name, height) => {
                   return;
                 }
 
-                const localFields = [].slice.call(self.container.querySelectorAll(`[name="${value.field}"], [name="${value.field}[]"]`));
+                localFields = [].slice.call(self.container.querySelectorAll(`[name="${value.field}"], [name="${value.field}[]"]`));
 
                 if (!this.fields[showonData[0].field]) {
                   this.fields[showonData[0].field] = {
@@ -107,7 +107,6 @@ Joomla.setcollapse = (url, name, height) => {
         Object.keys(this.fields).forEach((key) => {
           if (this.fields[key].origin.length) {
             this.fields[key].origin.forEach((elem) => {
-
               // Initialise
               self.linkedOptions(key);
 
@@ -138,7 +137,7 @@ Joomla.setcollapse = (url, name, height) => {
           // Test in each of the elements in the field array if condition is valid
           this.fields[key].origin.forEach((originField) => {
             if (originField.name !== elementShowonData.field) {
-              return
+              return;
             }
 
             const originId = originField.id;
@@ -220,6 +219,7 @@ Joomla.setcollapse = (url, name, height) => {
    * Initialize 'showon' feature when part of the page was updated
    */
   document.addEventListener('joomla:updated', (event) => {
+    // eslint-disable-next-line prefer-destructuring
     const target = event.target;
 
     // Check is it subform, then wee need to fix some "showon" config
