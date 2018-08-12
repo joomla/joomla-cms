@@ -78,7 +78,7 @@ class StageTable extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('to_') . ' = ' . (int) $pk, 'OR')
+				->where($db->quoteName('to_stage') . ' = ' . (int) $pk, 'OR')
 				->where($db->quoteName('from_stage_id') . ' = ' . (int) $pk);
 
 			$db->setQuery($query)->execute();
