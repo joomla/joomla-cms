@@ -144,101 +144,101 @@ Joomla.setcollapse = (url, name, height) => {
             const originId = originField.id;
 
 
-              // If checkbox or radio box the value is read from properties
-              if (originField.getAttribute('type') && ['checkbox', 'radio'].indexOf(originField.getAttribute('type').toLowerCase()) !== -1) {
-                if (!originField.checked) {
-                  // Unchecked fields will return a blank and so always match
-                  // a != condition so we skip them
-                  return;
-                }
-
-                itemval = document.getElementById(originId).value;
-              } else {
-                // Select lists, text-area etc. Note that multiple-select list returns
-                // an Array here s0 we can always treat 'itemval' as an array
-                itemval = document.getElementById(originId).value;
-                // A multi-select <select> $field  will return null when no elements are
-                // selected so we need to define itemval accordingly
-                if (itemval === null && originField.tagName.toLowerCase() === 'select') {
-                  itemval = [];
-                }
+            // If checkbox or radio box the value is read from properties
+            if (originField.getAttribute('type') && ['checkbox', 'radio'].indexOf(originField.getAttribute('type').toLowerCase()) !== -1) {
+              if (!originField.checked) {
+                // Unchecked fields will return a blank and so always match
+                // a != condition so we skip them
+                return;
               }
 
-              // Convert to array to allow multiple values in the field (e.g. type=list multiple)
-              // and normalize as string
-              if (!(typeof itemval === 'object')) {
-                itemval = JSON.parse(`["${itemval}"]`);
+              itemval = document.getElementById(originId).value;
+            } else {
+              // Select lists, text-area etc. Note that multiple-select list returns
+              // an Array here s0 we can always treat 'itemval' as an array
+              itemval = document.getElementById(originId).value;
+              // A multi-select <select> $field  will return null when no elements are
+              // selected so we need to define itemval accordingly
+              if (itemval === null && originField.tagName.toLowerCase() === 'select') {
+                itemval = [];
               }
+            }
 
-              // Test if any of the values of the field exists in showon conditions
-              itemval.forEach((val) => {
-                // ":" Equal to one or more of the values condition
-                if (condition.sign === '=' && condition.values.indexOf(val) !== -1) {
-                  condition.valid = 1;
-                }
-                // "!:" Not equal to one or more of the values condition
-                if (condition.sign === '!=' && condition.values.indexOf(val) === -1) {
-                  condition.valid = 1;
-                }
-              });
+            // Convert to array to allow multiple values in the field (e.g. type=list multiple)
+            // and normalize as string
+            if (!(typeof itemval === 'object')) {
+              itemval = JSON.parse(`["${itemval}"]`);
+            }
+
+            // Test if any of the values of the field exists in showon conditions
+            itemval.forEach((val) => {
+              // ":" Equal to one or more of the values condition
+              if (condition.sign === '=' && condition.values.indexOf(val) !== -1) {
+                condition.valid = 1;
+              }
+              // "!:" Not equal to one or more of the values condition
+              if (condition.sign === '!=' && condition.values.indexOf(val) === -1) {
+                condition.valid = 1;
+              }
             });
+          });
 
-        // Verify conditions
-        // First condition (no operator): current condition must be valid
-        if (condition.op === '') {
-          if (condition.valid === 0) {
-            showfield = false;
+          // Verify conditions
+          // First condition (no operator): current condition must be valid
+          if (condition.op === '') {
+            if (condition.valid === 0) {
+              showfield = false;
+            }
+          } else {
+            // Other conditions (if exists)
+            // AND operator: both the previous and current conditions must be valid
+            if (condition.op === 'AND' && condition.valid + elementShowonDatas[index - 1].valid < 2) {
+              showfield = false;
+            }
+            // OR operator: one of the previous and current conditions must be valid
+            if (condition.op === 'OR' && condition.valid + elementShowonDatas[index - 1].valid > 0) {
+              showfield = true;
+            }
           }
-        } else {
-          // Other conditions (if exists)
-          // AND operator: both the previous and current conditions must be valid
-          if (condition.op === 'AND' && condition.valid + elementShowonDatas[index - 1].valid < 2) {
-            showfield = false;
-          }
-          // OR operator: one of the previous and current conditions must be valid
-          if (condition.op === 'OR' && condition.valid + elementShowonDatas[index - 1].valid > 0) {
-            showfield = true;
-          }
-        }
+        });
+
+        // If conditions are satisfied show the target field(s), else hide
+        field.style.display = (showfield) ? 'block' : 'none';
       });
-
-      // If conditions are satisfied show the target field(s), else hide
-      field.style.display = (showfield) ? 'block' : 'none';
-    });
-}
-}
-
-/**
- * Initialize 'showon' feature at an initial page load
- */
-document.addEventListener('DOMContentLoaded', () => {
-  // eslint-disable-next-line no-new
-  new Showon(document);
-});
-
-/**
- * Initialize 'showon' feature when part of the page was updated
- */
-document.addEventListener('joomla:updated', (event) => {
-  const target = event.target;
-
-  // Check is it subform, then wee need to fix some "showon" config
-  if (target.classList.contains('subform-repeatable-group')) {
-    const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
-    const baseName = target.getAttribute('data-baseName');
-    const group = target.getAttribute('data-group');
-    const search = new RegExp(`\\[${baseName}\\]\\[${baseName}X\\]`, 'g');
-    const replace = `[${baseName}][${group}]`;
-
-    // Fix showon field names in a current group
-    elements.forEach((element) => {
-      const showon = element.getAttribute('data-showon').replace(search, replace);
-
-      element.setAttribute('data-showon', showon);
-    });
+    }
   }
 
-  // eslint-disable-next-line no-new
-  new Showon(event.target);
-});
+  /**
+   * Initialize 'showon' feature at an initial page load
+   */
+  document.addEventListener('DOMContentLoaded', () => {
+    // eslint-disable-next-line no-new
+    new Showon(document);
+  });
+
+  /**
+   * Initialize 'showon' feature when part of the page was updated
+   */
+  document.addEventListener('joomla:updated', (event) => {
+    const target = event.target;
+
+    // Check is it subform, then wee need to fix some "showon" config
+    if (target.classList.contains('subform-repeatable-group')) {
+      const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
+      const baseName = target.getAttribute('data-baseName');
+      const group = target.getAttribute('data-group');
+      const search = new RegExp(`\\[${baseName}\\]\\[${baseName}X\\]`, 'g');
+      const replace = `[${baseName}][${group}]`;
+
+      // Fix showon field names in a current group
+      elements.forEach((element) => {
+        const showon = element.getAttribute('data-showon').replace(search, replace);
+
+        element.setAttribute('data-showon', showon);
+      });
+    }
+
+    // eslint-disable-next-line no-new
+    new Showon(event.target);
+  });
 })(document);
