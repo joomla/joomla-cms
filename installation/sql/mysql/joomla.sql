@@ -1685,7 +1685,8 @@ CREATE TABLE IF NOT EXISTS `#__session` (
   `username` varchar(150) DEFAULT '',
   PRIMARY KEY (`session_id`),
   KEY `userid` (`userid`),
-  KEY `time` (`time`)
+  KEY `time` (`time`),
+  KEY `guest` (`guest`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
