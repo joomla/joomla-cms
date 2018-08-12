@@ -126,7 +126,7 @@ class ArchiveModel extends ArticlesModel
 
 		if (count($states) > 0)
 		{
-			$query->where($db->quoteName('state_id') . ' IN (' . implode(', ', $states) . ')');
+			$query->where($db->quoteName('stage_id') . ' IN (' . implode(', ', $states) . ')');
 		}
 
 		return $query;
