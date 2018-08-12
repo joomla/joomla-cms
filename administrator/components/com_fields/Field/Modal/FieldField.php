@@ -51,6 +51,7 @@ class FieldField extends FormField
 		Factory::getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
 
 		$jsId = $this->id;
+
 		// Build the script.
 		// Select button script
 		$script = <<<JS1

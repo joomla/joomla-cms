@@ -331,7 +331,8 @@ class FieldsHelper
 
 			// @todo move the script to a file
 			// Preload spindle-wheel when we need to submit form due to category selector changed
-			Factory::getDocument()->addScriptDeclaration(<<<JS
+			Factory::getDocument()->addScriptDeclaration(
+<<<JS
 function categoryHasChanged(element) {
 	if (cat.value === '$assignedCatids') {
 	  return;
