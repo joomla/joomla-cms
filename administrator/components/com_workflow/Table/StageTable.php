@@ -66,7 +66,7 @@ class StageTable extends Table
 		$db->setQuery($query);
 		$stage = $db->loadResult();
 
-		if ($stage->default)
+		if ($state->default)
 		{
 			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $stage->title), 'error');
 
