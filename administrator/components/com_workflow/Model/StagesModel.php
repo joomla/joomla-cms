@@ -41,8 +41,8 @@ class StagesModel extends ListModel
 				'ordering','s.ordering',
 				'condition','s.condition',
 				'published', 's.published'
-			)
-		};
+			);
+		}
 
 		parent::__construct($config);
 	}
