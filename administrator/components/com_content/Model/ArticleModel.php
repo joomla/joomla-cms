@@ -908,7 +908,7 @@ class ArticleModel extends AdminModel
 						return false;
 					}
 
-					$stateId = (int) $workflow->state_id;
+					$stageId = (int) $workflow->stage_id;
 					$workflowId = (int) $workflow->id;
 
 					// B/C state
@@ -1218,7 +1218,7 @@ class ArticleModel extends AdminModel
 							]
 						)
 					)
-					->select($db->quoteName('ws.id', 'state_id'))
+					->select($db->quoteName('ws.id', 'stage_id'))
 					->from($db->quoteName('#__workflow_stages', 'ws'))
 					->from($db->quoteName('#__workflows', 'w'))
 					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
