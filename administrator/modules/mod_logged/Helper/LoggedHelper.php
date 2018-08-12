@@ -35,7 +35,7 @@ abstract class LoggedHelper
 		$query = $db->getQuery(true)
 			->select('s.time, s.client_id, u.id, u.name, u.username')
 			->from('#__session AS s')
-			->join('LEFT', '#__users AS u ON s.userid = u.id')
+			->join('INNER', '#__users AS u ON s.userid = u.id')
 			->where('s.guest = 0')
 			->where('s.userid > 0')
 			->order('s.time DESC');
