@@ -32,6 +32,8 @@
 			label="INSTL_ADMIN_USER_DESC"
 			id="admin_user"
 			class="form-control"
+			pattern="^[A-z0-9]*"
+			validationtext="INSTL_ADMIN_USER_ERROR"
 			required="true"
 		/>
 		<field
