@@ -71,7 +71,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				\JHtmlSidebar::addEntry(
 					Text::_('COM_WORKFLOW_STAGES'),
 					'index.php?option=com_workflow&view=stages&workflow_id=' . $workflowID . "&extension=com_content",
-					$vName == 'states`'
+					$vName == 'stages`'
 				);
 
 				\JHtmlSidebar::addEntry(
