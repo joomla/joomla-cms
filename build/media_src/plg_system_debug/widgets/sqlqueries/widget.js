@@ -201,28 +201,26 @@
                     sql[stmt].keys.push(i)
                 }
                 // Add classes to all duplicate SQL statements.
-                var cnt = 1
+                var cnt = 0
                 for (var stmt in sql) {
                     if (sql[stmt].keys.length > 1) {
                         duplicate += sql[stmt].keys.length
+                        cnt++
                         for (var i = 0; i < sql[stmt].keys.length; i++) {
                             this.$list.$el.find('.' + csscls('list-item')).eq(sql[stmt].keys[i])
                                 .addClass(csscls('sql-duplicate'))
                                 .attr('dupeindex', 'dupe-' + cnt)
                         }
-                        cnt++
                     } else {
                         unique++
                     }
                 }
 
                 if (duplicate) {
-                    var label
                     for (i = 0; i <= cnt; i++) {
-                        label = i ? 'Duplicates ' + i : 'Uniques'
                         $('<a />')
                             .addClass(csscls('filter'))
-                            .text(label)
+                            .text(i ? 'Duplicates ' + i : 'Uniques')
                             .attr('rel', 'dupe-' + i)
                             .on('click', function () {
                                 self.onFilterDupesClick(this)
