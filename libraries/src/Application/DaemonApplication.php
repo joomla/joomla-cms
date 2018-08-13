@@ -13,10 +13,10 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.filesystem.folder');
 
 use Joomla\CMS\Event\BeforeExecuteEvent;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.

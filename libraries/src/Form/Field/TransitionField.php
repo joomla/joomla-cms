@@ -12,9 +12,8 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Form\Field\ListField;
+use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
 

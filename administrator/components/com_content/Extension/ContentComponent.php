@@ -167,6 +167,21 @@ class ContentComponent extends MVCComponent implements
 	}
 
 	/**
+	 * Adds Count Items for Tags Manager.
+	 *
+	 * @param   \stdClass[]  $items    The tag objects
+	 * @param   string       $section  The section
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function countTagItems(array $items, string $section)
+	{
+		return ContentHelper::countTagItems($items, $section);
+	}
+
+	/**
 	 * Prepares the category form
 	 *
 	 * @param   Form          $form  The form to prepare

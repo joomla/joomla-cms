@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
-use Symfony\Component\WebLink\HttpHeaderSerializer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
  * Document class, provides an easy interface to parse and display a document

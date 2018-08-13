@@ -10,9 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * The Field to load the form inside current form
