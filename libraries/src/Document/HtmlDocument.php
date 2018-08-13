@@ -11,7 +11,7 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Factory as CMSFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
@@ -470,7 +470,7 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules')
 		{
-			$cache = Factory::getCache('com_modules', '');
+			$cache = CMSFactory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
@@ -626,8 +626,8 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = Factory::getDbo();
-			$app = Factory::getApplication();
+			$db = CMSFactory::getDbo();
+			$app = CMSFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
@@ -719,7 +719,7 @@ class HtmlDocument extends Document
 		}
 
 		// Load the language file for the template
-		$lang = Factory::getLanguage();
+		$lang = CMSFactory::getLanguage();
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
