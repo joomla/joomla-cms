@@ -26,9 +26,6 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=transition&workflow_id=' . $this->workflowID . '&extension=' . $this->input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
-
-	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
-
 	<div>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
@@ -42,16 +39,7 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 			<div class="col-md-3">
 				<div class="card card-block card-light">
 					<div class="card-body">
-						<fieldset class="form-vertical form-no-margin">
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('published'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('published'); ?>
-								</div>
-							</div>
-						</fieldset>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
 				</div>
 			</div>
