@@ -61,7 +61,6 @@ class ArticleModel extends ItemModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			$this->setState('filter.published', 1);
-			$this->setState('filter.archived', 2);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -105,6 +104,13 @@ class ArticleModel extends ItemModel
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
+				$query	->select($db->quoteName('ws.condition'))
+						->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+						->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+						->where($db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))
+						->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+						->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->innerJoin('#__categories AS c on c.id = a.catid')
@@ -142,12 +148,12 @@ class ArticleModel extends ItemModel
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->where($db->quoteName('ws.condition') . ' = ' . $db->quote((int) $published));
 				}
+
 
 				$db->setQuery($query);
 
@@ -159,7 +165,7 @@ class ArticleModel extends ItemModel
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if (is_numeric($published) && $data->condition != $published)
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}

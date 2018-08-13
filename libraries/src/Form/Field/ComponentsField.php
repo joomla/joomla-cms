@@ -10,10 +10,10 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
 

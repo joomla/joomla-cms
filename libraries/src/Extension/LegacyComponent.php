@@ -13,15 +13,16 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Access to component specific services.
@@ -30,6 +31,8 @@ use Joomla\CMS\Filesystem\Path;
  */
 class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface
 {
+	use CategoriesServiceTrait;
+
 	/**
 	 * @var string
 	 *

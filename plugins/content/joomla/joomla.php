@@ -17,6 +17,9 @@ use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Example Content Plugin
@@ -25,6 +28,14 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
  */
 class PlgContentJoomla extends CMSPlugin
 {
+	/**
+	 * Database Driver Instance
+	 *
+	 * @var    \Joomla\CMS\Database\DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
 	/**
 	 * Example after save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
@@ -115,11 +126,30 @@ class PlgContentJoomla extends CMSPlugin
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if ($context !== 'com_categories.category')
+		if (!in_array($context, ['com_categories.category', 'com_workflow.stage']))
 		{
 			return true;
 		}
 
+		switch ($context)
+		{
+			case 'com_categories.category':
+				return $this->_canDeleteCategories($data);
+
+			case 'com_workflow.stage':
+				return $this->_canDeleteStages($data->id);
+		}
+	}
+
+	/**
+	 * Checks if a given category can be deleted
+	 *
+	 * @param   object  $data  The category object
+	 *
+	 * @return  boolean
+	 */
+	private function _canDeleteCategories($data)
+	{
 		// Check if this function is enabled.
 		if (!$this->params->def('check_categories', 1))
 		{
@@ -182,9 +212,61 @@ class PlgContentJoomla extends CMSPlugin
 					}
 				}
 			}
-
-			return $result;
 		}
+
+		return $result;
+	}
+
+	/**
+	 * Checks if a given stage can be deleted
+	 *
+	 * @param   int  $pk  The stage ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function _canDeleteStages($pk)
+	{
+		// Check if this function is enabled.
+		if (!$this->params->def('check_stages', 1))
+		{
+			return true;
+		}
+
+		$extension = Factory::getApplication()->input->getString('extension');
+
+		// Default to true if not a core extension
+		$result = true;
+
+		$tableInfo = [
+			'com_content' => array('table_name' => '#__content')
+		];
+
+		// Now check to see if this is a known core extension
+		if (isset($tableInfo[$extension]))
+		{
+			// See if this category has any content items
+			$count = $this->_countItemsFromState($extension, $pk, $tableInfo[$extension]);
+
+			// Return false if db error
+			if ($count === false)
+			{
+				$result = false;
+			}
+			else
+			{
+				// Show error if items are found assigned to the stage
+				if ($count > 0)
+				{
+					$msg = Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED');
+					Factory::getApplication()->enqueueMessage($msg, 'error');
+					$result = false;
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -280,11 +362,47 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Change the state in core_content if the state in a table is changed
+	 * Get count of items assigned to a stage
+	 *
+	 * @param   string   $extension  The extension to search for
+	 * @param   integer  $stage_id   ID of the stage to check
+	 * @param   string   $table      The table to search for
+	 *
+	 * @return  mixed  count of items found or false if db error
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function _countItemsFromState($extension, $stage_id, $table)
+	{
+		$query = $this->db->getQuery(true);
+
+		$query	->select('COUNT(' . $this->db->quoteName('wa.item_id') . ')')
+				->from($query->quoteName('#__workflow_associations', 'wa'))
+				->from($this->db->quoteName($table, 'b'))
+				->where($this->db->quoteName('wa.item_id') . ' = ' . $query->quoteName('b.id'))
+				->where($this->db->quoteName('wa.stage_id') . ' = ' . (int) $stage_id)
+				->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
+
+		try
+		{
+			$count = $this->db->setQuery($query)->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Change the state in core_content if the stage in a table is changed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
-	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
-	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 * @param   array    $pks      A list of primary key ids of the content that has changed stage.
+	 * @param   integer  $value    The value of the condition that the content has been changed to
 	 *
 	 * @return  boolean
 	 *
@@ -292,17 +410,119 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
+		$pks = ArrayHelper::toInteger($pks);
+
+		if ($context == 'com_workflow.stage' && $value == -2)
+		{
+			foreach ($pks as $pk)
+			{
+				if (!$this->_canDeleteStates($pk))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		// Check if this function is enabled.
+		if (!$this->params->def('email_new_stage', 0) || $context != 'com_content.article')
+		{
+			return true;
+		}
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
 			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
-			->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) . ')');
+			->where($db->quoteName('core_content_item_id') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 		$ccIds = $db->loadColumn();
 
 		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1')
+			->where($db->quoteName('block') . ' = 0');
+
+		$users = (array) $db->setQuery($query)->loadColumn();
+
+		if (empty($users))
+		{
+			return true;
+		}
+
+		$user = JFactory::getUser();
+
+		// Messaging for changed items
+		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+		$debug = JFactory::getConfig()->get('debug_lang');
+		$result = true;
+
+		$article = new ArticleTable($db);
+
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		foreach ($pks as $pk)
+		{
+			if (!$article->load($pk))
+			{
+				continue;
+			}
+
+			$assoc = $workflow->getAssociation($pk);
+
+			// Load new transitions
+			$query = $db->getQuery(true)
+				->select($db->quoteName(['t.id']))
+				->from($db->quoteName('#__workflow_transitions', 't'))
+				->from($db->quoteName('#__workflow_stages', 's'))
+				->where($db->quoteName('t.from_stage_id') . ' = ' . (int) $assoc->stage_id)
+				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
+				->where($db->quoteName('t.published') . '= 1')
+				->where($db->quoteName('s.published') . '= 1')
+				->order($db->quoteName('t.ordering'));
+
+			$transitions = $db->setQuery($query)->loadObjectList();
+
+			foreach ($users as $user_id)
+			{
+				if ($user_id != $user->id)
+				{
+					// Check if the user has available transitions
+					$items = array_filter(
+						$transitions,
+						function ($item) use ($user)
+						{
+							return $user->authorise('core.execute.transition', 'com_content.transition.' . $item->id);
+						}
+					);
+
+					if (!count($items))
+					{
+						continue;
+					}
+
+					// Load language for messaging
+					$receiver = JUser::getInstance($user_id);
+					$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+					$lang->load('plg_content_joomla');
+
+					$message = array(
+						'user_id_to' => $user_id,
+						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_SUBJECT'),
+						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_MSG'), $user->name, $article->title)
+					);
+
+					$model_message = new MessageModel;
+					$result = $model_message->save($message);
+				}
+			}
+		}
 
 		return true;
 	}

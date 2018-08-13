@@ -10,17 +10,17 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Abstract Table class
@@ -183,7 +183,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			foreach ($fields as $name => $v)
 			{
 				// Add the field if it is not already present.
-				if (!property_exists($this, $name))
+				if (!$this->hasField($name))
 				{
 					$this->$name = null;
 				}
@@ -191,13 +191,13 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
-		if (property_exists($this, 'asset_id'))
+		if ($this->hasField('asset_id'))
 		{
 			$this->_trackAssets = true;
 		}
 
 		// If the access property exists, set the default.
-		if (property_exists($this, 'access'))
+		if ($this->hasField('access'))
 		{
 			$this->access = (int) Factory::getConfig()->get('access');
 		}
@@ -1169,7 +1169,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
+		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
 		{
 			return true;
 		}
@@ -1256,7 +1256,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
+		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
 		{
 			return true;
 		}
@@ -1379,7 +1379,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$hitsField = $this->getColumnAlias('hits');
 
 		// If there is no hits field, just return true.
-		if (!property_exists($this, $hitsField))
+		if (!$this->hasField($hitsField))
 		{
 			return true;
 		}
@@ -1495,7 +1495,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 
-		if (!property_exists($this, $orderingField))
+		if (!$this->hasField($orderingField))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1557,7 +1557,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 
-		if (!property_exists($this, $orderingField))
+		if (!$this->hasField($orderingField))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1638,7 +1638,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 
-		if (!property_exists($this, $orderingField))
+		if (!$this->hasField($orderingField))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1822,14 +1822,14 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				->set($this->_db->quoteName($publishedField) . ' = ' . (int) $state);
 
 			// If publishing, set published date/time if not previously set
-			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
+			if ($state && $this->hasField('publish_up') && (int) $this->publish_up == 0)
 			{
 				$nowDate = $this->_db->quote(Factory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
 			}
 
 			// Determine if there is checkin support for the table.
-			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
+			if ($this->hasField('checked_out') || $this->hasField('checked_out_time'))
 			{
 				$query->where('(' . $this->_db->quoteName($checkedOutField) . ' = 0 OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId . ')');
 				$checkin = true;

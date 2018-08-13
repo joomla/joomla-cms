@@ -75,7 +75,8 @@
           "dist/js/bootstrap.js": "js/bootstrap.js",
           "dist/js/bootstrap.min.js": "js/bootstrap.min.js",
           "dist/js/bootstrap.bundle.js": "js/bootstrap.bundle.js",
-          "dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js"
+          "dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
+          "dist/js/bootstrap.bundle.min.js.map": "js/bootstrap.bundle.min.js.map"
         },
         "css": {
           "dist/css/bootstrap.css": "css/bootstrap.css",

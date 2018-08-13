@@ -14,6 +14,7 @@ const watches = [
   `${rootPath}/administrator/templates/atum/scss`,
   `${rootPath}/media/plg_installer_webinstaller/scss`,
   `${rootPath}/build/media_src`,
+  `${rootPath}/installation/template/scss/template.scss`,
 ];
 
 const compileCSSFiles = (options, path) => {
@@ -39,6 +40,7 @@ const compileCSSFiles = (options, path) => {
       `${rootPath}/administrator/templates/atum/scss/template.scss`,
       `${rootPath}/administrator/templates/atum/scss/template-rtl.scss`,
       `${rootPath}/build/media_src/plg_installer_webinstaller/scss/client.scss`,
+      `${rootPath}/installation/template/scss/template.scss`,
     ];
 
     folders = [
