@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Extension object

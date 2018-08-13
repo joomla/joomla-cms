@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Form Rule class for the Joomla Platform.

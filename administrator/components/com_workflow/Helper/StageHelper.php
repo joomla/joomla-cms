@@ -20,6 +20,6 @@ use Joomla\CMS\Helper\ContentHelper;
  *
  * @since  4.0
  */
-class StateHelper extends ContentHelper
+class StageHelper extends ContentHelper
 {
 }

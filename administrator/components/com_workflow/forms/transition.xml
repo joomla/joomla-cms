@@ -19,23 +19,23 @@
 			required="true"
 		/>
 		<field
-			name="from_state_id"
+			name="from_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_FROM_STATE"
+			label="COM_WORKFLOW_FROM_STAGE"
 			required="true"
-			sql_select="id as value, title as from_state_id"
-			sql_from="#__workflow_states"
+			sql_select="id as value, title as from_stage_id"
+			sql_from="#__workflow_stages"
 			translate="true"
 			>
 			<option value="-1">JALL</option>
 		</field>
 		<field
-			name="to_state_id"
+			name="to_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_TO_STATE"
+			label="COM_WORKFLOW_TO_STAGE"
 			required="true"
-			sql_select="id as value, title as to_state_id"
-			sql_from="#__workflow_states"
+			sql_select="id as value, title as to_stage_id"
+			sql_from="#__workflow_stages"
 			translate="true"
 		/>
 		<field

@@ -145,7 +145,7 @@ class WorkflowsModel extends ListModel
 		$query = $db->getQuery(true);
 
 		$query	->select('workflow_id, count(*) AS count')
-				->from($db->quoteName('#__workflow_states'))
+				->from($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . ' IN(' . implode(',', $ids) . ')')
 				->where($db->quoteName('published') . '>= 0')
 				->group('workflow_id');

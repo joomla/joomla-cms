@@ -103,7 +103,8 @@ class JNamespacePsr4Map
 			}
 			elseif ($extension->type === 'module')
 			{
-				if ($extension->client_id === 0)
+				// Force the client_id to an integer for non-mysqli where we have strings being returned
+				if ((int) $extension->client_id === 0)
 				{
 					$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
 					$element       = $extension->element;

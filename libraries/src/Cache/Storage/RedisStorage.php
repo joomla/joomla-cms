@@ -11,8 +11,8 @@ namespace Joomla\CMS\Cache\Storage;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Redis cache storage handler for PECL
