@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Messages\Administrator\Model\MessageModel;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Example Content Plugin
