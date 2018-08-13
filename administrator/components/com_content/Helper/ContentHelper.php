@@ -98,33 +98,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	}
 
 	/**
-	 * Applies the content tag filters to arbitrary text as per settings for current user group
-	 *
-	 * @param   text  $text  The string to filter
-	 *
-	 * @return  string  The filtered string
-	 *
-	 * @deprecated  4.0  Use \JComponentHelper::filterText() instead.
-	 */
-	public static function filterText($text)
-	{
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated. Use JComponentHelper::filterText() instead', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return \JComponentHelper::filterText($text);
-	}
-
-	/**
 	 * Adds Count Items for Category Manager.
 	 *
 	 * @param   \stdClass[]  &$items  The banner category objects
@@ -135,7 +108,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -192,7 +165,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db      = \JFactory::getDbo();
+		$db      = Factory::getDbo();
 		$parts   = explode('.', $extension);
 		$section = null;
 
@@ -201,8 +174,20 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$section = $parts[1];
 		}
 
-		$join  = $db->quoteName('#__content') . ' AS c ON ct.content_item_id=c.id';
-		$state = 'state';
+		$join = '';
+
+		$join .= '(';
+		$join .= $db->quoteName('#__content', 'c') . ',';
+		$join .= $db->quoteName('#__workflow_states', 's') . ',';
+		$join .= $db->quoteName('#__workflow_associations', 'a');
+		$join .= ') ON (';
+		$join .= $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id') . ' AND ';
+		$join .= $db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id') . ' AND ';
+		$join .= $db->quoteName('s.id') . ' = ' . $db->quoteName('a.state_id') . ' AND ';
+		$join .= $db->quoteName('a.extension') . ' = ' . $db->quote('com_content');
+		$join .= ')';
+
+		$state = 's.condition';
 
 		if ($section === 'category')
 		{
@@ -213,37 +198,33 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 		foreach ($items as $item)
 		{
 			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
 			$item->count_published   = 0;
+			$item->count_archived    = 0;
+
 			$query                   = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
 				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
 				->where('ct.type_alias =' . $db->q($extension))
 				->join('LEFT', $join)
-				->group('state');
+				->group($state);
 			$db->setQuery($query);
 			$contents = $db->loadObjectList();
 
 			foreach ($contents as $content)
 			{
-				if ($content->state == 1)
+				if ($content->condition == Workflow::PUBLISHED)
 				{
 					$item->count_published = $content->count;
 				}
 
-				if ($content->state == 0)
+				if ($content->condition == Workflow::UNPUBLISHED)
 				{
 					$item->count_unpublished = $content->count;
 				}
 
-				if ($content->state == 2)
-				{
-					$item->count_archived = $content->count;
-				}
-
-				if ($content->state == -2)
+				if ($content->condition == Workflow::TRASHED)
 				{
 					$item->count_trashed = $content->count;
 				}
@@ -251,61 +232,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 		}
 
 		return $items;
-	}
-
-	/**
-	 * Returns a valid section for articles. If it is not valid then null
-	 * is returned.
-	 *
-	 * @param   string  $section  The section to get the mapping for
-	 *
-	 * @return  string|null  The new section
-	 *
-	 * @since   3.7.0
-	 */
-	public static function validateSection($section)
-	{
-		if (\JFactory::getApplication()->isClient('site'))
-		{
-			// On the front end we need to map some sections
-			switch ($section)
-			{
-				// Editing an article
-				case 'form':
-
-					// Category list view
-				case 'featured':
-				case 'category':
-					$section = 'article';
-			}
-		}
-
-		if ($section != 'article')
-		{
-			// We don't know other sections
-			return null;
-		}
-
-		return $section;
-	}
-
-	/**
-	 * Returns valid contexts
-	 *
-	 * @return  array
-	 *
-	 * @since   3.7.0
-	 */
-	public static function getContexts()
-	{
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
-
-		$contexts = array(
-			'com_content.article'    => Text::_('COM_CONTENT'),
-			'com_content.categories' => Text::_('JCATEGORY')
-		);
-
-		return $contexts;
 	}
 
 	/**
