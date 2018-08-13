@@ -11,7 +11,6 @@ namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
-use DebugBar\DataFormatter\DataFormatterInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -53,9 +52,9 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 * Get a data formatter.
 	 *
 	 * @since  __DEPLOY_VERSION__
-	 * @return DataFormatterInterface
+	 * @return DataFormatter
 	 */
-	public function getDataFormatter(): DataFormatterInterface
+	public function getDataFormatter(): DataFormatter
 	{
 		if ($this->dataFormater === null)
 		{
@@ -69,9 +68,9 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 * Returns the default data formater
 	 *
 	 * @since  __DEPLOY_VERSION__
-	 * @return DataFormatterInterface
+	 * @return DataFormatter
 	 */
-	public static function getDefaultDataFormatter(): DataFormatterInterface
+	public static function getDefaultDataFormatter(): DataFormatter
 	{
 		if (self::$defaultDataFormatter === null)
 		{
@@ -79,5 +78,34 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 		}
 
 		return self::$defaultDataFormatter;
+	}
+
+	/**
+	 * Strip the Joomla! root path.
+	 *
+	 * @param   string  $path  The path.
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function formatPath($path): string
+	{
+		return $this->getDataFormatter()->formatPath($path);
+	}
+
+
+	/**
+	 * Format a string from back trace.
+	 *
+	 * @param   array  $call  The array to format
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function formatCallerInfo(array $call): string
+	{
+		return $this->getDataFormatter()->formatCallerInfo($call);
 	}
 }
