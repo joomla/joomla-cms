@@ -36,8 +36,8 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 		<div class="row">
 			<div class="col-md-9">
 			<?php foreach ($this->form->getGroup('transition') as $field) : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endforeach; ?>
+				<?php echo $field->renderField(); ?>
+			<?php endforeach; ?>
 			</div>
 			<div class="col-md-3">
 				<div class="card card-block card-light">
