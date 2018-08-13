@@ -10,9 +10,10 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
-use DebugMonitor;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Registry\Registry;
 
 /**
@@ -110,6 +111,8 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				'nb_statements' => \count($statements),
 				'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($this->accumulatedDuration),
 				'memory_usage_str' => $this->getDataFormatter()->formatBytes($this->accumulatedMemory),
+				'xdebug_link' => $this->getXdebugLinkTemplate(),
+				'root_path' => JPATH_ROOT
 			],
 			'count' => \count($this->queryMonitor->getLog()),
 			'prefix' => $database->getPrefix(),
@@ -167,8 +170,8 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	public function getAssets(): array
 	{
 		return array(
-			'css' => 'widgets/sqlqueries/widget.css',
-			'js' => 'widgets/sqlqueries/widget.js'
+			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.css',
+			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.js'
 		);
 	}
 
@@ -185,6 +188,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 		$log = $this->queryMonitor->getLog();
 		$timings = $this->queryMonitor->getTimings();
 		$memoryLogs = $this->queryMonitor->getMemoryLogs();
+		$stacks = $this->queryMonitor->getCallStacks();
 
 		foreach ($log as $id => $item)
 		{
@@ -205,10 +209,48 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				$this->accumulatedMemory += $queryMemory;
 			}
 
+			$trace = [];
+			$callerLocation = '';
+
+			if (isset($stacks[$id]))
+			{
+				$cnt = 0;
+
+				foreach ($stacks[$id] as $i => $stack)
+				{
+					$class = $stack['class'] ?? '';
+					$file = $stack['file'] ?? '';
+					$line = $stack['line'] ?? '';
+
+					$caller = $this->formatCallerInfo($stack);
+					$location = $file && $line ? "$file:$line" : 'same';
+
+					$isCaller = 0;
+
+					if (\Joomla\Database\DatabaseDriver::class === $class && false === strpos($file, 'DatabaseDriver.php'))
+					{
+						$callerLocation = $this->formatPath($location);
+						$isCaller = 1;
+					}
+
+					$trace[] = [
+						\count($stacks[$id]) - $cnt,
+						$isCaller,
+						$caller,
+						$file,
+						$line,
+					];
+
+					$cnt++;
+				}
+			}
+
 			$statements[] = [
 				'sql' => $item,
 				'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
 				'memory_str' => $this->getDataFormatter()->formatBytes($queryMemory),
+				'caller' => $callerLocation,
+				'callstack' => $trace,
 			];
 		}
 
