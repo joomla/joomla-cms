@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
@@ -168,11 +169,14 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_numeric($condition))
 		{
-			$query->where($db->quoteName('ws.condition') . '=' . $db->quote($condition));
+			$query->where($db->quoteName('ws.condition') . '=' . (int) $condition);
 		}
 		elseif (!is_numeric($workflowStage))
 		{
-			$query->where($db->quoteName('ws.condition') . ' IN ("0","1")');
+      $query->where($db->quoteName('ws.condition') . ' IN (' .
+        (int) ContentComponent::CONDITION_PUBLISHED . ',' .
+        (int) ContentComponent::CONDITION_UNPUBLISHED . ',' .
+        (int) ContentComponent::CONDITION_ARCHIVED . ')');
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));

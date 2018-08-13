@@ -21,6 +21,13 @@ use Joomla\Utilities\ArrayHelper;
 class Workflow
 {
 	/**
+	 * The booted component
+	 *
+	 * @var \Joomla\CMS\Extension\ComponentInterface
+	 */
+	protected $component = null;
+
+	/**
 	 * Name of the extension the workflow belong to
 	 *
 	 * @var    string
@@ -30,28 +37,39 @@ class Workflow
 
 	protected $options = [];
 
-	protected $names = [
-		self::PUBLISHED => 'COM_WORKFLOW_PUBLISHED',
-		self::UNPUBLISHED => 'COM_WORKFLOW_UNPUBLISHED',
-		self::TRASHED => 'COM_WORKFLOW_TRASHED'
-	];
-
 	protected $db;
+
+	/**
+	 * Condition to names mapping
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const CONDITION_NAMES = [
+		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
+		self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
+		self::CONDITION_TRASHED     => 'JTRASHED',
+		self::CONDITION_ARCHIVED    => 'JARCHIVED',
+	];
 
 	/**
 	 * Every item with a state which has the condition PUBLISHED is visible/active on the page
 	 */
-	const PUBLISHED = 1;
+	const CONDITION_PUBLISHED = 1;
 
 	/**
 	 * Every item with a state which has the condition UNPUBLISHED is not visible/inactive on the page
 	 */
-	const UNPUBLISHED = 0;
+	const CONDITION_UNPUBLISHED = 0;
 
 	/**
-	 * Every sitem with a state which has the condition TRASHED is trashed
+	 * Every item with a state which has the condition TRASHED is trashed
 	 */
-	const TRASHED = -2;
+	const CONDITION_TRASHED = -2;
+
+	/**
+	 * Every item with a state which has the condition ARCHIVED is archived
+	 */
+	const CONDITION_ARCHIVED = 2;
 
 	/**
 	 * Class constructor
@@ -84,8 +102,38 @@ class Workflow
 	 */
 	public function getConditionName($value)
 	{
-		return ArrayHelper::getValue($this->names, $value, '', 'string');
+	  $component = $this->getComponent();
+
+    if ($component instanceof WorkflowServiceInterface)
+    {
+      $conditions = $component->getConditions();
+    }
+    else
+    {
+      $conditions = self::CONDITION_NAMES;
+    }
+
+		return ArrayHelper::getValue($conditions, $value, '', 'string');
 	}
+
+  /**
+   * Returns the booted component
+   *
+   * @return \Joomla\CMS\Extension\ComponentInterface
+   *
+   * @since   __DEPLOY_VERSION__
+   */
+	protected function getComponent()
+  {
+    if (is_null($this->component))
+    {
+      $parts = explode('.', $this->extension);
+
+      $this->component = Factory::getApplication()->bootComponent($parts[0]);
+    }
+
+    return $this->component;
+  }
 
 	/**
 	 * Executes a transition to change the current state in the association table
@@ -145,15 +193,11 @@ class Workflow
 			}
 		}
 
-		$parts = explode('.', $this->extension);
+		$component = $this->getComponent();
 
-		$component = reset($parts);
-
-		$componentInterface = Factory::getApplication()->bootComponent($component);
-
-		if ($componentInterface instanceof WorkflowServiceInterface)
+		if ($component instanceof WorkflowServiceInterface)
 		{
-			$componentInterface->updateContentState($pks, $transition->condition);
+			$component->updateContentState($pks, $transition->condition);
 		}
 
 		return $this->updateAssociations($pks, $transition->to_stage_id);

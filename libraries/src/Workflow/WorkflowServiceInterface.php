@@ -40,4 +40,13 @@ interface WorkflowServiceInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function updateContentState($pks, $condition): bool;
+
+	/**
+	 * Returns an array of possible conditions for the component.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getConditions(): array;
 }

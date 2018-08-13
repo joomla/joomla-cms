@@ -104,7 +104,7 @@ class ArticleModel extends ItemModel
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
-				$query	->select($db->quoteName('ws.condition'))
+				$query->select($db->quoteName('ws.condition'))
 						->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
 						->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
 						->where($db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))

@@ -330,17 +330,14 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($condition))
 		{
-			switch ((int) $condition)
-			{
-				case Workflow::PUBLISHED:
-				case Workflow::UNPUBLISHED:
-				case Workflow::TRASHED:
-					$query->where($db->quoteName('ws.condition') . ' = ' . $query->quote($condition));
-			}
-		}
+      $query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
+    }
 		elseif (!is_numeric($workflowStage))
 		{
-			$query->where($db->quoteName('ws.condition') . ' IN (' . $query->quote(Workflow::PUBLISHED) . ',' . $query->quote(Workflow::UNPUBLISHED) . ')');
+			$query->where($db->quoteName('ws.condition') . ' IN (' .
+        (int) ContentComponent::CONDITION_PUBLISHED . ',' .
+        (int) ContentComponent::CONDITION_UNPUBLISHED . ',' .
+        (int) ContentComponent::CONDITION_ARCHIVED . ')');
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));

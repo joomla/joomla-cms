@@ -95,7 +95,7 @@ class StagesModel extends ListModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'workflow_id = ' . $this->getDbo()->q((int) $table->workflow_id);
+		return 'workflow_id = ' . (int) $table->workflow_id;
 	}
 
 	/**
@@ -151,7 +151,7 @@ class StagesModel extends ListModel
 		// Filter by condition
 		if ($condition = $this->getState('filter.condition'))
 		{
-			$query->where($db->quoteName('s.condition') . ' = ' . $db->quote($db->escape($condition)));
+			$query->where($db->quoteName('s.condition') . ' = ' . (int) $db->escape($condition));
 		}
 
 		$status = (string) $this->getState('filter.published');
