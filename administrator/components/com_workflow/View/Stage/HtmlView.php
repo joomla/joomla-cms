@@ -6,18 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\State;
+namespace Joomla\Component\Workflow\Administrator\View\Stage;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Workflow\Administrator\Helper\StateHelper;
+use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
 use Joomla\CMS\Language\Text;
 
 /**
- * View class to add or edit Workflow
+ * View class to add or edit a stage of a workflow
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -100,9 +100,9 @@ class HtmlView extends BaseHtmlView
 		$userId     = $user->id;
 		$isNew      = empty($this->item->id);
 
-		$canDo = StateHelper::getActions($this->extension, 'state', $this->item->id);
+		$canDo = StageHelper::getActions($this->extension, 'state', $this->item->id);
 
-		ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_STATE_ADD') : Text::_('COM_WORKFLOW_STATE_EDIT'), 'address');
+		ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_STAGE_ADD') : Text::_('COM_WORKFLOW_STAGE_EDIT'), 'address');
 
 		$toolbarButtons = [];
 
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($canDo->get('core.edit'))
 			{
-				$toolbarButtons = [['apply', 'state.apply'], ['save', 'state.save'], ['save2new', 'state.save2new']];
+				$toolbarButtons = [['apply', 'stage.apply'], ['save', 'stage.save'], ['save2new', 'stage.save2new']];
 			}
 
 			ToolbarHelper::saveGroup(
@@ -126,13 +126,13 @@ class HtmlView extends BaseHtmlView
 
 			if ($itemEditable)
 			{
-				$toolbarButtons = [['apply', 'state.apply'], ['save', 'state.save']];
+				$toolbarButtons = [['apply', 'stage.apply'], ['save', 'stage.save']];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))
 				{
-					$toolbarButtons[] = ['save2new', 'state.save2new'];
-					$toolbarButtons[] = ['save2copy', 'state.save2copy'];
+					$toolbarButtons[] = ['save2new', 'stage.save2new'];
+					$toolbarButtons[] = ['save2copy', 'stage.save2copy'];
 				}
 			}
 
@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 
-		ToolbarHelper::cancel('state.cancel');
+		ToolbarHelper::cancel('stage.cancel');
 		ToolbarHelper::divider();
 	}
 }

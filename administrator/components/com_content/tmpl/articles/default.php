@@ -157,12 +157,12 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
 							$hasTransitions = count($transitions) > 0;
 
 							$default = [
-								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '', $this->escape($item->stage_title)),
 								JHtml::_('select.option', '-1', '--------', ['disable' => true])
 							];
 
@@ -200,7 +200,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 
 											$icon = 'publish';
 
-											switch ($item->state_condition) :
+											switch ($item->stage_condition) :
 
 												case Workflow::TRASHED:
 													$icon = 'trash';
@@ -220,7 +220,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 											<span class="icon-<?php echo $icon; ?>"></span>
 										<?php endif; ?>
 										</div>
-										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<div class="mr-auto"><?php echo $this->escape($item->stage_title); ?></div>
 										<?php if ($hasTransitions) : ?>
 										<div class="d-none">
 											<?php
@@ -230,7 +230,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 														'class'		=> 'custom-select custom-select-sm form-control form-control-sm',
 														'onchange'		=> "Joomla.listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
 													];
-												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
+												echo JHtml::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
 											?>
 										</div>
 										<?php endif; ?>

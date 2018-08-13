@@ -41,8 +41,8 @@ class TransitionsModel extends ListModel
 				'published', 't.published',
 				'ordering', 't.ordering',
 				'title', 't.title',
-				'from_state', 't.from_state_id',
-				'to_state', 't.to_state_id'
+				'from_stage', 't.from_stage_id',
+				'to_stage', 't.to_stage_id'
 			);
 		}
 
@@ -134,25 +134,25 @@ class TransitionsModel extends ListModel
 
 		$select = $db->quoteName(
 			array(
-			't.id',
-			't.title',
-			't.from_state_id',
-			't.to_state_id',
-			't.published',
-			't.ordering',
-		)
+				't.id',
+				't.title',
+				't.from_stage_id',
+				't.to_stage_id',
+				't.published',
+				't.ordering',
+			)
 		);
 
-		$select[] = $db->quoteName('f_state.title', 'from_state');
-		$select[] = $db->quoteName('t_state.title', 'to_state');
-		$joinTo = $db->quoteName('#__workflow_states', 't_state') .
-			' ON ' . $db->quoteName('t_state.id') . ' = ' . $db->quoteName('t.to_state_id');
+		$select[] = $db->quoteName('f_stage.title', 'from_stage');
+		$select[] = $db->quoteName('t_stage.title', 'to_stage');
+		$joinTo = $db->quoteName('#__workflow_stages', 't_stage') .
+			' ON ' . $db->quoteName('t_stage.id') . ' = ' . $db->quoteName('t.to_stage_id');
 
 		$query
 			->select($select)
 			->from($db->quoteName('#__workflow_transitions', 't'))
 			->leftJoin(
-				$db->quoteName('#__workflow_states', 'f_state') . ' ON ' . $db->quoteName('f_state.id') . ' = ' . $db->quoteName('t.from_state_id')
+				$db->quoteName('#__workflow_stages', 'f_stage') . ' ON ' . $db->quoteName('f_stage.id') . ' = ' . $db->quoteName('t.from_stage_id')
 			)
 			->leftJoin($joinTo);
 
@@ -174,16 +174,16 @@ class TransitionsModel extends ListModel
 			$query->where($db->quoteName('t.published') . ' IN (0, 1)');
 		}
 
-		// Filter by column from_state_id
-		if ($fromState = $this->getState('filter.from_state'))
+		// Filter by column from_stage_id
+		if ($fromStage = $this->getState('filter.from_stage'))
 		{
-			$query->where($db->quoteName('from_state_id') . ' = ' . (int) $fromState);
+			$query->where($db->quoteName('from_stage_id') . ' = ' . (int) $fromStage);
 		}
 
-		// Filter by column from_state_id
-		if ($toState = $this->getState('filter.to_state'))
+		// Filter by column from_stage_id
+		if ($toStage = $this->getState('filter.to_stage'))
 		{
-			$query->where($db->quoteName('to_state_id') . ' = ' . (int) $toState);
+			$query->where($db->quoteName('to_stage_id') . ' = ' . (int) $toStage);
 		}
 
 		// Filter by search in title
@@ -224,8 +224,8 @@ class TransitionsModel extends ListModel
 		{
 			$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
-			$form->setFieldAttribute('from_state', 'sql_where', $where, 'filter');
-			$form->setFieldAttribute('to_state', 'sql_where', $where, 'filter');
+			$form->setFieldAttribute('from_stage', 'sql_where', $where, 'filter');
+			$form->setFieldAttribute('to_stage', 'sql_where', $where, 'filter');
 		}
 
 		return $form;

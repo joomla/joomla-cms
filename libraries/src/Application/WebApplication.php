@@ -14,8 +14,11 @@ use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
@@ -23,9 +26,6 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla! Web application.

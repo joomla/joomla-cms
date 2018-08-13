@@ -1976,19 +1976,19 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 
 CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
-  `state_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
+  `stage_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
   `extension` varchar(50) NOT NULL,
-  PRIMARY KEY (`item_id`, `state_id`, `extension`),
+  PRIMARY KEY (`item_id`, `stage_id`, `extension`),
   KEY `idx_item_id` (`item_id`),
-  KEY `idx_state_id` (`state_id`),
+  KEY `idx_stage_id` (`stage_id`),
   KEY `idx_extension` (`extension`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `#__workflow_states`
+-- Table structure for table `#__workflow_stages`
 --
 
-CREATE TABLE IF NOT EXISTS `#__workflow_states` (
+CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
@@ -2006,10 +2006,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `#__workflow_states`
+-- Dumping data for table `#__workflow_stages`
 --
 
-INSERT INTO `#__workflow_states` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
+INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
 (1, 57, 1, 1, 1, 'Unpublished', '', '0', 0),
 (2, 58, 2, 1, 1, 'Published', '', '1', 1),
 (3, 59, 3, 1, 1, 'Trashed', '', '-2', 0),
@@ -2027,13 +2027,13 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `from_state_id` int(10) NOT NULL,
-  `to_state_id` int(10) NOT NULL,
+  `from_stage_id` int(10) NOT NULL,
+  `to_stage_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
-  KEY `idx_from_state_id` (`from_state_id`),
-  KEY `idx_to_state_id` (`to_state_id`),
+  KEY `idx_from_stage_id` (`from_stage_id`),
+  KEY `idx_to_stage_id` (`to_stage_id`),
   KEY `idx_workflow_id` (`workflow_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -2041,7 +2041,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 -- Dumping data for table `#__workflow_transitions`
 --
 
-INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_state_id`, `to_state_id`) VALUES
+INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`) VALUES
 (1, 61, 1, 1, 1, 'Unpublish', '', -1, 1),
 (2, 62, 1, 2, 1, 'Publish', '', -1, 2),
 (3, 63, 1, 3, 1, 'Trash', '', -1, 3),

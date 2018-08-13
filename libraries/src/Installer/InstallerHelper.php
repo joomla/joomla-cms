@@ -10,15 +10,15 @@ namespace Joomla\CMS\Installer;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Archive\Archive;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Version;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Version;
 
 /**
  * Installer helper class
