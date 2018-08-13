@@ -60,7 +60,7 @@ class WorkflowTable extends Table
 
 		// Gets the workflow information that is going to be deleted.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'title')))
+			->select($db->quoteName(array('id', 'title', 'default')))
 			->from($db->quoteName('#__workflows'))
 			->where($db->quoteName('id') . ' = ' . (int) $pk);
 		$db->setQuery($query);
