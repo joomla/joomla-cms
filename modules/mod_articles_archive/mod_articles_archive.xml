@@ -32,7 +32,7 @@
 
 				<field
 					name="state"
-					type="workflowstate"
+					type="workflowstage"
 					multiple="true"
 					size="5"
 					label="MOD_ARTICLES_ARCHIVE_CHOOSE_STATE"

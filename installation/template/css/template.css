@@ -8681,7 +8681,8 @@ legend {
   background: none; }
 
 .form-control-feedback {
-  display: block; }
+  display: block;
+  color: #c52827; }
 
 caption {
   caption-side: top; }
