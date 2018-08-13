@@ -888,7 +888,7 @@ class ArticleModel extends AdminModel
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
-			if (empty($stateId))
+			if (empty($stageId))
 			{
 				$assoc = $workflow->getAssociation($this->getState($this->getName() . '.id'));
 
@@ -921,7 +921,7 @@ class ArticleModel extends AdminModel
 			// If we have a new state, create the workflow association
 			if (!empty($stageId))
 			{
-				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stateId);
+				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
 			}
 
 			return true;

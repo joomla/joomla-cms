@@ -63,7 +63,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$vName == 'workflows'
 			);
 
-			if ($vName == 'states' || $vName == 'transitions')
+			if ($vName == 'stages' || $vName == 'transitions')
 			{
 				$app        = Factory::getApplication();
 				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
