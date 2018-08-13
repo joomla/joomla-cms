@@ -821,7 +821,7 @@ class ArticleModel extends AdminModel
 			$query = $db->getQuery(true);
 
 			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
-					->from($db->quoteName('#__workflow_states', 'ws'))
+					->from($db->quoteName('#__workflow_stages', 'ws'))
 					->from($db->quoteName('#__workflow_transitions', 'wt'))
 					->where($db->quoteName('wt.to_state_id') . ' = ' . $db->quoteName('ws.id'))
 					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
@@ -1219,7 +1219,7 @@ class ArticleModel extends AdminModel
 						)
 					)
 					->select($db->quoteName('ws.id', 'state_id'))
-					->from($db->quoteName('#__workflow_states', 'ws'))
+					->from($db->quoteName('#__workflow_stages', 'ws'))
 					->from($db->quoteName('#__workflows', 'w'))
 					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
 					->where($db->quoteName('ws.default') . ' = 1')
@@ -1246,8 +1246,8 @@ class ArticleModel extends AdminModel
 						]
 					)
 				)
-				->select($db->quoteName('ws.id', 'state_id'))
-				->from($db->quoteName('#__workflow_states', 'ws'))
+				->select($db->quoteName('ws.id', 'stage_id'))
+				->from($db->quoteName('#__workflow_stages', 'ws'))
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.default') . ' = 1')
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
@@ -1284,7 +1284,7 @@ class ArticleModel extends AdminModel
 
 		if (!$runTransaction)
 		{
-			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STATE'));
+			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE'));
 
 			return false;
 		}
@@ -1292,10 +1292,10 @@ class ArticleModel extends AdminModel
 		// B/C state change trigger for UCM
 		$context = $this->option . '.' . $this->name;
 
-		// Include the plugins for the change of state event.
+		// Include the plugins for the change of stage event.
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
 
-		// Trigger the change state event.
+		// Trigger the change stage event.
 		\JFactory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
 
 		return true;

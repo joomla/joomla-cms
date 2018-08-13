@@ -21,7 +21,7 @@ use Joomla\CMS\Factory;
  *
  * @since  __DEPLOY_VERSION__
  */
-class StatesModel extends ListModel
+class StagesModel extends ListModel
 {
 	/**
 	 * Constructor.
@@ -111,7 +111,7 @@ class StatesModel extends ListModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getTable($type = 'State', $prefix = 'Administrator', $config = array())
+	public function getTable($type = 'Stage', $prefix = 'Administrator', $config = array())
 	{
 		return parent::getTable($type, $prefix, $config);
 	}
@@ -142,7 +142,7 @@ class StatesModel extends ListModel
 
 		$query
 			->select($select)
-			->from($db->quoteName('#__workflow_states', 's'));
+			->from($db->quoteName('#__workflow_stages', 's'));
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))

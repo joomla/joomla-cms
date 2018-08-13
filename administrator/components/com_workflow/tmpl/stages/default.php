@@ -31,11 +31,11 @@ $saveOrder = ($listOrder == 's.ordering');
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=states.saveOrderAjax&' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -46,7 +46,7 @@ if ($saveOrder)
 				// Search tools bar
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
-				<?php if (empty($this->states)) : ?>
+				<?php if (empty($this->stages)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
@@ -78,13 +78,13 @@ if ($saveOrder)
 							</tr>
 						</thead>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
-							<?php foreach ($this->states as $i => $item):
-								$edit = Route::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
+							<?php foreach ($this->stages as $i => $item):
+								$edit = Route::_('index.php?option=com_workflow&task=stage.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
 
-								$canEdit    = $user->authorise('core.edit', $this->extension . '.state.' . $item->id);
+								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id);
 								// @TODO set proper checkin fields
 								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-								$canChange  = $user->authorise('core.edit.state', $this->extension . '.state.' . $item->id) && $canCheckin;
+								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="order nowrap text-center hidden-sm-down">
@@ -114,7 +114,7 @@ if ($saveOrder)
 										</div>
 									</td>
 									<td class="text-center hidden-sm-down">
-										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'states.', $canChange); ?>
+										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
 									</td>
 									<th scope="row">
 										<?php if ($canEdit) : ?>

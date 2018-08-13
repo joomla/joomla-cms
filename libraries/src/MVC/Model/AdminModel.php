@@ -10,18 +10,18 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Prototype admin model.
@@ -105,7 +105,7 @@ abstract class AdminModel extends FormModel
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag',
-		'workflowstate_id' => 'batchWorkflowState',
+		'workflowstage_id' => 'batchWorkflowState',
 	);
 
 	/**

@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Form\Field\GroupedlistField;
 
 /**
  * Workflow States field.
@@ -93,9 +92,9 @@ class WorkflowStateField extends GroupedlistField
 
 		// Select distinct states for existing articles
 		$query
-				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_state_id'))
+				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
 				->select($db->quoteName(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_state_title', 'workflow_title', 'workflow_id', 'ordering']))
-				->from($db->quoteName('#__workflow_states', 'ws'))
+				->from($db->quoteName('#__workflow_stages', 'ws'))
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
 				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
@@ -105,7 +104,7 @@ class WorkflowStateField extends GroupedlistField
 		{
 			$query
 					->from($db->quoteName('#__workflow_associations', 'wa'))
-					->where($db->quoteName('wa.state_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
 					->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
 
 		}
@@ -125,7 +124,7 @@ class WorkflowStateField extends GroupedlistField
 				$workflowStates[$workflowStateKey] = array();
 			}
 
-			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
+			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_stage_id, $state->workflow_state_title);
 		}
 
 		// Merge any additional options in the XML definition.

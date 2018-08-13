@@ -12,9 +12,8 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Form\Field\ListField;
+use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -80,11 +79,11 @@ class TransitionField extends ListField
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
 			->from($db->quoteName('#__workflow_transitions', 't'))
-			->from($db->quoteName('#__workflow_states', 's'))
-			->from($db->quoteName('#__workflow_states', 's2'))
-			->where($db->quoteName('t.from_state_id') . ' IN(-1, ' . (int) $workflowState . ')')
-			->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
-			->where($db->quoteName('t.to_state_id') . ' != ' . (int) $workflowState)
+			->from($db->quoteName('#__workflow_stages', 's'))
+			->from($db->quoteName('#__workflow_stages', 's2'))
+			->where($db->quoteName('t.from_stage_id') . ' IN(-1, ' . (int) $workflowState . ')')
+			->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
+			->where($db->quoteName('t.to_stage_id') . ' != ' . (int) $workflowState)
 			->where($db->quoteName('s.workflow_id') . ' = ' . $db->quoteName('s2.workflow_id'))
 			->where($db->quoteName('s2.id') . ' = ' . (int) $workflowState)
 			->where($db->quoteName('t.published') . '= 1')
@@ -124,7 +123,7 @@ class TransitionField extends ListField
 		$query
 			->clear()
 			->select($db->quoteName('title'))
-			->from($db->quoteName('#__workflow_states'))
+			->from($db->quoteName('#__workflow_stages'))
 			->where($db->quoteName('id') . ' = ' . (int) $workflowState);
 
 		$workflowName = $db->setQuery($query)->loadResult();

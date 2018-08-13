@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
-use Joomla\CMS\Language\Text;
 
 /**
  * Base class for a Joomla Dispatcher
