@@ -140,6 +140,7 @@ class TransitionsModel extends ListModel
 			't.to_stage_id',
 			't.published',
 			't.ordering',
+			't.description',
 			)
 		);
 

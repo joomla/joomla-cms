@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<fields name="transition">
 	<fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
 		<field
 			name="id"
-			type="text"
+			type="hidden"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -38,12 +39,11 @@
 		/>
 		<field
 			name="description"
-			type="editor"
-			label="COM_WORKFLOW_FIELD_DESC_LABEL"
-			class="input-xxlarge input-large-text"
+			type="text"
+			label="COM_WORKFLOW_TRANSITION_NOTE"
 		/>
 	</fieldset>
-
+	</fields>
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
