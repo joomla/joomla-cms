@@ -58,7 +58,7 @@ class WorkflowconditionField extends ListField
 		{
 			if (strlen($element['extension']))
 			{
-				$this->extension =  (string) $element['extension'];
+				$this->extension = (string) $element['extension'];
 			}
 			else
 			{
@@ -69,42 +69,42 @@ class WorkflowconditionField extends ListField
 		return $success;
 	}
 
-  /**
-   * Method to get the field options.
-   *
-   * @return  array  The field option objects.
-   *
-   * @since   __DEPLOY_VERSION__
-   */
-  protected function getOptions()
-  {
-	$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-	$options = [];
-	$conditions = [];
-
-	$component = Factory::getApplication()->bootComponent($this->extension);
-
-	if ($component instanceof WorkflowServiceInterface)
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getOptions()
 	{
-		$conditions = $component->getConditions();
-	}
+		$fieldname  = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+		$options    = [];
+		$conditions = [];
 
-	foreach ($conditions as $value => $option)
-	{
-		$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
+		$component = Factory::getApplication()->bootComponent($this->extension);
 
-		$selected = ((int) $this->value === $value);
+		if ($component instanceof WorkflowServiceInterface)
+		{
+			$conditions = $component->getConditions();
+		}
 
-		$tmp = array(
-			'value'    => $value,
-			'text'     => Text::alt($text, $fieldname),
-			'selected' => $selected,
-			'checked'  => $selected,
-		);
+		foreach ($conditions as $value => $option)
+		{
+			$text = trim((string) $option) != '' ? trim((string) $option) : $value;
 
-		// Add the option object to the result set.
-		$options[] = (object) $tmp;
-	}
+			$selected = ((int) $this->value === $value);
+
+			$tmp = array(
+				'value'    => $value,
+				'text'     => Text::alt($text, $fieldname),
+				'selected' => $selected,
+				'checked'  => $selected,
+			);
+
+			// Add the option object to the result set.
+			$options[] = (object) $tmp;
+		}
 
 		// Merge any additional options in the XML definition.
 		return array_merge(parent::getOptions(), $options);

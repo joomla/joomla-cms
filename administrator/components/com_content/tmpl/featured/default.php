@@ -180,19 +180,19 @@ $js = "
 										<div class="btn-group tbody-icon mr-1">
 											<?php echo HTMLHelper::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 											<?php
-                                            switch ($item->stage_condition) :
-                                              case ContentComponent::CONDITION_TRASHED:
-                                                $icon = 'trash';
-                                                break;
-                                              case ContentComponent::CONDITION_UNPUBLISHED:
-                                                $icon = 'unpublish';
-                                                break;
-                                              case ContentComponent::CONDITION_ARCHIVED:
-                                                $icon = 'archive';
-                                                break;
-                                              default:
-                                                $icon = 'publish';
-                                            endswitch;
+											switch ($item->stage_condition) :
+												case ContentComponent::CONDITION_TRASHED :
+													$icon = 'trash';
+													break;
+												case ContentComponent::CONDITION_UNPUBLISHED :
+													$icon = 'unpublish';
+													break;
+												case ContentComponent::CONDITION_ARCHIVED :
+													$icon = 'archive';
+													break;
+												default :
+													$icon = 'publish';
+											endswitch;
 											?>
 											<?php if ($hasTransitions) : ?>
 												<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">

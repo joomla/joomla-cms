@@ -35,8 +35,16 @@ class Workflow
 	 */
 	protected $extension = null;
 
+	/**
+	 * Workflow options
+	 *
+	 * @var array
+	 */
 	protected $options = [];
 
+	/**
+	 * @var oomla\Database\DatabaseDriver
+	 */
 	protected $db;
 
 	/**
@@ -94,7 +102,7 @@ class Workflow
 	/**
 	 * Returns the translated condition name, based on the given number
 	 *
-	 * @param   int  $value  The condition ID
+	 * @param   int $value The condition ID
 	 *
 	 * @return  string
 	 *
@@ -102,38 +110,38 @@ class Workflow
 	 */
 	public function getConditionName($value)
 	{
-	  $component = $this->getComponent();
+		$component = $this->getComponent();
 
-    if ($component instanceof WorkflowServiceInterface)
-    {
-      $conditions = $component->getConditions();
-    }
-    else
-    {
-      $conditions = self::CONDITION_NAMES;
-    }
+		if ($component instanceof WorkflowServiceInterface)
+		{
+			$conditions = $component->getConditions();
+		}
+		else
+		{
+			$conditions = self::CONDITION_NAMES;
+		}
 
 		return ArrayHelper::getValue($conditions, $value, '', 'string');
 	}
 
-  /**
-   * Returns the booted component
-   *
-   * @return \Joomla\CMS\Extension\ComponentInterface
-   *
-   * @since   __DEPLOY_VERSION__
-   */
+	/**
+	 * Returns the booted component
+	 *
+	 * @return \Joomla\CMS\Extension\ComponentInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	protected function getComponent()
-  {
-    if (is_null($this->component))
-    {
-      $parts = explode('.', $this->extension);
+	{
+		if (is_null($this->component))
+		{
+			$parts = explode('.', $this->extension);
 
-      $this->component = Factory::getApplication()->bootComponent($parts[0]);
-    }
+			$this->component = Factory::getApplication()->bootComponent($parts[0]);
+		}
 
-    return $this->component;
-  }
+		return $this->component;
+	}
 
 	/**
 	 * Executes a transition to change the current state in the association table
@@ -171,9 +179,9 @@ class Workflow
 		);
 
 		$query->select($select)
-				->from($db->quoteName('#__workflow_transitions', 't'))
-				->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON ' . $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
-				->where($db->quoteName('t.id') . ' = ' . (int) $transition_id);
+			->from($db->quoteName('#__workflow_transitions', 't'))
+			->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON ' . $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->where($db->quoteName('t.id') . ' = ' . (int) $transition_id);
 
 		if (!empty($this->options['published']))
 		{
@@ -329,9 +337,9 @@ class Workflow
 		);
 
 		$query->select($select)
-				->from($db->quoteName('#__workflow_associations'))
-				->where($db->quoteName('item_id') . ' = ' . (int) $item_id)
-				->where($db->quoteName('extension') . ' = ' . $db->quote($this->extension));
+			->from($db->quoteName('#__workflow_associations'))
+			->where($db->quoteName('item_id') . ' = ' . (int) $item_id)
+			->where($db->quoteName('extension') . ' = ' . $db->quote($this->extension));
 
 		return $db->setQuery($query)->loadObject();
 	}

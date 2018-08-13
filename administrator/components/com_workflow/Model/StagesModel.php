@@ -128,15 +128,15 @@ class StagesModel extends ListModel
 		$query = parent::getListQuery();
 
 		$select = $db->quoteName(
-					array(
-						's.id',
-						's.title',
-						's.ordering',
-						's.condition',
-						's.default',
-						's.published'
-					)
-				);
+			array(
+				's.id',
+				's.title',
+				's.ordering',
+				's.condition',
+				's.default',
+				's.published'
+			)
+		);
 
 		$query
 			->select($select)

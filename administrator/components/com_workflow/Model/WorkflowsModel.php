@@ -187,16 +187,16 @@ class WorkflowsModel extends ListModel
 
 		$select = $db->quoteName(
 			array(
-			'w.id',
-			'w.title',
-			'w.created',
-			'w.modified',
-			'w.published',
-			'w.ordering',
-			'w.default',
-			'w.created_by',
-			'u.name'
-		)
+				'w.id',
+				'w.title',
+				'w.created',
+				'w.modified',
+				'w.published',
+				'w.ordering',
+				'w.default',
+				'w.created_by',
+				'u.name'
+			)
 		);
 
 		$query
