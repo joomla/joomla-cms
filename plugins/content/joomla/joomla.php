@@ -147,7 +147,7 @@ class PlgContentJoomla extends CMSPlugin
 	{
 		if ($value != -2 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage']))
 		{
-			return;
+			return true;
 		}
 
 		$result = true;
@@ -256,7 +256,7 @@ class PlgContentJoomla extends CMSPlugin
 	private function _canDeleteWorkflow($pk)
 	{
 		// Check if this function is enabled.
-		if (!$this->params->def('check_stages', 1))
+		if (!$this->params->def('check_states_workflow', 1))
 		{
 			return true;
 		}
@@ -318,7 +318,7 @@ class PlgContentJoomla extends CMSPlugin
 	private function _canDeleteStage($pk)
 	{
 		// Check if this function is enabled.
-		if (!$this->params->def('check_stages', 1))
+		if (!$this->params->def('check_states_workflow', 1))
 		{
 			return true;
 		}

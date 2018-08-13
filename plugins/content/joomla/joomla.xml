@@ -31,11 +31,11 @@
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="check_states"
+					name="check_states_workflow"
 					type="radio"
 					class="switcher"
-					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_LABEL"
-					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_DESC"
+					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_WORKFLOW_LABEL"
+					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_WORKFLOW_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
