@@ -165,7 +165,6 @@ class PlgContentJoomla extends CMSPlugin
 		}
 
 		return $result;
-
 	}
 
 	/**
