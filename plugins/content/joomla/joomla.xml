@@ -33,9 +33,9 @@
 				<field
 					name="check_states_workflow"
 					type="radio"
-					class="switcher"
 					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_WORKFLOW_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_WORKFLOW_DESC"
+					class="switcher"
 					default="1"
 					>
 					<option value="0">JNO</option>
