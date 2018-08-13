@@ -18,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class WorkflowStageField extends GroupedlistField
+class WorkflowstageField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -26,7 +26,7 @@ class WorkflowStageField extends GroupedlistField
 	 * @var     string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $type = 'WorkflowStage';
+	protected $type = 'Workflowstage';
 
 	/**
 	 * The extension where we're
