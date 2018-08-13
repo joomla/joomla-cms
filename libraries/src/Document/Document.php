@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory AS CmsFactory;
+use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Log\Log;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
