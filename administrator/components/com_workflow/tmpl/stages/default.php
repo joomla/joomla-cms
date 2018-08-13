@@ -110,7 +110,7 @@ if ($saveOrder)
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'states.', $canChange); ?>
+											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
 										</div>
 									</td>
 									<td class="text-center hidden-sm-down">

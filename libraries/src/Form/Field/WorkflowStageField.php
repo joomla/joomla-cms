@@ -14,11 +14,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
- * Workflow States field.
+ * Workflow Stages field.
  *
  * @since  __DEPLOY_VERSION__
  */
-class WorkflowStateField extends GroupedlistField
+class WorkflowStageField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -26,7 +26,7 @@ class WorkflowStateField extends GroupedlistField
 	 * @var     string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $type = 'WorkflowState';
+	protected $type = 'WorkflowStage';
 
 	/**
 	 * The extension where we're
@@ -37,7 +37,7 @@ class WorkflowStateField extends GroupedlistField
 	protected $extension = 'com_content';
 
 	/**
-	 * Show only the states which has an item attached
+	 * Show only the stages which has an item attached
 	 *
 	 * @var     boolean
 	 * @since  __DEPLOY_VERSION__
@@ -90,10 +90,10 @@ class WorkflowStateField extends GroupedlistField
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Select distinct states for existing articles
+		// Select distinct stages for existing articles
 		$query
 				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
-				->select($db->quoteName(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_state_title', 'workflow_title', 'workflow_id', 'ordering']))
+				->select($db->quoteName(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering']))
 				->from($db->quoteName('#__workflow_stages', 'ws'))
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
@@ -109,25 +109,25 @@ class WorkflowStateField extends GroupedlistField
 
 		}
 
-		$states = $db->setQuery($query)->loadObjectList();
+		$stages = $db->setQuery($query)->loadObjectList();
 
-		$workflowStates = array();
+		$workflowStages = array();
 
-		// Grouping the states by workflow
-		foreach ($states as $state)
+		// Grouping the stages by workflow
+		foreach ($stages as $stage)
 		{
 			// Using workflow ID to differentiate workflows having same title
-			$workflowStateKey = $state->workflow_title . ' (' . $state->workflow_id . ')';
+			$workflowStageKey = $stage->workflow_title . ' (' . $stage->workflow_id . ')';
 
-			if (!array_key_exists($workflowStateKey, $workflowStates))
+			if (!array_key_exists($workflowStageKey, $workflowStages))
 			{
-				$workflowStates[$workflowStateKey] = array();
+				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_stage_id, $state->workflow_state_title);
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, $stage->workflow_stage_title);
 		}
 
 		// Merge any additional options in the XML definition.
-		return array_merge(parent::getGroups(), $workflowStates);
+		return array_merge(parent::getGroups(), $workflowStages);
 	}
 }

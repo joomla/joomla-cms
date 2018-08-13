@@ -134,14 +134,14 @@ class TransitionsModel extends ListModel
 
 		$select = $db->quoteName(
 			array(
-			't.id',
-			't.title',
-			't.from_stage_id',
-			't.to_stage_id',
-			't.published',
-			't.ordering',
+				't.id',
+				't.title',
+				't.from_stage_id',
+				't.to_stage_id',
+				't.published',
+				't.ordering',
+			)
 		);
-		)
 
 		$select[] = $db->quoteName('f_stage.title', 'from_stage');
 		$select[] = $db->quoteName('t_stage.title', 'to_stage');
@@ -175,15 +175,15 @@ class TransitionsModel extends ListModel
 		}
 
 		// Filter by column from_stage_id
-		if ($fromState = $this->getState('filter.from_stage'))
+		if ($fromStage = $this->getState('filter.from_stage'))
 		{
-			$query->where($db->quoteName('from_stage_id') . ' = ' . (int) $fromState);
+			$query->where($db->quoteName('from_stage_id') . ' = ' . (int) $fromStage);
 		}
 
 		// Filter by column from_stage_id
-		if ($toState = $this->getState('filter.to_stage'))
+		if ($toStage = $this->getState('filter.to_stage'))
 		{
-			$query->where($db->quoteName('to_stage_id') . ' = ' . (int) $toState);
+			$query->where($db->quoteName('to_stage_id') . ' = ' . (int) $toStage);
 		}
 
 		// Filter by search in title
