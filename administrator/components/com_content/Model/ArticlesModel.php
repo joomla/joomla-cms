@@ -336,8 +336,7 @@ class ArticlesModel extends ListModel
 		{
 			$query->where($db->quoteName('ws.condition') . ' IN (' .
         (int) ContentComponent::CONDITION_PUBLISHED . ',' .
-        (int) ContentComponent::CONDITION_UNPUBLISHED . ',' .
-        (int) ContentComponent::CONDITION_ARCHIVED . ')');
+        (int) ContentComponent::CONDITION_UNPUBLISHED . ')');
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
