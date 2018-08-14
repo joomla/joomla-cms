@@ -1497,7 +1497,8 @@ iframe {
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
 
-.com_config .rule-notes {
+.com_config .rule-notes,
+.com_config .filter-notes {
   padding: 1em;
   background-color: #fff; }
 
