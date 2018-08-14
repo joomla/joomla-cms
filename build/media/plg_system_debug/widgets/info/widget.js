@@ -31,6 +31,24 @@
                     .append($('<td />').text('PHP Version'))
                     .append($('<td />').text(data.phpVersion));
                 this.$el.append(tr);
+
+                val l = new List
+
+                tr = $('<tr />')
+                    .append($('<td />').text('Identity'))
+                    .append($('<td />').text(data.identity.type));
+                this.$el.append(tr);
+
+                tr = $('<tr />')
+                    .append($('<td />').text('Response'))
+                    .append($('<td />').text(data.response.status_code));
+                this.$el.append(tr);
+
+                tr = $('<tr />')
+                    .append($('<td />').text('Template'))
+                    .append($('<td />').text(data.template.template));
+                    // .append($('<td />').html('<ul><li>huhu</li><li>haha</li></ul>'));
+                this.$el.append(tr);
             });
         }
     });
