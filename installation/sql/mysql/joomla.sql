@@ -1949,9 +1949,9 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `extension` varchar(50) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
-  `created` datetime NOT NULL DEFAULT NOW(),
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) NOT NULL DEFAULT 0,
-  `modified` datetime NOT NULL DEFAULT NOW(),
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_asset_id` (`asset_id`),
@@ -1968,7 +1968,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, NOW(), 0, '0000-00-00 00:00:00', 0);
+(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
