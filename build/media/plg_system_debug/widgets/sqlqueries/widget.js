@@ -148,20 +148,20 @@
                     }
 
                     if (typeof(stmt.caller) != 'undefined' && stmt.caller) {
-                        var callerSpan = $('<span title="Caller" />').addClass(csscls('stmt-id'))
                         var caller = stmt.caller.replace(self.root_path, '')
                         if (caller && self.xdebug_link) {
                             var parts = stmt.caller.split(':')
                             $('<a />')
                                 .text(caller)
+                                .addClass(csscls('editor-link'))
                                 .attr('href', self.xdebug_link.replace('%f', parts[0]).replace('%l', parts[1]))
-                                .appendTo(callerSpan)
+                                .appendTo(li)
                         } else {
-                            callerSpan.text(caller)
+                            $('<span title="Caller" />')
+                                .text(caller)
+                                .addClass(csscls('stmt-id'))
+                                .appendTo(li)
                         }
-
-                        callerSpan.appendTo(li)
-
                     }
 
                     $('<span title="Copy to clipboard" />')
