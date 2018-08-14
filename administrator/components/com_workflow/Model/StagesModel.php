@@ -1,9 +1,7 @@
 <?php
 /**
- * States model for com_workflow
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,7 +15,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
 
 /**
- * Model class for items
+ * Model class for stages
  *
  * @since  __DEPLOY_VERSION__
  */
