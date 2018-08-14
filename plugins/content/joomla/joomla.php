@@ -147,7 +147,8 @@ class PlgContentJoomla extends CMSPlugin
 	 * Don't allow workflows/stages to be deleted if they contain items
 	 *
 	 * @param   string  $context  The context for the content passed to the plugin.
-	 * @param   object  $data     The data relating to the content that was deleted.
+	 * @param   object  $pks      The IDs of the records which will be changed.
+	 * @param   object  $value    The new state.
 	 *
 	 * @return  boolean
 	 *
