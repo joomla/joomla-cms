@@ -842,7 +842,7 @@ abstract class HTMLHelper
 			$file,
 			$options['relative'] ?? true,
 			$options['detectBrowser'] ?? false,
-			$options['detectDebug'] ?? false
+			$options['detectDebug'] ?? true
 		);
 
 		if (count($includes) === 0)
