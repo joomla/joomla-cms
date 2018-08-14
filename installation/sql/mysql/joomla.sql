@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
-  `state` int(10) NOT NULL DEFAULT 0,
+  `state` tinyint(3) NOT NULL DEFAULT 0,
   `catid` int(10) unsigned NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
