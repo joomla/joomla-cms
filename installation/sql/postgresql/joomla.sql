@@ -1979,19 +1979,19 @@ SELECT setval('#__workflow_id_seq', 2, false);
 
 CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
   "item_id" bigint DEFAULT 0 NOT NULL COMMENT 'Extension table id value',
-  "state_id" bigint DEFAULT 0 NOT NULL COMMENT 'Foreign Key to #__workflow_states.id',
+  "stage_id" bigint DEFAULT 0 NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
   "extension" varchar(50) NOT NULL,
-  PRIMARY KEY ("item_id", "state_id", "extension")
+  PRIMARY KEY ("item_id", "stage_id", "extension")
 );
 CREATE INDEX "#__workflow_associations_idx_item_id" ON "#__workflow_associations" ("item_id");
-CREATE INDEX "#__workflow_associations_idx_state_id" ON "#__workflow_associations" ("state_id");
+CREATE INDEX "#__workflow_associations_idx_stage_id" ON "#__workflow_associations" ("stage_id");
 CREATE INDEX "#__workflow_associations_idx_extension" ON "#__workflow_associations" ("extension");
 
 --
--- Table structure for table "#__workflow_states"
+-- Table structure for table "#__workflow_stages"
 --
 
-CREATE TABLE IF NOT EXISTS "#__workflow_states" (
+CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
@@ -2003,22 +2003,22 @@ CREATE TABLE IF NOT EXISTS "#__workflow_states" (
   "default" smallint NOT NULL  DEFAULT 0,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__workflow_states_idx_workflow_id" ON "#__workflow_states" ("workflow_id");
-CREATE INDEX "#__workflow_states_idx_title" ON "#__workflow_states" ("title");
-CREATE INDEX "#__workflow_states_idx_asset_id" ON "#__workflow_states" ("asset_id");
-CREATE INDEX "#__workflow_states_idx_default" ON "#__workflow_states" ("default");
+CREATE INDEX "#__workflow_stages_idx_workflow_id" ON "#__workflow_stages" ("workflow_id");
+CREATE INDEX "#__workflow_stages_idx_title" ON "#__workflow_stages" ("title");
+CREATE INDEX "#__workflow_stages_idx_asset_id" ON "#__workflow_stages" ("asset_id");
+CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default");
 
 --
--- Dumping data for table "#__workflow_states"
+-- Dumping data for table "#__workflow_stages"
 --
 
-INSERT INTO "#__workflow_states" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
+INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
 (1, 0, 1, 1, 1, 'Unpublished', '', 0, 0),
 (2, 0, 2, 1, 1, 'Published', '', 1, 1),
 (3, 0, 3, 1, 1, 'Trashed', '', -2, 0),
 (4, 0, 4, 1, 1, 'Archived', '', 1, 0);
 
-SELECT setval('#__workflow_states_id_seq', 5, false);
+SELECT setval('#__workflow_stages_id_seq', 5, false);
 								    
 --
 -- Table structure for table "#__workflow_transitions"
@@ -2032,14 +2032,14 @@ CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
   "published" smallint NOT NULL  DEFAULT 0,
   "title" varchar(255) NOT NULL,
   "description" text NOT NULL,
-  "from_state_id" bigint DEFAULT 0 NOT NULL,
-  "to_state_id" bigint DEFAULT 0 NOT NULL,
+  "from_stage_id" bigint DEFAULT 0 NOT NULL,
+  "to_stage_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
 CREATE INDEX "#__workflow_transitions_idx_title" ON "#__workflow_transitions" ("title");
 CREATE INDEX "#__workflow_transitions_idx_asset_id" ON "#__workflow_transitions" ("asset_id");
-CREATE INDEX "#__workflow_transitions_idx_from_state_id" ON "#__workflow_transitions" ("from_state_id");
-CREATE INDEX "#__workflow_transitions_idx_to_state_id" ON "#__workflow_transitions" ("to_state_id");
+CREATE INDEX "#__workflow_transitions_idx_from_stage_id" ON "#__workflow_transitions" ("from_stage_id");
+CREATE INDEX "#__workflow_transitions_idx_to_stage_id" ON "#__workflow_transitions" ("to_stage_id");
 CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitions" ("workflow_id");
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_state_id", "to_state_id") VALUES
