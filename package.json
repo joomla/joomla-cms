@@ -33,7 +33,7 @@
     "dragula": "3.7.2",
     "focus-visible": "^4.1.4",
     "font-awesome": "4.7.0",
-    "joomla-ui-custom-elements": "0.0.25",
+    "joomla-ui-custom-elements": "joomla-projects/custom-elements",
     "jquery": "3.3.1",
     "jquery-migrate": "1.4.1",
     "mediaelement": "4.2.8",
