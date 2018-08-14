@@ -155,7 +155,6 @@
                             $('<a />')
                                 .text(caller)
                                 .attr('href', self.xdebug_link.replace('%f', parts[0]).replace('%l', parts[1]))
-                                .attr('target', '_blank')
                                 .appendTo(callerSpan)
                         } else {
                             callerSpan.text(caller)
