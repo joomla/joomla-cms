@@ -143,6 +143,16 @@ class PlgContentJoomla extends CMSPlugin
 		}
 	}
 
+	/**
+	 * Don't allow workflows/stages to be deleted if they contain items
+	 *
+	 * @param   string  $context  The context for the content passed to the plugin.
+	 * @param   object  $data     The data relating to the content that was deleted.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function onContentBeforeChangeState($context, $pks, $value)
 	{
 		if ($value != -2 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage']))
@@ -498,9 +508,9 @@ class PlgContentJoomla extends CMSPlugin
 	/**
 	 * Get count of items assigned to a stage
 	 *
-	 * @param   string   $extension  The extension to search for
-	 * @param   integer  $stage_id   ID of the stage to check
-	 * @param   string   $table      The table to search for
+	 * @param   string   $extension    The extension to search for
+	 * @param   integer  $workflow_id  ID of the workflow to check
+	 * @param   string   $table        The table to search for
 	 *
 	 * @return  mixed  count of items found or false if db error
 	 *
