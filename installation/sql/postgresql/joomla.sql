@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS "#__content" (
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "introtext" text NOT NULL,
   "fulltext" text NOT NULL,
-  "state" bigint DEFAULT 0 NOT NULL,
+  "state" smallint DEFAULT 0 NOT NULL,
   "catid" bigint DEFAULT 0 NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
