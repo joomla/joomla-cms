@@ -14,7 +14,7 @@
 		get view() { return this.getAttribute('view'); }
 		set view(value) { this.setAttribute('view', value); }
 		get orientation() { return this.getAttribute('orientation'); }
-		set orientation(value) { this.setAttribute('oriendation', value); }
+		set orientation(value) { this.setAttribute('orientation', value); }
 
 		/* Lifecycle, element created */
 		constructor() {
