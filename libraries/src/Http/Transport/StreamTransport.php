@@ -10,14 +10,14 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Http\AbstractTransport;
-use Joomla\Http\Exception\InvalidResponseCodeException;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
+use Joomla\Http\AbstractTransport;
+use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
 use Zend\Diactoros\Stream as StreamResponse;
-use Joomla\CMS\Factory;
 
 /**
  * HTTP transport class for using PHP streams.

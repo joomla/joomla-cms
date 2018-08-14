@@ -228,7 +228,7 @@ class ArticlesModel extends ListModel
 				->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
 				->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
 
-		// Join over the states.
+		// Join over the workflow stages.
 		$query	->select(
 					$query->quoteName(
 					[
@@ -319,11 +319,11 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$workflowState = (string) $this->getState('filter.state');
+		$workflowStage = (string) $this->getState('filter.state');
 
-		if (is_numeric($workflowState))
+		if (is_numeric($workflowStage))
 		{
-			$query->where('wa.stage_id = ' . (int) $workflowState);
+			$query->where('wa.stage_id = ' . (int) $workflowStage);
 		}
 
 		$condition = (string) $this->getState('filter.condition');
@@ -338,7 +338,7 @@ class ArticlesModel extends ListModel
 					$query->where($db->quoteName('ws.condition') . ' = ' . $query->quote($condition));
 			}
 		}
-		elseif (!is_numeric($workflowState))
+		elseif (!is_numeric($workflowStage))
 		{
 			$query->where($db->quoteName('ws.condition') . ' IN (' . $query->quote(Workflow::PUBLISHED) . ',' . $query->quote(Workflow::UNPUBLISHED) . ')');
 		}

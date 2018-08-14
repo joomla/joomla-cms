@@ -10,10 +10,9 @@ namespace Joomla\CMS\Schema;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
