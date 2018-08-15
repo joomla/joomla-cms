@@ -38,10 +38,18 @@ class PrefixField extends FormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
+		$size = $this->element['size'] ? abs((int) $this->element['size']) : 5;
 		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
 		$class     = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$readonly  = (string) $this->element['readonly'] === 'true' ? ' readonly="readonly"' : '';
 		$disabled  = (string) $this->element['disabled'] === 'true' ? ' disabled="disabled"' : '';
+
+
+		// Make sure somebody doesn't put in a too large prefix size value.
+		if ($size > 15)
+		{
+			$size = 15;
+		}
 
 		// If a prefix is already set, use it instead.
 		$session = Factory::getSession()->get('setup.options', array());
@@ -72,14 +80,7 @@ class PrefixField extends FormField
 	 */
 	public function getPrefix()
 	{
-		$size = $this->element['size'] ? abs((int) $this->element['size']) : 5;
-
-		// Make sure somebody doesn't put in a too large prefix size value.
-		if ($size > 15)
-		{
-			$size = 15;
-		}
-
+		$size = 15;
 		// Create the random prefix.
 		$prefix  = '';
 		$chars   = range('a', 'z');
