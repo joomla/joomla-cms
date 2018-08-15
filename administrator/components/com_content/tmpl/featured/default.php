@@ -53,7 +53,7 @@ $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
 	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
-	  
+
 	  elements.forEach(function (element) {
 	    element.addEventListener('click', function(event) {
 			event.stopPropagation();
