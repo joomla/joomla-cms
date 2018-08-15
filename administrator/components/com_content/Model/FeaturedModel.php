@@ -173,7 +173,8 @@ class FeaturedModel extends ArticlesModel
 		}
 		elseif (!is_numeric($workflowStage))
 		{
-			$query->whereIn($db->quoteName('ws.condition'),
+			$query->whereIn(
+				$db->quoteName('ws.condition'),
 				[
 					ContentComponent::CONDITION_PUBLISHED,
 					ContentComponent::CONDITION_UNPUBLISHED
