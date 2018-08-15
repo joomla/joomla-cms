@@ -28,7 +28,7 @@ $js = <<<JS
 
 		categories.forEach(function(category) {
 			var buttons = [].slice.call(document.querySelectorAll('.categories-list'));
- 
+
 			buttons.forEach(function(button) {
 				var span = button.querySelector('span');
 
