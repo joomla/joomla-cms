@@ -13,9 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Content Component Archive Model
