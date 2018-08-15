@@ -262,7 +262,6 @@ class AdminController extends BaseController
 					foreach($cid as $pk)
 					{
 						$model->runTransition($pk, $transitionId);
-						print_r($model->getErrors());
 
 						foreach ($model->getErrors() as $err)
 						{
@@ -277,7 +276,6 @@ class AdminController extends BaseController
 					$model->publish($cid, $value);
 					$errors = $model->getErrors();
 				}
-				exit;
 
 				/**
 				 * Add task result messages
