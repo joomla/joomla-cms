@@ -30,10 +30,6 @@ HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative
 HTMLHelper::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
-// Alerts
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto']);
-
-
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
@@ -66,7 +62,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 	<div class="d-flex justify-content-center align-items-center h-100">
 		<div class="login">
 			<div class="login-logo">
-				<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.svg" alt="<?php echo $sitename; ?>">
+				<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.svg" alt="">
 			</div>
 			<div id="content">
 				<noscript>

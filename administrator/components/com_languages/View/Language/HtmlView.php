@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\View\Language;
 
 defined('_JEXEC') or die;
@@ -13,6 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Languages component.
@@ -83,12 +87,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', 1);
+		Factory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(
-			\JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
+		ToolbarHelper::title(
+			Text::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
 		);
 
 		$toolbarButtons = [];
@@ -105,21 +109,21 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2new', 'language.save2new'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if ($isNew)
 		{
-			\JToolbarHelper::cancel('language.cancel');
+			ToolbarHelper::cancel('language.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
 	}
 }

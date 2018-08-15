@@ -11,11 +11,12 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of article records.
@@ -107,6 +108,9 @@ class ArticlesModel extends ListModel
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
+
+		$condition = $this->getUserStateFromRequest($this->context . '.filter.condition', 'filter_condition', '');
+		$this->setState('filter.condition', $condition);
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
@@ -219,6 +223,29 @@ class ArticlesModel extends ListModel
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join over the associations.
+		$query	->select($query->quoteName('wa.stage_id', 'stage_id'))
+				->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
+				->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
+
+		// Join over the workflow stages.
+		$query	->select(
+					$query->quoteName(
+					[
+						'ws.title',
+						'ws.condition',
+						'ws.workflow_id'
+					],
+					[
+						'stage_title',
+						'stage_condition',
+						'workflow_id'
+					]
+					)
+				)
+				->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
+				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+
 		// Join on voting table
 		$associationsGroupBy = array(
 			'a.id',
@@ -245,11 +272,15 @@ class ArticlesModel extends ListModel
 			'ag.title',
 			'c.title',
 			'ua.name',
+			'ws.title',
+			'ws.workflow_id',
+			'ws.condition',
+			'wa.stage_id'
 		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
@@ -288,16 +319,31 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$published = (string) $this->getState('filter.published');
+		$workflowStage = (string) $this->getState('filter.state');
 
-		if (is_numeric($published))
+		if (is_numeric($workflowStage))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('wa.stage_id = ' . (int) $workflowStage);
 		}
-		elseif ($published === '')
+
+		$condition = (string) $this->getState('filter.condition');
+
+		if (is_numeric($condition))
 		{
-			$query->where('(a.state = 0 OR a.state = 1)');
+			switch ((int) $condition)
+			{
+				case Workflow::PUBLISHED:
+				case Workflow::UNPUBLISHED:
+				case Workflow::TRASHED:
+					$query->where($db->quoteName('ws.condition') . ' = ' . $query->quote($condition));
+			}
 		}
+		elseif (!is_numeric($workflowStage))
+		{
+			$query->where($db->quoteName('ws.condition') . ' IN (' . $query->quote(Workflow::PUBLISHED) . ',' . $query->quote(Workflow::UNPUBLISHED) . ')');
+		}
+
+		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id', array());
@@ -413,6 +459,108 @@ class ArticlesModel extends ListModel
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
+	}
+
+	/**
+	 * Method to get all transitions at once for all articles
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTransitions()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId('getTransitions');
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		$db   = $this->getDbo();
+		$user = Factory::getUser();
+
+		$items = $this->getItems();
+
+		$ids = ArrayHelper::getColumn($items, 'stage_id');
+		$ids = ArrayHelper::toInteger($ids);
+		$ids = array_unique(array_filter($ids));
+
+		$ids[] = -1;
+
+		$this->cache[$store] = array();
+
+		try
+		{
+			if (count($ids))
+			{
+				Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
+				$query = $db->getQuery(true);
+
+				$select = $db->quoteName(
+					array(
+						't.id',
+						't.title',
+						't.from_stage_id',
+						't.to_stage_id',
+						's.id',
+						's.title',
+						's.condition',
+						's.workflow_id'
+					),
+					array(
+						'value',
+						'text',
+						'from_stage_id',
+						'to_stage_id',
+						'stage_id',
+						'stage_title',
+						'stage_condition',
+						'workflow_id'
+					)
+				);
+
+				$query->select($select)
+					->from($db->quoteName('#__workflow_transitions', 't'))
+					->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON ' . $db->quoteName('t.from_stage_id') . ' IN(' . implode(',', $ids) . ')')
+					->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
+					->where($db->quoteName('t.published') . ' = 1')
+					->where($db->quoteName('s.published') . ' = 1')
+					->order($db->quoteName('t.ordering'));
+
+				$transitions = $db->setQuery($query)->loadAssocList();
+
+				$workflow = new Workflow(['extension' => 'com_content']);
+
+				foreach ($transitions as $key => $transition)
+				{
+					if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $transition['value']))
+					{
+						unset($transitions[$key]);
+					}
+					else
+					{
+						// Update the transition text with final state value
+						$conditionName = $workflow->getConditionName($transition['stage_condition']);
+
+						$transitions[$key]['text'] .=  ' [' . \JText::_($conditionName) . ']';
+					}
+				}
+
+				$this->cache[$store] = $transitions;
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $this->cache[$store];
 	}
 
 	/**

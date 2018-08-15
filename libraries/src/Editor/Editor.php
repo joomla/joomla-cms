@@ -10,11 +10,15 @@ namespace Joomla\CMS\Editor;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
-use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 
 /**
@@ -79,7 +83,7 @@ class Editor implements DispatcherAwareInterface
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = \JFactory::getContainer()->get('dispatcher');
+			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -127,7 +131,7 @@ class Editor implements DispatcherAwareInterface
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use JHtml::script
+	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use HTMLHelper::script
 	 */
 	public function initialise()
 	{
@@ -170,7 +174,7 @@ class Editor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if ($this->_editor === null)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}
@@ -296,12 +300,12 @@ class Editor implements DispatcherAwareInterface
 		}
 
 		// Build the path to the needed editor plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			\JLog::add(\JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
 			return false;
 		}

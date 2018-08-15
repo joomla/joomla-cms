@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cpanel\Administrator\View\Help;
 
 defined('_JEXEC') or die;
@@ -26,7 +27,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * @var  boolean  $notEmpty  Check if there are links to be displayed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private static $notEmpty;
 

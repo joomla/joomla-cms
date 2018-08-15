@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -19,6 +20,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 
 /**
  * Template style model.
@@ -86,7 +91,7 @@ class StyleModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -110,7 +115,7 @@ class StyleModel extends AdminModel
 	public function delete(&$pks)
 	{
 		$pks        = (array) $pks;
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
@@ -124,19 +129,19 @@ class StyleModel extends AdminModel
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_templates'))
 				{
-					throw new \Exception(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					throw new \Exception(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 
 				// You should not delete a default style
 				if ($table->home != '0')
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'), 'error');
 
 					return false;
 				}
 
 				// Trigger the before delete event.
-				$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+				$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
@@ -146,7 +151,7 @@ class StyleModel extends AdminModel
 				}
 
 				// Trigger the after delete event.
-				\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+				Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 			}
 			else
 			{
@@ -173,12 +178,12 @@ class StyleModel extends AdminModel
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
 		{
-			throw new \Exception(\JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$context    = $this->option . '.' . $this->name;
@@ -208,7 +213,7 @@ class StyleModel extends AdminModel
 				}
 
 				// Trigger the before save event.
-				$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
+				$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
 
 				if (in_array(false, $result, true) || !$table->store())
 				{
@@ -216,7 +221,7 @@ class StyleModel extends AdminModel
 				}
 
 				// Trigger the after save event.
-				\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
+				Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
 			}
 			else
 			{
@@ -260,7 +265,7 @@ class StyleModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -281,7 +286,7 @@ class StyleModel extends AdminModel
 
 		// Add the default fields directory
 		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		\JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
+		Form::addFieldPath($baseFolder . '/templates/' . $template . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -319,7 +324,7 @@ class StyleModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_templates.edit.style.data', array());
+		$data = Factory::getApplication()->getUserState('com_templates.edit.style.data', array());
 
 		if (empty($data))
 		{
@@ -368,7 +373,7 @@ class StyleModel extends AdminModel
 
 			// Get the template XML.
 			$client = ApplicationHelper::getClientInfo($table->client_id);
-			$path   = \JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
+			$path   = Path::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
 
 			if (file_exists($path))
 			{
@@ -386,7 +391,7 @@ class StyleModel extends AdminModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm   $form   A \JForm object.
+	 * @param   Form   $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -395,21 +400,21 @@ class StyleModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$clientId = $this->getState('item.client_id');
 		$template = $this->getState('item.template');
-		$lang     = \JFactory::getLanguage();
+		$lang     = Factory::getLanguage();
 		$client   = ApplicationHelper::getClientInfo($clientId);
 
 		if (!$form->loadFile('style_' . $client->name, true))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		jimport('joomla.filesystem.path');
 
-		$formFile = \JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
+		$formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template, $client->path, null, false, true)
@@ -420,7 +425,7 @@ class StyleModel extends AdminModel
 			// Get the template form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -435,7 +440,7 @@ class StyleModel extends AdminModel
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
@@ -468,12 +473,12 @@ class StyleModel extends AdminModel
 
 		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id'])))
 		{
-			$this->setError(\JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+			$this->setError(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 
 			return false;
 		}
 
-		$app        = \JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
 		$isNew      = true;
@@ -515,7 +520,7 @@ class StyleModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -525,13 +530,13 @@ class StyleModel extends AdminModel
 			return false;
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
 		{
 			$n    = 0;
 			$db   = $this->getDbo();
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if (!empty($data['assigned']) && is_array($data['assigned']))
 			{
@@ -569,7 +574,7 @@ class StyleModel extends AdminModel
 
 			if ($n > 0)
 			{
-				$app->enqueueMessage(\JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
+				$app->enqueueMessage(Text::plural('COM_TEMPLATES_MENU_CHANGED', $n));
 			}
 		}
 
@@ -577,7 +582,7 @@ class StyleModel extends AdminModel
 		$this->cleanCache();
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
+		Factory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
 
@@ -595,20 +600,20 @@ class StyleModel extends AdminModel
 	 */
 	public function setHome($id = 0)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
 		$style = $this->getTable();
 
 		if (!$style->load((int) $id))
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 
 		// Detect disabled extension
@@ -616,7 +621,7 @@ class StyleModel extends AdminModel
 
 		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id)))
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 		}
 
 		// Reset the home fields for the client_id.
@@ -653,13 +658,13 @@ class StyleModel extends AdminModel
 	 */
 	public function unsetHome($id = 0)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
 		// Lookup the client_id.
@@ -672,11 +677,11 @@ class StyleModel extends AdminModel
 
 		if (!is_numeric($style->client_id))
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 		elseif ($style->home == '1')
 		{
-			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 		}
 
 		// Set the new home style.

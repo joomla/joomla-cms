@@ -2,31 +2,25 @@ const Promise = require('bluebird');
 const fs = require('fs');
 const fsExtra = require('fs-extra');
 const Path = require('path');
-const chalk = require('chalk');
+const copydir = require('copy-dir');
+const UglifyJS = require('uglify-es');
+const UglyCss = require('uglifycss');
 const rootPath = require('./rootpath.js')._();
 
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 // rm -rf media/vendor
 const cleanVendors = () => {
-  // Let's keep some tinyMCE folders
-  fsExtra.copySync(Path.join(rootPath, 'media/vendor/tinymce/langs'), Path.join(rootPath, 'build/tiny_langs'));
-  fsExtra.copySync(Path.join(rootPath, 'media/vendor/tinymce/templates'), Path.join(rootPath, 'build/tiny_templates'));
-  fsExtra.copySync(Path.join(rootPath, 'media/vendor/jquery-ui'), Path.join(rootPath, 'build/jquery-ui'));
-
+  // Remove the vendor folder
   fsExtra.removeSync(Path.join(rootPath, 'media/vendor'));
-  fsExtra.removeSync(Path.join(rootPath, 'media/system/js/polyfills'));
-
-  // Restore and erase the tmp folders
-  fsExtra.copySync(Path.join(rootPath, 'build/tiny_langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
-  fsExtra.copySync(Path.join(rootPath, 'build/tiny_templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
-  fsExtra.copySync(Path.join(rootPath, 'build/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
-  fsExtra.removeSync(Path.join(rootPath, 'build/tiny_langs'));
-  fsExtra.removeSync(Path.join(rootPath, 'build/tiny_templates'));
-  fsExtra.removeSync(Path.join(rootPath, 'build/jquery-ui'));
 
   // eslint-disable-next-line no-console
-  console.error(chalk.blue('/media/vendor has been removed.'));
+  console.error('/media/vendor has been removed.');
+
+  // Restore our code on the vendor folders
+  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
+  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
+  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
 };
 
 // Copies all the files from a directory
@@ -189,6 +183,11 @@ const copyFiles = (options) => {
       let tinyXml = fs.readFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
       tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
       fs.writeFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
+
+      // Remove that sourcemap...
+      let tinyWrongMap = fs.readFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
+      tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
+      fs.writeFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;
@@ -217,7 +216,7 @@ const copyFiles = (options) => {
     registry.vendors[vendorName] = registryItem;
 
     // eslint-disable-next-line no-console
-    console.log(chalk.green(`${packageName} was updated.`));
+    console.log(`${packageName} was updated.`);
   }
 
   // Write assets registry
@@ -228,20 +227,97 @@ const copyFiles = (options) => {
   // );
 };
 
-const update = (options) => {
+const recreateMediaFolder = () => {
+	// eslint-disable-next-line no-console
+	console.log(`Recreating the media folder...`);
+
+    copydir.sync(Path.join(rootPath, 'build/media'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
+        if (stat === 'directory' && (filename === 'webcomponents' || filename === 'scss')) {
+            return false;
+        }
+        return true;
+    }, function(err){
+        if (!err) {
+            console.log('Legacy media files restored');
+        }
+    });
+
+    copydir.sync(Path.join(rootPath, 'build/media_src'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
+        if (stat === 'directory' && filename === 'scss') {
+            return false;
+        }
+        return true;
+    }, function(err){
+        if (!err) {
+            console.log('Media folder structure was created');
+        }
+    });
+};
+
+// List all files in a directory recursively in a synchronous fashion
+const walkSync = function(dir, filelist) {
+	const files = fs.readdirSync(dir);
+	filelist = filelist || [];
+	files.forEach(function(file) {
+		if (fs.statSync(Path.join(dir, file)).isDirectory()) {
+			filelist = walkSync(Path.join(dir, file), filelist);
+		}
+		else {
+			filelist.push(Path.join(dir, file));
+		}
+	});
+	return filelist;
+};
+
+const uglifyLegacyFiles = () => {
+    // Minify the legacy files
+    console.log('Minifying legacy stylesheets/scripts...');
+	const files = walkSync(`${rootPath}/media`);
+
+	if (files.length) {
+		files.forEach(
+			(file) => {
+			    if (file.match('/vendor')) {
+			        return;
+                }
+				if (file.match(/.js/) && !file.match(/.min.js/) && !file.toLowerCase().match(/license/)) {
+					console.log(`Processing: ${file}`);
+					// Create the minified file
+					fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
+				}
+				if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
+					console.log(`Processing: ${file}`);
+					// Create the minified file
+					fs.writeFileSync(
+						file.replace('.css', '.min.css'),
+						UglyCss.processFiles([file], { expandVars: false }),
+						{ encoding: 'utf8' },
+					);
+				}
+			});
+	}
+};
+
+const copyAssets = (options) => {
   Promise.resolve()
     // Copy a fresh version of the files
     .then(cleanVendors())
 
     // Copy a fresh version of the files
+    .then(recreateMediaFolder())
+
+    // Copy a fresh version of the files
     .then(copyFiles(options))
+
+    // Uglify the legacy css/js files
+    .then(uglifyLegacyFiles(options))
 
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(chalk.red(err));
+      console.error(err);
       process.exit(-1);
     });
 };
 
-module.exports.update = update;
+module.exports.copyAssets = copyAssets;

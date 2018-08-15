@@ -27,10 +27,6 @@ HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' =>
 HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
-// Alerts
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto']);
-
-
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
@@ -64,7 +60,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 	<div class="d-flex justify-content-center align-items-center h-100">
 		<div class="login">
 			<div class="login-logo">
-				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg" alt="<?php echo $sitename; ?>">
+				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg" alt="">
 			</div>
 			<div id="content">
 				<noscript>
@@ -85,7 +81,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				<?php // End Content ?>
 			</div>
 			<div class="mt-4 d-none d-md-flex justify-content-between">
-				<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span class="fa fa-eye mr-1" aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a>
+				<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span class="fa fa-external-link mr-1" aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a>
 				<span class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</div>
 		</div>

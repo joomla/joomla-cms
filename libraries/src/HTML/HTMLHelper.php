@@ -10,15 +10,15 @@ namespace Joomla\CMS\HTML;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for all HTML drawing classes
@@ -842,7 +842,7 @@ abstract class HTMLHelper
 			$file,
 			$options['relative'] ?? true,
 			$options['detectBrowser'] ?? false,
-			$options['detectDebug'] ?? false
+			$options['detectDebug'] ?? true
 		);
 
 		if (count($includes) === 0)
@@ -1335,7 +1335,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
@@ -1378,7 +1378,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function convertToRelativePath($path)
 	{
@@ -1396,7 +1396,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static function checkFileOrder($first, $second)
 	{

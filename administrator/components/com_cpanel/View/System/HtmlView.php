@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cpanel\Administrator\View\System;
 
 defined('_JEXEC') or die;
@@ -103,7 +104,7 @@ class HtmlView extends BaseHtmlView
 			$links['MOD_MENU_TEMPLATES'] = [
 				'com_templates' => static::arrayBuilder(
 					'MOD_MENU_TEMPLATE_SITE_TEMPLATES',
-					'index.php?option=com_templates&client_id=0',
+					'index.php?option=com_templates&view=templates&client_id=0',
 					'edit'
 				),
 				'com_templates_site_styles' => static::arrayBuilder(
@@ -510,7 +511,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private static function arrayBuilder($name, $link, $icon): array
 	{
