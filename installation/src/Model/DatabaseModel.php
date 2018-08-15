@@ -105,8 +105,6 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
-	 * @param   object  $options  Stores options
-	 *
 	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
@@ -115,7 +113,6 @@ class DatabaseModel extends BaseInstallationModel
 	{
 		$options = $this->getOptions();
 		$options = ArrayHelper::toObject($options);
-		// Get the options as an object for easier handling.
 
 		// Load the backend language files so that the DB error messages work.
 		$lang = Factory::getLanguage();
