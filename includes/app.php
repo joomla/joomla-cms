@@ -36,8 +36,25 @@ require_once JPATH_BASE . '/includes/framework.php';
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
 JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
-// Get the application.
-$app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Application\SiteApplication::class);
+// Boot the DI container
+$container = \Joomla\CMS\Factory::getContainer();
+
+/*
+ * Alias the session service keys to the web session service as that is the primary session backend for this application
+ *
+ * In addition to aliasing "common" service keys, we also create aliases for the PHP classes to ensure autowiring objects
+ * is supported.  This includes aliases for aliased class names, and the keys for alised class names should be considered
+ * deprecated to be removed when the class name alias is removed as well.
+ */
+$container->alias('session.web', 'session.web.site')
+	->alias('session', 'session.web.site')
+	->alias('JSession', 'session.web.site')
+	->alias(\Joomla\CMS\Session\Session::class, 'session.web.site')
+	->alias(\Joomla\Session\Session::class, 'session.web.site')
+	->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
+
+// Instantiate the application.
+$app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
 
 // Set the application as global app
 \Joomla\CMS\Factory::$application = $app;

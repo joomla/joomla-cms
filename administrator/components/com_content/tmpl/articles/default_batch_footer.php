@@ -12,6 +12,17 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
+JFactory::getDocument()->addScriptDeclaration("
+	jQuery('#exampleModal').on('hide.bs.modal', function (e) {
+		document.getElementById('batch-category-id').value = '';
+		document.getElementById('batch-access').value = '';
+		document.getElementById('batch-language-id').value = '';
+		document.getElementById('batch-user-id').value = '';
+		document.getElementById('batch-tag-id').value = '';
+		document.getElementById('batch-workflowstage-id').value = '';
+	});
+");
+
 HTMLHelper::_('script', 'com_content/admin-articles-default-batch-footer.js', ['relative' => true, 'version' => 'auto']);
 ?>
 <a class="btn btn-secondary" type="button" data-dismiss="modal">

@@ -10,18 +10,18 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Prototype admin model.
@@ -105,6 +105,7 @@ abstract class AdminModel extends FormModel
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag',
+		'workflowstage_id' => 'batchWorkflowStage',
 	);
 
 	/**
@@ -1024,7 +1025,7 @@ abstract class AdminModel extends FormModel
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
-				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				if ($table->hasField('checked_out') && $table->checked_out && ($table->checked_out != $user->id))
 				{
 					Log::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), Log::WARNING, 'jerror');
 

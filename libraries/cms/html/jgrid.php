@@ -9,11 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for creating HTML Grids
@@ -69,7 +68,7 @@ abstract class JHtmlJGrid
 		if ($enabled)
 		{
 			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
-			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
+			$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
