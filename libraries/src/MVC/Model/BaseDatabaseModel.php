@@ -22,8 +22,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseQuery;
 
 /**
  * Base class for a database aware Joomla Model
