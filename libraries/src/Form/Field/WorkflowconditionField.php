@@ -62,7 +62,7 @@ class WorkflowconditionField extends ListField
 			}
 			else
 			{
-			  $this->extension = Factory::getApplication()->input->getCmd('extension');
+				$this->extension = Factory::getApplication()->input->getCmd('extension');
 			}
 		}
 

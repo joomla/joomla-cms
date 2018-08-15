@@ -225,27 +225,27 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		$query	->select($query->quoteName('wa.stage_id', 'stage_id'))
-				->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
-				->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
+		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
+			->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
+			->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
 
 		// Join over the workflow stages.
-		$query	->select(
-					$query->quoteName(
-					[
-						'ws.title',
-						'ws.condition',
-						'ws.workflow_id'
-					],
-					[
-						'stage_title',
-						'stage_condition',
-						'workflow_id'
-					]
-					)
-				)
-				->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
-				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+		$query->select(
+			$query->quoteName(
+				[
+					'ws.title',
+					'ws.condition',
+					'ws.workflow_id'
+				],
+				[
+					'stage_title',
+					'stage_condition',
+					'workflow_id'
+				]
+			)
+		)
+			->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
+			->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -331,13 +331,15 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($condition))
 		{
-      $query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
-    }
+			$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
+		}
 		elseif (!is_numeric($workflowStage))
 		{
-			$query->where($db->quoteName('ws.condition') . ' IN (' .
-        (int) ContentComponent::CONDITION_PUBLISHED . ',' .
-        (int) ContentComponent::CONDITION_UNPUBLISHED . ')');
+			$query->whereIn($db->quoteName('ws.condition'), [
+					ContentComponent::CONDITION_PUBLISHED,
+					ContentComponent::CONDITION_UNPUBLISHED
+				]
+			);
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
@@ -522,7 +524,9 @@ class ArticlesModel extends ListModel
 
 				$query->select($select)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON ' . $db->quoteName('t.from_stage_id') . ' IN(' . implode(',', $ids) . ')')
+					->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON '
+						. $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
+					)
 					->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
 					->where($db->quoteName('t.published') . ' = 1')
 					->where($db->quoteName('s.published') . ' = 1')
@@ -543,7 +547,7 @@ class ArticlesModel extends ListModel
 						// Update the transition text with final state value
 						$conditionName = $workflow->getConditionName($transition['stage_condition']);
 
-						$transitions[$key]['text'] .=  ' [' . \JText::_($conditionName) . ']';
+						$transitions[$key]['text'] .= ' [' . \JText::_($conditionName) . ']';
 					}
 				}
 

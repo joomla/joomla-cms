@@ -95,7 +95,9 @@ class StagesModel extends ListModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'workflow_id = ' . (int) $table->workflow_id;
+		return [
+			'workflow_id = ' . (int) $table->workflow_id
+		];
 	}
 
 	/**

@@ -292,11 +292,11 @@ class ContentComponent extends MVCComponent implements
 			$item->count_published   = 0;
 			$query                   = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
-						->from($db->quoteName('#__contentitem_tag_map', 'ct'))
-						->where($db->quoteName('ct.tag_id') . ' = ' . (int) $item->id)
-						->where($db->quoteName('ct.type_alias') . ' = ' . $db->quote($extension))
-						->join('LEFT', $join)
-						->group($db->quoteName('state'));
+				->from($db->quoteName('#__contentitem_tag_map', 'ct'))
+				->where($db->quoteName('ct.tag_id') . ' = ' . (int) $item->id)
+				->where($db->quoteName('ct.type_alias') . ' = ' . $db->quote($extension))
+				->join('LEFT', $join)
+				->group($db->quoteName('state'));
 			$db->setQuery($query);
 			$contents = $db->loadObjectList();
 
