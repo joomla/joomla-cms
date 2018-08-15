@@ -56,7 +56,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
-									<?php echo HTMLHelper::_('JVERSION'); ?>
+									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo Text::_('JDATE'); ?>

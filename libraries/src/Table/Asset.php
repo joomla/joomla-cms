@@ -176,7 +176,7 @@ class Asset extends Nested
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			if (property_exists($this, 'ordering'))
+			if ($this->hasField('ordering'))
 			{
 				$query->order('parent_id, ordering, lft');
 			}
