@@ -335,7 +335,8 @@ class ArticlesModel extends ListModel
 		}
 		elseif (!is_numeric($workflowStage))
 		{
-			$query->whereIn($db->quoteName('ws.condition'), [
+			$query->whereIn($db->quoteName('ws.condition'),
+				[
 					ContentComponent::CONDITION_PUBLISHED,
 					ContentComponent::CONDITION_UNPUBLISHED
 				]
@@ -524,7 +525,8 @@ class ArticlesModel extends ListModel
 
 				$query->select($select)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON '
+					->leftJoin(
+						$db->quoteName('#__workflow_stages', 's') . ' ON '
 						. $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
 					)
 					->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
