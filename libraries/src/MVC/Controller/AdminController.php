@@ -206,11 +206,40 @@ class AdminController extends BaseController
 		// Check for request forgeries
 		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
 
-		// Get items to publish from the request.
-		$cid   = $this->input->get('cid', array(), 'array');
-		$data  = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
+		// Get items to publish from the request
+		$cid = $this->input->get('cid', array(), 'array');
+
+		// Make sure the item ids are integers
+		$cid = ArrayHelper::toInteger($cid);
+
+		// Get the model and task
+		$model = $this->getModel();
 		$task  = $this->getTask();
-		$value = ArrayHelper::getValue($data, $task, 0, 'int');
+
+		// Check if extension implements workflow
+		$uses_workflow = is_callable(array($model, 'runTransition'));
+
+		if (!$uses_workflow)
+		{
+			/**
+			 * Mapping of task names to default states
+			 */
+			$defaultStates = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
+
+			// Treat unknown tasks mapped to this task as 'unpublish' (state: 0)
+			$value = ArrayHelper::getValue($defaultStates, $task, 0, 'int');
+		}
+		else
+		{
+			/**
+			 * Mapping of task names to transition IDs for default states.
+			 * (Future) query DB table #__workflow_transitions (or use API) to get (e.g. transition) [from_stage_id: -1 , condition: ContentComponent::CONDITION_PUBLISHED]
+			 */
+			$defaultStateTransitions = array('publish' => 2, 'unpublish' => 1, 'archive' => 4, 'trash' => 3);
+
+			// Treat unknown tasks mapped to this task as 'unpublish' (transition: 1)
+			$value = ArrayHelper::getValue($defaultStateTransitions, $task, 1, 'int');
+		}
 
 		if (empty($cid))
 		{
@@ -218,17 +247,41 @@ class AdminController extends BaseController
 		}
 		else
 		{
-			// Get the model.
-			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
-
-			// Publish the items.
+			// Modify state of the items / run workflow transitions
 			try
 			{
-				$model->publish($cid, $value);
-				$errors = $model->getErrors();
+				/**
+				 * Extension implements workflow
+				 * run workflow transitions regardless of workflow being "Hidden" (as it is always workflow "Active")
+				 */
+				if ($uses_workflow)
+				{
+					$transitionId = $value;
+					$errors = array();
+
+					foreach($cid as $pk)
+					{
+						$model->runTransition($pk, $transitionId);
+						print_r($model->getErrors());
+
+						foreach ($model->getErrors() as $err)
+						{
+							$errors[] = $err;
+						}
+					}
+				}
+
+				// Extension does not implement workflow
+				else
+				{
+					$model->publish($cid, $value);
+					$errors = $model->getErrors();
+				}
+				exit;
+
+				/**
+				 * Add task result messages
+				 */
 				$ntext = null;
 
 				if ($value === 1)
