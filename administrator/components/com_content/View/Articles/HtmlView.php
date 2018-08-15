@@ -173,6 +173,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
+			$toolbar->publish('articles.publish')->listCheck(true);
+
+			$toolbar->unpublish('articles.unpublish')->listCheck(true);
+
 			$toolbar->standardButton('featured')
 				->text('JFEATURE')
 				->task('articles.featured')
@@ -182,6 +186,8 @@ class HtmlView extends BaseHtmlView
 				->text('JUNFEATURE')
 				->task('articles.unfeatured')
 				->listCheck(true);
+
+			$toolbar->archive('articles.archive')->listCheck(true);
 
 			$toolbar->checkin('articles.checkin')->listCheck(true);
 		}
