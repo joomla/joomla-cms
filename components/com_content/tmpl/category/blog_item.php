@@ -30,7 +30,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 <?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 <div class="item-content">
-	<?php if ($this->item->condition == 3 || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
+	<?php if ($this->item->state_condition == 3 || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
 		|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
@@ -84,7 +84,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php endif; ?>
 
-	<?php if ($this->item->condition == 2 || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
+	<?php if ($this->item->state_condition == 2 || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
 		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
 	</div>
 	<?php endif; ?>
