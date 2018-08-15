@@ -13,11 +13,10 @@ use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
-use Zend\Diactoros\Response;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * InfoDataCollector
@@ -63,7 +62,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * @since  __DEPLOY_VERSION__
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -75,7 +74,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * @since  __DEPLOY_VERSION__
 	 * @return array
 	 */
-	public function getWidgets()
+	public function getWidgets(): array
 	{
 		return [
 			'info' => [
@@ -98,7 +97,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * @since  __DEPLOY_VERSION__
 	 * @return array
 	 */
-	public function getAssets()
+	public function getAssets(): array
 	{
 		return array(
 			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.js',
@@ -113,15 +112,10 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *
 	 * @return array Collected data
 	 */
-	public function collect()
+	public function collect(): array
 	{
 		/* @type SiteApplication|AdministratorApplication $application */
 		$application = Factory::getApplication();
-
-		$x = $application->getIdentity();
-
-		$t = $application->getTemplate(true);
-		$r = $application->getResponse();
 
 		return [
 			'phpVersion' => PHP_VERSION,
@@ -133,7 +127,16 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 		];
 	}
 
-	private function getIdentityInfo(User $identity)
+	/**
+	 * Get Identity info.
+	 *
+	 * @param   User  $identity  The identity.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @return array
+	 */
+	private function getIdentityInfo(User $identity): array
 	{
 		if (!$identity->id)
 		{
@@ -148,14 +151,32 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 		];
 	}
 
-	private function getResponseInfo(Response $response)
+	/**
+	 * Get response info.
+	 *
+	 * @param   ResponseInterface  $response  The response.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @return array
+	 */
+	private function getResponseInfo(ResponseInterface $response): array
 	{
 		return [
 			'status_code' => $response->getStatusCode()
 		];
 	}
 
-	private function getTemplateInfo($template)
+	/**
+	 * Get template info.
+	 *
+	 * @param   object  $template  The template.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @return array
+	 */
+	private function getTemplateInfo($template): array
 	{
 		return [
 			'template' => $template->template ?? '',
