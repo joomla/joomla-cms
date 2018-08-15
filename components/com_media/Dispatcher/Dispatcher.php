@@ -23,7 +23,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-class MediaDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Constructor for Dispatcher

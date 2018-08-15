@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
+use Joomla\CMS\Factory;
 
 /**
  * Dispatcher class for com_content

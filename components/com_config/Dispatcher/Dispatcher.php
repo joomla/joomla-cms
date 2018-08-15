@@ -19,7 +19,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  *
  * @since  4.0.0
  */
-class ConfigDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Method to check component access permission

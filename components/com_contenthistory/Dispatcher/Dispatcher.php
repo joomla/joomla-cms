@@ -12,15 +12,15 @@ namespace Joomla\Component\Contenthistory\Site\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Dispatcher class for com_contenthistory
  *
  * @since  4.0.0
  */
-class ContenthistoryDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Load the language
