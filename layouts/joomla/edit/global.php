@@ -44,6 +44,7 @@ if (isset($displayData->get('item')->id) && ($displayData->get('item')->id !== n
 {
 	array_unshift($fields, 'transition');
 }
+
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 
 if (!$saveHistory)
