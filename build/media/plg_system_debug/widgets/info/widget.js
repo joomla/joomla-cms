@@ -32,8 +32,6 @@
                     .append($('<td />').text(data.phpVersion));
                 this.$el.append(tr);
 
-                val l = new List
-
                 tr = $('<tr />')
                     .append($('<td />').text('Identity'))
                     .append($('<td />').text(data.identity.type));
