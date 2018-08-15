@@ -52,7 +52,7 @@ class StatsHelper
 
 			$rows[$i] = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_PHP');
-			$rows[$i]->data  = phpversion();
+			$rows[$i]->data  = PHP_VERSION;
 			$i++;
 
 			$rows[$i] = new \stdClass;
@@ -94,7 +94,8 @@ class StatsHelper
 			$query->clear()
 				->select('COUNT(id) AS count_items')
 				->from('#__content')
-				->where('state = 1');
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
+				->where('ws.condition = 1');
 			$db->setQuery($query);
 
 			try
@@ -128,7 +129,8 @@ class StatsHelper
 			$query->clear()
 				->select('SUM(hits) AS count_hits')
 				->from('#__content')
-				->where('state = 1');
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
+				->where('ws.condition = 1');
 			$db->setQuery($query);
 
 			try

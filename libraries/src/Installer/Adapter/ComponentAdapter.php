@@ -11,17 +11,18 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Database\ParameterType;
 
 /**
  * Component installer
@@ -365,12 +366,15 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
+		$extensionId = $this->extension->extension_id;
+
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -382,11 +386,16 @@ class ComponentAdapter extends InstallerAdapter
 			$asset->delete();
 		}
 
+		$extensionName = $this->element;
+		$extensionNameWithWildcard = $extensionName . '.%';
+
 		// Remove categories for this component
 		$query->clear()
 			->delete('#__categories')
-			->where('extension = ' . $db->quote($this->element), 'OR')
-			->where('extension LIKE ' . $db->quote($this->element . '.%'));
+			->where('extension = :extension')
+			->where('extension LIKE :extension_wildcard')
+			->bind(':extension', $extensionName)
+			->bind(':extension_wildcard', $extensionNameWithWildcard);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -586,15 +595,22 @@ class ComponentAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
+			$name = $this->extension->name;
+			$type = $this->extension->type;
+			$element = $this->extension->element;
+
 			// Try to delete existing failed records before retrying
 			$db = $this->db;
 
 			$query = $db->getQuery(true)
-				->select($db->qn('extension_id'))
-				->from($db->qn('#__extensions'))
-				->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
-				->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
-				->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('name') . ' = :name')
+				->where($db->quoteName('type') . ' = :type')
+				->where($db->quoteName('element') . ' = :element')
+				->bind(':name', $name)
+				->bind(':type', $type)
+				->bind(':element', $element);
 
 			$db->setQuery($query);
 
@@ -773,14 +789,22 @@ class ComponentAdapter extends InstallerAdapter
 		// If we are told to delete existing extension entries then do so.
 		if ($deleteExisting)
 		{
-			$db = $this->parent->getDbo();
+			$name = $this->extension->name;
+			$type = $this->extension->type;
+			$element = $this->extension->element;
+
+			// Try to delete existing failed records before retrying
+			$db = $this->db;
 
 			$query = $db->getQuery(true)
-				->select($db->qn('extension_id'))
-				->from($db->qn('#__extensions'))
-				->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
-				->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
-				->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('name') . ' = :name')
+				->where($db->quoteName('type') . ' = :type')
+				->where($db->quoteName('element') . ' = :element')
+				->bind(':name', $name)
+				->bind(':type', $type)
+				->bind(':element', $element);
 
 			$db->setQuery($query);
 
@@ -848,7 +872,6 @@ class ComponentAdapter extends InstallerAdapter
 	protected function _buildAdminMenus($component_id = null)
 	{
 		$db     = $this->parent->getDbo();
-
 		$option = $this->element;
 
 		// If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
@@ -859,7 +882,8 @@ class ComponentAdapter extends InstallerAdapter
 			->where('m.parent_id = 1')
 			->where('m.client_id = 1')
 			->where('m.menutype = ' . $db->quote('main'))
-			->where('e.element = ' . $db->quote($option));
+			->where('e.element = :element')
+			->bind(':element', $option);
 
 		$db->setQuery($query);
 
@@ -1068,8 +1092,9 @@ class ComponentAdapter extends InstallerAdapter
 			->select('id')
 			->from('#__menu')
 			->where($db->quoteName('client_id') . ' = 1')
-			->where($db->quoteName('menutype') . ' = ' . $db->q('main'))
-			->where($db->quoteName('component_id') . ' = ' . (int) $id);
+			->where($db->quoteName('menutype') . ' = ' . $db->quote('main'))
+			->where($db->quoteName('component_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -1136,7 +1161,7 @@ class ComponentAdapter extends InstallerAdapter
 			->where('type = ' . $db->quote('component'))
 			->where('('
 				. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
-				. 'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false)
+				. 'link LIKE ' . $db->quote($db->escape('index.php?option=' . $option . '&') . '%', false)
 				. ')');
 
 		if (isset($clientId))
@@ -1293,16 +1318,27 @@ class ComponentAdapter extends InstallerAdapter
 
 		if (!$table->bind($data) || !$table->check() || !$table->store())
 		{
+			$menutype     = $data['menutype'];
+			$link         = $data['link'];
+			$type         = $data['type'];
+			$menuParentId = $data['parent_id'];
+			$home         = $data['home'];
+
 			// The menu item already exists. Delete it and retry instead of throwing an error.
 			$query = $db->getQuery(true)
 				->select('id')
 				->from('#__menu')
-				->where('menutype = ' . $db->q($data['menutype']))
+				->where('menutype = :menutype')
 				->where('client_id = 1')
-				->where('link = ' . $db->q($data['link']))
-				->where('type = ' . $db->q($data['type']))
-				->where('parent_id = ' . $db->q($data['parent_id']))
-				->where('home = ' . $db->q($data['home']));
+				->where('link = :link')
+				->where('type = :type')
+				->where('parent_id = :parent_id')
+				->where('home = :home')
+				->bind(':menutype', $menutype)
+				->bind(':link', $link)
+				->bind(':type', $type)
+				->bind(':parent_id', $menuParentId, ParameterType::INTEGER)
+				->bind(':home', $home, ParameterType::BOOLEAN);
 
 			$db->setQuery($query);
 			$menu_id = $db->loadResult();

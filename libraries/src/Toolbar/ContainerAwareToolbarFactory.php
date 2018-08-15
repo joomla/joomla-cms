@@ -10,12 +10,12 @@ namespace Joomla\CMS\Toolbar;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Default factory for creating toolbar objects

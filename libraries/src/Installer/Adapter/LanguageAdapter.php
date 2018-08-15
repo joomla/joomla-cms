@@ -12,18 +12,19 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 
 /**
  * Language installer
@@ -135,10 +136,13 @@ class LanguageAdapter extends InstallerAdapter
 			}
 		}
 
+		$extensionId = $this->extension->extension_id;
+
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -612,8 +616,8 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the sef value of all current content languages.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('sef'))
-			->from($db->qn('#__languages'));
+			->select($db->quoteName('sef'))
+			->from($db->quoteName('#__languages'));
 		$db->setQuery($query);
 
 		$siteLanguages = $db->loadObjectList();

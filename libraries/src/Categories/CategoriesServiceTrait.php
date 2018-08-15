@@ -11,6 +11,7 @@ namespace Joomla\CMS\Categories;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 
 /**
  * Trait for component categories service.
@@ -205,6 +206,18 @@ trait CategoriesServiceTrait
 				}
 			}
 		}
+	}
+
+	/**
+	 * Prepares the category form
+	 *
+	 * @param   Form          $form  The form to change
+	 * @param   array|object  $data  The form data
+	 *
+	 * @return void
+	 */
+	public function prepareForm(Form $form, $data)
+	{
 	}
 
 	/**
