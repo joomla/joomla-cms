@@ -37,18 +37,18 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 			<div class="col-md-9">
 				<div class="control-group">
 					<div class="control-label">
-						<?php echo $this->form->getLabel('from_state_id'); ?>
+						<?php echo $this->form->getLabel('from_stage_id'); ?>
 					</div>
 					<div class="controls">
-						<?php echo $this->form->getInput('from_state_id'); ?>
+						<?php echo $this->form->getInput('from_stage_id'); ?>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="control-label">
-						<?php echo $this->form->getLabel('to_state_id'); ?>
+						<?php echo $this->form->getLabel('to_stage_id'); ?>
 					</div>
 					<div class="controls">
-						<?php echo $this->form->getInput('to_state_id'); ?>
+						<?php echo $this->form->getInput('to_stage_id'); ?>
 					</div>
 				</div>
 				<?php echo $this->form->getInput('description'); ?>

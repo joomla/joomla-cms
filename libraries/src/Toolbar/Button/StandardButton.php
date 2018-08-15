@@ -118,6 +118,7 @@ class StandardButton extends BasicButton
 				return ' btn btn-sm btn-danger';
 
 			case 'trash':
+			case 'delete':
 				return ' btn btn-sm btn-danger';
 
 			default:

@@ -12,10 +12,10 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * JDocument metas renderer
