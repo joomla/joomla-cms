@@ -82,7 +82,7 @@ class Workflow
 	/**
 	 * Class constructor
 	 *
-	 * @param   array $options  Array of options
+	 * @param   array  $options  Array of options
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -102,7 +102,7 @@ class Workflow
 	/**
 	 * Returns the translated condition name, based on the given number
 	 *
-	 * @param   int $value  The condition ID
+	 * @param   int  $value  The condition ID
 	 *
 	 * @return  string
 	 *

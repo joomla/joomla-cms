@@ -199,17 +199,17 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 										<?php
 											switch ($item->stage_condition) :
-    											case ContentComponent::CONDITION_TRASHED:
+												case ContentComponent::CONDITION_TRASHED:
 													$icon = 'trash';
 													break;
 												case ContentComponent::CONDITION_UNPUBLISHED:
 													$icon = 'unpublish';
 													break;
-											    case ContentComponent::CONDITION_ARCHIVED:
+												case ContentComponent::CONDITION_ARCHIVED:
 													$icon = 'archive';
 													break;
-                                                default:
-                                                    $icon = 'publish';
+												default:
+													$icon = 'publish';
 											endswitch;
 										?>
 										<?php if ($hasTransitions) : ?>
