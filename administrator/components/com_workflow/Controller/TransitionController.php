@@ -10,21 +10,20 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Transition controller
  *
  * @since  __DEPLOY_VERSION__
  */
 class TransitionController extends FormController
 {
 	/**
-	 * The workflow for which is that state
+	 * The workflow where the transition takes place
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
@@ -32,7 +31,7 @@ class TransitionController extends FormController
 	protected $workflowID;
 
 	/**
-	 * The workflow for which is that status
+	 * The extension 
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
@@ -43,14 +42,14 @@ class TransitionController extends FormController
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   \CMSApplication      $app      The JApplication for the dispatcher
+	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 

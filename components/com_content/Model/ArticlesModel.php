@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
@@ -50,7 +51,7 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
-				'state_condition', 'ws.condition',
+				'stage_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -240,12 +241,12 @@ class ArticlesModel extends ListModel
 		}
 
 		// Join over the states.
-		$query->select('wa.state_id AS state_id')
+		$query->select('wa.stage_id AS stage_id')
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
 
 		// Join over the states.
 		$query->select('ws.title AS state_title, ws.condition AS state_condition')
-			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
+			->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-
 	<fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
-
 		<field
 			name="id"
 			type="text"
@@ -12,7 +10,6 @@
 			size="10"
 			readonly="true"
 		/>
-
 		<field
 			name="title"
 			type="text"
@@ -22,22 +19,22 @@
 			required="true"
 		/>
 		<field
-			name="from_state_id"
+			name="from_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_FROM_STATE"
+			label="COM_WORKFLOW_FROM_STAGE"
 			required="true"
-			sql_select="id as value, title as from_state_id"
-			sql_from="#__workflow_states"
-		>
+			sql_select="id as value, title as from_stage_id"
+			sql_from="#__workflow_stages"
+			>
 			<option value="-1">JALL</option>
 		</field>
 		<field
-			name="to_state_id"
+			name="to_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_TO_STATE"
+			label="COM_WORKFLOW_TO_STAGE"
 			required="true"
-			sql_select="id as value, title as to_state_id"
-			sql_from="#__workflow_states"
+			sql_select="id as value, title as to_stage_id"
+			sql_from="#__workflow_stages"
 		/>
 		<field
 			name="description"
@@ -45,30 +42,25 @@
 			label="COM_WORKFLOW_FIELD_DESC_LABEL"
 			class="input-xxlarge input-large-text"
 		/>
-
 	</fieldset>
 
-	<fieldset name="params"
-	          label="COM_WORKFLOW_PARAMS_LABEL">
+	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
 			type="status"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
-		        default="1"
+			default="1"
 			filter="-2,0,1"
 		/>
-
 	</fieldset>
 
-	<fieldset
-		name="permissions"
-		label="JCONFIG_PERMISSIONS_LABEL"
-	>
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
 		<field
 			name="asset_id"
 			type="hidden"
-			filter="unset"/>
+			filter="unset"
+		/>
 		<field
 			name="rules"
 			type="rules"

@@ -11,8 +11,8 @@ namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Image\Image as FrameworkImage;
 use Joomla\CMS\Log\Log;
+use Joomla\Image\Image as FrameworkImage;
 
 /**
  * Class to manipulate an image.

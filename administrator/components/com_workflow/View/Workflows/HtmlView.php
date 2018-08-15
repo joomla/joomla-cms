@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Workflows view class for the Workflow package.
@@ -122,7 +123,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension);
 
-		ToolbarHelper::title(\JText::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
+		ToolbarHelper::title(Text::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
 
 		if ($canDo->get('core.create'))
 		{
@@ -133,7 +134,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::publishList('workflows.publish');
 			ToolbarHelper::unpublishList('workflows.unpublish');
-			ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+			ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 
 		if ($canDo->get('core.admin'))
@@ -143,7 +144,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
+			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
@@ -168,9 +169,9 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.published' => \JText::_('JSTATUS'),
-			'a.title'     => \JText::_('JGLOBAL_TITLE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+			'a.published' => Text::_('JSTATUS'),
+			'a.title'     => Text::_('JGLOBAL_TITLE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

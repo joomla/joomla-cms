@@ -1,9 +1,7 @@
 <?php
 /**
- * Item Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,11 +15,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Model class for workflow
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -40,7 +37,7 @@ class WorkflowModel extends AdminModel
 	{
 		parent::populateState();
 
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
 		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
@@ -82,8 +79,8 @@ class WorkflowModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$user					= \JFactory::getUser();
-		$app					= \JFactory::getApplication();
+		$user					= Factory::getUser();
+		$app					= Factory::getApplication();
 		$input                  = $app->input;
 		$context				= $this->option . '.' . $this->name;
 		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
@@ -107,21 +104,21 @@ class WorkflowModel extends AdminModel
 
 		$result = parent::save($data);
 
-		// Create a default state
+		// Create a default stage
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
-			$state = $this->getTable('State');
+			$stage = $this->getTable('Stage');
 
-			$newstate = new \stdClass;
+			$newstage = new \stdClass;
 
-			$newstate->workflow_id = (int) $this->getState($this->getName() . '.id');
-			$newstate->title = \JText::_('COM_WORKFLOW_PUBLISHED');
-			$newstate->description = '';
-			$newstate->published = 1;
-			$newstate->condition = 1;
-			$newstate->default = 1;
+			$newstage->workflow_id = (int) $this->getState($this->getName() . '.id');
+			$newstage->title = Text::_('COM_WORKFLOW_PUBLISHED');
+			$newstage->description = '';
+			$newstage->published = 1;
+			$newstage->condition = 1;
+			$newstage->default = 1;
 
-			$state->save($newstate);
+			$stage->save($newstage);
 		}
 
 		return $result;
@@ -195,7 +192,7 @@ class WorkflowModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState(
+		$data = Factory::getApplication()->getUserState(
 			'com_workflow.edit.workflow.data',
 			array()
 		);
@@ -262,7 +259,7 @@ class WorkflowModel extends AdminModel
 		{
 			if ($table->published !== 1)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
@@ -358,7 +355,7 @@ class WorkflowModel extends AdminModel
 		{
 			if ($value != 1 && $table->default)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 				unset($pks[$i]);
 				break;
 			}

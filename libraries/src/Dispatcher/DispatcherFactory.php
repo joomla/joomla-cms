@@ -11,8 +11,8 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\Input\Input;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\Input\Input;
 
 /**
  * Namesapce based implementation of the DispatcherFactoryInterface

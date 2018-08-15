@@ -138,12 +138,12 @@ $js = "
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
 							$hasTransitions = count($transitions) > 0;
 
 							$default = [
-								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '', $this->escape($item->stage_title)),
 								JHtml::_('select.option', '-1', '--------', ['disable' => true])
 							];
 
@@ -182,7 +182,7 @@ $js = "
 
 											$icon = 'publish';
 
-											switch ($item->state_condition) :
+											switch ($item->stage_condition) :
 
 												case Workflow::TRASHED:
 													$icon = 'trash';
@@ -202,7 +202,7 @@ $js = "
 												<span class="icon-<?php echo $icon; ?>"></span>
 											<?php endif; ?>
 										</div>
-										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<div class="mr-auto"><?php echo $this->escape($item->stage_title); ?></div>
 										<?php if ($hasTransitions) : ?>
 											<div class="d-none">
 												<?php
@@ -210,7 +210,7 @@ $js = "
 													'id'	=> 'transition-select_' . (int) $item->id,
 													'list.attr' => [
 														'class'		=> 'custom-select custom-select-sm  form-control form-control-sm',
-														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
+														'onchange'		=> "Joomla.listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
 												];
 												echo HTMLHelper::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
 												?>

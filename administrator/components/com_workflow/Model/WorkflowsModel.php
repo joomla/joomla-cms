@@ -1,9 +1,7 @@
 <?php
 /**
- * Items Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,9 +12,10 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 
 /**
- * Model class for items
+ * Model class for workflows
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -66,7 +65,7 @@ class WorkflowsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'w.ordering', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
@@ -144,7 +143,7 @@ class WorkflowsModel extends ListModel
 		$query = $db->getQuery(true);
 
 		$query	->select('workflow_id, count(*) AS count')
-				->from($db->quoteName('#__workflow_states'))
+				->from($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . ' IN(' . implode(',', $ids) . ')')
 				->where($db->quoteName('published') . '>= 0')
 				->group('workflow_id');
@@ -255,7 +254,7 @@ class WorkflowsModel extends ListModel
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

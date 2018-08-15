@@ -1,9 +1,7 @@
 <?php
 /**
- * Item Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,17 +13,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Model class for stage
  *
  * @since  __DEPLOY_VERSION__
  */
-class StateModel extends AdminModel
+class StageModel extends AdminModel
 {
 	/**
 	 * Auto-populate the model state.
@@ -83,7 +79,7 @@ class StateModel extends AdminModel
 	public function save($data)
 	{
 		$context             = $this->option . '.' . $this->name;
-		$app                 = \JFactory::getApplication();
+		$app                 = Factory::getApplication();
 		$input               = $app->input;
 		$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
@@ -123,13 +119,13 @@ class StateModel extends AdminModel
 	{
 		if (empty($record->id) || $record->published != -2)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
 
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$parts = explode('.', $extension);
 
@@ -137,7 +133,7 @@ class StateModel extends AdminModel
 
 		if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -185,7 +181,7 @@ class StateModel extends AdminModel
 		// Get the form.
 		$form = $this->loadForm(
 			'com_workflow.state',
-			'state',
+			'stage',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData
@@ -236,7 +232,7 @@ class StateModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState(
+		$data = Factory::getApplication()->getUserState(
 			'com_workflow.edit.state.data',
 			array()
 		);
@@ -267,7 +263,7 @@ class StateModel extends AdminModel
 		{
 			if (!$table->published)
 			{
-				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
+				$this->setError(Text::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
 				return false;
 			}
@@ -320,7 +316,7 @@ class StateModel extends AdminModel
 				if ($table->load(array('id' => $pk)) && $table->default)
 				{
 					// Prune items that you can't change.
-					$app->enqueueMessage(\JText::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 					unset($pks[$i]);
 				}
 			}

@@ -1,9 +1,7 @@
 <?php
 /**
- * States model for com_workflow
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,13 +12,14 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 
 /**
- * Model class for items
+ * Model class for stages
  *
  * @since  __DEPLOY_VERSION__
  */
-class StatesModel extends ListModel
+class StagesModel extends ListModel
 {
 	/**
 	 * Constructor.
@@ -64,7 +63,7 @@ class StatesModel extends ListModel
 	 */
 	protected function populateState($ordering = 's.ordering', $direction = 'ASC')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
 		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
@@ -110,7 +109,7 @@ class StatesModel extends ListModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getTable($type = 'State', $prefix = 'Administrator', $config = array())
+	public function getTable($type = 'Stage', $prefix = 'Administrator', $config = array())
 	{
 		return parent::getTable($type, $prefix, $config);
 	}
@@ -141,7 +140,7 @@ class StatesModel extends ListModel
 
 		$query
 			->select($select)
-			->from($db->quoteName('#__workflow_states', 's'));
+			->from($db->quoteName('#__workflow_stages', 's'));
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))

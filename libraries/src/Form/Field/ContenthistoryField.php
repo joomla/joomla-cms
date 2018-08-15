@@ -11,9 +11,9 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 
 /**
  * Field to select Content History from a modal list.

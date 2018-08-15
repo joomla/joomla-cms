@@ -14,7 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Workflow\Administrator\Helper\StateHelper;
+use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * View class to add or edit Workflow
@@ -122,9 +123,9 @@ class HtmlView extends BaseHtmlView
 		$userId     = $user->id;
 		$isNew      = empty($this->item->id);
 
-		$canDo = StateHelper::getActions($this->extension, 'transition', $this->item->id);
+		$canDo = StageHelper::getActions($this->extension, 'transition', $this->item->id);
 
-		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_TRANSITION_ADD') : \JText::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
+		ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_TRANSITION_ADD') : Text::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
 
 		$toolbarButtons = [];
 

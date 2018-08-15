@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\States;
+namespace Joomla\Component\Workflow\Administrator\View\Stages;
 
 defined('_JEXEC') or die;
 
@@ -16,29 +16,30 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Language\Text;
 
 /**
- * Workflows view class for the Workflow package.
+ * Stages view class for the Workflow package.
  *
  * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * An array of states
+	 * An array of stages
 	 *
 	 * @var     array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $states;
+	protected $stages;
 
 	/**
-	 * The model state
+	 * The model stage
 	 *
 	 * @var     object
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $state;
+	protected $stage;
 
 	/**
 	 * The HTML for displaying sidebar
@@ -106,7 +107,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->state         = $this->get('State');
-		$this->states        = $this->get('Items');
+		$this->stages        = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
@@ -114,15 +115,15 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
 
-		WorkflowHelper::addSubmenu('states');
+		WorkflowHelper::addSubmenu('stages');
 
 		$this->sidebar       = \JHtmlSidebar::render();
 
-		if (!empty($this->states))
+		if (!empty($this->stages))
 		{
 			$workflow = new Workflow(['extension' => 'com_content']);
 
-			foreach ($this->states as $i => $item)
+			foreach ($this->stages as $i => $item)
 			{
 				$item->condition = $workflow->getConditionName($item->condition);
 			}
@@ -146,35 +147,35 @@ class HtmlView extends BaseHtmlView
 
 		$workflow = !empty($this->state->get('active_workflow', '')) ? $this->state->get('active_workflow', '') . ': ' : '';
 
-		ToolbarHelper::title(\JText::sprintf('COM_WORKFLOW_STATES_LIST', $this->escape($workflow)), 'address contact');
+		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', $this->escape($workflow)), 'address contact');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('state.add');
+			ToolbarHelper::addNew('stage.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('states.publish');
-			ToolbarHelper::unpublishList('states.unpublish');
-			ToolbarHelper::makeDefault('states.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+			ToolbarHelper::publishList('stages.publish');
+			ToolbarHelper::unpublishList('stages.unpublish');
+			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::checkin('states.checkin', 'JTOOLBAR_CHECKIN', true);
+			ToolbarHelper::checkin('stages.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
 		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'states.delete');
+			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'stages.delete');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('states.trash');
+			ToolbarHelper::trash('stages.trash');
 		}
 
-		ToolbarHelper::help('JHELP_WORKFLOW_STATES_LIST');
+		ToolbarHelper::help('JHELP_WORKFLOW_STAGES_LIST');
 	}
 
 	/**
@@ -187,9 +188,9 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.published' => \JText::_('JSTATUS'),
-			'a.title'     => \JText::_('JGLOBAL_TITLE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+			'a.published' => Text::_('JSTATUS'),
+			'a.title'     => Text::_('JGLOBAL_TITLE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

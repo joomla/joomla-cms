@@ -655,10 +655,12 @@ iframe {
   margin-right: .5rem; }
 
 .modal .btn-primary:not([href]),
-.modal .btn-success:not([href]) {
+.modal .btn-success:not([href]),
+.modal .btn-secondary:not([href]) {
   color: #fff; }
   .modal .btn-primary:not([href]):hover,
-  .modal .btn-success:not([href]):hover {
+  .modal .btn-success:not([href]):hover,
+  .modal .btn-secondary:not([href]):hover {
     color: #fff; }
 
 .modal-header {

@@ -13,13 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
- * Category table
+ * Stage table
  *
  * @since  __DEPLOY_VERSION__
  */
-class StateTable extends Table
+class StageTable extends Table
 {
 	/**
 	 * Constructor
@@ -30,13 +31,13 @@ class StateTable extends Table
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
-		parent::__construct('#__workflow_states', 'id', $db);
+		parent::__construct('#__workflow_stages', 'id', $db);
 
 		$this->access = (int) Factory::getConfig()->get('access');
 	}
 
 	/**
-	 * Deletes workflow with transition and states.
+	 * Deletes workflow with transition and stages.
 	 *
 	 * @param   int  $pk  Extension ids to delete.
 	 *
@@ -49,25 +50,25 @@ class StateTable extends Table
 	public function delete($pk = null)
 	{
 		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_workflows'))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('id', 'title')))
-			->from($db->quoteName('#__workflow_states'))
+			->from($db->quoteName('#__workflow_stages'))
 			->where($db->quoteName('id') . ' = ' . (int) $pk);
 		$db->setQuery($query);
-		$state = $db->loadResult();
+		$stage = $db->loadResult();
 
-		if ($state->default)
+		if ($stage->default)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $state->title), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $stage->title), 'error');
 
 			return false;
 		}
@@ -77,8 +78,8 @@ class StateTable extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('to_state_id') . ' = ' . (int) $pk, 'OR')
-				->where($db->quoteName('from_state_id') . ' = ' . (int) $pk);
+				->where($db->quoteName('to_stage_id') . ' = ' . (int) $pk, 'OR')
+				->where($db->quoteName('from_stage_id') . ' = ' . (int) $pk);
 
 			$db->setQuery($query)->execute();
 
@@ -86,7 +87,7 @@ class StateTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(\JText::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $state->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $stage->title, $e->getMessage()), 'error');
 		}
 
 		return false;
@@ -115,7 +116,7 @@ class StateTable extends Table
 
 		if (trim($this->title) === '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
 
 			return false;
 		}
@@ -124,7 +125,7 @@ class StateTable extends Table
 		{
 			if ((int) $this->published !== 1)
 			{
-				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
@@ -136,17 +137,17 @@ class StateTable extends Table
 
 			$query
 				->select($db->quoteName('id'))
-				->from($db->quoteName('#__workflow_states'))
+				->from($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . '=' . $this->workflow_id)
 				->where($db->quoteName('default') . '= 1');
 
-			$state = $db->setQuery($query)->loadObject();
+			$stage = $db->setQuery($query)->loadObject();
 
-			if (empty($state) || $state->id === $this->id)
+			if (empty($stage) || $stage->id === $this->id)
 			{
 				$this->default = '1';
 
-				$this->setError(\JText::_('COM_WORKFLOW_DISABLE_DEFAULT'));
+				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
 			}
@@ -167,7 +168,7 @@ class StateTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$table = new StateTable($this->getDbo());
+		$table = new StageTable($this->getDbo());
 
 		if ($this->default == '1')
 		{
@@ -197,7 +198,7 @@ class StateTable extends Table
 		$workflow = new WorkflowTable($this->getDbo());
 		$workflow->load($this->workflow_id);
 
-		return $workflow->extension . '.state.' . (int) $this->$k;
+		return $workflow->extension . '.stage.' . (int) $this->$k;
 	}
 
 	/**

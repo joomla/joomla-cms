@@ -14,7 +14,6 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Form Field class for the Joomla Platform.
