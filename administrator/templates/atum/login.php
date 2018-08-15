@@ -51,7 +51,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $this->setMetaData('theme-color', '#1c3d5c');
 
 // Set page title
-$this->setTitle(Text::_('JACTION_LOGIN_ADMIN') . ' - ' . $sitename);
+$this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 
 ?>
 <!DOCTYPE html>
