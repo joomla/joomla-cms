@@ -13,9 +13,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
-<fieldset class="adminform">
-	<legend><?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
+<div class="adminform">
 	<table class="table">
+		<caption><?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></caption>
 		<thead>
 			<tr>
 				<th scope="col" style="width:650px">
@@ -26,11 +26,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<?php foreach ($this->directory as $dir => $info) : ?>
 				<tr>
@@ -44,4 +39,4 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-</fieldset>
+</div>
