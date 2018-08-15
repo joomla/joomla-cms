@@ -13,11 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Registry\Registry;
 
 /**
  * Component helper class

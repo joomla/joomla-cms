@@ -10,10 +10,10 @@ namespace Joomla\CMS\Form\Rule;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
 
 /**
  * Form Rule class for the Joomla Platform.

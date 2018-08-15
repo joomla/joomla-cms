@@ -12,15 +12,14 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Factory;
-
-\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
  * View class for a list of articles.
@@ -98,7 +97,7 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() !== 'modal')
 		{
-			\ContentHelper::addSubmenu('articles');
+			ContentHelper::addSubmenu('articles');
 		}
 
 		$this->items         = $this->get('Items');
@@ -107,6 +106,7 @@ class HtmlView extends BaseHtmlView
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->transitions   = $this->get('Transitions');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
@@ -173,10 +173,6 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			$toolbar->publish('articles.publish')->listCheck(true);
-
-			$toolbar->unpublish('articles.unpublish')->listCheck(true);
-
 			$toolbar->standardButton('featured')
 				->text('JFEATURE')
 				->task('articles.featured')
@@ -187,15 +183,13 @@ class HtmlView extends BaseHtmlView
 				->task('articles.unfeatured')
 				->listCheck(true);
 
-			$toolbar->archive('articles.archive')->listCheck(true);
-
 			$toolbar->checkin('articles.checkin')->listCheck(true);
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_content')
 			&& $user->authorise('core.edit', 'com_content')
-			&& $user->authorise('core.edit.state', 'com_content'))
+			&& $user->authorise('core.execute.transition', 'com_content'))
 		{
 			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
@@ -203,7 +197,7 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.condition') == Workflow::TRASHED && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

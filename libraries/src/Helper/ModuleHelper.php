@@ -11,12 +11,12 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\LanguageHelper;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Registry\Registry;
 
 /**
  * Module helper class

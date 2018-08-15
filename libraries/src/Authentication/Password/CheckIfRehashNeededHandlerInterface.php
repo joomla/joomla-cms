@@ -10,10 +10,6 @@ namespace Joomla\CMS\Authentication\Password;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Authentication\Password\HandlerInterface;
-use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\User\UserHelper;
-
 /**
  * Interface for a password handler which supports checking if the password requires rehashing
  *

@@ -26,15 +26,9 @@ $fullWidth = 1;
 // Add JavaScript Frameworks
 HTMLHelper::_('behavior.core');
 
-// Add template js
-HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
-
 // Add Stylesheets
 HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
-
-// Alerts progressive enhancement
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Template color
 if ($this->params->get('templateColor'))

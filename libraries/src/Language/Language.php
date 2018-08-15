@@ -10,8 +10,8 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\String\StringHelper;
 
 /**
  * Allows for quoting in language .ini files.

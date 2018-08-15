@@ -183,6 +183,11 @@ const copyFiles = (options) => {
       let tinyXml = fs.readFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
       tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
       fs.writeFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
+
+      // Remove that sourcemap...
+      let tinyWrongMap = fs.readFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
+      tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
+      fs.writeFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;
