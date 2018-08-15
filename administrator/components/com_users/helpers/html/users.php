@@ -62,7 +62,7 @@ class JHtmlUsers
 		$title = Text::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . Route::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-			. '" class="hasTooltip btn btn-secondary btn-sm" title="' . $title . '"><span class="fa fa-plus">'
+			. '" class="hasTooltip btn btn-secondary btn-sm" title="' . $title . '"><span class="fa fa-plus" aria-hidden="true">'
 			. '</span> ' . $title . '</a>';
 	}
 
@@ -86,7 +86,7 @@ class JHtmlUsers
 		$title = Text::_('COM_USERS_FILTER_NOTES');
 
 		return '<a href="' . Route::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
-			. '" class="dropdown-item"><span class="fa fa-list"></span> ' . $title . '</a>';
+			. '" class="dropdown-item"><span class="fa fa-list" aria-hidden="true"></span> ' . $title . '</a>';
 	}
 
 	/**
@@ -109,7 +109,7 @@ class JHtmlUsers
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
-			. '" data-toggle="modal" class="dropdown-item"><span class="fa fa-eye"></span> ' . $title . '</a>';
+			. '" data-toggle="modal" class="dropdown-item"><span class="fa fa-eye" aria-hidden="true"></span> ' . $title . '</a>';
 	}
 
 	/**
