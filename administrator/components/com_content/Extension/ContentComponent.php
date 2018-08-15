@@ -92,7 +92,7 @@ class ContentComponent extends MVCComponent implements
 	 * If required, some initial set up can be done from services of the container, eg.
 	 * registering HTML services.
 	 *
-	 * @param   ContainerInterface $container The container
+	 * @param   ContainerInterface  $container  The container
 	 *
 	 * @return  void
 	 *
@@ -111,8 +111,8 @@ class ContentComponent extends MVCComponent implements
 	 * Returns a valid section for the given section. If it is not valid then null
 	 * is returned.
 	 *
-	 * @param   string $section The section to get the mapping for
-	 * @param   object $item    The item
+	 * @param   string  $section  The section to get the mapping for
+	 * @param   object  $item     The item
 	 *
 	 * @return  string|null  The new section
 	 *
@@ -166,7 +166,7 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Returns the table for the count items functions for the given section.
 	 *
-	 * @param   string $section The section
+	 * @param   string  $section  The section
 	 *
 	 * @return  string|null
 	 *
@@ -180,8 +180,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Method to filter transitions by given id of state.
 	 *
-	 * @param   array $transitions The Transitions to filter
-	 * @param   int   $pk          Id of the state
+	 * @param   array  $transitions  The Transitions to filter
+	 * @param   int    $pk           Id of the state
 	 *
 	 * @return  array
 	 *
@@ -195,8 +195,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   \stdClass[] $items   The category objects
-	 * @param   string      $section The section
+	 * @param   \stdClass[]  $items    The category objects
+	 * @param   string       $section  The section
 	 *
 	 * @return  void
 	 *
@@ -256,8 +256,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   \stdClass[] $items     The content objects
-	 * @param   string      $extension The name of the active view.
+	 * @param   \stdClass[]  $items      The content objects
+	 * @param   string       $extension  The name of the active view.
 	 *
 	 * @return  void
 	 *
@@ -275,7 +275,7 @@ class ContentComponent extends MVCComponent implements
 			$section = $parts[1];
 		}
 
-		$join  = $db->quoteName('#__content') . ' AS c ON ct.content_item_id=c.id';
+		$join  = $db->quoteName('#__content', 'c') . ' ON ct.content_item_id=c.id';
 		$state = $db->quoteName('state');
 
 		if ($section === 'category')
@@ -328,8 +328,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Prepares the category form
 	 *
-	 * @param   Form         $form The form to prepare
-	 * @param   array|object $data The form data
+	 * @param   Form          $form  The form to prepare
+	 * @param   array|object  $data  The form data
 	 *
 	 * @return void
 	 */
@@ -341,8 +341,8 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * Method to change state of multiple ids
 	 *
-	 * @param   array $pks       Array of IDs
-	 * @param   int   $condition Condition of the workflow state
+	 * @param   array  $pks        Array of IDs
+	 * @param   int    $condition  Condition of the workflow state
 	 *
 	 * @return  boolean
 	 *

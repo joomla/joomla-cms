@@ -173,10 +173,11 @@ class FeaturedModel extends ArticlesModel
 		}
 		elseif (!is_numeric($workflowStage))
 		{
-      $query->where($db->quoteName('ws.condition') . ' IN (' .
-        (int) ContentComponent::CONDITION_PUBLISHED . ',' .
-        (int) ContentComponent::CONDITION_UNPUBLISHED . ',' .
-        (int) ContentComponent::CONDITION_ARCHIVED . ')');
+			$query->whereIn($db->quoteName('ws.condition'), [
+					ContentComponent::CONDITION_PUBLISHED,
+					ContentComponent::CONDITION_UNPUBLISHED
+				]
+			);
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));

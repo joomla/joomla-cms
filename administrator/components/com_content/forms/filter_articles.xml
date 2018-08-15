@@ -30,7 +30,6 @@
 			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
 		</field>
 
-
 		<field
 			name="category_id"
 			type="category"
