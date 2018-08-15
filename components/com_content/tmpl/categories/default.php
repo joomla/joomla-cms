@@ -31,7 +31,7 @@ $js = <<<JS
  
 			buttons.forEach(function(button) {
 				var span = button.querySelector('span');
-				
+
 				if(span) {
 				  span.classList.toggle('icon-plus')
 				  span.classList.toggle('icon-minus')
