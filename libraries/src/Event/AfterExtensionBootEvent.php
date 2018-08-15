@@ -8,8 +8,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\DI\Container;
 
 defined('JPATH_PLATFORM') or die;

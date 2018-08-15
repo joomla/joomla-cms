@@ -6,7 +6,9 @@
 /**
  * JavaScript behavior to allow shift select in administrator grids
  */
-(() => {
+((Joomla) => {
+  'use strict';
+
   class JMultiSelect {
     constructor(formElement) {
       this.tableEl = document.querySelector(formElement);
@@ -55,6 +57,10 @@
     }
 
     onRowClick(event) {
+      if (!this.boxes.length) {
+        return;
+      }
+
       const currentRowNum = this.rows.indexOf(event.target.closest('tr'));
       const currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
       let isChecked = this.boxes[currentCheckBox].checked;
@@ -87,25 +93,20 @@
     }
   }
 
-
-  ((Joomla) => {
-    'use strict';
-
-    const onBoot = () => {
-      if (!Joomla) {
+  const onBoot = () => {
+    if (!Joomla) {
+      // eslint-disable-next-line no-new
+      new JMultiSelect('#adminForm');
+    } else if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-multiselect')) {
+      if (Joomla.getOptions('js-multiselect').formName) {
+        // eslint-disable-next-line no-new
+        new JMultiSelect(`#${Joomla.getOptions('js-multiselect').formName}`);
+      } else {
         // eslint-disable-next-line no-new
         new JMultiSelect('#adminForm');
-      } else if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-multiselect')) {
-        if (Joomla.getOptions('js-multiselect').formName) {
-          // eslint-disable-next-line no-new
-          new JMultiSelect(`#${Joomla.getOptions('js-multiselect').formName}`);
-        } else {
-          // eslint-disable-next-line no-new
-          new JMultiSelect('#adminForm');
-        }
       }
-    };
+    }
+  };
 
-    document.addEventListener('DOMContentLoaded', onBoot);
-  })(Joomla);
-})(window.Joomla);
+  document.addEventListener('DOMContentLoaded', onBoot);
+})(Joomla);

@@ -19,7 +19,12 @@ use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
@@ -29,10 +34,11 @@ use Joomla\CMS\Factory;
 /**
  * Component class for com_content
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
+	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface,
+	AssociationServiceInterface, WorkflowServiceInterface
 {
 	use CategoriesServiceTrait;
 	use AssociationServiceTrait;
@@ -49,7 +55,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function boot(ContainerInterface $container)
 	{
@@ -69,7 +75,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -102,7 +108,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getContexts(): array
 	{
@@ -123,10 +129,83 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
 		return '#__content';
+	}
+
+	/**
+	 * Method to filter transitions by given id of state.
+	 *
+	 * @param   array  $transitions  The Transitions to filter
+	 * @param   int    $pk           Id of the state
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function filterTransitions($transitions, $pk): array
+	{
+		return ContentHelper::filterTransitions($transitions, $pk);
+	}
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   \stdClass[]  $items    The category objects
+	 * @param   string       $section  The section
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function countItems(array $items, string $section)
+	{
+		return ContentHelper::countItems($items);
+	}
+
+	/**
+	 * Adds Count Items for Tags Manager.
+	 *
+	 * @param   \stdClass[]  $items    The tag objects
+	 * @param   string       $section  The section
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function countTagItems(array $items, string $section)
+	{
+		return ContentHelper::countTagItems($items, $section);
+	}
+
+	/**
+	 * Prepares the category form
+	 *
+	 * @param   Form          $form  The form to prepare
+	 * @param   array|object  $data  The form data
+	 *
+	 * @return void
+	 */
+	public function prepareForm(Form $form, $data)
+	{
+		ContentHelper::onPrepareForm($form, $data);
+	}
+
+	/**
+	 * Method to change state of multiple ids
+	 *
+	 * @param   array  $pks        Array of IDs
+	 * @param   int    $condition  Condition of the workflow state
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateContentState($pks, $condition): bool
+	{
+		return ContentHelper::updateContentState($pks, $condition);
 	}
 }

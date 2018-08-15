@@ -50,6 +50,10 @@
           // Used in com_menus
           window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
         }
+
+        if (window.parent.Joomla.Modal) {
+          window.parent.Joomla.Modal.getCurrent().close();
+        }
       });
     }
   });
