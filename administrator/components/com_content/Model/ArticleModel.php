@@ -235,7 +235,7 @@ class ArticleModel extends AdminModel
 		$workflow = new Workflow(['extension' => 'com_content']);
 
 		// Update content state value and workflow associations
-		return ContentHelper::updateContentState($pks, $state->condition)
+		return ContentHelper::updateContentState($pks, $stage->condition)
 				&& $workflow->updateAssociations($pks, $value);
 	}
 
