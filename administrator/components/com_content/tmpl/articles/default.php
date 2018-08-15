@@ -58,19 +58,21 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$js = "
-	;(function($)
-	{
-		$(function()
-		{
-			$('.article-status').on('click', function(e)
-			{
-				e.stopPropagation();
-			});
-		});
-	})(jQuery);
-";
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
+	  elements.forEach(function (element) {
+	    element.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	  });
+	});
+})();
+JS;
+
+// @todo move the script to a file
 Factory::getDocument()->addScriptDeclaration($js);
 
 $assoc = Associations::isEnabled();

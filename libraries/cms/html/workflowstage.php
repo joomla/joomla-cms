@@ -17,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class JHtmlWorkflowState
+abstract class JHtmlWorkflowstage
 {
 
 	/**
@@ -57,22 +57,22 @@ abstract class JHtmlWorkflowState
 			->order('ws.ordering');
 
 		// Set the query and load the options.
-		$states = $db->setQuery($query)->loadObjectList();
+		$stages = $db->setQuery($query)->loadObjectList();
 
-		$workflowStates = array();
+		$workflowStages = array();
 
-		// Grouping the states by workflow
-		foreach ($states as $state)
+		// Grouping the stages by workflow
+		foreach ($stages as $stage)
 		{
 			// Using workflow ID to differentiate workflows having same title
-			$workflowStageKey = $state->workflow_title . ' (' . $state->workflow_id . ')';
+			$workflowStageKey = $stage->workflow_title . ' (' . $stage->workflow_id . ')';
 
-			if (!array_key_exists($workflowStateKey, $workflowStages))
+			if (!array_key_exists($workflowStageKey, $workflowStages))
 			{
 				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $state->workflow_stage_id, $state->workflow_stage_title);
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, $stage->workflow_stage_title);
 		}
 
 		$prefix[] = array(

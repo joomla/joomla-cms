@@ -49,20 +49,22 @@ if ($saveOrder)
 	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$js = "
-	;(function($)
-	{
-		$(function()
-		{
-			$('.article-status').on('click', function(e)
-			{
-				e.stopPropagation();
-			});
-		});
-	})(jQuery);
-";
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
-\Joomla\CMS\Factory::getDocument()->addScriptDeclaration($js);
+	  elements.forEach(function (element) {
+	    element.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	  });
+	});
+})();
+JS;
+
+// @todo mode the script to a file
+Factory::getDocument()->addScriptDeclaration($js);
 
 ?>
 
