@@ -150,8 +150,10 @@ class StagesModel extends ListModel
 			$query->where($db->quoteName('s.workflow_id') . ' = ' . $workflowID);
 		}
 
+		$condition = $this->getState('filter.condition');
+
 		// Filter by condition
-		if ($condition = $this->getState('filter.condition'))
+		if (is_numeric($condition))
 		{
 			$query->where($db->quoteName('s.condition') . ' = ' . (int) $db->escape($condition));
 		}
