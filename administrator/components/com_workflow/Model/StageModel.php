@@ -1,9 +1,7 @@
 <?php
 /**
- * Item Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -19,13 +17,11 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Model class for stage
  *
  * @since  __DEPLOY_VERSION__
  */
-class StateModel extends AdminModel
+class StageModel extends AdminModel
 {
 	/**
 	 * Auto-populate the model state.
@@ -129,7 +125,7 @@ class StateModel extends AdminModel
 		}
 
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$parts = explode('.', $extension);
 
@@ -185,7 +181,7 @@ class StateModel extends AdminModel
 		// Get the form.
 		$form = $this->loadForm(
 			'com_workflow.state',
-			'state',
+			'stage',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData

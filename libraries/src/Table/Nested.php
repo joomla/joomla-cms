@@ -10,9 +10,9 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Utilities\ArrayHelper;
 
 /**

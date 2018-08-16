@@ -7,7 +7,8 @@
   }
 
   .btn-primary:not([href]),
-  .btn-success:not([href]) {
+  .btn-success:not([href]),
+  .btn-secondary:not([href]), {
     color: #fff;
 
     &:hover {

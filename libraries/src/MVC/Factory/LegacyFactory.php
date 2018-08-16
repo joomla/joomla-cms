@@ -11,12 +11,12 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Input\Input;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Factory to create MVC objects in legacy mode.

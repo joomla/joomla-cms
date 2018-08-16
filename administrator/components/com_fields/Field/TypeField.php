@@ -76,18 +76,22 @@ class TypeField extends \JFormFieldList
 			}
 		);
 
-		Factory::getDocument()->addScriptDeclaration("
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-			});
-			function typeHasChanged(element){
-				Joomla.loadingLayer('show');
-				var cat = jQuery(element);
-				jQuery('input[name=task]').val('field.reload');
-				element.form.submit();
-			}
-		"
-		);
+		$js = <<<JS
+(function () {
+  window.typeHasChanged = function(element) {
+    Joomla.loadingLayer('show');
+    document.querySelector('input[name=task]').value = 'field.reload';
+    element.form.submit();
+  };
+
+  document.addEventListener('DOMContentLaoded', function() {
+    Joomla.loadingLayer('load');
+  });
+})();
+JS;
+
+		// @todo move the script to a file
+		Factory::getDocument()->addScriptDeclaration($js);
 
 		return $options;
 	}

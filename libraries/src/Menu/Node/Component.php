@@ -9,8 +9,8 @@ namespace Joomla\CMS\Menu\Node;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Menu\Node;
 
 /**
  * A Component type of node for MenuTree
