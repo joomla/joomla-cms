@@ -144,7 +144,7 @@ class WorkflowsModel extends ListModel
 			->from($db->quoteName('#__workflow_stages'))
 			->where($db->quoteName('workflow_id') . ' IN(' . implode(',', $ids) . ')')
 			->where($db->quoteName('published') . '>= 0')
-			->group('workflow_id');
+			->group($db->quoteName('workflow_id'));
 
 		$status = $db->setQuery($query)->loadObjectList('workflow_id');
 
@@ -154,7 +154,7 @@ class WorkflowsModel extends ListModel
 			->from($db->quoteName('#__workflow_transitions'))
 			->where($db->quoteName('workflow_id') . ' IN(' . implode(',', $ids) . ')')
 			->where($db->quoteName('published') . '>= 0')
-			->group('workflow_id');
+			->group($db->quoteName('workflow_id'));
 
 		$transitions = $db->setQuery($query)->loadObjectList('workflow_id');
 
