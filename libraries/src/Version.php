@@ -11,7 +11,6 @@ namespace Joomla\CMS;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\LibraryHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Version information class for the Joomla CMS.

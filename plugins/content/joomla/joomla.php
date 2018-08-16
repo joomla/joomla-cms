@@ -514,8 +514,8 @@ class PlgContentJoomla extends CMSPlugin
 
 					$message = array(
 						'user_id_to' => $user_id,
-						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_SUBJECT'),
-						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_MSG'), $user->name, $article->title)
+						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_SUBJECT'),
+						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title)
 					);
 
 					$model_message = new MessageModel;

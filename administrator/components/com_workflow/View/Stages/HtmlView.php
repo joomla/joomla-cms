@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-	
+
 		return parent::display($tpl);
 	}
 
@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::publishList('stages.publish');
 			ToolbarHelper::unpublishList('stages.unpublish');
-			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 
 		if ($canDo->get('core.admin'))
@@ -170,9 +170,9 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'stages.delete');
 		}
-		elseif ($canDo->get('core.edit.stage'))
+		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('states.trash');
+			ToolbarHelper::trash('stages.trash');
 		}
 
 		ToolbarHelper::help('JHELP_WORKFLOW_STAGES_LIST');
