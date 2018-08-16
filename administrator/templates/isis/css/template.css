@@ -9029,6 +9029,12 @@ input:focus,
 .hero-unit .lead {
 	font-weight: 400;
 }
+@media (min-width: 1200px) {
+	#permissions .tab-content {
+		position: sticky;
+		top: 90px;
+	}
+}
 .com_cpanel .well {
 	padding: 8px 14px;
 	border: 1px solid rgba(0,0,0,0.05);
