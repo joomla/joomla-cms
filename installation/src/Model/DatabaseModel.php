@@ -105,21 +105,17 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
-	 * @param   object  $options  Stores options
-	 *
 	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public function initialise($options = null)
+	public function initialise()
 	{
-		if (!$options)
-		{
-			$options = $this->getOptions();
-			$options = ArrayHelper::toObject($options);
-		}
+		$options = $this->getOptions();
 
 		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
+
 
 		// Load the backend language files so that the DB error messages work.
 		$lang = Factory::getLanguage();
@@ -332,14 +328,7 @@ class DatabaseModel extends BaseInstallationModel
 
 		$options->db_select = false;
 
-		if (php_sapi_name() !== "cli")
-		{
-			$db = $this->initialise();
-		}
-		else
-		{
-			$db = $this->initialise($options);
-		}
+		$db = $this->initialise();
 
 
 		if ($db === false)
