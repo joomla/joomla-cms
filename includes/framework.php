@@ -16,7 +16,7 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
 	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new JVersion)->isInDevelopmentState())))
 {
-	if (php_sapi_name() === 'cli')
+	if (php_sapi_name() === 'cli' && file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
 		JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
 		return;
