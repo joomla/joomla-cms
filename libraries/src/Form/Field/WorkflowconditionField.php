@@ -35,7 +35,7 @@ class WorkflowconditionField extends ListField
 	 * @var     string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $extension = 'com_content';
+	protected $extension = '';
 
 	/**
 	 * Method to attach a Form object to the field.
@@ -82,11 +82,13 @@ class WorkflowconditionField extends ListField
 		$options    = [];
 		$conditions = [];
 
-		$component = Factory::getApplication()->bootComponent($this->extension);
+		$parts = explode('.', $this->extension);
+
+		$component = Factory::getApplication()->bootComponent($parts[0]);
 
 		if ($component instanceof WorkflowServiceInterface)
 		{
-			$conditions = $component->getConditions();
+			$conditions = $component->getConditions($this->extension);
 		}
 
 		foreach ($conditions as $value => $option)

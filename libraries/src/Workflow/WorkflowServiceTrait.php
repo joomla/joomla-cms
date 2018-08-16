@@ -20,11 +20,13 @@ trait WorkflowServiceTrait
 	/**
 	 * Returns an array of possible conditions for the component.
 	 *
+	 * @param   $extension string Full extension string
+	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getConditions(): array
+	public static function getConditions($extension): array
 	{
 		return defined('self::CONDITION_NAMES') ? self::CONDITION_NAMES : Workflow::CONDITION_NAMES;
 	}

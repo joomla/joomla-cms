@@ -44,9 +44,11 @@ interface WorkflowServiceInterface
 	/**
 	 * Returns an array of possible conditions for the component.
 	 *
+	 * @param   $extension string Full extension string
+	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getConditions(): array;
+	public static function getConditions($extension): array;
 }

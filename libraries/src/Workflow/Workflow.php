@@ -114,7 +114,7 @@ class Workflow
 
 		if ($component instanceof WorkflowServiceInterface)
 		{
-			$conditions = $component->getConditions();
+			$conditions = $component->getConditions($this->extension);
 		}
 		else
 		{
