@@ -47,7 +47,7 @@ class WorkflowController extends FormController
 
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->get('extension', 'com_content');
+			$this->extension = $this->input->get('extension');
 		}
 	}
 
