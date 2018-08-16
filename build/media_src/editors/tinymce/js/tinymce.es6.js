@@ -91,15 +91,6 @@
         });
       };
 
-      // @todo remove next 2 lines once the issue
-      // https://github.com/tinymce/tinymce/issues/4502
-      // is fixed
-
-      if (typeof window.InstallTrigger !== 'undefined') {
-        delete options.external_plugins;
-        delete options.plugins;
-      }
-
       // Create a new instance
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);

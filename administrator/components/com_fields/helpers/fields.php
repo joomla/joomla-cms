@@ -327,20 +327,31 @@ class FieldsHelper
 			*/
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 
+			$formControl = $form->getFormControl();
+
+			// @todo move the script to a file
 			// Preload spindle-wheel when we need to submit form due to category selector changed
-			Factory::getDocument()->addScriptDeclaration("
-			function categoryHasChanged(element) {
-				var cat = jQuery(element);
-				if (cat.val() == '" . $assignedCatids . "')return;
-				Joomla.loadingLayer('show');
-				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
-			}
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-				var formControl = '#" . $form->getFormControl() . "_catid';
-				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
-			});"
+			Factory::getDocument()->addScriptDeclaration(
+<<<JS
+function categoryHasChanged(element) {
+	if (cat.value === '$assignedCatids') {
+	  return;
+	}
+
+	Joomla.loadingLayer('show');
+	document.querySelector('input[name=task]').value = "$section.reload";
+	element.form.submit();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    Joomla.loadingLayer('load');
+
+	var element = document.getElementById("$formControl" + "_catid")
+	if (!element.val() !== "$assignedCatids") {
+	  element.value = "$assignedCatids";
+	}
+});
+JS
 			);
 		}
 

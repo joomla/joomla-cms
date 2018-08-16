@@ -10,8 +10,8 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Plugin helper class

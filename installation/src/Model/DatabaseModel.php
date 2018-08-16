@@ -112,7 +112,10 @@ class DatabaseModel extends BaseInstallationModel
 	public function initialise()
 	{
 		$options = $this->getOptions();
+
+		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
+
 
 		// Load the backend language files so that the DB error messages work.
 		$lang = Factory::getLanguage();
@@ -178,7 +181,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (!preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (!preg_match('#^[a-zA-Z][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG'), 'warning');
 

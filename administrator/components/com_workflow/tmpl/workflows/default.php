@@ -75,14 +75,14 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo Text::_('COM_WORKFLOW_STATES'); ?>
+									<?php echo Text::_('COM_WORKFLOW_STAGES'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center nowrap hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
 								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
-									<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?></span>
+									<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>"></span>
+									<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?></span>
 								</th>
 								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
 									<span class="fa fa-arrows-h text-info hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>"></span>	
@@ -101,7 +101,7 @@ $userId = $user->id;
 						</thead>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 						<?php foreach ($this->workflows as $i => $item):
-							$states = Route::_('index.php?option=com_workflow&view=states&workflow_id=' . $item->id . '&extension=' . $extension);
+							$states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);
 							$transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
 							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
 
@@ -156,7 +156,7 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
 								<td class="text-center btns hidden-sm-down">
-									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_states; ?></a>
 								</td>
 								<td class="text-center btns hidden-sm-down">

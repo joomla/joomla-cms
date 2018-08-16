@@ -19,9 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Workflows controller
  *
  * @since  __DEPLOY_VERSION__
  */

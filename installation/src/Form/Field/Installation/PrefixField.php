@@ -44,7 +44,6 @@ class PrefixField extends FormField
 		$readonly  = (string) $this->element['readonly'] === 'true' ? ' readonly="readonly"' : '';
 		$disabled  = (string) $this->element['disabled'] === 'true' ? ' disabled="disabled"' : '';
 
-
 		// Make sure somebody doesn't put in a too large prefix size value.
 		if ($size > 15)
 		{
@@ -81,6 +80,7 @@ class PrefixField extends FormField
 	public function getPrefix()
 	{
 		$size = 15;
+
 		// Create the random prefix.
 		$prefix  = '';
 		$chars   = range('a', 'z');

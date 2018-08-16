@@ -19,13 +19,11 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * The workflow stages controller
  *
  * @since  __DEPLOY_VERSION__
  */
-class StatesController extends AdminController
+class StagesController extends AdminController
 {
 	/**
 	 * Constructor.
@@ -57,7 +55,7 @@ class StatesController extends AdminController
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getModel($name = 'State', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'Stage', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

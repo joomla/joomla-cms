@@ -1,9 +1,7 @@
 <?php
 /**
- * Item Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -19,9 +17,7 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Model class for transition
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -116,9 +112,9 @@ class TransitionModel extends AdminModel
 			$isNew = false;
 		}
 
-		if ($data['to_state_id'] == $data['from_state_id'])
+		if ($data['to_stage_id'] == $data['from_stage_id'])
 		{
-			$this->setError(Text::_('You choose the same state from and to'));
+			$this->setError(Text::_('COM_WORKFLOW_MSG_FROM_TO_STAGE'));
 
 			return false;
 		}
@@ -127,8 +123,8 @@ class TransitionModel extends AdminModel
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__workflow_transitions'))
-			->where($db->quoteName('from_state_id') . ' = ' . (int) $data['from_state_id'])
-			->where($db->quoteName('to_state_id') . ' = ' . (int) $data['to_state_id']);
+			->where($db->quoteName('from_stage_id') . ' = ' . (int) $data['from_stage_id'])
+			->where($db->quoteName('to_stage_id') . ' = ' . (int) $data['to_stage_id']);
 
 		if (!$isNew)
 		{
@@ -241,8 +237,8 @@ class TransitionModel extends AdminModel
 
 		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $workflow_id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
-		$form->setFieldAttribute('from_state_id', 'sql_where', $where);
-		$form->setFieldAttribute('to_state_id', 'sql_where', $where);
+		$form->setFieldAttribute('from_stage_id', 'sql_where', $where);
+		$form->setFieldAttribute('to_stage_id', 'sql_where', $where);
 
 		return $form;
 	}
