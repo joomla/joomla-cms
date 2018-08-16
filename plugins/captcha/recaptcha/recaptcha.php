@@ -123,13 +123,20 @@ class PlgCaptchaRecaptcha extends JPlugin
 				// Challenge Not needed in 2.0 but needed for getResponse call
 				$challenge = null;
 				$g_recaptcha_response = $input->get('g-recaptcha-response', '', 'string');
-				if (!empty($code)){
-				    $response = $code;
-				} elseif (!empty($g_recaptcha_response)) {
-				    $response  = $g_recaptcha_response;
-				} else {
-						    $response = '';
+
+				if (!empty($code))
+				{
+					$response = $code;
 				}
+				elseif (!empty($g_recaptcha_response))
+				{
+					$response  = $g_recaptcha_response;
+				}
+				else
+				{
+					$response = '';
+				}
+
 				$spam      = ($response === '');
 				break;
 		}
