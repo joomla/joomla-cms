@@ -837,7 +837,7 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			$data['state'] = (int) $state->condition;
+			$data['state'] = (int) $stage->condition;
 
 		}
 
