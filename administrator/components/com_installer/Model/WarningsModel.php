@@ -103,19 +103,19 @@ class WarningsModel extends ListModel
 
 		$upload_dir = ini_get('upload_tmp_dir');
 
-		// if (!$upload_dir)
-		// {
-		// 	$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
-		// 			'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
-		// }
-		// else
-		// {
-		// 	if (!is_writable($upload_dir))
-		// 	{
-		// 		$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLE'),
-		// 				'description' => Text::sprintf('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLEDESC', $upload_dir));
-		// 	}
-		// }
+		if (!$upload_dir)
+		{
+			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
+		}
+		else
+		{
+			if (!is_writable($upload_dir))
+			{
+				$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLE'),
+						'description' => Text::sprintf('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLEDESC', $upload_dir));
+			}
+		}
 
 		$config = Factory::getConfig();
 		$tmp_path = $config->get('tmp_path');
@@ -152,23 +152,23 @@ class WarningsModel extends ListModel
 		$post_max_size = $this->return_bytes(ini_get('post_max_size'));
 		$upload_max_filesize = $this->return_bytes(ini_get('upload_max_filesize'));
 
-		// if ($post_max_size < $upload_max_filesize)
-		// {
-		// 	$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOST'),
-		// 			'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOSTDESC'));
-		// }
+		if ($post_max_size < $upload_max_filesize)
+		{
+			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOST'),
+					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOSTDESC'));
+		}
 
-		// if ($post_max_size < (8 * 1024 * 1024)) // 8MB
-		// {
-		// 	$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZE'),
-		// 			'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZEDESC'));
-		// }
+		if ($post_max_size < (8 * 1024 * 1024)) // 8MB
+		{
+			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZE'),
+					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZEDESC'));
+		}
 
-		// if ($upload_max_filesize < (8 * 1024 * 1024)) // 8MB
-		// {
-		// 	$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
-		// 			'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
-		// }
+		if ($upload_max_filesize < (8 * 1024 * 1024)) // 8MB
+		{
+			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
+		}
 
 		return $messages;
 	}
