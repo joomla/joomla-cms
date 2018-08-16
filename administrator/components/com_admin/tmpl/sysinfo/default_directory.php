@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 ?>
 <div class="adminform">
 	<table class="table">
-		<caption><?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></caption>
 		<thead>
 			<tr>
 				<th scope="col" style="width:650px">

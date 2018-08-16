@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 ?>
 <div class="adminform">
 	<table class="table">
-		<caption><?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?></caption>
 		<thead>
 			<tr>
 				<th scope="col" style="width:300px">
