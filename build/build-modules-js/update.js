@@ -9,7 +9,9 @@ const rootPath = require('./rootpath.js')._();
 
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
-// rm -rf media/vendor
+/**
+ * rm -rf media/vendor
+ */
 const cleanVendors = () => {
   // Remove the vendor folder
   fsExtra.removeSync(Path.join(rootPath, 'media/vendor'));
@@ -23,11 +25,19 @@ const cleanVendors = () => {
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
 };
 
-// Copies all the files from a directory
-const copyAll = (dirName, name, type) => {
-  const folderName = dirName === '/' ? '/' : `/${dirName}`;
-  fsExtra.copySync(Path.join(rootPath, `node_modules/${name}/${folderName}`),
-    Path.join(rootPath, `media/vendor/${name.replace(/.+\//, '')}/${type}`));
+/**
+ * Copies all the files from a directory
+ *
+ * @param sourceSubDir string The source folder name (eg: dist)
+ * @param sourceDir    string The source parent folder name (eg: package name)
+ * @param destDir      string The destination folder name
+ * @param destFolder   string The destination parent folder name
+ */
+const copyAll = (sourceSubDir, sourceDir, destDir, destFolder) => {
+  let folder = !destFolder ? sourceDir : destFolder;
+  const folderName = sourceSubDir === '/' ? '/' : `/${sourceSubDir}`;
+  fsExtra.copySync(Path.join(rootPath, `node_modules/${sourceDir}/${folderName}`),
+    Path.join(rootPath, `media/vendor/${folder.replace(/.+\//, '')}/${destDir}`));
 };
 
 // Copies an array of files from a directory
@@ -77,6 +87,11 @@ const concatFiles = (files, output) => {
   fs.writeFileSync(`${rootPath}/${output}`, tempMem);
 };
 
+/**
+ * Populates the media/vendor folder
+ *
+ * @param options object  the application options
+ */
 const copyFiles = (options) => {
   const mediaVendorPath = Path.join(rootPath, 'media/vendor');
   const registry = {
@@ -188,6 +203,9 @@ const copyFiles = (options) => {
       let tinyWrongMap = fs.readFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
       tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
       fs.writeFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
+    } else if (packageName === 'joomla-ui-custom-elements') {
+      copyAll('dist/js', 'joomla-ui-custom-elements', 'js', 'joomla-custom-elements');
+      copyAll('dist/css', 'joomla-ui-custom-elements', 'css', 'joomla-custom-elements');
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;
