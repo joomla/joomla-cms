@@ -126,7 +126,7 @@ class WorkflowstageField extends GroupedlistField
 				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_stage_id, Text::_($state->workflow_stage_title));
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
 		}
 
 		// Merge any additional options in the XML definition.
