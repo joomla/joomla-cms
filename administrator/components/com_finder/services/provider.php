@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_csp
+ * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -19,7 +19,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The cache service provider.
+ * The finder service provider.
  *
  * @since  4.0.0
  */
@@ -36,8 +36,8 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Csp'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Csp'));
+		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Finder'));
+		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Finder'));
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
