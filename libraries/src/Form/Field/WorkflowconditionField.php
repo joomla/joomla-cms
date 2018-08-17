@@ -30,7 +30,7 @@ class WorkflowconditionField extends ListField
 	protected $type = 'Workflowcondition';
 
 	/**
-	 * The component and section seperated by ".".
+	 * The component and section separated by ".".
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__

@@ -20,7 +20,7 @@ trait WorkflowServiceTrait
 	/**
 	 * Returns an array of possible conditions for the component.
 	 *
-	 * @param   string  $extension  Full extension string
+	 * @param   string  $extension  The component and section separated by ".".
 	 *
 	 * @return  array
 	 *

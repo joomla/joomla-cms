@@ -29,7 +29,7 @@ class WorkflowstageField extends GroupedlistField
 	protected $type = 'Workflowstage';
 
 	/**
-	 * The component and section seperated by ".".
+	 * The component and section separated by ".".
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__

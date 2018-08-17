@@ -33,7 +33,7 @@ class TransitionField extends ListField
 	protected $type = 'Transition';
 
 	/**
-	 * The component and section seperated by ".".
+	 * The component and section separated by ".".
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
