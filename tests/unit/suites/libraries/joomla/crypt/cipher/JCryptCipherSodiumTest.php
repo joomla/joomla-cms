@@ -41,6 +41,7 @@ class JCryptCipherSodiumTest extends TestCase
 	 * @param   string  $data  The decrypted data to validate
 	 *
 	 * @group   not-on-windows
+     * @note    Key generation takes very long on Windows/PHP5.6, build a group allows to exclude this test
 	 *
 	 * @covers        Joomla\CMS\Crypt\Cipher\SodiumCipher::decrypt
 	 * @covers        Joomla\CMS\Crypt\Cipher\SodiumCipher::encrypt
@@ -68,6 +69,7 @@ class JCryptCipherSodiumTest extends TestCase
 	 * @testdox  Validates keys are correctly generated
 	 *
 	 * @group   not-on-windows
+     * @note    Key generation takes very long on Windows/PHP5.6, build a group allows to exclude this test
 	 *
 	 * @covers   Joomla\CMS\Crypt\Cipher\SodiumCipher::generateKey
 	 */
