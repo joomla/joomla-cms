@@ -238,7 +238,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->getDbo()->q($table->extension);
+		return 'extension = ' . $this->getDbo()->quote($table->extension);
 	}
 
 	/**

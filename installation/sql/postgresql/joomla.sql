@@ -2016,7 +2016,7 @@ INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "
 (1, 0, 1, 1, 1, 'Unpublished', '', 0, 0),
 (2, 0, 2, 1, 1, 'Published', '', 1, 1),
 (3, 0, 3, 1, 1, 'Trashed', '', -2, 0),
-(4, 0, 4, 1, 1, 'Archived', '', 1, 0);
+(4, 0, 4, 1, 1, 'Archived', '', 2, 0);
 
 SELECT setval('#__workflow_stages_id_seq', 5, false);
 								    
