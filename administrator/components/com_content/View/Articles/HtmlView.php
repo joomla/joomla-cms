@@ -182,8 +182,6 @@ class HtmlView extends BaseHtmlView
 				->configure(
 				function (Toolbar $childBar)
 				{
-					$childBar->publish('articles.publish')->listCheck(true);
-					$childBar->unpublish('articles.unpublish')->listCheck(true);
 					$childBar->standardButton('featured')
 						->text('JFEATURE')
 						->task('articles.featured')
@@ -192,8 +190,6 @@ class HtmlView extends BaseHtmlView
 						->text('JUNFEATURE')
 						->task('articles.unfeatured')
 						->listCheck(true);
-					$childBar->archive('articles.archive')->listCheck(true);
-					$childBar->trash('articles.trash')->listCheck(true);
 				}
 			);
 			$toolbar->checkin('articles.checkin')->listCheck(true);
