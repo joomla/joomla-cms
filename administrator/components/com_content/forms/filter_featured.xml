@@ -22,7 +22,7 @@
 		<field
 				name="condition"
 				type="list"
-				label="COM_CONTENT_CONDITIONS"
+				label="COM_CONTENT_CONDITION"
 				onchange="this.form.submit();"
 		>
 			<option value="">COM_CONTENT_SELECT_CONDITION</option>
