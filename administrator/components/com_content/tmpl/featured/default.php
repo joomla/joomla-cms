@@ -94,7 +94,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:1%; min-width:85px" class="nowrap text-center">
-									<?php echo JText::_("COM_CONTENT_STAGES") ?>
+									<?php echo JText::_("COM_CONTENT_STAGE") ?>
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
