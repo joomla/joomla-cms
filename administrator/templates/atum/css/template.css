@@ -542,8 +542,8 @@ legend {
   text-align: center;
   background-color: transparent;
   border: 0; }
-  .tbody-icon span[class^='icon-']:not(.icon-checkedout),
-  .tbody-icon span[class*=' icon-']:not(.icon-checkedout) {
+  .tbody-icon [class^='icon-'],
+  .tbody-icon [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -555,11 +555,8 @@ legend {
     color: #2f7d32;
     border-color: #2f7d32; }
   .tbody-icon .icon-featured {
-    color: #b35900;
-    border-color: #b35900; }
-  .tbody-icon .icon-unpublish {
-    color: #c52827;
-    border-color: #c52827; }
+    color: #3073bb;
+    border-color: #3073bb; }
   .tbody-icon .icon-archive {
     color: #495057;
     border-color: #495057; }
@@ -1016,7 +1013,8 @@ iframe {
       color: #fff;
       background-color: rgba(0, 0, 0, 0.2); }
     .subhead .btn[disabled], .subhead .btn.dropdown-toggle[disabled] {
-      background-color: #7c838f; }
+      background-color: #6f7780;
+      border-color: #6f7780; }
   .subhead .dropdown-item:hover {
     color: #212529; }
   .subhead .dropdown-toggle.btn {

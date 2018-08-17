@@ -51,7 +51,8 @@
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      background-color: #7c838f;
+      background-color: $gray-600;
+      border-color: $gray-600
     }
   }
 
