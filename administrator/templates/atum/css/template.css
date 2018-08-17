@@ -1499,12 +1499,6 @@ iframe {
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
 
-.com-cpanel-help .list-group-item, .com-cpanel-system .list-group-item {
-  padding: 0; }
-  .com-cpanel-help .list-group-item a, .com-cpanel-system .list-group-item a {
-    display: block;
-    padding: 0.75rem 1.25rem; }
-
 .com-cpanel-help__header {
   color: #2b5c91; }
 

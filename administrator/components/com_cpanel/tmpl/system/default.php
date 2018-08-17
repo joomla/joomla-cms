@@ -21,13 +21,9 @@ use Joomla\CMS\Language\Text;
 			<?php endif; ?>
 			<?php echo Text::_($name); ?>
 		</h2>
-		<ul class="list-group list-group-flush">
-			<?php foreach ($links as $id => $link) : ?>
-				<li class="list-group-item">
-					<a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['title']); ?></a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
+		<?php foreach ($links as $id => $link) : ?>
+			<a class="list-group-item list-group-item-action" href="<?php echo $link['link']; ?>"><?php echo Text::_($link['title']); ?></a>
+		<?php endforeach; ?>
 	</div>
 	<?php endforeach; ?>
 </div>

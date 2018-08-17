@@ -2,17 +2,6 @@
 
 .com-cpanel {
 
-  &-help, &-system {
-    .list-group-item {
-      padding: 0;
-
-      a {
-        display: block;
-        padding: $list-group-item-padding-y $list-group-item-padding-x;
-      }
-    }
-  }
-
   &-help {
     &__header {
       color: $atum-template-color-dark;
