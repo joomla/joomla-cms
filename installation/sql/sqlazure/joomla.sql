@@ -1669,18 +1669,13 @@ CREATE TABLE "#__finder_terms_common" (
   "language" nvarchar(3) NOT NULL,
  CONSTRAINT "PK_#__finder_terms_common" PRIMARY KEY CLUSTERED
 (
-  "term" ASC
+  "term" ASC,
+  "language" ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX "idx_lang" ON "#__finder_terms_common"
 (
-  "language" ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX "idx_word_lang" ON "#__finder_terms_common"
-(
-  "term" ASC,
   "language" ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
