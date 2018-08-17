@@ -31,12 +31,12 @@ class FileModel extends FormModel
 	 *
 	 * @since   4.0.0
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		PluginHelper::importPlugin('media-action');
 
 		// Get the form.
-		$form = $this->loadForm('com_media.file', 'file', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_media.file', 'file', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{

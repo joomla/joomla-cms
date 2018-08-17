@@ -6,12 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Cpanel component
@@ -37,8 +40,8 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		\JToolbarHelper::title(\JText::_('COM_CPANEL'), 'home-2 cpanel');
-		\JToolbarHelper::help('screen.cpanel');
+		ToolbarHelper::title(Text::_('COM_CPANEL'), 'home-2 cpanel');
+		ToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules
 		$this->modules = ModuleHelper::getModules('cpanel');

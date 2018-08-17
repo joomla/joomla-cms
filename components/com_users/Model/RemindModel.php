@@ -6,16 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Remind model class for Users.
@@ -30,7 +33,7 @@ class RemindModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JFor     A \JForm object on success, false on failure
+	 * @return  \JFor     A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -50,7 +53,7 @@ class RemindModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -60,7 +63,7 @@ class RemindModel extends FormModel
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, 'user');
 	}
@@ -189,8 +192,26 @@ class RemindModel extends FormModel
 			$data['link_text']
 		);
 
-		// Send the password reset request email.
-		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		// Try to send the password reset request email.
+		try
+		{
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$return = false;
+			}
+		}
 
 		// Check for an error.
 		if ($return !== true)
@@ -199,7 +220,9 @@ class RemindModel extends FormModel
 
 			return false;
 		}
-
-		return true;
+		else
+		{
+			return true;
+		}
 	}
 }

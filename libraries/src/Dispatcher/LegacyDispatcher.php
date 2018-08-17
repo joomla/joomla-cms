@@ -11,6 +11,7 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 
 /**
@@ -63,7 +64,7 @@ class LegacyDispatcher implements DispatcherInterface
 			// Check the class exists and implements the dispatcher interface
 			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
 			{
-				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $this->app->scope), 500);
+				throw new \LogicException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $this->app->scope), 500);
 			}
 
 			// Dispatch the component.
@@ -78,7 +79,7 @@ class LegacyDispatcher implements DispatcherInterface
 		// If component file doesn't exist throw error
 		if (!file_exists($path))
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		$lang = $this->app->getLanguage();

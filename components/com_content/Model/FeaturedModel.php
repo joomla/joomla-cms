@@ -6,12 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 \JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
@@ -45,9 +48,9 @@ class FeaturedModel extends ArticlesModel
 	{
 		parent::populateState($ordering, $direction);
 
-		$input = \JFactory::getApplication()->input;
-		$user  = \JFactory::getUser();
-		$app   = \JFactory::getApplication('site');
+		$input = Factory::getApplication()->input;
+		$user  = Factory::getUser();
+		$app   = Factory::getApplication('site');
 
 		// List state information
 		$limitstart = $input->getUInt('limitstart', 0);
@@ -75,11 +78,11 @@ class FeaturedModel extends ArticlesModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', Workflow::PUBLISHED);
 		}
 		else
 		{
-			$this->setState('filter.published', array(0, 1, 2));
+			$this->setState('filter.condition', array(Workflow::UNPUBLISHED, Workflow::PUBLISHED));
 		}
 
 		// Process show_noauth parameter

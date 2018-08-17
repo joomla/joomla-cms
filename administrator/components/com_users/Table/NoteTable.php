@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Table;
 
 defined('_JEXEC') or die;
@@ -88,7 +89,7 @@ class NoteTable extends Table
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		$k = $this->_tbl_key;
+		$k = $this->getPrimaryKey();
 
 		// Sanitize input.
 		$pks = ArrayHelper::toInteger($pks);
@@ -119,7 +120,7 @@ class NoteTable extends Table
 		$query->where($k . '=' . implode(' OR ' . $k . '=', $pks));
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = false;
 		}
@@ -188,5 +189,7 @@ class NoteTable extends Table
 		{
 			$this->modified_time = $this->getDbo()->getNullDate();
 		}
+
+		return true;
 	}
 }

@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Session\Session;
 use Joomla\String\StringHelper;
 
 /**
@@ -46,7 +49,7 @@ class Cache
 	 */
 	public function __construct($options)
 	{
-		$conf = \JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		$this->_options = array(
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
@@ -514,8 +517,8 @@ class Cache
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		$app      = \JFactory::getApplication();
-		$document = \JFactory::getDocument();
+		$app      = Factory::getApplication();
+		$document = Factory::getDocument();
 		$body     = null;
 
 		// Get the document head out of the cache.
@@ -565,7 +568,7 @@ class Cache
 		// The following code searches for a token in the cached page and replaces it with the proper token.
 		if (isset($data['body']))
 		{
-			$token       = \JSession::getFormToken();
+			$token       = Session::getFormToken();
 			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1">#';
 			$replacement = '<input type="hidden" name="' . $token . '" value="1">';
 
@@ -616,8 +619,8 @@ class Cache
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		$app      = \JFactory::getApplication();
-		$document = \JFactory::getDocument();
+		$app      = Factory::getApplication();
+		$document = Factory::getDocument();
 
 		if ($loptions['nomodules'] != 1)
 		{
@@ -750,7 +753,7 @@ class Cache
 	 */
 	public static function makeId()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$registeredurlparams = new \stdClass;
 
@@ -799,7 +802,7 @@ class Cache
 	public static function getPlatformPrefix()
 	{
 		// No prefix when Global Config is set to no platfom specific prefix
-		if (!\JFactory::getConfig()->get('cache_platformprefix', '0'))
+		if (!Factory::getConfig()->get('cache_platformprefix', '0'))
 		{
 			return '';
 		}
@@ -834,8 +837,7 @@ class Cache
 
 		if (!empty($path) && !in_array($path, $paths))
 		{
-			\JLoader::import('joomla.filesystem.path');
-			array_unshift($paths, \JPath::clean($path));
+			array_unshift($paths, Path::clean($path));
 		}
 
 		return $paths;

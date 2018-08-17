@@ -7,15 +7,14 @@
   }
 
   .btn-primary:not([href]),
-  .btn-success:not([href]) {
+  .btn-success:not([href]),
+  .btn-secondary:not([href]), {
     color: #fff;
 
     &:hover {
       color: #fff;
     }
-
   }
-
 }
 
 .modal-header {
@@ -30,7 +29,6 @@
     line-height: 1rem;
     border-left: 1px solid $atum-border-color;
   }
-
 }
 
 .modal-body {

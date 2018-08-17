@@ -10,9 +10,10 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\Filter\OutputFilter as BaseOutputFilter;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Language;
 
 /**
  * OutputFilter
@@ -46,9 +47,12 @@ class OutputFilter extends BaseOutputFilter
 	 */
 	public static function stringJSSafe($string)
 	{
-		for ($i = 0, $l = strlen($string), $new_str = ''; $i < $l; $i++)
+		$chars = preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
+		$new_str = '';
+
+		foreach ($chars as $chr)
 		{
-			$new_str .= (ord(substr($string, $i, 1)) < 16 ? '\\x0' : '\\x') . dechex(ord(substr($string, $i, 1)));
+			$new_str .= '\\u' . str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
 		}
 
 		return $new_str;
@@ -71,7 +75,7 @@ class OutputFilter extends BaseOutputFilter
 		$str = str_replace('-', ' ', $string);
 
 		// Transliterate on the language requested (fallback to current language if not specified)
-		$lang = $language == '' || $language == '*' ? \JFactory::getLanguage() : Language::getInstance($language);
+		$lang = $language == '' || $language == '*' ? Factory::getLanguage() : Language::getInstance($language);
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase

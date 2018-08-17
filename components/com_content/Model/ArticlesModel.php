@@ -6,18 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of articles.
@@ -46,6 +51,7 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
+				'stage_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -58,7 +64,6 @@ class ArticlesModel extends ListModel
 				'images', 'a.images',
 				'urls', 'a.urls',
 				'filter_tag',
-				'tag',
 			);
 		}
 
@@ -83,7 +88,7 @@ class ArticlesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// List state information
 		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
@@ -115,18 +120,18 @@ class ArticlesModel extends ListModel
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', Workflow::PUBLISHED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Process show_noauth parameter
-		if ((!$params->get('show_noauth')) || (!JComponentHelper::getParams('com_content')->get('show_noauth')))
+		if ((!$params->get('show_noauth')) || (!ComponentHelper::getParams('com_content')->get('show_noauth')))
 		{
 			$this->setState('filter.access', true);
 		}
@@ -154,7 +159,7 @@ class ArticlesModel extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . serialize($this->getState('filter.published'));
+		$id .= ':' . serialize($this->getState('filter.condition'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
 		$id .= ':' . serialize($this->getState('filter.article_id'));
@@ -185,7 +190,7 @@ class ArticlesModel extends ListModel
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -195,12 +200,12 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
-				'a.checked_out, a.checked_out_time, ' .
+				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
+				'a.checked_out, a.checked_out_time,' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
 				// If category is not published then force 0
-				'CASE WHEN c.published = 2 AND a.state > 0 THEN 2 WHEN c.published != 1 THEN 0 ELSE a.state END as state,' .
+				'CASE WHEN c.published = 2 AND ws.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE ws.condition END as state,' .
 				// Use created if modified is 0
 				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 				'a.modified_by, uam.name as modified_by_name,' .
@@ -235,6 +240,14 @@ class ArticlesModel extends ListModel
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
+		// Join over the states.
+		$query->select('wa.stage_id AS stage_id')
+			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
+
+		// Join over the states.
+		$query->select('ws.title AS state_title, ws.condition AS state_condition')
+			->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id');
+
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
 			->select('c.published, c.published AS parents_published, c.lft')
@@ -259,7 +272,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by access level.
-		if ($this->getState('filter.access', true))	
+		if ($this->getState('filter.access', true))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
@@ -267,9 +280,9 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.published');
+		$condition = $this->getState('filter.condition');
 
-		if (is_numeric($published) && $published == 2)
+		if (is_numeric($condition) && $condition == 2)
 		{
 			/**
 			 * If category is archived then article has to be published or archived.
@@ -277,18 +290,24 @@ class ArticlesModel extends ListModel
 			 */
 			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}
-		elseif (is_numeric($published))
+		elseif (is_numeric($condition))
 		{
 			// Category has to be published
-			$query->where('c.published = 1 AND a.state = ' . (int) $published);
+			$query->where("c.published = 1 AND ws.condition = " . $db->quote($condition));
 		}
-		elseif (is_array($published))
+		elseif (is_array($condition))
 		{
-			$published = ArrayHelper::toInteger($published);
-			$published = implode(',', $published);
+			$condition = array_map(
+				function ($data) use ($db)
+				{
+					return $db->quote($data);
+				},
+				$condition
+			);
+			$condition = implode(',', $condition);
 
 			// Category has to be published
-			$query->where('c.published = 1 AND a.state IN (' . $published . ')');
+			$query->where('c.published = 1 AND ws.condition IN (' . $condition . ')');
 		}
 
 		// Filter by featured state
@@ -441,7 +460,7 @@ class ArticlesModel extends ListModel
 
 		// Define null and now dates
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
@@ -510,37 +529,39 @@ class ArticlesModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Filter by a single or group of tags.
-		$hasTag = false;
-		$tagId  = $this->getState('filter.tag');
+		$tagId = $this->getState('filter.tag');
 
-		if (!empty($tagId) && is_numeric($tagId))
+		if (is_array($tagId) && count($tagId) === 1)
 		{
-			$hasTag = true;
-
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$tagId = current($tagId);
 		}
-		elseif (is_array($tagId))
+
+		if (is_array($tagId))
 		{
-			ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
 
-			if (!empty($tagId))
+			if ($tagId)
 			{
-				$hasTag = true;
+				$subQuery = $db->getQuery(true)
+					->select('DISTINCT content_item_id')
+					->from($db->quoteName('#__contentitem_tag_map'))
+					->where('tag_id IN (' . $tagId . ')')
+					->where('type_alias = ' . $db->quote('com_content.article'));
 
-				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+				$query->innerJoin('(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
 			}
 		}
-
-		if ($hasTag)
+		elseif ($tagId)
 		{
-			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+			$query->innerJoin(
+				$db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON tagmap.tag_id = ' . (int) $tagId
+				. ' AND tagmap.content_item_id = a.id'
+				. ' AND tagmap.type_alias = ' . $db->quote('com_content.article')
 			);
 		}
 
@@ -562,11 +583,11 @@ class ArticlesModel extends ListModel
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$userId = $user->get('id');
 		$guest  = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
-		$input  = \JFactory::getApplication()->input;
+		$input  = Factory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);
@@ -690,11 +711,11 @@ class ArticlesModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
-				$item->tags = new \JHelperTags;
+				$item->tags = new TagsHelper;
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
-			if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
+			if (Associations::isEnabled() && $item->params->get('show_associations'))
 			{
 				$item->associations = AssociationHelper::displayAssociations($item->id);
 			}

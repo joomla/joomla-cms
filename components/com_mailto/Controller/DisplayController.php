@@ -6,12 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Mailto\Site\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Mailer Component Controller.
@@ -53,7 +60,7 @@ class DisplayController extends BaseController
 
 		if ($timeout == 0 || time() - $timeout < 20)
 		{
-			$this->setMessage(\JText::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 
 			return $this->mailto();
 		}
@@ -62,10 +69,10 @@ class DisplayController extends BaseController
 		$link     = MailtoHelper::validateHash($this->input->get('link', '', 'post'));
 
 		// Verify that this is a local link
-		if (!$link || !\JUri::isInternal($link))
+		if (!$link || !Uri::isInternal($link))
 		{
 			// Non-local url...
-			$this->setMessage(\JText::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 
 			return $this->mailto();
 		}
@@ -111,22 +118,22 @@ class DisplayController extends BaseController
 		$email           = $this->input->post->getString('mailto', '');
 		$sender          = $this->input->post->getString('sender', '');
 		$from            = $this->input->post->getString('from', '');
-		$subject_default = \JText::sprintf('COM_MAILTO_SENT_BY', $sender);
+		$subject_default = Text::sprintf('COM_MAILTO_SENT_BY', $sender);
 		$subject         = $this->input->post->getString('subject', $subject_default);
 
 		// Check for a valid to address
 		$error = false;
 
-		if (!$email || !\JMailHelper::isEmailAddress($email))
+		if (!$email || !MailHelper::isEmailAddress($email))
 		{
-			$error = \JText::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
+			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
 			$this->app->enqueueMessage($error, 'warning');
 		}
 
 		// Check for a valid from address
-		if (!$from || !\JMailHelper::isEmailAddress($from))
+		if (!$from || !MailHelper::isEmailAddress($from))
 		{
-			$error = \JText::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
+			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
 			$this->app->enqueueMessage($error, 'warning');
 		}
 
@@ -136,22 +143,44 @@ class DisplayController extends BaseController
 		}
 
 		// Build the message to send
-		$msg  = \JText::_('COM_MAILTO_EMAIL_MSG');
+		$msg  = Text::_('COM_MAILTO_EMAIL_MSG');
 		$body = sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
-		$subject = \JMailHelper::cleanSubject($subject);
-		$body    = \JMailHelper::cleanBody($body);
+		$subject = MailHelper::cleanSubject($subject);
+		$body    = MailHelper::cleanBody($body);
 
 		// To send we need to use punycode.
-		$from  = \JStringPunycode::emailToPunycode($from);
-		$from  = \JMailHelper::cleanAddress($from);
-		$email = \JStringPunycode::emailToPunycode($email);
+		$from  = PunycodeHelper::emailToPunycode($from);
+		$from  = MailHelper::cleanAddress($from);
+		$email = PunycodeHelper::emailToPunycode($email);
 
-		// Send the email
-		if (\JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)
+		// Try to send the email
+		try
 		{
-			$this->setMessage(\JText::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+			$return = Factory::getMailer()->sendMail($from, $sender, $email, $subject, $body);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$return = false;
+			}
+		}
+
+		if ($return !== true)
+		{
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+
+			$this->setRedirect('index.php', 'COM_MAILTO_EMAIL_NOT_SENT');
 
 			return $this->mailto();
 		}

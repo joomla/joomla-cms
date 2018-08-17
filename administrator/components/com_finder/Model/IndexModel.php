@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -350,12 +351,10 @@ class IndexModel extends ListModel
 		// Truncate the taxonomy map table.
 		$db->truncateTable('#__finder_taxonomy_map');
 
-		// Delete all the taxonomy nodes except the root.
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('id') . ' > 1');
-		$db->setQuery($query);
-		$db->execute();
+		// Truncate the taxonomy table and insert the root node.
+		$db->truncateTable('#__finder_taxonomy');
+		$root = (object) array('id' => 1, 'parent_id' => 0, 'title' => 'ROOT', 'state' => 0, 'access' => 0, 'ordering' => 0);
+		$db->insertObject('#__finder_taxonomy', $root);
 
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');

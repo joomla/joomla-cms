@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 
-	<fieldset addfieldprefix="Joomla\Component\Categories\Administrator\Field">
+	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 
 		<field
 			name="id"
@@ -63,9 +63,9 @@
 		<field
 			name="catid"
 			type="categoryedit"
-			class="advancedSelect"
 			label="JCATEGORY"
 			extension="com_contact"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			required="true"
 			default=""
 		/>

@@ -6,10 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -72,7 +74,7 @@ class CategoriesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -148,7 +150,7 @@ class CategoriesModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -326,14 +328,23 @@ class CategoriesModel extends ListModel
 		if (!$assoc || !$component || !$cname)
 		{
 			$assoc = false;
-		}
-		else
-		{
-			$hname = $cname . 'HelperAssociation';
-			\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-			$assoc = class_exists($hname) && !empty($hname::$category_association);
+			return $assoc;
 		}
+
+		$componentObject = $this->bootComponent($component);
+
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		{
+			$assoc = true;
+
+			return $assoc;
+		}
+
+		$hname = $cname . 'HelperAssociation';
+		\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+
+		$assoc = class_exists($hname) && !empty($hname::$category_association);
 
 		return $assoc;
 	}

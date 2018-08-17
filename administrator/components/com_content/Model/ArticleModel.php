@@ -11,15 +11,32 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Model\Form;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Category;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Dispatcher\DispatcherFactory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\UCM\UCMType;
 
 /**
  * Item Model for an Article.
  *
  * @since  1.6
  */
+
 class ArticleModel extends AdminModel
 {
 	/**
@@ -68,11 +85,10 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('system');
-		$dispatcher = JEventDispatcher::getInstance();
+		PluginHelper::importPlugin('system');
 
 		// Register FieldsHelper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Parent exists so we let's proceed
 		while (!empty($pks))
@@ -95,12 +111,12 @@ class ArticleModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
 
-			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -170,13 +186,57 @@ class ArticleModel extends AdminModel
 			}
 
 			// Run event for copied article
-			$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$this->table, true, $fieldsData));
+			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
 		}
 
 		// Clean the cache
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Batch change workflow stage or current.
+	 *
+	 * @param   integer  $value     The workflow stage ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function batchWorkflowStage($value, $pks, $contexts)
+	{
+		$user = Factory::getUser();
+
+		if (!$user->authorise('core.admin', 'com_content'))
+		{
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+		}
+
+		// Get workflow stage information
+		$stage = new StageTable($this->_db);
+
+		if (empty($value) || !$stage->load($value))
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		if (empty($pks))
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		// Update content state value and workflow associations
+		return ContentHelper::updateContentState($pks, $stage->condition)
+				&& $workflow->updateAssociations($pks, $value);
 	}
 
 	/**
@@ -188,17 +248,17 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
 		if (empty($this->batchSet))
 		{
 			// Set some needed variables.
-			$this->user = JFactory::getUser();
+			$this->user = Factory::getUser();
 			$this->table = $this->getTable();
 			$this->tableClassName = get_class($this->table);
-			$this->contentType = new JUcmType;
+			$this->contentType = new UCMType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
@@ -209,18 +269,17 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('system');
-		$dispatcher = JEventDispatcher::getInstance();
+		PluginHelper::importPlugin('system');
 
 		// Register FieldsHelper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
 			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -238,12 +297,13 @@ class ArticleModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
 
-			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -267,11 +327,6 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			if (!empty($this->type))
-			{
-				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-			}
-
 			// Store the row.
 			if (!$this->table->store())
 			{
@@ -281,7 +336,7 @@ class ArticleModel extends AdminModel
 			}
 
 			// Run event for moved article
-			$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
+			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
 		}
 
 		// Clean the cache
@@ -303,12 +358,18 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			if ($record->state != -2)
+			$stage = new StageTable($this->_db);
+
+			$workflow = new Workflow(['extension' => 'com_content']);
+
+			$assoc = $workflow->getAssociation($record->id);
+
+			if (!$stage->load($assoc->stage_id) || $stage->condition != Workflow::TRASHED)
 			{
 				return false;
 			}
 
-			return \JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+			return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 		}
 
 		return false;
@@ -325,7 +386,7 @@ class ArticleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing article.
 		if (!empty($record->id))
@@ -357,7 +418,7 @@ class ArticleModel extends AdminModel
 		// Set the publish date to now
 		if ($table->state == 1 && (int) $table->publish_up == 0)
 		{
-			$table->publish_up = \JFactory::getDate()->toSql();
+			$table->publish_up = Factory::getDate()->toSql();
 		}
 
 		if ($table->state == 1 && intval($table->publish_down) == 0)
@@ -412,7 +473,7 @@ class ArticleModel extends AdminModel
 		}
 
 		// Load associated content items
-		$assoc = \JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -420,7 +481,7 @@ class ArticleModel extends AdminModel
 
 			if ($item->id != null)
 			{
-				$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
+				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -438,7 +499,7 @@ class ArticleModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -452,7 +513,9 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -461,15 +524,25 @@ class ArticleModel extends AdminModel
 		$id = $jinput->get('a_id', $jinput->get('id', 0));
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
+		if ($id = $this->getState('article.id', $id))
 		{
-			$id = $this->getState('article.id');
-
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+
+			$table = $this->getTable();
+
+			if ($table->load(array('id' => $id)))
+			{
+				$workflow = new Workflow(['extension' => 'com_content']);
+
+				// Transition field
+				$assoc = $workflow->getAssociation($table->id);
+
+				$form->setFieldAttribute('transition', 'workflow_stage', (int) $assoc->stage_id);
+			}
 		}
 		else
 		{
@@ -477,7 +550,7 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -501,13 +574,13 @@ class ArticleModel extends AdminModel
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = \JFactory::getApplication();
-		$assoc = \JLanguageAssociations::isEnabled();
+		$app = Factory::getApplication();
+		$assoc = Associations::isEnabled();
 
 		// Check if article is associated
 		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
 		{
-			$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+			$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 			// Make fields read only
 			if (!empty($associations))
@@ -532,7 +605,7 @@ class ArticleModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data))
@@ -553,7 +626,7 @@ class ArticleModel extends AdminModel
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
 				);
 			}
 		}
@@ -585,7 +658,7 @@ class ArticleModel extends AdminModel
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (\JFactory::getApplication()->isClient('administrator') && !\JFactory::getUser()->authorise('core.manage', 'com_users'))
+		if (Factory::getApplication()->isClient('administrator') && !Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{
@@ -612,8 +685,10 @@ class ArticleModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input  = \JFactory::getApplication()->input;
+		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
+		$db     = $this->getDbo();
+		$user	= Factory::getUser();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -671,7 +746,7 @@ class ArticleModel extends AdminModel
 					}
 					else
 					{
-						$data['urls'][$i] = \JStringPunycode::urlToPunycode($url);
+						$data['urls'][$i] = PunycodeHelper::urlToPunycode($url);
 					}
 				}
 			}
@@ -702,8 +777,68 @@ class ArticleModel extends AdminModel
 					$data['alias'] = '';
 				}
 			}
+		}
 
-			$data['state'] = 0;
+		$workflowId = 0;
+		$stageId = 0;
+
+		// Set status depending on category
+		if (empty($data['id']))
+		{
+			$workflow = $this->getWorkflowByCategory($data['catid']);
+
+			if (empty($workflow->id))
+			{
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+
+				return false;
+			}
+
+			$stageId = (int) $workflow->stage_id;
+			$workflowId = (int) $workflow->id;
+
+			// B/C state
+			$data['state'] = (int) $workflow->condition;
+
+			// No transition for new articles
+			if (isset($data['transition']))
+			{
+				unset($data['transition']);
+			}
+		}
+		// Calculate new status depending on transition
+		elseif (!empty($data['transition']))
+		{
+			// Check if the user is allowed to execute this transition
+			if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $data['transition']))
+			{
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
+
+				return false;
+			}
+
+			// Set the new state
+			$query = $db->getQuery(true);
+
+			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
+					->from($db->quoteName('#__workflow_stages', 'ws'))
+					->from($db->quoteName('#__workflow_transitions', 'wt'))
+					->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
+					->where($db->quoteName('ws.published') . ' = 1')
+					->where($db->quoteName('wt.published') . ' = 1');
+
+			$stage = $db->setQuery($query)->loadObject();
+
+			if (empty($stage->id))
+			{
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
+
+				return false;
+			}
+
+			$data['state'] = (int) $stage->condition;
+
 		}
 
 		// Automatic handling of alias for empty fields
@@ -711,7 +846,7 @@ class ArticleModel extends AdminModel
 		{
 			if ($data['alias'] == null)
 			{
-				if (\JFactory::getConfig()->get('unicodeslugs') == 1)
+				if (Factory::getConfig()->get('unicodeslugs') == 1)
 				{
 					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
 				}
@@ -724,7 +859,7 @@ class ArticleModel extends AdminModel
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
-					$msg = \JText::_('COM_CONTENT_SAVE_WARNING');
+					$msg = Text::_('COM_CONTENT_SAVE_WARNING');
 				}
 
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
@@ -732,16 +867,61 @@ class ArticleModel extends AdminModel
 
 				if (isset($msg))
 				{
-					\JFactory::getApplication()->enqueueMessage($msg, 'warning');
+					Factory::getApplication()->enqueueMessage($msg, 'warning');
 				}
 			}
 		}
+
+		$workflow = new Workflow(['extension' => 'com_content']);
 
 		if (parent::save($data))
 		{
 			if (isset($data['featured']))
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
+			}
+
+			// Run the transition and update the workflow association
+			if (!empty($data['transition']))
+			{
+				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
+			}
+
+			// Let's check if we have workflow association (perhaps something went wrong before)
+			if (empty($stageId))
+			{
+				$assoc = $workflow->getAssociation($this->getState($this->getName() . '.id'));
+
+				// If not, reset the state and let's create the associations
+				if (empty($assoc->item_id))
+				{
+					$table = $this->getTable();
+
+					$table->load((int) $this->getState($this->getName() . '.id'));
+
+					$workflow = $this->getWorkflowByCategory($table->catid);
+
+					if (empty($workflow->id))
+					{
+						$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+
+						return false;
+					}
+
+					$stageId = (int) $workflow->stage_id;
+					$workflowId = (int) $workflow->id;
+
+					// B/C state
+					$table->state = $workflow->condition;
+
+					$table->store();
+				}
+			}
+
+			// If we have a new state, create the workflow association
+			if (!empty($stageId))
+			{
+				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
 			}
 
 			return true;
@@ -766,7 +946,7 @@ class ArticleModel extends AdminModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
 
 			return false;
 		}
@@ -874,9 +1054,9 @@ class ArticleModel extends AdminModel
 		}
 
 		// Association content items
-		if (\JLanguageAssociations::isEnabled())
+		if (Associations::isEnabled())
 		{
-			$languages = \JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
@@ -949,7 +1129,7 @@ class ArticleModel extends AdminModel
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_content');
+		return Factory::getUser()->authorise('core.create', 'com_content');
 	}
 
 	/**
@@ -974,8 +1154,150 @@ class ArticleModel extends AdminModel
 				->where('content_id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
 			$db->execute();
+
+			$workflow = new Workflow(['extension' => 'com_content']);
+
+			$workflow->deleteAssociation($pks);
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Load the assigned workflow information by a given category ID
+	 *
+	 * @param   int  $catId  The give category
+	 *
+	 * @return  integer|boolean  If found, the workflow ID, otherwise false
+	 */
+	protected function getWorkflowByCategory($catId)
+	{
+		$db = $this->getDbo();
+
+		// Search categories and parents (if requested) for a workflow
+		$category = new Category($db);
+
+		$categories = array_reverse($category->getPath($catId));
+
+		$workflow_id = 0;
+
+		foreach ($categories as $cat)
+		{
+			$cat->params = new Registry($cat->params);
+
+			$workflow_id = $cat->params->get('workflow_id');
+
+			if ($workflow_id == 'inherit')
+			{
+				$workflow_id = 0;
+
+				continue;
+			}
+			elseif ($workflow_id == 'use_default')
+			{
+				$workflow_id = 0;
+
+				break;
+			}
+			elseif ($workflow_id > 0)
+			{
+				break;
+			}
+		}
+
+		// Check if the workflow exists
+		if ($workflow_id > 0)
+		{
+			$query  = $db->getQuery(true);
+
+			$query	->select(
+						$db->quoteName(
+							[
+								'w.id',
+								'ws.condition'
+							]
+						)
+					)
+					->select($db->quoteName('ws.id', 'stage_id'))
+					->from($db->quoteName('#__workflow_stages', 'ws'))
+					->from($db->quoteName('#__workflows', 'w'))
+					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+					->where($db->quoteName('ws.default') . ' = 1')
+					->where($db->quoteName('w.published') . ' = 1')
+					->where($db->quoteName('ws.published') . ' = 1')
+					->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
+
+			$workflow = $db->setQuery($query)->loadObject();
+
+			if (!empty($workflow->id))
+			{
+				return $workflow;
+			}
+		}
+
+		// Use default workflow
+		$query  = $db->getQuery(true);
+
+		$query	->select(
+				$db->quoteName(
+						[
+							'w.id',
+							'ws.condition'
+						]
+					)
+				)
+				->select($db->quoteName('ws.id', 'stage_id'))
+				->from($db->quoteName('#__workflow_stages', 'ws'))
+				->from($db->quoteName('#__workflows', 'w'))
+				->where($db->quoteName('ws.default') . ' = 1')
+				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+				->where($db->quoteName('w.published') . ' = 1')
+				->where($db->quoteName('ws.published') . ' = 1')
+				->where($db->quoteName('w.default') . ' = 1');
+
+		$workflow = $db->setQuery($query)->loadObject();
+
+		// Last check if we have a workflow ID
+		if (!empty($workflow->id))
+		{
+			return $workflow;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Runs transition for item.
+	 *
+	 * @param   integer  $pk             Id of article
+	 * @param   integer  $transition_id  Id of transition
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function runTransition($pk, $transition_id)
+	{
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		$runTransaction = $workflow->executeTransition($pk, $transition_id);
+
+		if (!$runTransaction)
+		{
+			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE'));
+
+			return false;
+		}
+
+		// B/C state change trigger for UCM
+		$context = $this->option . '.' . $this->name;
+
+		// Include the plugins for the change of stage event.
+		\JPluginHelper::importPlugin($this->events_map['change_state']);
+
+		// Trigger the change stage event.
+		\JFactory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
+
+		return true;
 	}
 }

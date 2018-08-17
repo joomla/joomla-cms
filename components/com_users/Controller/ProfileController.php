@@ -8,6 +8,8 @@
  */
 namespace Joomla\Component\Users\Site\Controller;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
@@ -21,7 +23,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Uri\Uri;
 
-defined('_JEXEC') or die;
 
 /**
  * Profile controller class for Users.

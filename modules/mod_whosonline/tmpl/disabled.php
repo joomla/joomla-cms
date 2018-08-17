@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 ?>
 <div class="mod-whosonline-disabled">
-	<p><?php echo JText::_('MOD_WHOSONLINE_NO_SESSION_METADATA'); ?></p>
+	<p><?php echo Text::_('MOD_WHOSONLINE_NO_SESSION_METADATA'); ?></p>
 </div>

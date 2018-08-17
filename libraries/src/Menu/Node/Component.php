@@ -9,6 +9,7 @@ namespace Joomla\CMS\Menu\Node;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Menu\Node;
 
 /**
@@ -82,7 +83,7 @@ class Component extends Node
 	{
 		$this->title   = $title;
 		$this->element = $element;
-		$this->link    = $link ? \JFilterOutput::ampReplace($link) : 'index.php?option=' . $element;
+		$this->link    = $link ? OutputFilter::ampReplace($link) : 'index.php?option=' . $element;
 		$this->target  = $target;
 		$this->class   = $class;
 		$this->id      = $id;

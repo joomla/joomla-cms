@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -55,7 +56,10 @@ class FinderIndexerHelper
 	 */
 	public static function tokenize($input, $lang, $phrase = false)
 	{
-		static $cache;
+		static $cache, $tuplecount;
+		static $multilingual;
+		static $defaultLanguage;
+
 		$store = md5($input . '::' . $lang . '::' . $phrase);
 
 		// Check if the string has been tokenized already.
@@ -64,7 +68,49 @@ class FinderIndexerHelper
 			return $cache[$store];
 		}
 
-		$language = FinderIndexerLanguage::getInstance($lang);
+		if (!$tuplecount)
+		{
+			$params = ComponentHelper::getParams('com_finder');
+			$tuplecount = $params->get('tuplecount', 1);
+		}
+
+		if (is_null($multilingual))
+		{
+			$multilingual = Multilanguage::isEnabled();
+			$config = ComponentHelper::getParams('com_finder');
+
+			if ($config->get('language_default', '') == '')
+			{
+				$defaultLang = '*';
+			}
+			elseif ($config->get('language_default', '') == '-1')
+			{
+				$defaultLang = self::getDefaultLanguage();
+			}
+			else
+			{
+				$defaultLang = $config->get('language_default');
+			}
+
+			/*
+			 * The default language always has the language code '*'.
+			 * In order to not overwrite the language code of the language
+			 * object that we are using, we are cloning it here.
+			 */
+			$obj = FinderIndexerLanguage::getInstance($defaultLang);
+			$defaultLanguage = clone $obj;
+			$defaultLanguage->language = '*';
+		}
+
+		if (!$multilingual || $lang == '*')
+		{
+			$language = $defaultLanguage;
+		}
+		else
+		{
+			$language = FinderIndexerLanguage::getInstance($lang);
+		}
+
 		$tokens = array();
 		$terms = $language->tokenise($input);
 		$terms = array_filter($terms);
@@ -87,33 +133,28 @@ class FinderIndexerHelper
 				$tokens[] = new FinderIndexerToken($terms[$i], $language->language);
 			}
 
-			// Create two and three word phrase tokens from the individual words.
-			for ($i = 0, $n = count($tokens); $i < $n; $i++)
+			// Create multi-word phrase tokens from the individual words.
+			if ($tuplecount > 1)
 			{
-				// Setup the phrase positions.
-				$i2 = $i + 1;
-				$i3 = $i + 2;
-
-				// Create the two word phrase.
-				if ($i2 < $n && isset($tokens[$i2]))
+				for ($i = 0, $n = count($tokens); $i < $n; $i++)
 				{
-					// Tokenize the two word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $language->language, $language->spacer);
-					$token->derived = true;
+					$temp = array($tokens[$i]->term);
 
-					// Add the token to the stack.
-					$tokens[] = $token;
-				}
+					// Create tokens for 2 to $tuplecount length phrases
+					for ($j = 1; $j < $tuplecount; $j++)
+					{
+						if ($i + $j >= $n || !isset($tokens[$i + $j]))
+						{
+							break;
+						}
 
-				// Create the three word phrase.
-				if ($i3 < $n && isset($tokens[$i3]))
-				{
-					// Tokenize the three word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $language->language, $language->spacer);
-					$token->derived = true;
+						$temp[] = $tokens[$i + $j]->term;
+						$token = new FinderIndexerToken($temp, $language->language, $language->spacer);
+						$token->derived = true;
 
-					// Add the token to the stack.
-					$tokens[] = $token;
+						// Add the token to the stack.
+						$tokens[] = $token;
+					}
 				}
 			}
 		}
@@ -135,7 +176,36 @@ class FinderIndexerHelper
 	 */
 	public static function stem($token, $lang)
 	{
-		$language = FinderIndexerLanguage::getInstance($lang);
+		static $multilingual;
+		static $defaultStemmer;
+
+		if (is_null($multilingual))
+		{
+			$multilingual = Multilanguage::isEnabled();
+			$config = ComponentHelper::getParams('com_finder');
+
+			if ($config->get('language_default', '') == '')
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance('*');
+			}
+			elseif ($config->get('language_default', '') == '-1')
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getDefaultLanguage());
+			}
+			else
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance($config->get('language_default'));
+			}
+		}
+
+		if (!$multilingual || $lang == '*')
+		{
+			$language = $defaultStemmer;
+		}
+		else
+		{
+			$language = FinderIndexerLanguage::getInstance($lang);
+		}
 
 		return $language->stem($token);
 	}
@@ -297,34 +367,6 @@ class FinderIndexerHelper
 		}
 
 		return $data[$lang];
-	}
-
-	/**
-	 * Method to get the path (SEF route) for a content item.
-	 *
-	 * @param   string  $url  The non-SEF route to the content item.
-	 *
-	 * @return  string  The path for the content item.
-	 *
-	 * @since   2.5
-	 */
-	public static function getContentPath($url)
-	{
-		static $router;
-
-		// Only get the router once.
-		if (!($router instanceof Router))
-		{
-			// Get and configure the site router.
-			$router = Router::getInstance('site');
-		}
-
-		// Build the relative route.
-		$uri = $router->build($url);
-		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JUri::base(true) . '/', '', $route);
-
-		return $route;
 	}
 
 	/**

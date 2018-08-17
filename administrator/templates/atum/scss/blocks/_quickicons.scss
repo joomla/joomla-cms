@@ -5,39 +5,25 @@
   a {
     display: inline-flex;
     flex-direction: column;
-    width: 120px;
+    width: 140px;
     height: 120px;
     margin-right: 15px;
     margin-bottom: 15px;
-    color: $white;
+    color: $atum-template-color-dark;
     text-align: center;
     background: $quickicon-bg;
-    border-radius: 3px;
     box-shadow: $quickicon-box-shadow;
-    transition: background .25s ease;
+    transition: all .25s ease;
 
     > div {
       flex: 1 0 0;
     }
 
-    &.pulse {
-      @include media-breakpoint-only(xs) {
-        box-shadow: 0 0 0 0 rgba($atum-template-color,.7);
-        animation: pulse 1.25s infinite cubic-bezier(.66,0,0,1);
-      }
-
-      &.danger,
-      &.success {
-        @include media-breakpoint-only(xs) {
-          animation: none;
-        }
-      }
-    }
-
+    &:hover,
     &:hover,
     &:focus {
       text-decoration: none;
-      background: $atum-template-color-light;
+      box-shadow: $quickicon-box-shadow-hover;
     }
 
     .j-links-link {
@@ -49,33 +35,18 @@
     }
 
     .fa {
-      margin: 5px auto;
+      margin: 5px auto 0;
       font-size: 2.5rem;
-      font-weight: normal;
-      line-height: 3rem;
     }
 
     &.danger {
-      background-color: lighten(theme-color("danger"), 7%);
+      color: theme-color("danger");
       box-shadow: $quickicon-box-shadow-danger;
     }
 
     &.success {
-      background-color: lighten(theme-color("success"), 7%);
+      color: theme-color("success");
       box-shadow: $quickicon-box-shadow-success;
     }
-
-  }
-
-  [id*="plg_quickicon"] a,
-  [id*="plg_quickicon"] a::before {
-    transition-delay: .4s;
-  }
-
-}
-
-@keyframes pulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(232,76,61,0);
   }
 }

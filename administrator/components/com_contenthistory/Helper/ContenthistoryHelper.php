@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contenthistory\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -13,6 +14,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
@@ -116,7 +122,7 @@ class ContenthistoryHelper
 				{
 					if ($label = (string) $field->attributes()->label)
 					{
-						$labels[(string) $field->attributes()->name] = \JText::_($label);
+						$labels[(string) $field->attributes()->name] = Text::_($label);
 					}
 				}
 
@@ -138,7 +144,7 @@ class ContenthistoryHelper
 							$valueText = trim((string) $optionFieldArray[0]);
 						}
 
-						$values[(string) $field->attributes()->name] = \JText::_($valueText);
+						$values[(string) $field->attributes()->name] = Text::_($valueText);
 					}
 				}
 			}
@@ -169,7 +175,7 @@ class ContenthistoryHelper
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
-		if (is_object($options) && isset($options->formFile) && \JFile::exists(JPATH_ROOT . '/' . $options->formFile))
+		if (is_object($options) && isset($options->formFile) && File::exists(JPATH_ROOT . '/' . $options->formFile))
 		{
 			$result = JPATH_ROOT . '/' . $options->formFile;
 		}
@@ -180,9 +186,9 @@ class ContenthistoryHelper
 			if (count($aliasArray) == 2)
 			{
 				$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-				$path  = \JFolder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
-				$file = \JFile::makeSafe($aliasArray[1] . '.xml');
-				$result = \JFile::exists($path . $file) ? $path . $file : false;
+				$path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
+				$file = File::makeSafe($aliasArray[1] . '.xml');
+				$result = File::exists($path . $file) ? $path . $file : false;
 			}
 		}
 
@@ -205,7 +211,7 @@ class ContenthistoryHelper
 
 		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn)&& isset($lookup->displayColumn))
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName($lookup->displayColumn))
 				->from($db->quoteName($lookup->targetTable))
@@ -268,17 +274,17 @@ class ContenthistoryHelper
 		if (is_array($aliasArray) && count($aliasArray) == 2)
 		{
 			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			/**
 			 * Loading language file from the administrator/language directory then
 			 * loading language file from the administrator/components/extension/language directory
 			 */
 			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+			|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 			// Force loading of backend global language file
-			$lang->load('joomla', \JPath::clean(JPATH_ADMINISTRATOR), null, false, true);
+			$lang->load('joomla', Path::clean(JPATH_ADMINISTRATOR), null, false, true);
 		}
 	}
 

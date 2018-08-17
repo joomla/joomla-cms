@@ -6,12 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
 
 /**
  * The Menu List Controller
@@ -60,15 +64,15 @@ class MenusController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$user = \JFactory::getUser();
-		$app  = \JFactory::getApplication();
+		$user = Factory::getUser();
+		$app  = Factory::getApplication();
 		$cids = (array) $this->input->get('cid', array(), 'array');
 
 		if (count($cids) < 1)
 		{
-			$this->setMessage(\JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
+			$this->setMessage(Text::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -79,7 +83,7 @@ class MenusController extends BaseController
 				{
 					// Prune items that you can't change.
 					unset($cids[$i]);
-					$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 
@@ -99,7 +103,7 @@ class MenusController extends BaseController
 				}
 				else
 				{
-					$this->setMessage(\JText::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
+					$this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
 				}
 			}
 		}
@@ -116,7 +120,7 @@ class MenusController extends BaseController
 	 */
 	public function rebuild()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
@@ -126,14 +130,14 @@ class MenusController extends BaseController
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
-			$this->setMessage(\JText::_('JTOOLBAR_REBUILD_SUCCESS'));
+			$this->setMessage(Text::_('JTOOLBAR_REBUILD_SUCCESS'));
 
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(\JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
+			$this->setMessage(Text::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
 
 			return false;
 		}
@@ -148,7 +152,7 @@ class MenusController extends BaseController
 	 */
 	public function resync()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$parts = null;
 

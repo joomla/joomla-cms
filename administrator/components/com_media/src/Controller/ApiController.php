@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
@@ -20,8 +21,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-
-\JLoader::import('joomla.filesystem.file');
 
 /**
  * Api Media Controller
@@ -54,7 +53,7 @@ class ApiController extends BaseController
 			// Check token for requests which do modify files (all except get requests)
 			if ($method !== 'GET' && !Session::checkToken('json'))
 			{
-				throw new \InvalidArgumentException(\JText::_('JINVALID_TOKEN'), 403);
+				throw new \InvalidArgumentException(Text::_('JINVALID_TOKEN'), 403);
 			}
 
 			$doTask = strtolower($method) . ucfirst($task);
@@ -64,7 +63,7 @@ class ApiController extends BaseController
 
 			if (!in_array($this->doTask, $this->taskMap))
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
 			}
 
 			$data = $this->$doTask();
@@ -133,7 +132,7 @@ class ApiController extends BaseController
 	public function getFiles()
 	{
 		// Grab options
-		$options              = array();
+		$options              = [];
 		$options['url']       = $this->input->getBool('url', false);
 		$options['temp']      = $this->input->getBool('temp', false);
 		$options['search']    = $this->input->getString('search', '');
@@ -299,14 +298,14 @@ class ApiController extends BaseController
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
-	 * @param   mixed   $data          The data to send
-	 * @param   number  $responseCode  The response code
+	 * @param   mixed    $data          The data to send
+	 * @param   integer  $responseCode  The response code
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	private function sendResponse($data = null, $responseCode = 200)
+	private function sendResponse($data = null, int $responseCode = 200)
 	{
 		// Set the correct content type
 		$this->app->setHeader('Content-Type', 'application/json');
@@ -331,7 +330,7 @@ class ApiController extends BaseController
 	 *
 	 * @since   4.0.0
 	 */
-	public function getModel($name = 'Api', $prefix = 'Administrator', $config = array())
+	public function getModel($name = 'Api', $prefix = 'Administrator', $config = [])
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -348,7 +347,7 @@ class ApiController extends BaseController
 	{
 		if (!Factory::getUser()->authorise('core.create', 'com_media'))
 		{
-			throw new \Exception(\JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
 		}
 
 		$params = ComponentHelper::getParams('com_media');
@@ -361,7 +360,7 @@ class ApiController extends BaseController
 			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
 			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
 		{
-			throw new \Exception(\JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}
 	}
 

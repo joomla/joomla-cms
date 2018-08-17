@@ -13,10 +13,12 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -29,6 +31,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
  */
 class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface
 {
+	use CategoriesServiceTrait;
+
 	/**
 	 * @var string
 	 *
@@ -223,7 +227,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 			return $className;
 		}
 
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
+		$file = Path::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
 
 		if (!file_exists($file))
 		{

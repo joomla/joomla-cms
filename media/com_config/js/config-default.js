@@ -1,4 +1,9 @@
 /**
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -6,6 +11,7 @@
   'use strict';
 
   // Selectors used by this script
+
   var buttonDataSelector = 'data-submit-task';
 
   /**
@@ -13,8 +19,8 @@
    * @param task
    * @param form
    */
-  var submitTask = function (task, form) {
-    if (task == 'config.cancel' || document.formvalidator.isValid(form)) {
+  var submitTask = function submitTask(task, form) {
+    if (task === 'config.cancel' || document.formvalidator.isValid(form)) {
       submitForm(task, form);
     }
   };
@@ -22,7 +28,7 @@
   /**
    * Register events
    */
-  var registerEvents = function () {
+  var registerEvents = function registerEvents() {
     var buttons = [].slice.call(document.querySelectorAll('[' + buttonDataSelector + ']'));
     buttons.forEach(function (button) {
       button.addEventListener('click', function (e) {
@@ -36,5 +42,4 @@
   document.addEventListener('DOMContentLoaded', function () {
     registerEvents();
   });
-
 })(document, Joomla.submitform);

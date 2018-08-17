@@ -6,11 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Search\Site\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Search Component Controller
@@ -104,10 +107,10 @@ class DisplayController extends BaseController
 
 		unset($post['task'], $post['submit']);
 
-		$uri = \JUri::getInstance();
+		$uri = Uri::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 
-		$this->setRedirect(\JRoute::_('index.php' . $uri->toString(array('query', 'fragment')), false));
+		$this->setRedirect(Route::_('index.php' . $uri->toString(array('query', 'fragment')), false));
 	}
 }

@@ -9,7 +9,7 @@
 }
 
 .icon-white {
-  color: $white-offset;
+  color: $white;
 }
 
 .icon-publish {
@@ -20,23 +20,21 @@
   color: theme-color("danger");
 }
 
+
 .tbody-icon {
   padding: 0 3px;
   text-align: center;
   background-color: transparent;
   border: 0;
 
-  span {
-    color: #ccc;
-    border: 2px solid #ccc;
-  }
-
-  [class^="icon-"]:not(.icon-checkedout),
-  [class*=" icon-"]:not(.icon-checkedout) {
+  [class^='icon-'],
+  [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
     line-height: 22px;
+    color: #ccc;
+    border: 2px solid #ccc;
     border-radius: 50%;
   }
 
@@ -46,13 +44,8 @@
   }
 
   .icon-featured {
-    color: theme-color("warning");
-    border-color: theme-color("warning");
-  }
-
-  .icon-unpublish {
-    color: theme-color("danger");
-    border-color: theme-color("danger");
+    color: theme-color("primary");
+    border-color: theme-color("primary");
   }
 
   .icon-archive {

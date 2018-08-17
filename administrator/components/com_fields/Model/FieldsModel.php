@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,6 +15,8 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Categories\Categories;
 
 /**
  * Fields Model
@@ -131,8 +134,8 @@ class FieldsModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = \JFactory::getUser();
-		$app   = \JFactory::getApplication();
+		$user  = Factory::getUser();
+		$app   = Factory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -192,7 +195,7 @@ class FieldsModel extends ListModel
 			if ($parts)
 			{
 				// Get the category
-				$cat = \JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
 
 				if ($cat)
 				{
@@ -376,7 +379,7 @@ class FieldsModel extends ListModel
 	 */
 	public function getGroups()
 	{
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
 		$db    = $this->getDbo();

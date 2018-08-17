@@ -108,7 +108,7 @@ class PlgSearchContent extends CMSPlugin
 					->where('cfv.value LIKE ' . $text);
 
 				// Filter by language.
-				if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+				if ($app->isClient('site') && Multilanguage::isEnabled())
 				{
 					$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 				}
@@ -165,7 +165,7 @@ class PlgSearchContent extends CMSPlugin
 							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
 
 						// Filter by language.
-						if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+						if ($app->isClient('site') && Multilanguage::isEnabled())
 						{
 							$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 						}
@@ -206,7 +206,7 @@ class PlgSearchContent extends CMSPlugin
 						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');
 
 					// Filter by language.
-					if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+					if ($app->isClient('site') && Multilanguage::isEnabled())
 					{
 						$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 					}
@@ -279,8 +279,9 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
 				->where(
-					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
+					'(' . $where . ') AND ws.condition=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Associations\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,6 +15,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of article records.
@@ -70,7 +74,7 @@ class AssociationsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
@@ -174,7 +178,7 @@ class AssociationsModel extends ListModel
 		}
 
 		// Create a new query object.
-		$user     = \JFactory::getUser();
+		$user     = Factory::getUser();
 		$db       = $this->getDbo();
 		$query    = $db->getQuery(true);
 
@@ -451,7 +455,7 @@ class AssociationsModel extends ListModel
 	 */
 	public function purge($context = '', $key = '')
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)->delete($db->qn('#__associations'));
 
@@ -473,15 +477,15 @@ class AssociationsModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
-			$app->enqueueMessage(\JText::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
+			$app->enqueueMessage(Text::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
 			return false;
 		}
 
 		$app->enqueueMessage(
-			\JText::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'),
+			Text::_((int) $db->getAffectedRows() > 0 ? 'COM_ASSOCIATIONS_PURGE_SUCCESS' : 'COM_ASSOCIATIONS_PURGE_NONE'),
 			'message'
 		);
 
@@ -500,7 +504,7 @@ class AssociationsModel extends ListModel
 	 */
 	public function clean($context = '', $key = '')
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('key') . ', COUNT(*)')
@@ -539,9 +543,9 @@ class AssociationsModel extends ListModel
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
-				$app->enqueueMessage(\JText::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
+				$app->enqueueMessage(Text::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
 				return false;
 			}
@@ -550,7 +554,7 @@ class AssociationsModel extends ListModel
 		}
 
 		$app->enqueueMessage(
-			\JText::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'),
+			Text::_($count > 0 ? 'COM_ASSOCIATIONS_DELETE_ORPHANS_SUCCESS' : 'COM_ASSOCIATIONS_DELETE_ORPHANS_NONE'),
 			'message'
 		);
 

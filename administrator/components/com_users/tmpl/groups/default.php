@@ -41,35 +41,28 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="groupList">
+					<table class="table" id="groupList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap">
+								<td style="width:1%" class="nowrap">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
-								<th class="nowrap">
+								</td>
+								<th scope="col" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
-                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
+								<th scope="col" style="width:10%" class="nowrap text-center">
+									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
-								<th style="width:10%" class="nowrap text-center">
-                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
+								<th scope="col" style="width:10%" class="nowrap text-center">
+									<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="5">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							$canCreate = $user->authorise('core.create', 'com_users');
@@ -88,7 +81,7 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									<?php endif; ?>
 								</td>
-								<td>
+								<th scope="row">
 									<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)); ?>
 									<?php if ($canEdit) : ?>
 									<a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
@@ -100,7 +93,7 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 										<div class="small"><a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 										<?php echo Text::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 									<?php endif; ?>
-								</td>
+								</th>
 								<td class="text-center btns">
 									<a class="badge <?php echo $item->count_enabled > 0 ? 'badge-success' : 'badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 										<?php echo $item->count_enabled; ?></a>
@@ -116,6 +109,10 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">
