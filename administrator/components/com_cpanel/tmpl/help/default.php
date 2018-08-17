@@ -17,7 +17,11 @@ use Joomla\CMS\Language\Text;
 		<span class="fa fa-info-circle" aria-hidden="true"></span>
 		<?php echo Text::_('MOD_MENU_HELP'); ?>
 	</h2>
-	<?php foreach ($this->links as $link) : ?>
-		<a class="list-group-item list-group-item-action" href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a>
-	<?php endforeach; ?>
+	<ul class="list-group list-group-flush">
+		<?php foreach ($this->links as $link) : ?>
+			<li class="list-group-item">
+				<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
+			</li>
+		<?php endforeach; ?>
+	</ul>
 </div>
