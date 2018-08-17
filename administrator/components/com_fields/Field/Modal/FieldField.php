@@ -50,26 +50,34 @@ class FieldField extends FormField
 		// Load language
 		Factory::getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
 
-		// Build the script.
-		$script = array();
+		$jsId = $this->id;
 
+		// Build the script.
 		// Select button script
-		$script[] = '	function jSelectCategory_' . $this->id . '(id, title, object) {';
-		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
-		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
+		$script = <<<JS1
+function jSelectCategory_$jsId(id, title, object) {
+	document.getElementById("$jsId" + "_id").value = id;
+	document.getElementById("$jsId" + "_name").value = title;
+JS1;
 
 		if ($allowEdit)
 		{
-			$script[] = '		document.getElementById("' . $this->id . '_edit").classList.remove("hidden");';
+			$script += <<<JS2
+	document.getElementById("$jsId" + "_edit").classList.remove("hidden");
+JS2;
 		}
 
 		if ($allowClear)
 		{
-			$script[] = '		document.getElementById("' . $this->id . '_clear").classList.remove("hidden");';
+			$script += <<<JS3
+	document.getElementById("$jsId" + "_clear").classList.remove("hidden");
+JS3;
 		}
 
-		$script[] = '		Joomla.Modal.getCurrent().close()';
-		$script[] = '	}';
+		$script += <<<JS4
+	Joomla.Modal.getCurrent().close();
+}
+JS4;
 
 		// Clear button script
 		static $scriptClear;
@@ -77,21 +85,23 @@ class FieldField extends FormField
 		if ($allowClear && !$scriptClear)
 		{
 			$scriptClear = true;
-
-			$script[] = '	function jClearCategory(id) {';
-			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "' .
-				htmlspecialchars(Text::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
-			$script[] = '		document.getElementById(id + "_clear").classList.add("hidden");';
-			$script[] = '		if (document.getElementById(id + "_edit")) {';
-			$script[] = '			document.getElementById(id + "_edit").classList.add("hidden");';
-			$script[] = '		}';
-			$script[] = '		return false;';
-			$script[] = '	}';
+			$jsValue = htmlspecialchars(Text::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8');
+			$script += <<<JS5
+function jClearCategory(id) {
+	document.getElementById(id + "_id").value = "";
+	document.getElementById(id + "_name").value = "$jsValue";
+	document.getElementById(id + "_clear").classList.add("hidden");
+	if (document.getElementById(id + "_edit")) {
+		document.getElementById(id + "_edit").classList.add("hidden");
+	}
+	return false;
+}
+JS5;
 		}
 
+		// @todo move the script to a file
 		// Add the script to the document head.
-		Factory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		Factory::getDocument()->addScriptDeclaration($script);
 
 		// Setup variables for display.
 		$html = array();

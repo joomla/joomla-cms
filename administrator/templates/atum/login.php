@@ -27,10 +27,6 @@ HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' =>
 HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
-// Alerts
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto']);
-
-
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
@@ -49,6 +45,9 @@ $sitename = $app->get('sitename');
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
+
+// Set page title
+$this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 
 ?>
 <!DOCTYPE html>

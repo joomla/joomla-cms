@@ -1092,12 +1092,12 @@ pre {
   .table td {
     padding: 0.75rem;
     vertical-align: top;
-    border-top: 0 solid #dee2e6; }
+    border-top: 1px solid #dee2e6; }
   .table thead th {
     vertical-align: bottom;
-    border-bottom: 0 solid #dee2e6; }
+    border-bottom: 2px solid #dee2e6; }
   .table tbody + tbody {
-    border-top: 0 solid #dee2e6; }
+    border-top: 2px solid #dee2e6; }
   .table .table {
     background-color: #fff; }
 
@@ -1106,13 +1106,13 @@ pre {
   padding: 0.3rem; }
 
 .table-bordered {
-  border: 0 solid #dee2e6; }
+  border: 1px solid #dee2e6; }
   .table-bordered th,
   .table-bordered td {
-    border: 0 solid #dee2e6; }
+    border: 1px solid #dee2e6; }
   .table-bordered thead th,
   .table-bordered thead td {
-    border-bottom-width: 0; }
+    border-bottom-width: 2px; }
 
 .table-borderless th,
 .table-borderless td,
