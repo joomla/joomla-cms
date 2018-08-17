@@ -1088,9 +1088,9 @@ CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex
 
 CREATE TABLE "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
-  "language" varchar(3) DEFAULT '' NOT NULL
+  "language" varchar(3) DEFAULT '' NOT NULL,
+  PRIMARY KEY ("term", "language")
 );
-CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
 
 --
