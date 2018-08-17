@@ -23,8 +23,6 @@ HTMLHelper::_('behavior.tooltip');
 $user      = Factory::getUser();
 $userId    = $user->id;
 
-$lang		= Factory::getLanguage();
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrderingUrl = '';
