@@ -33,7 +33,7 @@ extract($displayData, EXTR_OVERWRITE);
 
 		<?php if ($toggleSplit ?? true): ?>
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle dropdown-toggle-split"
-				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				data-toggle="dropdown" data-target="#<?php echo $id; ?>" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
 		<?php endif; ?>

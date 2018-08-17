@@ -60,7 +60,7 @@ const watchFiles = (options, folders, compileFirst = false) => {
   }
 
   folderz.forEach(
-  	(folder) => {
+    (folder) => {
       Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
         (files) => {
           files.forEach(

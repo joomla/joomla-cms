@@ -52,8 +52,8 @@ const buildCheck = (options) => {
       incomplete = `${incomplete}}`;
 
       for (const name in options.settings.errorPages) {
-	      checkContent = initTemplate;
-	      checkContent = checkContent.replace('{{jsonContents}}', name === 'incomplete' ? incomplete : unsupported);
+        checkContent = initTemplate;
+        checkContent = checkContent.replace('{{jsonContents}}', name === 'incomplete' ? incomplete : unsupported);
           checkContent = checkContent.replace('{{PHP_VERSION}}', '');
           checkContent = checkContent.replace('{{Title}}', options.settings.errorPages[name].title);
           checkContent = checkContent.replace('{{Header}}', options.settings.errorPages[name].header);
