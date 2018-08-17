@@ -22,6 +22,15 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
 class Component implements ComponentInterface
 {
 	/**
+	 * The name of the component.
+	 *
+	 * @var string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $name;
+
+	/**
 	 * The dispatcher factory.
 	 *
 	 * @var DispatcherFactoryInterface

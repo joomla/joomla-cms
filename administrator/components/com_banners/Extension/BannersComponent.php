@@ -30,6 +30,15 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	use HTMLRegistryAwareTrait;
 
 	/**
+	 * The name of the component.
+	 *
+	 * @var string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $name = 'banners';
+
+	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like
 	 * registering new class loaders, etc.
 	 *

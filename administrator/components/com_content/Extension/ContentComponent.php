@@ -46,6 +46,15 @@ class ContentComponent extends MVCComponent implements
 	use WorkflowServiceTrait;
 
 	/**
+	 * The name of the component.
+	 *
+	 * @var string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $name = 'content';
+
+	/**
 	 * The trashed condition
 	 *
 	 * @since   __DEPLOY_VERSION__
