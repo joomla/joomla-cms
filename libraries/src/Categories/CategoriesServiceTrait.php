@@ -91,7 +91,7 @@ trait CategoriesServiceTrait
 			return;
 		}
 
-		$extension = $this->name;
+		$extension = 'com_' . $this->name;
 		if (!empty($section))
 		{
 			$extension .= '.' . $section;
