@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
 /**
  * Trait for component categories service.
@@ -90,43 +91,59 @@ trait CategoriesServiceTrait
 			return;
 		}
 
+		$extension = $this->name;
+		if (!empty($section))
+		{
+			$extension .= '.' . $section;
+		}
+
 		$db = Factory::getDbo();
+		$queryBase = $db->getQuery(true);
+		$queryBase->from($db->quoteName($sectionTable, 'c'))
+			->select('COUNT(*) AS ' . $db->quoteName('count'))
+			->group($db->quoteName('state'));
+
+		$states = array(
+			-2 => 'count_trashed',
+			0  => 'count_unpublished',
+			1  => 'count_published',
+			2  => 'count_archived',
+		);
+
+		// Match states with conditions
+		if ($this instanceof WorkflowServiceInterface)
+		{
+			$conditions = $this->getConditions($extension);
+			foreach ($states as $key => $value)
+			{
+				if (!array_key_exists($key, $conditions))
+				{
+					unset($states[$key]);
+				}
+			}
+
+			$queryBase->select($db->quoteName('condition', 'state'))
+				->from($db->quoteName('#__workflow_stages', 's'))
+				->from($db->quoteName('#__workflow_associations', 'a'))
+				->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
+				->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'))
+				->where($db->quoteName('a.extension') . '= ' . $db->quote($extension));
+		}
+		else
+		{
+			$queryBase->select($db->quoteName('state'));
+		}
 
 		foreach ($items as $item)
 		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
-				->from($db->qn($sectionTable))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-			$objects = $db->loadObjectList();
+			$query = clone $queryBase;
+			$query->where($db->quoteName('catid') . ' = ' . (int) $item->id);
 
-			foreach ($objects as $object)
+			$fields = $db->setQuery($query)->loadObjectList('state');
+
+			foreach ($states as $state => $property)
 			{
-				if ($object->state == 1)
-				{
-					$item->count_published = $object->count;
-				}
-
-				if ($object->state == 0)
-				{
-					$item->count_unpublished = $object->count;
-				}
-
-				if ($object->state == 2)
-				{
-					$item->count_archived = $object->count;
-				}
-
-				if ($object->state == -2)
-				{
-					$item->count_trashed = $object->count;
-				}
+				$item->{$property} = $fields[$state]->count ?? 0;
 			}
 		}
 	}

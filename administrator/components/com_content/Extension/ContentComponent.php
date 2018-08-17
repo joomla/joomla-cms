@@ -193,67 +193,6 @@ class ContentComponent extends MVCComponent implements
 	}
 
 	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   \stdClass[]  $items    The category objects
-	 * @param   string       $section  The section
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function countItems(array $items, string $section)
-	{
-		$db = Factory::getDbo();
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-
-			$query->select($db->quoteName('condition'))
-				->select('COUNT(*) AS ' . $db->quoteName('count'))
-				->from($db->quoteName('#__content', 'c'))
-				->from($db->quoteName('#__workflow_stages', 's'))
-				->from($db->quoteName('#__workflow_associations', 'a'))
-				->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
-				->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'))
-				->where($db->quoteName('catid') . ' = ' . (int) $item->id)
-				->where($db->quoteName('a.extension') . '= ' . $db->quote('com_content'))
-				->group($db->quoteName('condition'));
-
-			$articles = $db->setQuery($query)->loadObjectList();
-
-			foreach ($articles as $article)
-			{
-				if ($article->condition == self::CONDITION_PUBLISHED)
-				{
-					$item->count_published = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_UNPUBLISHED)
-				{
-					$item->count_unpublished = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_ARCHIVED)
-				{
-					$item->count_archived = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_TRASHED)
-				{
-					$item->count_trashed = $article->count;
-				}
-			}
-		}
-	}
-
-	/**
 	 * Adds Count Items for Tag Manager.
 	 *
 	 * @param   \stdClass[]  $items      The content objects
