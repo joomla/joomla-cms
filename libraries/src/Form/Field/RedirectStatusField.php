@@ -39,7 +39,7 @@ class RedirectStatusField extends \JFormFieldPredefinedList
 		'-2' => 'JTRASHED',
 		'0'  => 'JDISABLED',
 		'1'  => 'JENABLED',
-        '2'  => 'JARCHIVED',
+		'2'  => 'JARCHIVED',
 		'*'  => 'JALL',
 	);
 }
