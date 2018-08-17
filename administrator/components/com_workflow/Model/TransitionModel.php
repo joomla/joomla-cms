@@ -132,9 +132,9 @@ class TransitionModel extends AdminModel
 		}
 
 		$db->setQuery($query);
-		$checkDupliaction = $db->loadResult();
+		$duplicate = $db->loadResult();
 
-		if (!empty($checkDupliaction))
+		if (!empty($duplicate))
 		{
 			$this->setError(Text::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
 
