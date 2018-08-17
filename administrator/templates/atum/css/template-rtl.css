@@ -655,10 +655,12 @@ iframe {
   margin-right: .5rem; }
 
 .modal .btn-primary:not([href]),
-.modal .btn-success:not([href]) {
+.modal .btn-success:not([href]),
+.modal .btn-secondary:not([href]) {
   color: #fff; }
   .modal .btn-primary:not([href]):hover,
-  .modal .btn-success:not([href]):hover {
+  .modal .btn-success:not([href]):hover,
+  .modal .btn-secondary:not([href]):hover {
     color: #fff; }
 
 .modal-header {
@@ -1386,7 +1388,6 @@ iframe {
 
 .table thead th {
   white-space: nowrap;
-  border-bottom-width: 0;
   font-weight: normal;
   color: #343a40; }
 
@@ -1497,6 +1498,12 @@ iframe {
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
 
+.com-cpanel-help .list-group-item, .com-cpanel-system .list-group-item {
+  padding: 0; }
+  .com-cpanel-help .list-group-item a, .com-cpanel-system .list-group-item a {
+    display: block;
+    padding: 0.75rem 1.25rem; }
+
 .com-cpanel-help__header {
   color: #2b5c91; }
 
@@ -1546,12 +1553,13 @@ iframe {
 .com_cpanel .card p:last-child {
   margin-bottom: 0; }
 
-.com_cpanel .card .list-group {
+.com_cpanel .card .list-group, .com_cpanel .card .table {
+  background-color: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
-  .com_cpanel .card .list-group > .published {
+  .com_cpanel .card .list-group > .published, .com_cpanel .card .table > .published {
     padding-left: .9rem;
     border-left: 5px solid #2f7d32; }
-  .com_cpanel .card .list-group > .unpublished {
+  .com_cpanel .card .list-group > .unpublished, .com_cpanel .card .table > .unpublished {
     padding-left: .9rem;
     border-left: 5px solid #c52827; }
 

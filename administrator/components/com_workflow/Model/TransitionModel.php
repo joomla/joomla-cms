@@ -1,9 +1,7 @@
 <?php
 /**
- * Item Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -19,9 +17,7 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Model class for transition
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -136,9 +132,9 @@ class TransitionModel extends AdminModel
 		}
 
 		$db->setQuery($query);
-		$checkDupliaction = $db->loadResult();
+		$duplicate = $db->loadResult();
 
-		if (!empty($checkDupliaction))
+		if (!empty($duplicate))
 		{
 			$this->setError(Text::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
 

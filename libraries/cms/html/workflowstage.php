@@ -17,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class JHtmlWorkflowStage
+abstract class JHtmlWorkflowstage
 {
 
 	/**

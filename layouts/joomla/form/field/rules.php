@@ -95,7 +95,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
 
-							<th id="aclactionth<?php echo $group->value; ?>">
+							<th id="aclaction-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
 							</th>
 						</tr>
@@ -145,7 +145,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									</div>
 								</td>
 
-								<td headers="aclactionth<?php echo $group->value; ?>">
+								<td headers="aclaction-th<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
 									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?>
 									<?php $inheritedGroupRule 	= Access::checkGroup((int) $group->value, $action->name, $assetId);
