@@ -30,17 +30,6 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field
-					name="check_states_workflow"
-					type="radio"
-					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_STAGES_WORKFLOW_LABEL"
-					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_STAGES_WORKFLOW_DESC"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
 
 				<field
 					name="email_new_fe"

@@ -178,6 +178,20 @@ class ContentComponent extends MVCComponent implements
 	}
 
 	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to differ different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getWorkflowTableBySection(string $section = null)
+	{
+		return '#__content';
+	}
+
+	/**
 	 * Method to filter transitions by given id of state.
 	 *
 	 * @param   array  $transitions  The Transitions to filter
