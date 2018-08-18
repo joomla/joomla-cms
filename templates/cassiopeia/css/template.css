@@ -4016,7 +4016,7 @@ button.close {
   .bs-popover-top .arrow::before, .bs-popover-auto[x-placement^="top"] .arrow::before {
     bottom: 0;
     border-top-color: rgba(0, 0, 0, 0.25); }
-
+  
   .bs-popover-top .arrow::after,
   .bs-popover-auto[x-placement^="top"] .arrow::after {
     bottom: 1px;
@@ -4036,7 +4036,7 @@ button.close {
   .bs-popover-right .arrow::before, .bs-popover-auto[x-placement^="right"] .arrow::before {
     left: 0;
     border-right-color: rgba(0, 0, 0, 0.25); }
-
+  
   .bs-popover-right .arrow::after,
   .bs-popover-auto[x-placement^="right"] .arrow::after {
     left: 1px;
@@ -4053,7 +4053,7 @@ button.close {
   .bs-popover-bottom .arrow::before, .bs-popover-auto[x-placement^="bottom"] .arrow::before {
     top: 0;
     border-bottom-color: rgba(0, 0, 0, 0.25); }
-
+  
   .bs-popover-bottom .arrow::after,
   .bs-popover-auto[x-placement^="bottom"] .arrow::after {
     top: 1px;
@@ -4082,7 +4082,7 @@ button.close {
   .bs-popover-left .arrow::before, .bs-popover-auto[x-placement^="left"] .arrow::before {
     right: 0;
     border-left-color: rgba(0, 0, 0, 0.25); }
-
+  
   .bs-popover-left .arrow::after,
   .bs-popover-auto[x-placement^="left"] .arrow::after {
     right: 1px;
@@ -9422,15 +9422,7 @@ joomla-alert {
   /* autoprefixer: off */
   .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ."
- ". banner banner banner banner ."
- ". top-a top-a top-a top-a ."
- ". top-b top-b top-b top-b ."
- ". main main main main ."
- ". bot-a bot-a bot-a bot-a ."
- ". bot-b bot-b bot-b bot-b ."
- ". footer footer footer footer ."
- ". debug debug debug debug .";
+    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
     .site-grid > [class^='container-'],
@@ -9454,15 +9446,7 @@ joomla-alert {
       grid-column: full-start / full-end; }
     @media (max-width: 575.98px) {
       .site-grid {
-        grid-template-areas: ". head head head head ."
- ". banner banner banner banner ."
- ". main main main main ."
- ". top-a top-a top-a top-a ."
- ". top-b top-b top-b top-b ."
- ". bot-a bot-a bot-a bot-a ."
- ". bot-b bot-b bot-b bot-b ."
- ". footer footer footer footer ."
- ". debug debug debug debug ."; } }
+        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
     .site-grid .container-header {
       margin-top: 0;
       margin-bottom: 20px; }
