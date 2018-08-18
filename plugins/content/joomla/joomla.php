@@ -416,7 +416,7 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			foreach ($pks as $pk)
 			{
-				if (!$this->_canDeleteStates($pk))
+				if (!$this->_canDeleteStages($pk))
 				{
 					return false;
 				}
