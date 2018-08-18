@@ -804,6 +804,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return  {HTMLElement}  The HTML loading layer element.
 	 *
 	 * @since  3.6.0
+	 *
+	 * @deprecated  4.0 No direct replacement.
+	 *              4.0 will introduce a web component for the loading spinner, therefore the spinner will need to
+	 *              explicitly be loaded in all relevant pages.
 	 */
 	Joomla.loadingLayer = function(task, parentElement) {
 		// Set default values.
