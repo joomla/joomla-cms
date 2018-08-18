@@ -25,14 +25,12 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$document       = JFactory::getDocument();
-
-		$ids = $app->input->get('id');
-
-		$i = 0;
-		$tagIds = '';
-		$filter = new JFilterInput;
+		$app       = JFactory::getApplication();
+		$document  = JFactory::getDocument();
+		$ids       = $app->input->get('id');
+		$i         = 0;
+		$tagIds    = '';
+		$filter    = new JFilterInput;
 
 		foreach ($ids as $id)
 		{
