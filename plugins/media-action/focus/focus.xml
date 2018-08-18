@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="media-action" method="upgrade">
+    <name>plg_media-action_focus_title</name>
+    <author>Joomla! Project</author>
+    <creationDate>May 2018</creationDate>
+    <copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>4.0.0</version>
+    <description>PLG_MEDIA-ACTION_FOCUS_XML_DESCRIPTION</description>
+    <media destination="plg_media-action_focus" folder="media">
+        <folder>js</folder>
+        <folder>css</folder>
+        <!--folder>responsifyjs</folder-->
+    </media>
+    <files>
+        <filename plugin="focus">focus.php</filename>
+        <folder>form</folder>
+        <filename>index.html</filename>
+    </files>
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.plg_media-action_focus.ini</language>
+        <language tag="en-GB">en-GB.plg_media-action_focus.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field  name="customWidth" 
+                        type="subform"
+                        layout="joomla.form.field.subform.repeatable-table"
+                        multiple="true"
+                        description="PLG_MEDIA-ACTION_FOCUS_FIELD-SET_DESCRIPTION"
+                        button="add,remove"
+                        label="PLG_MEDIA-ACTION_FOCUS_FIELD-SET_LABEL">
+                        <form>
+                            <field
+                                name="width"
+                                type="number"
+                            />
+                        </form>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
