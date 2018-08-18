@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
@@ -33,7 +34,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		<?php if ($published >= 0) : ?>
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo JLayoutHelper::render('joomla.html.batch.item', array('extension' => $extension)); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.item', array('extension' => $extension)); ?>
 				</div>
 			</div>
 		<?php endif; ?>
