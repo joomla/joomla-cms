@@ -329,7 +329,7 @@ class ComponentHelper
 		$file = substr($option, 4);
 
 		// Define component path.
-		// @deprecated  5.0 without replacement
+		// @deprecated 5.0 without replacement
 
 		if (!defined('JPATH_COMPONENT'))
 		{
