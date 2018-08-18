@@ -48,14 +48,15 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Function that can be overriden to do any data cleanup after batch copying data
 	 *
-	 * @param   JTableInterface  $table  The table object containing the newly created item
-	 * @param   integer          $newId  The id of the new item
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
 	 *
 	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function cleanupPostBatchCopy(JTableInterface $table, $newId)
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
 	{
 		// Check if the article was featured and update the #__content_frontpage table
 		if ($table->featured == 1)
@@ -67,6 +68,27 @@ class ContentModelArticle extends JModelAdmin
 			$db->setQuery($query);
 			$db->execute();
 		}
+
+		// Register FieldsHelper
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
+		$oldItem = $this->getTable();
+		$oldItem->load($oldId);
+		$fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
+
+		$fieldsData = array();
+
+		if (!empty($fields))
+		{
+			$fieldsData['com_fields'] = array();
+
+			foreach ($fields as $field)
+			{
+				$fieldsData['com_fields'][$field->name] = $field->rawvalue;
+			}
+		}
+
+		JEventDispatcher::getInstance()->trigger('onContentAfterSave', array('com_content.article', &$this->table, true, $fieldsData));
 	}
 
 	/**

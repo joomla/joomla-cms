@@ -486,7 +486,7 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
-			$this->cleanupPostBatchCopy($this->table, $newId);
+			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
@@ -501,14 +501,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Function that can be overriden to do any data cleanup after batch copying data
 	 *
-	 * @param   JTableInterface  $table  The table object containing the newly created item
-	 * @param   integer          $newId  The id of the new item
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
 	 *
 	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId)
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
 	{
 	}
 
