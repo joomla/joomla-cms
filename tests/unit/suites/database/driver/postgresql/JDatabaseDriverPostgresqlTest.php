@@ -31,24 +31,10 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 
 			// ' and \ will be escaped: the first become '', the latter \\
 			array("\'%_abc123", false, '\\\\\'\'%_abc123'),
-			array("\'%_abc123", true, '\\\\\'\'\%\_abc123'));
-	}
-
-	/**
-	 * Data for the testGetEscaped test, proxies of escape, so same data test.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function dataTestGetEscaped()
-	{
-		return array(
-			// ' will be escaped and become ''
-			array("'%_abc123", false), array("'%_abc123", true),
-
-			// ' and \ will be escaped: the first become '', the latter \\
-			array("\'%_abc123", false), array("\'%_abc123", true));
+			array("\'%_abc123", true, '\\\\\'\'\%\_abc123'),
+			array(3, false, 3),
+			array(3.14, false, '3.14'),
+		);
 	}
 
 	/**
@@ -244,6 +230,39 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
+	 * Tests the escape method 2.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testEscapeNonLocaleAware()
+	{
+		$origin = setLocale(LC_NUMERIC, 0);
+
+		// Test with decimal_point equals to comma
+		setLocale(LC_NUMERIC, 'pl_PL');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Test with C locale
+		setLocale(LC_NUMERIC, 'C');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Revert to origin locale
+		setLocale(LC_NUMERIC, $origin);
+	}
+
+	/**
 	 * Test getAffectedRows method.
 	 *
 	 * @return  void
@@ -411,18 +430,30 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 		$seq->schema = 'public';
 		$seq->table = 'jos_dbtest';
 		$seq->column = 'id';
-		$seq->data_type = 'bigint';
 
-		if (version_compare(self::$driver->getVersion(), '9.1.0') >= 0)
+		$version = self::$driver->getVersion();
+
+		if (version_compare($version, '9.1.0') >= 0)
 		{
 			$seq->start_value = '1';
 			$seq->minimum_value = '1';
-			$seq->maximum_value = '9223372036854775807';
 			$seq->increment = '1';
 			$seq->cycle_option = 'NO';
+
+			if (version_compare($version, '10') >= 0)
+			{
+				$seq->data_type = 'integer';
+				$seq->maximum_value = '2147483647';
+			}
+			else
+			{
+				$seq->data_type = 'bigint';
+				$seq->maximum_value = '9223372036854775807';
+			}
 		}
 		else
 		{
+			$seq->data_type = 'bigint';
 			$seq->minimum_value = null;
 			$seq->maximum_value = null;
 			$seq->increment = null;
@@ -500,7 +531,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function testGetVersion()
 	{
 		$versionRow = self::$driver->setQuery('SELECT version();')->loadRow();
-		preg_match('/((\d+)\.)((\d+)\.)(\*|\d+)/', $versionRow[0], $versionArray);
+		preg_match('/\d+(?:\.\d+)+/', $versionRow[0], $versionArray);
 
 		$this->assertGreaterThanOrEqual($versionArray[0], self::$driver->getVersion());
 	}
