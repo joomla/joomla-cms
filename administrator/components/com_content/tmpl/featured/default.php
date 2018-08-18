@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 HTMLHelper::_('behavior.multiselect');
@@ -181,19 +182,18 @@ Factory::getDocument()->addScriptDeclaration($js);
 										<div class="btn-group tbody-icon mr-1">
 											<?php echo HTMLHelper::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 											<?php
-
-											$icon = 'publish';
-
 											switch ($item->stage_condition) :
-
-												case Workflow::TRASHED:
+												case ContentComponent::CONDITION_TRASHED :
 													$icon = 'trash';
 													break;
-
-												case Workflow::UNPUBLISHED:
+												case ContentComponent::CONDITION_UNPUBLISHED :
 													$icon = 'unpublish';
 													break;
-
+												case ContentComponent::CONDITION_ARCHIVED :
+													$icon = 'archive';
+													break;
+												default :
+													$icon = 'publish';
 											endswitch;
 											?>
 											<?php if ($hasTransitions) : ?>

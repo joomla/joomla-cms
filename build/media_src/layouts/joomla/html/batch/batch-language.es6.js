@@ -4,21 +4,13 @@
  */
 
 (() => {
-  const batchCategory = document.getElementById('batch-category-id');
-  const batchMenu = document.getElementById('batch-menu-id');
-  const batchPosition = document.getElementById('batch-position-id');
-  const batchCopyMove = document.getElementById('batch-copy-move');
-  let batchSelector;
-
-  const onChange = () => {
-    if (batchSelector.value !== 0 || batchSelector.value !== '') {
-      batchCopyMove.style.display = 'block';
-    } else {
-      batchCopyMove.style.display = 'none';
-    }
-  };
-
   const onSelect = () => {
+    const batchCategory = document.getElementById('batch-category-id');
+    const batchMenu = document.getElementById('batch-menu-id');
+    const batchPosition = document.getElementById('batch-position-id');
+    const batchCopyMove = document.getElementById('batch-copy-move');
+    let batchSelector;
+
     if (batchCategory) {
       batchSelector = batchCategory;
     }
@@ -34,7 +26,13 @@
     batchCopyMove.style.display = 'none';
 
     if (batchCopyMove) {
-      batchSelector.addEventListener('change', onChange);
+      batchSelector.addEventListener('change', () => {
+        if (batchSelector.value !== 0 || batchSelector.value !== '') {
+          batchCopyMove.style.display = 'block';
+        } else {
+          batchCopyMove.style.display = 'none';
+        }
+      });
     }
 
     // Cleanup

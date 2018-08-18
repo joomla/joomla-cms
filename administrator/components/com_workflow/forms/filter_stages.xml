@@ -19,15 +19,12 @@
 		</field>
 		<field
 			name="condition"
-			type="list"
+			type="workflowcondition"
 			label="COM_WORKFLOW_CONDITION"
 			description="COM_WORKFLOW_CONDITION_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
-			<option value="-2">COM_WORKFLOW_TRASHED</option>
-			<option value="0">COM_WORKFLOW_UNPUBLISHED</option>
-			<option value="1">COM_WORKFLOW_PUBLISHED</option>
 		</field>
 	</fields>
 

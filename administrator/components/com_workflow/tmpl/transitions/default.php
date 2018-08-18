@@ -50,7 +50,7 @@ if ($saveOrder)
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
