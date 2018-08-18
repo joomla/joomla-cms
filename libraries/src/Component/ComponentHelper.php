@@ -328,8 +328,10 @@ class ComponentHelper
 		$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
 		$file = substr($option, 4);
 
-		// Define component path.
-		// @deprecated 5.0 without replacement
+		/**
+		* Define component path.
+		* @deprecated 5.0 without replacement
+		*/
 
 		if (!defined('JPATH_COMPONENT'))
 		{
