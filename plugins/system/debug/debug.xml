@@ -21,12 +21,46 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="refresh_assets"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
+					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
+					class="switcher"
+					default="1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="filter_groups"
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
 					size="10"
 				/>
+
+				<field
+					name="memory"
+					type="radio"
+					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
+					class="switcher"
+					default="1"
+				>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="request"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
+					class="switcher"
+					default="1"
+				>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
 
 				<field
 					name="session"
@@ -62,37 +96,27 @@
 				</field>
 
 				<field
+					name="query_traces"
+					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_TRACES_LABEL"
+					class="switcher"
+					default="0"
+					showon="queries:1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="query_types"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
 					class="switcher"
 					default="1"
+					showon="queries:1"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="memory"
-					type="radio"
-					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="refresh_assets"
-					type="radio"
-					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
-					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 

@@ -260,10 +260,19 @@ class PlgSystemDebug extends CMSPlugin
 		$this->loadLanguage();
 
 		$this->debugBar->addCollector(new InfoCollector($this->params, $this->debugBar->getCurrentRequestId()));
-		$this->debugBar->addCollector(new RequestDataCollector);
 
 		if (JDEBUG)
 		{
+			if ($this->params->get('memory', 1))
+			{
+				$this->debugBar->addCollector(new MemoryCollector);
+			}
+
+			if ($this->params->get('request', 1))
+			{
+				$this->debugBar->addCollector(new RequestDataCollector);
+			}
+
 			if ($this->params->get('session', 1))
 			{
 				$this->debugBar->addCollector(new SessionCollector($this->params));
@@ -272,11 +281,6 @@ class PlgSystemDebug extends CMSPlugin
 			if ($this->params->get('profile', 1))
 			{
 				$this->debugBar->addCollector(new ProfileCollector($this->params));
-			}
-
-			if ($this->params->get('memory', 1))
-			{
-				$this->debugBar->addCollector(new MemoryCollector);
 			}
 
 			if ($this->params->get('queries', 1))

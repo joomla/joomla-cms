@@ -189,6 +189,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 		$timings = $this->queryMonitor->getTimings();
 		$memoryLogs = $this->queryMonitor->getMemoryLogs();
 		$stacks = $this->queryMonitor->getCallStacks();
+		$collectStacks = $this->params->get('query_traces');
 
 		foreach ($log as $id => $item)
 		{
@@ -233,13 +234,16 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 						$isCaller = 1;
 					}
 
-					$trace[] = [
-						\count($stacks[$id]) - $cnt,
-						$isCaller,
-						$caller,
-						$file,
-						$line,
-					];
+					if ($collectStacks)
+					{
+						$trace[] = [
+							\count($stacks[$id]) - $cnt,
+							$isCaller,
+							$caller,
+							$file,
+							$line,
+						];
+					}
 
 					$cnt++;
 				}
