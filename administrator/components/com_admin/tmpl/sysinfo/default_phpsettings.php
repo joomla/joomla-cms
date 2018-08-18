@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 ?>
 <div class="adminform">
 	<table class="table">
-		<caption><?php echo Text::_('COM_ADMIN_RELEVANT_PHP_SETTINGS'); ?></caption>
 		<thead>
 			<tr>
 				<th scope="col" style="width:250px">
