@@ -21,6 +21,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Workflow\Workflow;
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -787,6 +788,9 @@ class DatabaseModel extends BaseInstallationModel
 		{
 			$this->updateDates($db);
 		}
+
+		// Update the sample data for worklfow.
+		$this->updateWorkflow($db);
 	}
 
 	/**
@@ -1211,5 +1215,38 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		return $queries;
+	}
+
+	/**
+	 * Method to update the workflow for the sample data
+	 *
+	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function updateWorkflow($db)
+	{
+		$workflow = new Workflow(['extension' => 'com_content']);
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'))
+			->from($db->quoteName('#__content'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$contents = $db->loadObjectList();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		foreach ($contents as $content)
+		{
+			$workflow->createAssociation($content->id, 2);
+		}
 	}
 }
