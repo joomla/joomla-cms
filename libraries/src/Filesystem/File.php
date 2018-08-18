@@ -522,7 +522,7 @@ class File
 	 * @param   string   $dest             The path (including filename) to move the uploaded file to
 	 * @param   boolean  $use_streams      True to use streams
 	 * @param   boolean  $allow_unsafe     Allow the upload of unsafe files
-	 * @param   boolean  $safeFileOptions  Options to JFilterInput::isSafeFile
+	 * @param   boolean  $safeFileOptions  Options to \JFilterInput::isSafeFile
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -540,7 +540,7 @@ class File
 				'size'     => '',
 			);
 
-			$isSafe = JFilterInput::isSafeFile($descriptor, $safeFileOptions);
+			$isSafe = \JFilterInput::isSafeFile($descriptor, $safeFileOptions);
 
 			if (!$isSafe)
 			{

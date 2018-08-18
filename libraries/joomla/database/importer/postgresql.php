@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL import driver.
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseImporterPostgresql extends JDatabaseImporter
 {

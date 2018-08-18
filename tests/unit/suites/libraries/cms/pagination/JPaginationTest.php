@@ -350,6 +350,22 @@ class JPaginationTest extends TestCase
 						'prefix' => '',
 						'active' => true,
 					),
+					// Version without '?limitstart='
+					array(
+						'text' => 'JLIB_HTML_VIEW_ALL',
+						'base' => '0',
+						'link' => 'index.php',
+						'prefix' => '',
+						'active' => false,
+					),
+					// Version without '?limitstart=0'
+					array(
+						'text' => 'JLIB_HTML_START',
+						'base' => '0',
+						'link' => 'index.php',
+						'prefix' => '',
+						'active' => false,
+					),
 				)
 			),
 		);
@@ -393,6 +409,31 @@ class JPaginationTest extends TestCase
 
 		// Test the active object
 		$this->assertEquals((array) $object->pages[$active], $expected["5"], 'This is not the expected active');
+
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
+
+		// Flag indicates to not add limitstart= or limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
+		$object = $pagination->getData();
+
+		// Test the view all Object
+		$this->assertEquals($expected["6"], (array) $object->all, 'This is not the expected view all');
+
+		// Test the start Object
+		$this->assertEquals($expected["7"], (array) $object->start, 'This is not the expected start');
+
+		// Test the previous Object
+		$this->assertEquals($expected["2"], (array) $object->previous, 'This is not the expected previous');
+
+		// Test the next Object
+		$this->assertEquals($expected["3"], (array) $object->next, 'This is not the expected next');
+
+		// Test the end Object
+		$this->assertEquals($expected["4"], (array) $object->end, 'This is not the expected end');
+
+		// Test the active object
+		$this->assertEquals($expected["5"], (array) $object->pages[$active], 'This is not the expected active');
 
 		unset($pagination);
 	}
