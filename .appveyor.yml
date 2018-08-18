@@ -130,4 +130,4 @@ before_test:
 
 test_script:
   - cd C:\projects\joomla-cms
-  - libraries/vendor/bin/phpunit -c appveyor-phpunit.xml
+  - ps: If ($env:php_ver_target -eq "5.6") {libraries/vendor/bin/phpunit -c appveyor-phpunit.xml --exclude-group not-on-windows } Else {libraries/vendor/bin/phpunit -c appveyor-phpunit.xml}

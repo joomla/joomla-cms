@@ -341,9 +341,15 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
-		if (is_int($text) || is_float($text))
+		if (is_int($text))
 		{
 			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
 		}
 
 		$text = str_replace("'", "''", $text);
@@ -502,6 +508,20 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	public function getConnectedQuery()
 	{
 		return 'SELECT 1';
+	}
+
+	/**
+	 * Get the version of the database connector.
+	 *
+	 * @return  string  The database connector version.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getVersion()
+	{
+		$this->connect();
+
+		return $this->getOption(PDO::ATTR_SERVER_VERSION);
 	}
 
 	/**
