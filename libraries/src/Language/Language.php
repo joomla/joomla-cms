@@ -332,7 +332,9 @@ class Language
 
 		if (isset($this->strings[$key]))
 		{
-			$string = $this->debug ? '**' . $this->strings[$key] . '**' : $this->strings[$key];
+			$value = $this->debug && \JFactory::getApplication()->get('debug_lang_const') == 0 ? $key : $this->strings[$key];
+
+			$string = $this->debug ? '**' . $value . '**' : $this->strings[$key];				
 
 			// Store debug information
 			if ($this->debug)
