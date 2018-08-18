@@ -149,6 +149,7 @@ $filesArray = array(
 $doNotPackage = array(
 	'.appveyor.yml',
 	'.drone.yml',
+	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
