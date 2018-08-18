@@ -122,6 +122,9 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	{
 		$groups = array();
 
+		// Get UTC time
+		$dateTimeUTC = new DateTime('now', new DateTimeZone('UTC'));
+
 		// Get the list of time zones from the server.
 		$zones = DateTimeZone::listIdentifiers();
 
@@ -149,7 +152,15 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 				// Only add options where a locale exists.
 				if (!empty($locale))
 				{
-					$groups[$group][$zone] = JHtml::_('select.option', $zone, str_replace('_', ' ', $locale), 'value', 'text', false);
+					// Get time zone offset
+					$dateTimeZoneLocale = new DateTimeZone($zone);
+					$timeOffset = $dateTimeZoneLocale->getOffset($dateTimeUTC) / 60;
+					$timeOffsetSign = $timeOffset >= 0 ? '+' : '-';
+					$timeOffsetHours = abs(floor($timeOffset / 60));
+					$timeOffsetMinutes = abs($timeOffset % 60);
+					$timeOffsetString = sprintf(' ( %s%02d:%02d )', $timeOffsetSign, $timeOffsetHours, $timeOffsetMinutes);
+					
+					$groups[$group][$zone] = JHtml::_('select.option', $zone, str_replace('_', ' ', $locale) . $timeOffsetString, 'value', 'text', false);
 				}
 			}
 		}
