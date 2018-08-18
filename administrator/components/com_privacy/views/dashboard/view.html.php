@@ -73,6 +73,7 @@ class PrivacyViewDashboard extends JViewLegacy
 		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
 		$this->requestCounts        = $this->get('RequestCounts');
 		$this->requestFormPublished = $this->get('RequestFormPublished');
+		$this->sendMailEnabled      = JFactory::getConfig()->get('mailonline');
 
 		/** @var PrivacyModelRequests $requestsModel */
 		$requestsModel = $this->getModel('requests');
