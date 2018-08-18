@@ -9,13 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\UserGroupsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
-
 /**
  * Extended Utility class for all HTML drawing classes.
  *
@@ -47,7 +40,7 @@ abstract class JHtmlAccess
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('a.id', 'value') . ', ' . $db->quoteName('a.title', 'text'))
 			->from($db->quoteName('#__viewlevels', 'a'))
@@ -68,10 +61,10 @@ abstract class JHtmlAccess
 		// If all levels is allowed, push it into the array.
 		elseif ($params)
 		{
-			array_unshift($options, HTMLHelper::_('select.option', '', Text::_('JOPTION_ACCESS_SHOW_ALL_LEVELS')));
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_LEVELS')));
 		}
 
-		return HTMLHelper::_(
+		return JHtml::_(
 			'select.genericlist',
 			$options,
 			$name,
@@ -99,7 +92,7 @@ abstract class JHtmlAccess
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true, $id = false)
 	{
-		$options = array_values(UserGroupsHelper::getInstance()->getAll());
+		$options = array_values(JHelperUsergroups::getInstance()->getAll());
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
@@ -110,10 +103,10 @@ abstract class JHtmlAccess
 		// If all usergroups is allowed, push it into the array.
 		if ($allowAll)
 		{
-			array_unshift($options, HTMLHelper::_('select.option', '', Text::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
 		}
 
-		return HTMLHelper::_('select.genericlist', $options, $name, array('list.attr' => $attribs, 'list.select' => $selected, 'id' => $id));
+		return JHtml::_('select.genericlist', $options, $name, array('list.attr' => $attribs, 'list.select' => $selected, 'id' => $id));
 	}
 
 	/**
@@ -133,9 +126,9 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
+		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
-		$groups = array_values(UserGroupsHelper::getInstance()->getAll());
+		$groups = array_values(JHelperUsergroups::getInstance()->getAll());
 
 		$html = array();
 
@@ -144,7 +137,7 @@ abstract class JHtmlAccess
 			$item = &$groups[$i];
 
 			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
-			if ((!$checkSuperAdmin) || $isSuperAdmin || (!Access::checkGroup($item->id, 'core.admin')))
+			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin')))
 			{
 				// Setup  the variable attributes.
 				$eid = $count . 'group_' . $item->id;
@@ -165,7 +158,7 @@ abstract class JHtmlAccess
 				$html[] = '			<label class="checkbox" for="' . $eid . '">';
 				$html[] = '			<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
 				$html[] = '					' . $checked . $rel . '>';
-				$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
+				$html[] = '			' . JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
 				$html[] = '			</label>';
 				$html[] = '		</div>';
 				$html[] = '	</div>';
@@ -194,7 +187,7 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$actions = Access::getActionsFromFile(
+		$actions = JAccess::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
 			"/access/section[@name='" . $section . "']/"
 		);
@@ -215,7 +208,7 @@ abstract class JHtmlAccess
 			$html[] = '		<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
 			$html[] = '			' . $checked . '>';
 			$html[] = '		<label for="' . $eid . '">';
-			$html[] = '			' . Text::_($item->title);
+			$html[] = '			' . JText::_($item->title);
 			$html[] = '		</label>';
 			$html[] = '	</li>';
 		}
@@ -236,7 +229,7 @@ abstract class JHtmlAccess
 	{
 		if (empty(static::$asset_groups))
 		{
-			$db = Factory::getDbo();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text')
 				->from($db->quoteName('#__viewlevels') . ' AS a')
@@ -270,10 +263,10 @@ abstract class JHtmlAccess
 
 		if (isset($config['title']))
 		{
-			array_unshift($options, HTMLHelper::_('select.option', '', $config['title']));
+			array_unshift($options, JHtml::_('select.option', '', $config['title']));
 		}
 
-		return HTMLHelper::_(
+		return JHtml::_(
 			'select.genericlist',
 			$options,
 			$name,

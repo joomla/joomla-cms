@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 /**
  * Extended Utility class for render debug information.
  *
@@ -59,7 +57,7 @@ abstract class JHtmlDebug
 			$href = str_replace('%f', $file, $href);
 			$href = str_replace('%l', $line, $href);
 
-			$html = HTMLHelper::_('link', $href, $link);
+			$html = JHtml::_('link', $href, $link);
 		}
 		else
 		{

@@ -16,12 +16,6 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Controller\Style;
 use Joomla\Component\Templates\Administrator\Controller\StyleController;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Component Controller
@@ -59,7 +53,7 @@ class TemplatesController extends BaseController
 	public function cancel()
 	{
 		// Redirect back to home(base) page
-		$this->setRedirect(Uri::base());
+		$this->setRedirect(\JUri::base());
 	}
 
 	/**
@@ -72,23 +66,23 @@ class TemplatesController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!Session::checkToken())
+		if (!\JSession::checkToken())
 		{
-			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'));
+			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'));
 
 			return false;
 		}
 
 		// Check if the user is authorized to do this.
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'));
+			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
 
 		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
+		\JClientHelper::setCredentialsFromRequest('ftp');
 
 		$app = $this->app;
 
@@ -116,20 +110,20 @@ class TemplatesController extends BaseController
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$message = Text::sprintf('JERROR_SAVE_FAILED');
+			$message = \JText::sprintf('JERROR_SAVE_FAILED');
 
-			$app->redirect(Route::_('index.php?option=com_config&view=templates', false), $message, 'error');
+			$app->redirect(\JRoute::_('index.php?option=com_config&view=templates', false), $message, 'error');
 
 			return false;
 		}
 
 		// Set the success message.
-		$message = Text::_('COM_CONFIG_SAVE_SUCCESS');
+		$message = \JText::_('COM_CONFIG_SAVE_SUCCESS');
 
 		$this->setMessage($message);
 
 		// Redirect back to com_config display
-		$this->redirect(Route::_('index.php?option=com_config&view=templates', false));
+		$this->redirect(\JRoute::_('index.php?option=com_config&view=templates', false));
 
 		return true;
 	}

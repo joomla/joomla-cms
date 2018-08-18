@@ -13,14 +13,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Csp\Administrator\Table\ReportTable;
-use Joomla\Registry\Registry;
 
 /**
  * Csp Controller
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ReportController extends BaseController
 {
@@ -29,20 +27,13 @@ class ReportController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function log()
 	{
-		$pluginParams = new Registry;
+		$params = $this->app->getParams();
 
-		// Get the httpheaders plugin params
-		if (PluginHelper::isEnabled('system', 'httpheaders'))
-		{
-			$pluginParams->loadString(PluginHelper::getPlugin('system', 'httpheaders')->params);
-		}
-
-		// When we are not in detect mode do nothing here
-		if ($pluginParams->get('contentsecuritypolicy_mode', 'custom') != 'detect')
+		if (!$params->get('enable_reporter'))
 		{
 			$this->app->close();
 		}
@@ -60,14 +51,7 @@ class ReportController extends BaseController
 
 		if (filter_var($report->blocked_uri, FILTER_VALIDATE_URL) !== false)
 		{
-			$parsedUrl = parse_url($report->blocked_uri);
-			$report->blocked_uri = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
-		}
-
-		// Eval or inline lets make sure they get reported in the correct way
-		if (in_array($report->blocked_uri, ['eval', 'inline']))
-		{
-			$report->blocked_uri = "'unsafe-" . $report->blocked_uri . "'";
+			$report->blocked_uri = parse_url($report->blocked_uri, PHP_URL_HOST);
 		}
 
 		$report->directive = $data['violated-directive'];
@@ -87,7 +71,6 @@ class ReportController extends BaseController
 
 		$report->created  = $now;
 		$report->modified = $now;
-		$report->client   = (string) $this->app->input->get('client', 'site', 'string');
 
 		if ($this->isEntryExisting($report))
 		{
@@ -109,7 +92,7 @@ class ReportController extends BaseController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function isEntryExisting($report)
 	{
@@ -121,20 +104,10 @@ class ReportController extends BaseController
 			->select('count(*)')
 			->from('#__csp')
 			->where($db->quoteName('blocked_uri') . '=' . $db->quote($report->blocked_uri))
-			->where($db->quoteName('directive') . '=' . $db->quote($report->directive))
-			->where($db->quoteName('client') . '=' . $db->quote($report->client));
+			->where($db->quoteName('directive') . '=' . $db->quote($report->directive));
 
 		$db->setQuery($query);
 
-		try
-		{
-			$result = (int) $db->loadResult();
-		}
-		catch (\RuntimeException $e)
-		{
-			return false;
-		}
-
-		return $result > 0;
+		return $db->loadResult() > 0;
 	}
 }

@@ -12,11 +12,6 @@ namespace Joomla\Component\Config\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Config Module model.
@@ -36,7 +31,7 @@ class ModulesModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -50,7 +45,7 @@ class ModulesModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form  A Form object on success, false on failure
+	 * @return  \JForm  A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -72,7 +67,7 @@ class ModulesModel extends FormModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   Form    $form   A form object.
+	 * @param   \JForm  $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -81,15 +76,15 @@ class ModulesModel extends FormModel
 	 * @since   3.2
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang     = Factory::getLanguage();
+		$lang     = \JFactory::getLanguage();
 		$module   = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;
 
-		$formFile = Path::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
+		$formFile = \JPath::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $basePath, null, false, true)
@@ -100,18 +95,18 @@ class ModulesModel extends FormModel
 			// Get the module form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
 		// Load the default advanced params
-		Form::addFormPath(JPATH_BASE . '/components/com_config/model/form');
+		\JForm::addFormPath(JPATH_BASE . '/components/com_config/model/form');
 		$form->loadFile('modules_advanced', false);
 
 		// Trigger the default form events.
@@ -127,11 +122,11 @@ class ModulesModel extends FormModel
 	 */
 	public function getPositions()
 	{
-		$lang         = Factory::getLanguage();
-		$templateName = Factory::getApplication()->getTemplate();
+		$lang         = \JFactory::getLanguage();
+		$templateName = \JFactory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
-		$path = Path::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
+		$path = \JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
 		$currentTemplatePositions = array();
 
 		if (file_exists($path))
@@ -150,7 +145,7 @@ class ModulesModel extends FormModel
 					$text = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($value));
 
 					// Construct list of positions
-					$currentTemplatePositions[] = self::createOption($value, Text::_($text) . ' [' . $value . ']');
+					$currentTemplatePositions[] = self::createOption($value, \JText::_($text) . ' [' . $value . ']');
 				}
 			}
 		}
@@ -164,7 +159,7 @@ class ModulesModel extends FormModel
 		$templateGroups[$templateName] = self::createOptionGroup($templateName, $currentTemplatePositions);
 
 		// Add custom position to options
-		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
+		$customGroupText = \JText::_('COM_MODULES_CUSTOM_POSITION');
 
 		$editPositions   = true;
 		$customPositions = self::getActivePositions(0, $editPositions);
@@ -185,7 +180,7 @@ class ModulesModel extends FormModel
 	 */
 	public static function getActivePositions($clientId, $editPositions = false)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT position')
 			->from($db->quoteName('#__modules'))
@@ -201,7 +196,7 @@ class ModulesModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return;
 		}
@@ -213,11 +208,11 @@ class ModulesModel extends FormModel
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = HTMLHelper::_('select.option', 'none', ':: ' . Text::_('JNONE') . ' ::');
+				$options[] = \JHtml::_('select.option', 'none', ':: ' . \JText::_('JNONE') . ' ::');
 			}
 			else
 			{
-				$options[] = HTMLHelper::_('select.option', $position, $position);
+				$options[] = \JHtml::_('select.option', $position, $position);
 			}
 		}
 

@@ -6,13 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Site\Helper;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Categories\CategoryNode;
+
+defined('_JEXEC') or die;
 
 /**
  * Contact Component Route Helper
@@ -56,7 +54,7 @@ abstract class Route
 	/**
 	 * Get the URL route for a contact category from a contact category ID and language
 	 *
-	 * @param   mixed  $catid     The id of the contact's category either an integer id or an instance of CategoryNode
+	 * @param   mixed  $catid     The id of the contact's category either an integer id or an instance of JCategoryNode
 	 * @param   mixed  $language  The id of the language being used.
 	 *
 	 * @return  string  The link to the contact
@@ -65,7 +63,7 @@ abstract class Route
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
-		if ($catid instanceof CategoryNode)
+		if ($catid instanceof \JCategoryNode)
 		{
 			$id = $catid->id;
 		}

@@ -84,16 +84,6 @@ if (!empty($disabled))
 	$attribs[] = 'disabled';
 }
 
-if (!empty($onclick))
-{
-	$attribs[] = 'onclick="' . $onclick . '()"';
-}
-
-if (!empty($onchange))
-{
-	$attribs[] = 'onchange="' . $onchange . '()"';
-}
-
 ?>
 <joomla-field-switcher <?php echo implode(' ', $attribs); ?>>
 	<?php foreach ($options as $i => $option) : ?>
@@ -103,9 +93,11 @@ if (!empty($onchange))
 		$active  = ((string) $option->value == $value) ? 'class="active"' : '';
 
 		// Initialize some JavaScript option attributes.
+		$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+		$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 		$oid        = $id . $i;
 		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes = array_filter(array($checked, $active, null));
+		$attributes = array_filter(array($checked, $active, null, $onchange, $onclick));
 		?>
 		<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 	<?php endforeach; ?>

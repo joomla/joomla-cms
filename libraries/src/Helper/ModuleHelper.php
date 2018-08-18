@@ -11,11 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
 /**
@@ -86,7 +82,7 @@ abstract class ModuleHelper
 	{
 		$position = strtolower($position);
 		$result = array();
-		$input  = Factory::getApplication()->input;
+		$input  = \JFactory::getApplication()->input;
 
 		$modules =& static::load();
 
@@ -147,14 +143,14 @@ abstract class ModuleHelper
 	{
 		static $chrome;
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check that $module is a valid module object
 		if (!is_object($module) || !isset($module->module) || !isset($module->params))
 		{
 			if (JDEBUG)
 			{
-				Log::addLogger(array('text_file' => 'jmodulehelper.log.php'), Log::ALL, array('modulehelper'));
+				\JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), \JLog::ALL, array('modulehelper'));
 				$app->getLogger()->debug(
 					__METHOD__ . '() - The $module parameter should be a module object.',
 					array('category' => 'modulehelper')
@@ -188,7 +184,7 @@ abstract class ModuleHelper
 		// Load the module
 		if (file_exists($path))
 		{
-			$lang = Factory::getLanguage();
+			$lang = \JFactory::getLanguage();
 
 			$coreLanguageDirectory      = JPATH_BASE;
 			$extensionLanguageDirectory = dirname($path);
@@ -298,7 +294,7 @@ abstract class ModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = Factory::getApplication()->getTemplate();
+		$template = \JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)
@@ -345,7 +341,7 @@ abstract class ModuleHelper
 			return $modules;
 		}
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$modules = null;
 
@@ -373,16 +369,16 @@ abstract class ModuleHelper
 	 */
 	public static function getModuleList()
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 		$Itemid = $app->input->getInt('Itemid', 0);
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$lang = Factory::getLanguage()->getTag();
+		$groups = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
+		$lang = \JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
 		$cacheId = $groups . $clientId . $Itemid;
 
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
@@ -392,7 +388,7 @@ abstract class ModuleHelper
 			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 			->where('e.enabled = 1');
 
-		$date = Factory::getDate();
+		$date = \JFactory::getDate();
 		$now = $date->toSql();
 		$nullDate = $db->getNullDate();
 		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
@@ -422,14 +418,14 @@ abstract class ModuleHelper
 		try
 		{
 			/** @var \JCacheControllerCallback $cache */
-			$cache = Factory::getCache('com_modules', 'callback');
+			$cache = \JFactory::getCache('com_modules', 'callback');
 
 			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
 		catch (\RuntimeException $e)
 		{
 			$app->getLogger()->warning(
-				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
 				array('category' => 'jerror')
 			);
 
@@ -449,7 +445,7 @@ abstract class ModuleHelper
 	public static function cleanModuleList($modules)
 	{
 		// Apply negative selections and eliminate duplicates
-		$Itemid = Factory::getApplication()->input->getInt('Itemid');
+		$Itemid = \JFactory::getApplication()->input->getInt('Itemid');
 		$negId = $Itemid ? -(int) $Itemid : false;
 		$clean = array();
 		$dupes = array();
@@ -510,7 +506,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  string
 	 *
-	 * @see     InputFilter::clean()
+	 * @see     \JFilterInput::clean()
 	 * @since   1.6
 	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
@@ -525,11 +521,11 @@ abstract class ModuleHelper
 			$cacheparams->cachegroup = $module->module;
 		}
 
-		$user = Factory::getUser();
-		$conf = Factory::getConfig();
+		$user = \JFactory::getUser();
+		$conf = \JFactory::getConfig();
 
 		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache($cacheparams->cachegroup, 'callback');
+		$cache = \JFactory::getCache($cacheparams->cachegroup, 'callback');
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
 		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
@@ -562,10 +558,10 @@ abstract class ModuleHelper
 
 				if (is_array($cacheparams->modeparams))
 				{
-					$input   = Factory::getApplication()->input;
+					$input   = \JFactory::getApplication()->input;
 					$uri     = $input->getArray();
 					$safeuri = new \stdClass;
-					$noHtmlFilter = InputFilter::getInstance();
+					$noHtmlFilter = \JFilterInput::getInstance();
 
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
@@ -613,7 +609,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . Factory::getApplication()->input->getInt('Itemid', null),
+					$module->id . $view_levels . \JFactory::getApplication()->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);

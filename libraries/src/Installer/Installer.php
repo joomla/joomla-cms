@@ -8,23 +8,18 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\ParameterType;
 use Joomla\Database\UTF8MB4SupportInterface;
 
+defined('JPATH_PLATFORM') or die;
+
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.folder');
+\JLoader::import('joomla.filesystem.path');
 \JLoader::import('joomla.base.adapter');
 
 /**
@@ -373,7 +368,7 @@ class Installer extends \JAdapter
 		// Raise abort warning
 		if ($msg)
 		{
-			Log::add($msg, Log::WARNING, 'jerror');
+			\JLog::add($msg, \JLog::WARNING, 'jerror');
 		}
 
 		while ($step != null)
@@ -382,12 +377,12 @@ class Installer extends \JAdapter
 			{
 				case 'file':
 					// Remove the file
-					$stepval = File::delete($step['path']);
+					$stepval = \JFile::delete($step['path']);
 					break;
 
 				case 'folder':
 					// Remove the folder
-					$stepval = Folder::delete($step['path']);
+					$stepval = \JFolder::delete($step['path']);
 					break;
 
 				case 'query':
@@ -399,12 +394,10 @@ class Installer extends \JAdapter
 					// Get database connector object
 					$db = $this->getDbo();
 					$query = $db->getQuery(true);
-					$stepId = (int) $step['id'];
 
 					// Remove the entry from the #__extensions table
 					$query->delete($db->quoteName('#__extensions'))
-						->where($db->quoteName('extension_id') . ' = :step_id')
-						->bind(':step_id', $stepId, ParameterType::INTEGER);
+						->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
 
 					try
@@ -416,7 +409,7 @@ class Installer extends \JAdapter
 					catch (\JDatabaseExceptionExecuting $e)
 					{
 						// The database API will have already logged the error it caught, we just need to alert the user to the issue
-						Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
+						\JLog::add(\JText::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), \JLog::WARNING, 'jerror');
 
 						$stepval = false;
 					}
@@ -469,20 +462,20 @@ class Installer extends \JAdapter
 	 */
 	public function install($path = null)
 	{
-		if ($path && Folder::exists($path))
+		if ($path && \JFolder::exists($path))
 		{
 			$this->setPath('source', $path);
 		}
 		else
 		{
-			$this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
+			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
 
 			return false;
 		}
 
 		if (!$adapter = $this->setupInstall('install', true))
 		{
-			$this->abort(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
@@ -500,7 +493,7 @@ class Installer extends \JAdapter
 
 		// Fire the onExtensionBeforeInstall event.
 		PluginHelper::importPlugin('extension');
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
 				'method' => 'install',
@@ -514,7 +507,7 @@ class Installer extends \JAdapter
 		$result = $adapter->install();
 
 		// Fire the onExtensionAfterInstall
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterInstall',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -522,7 +515,7 @@ class Installer extends \JAdapter
 		if ($result !== false)
 		{
 			// Refresh versionable assets cache
-			Factory::getApplication()->flushAssets();
+			\JFactory::getApplication()->flushAssets();
 
 			return true;
 		}
@@ -543,21 +536,21 @@ class Installer extends \JAdapter
 	{
 		if (!$eid)
 		{
-			$this->abort(Text::_('JLIB_INSTALLER_ABORT_EXTENSIONNOTVALID'));
+			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_EXTENSIONNOTVALID'));
 
 			return false;
 		}
 
 		if (!$this->extension->load($eid))
 		{
-			$this->abort(Text::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
+			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
 
 			return false;
 		}
 
 		if ($this->extension->state != -1)
 		{
-			$this->abort(Text::_('JLIB_INSTALLER_ABORT_ALREADYINSTALLED'));
+			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_ALREADYINSTALLED'));
 
 			return false;
 		}
@@ -575,7 +568,7 @@ class Installer extends \JAdapter
 
 		if (!method_exists($adapter, 'discover_install') || !$adapter->getDiscoverInstallSupported())
 		{
-			$this->abort(Text::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $type));
+			$this->abort(\JText::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $type));
 
 			return false;
 		}
@@ -603,7 +596,7 @@ class Installer extends \JAdapter
 
 		// Fire the onExtensionBeforeInstall event.
 		PluginHelper::importPlugin('extension');
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionBeforeInstall',
 			array(
 				'method' => 'discover_install',
@@ -617,7 +610,7 @@ class Installer extends \JAdapter
 		$result = $adapter->discover_install();
 
 		// Fire the onExtensionAfterInstall
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterInstall',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -625,7 +618,7 @@ class Installer extends \JAdapter
 		if ($result !== false)
 		{
 			// Refresh versionable assets cache
-			Factory::getApplication()->flushAssets();
+			\JFactory::getApplication()->flushAssets();
 
 			return true;
 		}
@@ -678,20 +671,20 @@ class Installer extends \JAdapter
 	 */
 	public function update($path = null)
 	{
-		if ($path && Folder::exists($path))
+		if ($path && \JFolder::exists($path))
 		{
 			$this->setPath('source', $path);
 		}
 		else
 		{
-			$this->abort(Text::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
 
 			return false;
 		}
 
 		if (!$adapter = $this->setupInstall('update', true))
 		{
-			$this->abort(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(\JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
@@ -709,7 +702,7 @@ class Installer extends \JAdapter
 
 		// Fire the onExtensionBeforeUpdate event.
 		PluginHelper::importPlugin('extension');
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionBeforeUpdate',
 			array('type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest)
 		);
@@ -718,7 +711,7 @@ class Installer extends \JAdapter
 		$result = $adapter->update();
 
 		// Fire the onExtensionAfterUpdate
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterUpdate',
 			array('installer' => clone $this, 'eid' => $result)
 		);
@@ -755,7 +748,7 @@ class Installer extends \JAdapter
 		// We don't load languages here, we get the extension adapter to work it out
 		// Fire the onExtensionBeforeUninstall event.
 		PluginHelper::importPlugin('extension');
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionBeforeUninstall',
 			array('eid' => $identifier)
 		);
@@ -764,13 +757,13 @@ class Installer extends \JAdapter
 		$result = $adapter->uninstall($identifier);
 
 		// Fire the onExtensionAfterInstall
-		Factory::getApplication()->triggerEvent(
+		\JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterUninstall',
 			array('installer' => clone $this, 'eid' => $identifier, 'removed' => $result)
 		);
 
 		// Refresh versionable assets cache
-		Factory::getApplication()->flushAssets();
+		\JFactory::getApplication()->flushAssets();
 
 		return $result;
 	}
@@ -790,14 +783,14 @@ class Installer extends \JAdapter
 		{
 			if (!$this->extension->load($eid))
 			{
-				$this->abort(Text::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
+				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
 
 				return false;
 			}
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
 
 				return false;
 			}
@@ -812,7 +805,7 @@ class Installer extends \JAdapter
 
 			if (!method_exists($adapter, 'refreshManifestCache'))
 			{
-				$this->abort(Text::sprintf('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED_TYPE', $this->extension->type));
+				$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED_TYPE', $this->extension->type));
 
 				return false;
 			}
@@ -829,7 +822,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		$this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
+		$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
 
 		return false;
 	}
@@ -918,7 +911,7 @@ class Installer extends \JAdapter
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
-				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -974,7 +967,7 @@ class Installer extends \JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), Log::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -984,13 +977,13 @@ class Installer extends \JAdapter
 				// Graceful exit and rollback if read not successful
 				if ($buffer === false)
 				{
-					Log::add(Text::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
+					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
 
 				// Create an array of queries from the sql file
-				$queries = DatabaseDriver::splitSql($buffer);
+				$queries = \JDatabaseDriver::splitSql($buffer);
 
 				if (count($queries) === 0)
 				{
@@ -1014,7 +1007,7 @@ class Installer extends \JAdapter
 					}
 					catch (\JDatabaseExceptionExecuting $e)
 					{
-						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+						\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1041,7 +1034,7 @@ class Installer extends \JAdapter
 	{
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1068,26 +1061,21 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
+					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
 
 					// Update the database
 					$query = $db->getQuery(true)
 						->delete('#__schemas')
-						->where('extension_id = :extension_id')
-						->bind(':extension_id', $eid, ParameterType::INTEGER);
+						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
 					if ($db->execute())
 					{
-						$schemaVersion = end($files);
-
 						$query->clear()
 							->insert($db->quoteName('#__schemas'))
 							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
-							->values(':extension_id, :version_id')
-							->bind(':extension_id', $eid, ParameterType::INTEGER)
-							->bind(':version_id', $schemaVersion);
+							->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1113,7 +1101,7 @@ class Installer extends \JAdapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (count($schemapaths))
@@ -1147,7 +1135,7 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
+					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
 					usort($files, 'version_compare');
 
 					if (!count($files))
@@ -1158,8 +1146,7 @@ class Installer extends \JAdapter
 					$query = $db->getQuery(true)
 						->select('version_id')
 						->from('#__schemas')
-						->where('extension_id = :extension_id')
-						->bind(':extension_id', $eid, ParameterType::INTEGER);
+						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
 					try
@@ -1186,13 +1173,13 @@ class Installer extends \JAdapter
 							// Graceful exit and rollback if read not successful
 							if ($buffer === false)
 							{
-								Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
+								\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), \JLog::WARNING, 'jerror');
 
 								return false;
 							}
 
 							// Create an array of queries from the sql file
-							$queries = DatabaseDriver::splitSql($buffer);
+							$queries = \JDatabaseDriver::splitSql($buffer);
 
 							if (count($queries) === 0)
 							{
@@ -1216,14 +1203,14 @@ class Installer extends \JAdapter
 								}
 								catch (\JDatabaseExceptionExecuting $e)
 								{
-									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+									\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 									return false;
 								}
 
 								$queryString = (string) $query;
 								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-								Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
+								\JLog::add(\JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), \JLog::INFO, 'Update');
 
 								$update_count++;
 							}
@@ -1233,28 +1220,23 @@ class Installer extends \JAdapter
 					// Update the database
 					$query = $db->getQuery(true)
 						->delete('#__schemas')
-						->where('extension_id = :extension_id')
-						->bind(':extension_id', $eid, ParameterType::INTEGER);
+						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
 					try
 					{
 						$db->execute();
 
-						$schemaVersion = end($files);
-
 						$query->clear()
 							->insert($db->quoteName('#__schemas'))
 							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
-							->values(':extension_id, :version_id')
-							->bind(':extension_id', $eid, ParameterType::INTEGER)
-							->bind(':version_id', $schemaVersion);
+							->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
 					catch (ExecutionFailureException $e)
 					{
-						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+						\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1338,12 +1320,12 @@ class Installer extends \JAdapter
 
 				foreach ($deletions['folders'] as $deleted_folder)
 				{
-					Folder::delete($destination . '/' . $deleted_folder);
+					\JFolder::delete($destination . '/' . $deleted_folder);
 				}
 
 				foreach ($deletions['files'] as $deleted_file)
 				{
-					File::delete($destination . '/' . $deleted_file);
+					\JFile::delete($destination . '/' . $deleted_file);
 				}
 			}
 		}
@@ -1378,9 +1360,9 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!Folder::create($newdir))
+				if (!\JFolder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1473,7 +1455,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!Folder::exists(dirname($path['dest'])))
+				if (!\JFolder::exists(dirname($path['dest'])))
 				{
 					continue;
 				}
@@ -1494,9 +1476,9 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!Folder::create($newdir))
+				if (!\JFolder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1534,7 +1516,7 @@ class Installer extends \JAdapter
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
 
 		$folder = ((string) $element->attributes()->destination) ? '/' . $element->attributes()->destination : null;
-		$destination = Path::clean(JPATH_ROOT . '/media' . $folder);
+		$destination = \JPath::clean(JPATH_ROOT . '/media' . $folder);
 
 		// Here we set the folder we are going to copy the files from.
 
@@ -1575,9 +1557,9 @@ class Installer extends \JAdapter
 			{
 				$newdir = dirname($path['dest']);
 
-				if (!Folder::create($newdir))
+				if (!\JFolder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1678,8 +1660,8 @@ class Installer extends \JAdapter
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
-				$filesource = Path::clean($file['src']);
-				$filedest = Path::clean($file['dest']);
+				$filesource = \JPath::clean($file['src']);
+				$filedest = \JPath::clean($file['dest']);
 				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))
@@ -1688,7 +1670,7 @@ class Installer extends \JAdapter
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), Log::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1702,7 +1684,7 @@ class Installer extends \JAdapter
 
 					// The destination file already exists and the overwrite flag is false.
 					// Set an error and return false.
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), Log::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), \JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1711,9 +1693,9 @@ class Installer extends \JAdapter
 					// Copy the folder or file to the new location.
 					if ($filetype === 'folder')
 					{
-						if (!Folder::copy($filesource, $filedest, null, $overwrite))
+						if (!\JFolder::copy($filesource, $filedest, null, $overwrite))
 						{
-							Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), Log::WARNING, 'jerror');
+							\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), \JLog::WARNING, 'jerror');
 
 							return false;
 						}
@@ -1722,14 +1704,14 @@ class Installer extends \JAdapter
 					}
 					else
 					{
-						if (!File::copy($filesource, $filedest, null))
+						if (!\JFile::copy($filesource, $filedest, null))
 						{
-							Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), Log::WARNING, 'jerror');
+							\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), \JLog::WARNING, 'jerror');
 
 							// In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
 							if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs'))
 							{
-								Log::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), Log::WARNING, 'jerror');
+								\JLog::add(\JText::_('JLIB_INSTALLER_NOT_ERROR'), \JLog::WARNING, 'jerror');
 							}
 
 							return false;
@@ -1880,7 +1862,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!Folder::exists(dirname($path)))
+				if (!\JFolder::exists(dirname($path)))
 				{
 					continue;
 				}
@@ -1894,23 +1876,23 @@ class Installer extends \JAdapter
 
 			if (is_dir($path))
 			{
-				$val = Folder::delete($path);
+				$val = \JFolder::delete($path);
 			}
 			else
 			{
-				$val = File::delete($path);
+				$val = \JFile::delete($path);
 			}
 
 			if ($val === false)
 			{
-				Log::add('Failed to delete ' . $path, Log::WARNING, 'jerror');
+				\JLog::add('Failed to delete ' . $path, \JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 		}
 
 		if (!empty($folder))
 		{
-			Folder::delete($source);
+			\JFolder::delete($source);
 		}
 
 		return $retval;
@@ -1956,16 +1938,16 @@ class Installer extends \JAdapter
 	public function findManifest()
 	{
 		// Do nothing if folder does not exist for some reason
-		if (!Folder::exists($this->getPath('source')))
+		if (!\JFolder::exists($this->getPath('source')))
 		{
 			return false;
 		}
 
 		// Main folder manifests (higher priority)
-		$parentXmlfiles = Folder::files($this->getPath('source'), '.xml$', false, true);
+		$parentXmlfiles = \JFolder::files($this->getPath('source'), '.xml$', false, true);
 
 		// Search for children manifests (lower priority)
-		$allXmlFiles    = Folder::files($this->getPath('source'), '.xml$', 1, true);
+		$allXmlFiles    = \JFolder::files($this->getPath('source'), '.xml$', 1, true);
 
 		// Create an unique array of files ordered by priority
 		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
@@ -2005,14 +1987,14 @@ class Installer extends \JAdapter
 			}
 
 			// None of the XML files found were valid install files
-			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
 		else
 		{
 			// No XML files were found in the install folder
-			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -2073,18 +2055,14 @@ class Installer extends \JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
-			->where('type = :type')
-			->where('element = :element')
-			->where('folder = :folder')
-			->where('client_id = :client_id')
-			->where('state = -1')
-			->bind(':type', $type)
-			->bind(':element', $element)
-			->bind(':folder', $folder)
-			->bind(':client_id', $client, ParameterType::INTEGER);
+			->where('type = ' . $db->quote($type))
+			->where('element = ' . $db->quote($element))
+			->where('folder = ' . $db->quote($folder))
+			->where('client_id = ' . (int) $client)
+			->where('state = -1');
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -2278,8 +2256,8 @@ class Installer extends \JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() === 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: \JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: \JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
@@ -2291,8 +2269,8 @@ class Installer extends \JAdapter
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename = File::getName($path);
-			$data['filename'] = File::stripExt($filename);
+			$filename = \JFile::getName($path);
+			$data['filename'] = \JFile::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
 			{
@@ -2411,9 +2389,9 @@ class Installer extends \JAdapter
 		$options['type'] = $adapter;
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
+		if (\JFactory::getContainer()->exists($class))
 		{
-			return Factory::getContainer()->get($class);
+			return \JFactory::getContainer()->get($class);
 		}
 
 		return new $class($this, $this->getDbo(), $options);

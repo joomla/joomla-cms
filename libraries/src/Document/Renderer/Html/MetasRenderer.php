@@ -12,9 +12,8 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -46,7 +45,7 @@ class MetasRenderer extends DocumentRenderer
 
 		if ($this->_doc->getScriptOptions())
 		{
-			HTMLHelper::_('behavior.core');
+			\JHtml::_('behavior.core');
 		}
 
 		// Trigger the onBeforeCompileHead event

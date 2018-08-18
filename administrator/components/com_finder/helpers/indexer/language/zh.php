@@ -14,7 +14,7 @@ use Joomla\String\StringHelper;
 /**
  * Chinese (simplified) language support class for the Finder indexer package.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderIndexerLanguagezh extends FinderIndexerLanguage
 {
@@ -22,7 +22,7 @@ class FinderIndexerLanguagezh extends FinderIndexerLanguage
 	 * Language locale of the class
 	 * 
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $language = 'zh';
 
@@ -30,7 +30,7 @@ class FinderIndexerLanguagezh extends FinderIndexerLanguage
 	 * Spacer between terms
 	 * 
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $spacer = '';
 
@@ -41,7 +41,7 @@ class FinderIndexerLanguagezh extends FinderIndexerLanguage
 	 *
 	 * @return  array  An array of term strings.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function tokenise($input)
 	{

@@ -10,11 +10,8 @@ namespace Joomla\CMS\Access;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Asset;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Table\Asset;
 
 /**
  * Class that handles all access authorisation routines.
@@ -300,7 +297,7 @@ class Access
 		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName]))
 		{
 			// Get the database connection object.
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 
 			// Get a fresh query object:
 			$query    = $db->getQuery(true);
@@ -349,7 +346,7 @@ class Access
 		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
-		$db         = Factory::getDbo();
+		$db         = \JFactory::getDbo();
 		$extraQuery = $db->qn('name') . ' = ' . $db->q($extensionName) . ' OR ' . $db->qn('parent_id') . ' = 0';
 
 		// Get a fresh query object.
@@ -411,7 +408,7 @@ class Access
 		$components = array('root.1');
 
 		// Add enabled components to asset names list.
-		foreach (ComponentHelper::getComponents() as $component)
+		foreach (\JComponentHelper::getComponents() as $component)
 		{
 			if ($component->enabled)
 			{
@@ -420,7 +417,7 @@ class Access
 		}
 
 		// Get the database connection object.
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Get the asset info for all assets in asset names list.
 		$query = $db->getQuery(true)
@@ -561,14 +558,14 @@ class Access
 		{
 			if ($extensionName && $assetName !== $extensionName)
 			{
-				Log::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, Log::WARNING, 'assets');
+				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . $extensionName, \JLog::WARNING, 'assets');
 
 				return self::getAssetRules($extensionName, $recursive, $recursiveParentAsset, $preload);
 			}
 
 			if (self::$rootAssetId !== null && $assetName !== self::$preloadedAssets[self::$rootAssetId])
 			{
-				Log::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], Log::WARNING, 'assets');
+				\JLog::add('No asset found for ' . $assetName . ', falling back to ' . self::$preloadedAssets[self::$rootAssetId], \JLog::WARNING, 'assets');
 
 				return self::getAssetRules(self::$preloadedAssets[self::$rootAssetId], $recursive, $recursiveParentAsset, $preload);
 			}
@@ -645,7 +642,7 @@ class Access
 		}
 
 		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
-		Log::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', Log::INFO, 'assets');
+		\JLog::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', \JLog::INFO, 'assets');
 
 		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
 
@@ -656,7 +653,7 @@ class Access
 		}
 
 		// Get the database connection object.
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
@@ -740,7 +737,7 @@ class Access
 		}
 
 		// No preload. Return root asset id from Assets.
-		$assets = new Asset(Factory::getDbo());
+		$assets = new Asset(\JFactory::getDbo());
 
 		return $assets->getRootId();
 	}
@@ -783,7 +780,7 @@ class Access
 				// Else we have to do an extra db query to fetch it from the table fetch it from table.
 				else
 				{
-					$table = new Asset(Factory::getDbo());
+					$table = new Asset(\JFactory::getDbo());
 					$table->load(array('name' => $assetKey));
 					$loaded[$assetKey] = $table->id;
 				}
@@ -827,7 +824,7 @@ class Access
 			// Else we have to do an extra db query to fetch it from the table fetch it from table.
 			else
 			{
-				$table = new Asset(Factory::getDbo());
+				$table = new Asset(\JFactory::getDbo());
 				$table->load($assetKey);
 				$loaded[$assetKey] = $table->name;
 			}
@@ -907,7 +904,7 @@ class Access
 	public static function getGroupTitle($groupId)
 	{
 		// Fetch the group title from the database
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('title')
 			->from('#__usergroups')
@@ -936,10 +933,10 @@ class Access
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
-			if (class_exists('ComponentHelper'))
+			// TODO: Uncouple this from \JComponentHelper and allow for a configuration setting or value injection.
+			if (class_exists('\JComponentHelper'))
 			{
-				$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+				$guestUsergroup = \JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			}
 			else
 			{
@@ -954,7 +951,7 @@ class Access
 			// Registered user and guest if all groups are requested
 			else
 			{
-				$db = Factory::getDbo();
+				$db = \JFactory::getDbo();
 
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
@@ -1015,7 +1012,7 @@ class Access
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
 		// Get a database object.
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$test = $recursive ? '>=' : '=';
 
@@ -1052,7 +1049,7 @@ class Access
 		if (empty(self::$viewLevels))
 		{
 			// Get a database object.
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 
 			// Build the base query.
 			$query = $db->getQuery(true)
@@ -1074,7 +1071,7 @@ class Access
 
 		// Check for the recovery mode setting and return early.
 		$user      = \JUser::getInstance($userId);
-		$root_user = Factory::getConfig()->get('root_user');
+		$root_user = \JFactory::getConfig()->get('root_user');
 
 		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{
@@ -1133,7 +1130,7 @@ class Access
 	 */
 	public static function getActions($component, $section = 'component')
 	{
-		Log::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', Log::WARNING, 'deprecated');
+		\JLog::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', \JLog::WARNING, 'deprecated');
 
 		$actions = self::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',

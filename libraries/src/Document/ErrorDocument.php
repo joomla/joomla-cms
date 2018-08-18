@@ -10,7 +10,6 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
@@ -87,7 +86,7 @@ class ErrorDocument extends HtmlDocument
 	 *
 	 * @return  RendererInterface
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
 	public function loadRenderer($type)
@@ -122,14 +121,14 @@ class ErrorDocument extends HtmlDocument
 			$status = 500;
 		}
 
-		$errorReporting = Factory::getConfig()->get('error_reporting');
+		$errorReporting = \JFactory::getConfig()->get('error_reporting');
 
 		if ($errorReporting === "development" || $errorReporting === "maximum")
 		{
 			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
 		}
 
-		Factory::getApplication()->setHeader('status', $status);
+		\JFactory::getApplication()->setHeader('status', $status);
 
 		// Set variables
 		$this->debug = $params['debug'] ?? false;

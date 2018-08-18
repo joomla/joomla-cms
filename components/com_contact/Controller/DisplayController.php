@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Contact Component Controller
@@ -38,11 +35,11 @@ class DisplayController extends BaseController
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		// Contact frontpage Editor contacts proxying:
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 		{
-			HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
+			\JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
@@ -61,7 +58,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		if (Factory::getApplication()->getUserState('com_contact.contact.data') === null)
+		if (\JFactory::getApplication()->getUserState('com_contact.contact.data') === null)
 		{
 			$cachable = true;
 		}

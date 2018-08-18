@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_banners
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoriesServiceInterface
 {
@@ -54,7 +54,7 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 *
 	 * @return  string|null
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
@@ -68,7 +68,7 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 *
 	 * @return  string|null
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStateColumnForSection(string $section = null)
 	{

@@ -6,21 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Rest model class for Users.
@@ -38,7 +35,7 @@ class ResetModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form  A Form object on success, false on failure
+	 * @return  \JForm  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -61,7 +58,7 @@ class ResetModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form    A Form object on success, false on failure
+	 * @return  \JForm    A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -84,7 +81,7 @@ class ResetModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form  A Form object on success, false on failure
+	 * @return  \JForm  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 * @throws  \Exception
@@ -109,7 +106,7 @@ class ResetModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   Form    $form   A Form object.
+	 * @param   \JForm  $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -119,7 +116,7 @@ class ResetModel extends FormModel
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'user')
+	protected function preprocessForm(\JForm $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -488,36 +485,16 @@ class ResetModel extends FormModel
 			$data['link_text']
 		);
 
-		// Try to send the password reset request email.
-		try
-		{
-			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
-		}
-		catch (\Exception $exception)
-		{
-			try
-			{
-				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-				$return = false;
-			}
-			catch (\RuntimeException $exception)
-			{
-				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-				$return = false;
-			}
-		}
+		// Send the password reset request email.
+		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true)
 		{
 			return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
 		}
-		else
-		{
-			return true;
-		}
+
+		return true;
 	}
 
 	/**

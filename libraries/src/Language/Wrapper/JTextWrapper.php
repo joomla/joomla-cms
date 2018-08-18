@@ -10,8 +10,6 @@ namespace Joomla\CMS\Language\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
-
 /**
  * Wrapper class for JText
  *
@@ -30,13 +28,13 @@ class JTextWrapper
 	 *
 	 * @return  string  The translated string or the key if $script is true.
 	 *
-	 * @see     Text::_
+	 * @see     \JText::_
 	 * @since   3.4
 	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		return Text::_($string, $jsSafe, $interpretBackSlashes, $script);
+		return \JText::_($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
@@ -50,13 +48,13 @@ class JTextWrapper
 	 *
 	 * @return  string  The translated string or the key if $script is true.
 	 *
-	 * @see     Text::alt
+	 * @see     \JText::alt
 	 * @since   3.4
 	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		return Text::alt($string, $alt, $jsSafe, $interpretBackSlashes, $script);
+		return \JText::alt($string, $alt, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
@@ -67,13 +65,13 @@ class JTextWrapper
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
 	 *
-	 * @see     Text::plural
+	 * @see     \JText::plural
 	 * @since   3.4
 	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function plural($string, $n)
 	{
-		return Text::plural($string, $n);
+		return \JText::plural($string, $n);
 	}
 
 	/**
@@ -83,13 +81,13 @@ class JTextWrapper
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
 	 *
-	 * @see     Text::sprintf
+	 * @see     \JText::sprintf
 	 * @since   3.4
 	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function sprintf($string)
 	{
-		return Text::sprintf($string);
+		return \JText::sprintf($string);
 	}
 
 	/**
@@ -99,13 +97,13 @@ class JTextWrapper
 	 *
 	 * @return  mixed
 	 *
-	 * @see     Text::printf
+	 * @see     \JText::printf
 	 * @since   3.4
 	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function printf($string)
 	{
-		return Text::printf($string);
+		return \JText::printf($string);
 	}
 
 	/**
@@ -117,12 +115,12 @@ class JTextWrapper
 	 *
 	 * @return  string
 	 *
-	 * @see     Text::script
+	 * @see     \JText::script
 	 * @since   3.4
 	 * @deprecated  4.0  Use `JText` directly
 	 */
 	public function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{
-		return Text::script($string, $jsSafe, $interpretBackSlashes);
+		return \JText::script($string, $jsSafe, $interpretBackSlashes);
 	}
 }

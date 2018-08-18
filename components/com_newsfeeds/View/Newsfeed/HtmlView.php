@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
 defined('_JEXEC') or die;
@@ -15,10 +14,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Feed\FeedFactory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -95,8 +90,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app  = Factory::getApplication();
-		$user = Factory::getUser();
+		$app  = \JFactory::getApplication();
+		$user = \JFactory::getUser();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
@@ -118,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		// @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
+		// @TODO: Maybe this could go into \JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
@@ -187,7 +182,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels))))
 		{
-			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return;
@@ -203,21 +198,21 @@ class HtmlView extends BaseHtmlView
 
 		try
 		{
-			$feed = new FeedFactory;
+			$feed = new \JFeedFactory;
 			$this->rssDoc = $feed->getFeed($newsfeed->link);
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 		catch (\RuntimeException $e)
 		{
-			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($this->rssDoc))
 		{
-			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
 		$feed_display_order = $params->get('feed_display_order', 'des');
@@ -264,7 +259,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = Factory::getApplication();
+		$app     = \JFactory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;
@@ -279,7 +274,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', Text::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', \JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -296,7 +291,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$path = array(array('title' => $this->item->name, 'link' => ''));
-			$category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
+			$category = \JCategories::getInstance('Newsfeeds')->get($this->item->catid);
 
 			while (($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $category->id) && $category->id > 1)
 			{
@@ -318,11 +313,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))

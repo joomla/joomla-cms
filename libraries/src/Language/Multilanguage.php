@@ -10,9 +10,6 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-
 /**
  * Utitlity class for multilang
  *
@@ -48,7 +45,7 @@ class Multilanguage
 		}
 
 		// Get application object.
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
 		if ($app->isClient('site'))
@@ -62,7 +59,7 @@ class Multilanguage
 		if (!$tested)
 		{
 			// Determine status of language filter plugin.
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
 				->from($db->quoteName('#__extensions'))
@@ -84,13 +81,13 @@ class Multilanguage
 	 * @return  array of language extension objects.
 	 *
 	 * @since   3.5
-	 * @deprecated   3.7.0  Use LanguageHelper::getInstalledLanguages(0) instead.
+	 * @deprecated   3.7.0  Use \JLanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSiteLangs()
 	{
-		Log::add(__METHOD__ . ' is deprecated. Use LanguageHelper::getInstalledLanguages(0) instead.', Log::WARNING, 'deprecated');
+		\JLog::add(__METHOD__ . ' is deprecated. Use \JLanguageHelper::getInstalledLanguages(0) instead.', \JLog::WARNING, 'deprecated');
 
-		return LanguageHelper::getInstalledLanguages(0);
+		return \JLanguageHelper::getInstalledLanguages(0);
 	}
 
 	/**
@@ -108,7 +105,7 @@ class Multilanguage
 		if (!isset($multilangSiteHomePages))
 		{
 			// Check for Home pages languages.
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('language')
 				->select('id')

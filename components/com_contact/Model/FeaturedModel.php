@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
@@ -15,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
 
 /**
  * Featured contact model class.
@@ -82,7 +80,7 @@ class FeaturedModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -115,7 +113,7 @@ class FeaturedModel extends ListModel
 
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
-			$date = Factory::getDate();
+			$date = \JFactory::getDate();
 			$nowDate = $db->quote($date->toSql());
 
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
@@ -125,7 +123,7 @@ class FeaturedModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
@@ -148,7 +146,7 @@ class FeaturedModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 		$params = ComponentHelper::getParams('com_contact');
 
 		// List state information
@@ -176,7 +174,7 @@ class FeaturedModel extends ListModel
 
 		$this->setState('list.direction', $listOrder);
 
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{

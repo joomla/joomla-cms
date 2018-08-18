@@ -9,24 +9,22 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 ?>
 
 <fieldset>
 	<legend>
-		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
 	</legend>
 	<p>
-		<?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?>
+		<?php echo JText::sprintf($this->langKey, $this->updateSourceKey); ?>
 	</p>
 
-	<table class="table">
+	<table class="table table-striped">
 		<tbody>
 			<tr>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLED'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLED'); ?>
 				</td>
 				<td>
 					<?php echo $this->updateInfo['installed']; ?>
@@ -34,7 +32,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST'); ?>
 				</td>
 				<td>
 					<?php echo $this->updateInfo['latest']; ?>
@@ -42,7 +40,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
 				</td>
 				<td>
 					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
@@ -54,7 +52,7 @@ use Joomla\CMS\Language\Text;
 				&& isset($this->updateInfo['object']->get('infourl')->title)) : ?>
 				<tr>
 					<td>
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 					</td>
 					<td>
 						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
@@ -65,7 +63,7 @@ use Joomla\CMS\Language\Text;
 			<?php endif; ?>
 			<tr>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
 				</td>
 				<td>
 					<?php echo $this->methodSelect; ?>
@@ -73,7 +71,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr id="row_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
 				</td>
 				<td>
 					<input class="form-control" type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>">
@@ -81,7 +79,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr id="row_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
 				</td>
 				<td>
 					<input class="form-control" type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>">
@@ -89,7 +87,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr id="row_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
 				</td>
 				<td>
 					<input class="form-control" type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>">
@@ -97,7 +95,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr id="row_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
 				</td>
 				<td>
 					<input class="form-control" type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>">
@@ -105,7 +103,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr id="row_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
 				</td>
 				<td>
 					<input class="form-control" type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>">
@@ -117,7 +115,7 @@ use Joomla\CMS\Language\Text;
 				<td>&nbsp;</td>
 				<td>
 					<button class="btn btn-primary" type="submit">
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 					</button>
 				</td>
 			</tr>

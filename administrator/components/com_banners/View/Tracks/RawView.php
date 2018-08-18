@@ -6,13 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Factory;
+
+defined('_JEXEC') or die;
 
 /**
  * View class for a list of tracks.
@@ -41,12 +39,12 @@ class RawView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		$document = Factory::getDocument();
+		$document = \JFactory::getDocument();
 		$document->setMimeEncoding($mimetype);
-		Factory::getApplication()
+		\JFactory::getApplication()
 			->setHeader(
 				'Content-disposition',
-				'attachment; filename="' . $basename . '.' . $filetype . '"; creation-date="' . Factory::getDate()->toRFC822() . '"',
+				'attachment; filename="' . $basename . '.' . $filetype . '"; creation-date="' . \JFactory::getDate()->toRFC822() . '"',
 				true
 			);
 		echo $content;

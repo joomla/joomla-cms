@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -14,9 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Banners component helper.
@@ -37,25 +33,25 @@ class BannersHelper extends ContentHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_BANNERS'),
+			\JText::_('COM_BANNERS_SUBMENU_BANNERS'),
 			'index.php?option=com_banners&view=banners',
 			$vName == 'banners'
 		);
 
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_CATEGORIES'),
+			\JText::_('COM_BANNERS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
 
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_CLIENTS'),
+			\JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
 			'index.php?option=com_banners&view=clients',
 			$vName == 'clients'
 		);
 
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_TRACKS'),
+			\JText::_('COM_BANNERS_SUBMENU_TRACKS'),
 			'index.php?option=com_banners&view=tracks',
 			$vName == 'tracks'
 		);
@@ -70,16 +66,16 @@ class BannersHelper extends ContentHelper
 	 */
 	public static function updateReset()
 	{
-		$db       = Factory::getDbo();
+		$db       = \JFactory::getDbo();
 		$nullDate = $db->getNullDate();
 		$query    = $db->getQuery(true)
 			->select('*')
 			->from('#__banners')
-			->where($db->quote(Factory::getDate()) . ' >= ' . $db->quote('reset'))
+			->where($db->quote(\JFactory::getDate()) . ' >= ' . $db->quote('reset'))
 			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!= NULL')
 			->where(
 				'(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = '
-				. (int) $db->quote(Factory::getUser()->id) . ')'
+				. (int) $db->quote(\JFactory::getUser()->id) . ')'
 			);
 		$db->setQuery($query);
 
@@ -89,7 +85,7 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -118,19 +114,19 @@ class BannersHelper extends ContentHelper
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+1 year ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 3:
-					$date = Factory::getDate('+1 month ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+1 month ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 4:
-					$date = Factory::getDate('+7 day ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+7 day ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 5:
-					$date = Factory::getDate('+1 day ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+1 day ' . date('Y-m-d'));
 					$reset = $db->quote($date->toSql());
 					break;
 			}
@@ -150,7 +146,7 @@ class BannersHelper extends ContentHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -168,7 +164,7 @@ class BannersHelper extends ContentHelper
 	{
 		$options = array();
 
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('id AS value, name AS text')
 			->from('#__banner_clients AS a')
@@ -184,10 +180,10 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('COM_BANNERS_NO_CLIENT')));
+		array_unshift($options, \JHtml::_('select.option', '0', \JText::_('COM_BANNERS_NO_CLIENT')));
 
 		return $options;
 	}

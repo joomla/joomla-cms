@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Finder\Site\Model;
 
 defined('_JEXEC') or die;
@@ -137,6 +136,7 @@ class SuggestionsModel extends ListModel
 			$lang = \FinderIndexerHelper::getDefaultLanguage();
 		}
 
+		$lang = \FinderIndexerHelper::getPrimaryLanguage($lang);
 		$this->setState('language', $lang);
 
 		// Load the list state.

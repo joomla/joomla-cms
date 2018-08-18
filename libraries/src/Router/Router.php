@@ -10,10 +10,8 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Class to create and parse routes
@@ -86,7 +84,7 @@ class Router
 	protected static $instances = array();
 
 	/**
-	 * Returns the global Router object, only creating it if it
+	 * Returns the global JRouter object, only creating it if it
 	 * doesn't already exist.
 	 *
 	 * @param   string  $client   The name of the client
@@ -106,13 +104,13 @@ class Router
 
 			if (!class_exists($classname))
 			{
-				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (Factory::getContainer()->exists($classname))
+			if (\JFactory::getContainer()->exists($classname))
 			{
-				self::$instances[$client] = Factory::getContainer()->get($classname);
+				self::$instances[$client] = \JFactory::getContainer()->get($classname);
 			}
 			else
 			{
@@ -126,9 +124,9 @@ class Router
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   Uri   &$uri     The uri.
-	 * @param   bool  $setVars  Set the parsed data in the internal
-	 *                          storage for current-request-URLs
+	 * @param   \JUri  &$uri     The uri.
+	 * @param   bool   $setVars  Set the parsed data in the internal
+	 *                           storage for current-request-URLs
 	 *
 	 * @return  array
 	 *
@@ -168,7 +166,7 @@ class Router
 	 *
 	 * @param   string  $url  The internal URL or an associative array
 	 *
-	 * @return  Uri  The absolute search engine friendly URL object
+	 * @return  \JUri  The absolute search engine friendly URL object
 	 *
 	 * @since   1.5
 	 */
@@ -425,7 +423,7 @@ class Router
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *
-	 * @return  Uri
+	 * @return  \JUri
 	 *
 	 * @since   3.2
 	 */
@@ -433,10 +431,10 @@ class Router
 	{
 		if (!is_array($url) && substr($url, 0, 1) !== '&')
 		{
-			return new Uri($url);
+			return new \JUri($url);
 		}
 
-		$uri = new Uri('index.php');
+		$uri = new \JUri('index.php');
 
 		if (is_string($url))
 		{

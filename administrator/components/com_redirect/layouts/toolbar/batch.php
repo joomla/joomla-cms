@@ -9,9 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::_('behavior.core');
+JHtml::_('behavior.core');
 
 $title = $displayData['title'];
 

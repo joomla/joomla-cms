@@ -10,7 +10,6 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 /**
@@ -49,7 +48,7 @@ class Associations
 		{
 			$multilanguageAssociations[$queryKey] = array();
 
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$categoriesExtraSql = (($tablename === '#__categories') ? ' AND c2.extension = ' . $db->quote($extension) : '');
 			$query = $db->getQuery(true)
 				->select($db->quoteName('c2.language'))

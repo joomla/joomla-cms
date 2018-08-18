@@ -8,19 +8,16 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-
-echo HTMLHelper::_('bootstrap.startAccordion', 'fieldOptions', array('active' => 'collapse0'));
+echo JHtml::_('bootstrap.startAccordion', 'fieldOptions', array('active' => 'collapse0'));
 
 $fieldSets = $this->form->getFieldsets('params');
 $i         = 0;
 ?>
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_FIELDS_' . $name . '_FIELDSET_LABEL'; ?>
-	<?php echo HTMLHelper::_('bootstrap.addSlide', 'fieldOptions', Text::_($label), 'collapse' . ($i++)); ?>
+	<?php echo JHtml::_('bootstrap.addSlide', 'fieldOptions', JText::_($label), 'collapse' . ($i++)); ?>
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-		<?php echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>'; ?>
+		<?php echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
 	<?php endif; ?>
 	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 		<div class="control-group">
@@ -43,6 +40,6 @@ $i         = 0;
 			</div>
 		</div>
 	<?php endif; ?>
-	<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
+	<?php echo JHtml::_('bootstrap.endSlide'); ?>
 <?php endforeach; ?>
-<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
+<?php echo JHtml::_('bootstrap.endAccordion'); ?>

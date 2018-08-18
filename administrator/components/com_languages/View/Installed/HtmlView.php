@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Languages\Administrator\View\Installed;
 
 defined('_JEXEC') or die;
@@ -14,9 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * Displays a list of the installed languages.
@@ -129,39 +125,39 @@ class HtmlView extends BaseHtmlView
 
 		if ((int) $this->state->get('client_id') === 1)
 		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
+			\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
+			\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::makeDefault('installed.setDefault');
-			ToolbarHelper::divider();
+			\JToolbarHelper::makeDefault('installed.setDefault');
+			\JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
 			// Add install languages link to the lang installer component.
-			$bar = Toolbar::getInstance('toolbar');
+			$bar = \JToolbar::getInstance('toolbar');
 
 			// Switch administrator language
 			if ($this->state->get('client_id', 0) == 1)
 			{
-				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
-				ToolbarHelper::divider();
+				\JToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
+				\JToolbarHelper::divider();
 			}
 
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-			ToolbarHelper::divider();
+			\JToolbarHelper::divider();
 
-			ToolbarHelper::preferences('com_languages');
-			ToolbarHelper::divider();
+			\JToolbarHelper::preferences('com_languages');
+			\JToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
+		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
 
 		$this->sidebar = \JHtmlSidebar::render();
 	}

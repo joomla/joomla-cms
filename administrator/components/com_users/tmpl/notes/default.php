@@ -34,29 +34,36 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-				<table class="table">
+				<table class="table table-striped">
 					<thead>
 						<tr>
-							<td style="width:1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</td>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+							</th>
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" class="nowrap">
+							<th class="nowrap">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:20%" class="nowrap d-none d-md-table-cell">
+							<th style="width:20%" class="nowrap d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_USER', 'u.name', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+							<th style="width:1%" class="nowrap d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
+					<tfoot>
+						<tr>
+							<td colspan="6">
+								<?php echo $this->pagination->getListFooter(); ?>
+							</td>
+						</tr>
+					</tfoot>
 					<tbody>
 					<?php foreach ($this->items as $i => $item) :
 						$canEdit    = $user->authorise('core.edit',       'com_users.category.' . $item->catid);
@@ -73,7 +80,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								</div>
 							</td>
-							<th scope="row">
+							<td>
 								<?php if ($item->checked_out) : ?>
 									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'notes.', $canCheckin); ?>
 								<?php endif; ?>
@@ -88,7 +95,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<div class="small">
 									<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 								</div>
-							</th>
+							</td>
 							<td class="d-none d-md-table-cell">
 								<?php echo $this->escape($item->user_name); ?>
 							</td>
@@ -106,10 +113,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 					</tbody>
 				</table>
-
-				<?php // load the pagination. ?>
-				<?php echo $this->pagination->getListFooter(); ?>
-
 				<?php endif; ?>
 
 				<div>

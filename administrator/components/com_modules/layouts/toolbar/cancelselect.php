@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
-$text = Text::_('JTOOLBAR_CANCEL');
+$text = JText::_('JTOOLBAR_CANCEL');
 ?>
 <button onclick="location.href='index.php?option=com_modules'" class="btn btn-sm btn-danger" title="<?php echo $text; ?>">
 	<span class="icon-cancel" aria-hidden="true"></span> <?php echo $text; ?>

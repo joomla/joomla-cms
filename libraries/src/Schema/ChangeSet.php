@@ -8,12 +8,11 @@
 
 namespace Joomla\CMS\Schema;
 
+use Joomla\Database\UTF8MB4SupportInterface;
+
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Database\UTF8MB4SupportInterface;
+jimport('joomla.filesystem.folder');
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
@@ -34,9 +33,9 @@ class ChangeSet
 	protected $changeItems = array();
 
 	/**
-	 * DatabaseDriver object
+	 * \JDatabaseDriver object
 	 *
-	 * @var    DatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  2.5
 	 */
 	protected $db = null;
@@ -61,8 +60,8 @@ class ChangeSet
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
-	 * @param   DatabaseDriver  $db      The current database object
-	 * @param   string          $folder  The full path to the folder containing the update queries
+	 * @param   \JDatabaseDriver  $db      The current database object
+	 * @param   string            $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
@@ -86,7 +85,7 @@ class ChangeSet
 				}
 				catch (\RuntimeException $e)
 				{
-					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 			else
@@ -138,8 +137,8 @@ class ChangeSet
 	/**
 	 * Returns a reference to the ChangeSet object, only creating it if it doesn't already exist.
 	 *
-	 * @param   DatabaseDriver  $db      The current database object
-	 * @param   string          $folder  The full path to the folder containing the update queries
+	 * @param   \JDatabaseDriver  $db      The current database object
+	 * @param   string            $folder  The full path to the folder containing the update queries
 	 *
 	 * @return  ChangeSet
 	 *
@@ -272,7 +271,7 @@ class ChangeSet
 			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 		}
 
-		return Folder::files(
+		return \JFolder::files(
 			$this->folder . '/' . $sqlFolder, '\.sql$', 1, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX'), array('^\..*', '.*~'), true
 		);
 	}
@@ -298,7 +297,7 @@ class ChangeSet
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
-			$queries = DatabaseDriver::splitSql($buffer);
+			$queries = \JDatabaseDriver::splitSql($buffer);
 
 			foreach ($queries as $query)
 			{

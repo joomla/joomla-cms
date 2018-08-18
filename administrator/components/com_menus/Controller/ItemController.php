@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -14,11 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 /**
  * The Menu ItemModel  Controller
@@ -40,9 +34,9 @@ class ItemController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
-		$menuType = Factory::getApplication()->input->getCmd('menutype', $data['menutype'] ?? '');
+		$menuType = \JFactory::getApplication()->input->getCmd('menutype', $data['menutype'] ?? '');
 
 		$menutypeID = 0;
 
@@ -69,7 +63,7 @@ class ItemController extends FormController
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		$menutypeID = 0;
 
@@ -145,13 +139,13 @@ class ItemController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel('Item', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(Route::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}
@@ -167,7 +161,7 @@ class ItemController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$result = parent::cancel();
 
@@ -180,7 +174,7 @@ class ItemController extends FormController
 
 			// Redirect to the list screen.
 			$this->setRedirect(
-				Route::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
 					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'), false
 				)
@@ -260,7 +254,7 @@ class ItemController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$app      = $this->app;
 
@@ -301,7 +295,7 @@ class ItemController extends FormController
 			if ($model->checkin($data['id']) === false)
 			{
 				// Check-in failed, go back to the item and display a notice.
-				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+				$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 
 				return false;
 			}
@@ -315,10 +309,10 @@ class ItemController extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
-				Route::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -346,18 +340,14 @@ class ItemController extends FormController
 			{
 				$segments = explode(':', $data['link']);
 				$protocol = strtolower($segments[0]);
-				$scheme   = array(
-					'http', 'https', 'ftp', 'ftps', 'gopher', 'mailto',
-					'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais',
-					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax',
-					'modem', 'git', 'sms',
-				);
+				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais','mid', 'cid', 'nntp',
+						'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
 
 				if (!in_array($protocol, $scheme))
 				{
-					$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
+					$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
 					$this->setRedirect(
-						Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+						\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
 					);
 
 					return false;
@@ -431,7 +421,7 @@ class ItemController extends FormController
 
 			// Redirect back to the edit screen.
 			$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setRedirect(Route::_($editUrl, false));
+			$this->setRedirect(\JRoute::_($editUrl, false));
 
 			return false;
 		}
@@ -444,8 +434,8 @@ class ItemController extends FormController
 
 			// Redirect back to the edit screen.
 			$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-			$this->setRedirect(Route::_($editUrl, false));
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setRedirect(\JRoute::_($editUrl, false));
 
 			return false;
 		}
@@ -454,14 +444,14 @@ class ItemController extends FormController
 		if ($model->checkin($data['id']) === false)
 		{
 			// Check-in failed, go back to the row and display a notice.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setRedirect(Route::_($redirectUrl, false));
+			$this->setRedirect(\JRoute::_($redirectUrl, false));
 
 			return false;
 		}
 
-		$this->setMessage(Text::_('COM_MENUS_SAVE_SUCCESS'));
+		$this->setMessage(\JText::_('COM_MENUS_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -476,7 +466,7 @@ class ItemController extends FormController
 
 				// Redirect back to the edit screen.
 				$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-				$this->setRedirect(Route::_($editUrl, false));
+				$this->setRedirect(\JRoute::_($editUrl, false));
 				break;
 
 			case 'save2new':
@@ -487,7 +477,7 @@ class ItemController extends FormController
 				$app->setUserState('com_menus.edit.item.link', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(), false));
+				$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(), false));
 				break;
 
 			default:
@@ -499,7 +489,7 @@ class ItemController extends FormController
 
 				// Redirect to the list screen.
 				$this->setRedirect(
-					Route::_(
+					\JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
 						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 					)
@@ -519,7 +509,7 @@ class ItemController extends FormController
 	 */
 	public function setType()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 
@@ -557,7 +547,7 @@ class ItemController extends FormController
 				$component = ComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 
-				$app->setUserState('com_menus.edit.item.link', 'index.php?' . Uri::buildQuery((array) $type->request));
+				$app->setUserState('com_menus.edit.item.link', 'index.php?' . \JUri::buildQuery((array) $type->request));
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.
@@ -580,7 +570,7 @@ class ItemController extends FormController
 
 		$this->type = $type;
 		$this->setRedirect(
-			Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+			\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
 		);
 	}
 

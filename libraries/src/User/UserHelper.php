@@ -10,7 +10,6 @@ namespace Joomla\CMS\User;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Authentication\Password\Argon2idHandler;
 use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
@@ -20,11 +19,7 @@ use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\CMS\Authentication\Password\SHA256Handler;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -47,17 +42,6 @@ abstract class UserHelper
 	 * @since  4.0.0
 	 */
 	const HASH_ARGON2I = 2;
-
-	/**
-	 * Constant defining the Argon2id password algorithm for use with password hashes
-	 *
-	 * Note: The value of the hash is the same as PHP's native `PASSWORD_ARGON2ID` but the constant is not used
-	 * as PHP may not be compiled with this constant
-	 *
-	 * @var    integer
-	 * @since  4.0.0
-	 */
-	const HASH_ARGON2ID = 3;
 
 	/**
 	 * Constant defining the BCrypt password algorithm for use with password hashes
@@ -114,7 +98,7 @@ abstract class UserHelper
 		if (!in_array($groupId, $user->groups))
 		{
 			// Get the title of the group.
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
@@ -139,10 +123,10 @@ abstract class UserHelper
 		$temp         = User::getInstance((int) $userId);
 		$temp->groups = $user->groups;
 
-		if (Factory::getSession()->getId())
+		if (\JFactory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = Factory::getUser();
+			$temp = \JFactory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -198,11 +182,11 @@ abstract class UserHelper
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp = Factory::getUser((int) $userId);
+		$temp = \JFactory::getUser((int) $userId);
 		$temp->groups = $user->groups;
 
 		// Set the group data for the user object in the session.
-		$temp = Factory::getUser();
+		$temp = \JFactory::getUser();
 
 		if ($temp->id == $userId)
 		{
@@ -232,7 +216,7 @@ abstract class UserHelper
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -250,13 +234,13 @@ abstract class UserHelper
 		$user->save();
 
 		// Set the group data for any preloaded user objects.
-		$temp = Factory::getUser((int) $userId);
+		$temp = \JFactory::getUser((int) $userId);
 		$temp->groups = $user->groups;
 
-		if (Factory::getSession()->getId())
+		if (\JFactory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = Factory::getUser();
+			$temp = \JFactory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -280,18 +264,18 @@ abstract class UserHelper
 	{
 		if ($userId == 0)
 		{
-			$user   = Factory::getUser();
+			$user   = \JFactory::getUser();
 			$userId = $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
 		PluginHelper::importPlugin('user');
 
-		$data = new CMSObject;
+		$data = new \JObject;
 		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
+		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}
@@ -307,7 +291,7 @@ abstract class UserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
@@ -330,14 +314,14 @@ abstract class UserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				Log::add($user->getError(), Log::WARNING, 'jerror');
+				\JLog::add($user->getError(), \JLog::WARNING, 'jerror');
 
 				return false;
 			}
 		}
 		else
 		{
-			Log::add(Text::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), Log::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -357,7 +341,7 @@ abstract class UserHelper
 	public static function getUserId($username)
 	{
 		// Initialise some variables
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -394,9 +378,6 @@ abstract class UserHelper
 		{
 			case self::HASH_ARGON2I :
 				return $container->get(Argon2iHandler::class)->hashPassword($password, $options);
-
-			case self::HASH_ARGON2ID :
-				return $container->get(Argon2idHandler::class)->hashPassword($password, $options);
 
 			case self::HASH_BCRYPT :
 				return $container->get(BCryptHandler::class)->hashPassword($password, $options);
@@ -438,13 +419,6 @@ abstract class UserHelper
 		{
 			/** @var PHPassHandler $handler */
 			$handler = $container->get(PHPassHandler::class);
-		}
-		elseif (strpos($hash, '$argon2id') === 0)
-		{
-			/** @var Argon2idHandler $handler */
-			$handler = $container->get(Argon2idHandler::class);
-
-			$passwordAlgorithm = PASSWORD_ARGON2ID;
 		}
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
@@ -528,12 +502,12 @@ abstract class UserHelper
 	 */
 	public static function getShortHashedUserAgent()
 	{
-		$ua = Factory::getApplication()->client;
+		$ua = \JFactory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
-		return md5(Uri::base() . $uaShort);
+		return md5(\JUri::base() . $uaShort);
 	}
 
 	/**

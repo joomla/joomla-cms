@@ -84,16 +84,17 @@ Joomla.checkDbCredentials = function() {
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		onSuccess: function(response, xhr){
 			response = JSON.parse(response);
-			if (response.messages) {
-				Joomla.renderMessages(response.messages);
-			}
-
+			Joomla.loadingLayer('hide');
 			Joomla.replaceTokens(response.token);
-			Joomla.loadingLayer("hide");
+			if (response.data.messages) {
+				Joomla.loadingLayer('hide');
+				Joomla.renderMessages({
+					"error": [response.data.messages]
+				});
+				// You shall not pass, DB credentials error!!!!
+			} else {
+				Joomla.loadingLayer('hide');
 
-			if (response.error) {
-				Joomla.renderMessages({'error': [response.message]});
-			} else if (response.data && response.data.validated === true) {
 				// Run the installer - we let this handle the redirect for now
 				// TODO: Convert to promises
 				Joomla.install(['config'], form);

@@ -8,22 +8,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-
 /* @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
 <div id="installer-view" data-page-name="remove">
 
 	<fieldset id="installCongrat" class="j-install-step active">
 		<legend class="j-install-step-header">
-			<span class="fa fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
+			<span class="fa fa-trophy" aria-hidden="true"></span> <?php echo JText::_('INSTL_COMPLETE_CONGRAT'); ?>
 		</legend>
 		<div class="j-install-step-form">
-			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
-			<p><?php echo Text::_('INSTL_COMPLETE_DESC'); ?></p>
+			<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
+			<p><?php echo JText::_('INSTL_COMPLETE_DESC'); ?></p>
 			<div class="form-group">
-				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo Text::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
+				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo JText::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 			</div>
 		</div>
 	</fieldset>
@@ -38,18 +35,18 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<?php endforeach; ?>
 			<?php
 			if ($displayTable) : ?>
-				<p class="install-text"><?php echo Text::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
-				<table class="table table-sm">
+				<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
+				<table class="table table-striped table-sm">
 					<thead>
 					<tr>
 						<th>
-							<?php echo Text::_('INSTL_PRECHECK_DIRECTIVE'); ?>
+							<?php echo JText::_('INSTL_PRECHECK_DIRECTIVE'); ?>
 						</th>
 						<th>
-							<?php echo Text::_('INSTL_PRECHECK_RECOMMENDED'); ?>
+							<?php echo JText::_('INSTL_PRECHECK_RECOMMENDED'); ?>
 						</th>
 						<th>
-							<?php echo Text::_('INSTL_PRECHECK_ACTUAL'); ?>
+							<?php echo JText::_('INSTL_PRECHECK_ACTUAL'); ?>
 						</th>
 					</tr>
 					</thead>
@@ -62,12 +59,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 								</td>
 								<td>
 							<span class="badge badge-success disabled">
-								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 								</td>
 								<td>
 							<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 								</td>
 							</tr>
@@ -82,64 +79,64 @@ use Joomla\CMS\HTML\HTMLHelper;
 				</table>
 
 				<?php endif; ?>
-				<?php if ($this->development) : ?>
+				<?php	if ($this->development) : ?>
 					<div class="alert flex-column">
-						<strong><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></strong>
+						<b><?php echo JText::_('INSTL_SITE_DEVMODE_LABEL'); ?></b>
 						<div class="form-check">
 							<label class="form-check-label">
 								<input type="checkbox" class="form-check-input">
-								<?php echo Text::_('INSTL_SITE_DEVMODE_DESC'); ?>
+								<?php echo JText::_('INSTL_SITE_DEVMODE_DESC'); ?>
 							</label>
 						</div>
 					</div>
-					<!-- <input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo Text::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>"> -->
+					<!-- <input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>"> -->
 				<?php endif; ?>
-				<?php echo HTMLHelper::_('form.token'); ?>
+				<?php echo JHtml::_('form.token'); ?>
 
 				<div class="form-group">
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="fa fa-eye"></span> <?php echo JText::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock"></span> <?php echo JText::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</div>
 
 		<fieldset id="installLanguages" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-commenting-o" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
+				<span class="fa fa-commenting-o" aria-hidden="true"></span> <?php echo JText::_('INSTL_LANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<?php if (!$this->items) : ?>
-				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
+				<p><?php echo JText::_('INSTL_LANGUAGES_WARNING_NO_INTERNET') ?></p>
 				<p>
 					<a href="#"
 							class="btn btn-primary"
 							onclick="return Install.goToPage('remove');">
-						<span class="fa fa-arrow-left icon-white" aria-hidden="true"></span>
-						<?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
+						<span class="fa fa-arrow-left icon-white"></span>
+						<?php echo JText::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 					</a>
 				</p>
-				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
+				<p><?php echo JText::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2') ?></p>
 			<?php else : ?>
 			<form action="index.php" method="post" id="languagesForm" class="form-validate">
+				<p id="install_languages_desc"><?php echo JText::_('INSTL_LANGUAGES_DESC'); ?></p>
 				<p id="wait_installing" style="display: none;">
-					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
+					<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br>
 				<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 				</p>
-				<table class="table table-sm">
-				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
+				<table class="table table-striped table-sm">
 					<thead>
 					<tr>
-						<td width="1%" class="text-center">
+						<th width="1%" class="text-center">
 							&nbsp;
-						</td>
-						<th scope="col">
-							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
 						</th>
-						<th scope="col" width="15%">
-							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
+						<th>
+							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
 						</th>
-						<th scope="col" width="5%" class="text-center">
-							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
+						<th width="15%">
+							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
+						</th>
+						<th width="5%" class="text-center">
+							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
 						</th>
 					</tr>
 					</thead>
@@ -154,16 +151,16 @@ use Joomla\CMS\HTML\HTMLHelper;
 							<td>
 								<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
 							</td>
-							<th scope="row">
+							<td>
 								<label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>
-							</th>
+							</td>
 							<td>
 								<?php echo $language->code; ?>
 							</td>
 							<td class="text-center">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-									<span class="badge badge-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+									<span class="badge badge-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 								<?php else : ?>
 									<span class="badge badge-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
@@ -173,13 +170,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 					</tbody>
 				</table>
 				<div class="form-group">
-					<?php echo HTMLHelper::_('form.token'); ?>
+					<?php echo JHtml::_('form.token'); ?>
 					<?php endif; ?>
 					<button id="installLanguagesButton" class="btn btn-block btn-primary">
-						<?php echo Text::_('JNEXT'); ?>
+						<?php echo JText::_('JNEXT'); ?>
 					</button>
 					<button id="skipLanguages" class="btn btn-block btn-secondary">
-					<?php echo Text::_('JSKIP'); ?>
+					<?php echo JText::_('JSKIP'); ?>
 					</button>
 				</div>
 			</form>
@@ -188,20 +185,20 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 		<fieldset id="installSampleData" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?>
+				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE'); ?>
 			</legend>
 			<div class="j-install-step-form">
-				<h2><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></h2>
-				<p><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
+				<h3><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></h3>
+				<p><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
 
 
 				<form action="index.php" method="post" id="sampleDataForm" class="form-validate">
 					<div class="form-group">
 						<input type="hidden" name="sample_file" value="sample_testing.sql">
-						<?php echo HTMLHelper::_('form.token'); ?>
-						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
+						<?php echo JHtml::_('form.token'); ?>
+						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
 						<button id="skipSampleData" class="btn btn-block btn-secondary">
-							<?php echo Text::_('JSKIP'); ?>
+							<?php echo JText::_('JSKIP'); ?>
 						</button>
 					</div>
 				</form>
@@ -210,13 +207,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 		<fieldset id="installFinal" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
+				<span class="fa fa-joomla" aria-hidden="true"></span> <?php echo JText::_('INSTL_COMPLETE_FINAL'); ?>
 			</legend>
 			<div class="j-install-step-form">
-				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
+				<p><?php echo JText::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
 				<div class="form-group">
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>" role="button"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>" role="button"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>" role="button"><span class="fa fa-eye"></span> <?php echo JText::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>" role="button"><span class="fa fa-lock"></span> <?php echo JText::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</fieldset>

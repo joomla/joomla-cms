@@ -6,16 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Messages\Administrator\View\Messages;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * View class for a list of messages.
@@ -100,22 +96,22 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_messages');
-		ToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
+		\JToolbarHelper::title(\JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('message.add');
+			\JToolbarHelper::addNew('message.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
-			ToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
+			\JToolbarHelper::divider();
+			\JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
+			\JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
 		}
 
-		ToolbarHelper::divider();
-		$bar = Toolbar::getInstance('toolbar');
+		\JToolbarHelper::divider();
+		$bar = \JToolbar::getInstance('toolbar');
 		$bar->appendButton(
 			'Popup',
 			'cog',
@@ -128,31 +124,31 @@ class HtmlView extends BaseHtmlView
 			'',
 			'',
 			'<button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">'
-			. Text::_('JCANCEL')
+			. \JText::_('JCANCEL')
 			. '</button>'
 			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'
 			. ' onclick="jQuery(\'#modal-cog iframe\').contents().find(\'#saveBtn\').click();">'
-			. Text::_('JSAVE')
+			. \JText::_('JSAVE')
 			. '</button>'
 		);
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::divider();
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::trash('messages.trash');
+			\JToolbarHelper::divider();
+			\JToolbarHelper::trash('messages.trash');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::preferences('com_messages');
+			\JToolbarHelper::preferences('com_messages');
 		}
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
 	}
 }

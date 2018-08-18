@@ -8,50 +8,43 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-
-$doc    = Factory::getDocument();
-$params = ComponentHelper::getParams('com_media');
+$doc    = JFactory::getDocument();
+$params = JComponentHelper::getParams('com_media');
 
 // Make sure core.js is loaded before media scripts
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
+JHtml::_('behavior.core');
+JHtml::_('behavior.keepalive');
 
 // Add javascripts
-HTMLHelper::_('script', 'media/com_media/js/mediamanager.js');
+JHtml::_('script', 'media/com_media/js/mediamanager.js');
 
 // Add stylesheets
-HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
+JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
 
 // Populate the language
 $this->loadTemplate('texts');
 
-$tmpl = Factory::getApplication()->input->getCmd('tmpl');
+$tmpl = JFactory::getApplication()->input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
 if ($tmpl == 'component')
 {
-	echo Toolbar::getInstance('toolbar')->render();
+	echo JToolbar::getInstance('toolbar')->render();
 }
 
 // Populate the media config
 $config = array(
-	'apiBaseUrl'              => Uri::root() . 'administrator/index.php?option=com_media&format=json',
-	'csrfToken'               => Session::getFormToken(),
+	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
+	'csrfToken'               => JSession::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
-	'fileBaseUrl'             => Uri::root() . $params->get('file_path', 'images'),
+	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
 	'fileBaseRelativeUrl'     => $params->get('file_path', 'images'),
-	'editViewUrl'             => Uri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
 	'currentPath'             => $this->currentPath,
-	'isModal'                 => Factory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
+	'isModal'                 => JFactory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
 );
 $doc->addScriptOptions('com_media', $config);
 ?>

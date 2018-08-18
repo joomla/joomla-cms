@@ -10,8 +10,6 @@ namespace Joomla\CMS\Access;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Object\CMSObject;
-
 /**
  * Access rules class.
  *
@@ -179,14 +177,14 @@ class Rules
 	 *
 	 * @param   mixed  $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  CMSObject  Allowed actions for the identity or identities
+	 * @return  \JObject  Allowed actions for the identity or identities
 	 *
 	 * @since   11.1
 	 */
 	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new CMSObject;
+		$allowed = new \JObject;
 
 		foreach ($this->data as $name => &$action)
 		{

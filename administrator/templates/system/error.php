@@ -9,30 +9,21 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-
 /** @var JDocumentError $this */
 
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'error.css', ['version' => 'auto', 'relative' => true]);
-
-// Set page title
-$this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas" />
-	<jdoc:include type="styles" />
-	<jdoc:include type="scripts" />
+	<meta charset="utf-8">
+	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error.css" rel="stylesheet">
 </head>
 <body>
-	<table class="outline">
+	<table class="outline" style="margin: 0 auto; width: 550px;">
 		<tr>
 			<td style="text-align: center;">
-				<h1><?php echo $this->error->getCode() ?> - <?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+				<h1><?php echo $this->error->getCode() ?> - <?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 			</td>
 		</tr>
 		<tr>
@@ -43,7 +34,7 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 						<br><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
 					<?php endif; ?>
 				</p>
-				<p><a href="<?php echo Route::_('index.php'); ?>"><?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
+				<p><a href="<?php echo JRoute::_('index.php'); ?>"><?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
 				<?php if ($this->debug) : ?>
 					<div>
 						<?php echo $this->renderBacktrace(); ?>
@@ -54,7 +45,7 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 							<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
 							<?php $this->setError($this->_error->getPrevious()); ?>
 							<?php while ($loop === true) : ?>
-								<p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+								<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
 								<p>
 									<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 									<br><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
@@ -70,7 +61,5 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 			</td>
 		</tr>
 	</table>
-
-	<jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>

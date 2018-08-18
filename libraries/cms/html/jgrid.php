@@ -9,9 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -61,14 +60,14 @@ abstract class JHtmlJGrid
 		if ($tip)
 		{
 			$title = $enabled ? $active_title : $inactive_title;
-			$title = $translate ? Text::_($title) : $title;
-			$title = HTMLHelper::_('tooltipText', $title, '', 0);
+			$title = $translate ? JText::_($title) : $title;
+			$title = JHtml::_('tooltipText', $title, '', 0);
 		}
 
 		if ($enabled)
 		{
 			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
-			$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
+			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
@@ -176,25 +175,25 @@ abstract class JHtmlJGrid
 		// Special state for dates
 		if ($publish_up || $publish_down)
 		{
-			$nullDate = Factory::getDbo()->getNullDate();
-			$nowDate = Factory::getDate()->toUnix();
+			$nullDate = JFactory::getDbo()->getNullDate();
+			$nowDate = JFactory::getDate()->toUnix();
 
-			$tz = Factory::getUser()->getTimezone();
+			$tz = JFactory::getUser()->getTimezone();
 
-			$publish_up = ($publish_up != $nullDate) ? Factory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
-			$publish_down = ($publish_down != $nullDate) ? Factory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
+			$publish_up = ($publish_up != $nullDate) ? JFactory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
+			$publish_down = ($publish_down != $nullDate) ? JFactory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
 
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
 
 			if ($publish_up)
 			{
-				$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publish_up, Text::_('DATE_FORMAT_LC5'), 'UTC'));
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_START', JHtml::_('date', $publish_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 			}
 
 			if ($publish_down)
 			{
-				$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_FINISHED', HTMLHelper::_('date', $publish_down, Text::_('DATE_FORMAT_LC5'), 'UTC'));
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', JHtml::_('date', $publish_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 			}
 
 			$tip = empty($tips) ? false : implode('<br>', $tips);
@@ -223,9 +222,9 @@ abstract class JHtmlJGrid
 				// Add tips to titles
 				if ($tip)
 				{
-					$states[$key][1] = Text::_($states[$key][1]);
-					$states[$key][2] = Text::_($states[$key][2]) . '<br>' . $tip;
-					$states[$key][3] = Text::_($states[$key][3]) . '<br>' . $tip;
+					$states[$key][1] = JText::_($states[$key][1]);
+					$states[$key][2] = JText::_($states[$key][2]) . '<br>' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '<br>' . $tip;
 					$states[$key][4] = true;
 				}
 			}
@@ -287,27 +286,27 @@ abstract class JHtmlJGrid
 
 		if (!array_key_exists('published', $config) || $config['published'])
 		{
-			$options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
+			$options[] = JHtml::_('select.option', '1', 'JPUBLISHED');
 		}
 
 		if (!array_key_exists('unpublished', $config) || $config['unpublished'])
 		{
-			$options[] = HTMLHelper::_('select.option', '0', 'JUNPUBLISHED');
+			$options[] = JHtml::_('select.option', '0', 'JUNPUBLISHED');
 		}
 
 		if (!array_key_exists('archived', $config) || $config['archived'])
 		{
-			$options[] = HTMLHelper::_('select.option', '2', 'JARCHIVED');
+			$options[] = JHtml::_('select.option', '2', 'JARCHIVED');
 		}
 
 		if (!array_key_exists('trash', $config) || $config['trash'])
 		{
-			$options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
+			$options[] = JHtml::_('select.option', '-2', 'JTRASHED');
 		}
 
 		if (!array_key_exists('all', $config) || $config['all'])
 		{
-			$options[] = HTMLHelper::_('select.option', '*', 'JALL');
+			$options[] = JHtml::_('select.option', '*', 'JALL');
 		}
 
 		return $options;
@@ -337,12 +336,12 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = $editorName . '<br>' . HTMLHelper::_('date', $time, Text::_('DATE_FORMAT_LC')) . '<br>' . HTMLHelper::_('date', $time, 'H:i');
-		$active_title = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKIN'), $text, 0);
-		$inactive_title = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
+		$text = $editorName . '<br>' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br>' . JHtml::_('date', $time, 'H:i');
+		$active_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKIN'), $text, 0);
+		$inactive_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
 		return static::action(
-			$i, 'checkin', $prefix, Text::_('JLIB_HTML_CHECKED_OUT'), html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
+			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
 			html_entity_decode($inactive_title, ENT_QUOTES, 'UTF-8'), true, 'checkedout', 'checkedout', $enabled, false, $checkbox
 		);
 	}

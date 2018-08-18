@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 // Create shortcut
 $urls = json_decode($this->item->urls);
 
@@ -18,7 +16,7 @@ $urls = json_decode($this->item->urls);
 $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
-<div class="com-content-article__links content-links">
+<div class="content-links">
 	<ul class="nav nav-tabs nav-stacked">
 		<?php
 			$urlarray = array(
@@ -42,7 +40,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				// If no target is present, use the default
 				$target = $target ?: $params->get('target' . $id);
 				?>
-			<li class="com-content-article__link content-links-<?php echo $id; ?>">
+			<li class="content-links-<?php echo $id; ?>">
 				<?php
 					// Compute the correct link
 
@@ -62,7 +60,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 							break;
 						case 3:
 							// Open in a modal window
-							HTMLHelper::_('behavior.modal', 'a.modal');
+							JHtml::_('behavior.modal', 'a.modal');
 							echo '<a class="modal" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '"  rel="{handler: \'iframe\', size: {x:600, y:600}} noopener noreferrer">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
 							break;

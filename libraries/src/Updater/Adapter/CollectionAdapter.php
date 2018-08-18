@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
@@ -252,7 +251,7 @@ class CollectionAdapter extends UpdateAdapter
 
 			$app = Factory::getApplication();
 			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
-			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
+			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}

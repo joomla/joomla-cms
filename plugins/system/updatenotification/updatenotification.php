@@ -20,7 +20,6 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdateModel;
-use Joomla\CMS\Log\Log;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
@@ -176,7 +175,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		 * add any necessary secret query parameters to the URL. The plugins are supposed to have a method with the
 		 * signature:
 		 *
-		 * public function onBuildAdministratorLoginURL(Uri &$uri);
+		 * public function onBuildAdministratorLoginURL(JUri &$uri);
 		 *
 		 * The plugins should modify the $uri object directly and return null.
 		 */
@@ -256,26 +255,12 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		// Send the emails to the Super Users
 		foreach ($superUsers as $superUser)
 		{
-			try
-			{
-				$mailer = Factory::getMailer();
-				$mailer->setSender(array($mailFrom, $fromName));
-				$mailer->addRecipient($superUser->email);
-				$mailer->setSubject($email_subject);
-				$mailer->setBody($email_body);
-				$mailer->Send();
-			}
-			catch (\Exception $exception)
-			{
-				try
-				{
-					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-				}
-				catch (\RuntimeException $exception)
-				{
-					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-				}
-			}
+			$mailer = Factory::getMailer();
+			$mailer->setSender(array($mailFrom, $fromName));
+			$mailer->addRecipient($superUser->email);
+			$mailer->setSubject($email_subject);
+			$mailer->setBody($email_body);
+			$mailer->Send();
 		}
 	}
 

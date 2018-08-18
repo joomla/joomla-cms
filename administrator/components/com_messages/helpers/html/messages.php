@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * JHtml administrator messages class.
@@ -38,9 +36,9 @@ class JHtmlMessages
 		// Log deprecated message
 		try
 		{
-			Log::add(
+			JLog::add(
 				sprintf('%s() is deprecated. Use JHtmlMessages::status() instead.', __METHOD__),
-				Log::WARNING,
+				JLog::WARNING,
 				'deprecated'
 			);
 		}
@@ -89,8 +87,8 @@ class JHtmlMessages
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3]) . '"><span class="icon-'
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs hasTooltip'
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-'
 				. $icon . '" aria-hidden="true"></span></a>';
 		}
 

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -43,7 +42,7 @@ class FilterController extends FormController
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data = $input->post->get('jform', array(), 'array');
-		$checkin = $table->hasField('checked_out');
+		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
 defined('_JEXEC') or die;
@@ -14,10 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View for language overrides list.
@@ -106,37 +101,37 @@ class HtmlView extends BaseHtmlView
 		// Get the results for each action
 		$canDo = ContentHelper::getActions('com_languages');
 
-		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments-2 langmanager');
+		\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('override.add');
+			\JToolbarHelper::addNew('override.add');
 		}
 
 		if ($canDo->get('core.delete') && $this->pagination->total)
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
 		}
 
-		if (Factory::getUser()->authorise('core.admin'))
+		if (\JFactory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+			\JToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::preferences('com_languages');
+			\JToolbarHelper::preferences('com_languages');
 		}
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
 
 		\JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
 
 		\JHtmlSidebar::addFilter(
 			'',
 			'filter_language_client',
-			HTMLHelper::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
+			\JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
 			true
 		);
 

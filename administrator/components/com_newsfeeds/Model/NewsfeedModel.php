@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -19,8 +18,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Newsfeed model.
@@ -94,7 +91,7 @@ class NewsfeedModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -163,7 +160,7 @@ class NewsfeedModel extends AdminModel
 				return false;
 			}
 
-			$user = Factory::getUser();
+			$user = \JFactory::getUser();
 
 			if (!empty($record->catid))
 			{
@@ -189,7 +186,7 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		if (!empty($record->catid))
 		{
@@ -261,7 +258,7 @@ class NewsfeedModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
 
 		if (empty($data))
 		{
@@ -270,7 +267,7 @@ class NewsfeedModel extends AdminModel
 			// Prime some default values.
 			if ($this->getState('newsfeed.id') == 0)
 			{
-				$app = Factory::getApplication();
+				$app = \JFactory::getApplication();
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
 			}
 		}
@@ -291,7 +288,7 @@ class NewsfeedModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
@@ -403,8 +400,8 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
-		$date = Factory::getDate();
-		$user = Factory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 		$table->alias =  ApplicationHelper::stringURLSafe($table->alias, $table->language);
@@ -570,6 +567,6 @@ class NewsfeedModel extends AdminModel
 	 */
 	private function canCreateCategory()
 	{
-		return Factory::getUser()->authorise('core.create', 'com_newsfeeds');
+		return \JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
 	}
 }

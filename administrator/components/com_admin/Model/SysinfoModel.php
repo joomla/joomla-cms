@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -15,9 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Model for the display of system information.
@@ -249,7 +245,7 @@ class SysInfoModel extends BaseDatabaseModel
 			'display_errors'     => ini_get('display_errors') == '1',
 			'short_open_tag'     => ini_get('short_open_tag') == '1',
 			'file_uploads'       => ini_get('file_uploads') == '1',
-			'output_buffering'   => (int) ini_get('output_buffering') !== 0,
+			'output_buffering'   => (bool) ini_get('output_buffering'),
 			'open_basedir'       => ini_get('open_basedir'),
 			'session.save_path'  => ini_get('session.save_path'),
 			'session.auto_start' => ini_get('session.auto_start'),
@@ -309,13 +305,12 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->info = array(
 			'php'                   => php_uname(),
-			'dbserver'		=> $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => PHP_VERSION,
+			'phpversion'            => phpversion(),
 			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => PHP_SAPI,
+			'sapi_name'             => php_sapi_name(),
 			'version'               => (new Version)->getLongVersion(),
 			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
@@ -377,7 +372,7 @@ class SysInfoModel extends BaseDatabaseModel
 	{
 		if (!$this->phpinfoEnabled())
 		{
-			$this->php_info = Text::_('COM_ADMIN_PHPINFO_DISABLED');
+			$this->php_info = \JText::_('COM_ADMIN_PHPINFO_DISABLED');
 
 			return $this->php_info;
 		}
@@ -393,7 +388,7 @@ class SysInfoModel extends BaseDatabaseModel
 		$phpInfo = ob_get_contents();
 		ob_end_clean();
 		preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-		$output = preg_replace('#<table[^>]*>#', '<table class="table adminlist">', $output[1][0]);
+		$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
 		$output = str_replace('<div class="text-center">', '', $output);
@@ -437,7 +432,7 @@ class SysInfoModel extends BaseDatabaseModel
 	public function getExtensions()
 	{
 		$installed = array();
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__extensions'));
@@ -451,12 +446,12 @@ class SysInfoModel extends BaseDatabaseModel
 		{
 			try
 			{
-				Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), \JLog::WARNING, 'jerror');
 			}
 			catch (\RuntimeException $exception)
 			{
-				Factory::getApplication()->enqueueMessage(
-					Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+				\JFactory::getApplication()->enqueueMessage(
+					\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
 					'warning'
 				);
 			}
@@ -479,7 +474,7 @@ class SysInfoModel extends BaseDatabaseModel
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
-				'state'        => $extension->enabled ? Text::_('JENABLED') : Text::_('JDISABLED'),
+				'state'        => $extension->enabled ? \JText::_('JENABLED') : \JText::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
@@ -519,7 +514,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->directories = array();
 
-		$registry = Factory::getApplication()->getConfig();
+		$registry = \JFactory::getApplication()->getConfig();
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
@@ -690,7 +685,7 @@ class SysInfoModel extends BaseDatabaseModel
 			return $this->editor;
 		}
 
-		$this->editor = Factory::getApplication()->get('editor');
+		$this->editor = \JFactory::getApplication()->get('editor');
 
 		return $this->editor;
 	}

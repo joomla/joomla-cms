@@ -11,10 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
+JHtml::_('behavior.core');
+JHtml::_('behavior.keepalive');
 
 Text::script('COM_MAILTO_EMAIL_ERR_NOINFO', true);
 
@@ -25,20 +24,20 @@ $data = $this->get('data');
 
 <div id="mailto-window" class="com-mailto p-2">
 	<h2>
-		<?php echo Text::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
+		<?php echo JText::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
 	</h2>
 	<div class="com-mailto__close mailto-close">
-		<a title="<?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>" href="#" class="close-mailto">
+		<a title="<?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>" href="#" class="close-mailto">
 		 <span>
-             <?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>
+             <?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>
          </span></a>
 	</div>
 
-	<form action="<?php echo Uri::base() ?>index.php" id="mailtoForm" method="post" class="com-mailto__form">
+	<form action="<?php echo JUri::base() ?>index.php" id="mailtoForm" method="post" class="com-mailto__form">
 		<div class="com-mailto__emailto control-group">
 			<div class="control-label">
 				<label for="mailto_field">
-                    <?php echo Text::_('COM_MAILTO_EMAIL_TO'); ?>
+                    <?php echo JText::_('COM_MAILTO_EMAIL_TO'); ?>
                 </label>
 			</div>
 			<div class="controls">
@@ -48,7 +47,7 @@ $data = $this->get('data');
 		<div class="com-mailto__sender control-group">
 			<div class="control-label">
 				<label for="sender_field">
-                    <?php echo Text::_('COM_MAILTO_SENDER'); ?>
+                    <?php echo JText::_('COM_MAILTO_SENDER'); ?>
                 </label>
 			</div>
 			<div class="controls">
@@ -58,7 +57,7 @@ $data = $this->get('data');
 		<div class="com-mailto__your-email control-group">
 			<div class="control-label">
 				<label for="from_field">
-                    <?php echo Text::_('COM_MAILTO_YOUR_EMAIL'); ?>
+                    <?php echo JText::_('COM_MAILTO_YOUR_EMAIL'); ?>
                 </label>
 			</div>
 			<div class="controls">
@@ -68,7 +67,7 @@ $data = $this->get('data');
 		<div class="com-mailto__subject control-group">
 				<div class="control-label">
 			<label for="subject_field">
-                <?php echo Text::_('COM_MAILTO_SUBJECT'); ?>
+                <?php echo JText::_('COM_MAILTO_SUBJECT'); ?>
             </label>
 			</div>
 			<div class="controls">
@@ -77,10 +76,10 @@ $data = $this->get('data');
 		</div>
 		<div class="com-mailto__submit control-group">
 			<button type="button" class="com-mailto__cancel btn btn-danger close-mailto">
-				<?php echo Text::_('COM_MAILTO_CANCEL'); ?>
+				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
 			<button type="submit" class="com-mailto__send btn btn-success">
-				<?php echo Text::_('COM_MAILTO_SEND'); ?>
+				<?php echo JText::_('COM_MAILTO_SEND'); ?>
 			</button>
 		</div>
 
@@ -89,6 +88,6 @@ $data = $this->get('data');
 		<input type="hidden" name="task" value="send">
 		<input type="hidden" name="tmpl" value="component">
 		<input type="hidden" name="link" value="<?php echo $data->link; ?>">
-		<?php echo HTMLHelper::_('form.token'); ?>
+		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

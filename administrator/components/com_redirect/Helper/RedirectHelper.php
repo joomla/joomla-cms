@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Redirect\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Redirect component helper.
@@ -50,11 +47,11 @@ class RedirectHelper
 	{
 		// Build the active state filter options.
 		$options   = array();
-		$options[] = HTMLHelper::_('select.option', '*', 'JALL');
-		$options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
-		$options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
-		$options[] = HTMLHelper::_('select.option', '2', 'JARCHIVED');
-		$options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
+		$options[] = \JHtml::_('select.option', '*', 'JALL');
+		$options[] = \JHtml::_('select.option', '1', 'JENABLED');
+		$options[] = \JHtml::_('select.option', '0', 'JDISABLED');
+		$options[] = \JHtml::_('select.option', '2', 'JARCHIVED');
+		$options[] = \JHtml::_('select.option', '-2', 'JTRASHED');
 
 		return $options;
 	}
@@ -68,7 +65,7 @@ class RedirectHelper
 	 */
 	public static function getRedirectPluginId()
 	{
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -82,7 +79,7 @@ class RedirectHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;

@@ -34,7 +34,7 @@ class Files extends Input
 	 *
 	 * @param   array  $source   The source argument is ignored. $_FILES is always used.
 	 * @param   array  $options  An optional array of configuration options:
-	 *                           filter : a custom InputFilter object.
+	 *                           filter : a custom JFilterInput object.
 	 *
 	 * @since   12.1
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
@@ -66,7 +66,7 @@ class Files extends Input
 	 *
 	 * @return  mixed  The filtered input value.
 	 *
-	 * @see     InputFilter::clean()
+	 * @see     JFilterInput::clean()
 	 * @since   11.1
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */

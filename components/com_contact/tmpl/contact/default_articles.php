@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
-
 JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 ?>
@@ -20,7 +17,7 @@ JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/he
 	<ul class="nav nav-tabs nav-stacked">
 		<?php foreach ($this->item->articles as $article) : ?>
 			<li>
-				<?php echo HTMLHelper::_('link', Route::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)), htmlspecialchars($article->title, ENT_COMPAT, 'UTF-8')); ?>
+				<?php echo JHtml::_('link', JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)), htmlspecialchars($article->title, ENT_COMPAT, 'UTF-8')); ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>

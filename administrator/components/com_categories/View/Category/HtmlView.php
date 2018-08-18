@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Categories\Administrator\View\Category;
 
 defined('_JEXEC') or die;
@@ -16,10 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML View class for the Categories component
@@ -99,10 +94,10 @@ class HtmlView extends BaseHtmlView
 			$this->checkTags = true;
 		}
 
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -129,8 +124,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$extension = Factory::getApplication()->input->get('extension');
-		$user = Factory::getUser();
+		$extension = \JFactory::getApplication()->input->get('extension');
+		$user = \JFactory::getUser();
 		$userId = $user->id;
 
 		$isNew = ($this->item->id == 0);
@@ -149,7 +144,7 @@ class HtmlView extends BaseHtmlView
 		$componentParams = ComponentHelper::getParams($component);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true)
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
@@ -159,26 +154,26 @@ class HtmlView extends BaseHtmlView
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = $component . ($section ? "_$section" : '') . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE'))
 		{
-			$title = Text::_($component_title_key);
+			$title = \JText::_($component_title_key);
 		}
 		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
-			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
-					. '_TITLE', $this->escape(Text::_($component_section_key))
+			$title = \JText::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
+					. '_TITLE', $this->escape(\JText::_($component_section_key))
 					);
 		}
 		// Else use the base title
 		else
 		{
-			$title = Text::_('COM_CATEGORIES_CATEGORY_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
+			$title = \JText::_('COM_CATEGORIES_CATEGORY_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 		}
 
 		// Load specific css component
-		HTMLHelper::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
-		ToolbarHelper::title(
+		\JToolbarHelper::title(
 			$title,
 			'folder category-' . ($isNew ? 'add' : 'edit')
 				. ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
@@ -187,7 +182,7 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
 		{
-			ToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				[
 					['apply', 'category.apply'],
 					['save', 'category.save'],
@@ -196,7 +191,7 @@ class HtmlView extends BaseHtmlView
 				'btn-success'
 			);
 
-			ToolbarHelper::cancel('category.cancel');
+			\JToolbarHelper::cancel('category.cancel');
 		}
 
 		// If not checked out, can save the item.
@@ -225,7 +220,7 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save2copy', 'category.save2copy'];
 			}
 
-			ToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
@@ -233,13 +228,13 @@ class HtmlView extends BaseHtmlView
 			if (ComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
-				ToolbarHelper::versions($typeAlias, $this->item->id);
+				\JToolbarHelper::versions($typeAlias, $this->item->id);
 			}
 
-			ToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::divider();
+		\JToolbarHelper::divider();
 
 		// Compute the ref_key
 		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
@@ -261,7 +256,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
-			$url = Text::_($lang_help_url);
+			$url = \JText::_($lang_help_url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -269,6 +264,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		ToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
+		\JToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
 	}
 }

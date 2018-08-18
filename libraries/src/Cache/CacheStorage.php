@@ -8,11 +8,10 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Log\Log;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract cache storage handler
@@ -87,7 +86,7 @@ class CacheStorage
 	 */
 	public function __construct($options = array())
 	{
-		$config = Factory::getConfig();
+		$config = \JFactory::getConfig();
 
 		$this->_hash        = md5($config->get('secret'));
 		$this->_application = $options['application'] ?? null;
@@ -127,7 +126,7 @@ class CacheStorage
 
 		if (!isset($handler))
 		{
-			$handler = Factory::getConfig()->get('cache_handler');
+			$handler = \JFactory::getConfig()->get('cache_handler');
 
 			if (empty($handler))
 			{
@@ -156,7 +155,9 @@ class CacheStorage
 		if (!class_exists($class))
 		{
 			// Search for the class file in the JCacheStorage include paths.
-			$path = Path::find(self::addIncludePath(), strtolower($handler) . '.php');
+			\JLoader::import('joomla.filesystem.path');
+
+			$path = \JPath::find(self::addIncludePath(), strtolower($handler) . '.php');
 
 			if ($path === false)
 			{
@@ -378,7 +379,8 @@ class CacheStorage
 
 		if (!empty($path) && !in_array($path, $paths))
 		{
-			array_unshift($paths, Path::clean($path));
+			\JLoader::import('joomla.filesystem.path');
+			array_unshift($paths, \JPath::clean($path));
 		}
 
 		return $paths;

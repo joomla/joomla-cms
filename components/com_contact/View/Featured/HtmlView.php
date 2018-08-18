@@ -6,16 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Mail\MailHelper;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Featured View class
@@ -101,7 +96,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = Factory::getApplication();
+		$app    = \JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -132,9 +127,9 @@ class HtmlView extends BaseHtmlView
 			{
 				$item->email_to = trim($item->email_to);
 
-				if (!empty($item->email_to) && MailHelper::isEmailAddress($item->email_to))
+				if (!empty($item->email_to) && \JMailHelper::isEmailAddress($item->email_to))
 				{
-					$item->email_to = HTMLHelper::_('email.cloak', $item->email_to);
+					$item->email_to = \JHtml::_('email.cloak', $item->email_to);
 				}
 				else
 				{
@@ -170,7 +165,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = Factory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -184,7 +179,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', Text::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', \JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -195,11 +190,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

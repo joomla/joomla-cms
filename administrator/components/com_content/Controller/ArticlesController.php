@@ -14,10 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * Articles list controller class.
@@ -62,9 +58,9 @@ class ArticlesController extends AdminController
 	public function featured()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$user   = Factory::getUser();
+		$user   = \JFactory::getUser();
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
@@ -77,13 +73,13 @@ class ArticlesController extends AdminController
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -94,16 +90,16 @@ class ArticlesController extends AdminController
 			// Publish the items.
 			if (!$model->featured($ids, $value))
 			{
-				Factory::getApplication()->enqueueMessage($model->getError(), 'error');
+				\JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
 			}
 
 			if ($value == 1)
 			{
-				$message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+				$message = \JText::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
 			}
 			else
 			{
-				$message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+				$message = \JText::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
 			}
 		}
 
@@ -111,11 +107,11 @@ class ArticlesController extends AdminController
 
 		if ($view == 'featured')
 		{
-			$this->setRedirect(Route::_('index.php?option=com_content&view=featured', false), $message);
+			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=featured', false), $message);
 		}
 		else
 		{
-			$this->setRedirect(Route::_('index.php?option=com_content&view=articles', false), $message);
+			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles', false), $message);
 		}
 	}
 

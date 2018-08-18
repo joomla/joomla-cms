@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,10 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Manage Model
@@ -68,7 +63,7 @@ class ManageModel extends InstallerModel
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -98,9 +93,9 @@ class ManageModel extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
+		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -130,7 +125,7 @@ class ManageModel extends InstallerModel
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
-					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
+					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
 					unset($eid[$i]);
 					continue;
 				}
@@ -139,7 +134,7 @@ class ManageModel extends InstallerModel
 			if ($table->protected == 1)
 			{
 				$result = false;
-				Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 			}
 			else
 			{
@@ -181,7 +176,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get an installer object for the extension type
-		$installer = Installer::getInstance();
+		$installer = \JInstaller::getInstance();
 		$result = 0;
 
 		// Uninstall the chosen extensions
@@ -204,9 +199,9 @@ class ManageModel extends InstallerModel
 	 */
 	public function remove($eid = array())
 	{
-		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -221,7 +216,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get an installer object for the extension type
-		$installer = Installer::getInstance();
+		$installer = \JInstaller::getInstance();
 		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		// Uninstall the chosen extensions
@@ -235,7 +230,7 @@ class ManageModel extends InstallerModel
 			$result = false;
 
 			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
-			$rowtype = Text::_($langstring);
+			$rowtype = \JText::_($langstring);
 
 			if (strpos($rowtype, $langstring) !== false)
 			{
@@ -250,24 +245,24 @@ class ManageModel extends InstallerModel
 				if ($result === false)
 				{
 					// There was an error in uninstalling the package
-					$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+					$msgs[] = \JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 
 					continue;
 				}
 
 				// Package uninstalled successfully
-				$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+				$msgs[] = \JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
 
 				continue;
 			}
 
 			// There was an error in uninstalling the package
-			$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+			$msgs[] = \JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}
 
 		$msg = implode('<br>', $msgs);
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
@@ -343,7 +338,7 @@ class ManageModel extends InstallerModel
 
 		if ($core !== '')
 		{
-			$coreExtensions = ExtensionHelper::getCoreExtensions();
+			$coreExtensions = \JExtensionHelper::getCoreExtensions();
 			$elements       = array();
 
 			foreach ($coreExtensions as $extension)

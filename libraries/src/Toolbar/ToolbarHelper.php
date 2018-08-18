@@ -10,11 +10,8 @@ namespace Joomla\CMS\Toolbar;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
+use Joomla\Cms\Table\Table;
 
 /**
  * Utility class for the button bar.
@@ -41,9 +38,9 @@ abstract class ToolbarHelper
 		$layout = new FileLayout('joomla.toolbar.title');
 		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
+		\JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
 	}
 
 	/**
@@ -598,7 +595,7 @@ abstract class ToolbarHelper
 		$path = urlencode($path);
 		$bar = Toolbar::getInstance('toolbar');
 
-		$uri = (string) Uri::getInstance();
+		$uri = (string) \JUri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.
@@ -625,16 +622,16 @@ abstract class ToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
 		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
 		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
-		// Options array for Layout
+		// Options array for JLayout
 		$options              = array();
-		$options['title']     = Text::_($alt);
+		$options['title']     = \JText::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
 		$options['itemId']    = $itemId;
@@ -702,9 +699,9 @@ abstract class ToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		$title = Text::_($alt);
+		$title = \JText::_($alt);
 
-		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
+		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-outline-primary btn-sm">
 			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
 
 		$bar = Toolbar::getInstance('toolbar');

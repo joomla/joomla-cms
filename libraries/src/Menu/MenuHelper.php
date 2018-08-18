@@ -9,8 +9,6 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 /**
@@ -93,14 +91,14 @@ class MenuHelper
 			static::addPreset('modern', 'JLIB_MENUS_PRESET_MODERN', JPATH_ADMINISTRATOR . '/components/com_menus/presets/modern.xml');
 
 			// Load from template folder automatically
-			$app = Factory::getApplication();
+			$app = \JFactory::getApplication();
 			$tpl = JPATH_THEMES . '/' . $app->getTemplate() . '/html/com_menus/presets';
 
 			if (is_dir($tpl))
 			{
 				jimport('joomla.filesystem.folder');
 
-				$files = Folder::files($tpl, '\.xml$');
+				$files = \JFolder::files($tpl, '\.xml$');
 
 				foreach ($files as $file)
 				{
@@ -163,7 +161,7 @@ class MenuHelper
 			$params  = new Registry($obj->params);
 			$aliasTo = $params->get('aliasoptions');
 
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('a.id, a.link, a.type, e.element')
 				->from('#__menu a')
@@ -284,7 +282,7 @@ class MenuHelper
 				$lJoin  = (string) $element['sql_leftjoin'];
 				$iJoin  = (string) $element['sql_innerjoin'];
 
-				$db    = Factory::getDbo();
+				$db    = \JFactory::getDbo();
 				$query = $db->getQuery(true);
 				$query->select($select)->from($from);
 

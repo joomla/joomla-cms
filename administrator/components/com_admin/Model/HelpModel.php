@@ -6,17 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Help\Help;
+use Joomla\CMS\Help\Help as JHelp;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
 
 /**
  * Admin Component Help Model
@@ -76,7 +72,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->help_search))
 		{
-			$this->help_search = Factory::getApplication()->input->getString('helpsearch');
+			$this->help_search = \JFactory::getApplication()->input->getString('helpsearch');
 		}
 
 		return $this->help_search;
@@ -93,7 +89,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->page))
 		{
-			$this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'JHELP_START_HERE'));
+			$this->page = JHelp::createUrl(\JFactory::getApplication()->input->get('page', 'JHELP_START_HERE'));
 		}
 
 		return $this->page;
@@ -110,7 +106,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->lang_tag))
 		{
-			$this->lang_tag = Factory::getLanguage()->getTag();
+			$this->lang_tag = \JFactory::getLanguage()->getTag();
 
 			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
 			{
@@ -146,7 +142,7 @@ class HelpModel extends BaseDatabaseModel
 			// Loop through the data array
 			foreach ($data as $key => $value)
 			{
-				$this->toc[$key] = Text::_('COM_ADMIN_HELP_' . $value);
+				$this->toc[$key] = \JText::_('COM_ADMIN_HELP_' . $value);
 			}
 
 			// Sort the Table of Contents
@@ -157,7 +153,7 @@ class HelpModel extends BaseDatabaseModel
 
 		// Get Help files
 		jimport('joomla.filesystem.folder');
-		$files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+		$files = \JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 		$this->toc = array();
 
 		foreach ($files as $file)
@@ -177,7 +173,7 @@ class HelpModel extends BaseDatabaseModel
 			}
 
 			// Translate the page title
-			$title = Text::_($title);
+			$title = \JText::_($title);
 
 			// Strip the extension
 			$file = preg_replace('#\.xml$|\.html$#', '', $file);
@@ -208,7 +204,7 @@ class HelpModel extends BaseDatabaseModel
 		{
 			$override = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:'
 				. 'Joomla_Version_{major}_{minor}_{maintenance}/{langcode}&amp;lang={langcode}';
-			$this->latest_version_check = Help::createUrl('JVERSION', false, $override);
+			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
 
 		return $this->latest_version_check;

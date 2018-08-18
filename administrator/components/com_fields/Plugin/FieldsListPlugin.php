@@ -6,12 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Language\Text;
 
 /**
  * Base plugin for all list based plugins
@@ -45,7 +42,7 @@ class FieldsListPlugin extends FieldsPlugin
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
 			$option = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-			$option->textContent = htmlspecialchars(Text::_($name), ENT_COMPAT, 'UTF-8');
+			$option->textContent = htmlspecialchars(\JText::_($name), ENT_COMPAT, 'UTF-8');
 
 			$element = $fieldNode->appendChild($option);
 			$element->setAttribute('value', $value);

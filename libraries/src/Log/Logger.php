@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class Logger
 {
 	/**
-	 * Options array for the Log instance.
+	 * Options array for the JLog instance.
 	 *
 	 * @var    array
 	 * @since  12.2

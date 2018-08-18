@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds;
 
 defined('_JEXEC') or die;
@@ -15,11 +14,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Factory;
 
 /**
  * View class for a list of newsfeeds.
@@ -88,7 +82,7 @@ class HtmlView extends BaseHtmlView
 			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!Multilanguage::isEnabled())
+			if (!\JLanguageMultilang::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
@@ -98,7 +92,7 @@ class HtmlView extends BaseHtmlView
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -126,27 +120,27 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
-		$user  = Factory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
-		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+		$bar = \JToolbar::getInstance('toolbar');
+		\JToolbarHelper::title(\JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('newsfeed.add');
+			\JToolbarHelper::addNew('newsfeed.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('newsfeeds.archive');
+			\JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::archiveList('newsfeeds.archive');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::checkin('newsfeeds.checkin');
+			\JToolbarHelper::checkin('newsfeeds.checkin');
 		}
 
 		// Add a batch button
@@ -154,9 +148,9 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_newsfeeds')
 			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
+			$title = \JText::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new FileLayout instance and render the batch button
+			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
@@ -165,19 +159,19 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('newsfeeds.trash');
+			\JToolbarHelper::trash('newsfeeds.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
-			ToolbarHelper::preferences('com_newsfeeds');
+			\JToolbarHelper::preferences('com_newsfeeds');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		\JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 	}
 
 	/**
@@ -190,15 +184,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
-			'a.published'    => Text::_('JSTATUS'),
-			'a.name'         => Text::_('JGLOBAL_TITLE'),
-			'category_title' => Text::_('JCATEGORY'),
-			'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-			'numarticles'    => Text::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
-			'a.cache_time'   => Text::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
-			'a.language'     => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'           => Text::_('JGRID_HEADING_ID')
+			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => \JText::_('JSTATUS'),
+			'a.name'         => \JText::_('JGLOBAL_TITLE'),
+			'category_title' => \JText::_('JCATEGORY'),
+			'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+			'numarticles'    => \JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
+			'a.cache_time'   => \JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
+			'a.language'     => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => \JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

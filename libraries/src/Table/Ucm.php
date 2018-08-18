@@ -20,7 +20,7 @@ class Ucm extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */

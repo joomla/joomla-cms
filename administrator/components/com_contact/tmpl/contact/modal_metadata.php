@@ -9,6 +9,4 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
-
-echo LayoutHelper::render('joomla.edit.metadata', $this);
+echo JLayoutHelper::render('joomla.edit.metadata', $this);

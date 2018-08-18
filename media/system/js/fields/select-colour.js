@@ -1,52 +1,44 @@
 /**
-* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
-* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
-**/
-
-/**
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function () {
-  'use strict';
 
-  var onChange = function onChange(event) {
-    var self = event.target;
-    var value = parseInt(self.value, 10);
+/**
+ * Update colour for selectbox
+ */
+Joomla = window.Joomla || {};
 
-    self.classList.remove('custom-select-success', 'custom-select-danger');
+(function(Joomla) {
+	'use strict';
 
-    if (value === 1) {
-      self.classList.add('custom-select-success');
-    } else if (value === 0 || value === -2) {
-      self.classList.add('custom-select-danger');
-    }
-  };
+	Joomla.updateSelectboxColour = function () {
+		var colourSelects = document.querySelectorAll('.custom-select-color-state');
+		for (var i = 0, l = colourSelects.length; i < l; i++) {
+			// Add class on page load
+			var selectBox = colourSelects[i];
+			if (selectBox.value == 1) {
+				selectBox.classList.add('custom-select-success');
+			}
+			else if (selectBox.value == 0) {
+				selectBox.classList.add('custom-select-danger');
+			}
 
-  var updateSelectboxColour = function updateSelectboxColour() {
-    var colourSelects = [].slice.call(document.querySelectorAll('.custom-select-color-state'));
+			// Add class when value is changed
+			selectBox.addEventListener('change', function() {
+				var self = this;
+				self.classList.remove('custom-select-success', 'custom-select-danger');
+				if (self.value == 1) {
+					self.classList.add('custom-select-success');
+				}
+				else if (self.value == 0 || self.value == parseInt(-2)) {
+					self.classList.add('custom-select-danger');
+				}
+			});
+		}
+	};
 
-    colourSelects.forEach(function (colourSelect) {
-      var value = parseInt(colourSelect.value, 10);
+	document.addEventListener('DOMContentLoaded', function() {
+		Joomla.updateSelectboxColour();
+	});
 
-      // Add class on page load
-      if (value === 1) {
-        colourSelect.classList.add('custom-select-success');
-      } else if (value === 0) {
-        colourSelect.classList.add('custom-select-danger');
-      }
-
-      // Add class when value is changed
-      colourSelect.addEventListener('change', onChange);
-    });
-
-    // Cleanup
-    document.removeEventListener('DOMContentLoaded', updateSelectboxColour, true);
-  };
-
-  // On docunment loaded
-  document.addEventListener('DOMContentLoaded', updateSelectboxColour, true);
-
-  // On Joomla updated
-  document.addEventListener('joomla:updated', updateSelectboxColour, true);
-})();
+})(Joomla);

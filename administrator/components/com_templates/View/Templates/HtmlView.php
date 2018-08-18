@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Templates\Administrator\View\Templates;
 
 defined('_JEXEC') or die;
@@ -15,8 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of template styles.
@@ -126,20 +123,20 @@ class HtmlView extends BaseHtmlView
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'eye thememanager');
+			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'eye thememanager');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'eye thememanager');
+			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'eye thememanager');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_templates');
-			ToolbarHelper::divider();
+			\JToolbarHelper::preferences('com_templates');
+			\JToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
+		\JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
 
 		\JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');
 

@@ -51,6 +51,7 @@
 				type="number"
 				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
 				default="500"
+				size="5"
 			/>
 
 		</fieldset>

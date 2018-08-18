@@ -14,7 +14,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Installer\Installer as JInstaller;
 
 /**
- * Joomla! namespace map creator / updater.
+ * Joomla! namespace map updater.
  *
  * @since  4.0.0
  */
@@ -33,9 +33,9 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	 * @param   DispatcherInterface  &$subject  The object to observe
 	 * @param   array                $config    An optional associative array of configuration settings.
 	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
-	 *                                          (this list is not meant to be comprehensive).
+	 *                                         (this list is not meant to be comprehensive).
 	 *
-	 * @since   4.0
+	 * @since   1.5
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -45,10 +45,10 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	}
 
 	/**
-	 * Update / Create map on extension install
+	 * Handle post extension install update sites
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
+	 * @param   JInstaller  $installer  Installer object
+	 * @param   integer     $eid        Extension Identifier
 	 *
 	 * @return  void
 	 *
@@ -56,16 +56,15 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
-		// Check that we have a valid extension
+		// Update / Create new map
 		if ($eid)
 		{
-			// Update / Create new map
 			$this->fileCreator->create();
 		}
 	}
 
 	/**
-	 * Update / Create map on extension uninstall
+	 * Handle extension uninstall
 	 *
 	 * @param   JInstaller  $installer  Installer instance
 	 * @param   integer     $eid        Extension id
@@ -77,7 +76,8 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $removed)
 	{
-		// Check that we have a valid extension and that it has been removed
+		// If we have a valid extension ID and the extension was successfully uninstalled wipe out any
+		// update sites for it
 		if ($eid && $removed)
 		{
 			// Update / Create new map
@@ -86,10 +86,10 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	}
 
 	/**
-	 * Update map on extension update
+	 * After update of an extension
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
+	 * @param   JInstaller  $installer  Installer object
+	 * @param   integer     $eid        Extension identifier
 	 *
 	 * @return  void
 	 *
@@ -97,7 +97,25 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
-		// Check that we have a valid extension
+		if ($eid)
+		{
+			// Update / Create new map
+			$this->fileCreator->create();
+		}
+	}
+
+	/**
+	 * After update of an extension
+	 *
+	 * @param   JInstaller  $installer  Installer object
+	 * @param   integer     $eid        Extension identifier
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onExtensionAfterSave($installer, $eid)
+	{
 		if ($eid)
 		{
 			// Update / Create new map

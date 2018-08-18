@@ -10,12 +10,14 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Factory as JFactory;
 use Joomla\Event\AbstractEvent;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Event\SubscriberManagerInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -123,7 +125,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 			if ($appProperty->isPrivate() === false && is_null($this->app))
 			{
-				$this->app = Factory::getApplication();
+				$this->app = JFactory::getApplication();
 			}
 		}
 
@@ -134,7 +136,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 			if ($dbProperty->isPrivate() === false && is_null($this->db))
 			{
-				$this->db = Factory::getDbo();
+				$this->db = JFactory::getDbo();
 			}
 		}
 
@@ -163,7 +165,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 		}
 
 		$extension = strtolower($extension);
-		$lang      = Factory::getLanguage();
+		$lang      = JFactory::getLanguage();
 
 		// If language already loaded, don't load it again.
 		if ($lang->getPaths($extension))
@@ -195,7 +197,25 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 		// Plugins which are SubscriberInterface implementations are handled without legacy layer support
 		if ($this instanceof SubscriberInterface)
 		{
-			$this->getDispatcher()->addSubscriber($this);
+			// To avoid a hard dependency to dispatchers implementing the SubscriberManagerInterface, emulate its effect if the dispatcher doesn't
+			if ($this->getDispatcher() instanceof SubscriberManagerInterface)
+			{
+				$this->getDispatcher()->addSubscriber($this);
+			}
+			else
+			{
+				foreach ($this->getSubscribedEvents() as $eventName => $params)
+				{
+					if (is_array($params))
+					{
+						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], $params[1] ?? Priority::NORMAL);
+					}
+					else
+					{
+						$this->getDispatcher()->addListener($eventName, [$this, $params]);
+					}
+				}
+			}
 
 			return;
 		}

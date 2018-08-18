@@ -10,8 +10,6 @@ namespace Joomla\CMS\Environment;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
-
 /**
  * Browser class, provides capability information about the current web client.
  *
@@ -693,9 +691,9 @@ class Browser
 	 */
 	public function isSSLConnection()
 	{
-		Log::add(
+		\JLog::add(
 			'Browser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			Log::WARNING,
+			\JLog::WARNING,
 			'deprecated'
 		);
 

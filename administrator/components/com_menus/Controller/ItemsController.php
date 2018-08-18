@@ -13,11 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * The Menu Item Controller
@@ -69,7 +64,7 @@ class ItemsController extends AdminController
 	 */
 	public function rebuild()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
@@ -79,14 +74,14 @@ class ItemsController extends AdminController
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
-			$this->setMessage(Text::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
+			$this->setMessage(\JText::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
+			$this->setMessage(\JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
 
 			return false;
 		}
@@ -102,13 +97,13 @@ class ItemsController extends AdminController
 	 */
 	public function saveorder()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		try
 		{
-			Log::add(
+			\JLog::add(
 				sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__),
-				Log::WARNING,
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
@@ -129,7 +124,7 @@ class ItemsController extends AdminController
 		else
 		{
 			// Nothing to reorder
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
 		}
@@ -145,7 +140,7 @@ class ItemsController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken('request') or die(\JText::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 
@@ -157,7 +152,7 @@ class ItemsController extends AdminController
 
 		if (empty($cid))
 		{
-			$this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -183,12 +178,12 @@ class ItemsController extends AdminController
 					$ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($cid)));
+				$this->setMessage(\JText::plural($ntext, count($cid)));
 			}
 		}
 
 		$this->setRedirect(
-			Route::_(
+			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 			)
@@ -205,7 +200,7 @@ class ItemsController extends AdminController
 	public function publish()
 	{
 		// Check for request forgeries
-		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -217,11 +212,11 @@ class ItemsController extends AdminController
 		{
 			try
 			{
-				Log::add(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), Log::WARNING, 'jerror');
+				\JLog::add(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), \JLog::WARNING, 'jerror');
 			}
 			catch (\RuntimeException $exception)
 			{
-				$this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+				$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 			}
 		}
 		else
@@ -260,7 +255,7 @@ class ItemsController extends AdminController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($cid)), $messageType);
+				$this->setMessage(\JText::plural($ntext, count($cid)), $messageType);
 			}
 			catch (\Exception $e)
 			{
@@ -269,9 +264,9 @@ class ItemsController extends AdminController
 		}
 
 		$this->setRedirect(
-			Route::_(
+			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list . '&menutype=' .
-				Factory::getApplication()->getUserState('com_menus.items.menutype'),
+				\JFactory::getApplication()->getUserState('com_menus.items.menutype'),
 				false
 			)
 		);
@@ -287,7 +282,7 @@ class ItemsController extends AdminController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 
@@ -297,9 +292,9 @@ class ItemsController extends AdminController
 		if ($return === false)
 		{
 			// Checkin failed.
-			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(
-				Route::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
 					false
@@ -313,9 +308,9 @@ class ItemsController extends AdminController
 		else
 		{
 			// Checkin succeeded.
-			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(
-				Route::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
 					false

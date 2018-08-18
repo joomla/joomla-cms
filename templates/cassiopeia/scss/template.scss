@@ -13,10 +13,10 @@
 @import "../../../media/vendor/font-awesome/scss/font-awesome";
 
 // B/C for Icomoon
-@import "../../../build/media/system/scss/icomoon";
+@import "../../../media/system/scss/icomoon";
 
 // Alert
-@import "../../../build/media/system/scss/jalert";
+@import "../../../media/system/scss/jalert";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -51,6 +51,7 @@
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
+
 
 // Chosen (TEMPORARY)
 .chzn-container-single {

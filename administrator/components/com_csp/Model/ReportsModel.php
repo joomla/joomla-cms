@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Csp\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -19,7 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 /**
  * CSP Component Reports Model
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ReportsModel extends ListModel
 {
@@ -29,7 +28,7 @@ class ReportsModel extends ListModel
 	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -41,7 +40,6 @@ class ReportsModel extends ListModel
 				'document_uri', 'a.document_uri',
 				'blocked_uri', 'a.blocked_uri',
 				'directive', 'a.directive',
-				'client', 'a.client',
 				'published', 'a.published',
 			);
 		}
@@ -59,7 +57,7 @@ class ReportsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'asc')
 	{
@@ -78,7 +76,7 @@ class ReportsModel extends ListModel
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -94,7 +92,7 @@ class ReportsModel extends ListModel
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{

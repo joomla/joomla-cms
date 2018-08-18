@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Administrator\Table;
 
 defined('_JEXEC') or die;
@@ -15,10 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Contact Table class.
@@ -38,11 +33,11 @@ class ContactTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database connector object
+	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_contact.contact';
 
@@ -67,8 +62,8 @@ class ContactTable extends Table
 			$this->params = (string) $registry;
 		}
 
-		$date   = Factory::getDate()->toSql();
-		$userId = Factory::getUser()->id;
+		$date   = \JFactory::getDate()->toSql();
+		$userId = \JFactory::getUser()->id;
 
 		if ($this->id)
 		{
@@ -110,17 +105,17 @@ class ContactTable extends Table
 		}
 
 		// Store utf8 email as punycode
-		$this->email_to = PunycodeHelper::emailToPunycode($this->email_to);
+		$this->email_to = \JStringPunycode::emailToPunycode($this->email_to);
 
 		// Convert IDN urls to punycode
-		$this->webpage = PunycodeHelper::urlToPunycode($this->webpage);
+		$this->webpage = \JStringPunycode::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
 		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\');
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}
@@ -153,7 +148,7 @@ class ContactTable extends Table
 
 		if (\JFilterInput::checkAttribute(array('href', $this->webpage)))
 		{
-			$this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
+			$this->setError(\JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
 			return false;
 		}
@@ -161,7 +156,7 @@ class ContactTable extends Table
 		// Check for valid name
 		if (trim($this->name) == '')
 		{
-			$this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(\JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -172,7 +167,7 @@ class ContactTable extends Table
 		// Check for valid category
 		if (trim($this->catid) == '')
 		{
-			$this->setError(Text::_('COM_CONTACT_WARNING_CATEGORY'));
+			$this->setError(\JText::_('COM_CONTACT_WARNING_CATEGORY'));
 
 			return false;
 		}
@@ -186,7 +181,7 @@ class ContactTable extends Table
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			$this->setError(\JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
 			return false;
 		}
@@ -272,7 +267,7 @@ class ContactTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return $this->alias;

@@ -9,16 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-
 $clientId         = $this->item->client_id;
 $state            = 1;
 $selectedPosition = $this->item->position;
-$positions        = HTMLHelper::_('modules.positions', $clientId, $state, $selectedPosition);
+$positions        = JHtml::_('modules.positions', $clientId, $state, $selectedPosition);
 
 // Add custom position to options
-$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
+$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 
 // Build field
 $attr = array(
@@ -26,6 +23,4 @@ $attr = array(
 	'list.select' => $this->item->position,
 );
 
-JHtml::_('formbehavior.chosen', '#jform_position');
-
-echo HTMLHelper::_('select.groupedlist', $positions, 'jform[position]', $attr);
+echo JHtml::_('select.groupedlist', $positions, 'jform[position]', $attr);

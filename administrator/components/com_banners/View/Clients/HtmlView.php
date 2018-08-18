@@ -6,16 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\View\Clients;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of clients.
@@ -83,38 +79,38 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions('com_banners');
+		$canDo = \JHelperContent::getActions('com_banners');
 
-		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
+		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('client.add');
+			\JToolbarHelper::addNew('client.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('clients.archive');
-			ToolbarHelper::checkin('clients.checkin');
+			\JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::archiveList('clients.archive');
+			\JToolbarHelper::checkin('clients.checkin');
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('clients.trash');
+			\JToolbarHelper::trash('clients.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_banners');
+			\JToolbarHelper::preferences('com_banners');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 	}
 
 	/**
@@ -127,12 +123,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.status'    => Text::_('JSTATUS'),
-			'a.name'      => Text::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact'     => Text::_('COM_BANNERS_HEADING_CONTACT'),
-			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners'    => Text::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id'        => Text::_('JGRID_HEADING_ID')
+			'a.status'    => \JText::_('JSTATUS'),
+			'a.name'      => \JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact'     => \JText::_('COM_BANNERS_HEADING_CONTACT'),
+			'client_name' => \JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'nbanners'    => \JText::_('COM_BANNERS_HEADING_ACTIVE'),
+			'a.id'        => \JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

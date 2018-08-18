@@ -42,39 +42,46 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
-		<table class="table table-sm">
+		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
-					<th scope="col" class="nowrap">
+					<th class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%" class="nowrap">
+					<th style="width:25%" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap text-center">
+					<th style="width:1%" class="nowrap text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap text-center">
+					<th style="width:1%" class="nowrap text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%" class="nowrap">
+					<th style="width:25%" class="nowrap">
 						<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap">
+					<th style="width:1%" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+						<?php echo $this->pagination->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
 			<tbody>
                 <?php $i = 0; ?>
                 <?php foreach ($this->items as $item) : ?>
                     <tr class="row<?php echo $i % 2; ?>">
-                        <th scope="row">
+                        <td>
                             <a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
                                 data-user-field="<?php echo $this->escape($field); ?>">
                                 <?php echo $this->escape($item->name); ?>
                             </a>
-                        </th>
+                        </td>
                         <td>
                             <?php echo $this->escape($item->username); ?>
                         </td>
@@ -94,10 +101,6 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-
-		<?php // load the pagination. ?>
-		<?php echo $this->pagination->getListFooter(); ?>
-
 		<?php endif; ?>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>">

@@ -10,8 +10,6 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -25,11 +23,11 @@ class Update extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -58,7 +56,7 @@ class Update extends Table
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
 		}

@@ -10,9 +10,6 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
-
 /**
  * Trait for component categories service.
  *
@@ -90,7 +87,7 @@ trait CategoriesServiceTrait
 			return;
 		}
 
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -157,7 +154,7 @@ trait CategoriesServiceTrait
 			return;
 		}
 
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$join  = $db->qn($sectionTable) . ' AS c ON ct.content_item_id=c.id';
 		$state = $this->getStateColumnForSection($section);
 
@@ -206,18 +203,6 @@ trait CategoriesServiceTrait
 				}
 			}
 		}
-	}
-
-	/**
-	 * Prepares the category form
-	 *
-	 * @param   Form          $form  The form to change
-	 * @param   array|object  $data  The form data
-	 *
-	 * @return void
-	 */
-	public function prepareForm(Form $form, $data)
-	{
 	}
 
 	/**

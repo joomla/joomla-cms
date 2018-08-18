@@ -9,11 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
-
 /**
  * Utility class for creating HTML Grids
  *
@@ -39,8 +34,8 @@ abstract class JHtmlGrid
 		static::behavior();
 
 		// Build the title.
-		$title = $value ? Text::_('JYES') : Text::_('JNO');
-		$title = HTMLHelper::_('tooltipText', $title, Text::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
+		$title = $value ? JText::_('JYES') : JText::_('JNO');
+		$title = JHtml::_('tooltipText', $title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
 
 		// Build the <a> tag.
 		$bool = $value ? 'true' : 'false';
@@ -76,8 +71,8 @@ abstract class JHtmlGrid
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '', $form = null)
 	{
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('bootstrap.popover');
+		JHtml::_('behavior.core');
+		JHtml::_('bootstrap.popover');
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');
@@ -98,8 +93,8 @@ abstract class JHtmlGrid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-			. ' class="hasPopover" title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
-			. ' data-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
+			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ?: $title)) . '"'
+			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
 
 		if (isset($title['0']) && $title['0'] === '<')
 		{
@@ -107,7 +102,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$html .= Text::_($title);
+			$html .= JText::_($title);
 		}
 
 		if ($order == $selected)
@@ -133,9 +128,9 @@ abstract class JHtmlGrid
 	 */
 	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
 	{
-		HTMLHelper::_('behavior.core');
+		JHtml::_('behavior.core');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . HTMLHelper::_('tooltipText', $tip)
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::_('tooltipText', $tip)
 			. '" onclick="' . $action . '">';
 	}
 
@@ -147,17 +142,14 @@ abstract class JHtmlGrid
 	 * @param   boolean  $checkedOut  True if item is checked out
 	 * @param   string   $name        The name of the form element
 	 * @param   string   $stub        The name of stub identifier
-	 * @param   string   $title       The name of the item
 	 *
 	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 *
 	 * @since   1.5
 	 */
-	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '')
+	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
-		return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="sr-only">' . Text::_('JSELECT')
-			. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>' 
-			. '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+		return $checkedOut ? '' : '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);">';
 	}
 
@@ -174,10 +166,10 @@ abstract class JHtmlGrid
 	 */
 	public static function checkedOut(&$row, $i, $identifier = 'id')
 	{
-		$user = Factory::getUser();
+		$user = JFactory::getUser();
 		$userid = $user->get('id');
 
-		if ($row instanceof Table)
+		if ($row instanceof JTable)
 		{
 			$result = $row->isCheckedOut($userid);
 		}
@@ -194,11 +186,11 @@ abstract class JHtmlGrid
 		{
 			if ($identifier === 'id')
 			{
-				return HTMLHelper::_('grid.id', $i, $row->$identifier);
+				return JHtml::_('grid.id', $i, $row->$identifier);
 			}
 			else
 			{
-				return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
+				return JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier);
 			}
 		}
 	}
@@ -225,11 +217,11 @@ abstract class JHtmlGrid
 
 		$img = $value ? $img1 : $img0;
 		$task = $value ? 'unpublish' : 'publish';
-		$alt = $value ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
-		$action = $value ? Text::_('JLIB_HTML_UNPUBLISH_ITEM') : Text::_('JLIB_HTML_PUBLISH_ITEM');
+		$alt = $value ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
+		$action = $value ? JText::_('JLIB_HTML_UNPUBLISH_ITEM') : JText::_('JLIB_HTML_PUBLISH_ITEM');
 
-		return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
-			. HTMLHelper::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
+		return '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+			. JHtml::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
 	}
 
 	/**
@@ -237,10 +229,10 @@ abstract class JHtmlGrid
 	 * By default the filter shows only published and unpublished items
 	 *
 	 * @param   string  $filter_state  The initial filter state
-	 * @param   string  $published     The Text string for published
-	 * @param   string  $unpublished   The Text string for Unpublished
-	 * @param   string  $archived      The Text string for Archived
-	 * @param   string  $trashed       The Text string for Trashed
+	 * @param   string  $published     The JText string for published
+	 * @param   string  $unpublished   The JText string for Unpublished
+	 * @param   string  $archived      The JText string for Archived
+	 * @param   string  $trashed       The JText string for Trashed
 	 *
 	 * @return  string
 	 *
@@ -248,19 +240,19 @@ abstract class JHtmlGrid
 	 */
 	public static function state($filter_state = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
 	{
-		$state = array('' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished));
+		$state = array('' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => JText::_($published), 'U' => JText::_($unpublished));
 
 		if ($archived)
 		{
-			$state['A'] = Text::_($archived);
+			$state['A'] = JText::_($archived);
 		}
 
 		if ($trashed)
 		{
-			$state['T'] = Text::_($trashed);
+			$state['T'] = JText::_($trashed);
 		}
 
-		return HTMLHelper::_(
+		return JHtml::_(
 			'select.genericlist',
 			$state,
 			'filter_state',
@@ -287,7 +279,7 @@ abstract class JHtmlGrid
 	{
 		return '<a href="javascript:saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-xs btn-secondary float-right" title="'
-			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
+			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 
 	/**
@@ -306,14 +298,14 @@ abstract class JHtmlGrid
 
 		if ($overlib)
 		{
-			$date = HTMLHelper::_('date', $row->checked_out_time, Text::_('DATE_FORMAT_LC1'));
-			$time = HTMLHelper::_('date', $row->checked_out_time, 'H:i');
+			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
+			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor)
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor)
 				. '<br>' . $date . '<br>' . $time . '">';
 		}
 
-		return $hover . HTMLHelper::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
+		return $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
 	}
 
 	/**
@@ -330,7 +322,7 @@ abstract class JHtmlGrid
 		if (!$loaded)
 		{
 			// Include jQuery
-			HTMLHelper::_('jquery.framework');
+			JHtml::_('jquery.framework');
 
 			// Build the behavior script.
 			$js = '
@@ -339,7 +331,7 @@ abstract class JHtmlGrid
 			$actions.each(function(){
 				$(this).on(\'click\', function(){
 					args = JSON.decode(this.rel);
-					Joomla.listItemTask(args.id, args.task);
+					listItemTask(args.id, args.task);
 				});
 			});
 			$(\'input.check-all-toggle\').each(function(){
@@ -359,7 +351,7 @@ abstract class JHtmlGrid
 		});';
 
 			// Add the behavior to the document head.
-			$document = Factory::getDocument();
+			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
 
 			$loaded = true;

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Associations\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -18,9 +17,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Associations component helper.
@@ -260,7 +256,7 @@ class AssociationsHelper extends ContentHelper
 
 				if (isset($items[$langCode]['catid']))
 				{
-					$db = Factory::getDbo();
+					$db = \JFactory::getDbo();
 
 					// Get the category name
 					$query = $db->getQuery(true)
@@ -271,11 +267,11 @@ class AssociationsHelper extends ContentHelper
 					$db->setQuery($query);
 					$category_title = $db->loadResult();
 
-					$additional = '<strong>' . Text::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br>';
+					$additional = '<strong>' . \JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br>';
 				}
 				elseif (isset($items[$langCode]['menutype']))
 				{
-					$db = Factory::getDbo();
+					$db = \JFactory::getDbo();
 
 					// Get the menutype name
 					$query = $db->getQuery(true)
@@ -286,7 +282,7 @@ class AssociationsHelper extends ContentHelper
 					$db->setQuery($query);
 					$menutype_title = $db->loadResult();
 
-					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
+					$additional = '<strong>' . \JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
 				$labelClass  = 'badge-secondary';
@@ -295,14 +291,14 @@ class AssociationsHelper extends ContentHelper
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
 								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
-				$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+				$additional .= $addLink && $allow ? \JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
 			else
 			{
 				$items[$langCode] = array();
 
-				$title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
-				$additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$title      = \JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? \JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
 				$labelClass = 'badge-warning';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
@@ -319,7 +315,7 @@ class AssociationsHelper extends ContentHelper
 				'target'   => $target,
 			);
 
-			$url     = Route::_('index.php?' . http_build_query($options));
+			$url     = \JRoute::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 
@@ -331,7 +327,7 @@ class AssociationsHelper extends ContentHelper
 						. $text . '</a>';
 		}
 
-		HTMLHelper::_('bootstrap.popover');
+		\JHtml::_('bootstrap.popover');
 
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}
@@ -404,14 +400,14 @@ class AssociationsHelper extends ContentHelper
 
 		// Get the translated titles.
 		$languagePath = JPATH_ADMINISTRATOR . '/components/' . $extensionName;
-		$lang         = Factory::getLanguage();
+		$lang         = \JFactory::getLanguage();
 
 		$lang->load($extensionName . '.sys', JPATH_ADMINISTRATOR);
 		$lang->load($extensionName . '.sys', $languagePath);
 		$lang->load($extensionName, JPATH_ADMINISTRATOR);
 		$lang->load($extensionName, $languagePath);
 
-		$result->def('title', Text::_(strtoupper($extensionName)));
+		$result->def('title', \JText::_(strtoupper($extensionName)));
 
 		// Get the supported types
 		$types  = $helper->getItemTypes();
@@ -436,7 +432,7 @@ class AssociationsHelper extends ContentHelper
 				$languageKey = strtoupper($extensionName . '_' . $title . 'S');
 			}
 
-			$title = $lang->hasKey($languageKey) ? Text::_($languageKey) : Text::_('COM_ASSOCIATIONS_ITEMS');
+			$title = $lang->hasKey($languageKey) ? \JText::_($languageKey) : \JText::_('COM_ASSOCIATIONS_ITEMS');
 
 			$rType = new Registry;
 
@@ -462,7 +458,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	private static function getEnabledExtensions()
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -513,7 +509,7 @@ class AssociationsHelper extends ContentHelper
 			return $helper->allowEdit($typeName, $itemId);
 		}
 
-		return Factory::getUser()->authorise('core.edit', $extensionName);
+		return \JFactory::getUser()->authorise('core.edit', $extensionName);
 	}
 
 	/**
@@ -541,7 +537,7 @@ class AssociationsHelper extends ContentHelper
 			return $helper->allowAdd($typeName);
 		}
 
-		return Factory::getUser()->authorise('core.create', $extensionName);
+		return \JFactory::getUser()->authorise('core.create', $extensionName);
 	}
 
 	/**
@@ -617,7 +613,7 @@ class AssociationsHelper extends ContentHelper
 
 		$checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
 
-		$userId = Factory::getUser()->id;
+		$userId = \JFactory::getUser()->id;
 
 		return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
 	}
@@ -680,7 +676,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getLanguagefilterPluginId()
 	{
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -694,7 +690,7 @@ class AssociationsHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;

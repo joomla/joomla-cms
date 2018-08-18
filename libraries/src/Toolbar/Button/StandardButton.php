@@ -106,23 +106,22 @@ class StandardButton extends BasicButton
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				return ' btn btn-sm btn-success';
+				return ' btn btn-sm btn-outline-success';
 
 			case 'unpublish':
-				return ' btn btn-sm btn-danger';
+				return ' btn btn-sm btn-outline-danger';
 
 			case 'featured':
-				return ' btn btn-sm btn-warning';
+				return ' btn btn-sm btn-outline-warning';
 
 			case 'cancel':
-				return ' btn btn-sm btn-danger';
+				return ' btn btn-sm btn-outline-danger';
 
 			case 'trash':
-			case 'delete':
-				return ' btn btn-sm btn-danger';
+				return ' btn btn-sm btn-outline-danger';
 
 			default:
-				return ' btn btn-sm btn-primary';
+				return ' btn btn-sm btn-outline-primary';
 		}
 	}
 

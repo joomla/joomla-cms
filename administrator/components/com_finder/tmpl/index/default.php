@@ -30,32 +30,39 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-				<table class="table">
+				<table class="table table-striped">
 					<thead>
 						<tr>
-							<td style="width:1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
-							</td>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+							</th>
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" class="nowrap">
+							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%" class="nowrap text-center d-none d-md-table-cell text-center">
+							<th style="width:15%" class="nowrap text-center d-none d-md-table-cell text-center">
 								<?php echo JText::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
-							<th scope="col" style="width:30%" class="nowrap d-none d-md-table-cell">
+							<th style="width:30%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
+					<tfoot>
+						<tr>
+							<td colspan="7">
+								<?php echo $this->pagination->getListFooter(); ?>
+							</td>
+						</tr>
+					</tfoot>
 					<tbody>
 						<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 						<?php foreach ($this->items as $i => $item) : ?>
@@ -66,11 +73,11 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 							<td class="text-center">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 							</td>
-							<th scope="row">
+							<td>
 								<label for="cb<?php echo $i; ?>">
 									<?php echo $this->escape($item->title); ?>
 								</label>
-							</th>
+							</td>
 							<td class="small nowrap d-none d-md-table-cell text-center">
 								<?php
 								$key = FinderHelperLanguage::branchSingular($item->t_title);
@@ -93,10 +100,6 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-
-				<?php // load the pagination. ?>
-				<?php echo $this->pagination->getListFooter(); ?>
-
 				<input type="hidden" name="task" value="display">
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>

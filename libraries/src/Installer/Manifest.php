@@ -10,8 +10,6 @@ namespace Joomla\CMS\Installer;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
-
 \JLoader::import('joomla.filesystem.file');
 
 /**
@@ -117,7 +115,7 @@ abstract class Manifest
 
 		if (!$xml)
 		{
-			$this->_errors[] = Text::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
+			$this->_errors[] = \JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 
 			return false;
 		}

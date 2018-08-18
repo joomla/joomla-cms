@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Factory;
 
 /**
  * Joomla! Cache page type object
@@ -140,7 +139,7 @@ class PageController extends CacheController
 		// Get page data from the application object
 		if (!$data)
 		{
-			$data = Factory::getApplication()->getBody();
+			$data = \JFactory::getApplication()->getBody();
 
 			// Only attempt to store if page data exists.
 			if (!$data)
@@ -205,11 +204,10 @@ class PageController extends CacheController
 	 */
 	protected function _noChange()
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Send not modified header and exit gracefully
-		$app->setHeader('Status', 304, true);
-		$app->sendHeaders();
+		header('HTTP/1.x 304 Not Modified', true);
 		$app->close();
 	}
 
@@ -224,6 +222,6 @@ class PageController extends CacheController
 	 */
 	protected function _setEtag($etag)
 	{
-		Factory::getApplication()->setHeader('ETag', '"' . $etag . '"', true);
+		\JFactory::getApplication()->setHeader('ETag', $etag, true);
 	}
 }

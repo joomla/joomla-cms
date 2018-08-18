@@ -10,17 +10,8 @@ pipeline:
       - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --encoding=utf-8 --standard=build/phpcs/Joomla .
       - echo $(date)
 
-  restore-cache:
-      image: drillster/drone-volume-cache
-      restore: true
-      mount:
-        - ./node_modules
-        - ./libraries/vendor
-      volumes:
-        - /tmp/cache:/cache
-
-  prepare:
-    image: joomlaprojects/docker-tools:develop
+  initdb:
+    image: joomlaprojects/docker-php70:develop
     commands:
       - composer install --no-progress --no-suggest
       # needed for unit testing
@@ -28,16 +19,6 @@ pipeline:
       # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
-      - npm install --unsafe-perm
-
-  rebuild-cache:
-      image: drillster/drone-volume-cache
-      rebuild: true
-      mount:
-        - ./node_modules
-        - ./libraries/vendor
-      volumes:
-        - /tmp/cache:/cache
 
   php70-unit:
     group: unit
@@ -58,16 +39,19 @@ pipeline:
       - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
 
   javascript:
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
+      - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
+      - mv -f drone-package.json package.json
       - fluxbox  > /dev/null 2>&1 &
+      - npm install
       - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
 
   system-tests:
-      image: joomlaprojects/docker-systemtests:develop
+      image: joomlaprojects/docker-systemtests:latest
       commands:
         - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
 

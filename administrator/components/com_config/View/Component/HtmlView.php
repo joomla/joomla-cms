@@ -14,8 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * View for the component configuration
@@ -55,11 +53,11 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$form = $this->get('form');
-			$user = Factory::getUser();
+			$user = \JFactory::getUser();
 		}
 		catch (\Exception $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -85,8 +83,8 @@ class HtmlView extends BaseHtmlView
 		$this->components = ConfigHelper::getComponentsWithConfig();
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
-		$this->currentComponent = Factory::getApplication()->input->get('component');
-		$this->return = Factory::getApplication()->input->get('return', '', 'base64');
+		$this->currentComponent = \JFactory::getApplication()->input->get('component');
+		$this->return = \JFactory::getApplication()->input->get('return', '', 'base64');
 
 		$this->addToolbar();
 
@@ -102,7 +100,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'equalizer config');
+		ToolbarHelper::title(\JText::_($this->component->option . '_configuration'), 'equalizer config');
 		ToolbarHelper::saveGroup(
 			[
 				['apply', 'component.apply'],

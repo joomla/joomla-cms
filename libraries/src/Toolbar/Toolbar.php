@@ -125,8 +125,7 @@ class Toolbar
 	 *
 	 * @return  Toolbar  The Toolbar object.
 	 *
-	 * @since       1.5
-	 * @deprecated  5.0 Use the ToolbarFactoryInterface instead
+	 * @since   1.5
 	 *
 	 * @throws \Joomla\DI\Exception\KeyNotFoundException
 	 */

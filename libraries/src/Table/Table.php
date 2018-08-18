@@ -10,12 +10,9 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Access\Rules;
+\JLoader::import('joomla.filesystem.path');
+
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
@@ -30,7 +27,7 @@ use Joomla\Event\DispatcherInterface;
  * @since  11.1
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class Table extends CMSObject implements \JTableInterface, DispatcherAwareInterface
+abstract class Table extends \JObject implements \JTableInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -67,7 +64,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	protected $_tbl_keys = array();
 
 	/**
-	 * DatabaseDriver object.
+	 * \JDatabaseDriver object.
 	 *
 	 * @var    DatabaseDriver
 	 * @since  11.1
@@ -85,7 +82,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    Rules  A Rules object.
+	 * @var    \JAccessRules  A \JAccessRules object.
 	 * @since  11.1
 	 */
 	protected $_rules;
@@ -137,12 +134,12 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 *
 	 * @param   string               $table       Name of the table to model.
 	 * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   DatabaseDriver       $db          DatabaseDriver object.
+	 * @param   \JDatabaseDriver     $db          JDatabaseDriver object.
 	 * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+	public function __construct($table, $key, \JDatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{
 		parent::__construct();
 
@@ -183,7 +180,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			foreach ($fields as $name => $v)
 			{
 				// Add the field if it is not already present.
-				if (!$this->hasField($name))
+				if (!property_exists($this, $name))
 				{
 					$this->$name = null;
 				}
@@ -191,22 +188,22 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
-		if ($this->hasField('asset_id'))
+		if (property_exists($this, 'asset_id'))
 		{
 			$this->_trackAssets = true;
 		}
 
 		// If the access property exists, set the default.
-		if ($this->hasField('access'))
+		if (property_exists($this, 'access'))
 		{
-			$this->access = (int) Factory::getConfig()->get('access');
+			$this->access = (int) \JFactory::getConfig()->get('access');
 		}
 
 		// Create or set a Dispatcher
 		if (!is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
 		{
 			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
-			$dispatcher = Factory::getApplication()->getDispatcher();
+			$dispatcher = \JFactory::getApplication()->getDispatcher();
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -282,7 +279,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 
 			while (!class_exists($tableClass) && $pathIndex < count($paths))
 			{
-				if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php'))
+				if ($tryThis = \JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
 					include_once $tryThis;
@@ -302,13 +299,13 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			}
 		}
 
-		// If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
-		$db = $config['dbo'] ?? Factory::getDbo();
+		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
+		$db = $config['dbo'] ?? \JFactory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($tableClass))
+		if (\JFactory::getContainer()->exists($tableClass))
 		{
-			return Factory::getContainer()->get($tableClass);
+			return \JFactory::getContainer()->get($tableClass);
 		}
 
 		// Instantiate a new table class and return it.
@@ -512,9 +509,9 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	}
 
 	/**
-	 * Method to get the DatabaseDriver object.
+	 * Method to get the \JDatabaseDriver object.
 	 *
-	 * @return  DatabaseDriver  The internal database driver object.
+	 * @return  \JDatabaseDriver  The internal database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -524,15 +521,15 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	}
 
 	/**
-	 * Method to set the DatabaseDriver object.
+	 * Method to set the \JDatabaseDriver object.
 	 *
-	 * @param   DatabaseDriver  $db  A DatabaseDriver object to be used by the table object.
+	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(DatabaseDriver $db)
+	public function setDbo(\JDatabaseDriver $db)
 	{
 		$this->_db = $db;
 
@@ -542,7 +539,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	/**
 	 * Method to set rules for the record.
 	 *
-	 * @param   mixed  $input  A Rules object, JSON string, or array.
+	 * @param   mixed  $input  A \JAccessRules object, JSON string, or array.
 	 *
 	 * @return  void
 	 *
@@ -550,20 +547,20 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	public function setRules($input)
 	{
-		if ($input instanceof Rules)
+		if ($input instanceof \JAccessRules)
 		{
 			$this->_rules = $input;
 		}
 		else
 		{
-			$this->_rules = new Rules($input);
+			$this->_rules = new \JAccessRules($input);
 		}
 	}
 
 	/**
 	 * Method to get the rules for the record.
 	 *
-	 * @return  Rules object
+	 * @return  \JAccessRules object
 	 *
 	 * @since   11.1
 	 */
@@ -950,7 +947,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				$asset->name      = $name;
 				$asset->title     = $title;
 
-				if ($this->_rules instanceof Rules)
+				if ($this->_rules instanceof \JAccessRules)
 				{
 					$asset->rules = (string) $this->_rules;
 				}
@@ -1169,7 +1166,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
+		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
 		{
 			return true;
 		}
@@ -1199,7 +1196,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// Get the current time in the database format.
-		$time = Factory::getDate()->toSql();
+		$time = \JFactory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1256,7 +1253,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
+		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
 		{
 			return true;
 		}
@@ -1379,7 +1376,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$hitsField = $this->getColumnAlias('hits');
 
 		// If there is no hits field, just return true.
-		if (!$this->hasField($hitsField))
+		if (!property_exists($this, $hitsField))
 		{
 			return true;
 		}
@@ -1460,9 +1457,9 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// This last check can only be relied on if tracking session metadata
-		if (Factory::getConfig()->get('session_metadata', true))
+		if (\JFactory::getConfig()->get('session_metadata', true))
 		{
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('COUNT(userid)')
 				->from($db->quoteName('#__session'))
@@ -1495,7 +1492,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 
-		if (!$this->hasField($orderingField))
+		if (!property_exists($this, $orderingField))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1557,7 +1554,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 
-		if (!$this->hasField($orderingField))
+		if (!property_exists($this, $orderingField))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1638,7 +1635,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 
-		if (!$this->hasField($orderingField))
+		if (!property_exists($this, $orderingField))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1802,7 +1799,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				// We don't have a full primary key - return false
 				else
 				{
-					$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+					$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 					return false;
 				}
@@ -1822,14 +1819,14 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				->set($this->_db->quoteName($publishedField) . ' = ' . (int) $state);
 
 			// If publishing, set published date/time if not previously set
-			if ($state && $this->hasField('publish_up') && (int) $this->publish_up == 0)
+			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
 			{
-				$nowDate = $this->_db->quote(Factory::getDate()->toSql());
+				$nowDate = $this->_db->quote(\JFactory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
 			}
 
 			// Determine if there is checkin support for the table.
-			if ($this->hasField('checked_out') || $this->hasField('checked_out_time'))
+			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
 			{
 				$query->where('(' . $this->_db->quoteName($checkedOutField) . ' = 0 OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId . ')');
 				$checkin = true;
@@ -1973,21 +1970,5 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$this->_locked = false;
 
 		return true;
-	}
-
-	/**
-	 * Check if the record has a property (applying a column alias if it exists)
-	 *
-	 * @param   string  $key  key to be checked
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function hasField($key)
-	{
-		$key = $this->getColumnAlias($key);
-
-		return property_exists($this, $key);
 	}
 }

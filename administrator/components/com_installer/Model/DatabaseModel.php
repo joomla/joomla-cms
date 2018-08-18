@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,14 +13,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Registry\Registry;
-use Joomla\Database\Exception\ExecutionFailureException;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
@@ -37,7 +35,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_context = 'com_installer.discover';
 
@@ -46,7 +44,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @var    array
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $changeSetList = array();
 
@@ -55,7 +53,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @var    integer
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $errorCount = 0;
 
@@ -63,12 +61,12 @@ class DatabaseModel extends InstallerModel
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @see     ListModel
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -94,7 +92,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getErrorCount()
 	{
@@ -110,7 +108,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function fetchSchemaCache($cid = 0)
 	{
@@ -245,7 +243,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fix($cids = array())
 	{
@@ -290,7 +288,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -307,7 +305,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  \JDatabaseQuery  The database query
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
@@ -386,7 +384,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  array  the changeSetList of the merged items
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function mergeSchemaCache($results)
 	{
@@ -413,7 +411,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSchemaVersion($extensionId)
 	{
@@ -437,7 +435,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fixSchemaVersion($changeSet, $extensionId)
 	{
@@ -468,7 +466,7 @@ class DatabaseModel extends InstallerModel
 		{
 			$db->execute();
 		}
-		catch (ExecutionFailureException $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -483,7 +481,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  mixed  string message with the errors with the update version or null if none
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function compareUpdateVersion($extension)
 	{
@@ -514,7 +512,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  array  Messages with the errors with the update version
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getOtherInformationMessage($status)
 	{
@@ -532,7 +530,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  array  List of messages with the errors in the database
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getErrorsMessage($errors)
 	{
@@ -559,7 +557,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  mixed  string update version if success, false if fail.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fixUpdateVersion($extensionId)
 	{
@@ -601,7 +599,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  string  default text filters (if any).
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getDefaultTextFilters()
 	{
@@ -617,7 +615,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function fixDefaultTextFilters()
 	{

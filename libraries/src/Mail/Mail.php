@@ -8,11 +8,11 @@
 
 namespace Joomla\CMS\Mail;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -95,12 +95,10 @@ class Mail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  boolean  Boolean true if successful, false if exception throwing is disabled.
+	 * @return  boolean  Boolean true if successful.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  \RuntimeException   if the mail function is disabled
-	 * @throws  phpmailerException  if sending failed and exception throwing is enabled
+	 * @throws  \RuntimeException
 	 */
 	public function Send()
 	{
@@ -108,40 +106,80 @@ class Mail extends PHPMailer
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				throw new \RuntimeException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
+				throw new \RuntimeException(\JText::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
 			}
 
 			try
 			{
+				// Try sending with default settings
 				$result = parent::send();
 			}
 			catch (phpmailerException $e)
 			{
-				// If auto TLS is disabled just let this bubble up
-				if (!$this->SMTPAutoTLS)
-				{
-					throw $e;
-				}
-
 				$result = false;
+
+				if ($this->SMTPAutoTLS)
+				{
+					/**
+					 * PHPMailer has an issue with servers with invalid certificates
+					 *
+					 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
+					 */
+					$this->SMTPAutoTLS = false;
+
+					try
+					{
+						// Try it again with TLS turned off
+						$result = parent::send();
+					}
+					catch (phpmailerException $e)
+					{
+						// Keep false for B/C compatibility
+						$result = false;
+					}
+				}
 			}
 
-			/*
-			 * If sending failed and auto TLS is enabled, retry sending with the feature disabled
-			 *
-			 * See https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls for more info
-			 */
-			if (!$result && $this->SMTPAutoTLS)
+			if ($result == false)
 			{
-				throw new \RuntimeException(Text::_($this->ErrorInfo), 500);
+				throw new \RuntimeException(\JText::_($this->ErrorInfo), 500);
 			}
 
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(\JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 
 		return false;
+	}
+
+	/**
+	 * Set the From and FromName properties.
+	 *
+	 * @param   string   $address  The sender email address
+	 * @param   string   $name     The sender name
+	 * @param   boolean  $auto     Whether to also set the Sender address, defaults to true
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.1
+	 */
+	public function setFrom($address, $name = '', $auto = true)
+	{
+		try
+		{
+			if (parent::setFrom($address, $name, $auto) === false)
+			{
+				return false;
+			}
+		}
+		catch (phpmailerException $e)
+		{
+			// The parent method will have already called the logging callback, just log our deprecated error handling message
+			Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
+
+			return false;
+		}
 	}
 
 	/**
@@ -154,40 +192,50 @@ class Mail extends PHPMailer
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  \UnexpectedValueException  if the sender is not a valid address
-	 * @throws  phpmailerException 			if setting the sender failed and exception throwing is enabled
+	 * @throws  \UnexpectedValueException
 	 */
 	public function setSender($from)
 	{
-		if (is_array($from))
+		// Wrapped in try/catch if PHPMailer is configured to throw exceptions
+		try
 		{
-			// If $from is an array we assume it has an adress and a name
-			if (isset($from[2]))
+			if (is_array($from))
 			{
-				// If it is an array with entries, use them
-				$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]), (bool) $from[2]);
+				// If $from is an array we assume it has an address and a name
+				if (isset($from[2]))
+				{
+					// If it is an array with entries, use them
+					$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]), (bool) $from[2]);
+				}
+				else
+				{
+					$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
+				}
+			}
+			elseif (is_string($from))
+			{
+				// If it is a string we assume it is just the address
+				$result = $this->setFrom(MailHelper::cleanLine($from));
 			}
 			else
 			{
-				$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
+				// If it is neither, we log a message and throw an exception
+				Log::add(\JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
+
+				throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, Mail::setSender(%s)', $from));
+			}
+
+			// Check for boolean false return if exception handling is disabled
+			if ($result === false)
+			{
+				return false;
 			}
 		}
-		elseif (is_string($from))
+		catch (phpmailerException $e)
 		{
-			// If it is a string we assume it is just the address
-			$result = $this->setFrom(MailHelper::cleanLine($from));
-		}
-		else
-		{
-			// If it is neither, we log a message and throw an exception
-			Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
+			// The parent method will have already called the logging callback, just log our deprecated error handling message
+			Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
-			throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, Mail::setSender(%s)', $from));
-		}
-
-		if ($result === false)
-		{
 			return false;
 		}
 
@@ -240,9 +288,7 @@ class Mail extends PHPMailer
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  \InvalidArgumentException if the argument array counts do not match
-	 * @throws  phpmailerException  if setting the address failed and exception throwing is enabled
+	 * @throws  \InvalidArgumentException
 	 */
 	protected function add($recipient, $name = '', $method = 'addAddress')
 	{
@@ -265,9 +311,20 @@ class Mail extends PHPMailer
 					$recipientEmail = MailHelper::cleanLine($recipientEmail);
 					$recipientName = MailHelper::cleanLine($recipientName);
 
-					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent' . $method, $recipientEmail, $recipientName) === false)
+					// Wrapped in try/catch if PHPMailer is configured to throw exceptions
+					try
 					{
+						// Check for boolean false return if exception handling is disabled
+						if (call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
+						{
+							return false;
+						}
+					}
+					catch (phpmailerException $e)
+					{
+						// The parent method will have already called the logging callback, just log our deprecated error handling message
+						Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
+
 						return false;
 					}
 				}
@@ -280,9 +337,20 @@ class Mail extends PHPMailer
 				{
 					$to = MailHelper::cleanLine($to);
 
-					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent::' . $method, $to, $name) === false)
+					// Wrapped in try/catch if PHPMailer is configured to throw exceptions
+					try
 					{
+						// Check for boolean false return if exception handling is disabled
+						if (call_user_func('parent::' . $method, $to, $name) === false)
+						{
+							return false;
+						}
+					}
+					catch (phpmailerException $e)
+					{
+						// The parent method will have already called the logging callback, just log our deprecated error handling message
+						Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
+
 						return false;
 					}
 				}
@@ -292,9 +360,20 @@ class Mail extends PHPMailer
 		{
 			$recipient = MailHelper::cleanLine($recipient);
 
-			// Check for boolean false return if exception handling is disabled
-			if (call_user_func('parent::' . $method, $recipient, $name) === false)
+			// Wrapped in try/catch if PHPMailer is configured to throw exceptions
+			try
 			{
+				// Check for boolean false return if exception handling is disabled
+				if (call_user_func('parent::' . $method, $recipient, $name) === false)
+				{
+					return false;
+				}
+			}
+			catch (phpmailerException $e)
+			{
+				// The parent method will have already called the logging callback, just log our deprecated error handling message
+				Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
+
 				return false;
 			}
 		}
@@ -308,11 +387,9 @@ class Mail extends PHPMailer
 	 * @param   mixed  $recipient  Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name       Either a string or array of strings [name(s)]
 	 *
-	 * @return  Mail|boolean  Returns this object for chaining on success or false on failure when exception throwing is disabled.
+	 * @return  Mail|boolean  Returns this object for chaining.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function addRecipient($recipient, $name = '')
 	{
@@ -325,11 +402,9 @@ class Mail extends PHPMailer
 	 * @param   mixed  $cc    Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
-	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is enabled.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function addCc($cc, $name = '')
 	{
@@ -348,11 +423,9 @@ class Mail extends PHPMailer
 	 * @param   mixed  $bcc   Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name  Either a string or array of strings [name(s)]
 	 *
-	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is disabled.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function addBcc($bcc, $name = '')
 	{
@@ -374,33 +447,29 @@ class Mail extends PHPMailer
 	 * @param   mixed   $type         The mime type
 	 * @param   string  $disposition  The disposition of the attachment
 	 *
-	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is disabled.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   12.2
-	 * @throws  \InvalidArgumentException  if the argument array counts do not match
-	 * @throws  phpmailerException 			if setting the attatchment failed and exception throwing is enabled
+	 * @throws  \InvalidArgumentException
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
 	{
 		// If the file attachments is an array, add each file... otherwise just add the one
 		if (isset($path))
 		{
-			$result = true;
-
-			if (is_array($path))
+			// Wrapped in try/catch if PHPMailer is configured to throw exceptions
+			try
 			{
-				if (!empty($name) && count($path) != count($name))
-				{
-					throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
-				}
+				$result = true;
 
-				foreach ($path as $key => $file)
+				if (is_array($path))
 				{
-					if (!empty($name))
+					if (!empty($name) && count($path) != count($name))
 					{
-						$result = parent::addAttachment($file, $name[$key], $encoding, $type);
+						throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
 					}
-					else
+
+					foreach ($path as $key => $file)
 					{
 						if (!empty($name))
 						{
@@ -412,6 +481,10 @@ class Mail extends PHPMailer
 						}
 					}
 				}
+				else
+				{
+					$result = parent::addAttachment($path, $name, $encoding, $type, $disposition);
+				}
 
 				// Check for boolean false return if exception handling is disabled
 				if ($result === false)
@@ -419,14 +492,11 @@ class Mail extends PHPMailer
 					return false;
 				}
 			}
-			else
+			catch (phpmailerException $e)
 			{
-				$result = parent::addAttachment($path, $name, $encoding, $type);
-			}
+				// The parent method will have already called the logging callback, just log our deprecated error handling message
+				Log::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', Log::WARNING, 'deprecated');
 
-			// Check for boolean false return if exception handling is disabled
-			if ($result === false)
-			{
 				return false;
 			}
 		}
@@ -473,11 +543,9 @@ class Mail extends PHPMailer
 	 * @param   mixed  $replyto  Either a string or array of strings [email address(es)]
 	 * @param   mixed  $name     Either a string or array of strings [name(s)]
 	 *
-	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is disabled.
+	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function addReplyTo($replyto, $name = '')
 	{
@@ -608,11 +676,9 @@ class Mail extends PHPMailer
 	 * @param   mixed    $replyTo      Reply to email address(es)
 	 * @param   mixed    $replyToName  Reply to name(s)
 	 *
-	 * @return  boolean  True on success, false on failure when exception throwing is disabled.
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)

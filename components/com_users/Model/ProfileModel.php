@@ -6,14 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -177,7 +175,7 @@ class ProfileModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|bool  A Form object on success, false on failure
+	 * @return  \JForm|bool  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -249,7 +247,7 @@ class ProfileModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   Form    $form   A Form object.
+	 * @param   \JForm  $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -259,7 +257,7 @@ class ProfileModel extends FormModel
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'user')
+	protected function preprocessForm(\JForm $form, $data, $group = 'user')
 	{
 		if (ComponentHelper::getParams('com_users')->get('frontend_userparams'))
 		{

@@ -6,16 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Fields\Administrator\Field\Modal;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Fields Modal Field
@@ -50,34 +46,26 @@ class FieldField extends FormField
 		// Load language
 		Factory::getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
 
-		$jsId = $this->id;
-
 		// Build the script.
+		$script = array();
+
 		// Select button script
-		$script = <<<JS1
-function jSelectCategory_$jsId(id, title, object) {
-	document.getElementById("$jsId" + "_id").value = id;
-	document.getElementById("$jsId" + "_name").value = title;
-JS1;
+		$script[] = '	function jSelectCategory_' . $this->id . '(id, title, object) {';
+		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
 
 		if ($allowEdit)
 		{
-			$script += <<<JS2
-	document.getElementById("$jsId" + "_edit").classList.remove("hidden");
-JS2;
+			$script[] = '		document.getElementById("' . $this->id . '_edit").classList.remove("hidden");';
 		}
 
 		if ($allowClear)
 		{
-			$script += <<<JS3
-	document.getElementById("$jsId" + "_clear").classList.remove("hidden");
-JS3;
+			$script[] = '		document.getElementById("' . $this->id . '_clear").classList.remove("hidden");';
 		}
 
-		$script += <<<JS4
-	Joomla.Modal.getCurrent().close();
-}
-JS4;
+		$script[] = '		Joomla.Modal.getCurrent().close()';
+		$script[] = '	}';
 
 		// Clear button script
 		static $scriptClear;
@@ -85,23 +73,21 @@ JS4;
 		if ($allowClear && !$scriptClear)
 		{
 			$scriptClear = true;
-			$jsValue = htmlspecialchars(Text::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8');
-			$script += <<<JS5
-function jClearCategory(id) {
-	document.getElementById(id + "_id").value = "";
-	document.getElementById(id + "_name").value = "$jsValue";
-	document.getElementById(id + "_clear").classList.add("hidden");
-	if (document.getElementById(id + "_edit")) {
-		document.getElementById(id + "_edit").classList.add("hidden");
-	}
-	return false;
-}
-JS5;
+
+			$script[] = '	function jClearCategory(id) {';
+			$script[] = '		document.getElementById(id + "_id").value = "";';
+			$script[] = '		document.getElementById(id + "_name").value = "' .
+				htmlspecialchars(\JText::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
+			$script[] = '		document.getElementById(id + "_clear").classList.add("hidden");';
+			$script[] = '		if (document.getElementById(id + "_edit")) {';
+			$script[] = '			document.getElementById(id + "_edit").classList.add("hidden");';
+			$script[] = '		}';
+			$script[] = '		return false;';
+			$script[] = '	}';
 		}
 
-		// @todo move the script to a file
 		// Add the script to the document head.
-		Factory::getDocument()->addScriptDeclaration($script);
+		Factory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
 		$html = array();
@@ -128,13 +114,13 @@ JS5;
 			}
 			catch (\RuntimeException $e)
 			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
 		if (empty($title))
 		{
-			$title = Text::_('COM_FIELDS_SELECT_A_FIELD');
+			$title = \JText::_('COM_FIELDS_SELECT_A_FIELD');
 		}
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -153,24 +139,24 @@ JS5;
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35">';
 		$html[] = '<a href="#modalCategory-' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"' . ' title="' .
-			HTMLHelper::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . Text::_('JSELECT') . '</a>';
+			\JHtml::tooltipText('COM_FIELDS_CHANGE_FIELD') . '">' . '<span class="icon-file"></span> ' . \JText::_('JSELECT') . '</a>';
 
 		// Edit field button
 		if ($allowEdit)
 		{
 			$html[] = '<a' . ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"' .
 					' href="index.php?option=com_fields&layout=modal&tmpl=component&task=field.edit&id=' . $value . '"' . ' target="_blank"' .
-					' title="' . HTMLHelper::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . Text::_('JACTION_EDIT') .
+					' title="' . \JHtml::tooltipText('COM_FIELDS_EDIT_FIELD') . '" >' . '<span class="icon-edit"></span>' . \JText::_('JACTION_EDIT') .
 					'</a>';
 
-			$html[] = HTMLHelper::_(
+			$html[] = \JHtml::_(
 				'bootstrap.renderModal', 'modalCategory-' . $this->id,
 				array(
-					'url' => $link . '&amp;' . Session::getFormToken() . '=1"',
-					'title' => Text::_('COM_FIELDS_SELECT_A_FIELD'),
+					'url' => $link . '&amp;' . \JSession::getFormToken() . '=1"',
+					'title' => \JText::_('COM_FIELDS_SELECT_A_FIELD'),
 					'width' => '800px',
 					'height' => '300px',
-					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . Text::_("JLIB_HTML_BEHAVIOR_CLOSE") .
+					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . \JText::_("JLIB_HTML_BEHAVIOR_CLOSE") .
 						'</button>'
 				)
 			);
@@ -180,7 +166,7 @@ JS5;
 		if ($allowClear)
 		{
 			$html[] = '<button' . ' id="' . $this->id . '_clear"' . ' class="btn' . ($value ? '' : ' hidden') . '"' .
-					' onclick="return jClearCategory(\'' . $this->id . '\')">' . '<span class="icon-remove"></span>' . Text::_('JCLEAR') .
+					' onclick="return jClearCategory(\'' . $this->id . '\')">' . '<span class="icon-remove"></span>' . \JText::_('JCLEAR') .
 					'</button>';
 		}
 

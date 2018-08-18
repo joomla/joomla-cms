@@ -8,13 +8,10 @@
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Language\Text;
-
 ?>
 <fieldset>
 
-	<legend><?php echo Text::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
+	<legend><?php echo JText::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
 
 	<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 		<div class="control-group">

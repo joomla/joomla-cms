@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 $published = $this->state->get('filter.published');
 ?>
 
@@ -19,12 +17,12 @@ $published = $this->state->get('filter.published');
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.language'); ?>
+				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('banner.clients'); ?>
+				<?php echo JHtml::_('banner.clients'); ?>
 			</div>
 		</div>
 	</div>
@@ -32,7 +30,7 @@ $published = $this->state->get('filter.published');
 		<?php if ($published >= 0) : ?>
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo HTMLHelper::_('batch.item', 'com_banners'); ?>
+					<?php echo JHtml::_('batch.item', 'com_banners'); ?>
 				</div>
 			</div>
 		<?php endif; ?>

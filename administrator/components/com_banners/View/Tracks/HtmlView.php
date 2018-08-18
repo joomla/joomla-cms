@@ -6,19 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * View class for a list of tracks.
@@ -87,21 +80,21 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 
-		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
+		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
-		$bar = Toolbar::getInstance('toolbar');
+		$bar = \JToolbar::getInstance('toolbar');
 
-		// Instantiate a new FileLayout instance and render the export button
-		$layout = new FileLayout('joomla.toolbar.modal');
+		// Instantiate a new \JLayoutFile instance and render the export button
+		$layout = new \JLayoutFile('joomla.toolbar.modal');
 
 		$dhtml  = $layout->render(
 			array(
 				'selector' => 'downloadModal',
 				'icon'     => 'download',
-				'text'     => Text::_('JTOOLBAR_EXPORT'),
-				'doTask'   => Route::_('index.php?option=com_banners&view=download&tmpl=component'),
+				'text'     => \JText::_('JTOOLBAR_EXPORT'),
+				'doTask'   => \JRoute::_('index.php?option=com_banners&view=download&tmpl=component'),
 			)
 		);
 
@@ -114,10 +107,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_banners');
+			\JToolbarHelper::preferences('com_banners');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
+		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 
 		\JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
 	}
@@ -132,11 +125,11 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'b.name'     => Text::_('COM_BANNERS_HEADING_NAME'),
-			'cl.name'    => Text::_('COM_BANNERS_HEADING_CLIENT'),
-			'track_type' => Text::_('COM_BANNERS_HEADING_TYPE'),
-			'count'      => Text::_('COM_BANNERS_HEADING_COUNT'),
-			'track_date' => Text::_('JDATE')
+			'b.name'     => \JText::_('COM_BANNERS_HEADING_NAME'),
+			'cl.name'    => \JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'track_type' => \JText::_('COM_BANNERS_HEADING_TYPE'),
+			'count'      => \JText::_('COM_BANNERS_HEADING_COUNT'),
+			'track_date' => \JText::_('JDATE')
 		);
 	}
 }

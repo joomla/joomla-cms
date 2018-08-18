@@ -11,7 +11,6 @@ namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
 
 /**
@@ -40,7 +39,7 @@ class Image extends FrameworkImage
 	public function __construct($source = null)
 	{
 		// Inject the PSR-3 compatible logger in for forward compatibility
-		$this->setLogger(Log::createDelegatedLogger());
+		$this->setLogger(\JLog::createDelegatedLogger());
 
 		parent::__construct($source);
 	}
@@ -288,7 +287,7 @@ class Image extends FrameworkImage
 
 			if (!class_exists($className))
 			{
-				Log::add('The ' . ucfirst($type) . ' image filter is not available.', Log::ERROR);
+				\JLog::add('The ' . ucfirst($type) . ' image filter is not available.', \JLog::ERROR);
 				throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
 			}
 		}
@@ -300,7 +299,7 @@ class Image extends FrameworkImage
 		if (!($instance instanceof ImageFilter))
 		{
 			// @codeCoverageIgnoreStart
-			Log::add('The ' . ucfirst($type) . ' image filter is not valid.', Log::ERROR);
+			\JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', \JLog::ERROR);
 			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			// @codeCoverageIgnoreEnd

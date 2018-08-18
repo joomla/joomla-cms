@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use Joomla\Application\AbstractApplication;
 /**
  * Event class for representing the application's `onError` event
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ErrorEvent extends AbstractEvent
 {
@@ -24,7 +24,7 @@ class ErrorEvent extends AbstractEvent
 	 *
 	 * @return  AbstractApplication
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getApplication(): AbstractApplication
 	{
@@ -36,7 +36,7 @@ class ErrorEvent extends AbstractEvent
 	 *
 	 * @return  \Throwable
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getError(): \Throwable
 	{
@@ -50,7 +50,7 @@ class ErrorEvent extends AbstractEvent
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setError(\Throwable $error)
 	{

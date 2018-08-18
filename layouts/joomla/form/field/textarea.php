@@ -57,7 +57,7 @@ $attributes = array(
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
 	$onclick ? 'onclick="' . $onclick . '"' : '',
-	$required ? 'required' : '',
+	$required ? 'required aria-required="true"' : '',
 	$autocomplete,
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',

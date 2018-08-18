@@ -10,8 +10,6 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -50,7 +48,7 @@ class ListModel extends BaseDatabaseModel
 	/**
 	 * An internal cache for the last query used.
 	 *
-	 * @var    DatabaseQuery[]
+	 * @var    \JDatabaseQuery[]
 	 * @since  1.6
 	 */
 	protected $query = array();
@@ -118,7 +116,7 @@ class ListModel extends BaseDatabaseModel
 	 *
 	 * This method ensures that the query is constructed only once for a given state of the model.
 	 *
-	 * @return  DatabaseQuery  A DatabaseQuery object
+	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
 	 *
 	 * @since   1.6
 	 */
@@ -201,9 +199,9 @@ class ListModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
+	 * @return  \JDatabaseQuery  A \JDatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -442,7 +440,7 @@ class ListModel extends BaseDatabaseModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState($this->context, new \stdClass);
+		$data = \JFactory::getApplication()->getUserState($this->context, new \stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
@@ -479,8 +477,8 @@ class ListModel extends BaseDatabaseModel
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context)
 		{
-			$app         = Factory::getApplication();
-			$inputFilter = InputFilter::getInstance();
+			$app         = \JFactory::getApplication();
+			$inputFilter = \JFilterInput::getInstance();
 
 			// Receive & set filters
 			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
@@ -665,7 +663,7 @@ class ListModel extends BaseDatabaseModel
 		\JPluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
@@ -677,7 +675,7 @@ class ListModel extends BaseDatabaseModel
 	 * @param   string   $key        The key of the user state variable.
 	 * @param   string   $request    The name of the variable passed in a request.
 	 * @param   string   $default    The default value for the variable if not found. Optional.
-	 * @param   string   $type       Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+	 * @param   string   $type       Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
 	 * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
 	 *
 	 * @return  mixed  The request user state.
@@ -686,7 +684,7 @@ class ListModel extends BaseDatabaseModel
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app       = Factory::getApplication();
+		$app       = \JFactory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = $old_state ?? $default;

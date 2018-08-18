@@ -80,3 +80,11 @@ JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapte
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
 JLoader::registerAlias('JAdministrator',  'JApplicationAdministrator');
 JLoader::registerAlias('JSite',  'JApplicationSite');
+
+// Can be removed when the move of all core fields to namespace is finished
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/joomla/form/fields');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rule');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rules');
+\Joomla\CMS\Form\FormHelper::addFormPath(JPATH_LIBRARIES . '/joomla/form/forms');
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/cms/form/rule');

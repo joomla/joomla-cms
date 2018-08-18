@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Russian language support class for the Finder indexer package.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderIndexerLanguageru extends FinderIndexerLanguage
 {
@@ -20,7 +20,7 @@ class FinderIndexerLanguageru extends FinderIndexerLanguage
 	 * Language locale of the class
 	 * 
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $language = 'ru';
 
@@ -28,14 +28,14 @@ class FinderIndexerLanguageru extends FinderIndexerLanguage
 	 * The russian stemmer object.
 	 *
 	 * @var    \Wamania\Snowball\Russian
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $stemmer = null;
 
 	/**
 	 * Method to construct the language object.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct()
 	{
@@ -49,7 +49,7 @@ class FinderIndexerLanguageru extends FinderIndexerLanguage
 	 *
 	 * @return  string  The stemmed token.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function stem($token)
 	{

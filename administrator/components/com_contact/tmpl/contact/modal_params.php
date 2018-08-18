@@ -9,16 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-
 $fieldSets = $this->form->getFieldsets('params');
 foreach ($fieldSets as $name => $fieldSet) :
 	$paramstabs = 'params-' . $name;
-	echo HTMLHelper::_('bootstrap.addTab', 'myTab', $paramstabs, Text::_($fieldSet->label));
+	echo JHtml::_('bootstrap.addTab', 'myTab', $paramstabs, JText::_($fieldSet->label));
 
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
-		echo '<joomla-alert type="info">' . $this->escape(Text::_($fieldSet->description)) . '</joomla-alert>';
+		echo '<joomla-alert type="info">' . $this->escape(JText::_($fieldSet->description)) . '</joomla-alert>';
 	endif;
 	?>
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -27,5 +24,5 @@ foreach ($fieldSets as $name => $fieldSet) :
 				<div class="controls"><?php echo $field->input; ?></div>
 			</div>
 		<?php endforeach; ?>
-	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php endforeach; ?>

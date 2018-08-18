@@ -10,13 +10,13 @@ namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
+use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
-use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 
 /**
  * A Folder handling class
@@ -203,7 +203,7 @@ abstract class Folder
 			// Create the parent directory
 			if (self::create($parent, $mode) !== true)
 			{
-				// Folder::create throws an error
+				// JFolder::create throws an error
 				$nested--;
 
 				return false;
@@ -338,7 +338,7 @@ abstract class Folder
 
 			if ($file->delete($files) !== true)
 			{
-				// File::delete throws an error
+				// JFile::delete throws an error
 				return false;
 			}
 		}
@@ -355,13 +355,13 @@ abstract class Folder
 
 				if ($file->delete($folder) !== true)
 				{
-					// File::delete throws an error
+					// JFile::delete throws an error
 					return false;
 				}
 			}
 			elseif (self::delete($folder) !== true)
 			{
-				// Folder::delete throws an error
+				// JFolder::delete throws an error
 				return false;
 			}
 		}

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Menus\Administrator\View\Menutypes;
 
 defined('_JEXEC') or die;
@@ -14,8 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * The HTML Menus Menu Item TYpes View.
@@ -51,7 +48,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = Factory::getApplication();
+		$app            = \JFactory::getApplication();
 		$this->recordId = $app->input->getInt('recordId');
 
 		$types = $this->get('TypeOptions');
@@ -66,11 +63,11 @@ class HtmlView extends BaseHtmlView
 
 			foreach ($list as $item)
 			{
-				$tmp[Text::_($item->title)] = $item;
+				$tmp[\JText::_($item->title)] = $item;
 			}
 
 			ksort($tmp);
-			$sortedTypes[Text::_($name)] = $tmp;
+			$sortedTypes[\JText::_($name)] = $tmp;
 		}
 
 		ksort($sortedTypes);
@@ -92,13 +89,13 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		// Add page title
-		ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
+		ToolbarHelper::title(\JText::_('COM_MENUS'), 'list menumgr');
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Cancel
-		$title = Text::_('JTOOLBAR_CANCEL');
+		$title = \JText::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
 					<span class=\"icon-remove\" title=\"$title\"></span>
 					$title</button>";

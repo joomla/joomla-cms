@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Site\Model;
 
 defined('_JEXEC') or die;
@@ -15,9 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Database\DatabaseQuery;
-use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Factory;
 
 /**
  * Banners model for the Joomla Banners component.
@@ -52,9 +48,9 @@ class BannersModel extends ListModel
 	}
 
 	/**
-	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  DatabaseQuery   A DatabaseQuery object to retrieve the data set.
+	 * @return  \JDatabaseQuery   A \JDatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -69,7 +65,7 @@ class BannersModel extends ListModel
 		$keywords   = $this->getState('filter.keywords');
 		$randomise  = ($ordering === 'random');
 		$nullDate   = $db->quote($db->getNullDate());
-		$nowDate    = $db->quote(Factory::getDate()->toSql());
+		$nowDate    = $db->quote(\JFactory::getDate()->toSql());
 
 		$query->select(
 			'a.id as id,'
@@ -188,7 +184,7 @@ class BannersModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		$query->order('a.sticky DESC,' . ($randomise ? $query->Rand() : 'a.ordering'));
@@ -227,7 +223,7 @@ class BannersModel extends ListModel
 	 */
 	public function impress()
 	{
-		$trackDate = Factory::getDate()->format('Y-m-d H');
+		$trackDate = \JFactory::getDate()->format('Y-m-d H');
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);
@@ -253,7 +249,7 @@ class BannersModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (ExecutionFailureException $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
 			throw new \Exception($e->getMessage(), 500);
 		}
@@ -291,7 +287,7 @@ class BannersModel extends ListModel
 				{
 					$db->execute();
 				}
-				catch (ExecutionFailureException $e)
+				catch (\JDatabaseExceptionExecuting $e)
 				{
 					throw new \Exception($e->getMessage(), 500);
 				}
@@ -316,7 +312,7 @@ class BannersModel extends ListModel
 					{
 						$db->execute();
 					}
-					catch (ExecutionFailureException $e)
+					catch (\JDatabaseExceptionExecuting $e)
 					{
 						throw new \Exception($e->getMessage(), 500);
 					}

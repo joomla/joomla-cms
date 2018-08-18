@@ -10,8 +10,6 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-
 /**
  * XmlDocument class, provides an easy interface to parse and display XML output
  *
@@ -59,7 +57,7 @@ class XmlDocument extends Document
 	{
 		parent::render();
 
-		Factory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
+		\JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}

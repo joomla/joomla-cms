@@ -21,8 +21,8 @@
     var hreflang = '';
 
     if (!Joomla.getOptions('xtd-contacts')) {
-      // Something went wrong
-      window.parent.Joomla.Modal.getCurrent().close();
+      // Something went wrong!
+      window.parent.jModalClose();
       return false;
     }
 
@@ -35,7 +35,7 @@
 
     var tag = '<a ' + hreflang + '  href="' + link + '">' + title + '</a>';
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-    window.parent.Joomla.Modal.getCurrent().close();
+    window.parent.jModalClose();
     return true;
   };
 
@@ -55,10 +55,6 @@
         } else {
           // Used in com_menus
           window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
-        }
-
-        if (window.parent.Joomla.Modal) {
-          window.parent.Joomla.Modal.getCurrent().close();
         }
       });
     }

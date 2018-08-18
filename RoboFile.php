@@ -258,7 +258,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @param   array  $opts  Additional options
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -285,7 +285,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  string  Path to codeception
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function prepareRun($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{

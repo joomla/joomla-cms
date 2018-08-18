@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Language\Text;
 
 /**
  * JSON Response class for the Joomla Installer.
@@ -63,7 +62,7 @@ class JsonResponse
 		{
 			// Prepare the error response.
 			$this->error   = true;
-			$this->header  = Text::_('INSTL_HEADER_ERROR');
+			$this->header  = \JText::_('INSTL_HEADER_ERROR');
 			$this->message = $data->getMessage();
 		}
 		else

@@ -12,9 +12,6 @@ namespace Joomla\Component\Config\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Factory;
 
 \JFormHelper::loadFieldClass('List');
 
@@ -42,7 +39,7 @@ class ConfigComponentsField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('name AS text, element AS value')
 			->from('#__extensions')
@@ -53,21 +50,21 @@ class ConfigComponentsField extends \JFormFieldList
 
 		if ($items)
 		{
-			$lang = Factory::getLanguage();
+			$lang = \JFactory::getLanguage();
 
 			foreach ($items as &$item)
 			{
 				// Load language
 				$extension = $item->value;
 
-				if (File::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml'))
+				if (\JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml'))
 				{
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 					// Translate component name
-					$item->text = Text::_($item->text);
+					$item->text = \JText::_($item->text);
 				}
 				else
 				{

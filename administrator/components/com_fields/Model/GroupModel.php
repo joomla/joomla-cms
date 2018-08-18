@@ -6,17 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Group Model
@@ -54,7 +49,7 @@ class GroupModel extends AdminModel
 	public function save($data)
 	{
 		// Alter the title for save as copy
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		// Save new group as unpublished
 		if ($input->get('task') == 'save2copy')
@@ -78,7 +73,7 @@ class GroupModel extends AdminModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		$context = $this->getState('filter.context');
-		$jinput = Factory::getApplication()->input;
+		$jinput = \JFactory::getApplication()->input;
 
 		if (empty($context) && isset($data['context']))
 		{
@@ -106,7 +101,7 @@ class GroupModel extends AdminModel
 			$data['context'] = $context;
 		}
 
-		if (!Factory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
+		if (!\JFactory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -136,7 +131,7 @@ class GroupModel extends AdminModel
 			return false;
 		}
 
-		return Factory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+		return \JFactory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
 	}
 
 	/**
@@ -151,7 +146,7 @@ class GroupModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		// Check for existing fieldgroup.
 		if (!empty($record->id))
@@ -176,7 +171,7 @@ class GroupModel extends AdminModel
 	{
 		parent::populateState();
 
-		$context = Factory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
+		$context = \JFactory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
 		$this->setState('filter.context', $context);
 	}
 
@@ -228,17 +223,17 @@ class GroupModel extends AdminModel
 		if ($section !== null)
 		{
 			// Looking first in the component models/forms folder
-			$path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+			$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
 			if (file_exists($path))
 			{
-				$lang = Factory::getLanguage();
+				$lang = \JFactory::getLanguage();
 				$lang->load($component, JPATH_BASE, null, false, true);
 				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 
 				if (!$form->loadFile($path, false))
 				{
-					throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+					throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 				}
 			}
 		}
@@ -254,7 +249,7 @@ class GroupModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 		$data = $app->getUserState('com_fields.edit.group.data', array());
 
 		if (empty($data))
@@ -278,7 +273,7 @@ class GroupModel extends AdminModel
 				);
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
 				);
 			}
 		}
@@ -308,11 +303,11 @@ class GroupModel extends AdminModel
 			}
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
 
 			if ((int) $item->created)
 			{
-				$date = new Date($item->created);
+				$date = new \JDate($item->created);
 				$date->setTimezone($tz);
 				$item->created = $date->toSql(true);
 			}
@@ -323,7 +318,7 @@ class GroupModel extends AdminModel
 
 			if ((int) $item->modified)
 			{
-				$date = new Date($item->modified);
+				$date = new \JDate($item->modified);
 				$date->setTimezone($tz);
 				$item->modified = $date->toSql(true);
 			}
@@ -348,7 +343,7 @@ class GroupModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$context = Factory::getApplication()->input->get('context');
+		$context = \JFactory::getApplication()->input->get('context');
 
 		parent::cleanCache($context);
 	}

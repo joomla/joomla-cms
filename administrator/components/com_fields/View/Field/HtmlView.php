@@ -6,17 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Fields\Administrator\View\Field;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Field View
@@ -62,7 +57,7 @@ class HtmlView extends BaseHtmlView
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		$this->canDo = ContentHelper::getActions($this->state->get('field.component'), 'field', $this->item->id);
+		$this->canDo = \JHelperContent::getActions($this->state->get('field.component'), 'field', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -70,7 +65,7 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$this->addToolbar();
 
@@ -88,7 +83,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$component = $this->state->get('field.component');
 		$section   = $this->state->get('field.section');
-		$userId    = Factory::getUser()->get('id');
+		$userId    = \JFactory::getUser()->get('id');
 		$canDo     = $this->canDo;
 
 		$isNew      = ($this->item->id == 0);
@@ -101,11 +96,11 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load component language file
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+		|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		$title = Text::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
+		$title = \JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', \JText::_(strtoupper($component)));
 
 		// Prepare the toolbar.
 		ToolbarHelper::title(

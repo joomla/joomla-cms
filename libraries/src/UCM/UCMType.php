@@ -11,8 +11,6 @@ namespace Joomla\CMS\UCM;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * UCM Class for handling content types
@@ -66,7 +64,7 @@ class UCMType implements UCM
 	/**
 	 * The Database object
 	 *
-	 * @var    DatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  3.1
 	 */
 	protected $db;
@@ -83,15 +81,15 @@ class UCMType implements UCM
 	 * Class constructor
 	 *
 	 * @param   string               $alias        The alias for the item
-	 * @param   DatabaseDriver       $database     The database object
+	 * @param   \JDatabaseDriver     $database     The database object
 	 * @param   AbstractApplication  $application  The application object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
+	public function __construct($alias = null, \JDatabaseDriver $database = null, AbstractApplication $application = null)
 	{
-		$this->db = $database ?: Factory::getDbo();
-		$app      = $application ?: Factory::getApplication();
+		$this->db = $database ?: \JFactory::getDbo();
+		$app      = $application ?: \JFactory::getApplication();
 
 		// Make the best guess we can in the absence of information.
 		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');

@@ -14,3 +14,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.joomlaupdate_return_url = JoomlaUpdateOptions.return_url;
   window.pingExtract();
 });
+

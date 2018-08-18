@@ -33,7 +33,7 @@
 	text-align: center;
 }
 .CodeMirror-markergutter {
-	cursor: pointer;
+	cursor: pointer; 
 }
 .CodeMirror-markergutter-mark {
 	cursor: pointer;

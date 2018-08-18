@@ -10,12 +10,8 @@ namespace Joomla\CMS\Installer;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\Database\ParameterType;
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
@@ -113,7 +109,7 @@ class InstallerScript
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
 		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), Log::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -121,7 +117,7 @@ class InstallerScript
 		// Check for the minimum Joomla version before continuing
 		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
 		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), Log::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -143,12 +139,12 @@ class InstallerScript
 		// Abort if the extension being installed is not newer than the currently installed version
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
-			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
+			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
+				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
 				return false;
 			}
@@ -168,9 +164,7 @@ class InstallerScript
 	 */
 	public function getInstances($isModule)
 	{
-		$extension = $this->extension;
-
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the item(s) and retrieve the id
@@ -179,15 +173,13 @@ class InstallerScript
 		if ($isModule)
 		{
 			$query->from($db->quoteName('#__modules'))
-				->where($db->quoteName('module') . ' = :extension');
+				->where($db->quoteName('module') . ' = ' . $db->quote($this->extension));
 		}
 		else
 		{
 			$query->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = :extension');
+				->where($db->quoteName('element') . ' = ' . $db->quote($this->extension));
 		}
-
-		$query->bind(':extension', $extension);
 
 		// Set the query and obtain an array of id's
 		return $db->setQuery($query)->loadColumn();
@@ -267,13 +259,11 @@ class InstallerScript
 		// Store the combined new and existing values back as a JSON string
 		$paramsString = json_encode($params);
 
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->paramTable))
-			->set('params = :params')
-			->where('id = :id')
-			->bind(':params', $paramsString)
-			->bind(':id', $id, ParameterType::INTEGER);
+			->set('params = ' . $db->quote($paramsString))
+			->where('id = ' . $id);
 
 		// Update table
 		$db->setQuery($query)->execute();
@@ -289,7 +279,7 @@ class InstallerScript
 	 * @param   string  $element     The element to get from the query
 	 * @param   string  $table       The table to search for the data in
 	 * @param   string  $column      The column of the database to search from
-	 * @param   mixed   $identifier  The integer id or the string
+	 * @param   mixed   $identifier  The integer id or the already quoted string
 	 *
 	 * @return  array  Associated array containing data from the cell
 	 *
@@ -298,16 +288,13 @@ class InstallerScript
 	public function getItemArray($element, $table, $column, $identifier)
 	{
 		// Get the DB and query objects
-		$db = Factory::getDbo();
-
-		$paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
+		$db = \JFactory::getDbo();
 
 		// Build the query
 		$query = $db->getQuery(true)
 			->select($db->quoteName($element))
 			->from($db->quoteName($table))
-			->where($db->quoteName($column) . ' = :id')
-			->bind(':id', $identifier, $paramType);
+			->where($db->quoteName($column) . ' = ' . $identifier);
 		$db->setQuery($query);
 
 		// Load the single cell and json_decode data
@@ -327,9 +314,9 @@ class InstallerScript
 		{
 			foreach ($this->deleteFiles as $file)
 			{
-				if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
+				if (file_exists(JPATH_ROOT . $file) && !\JFile::delete(JPATH_ROOT . $file))
 				{
-					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
+					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
 				}
 			}
 		}
@@ -338,9 +325,9 @@ class InstallerScript
 		{
 			foreach ($this->deleteFolders as $folder)
 			{
-				if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
+				if (\JFolder::exists(JPATH_ROOT . $folder) && !\JFolder::delete(JPATH_ROOT . $folder))
 				{
-					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
+					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
 				}
 			}
 		}
@@ -361,9 +348,9 @@ class InstallerScript
 			{
 				$name = basename($file);
 
-				if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
+				if (file_exists(JPATH_ROOT . $file) && !\JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
 				{
-					echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
+					echo \JText::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
 			}
 		}

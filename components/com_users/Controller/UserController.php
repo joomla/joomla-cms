@@ -6,19 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Users\Site\Controller;
-
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
+
+defined('_JEXEC') or die;
 
 /**
  * Registration controller class for Users.

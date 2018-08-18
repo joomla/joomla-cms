@@ -10,9 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * The Field to load the form inside current form
@@ -280,7 +280,7 @@ class SubformField extends FormField
 		// Prepare renderer
 		$renderer = $this->getRenderer($this->layout);
 
-		// Allow to define some Layout options as attribute of the element
+		// Allow to define some JLayout options as attribute of the element
 		if ($this->element['component'])
 		{
 			$renderer->setComponent((string) $this->element['component']);

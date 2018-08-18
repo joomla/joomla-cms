@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 
 /**
  * Class JNamespaceMap
@@ -103,8 +102,7 @@ class JNamespacePsr4Map
 			}
 			elseif ($extension->type === 'module')
 			{
-				// Force the client_id to an integer for non-mysqli where we have strings being returned
-				if ((int) $extension->client_id === 0)
+				if ($extension->client_id === 0)
 				{
 					$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
 					$element       = $extension->element;
@@ -186,7 +184,7 @@ class JNamespacePsr4Map
 
 		$content[] = ');';
 
-		File::write($this->file, implode("\n", $content));
+		file_put_contents($this->file, implode("\n", $content));
 	}
 
 	/**

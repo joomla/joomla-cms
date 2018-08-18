@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -16,10 +15,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Plugin model.
@@ -136,7 +131,7 @@ class PluginModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
 
 		if (empty($data))
 		{
@@ -184,7 +179,7 @@ class PluginModel extends AdminModel
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
+			$path = \JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
@@ -227,7 +222,7 @@ class PluginModel extends AdminModel
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('extension_id');
@@ -252,7 +247,7 @@ class PluginModel extends AdminModel
 
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
-		$lang    = Factory::getLanguage();
+		$lang    = \JFactory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db    = $this->getDbo();
@@ -272,15 +267,15 @@ class PluginModel extends AdminModel
 
 		if (empty($folder) || empty($element))
 		{
-			$app = Factory::getApplication();
-			$app->redirect(Route::_('index.php?option=com_plugins&view=plugins', false));
+			$app = \JFactory::getApplication();
+			$app->redirect(\JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = Path::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		$formFile = \JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
 
 		if (!file_exists($formFile))
 		{
-			throw new \Exception(Text::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
+			throw new \Exception(\JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
 		}
 
 		// Load the core and/or local language file(s).
@@ -292,14 +287,14 @@ class PluginModel extends AdminModel
 			// Get the plugin form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 extract($displayData);
 
 /**
@@ -23,8 +21,8 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
-	HTMLHelper::_('jquery.framework');
-	HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('jquery.framework');
+	JHtml::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
@@ -42,7 +40,7 @@ $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
  */
 preg_match('/class=\"([^\"]+)\"/i', $input, $match);
 
-$required      = !empty($match[1]) && strpos($match[1], 'required') !== false;
+$required      = (strpos($input, 'aria-required="true"') !== false || (!empty($match[1]) && strpos($match[1], 'required') !== false));
 $typeOfSpacer  = (strpos($label, 'spacer-lbl') !== false);
 
 ?>

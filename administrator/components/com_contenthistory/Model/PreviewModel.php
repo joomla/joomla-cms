@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,9 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -36,7 +32,7 @@ class PreviewModel extends ItemModel
 	{
 		/** @var \Joomla\CMS\Table\ContentHistory $table */
 		$table = $this->getTable('ContentHistory');
-		$versionId = Factory::getApplication()->input->getInt('version_id');
+		$versionId = \JFactory::getApplication()->input->getInt('version_id');
 
 		if (!$table->load($versionId))
 		{
@@ -53,7 +49,7 @@ class PreviewModel extends ItemModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		// Access check
 		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id) || $this->canEdit($table))
@@ -62,7 +58,7 @@ class PreviewModel extends ItemModel
 		}
 		else
 		{
-			$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+			$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
@@ -75,7 +71,7 @@ class PreviewModel extends ItemModel
 			$result->data = ContenthistoryHelper::prepareData($table);
 
 			// Let's use custom calendars when present
-			$result->save_date = HTMLHelper::_('date', $table->save_date, 'Y-m-d H:i:s');
+			$result->save_date = \JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
 
 			$dateProperties = array (
 				'modified_time',
@@ -93,7 +89,7 @@ class PreviewModel extends ItemModel
 			{
 				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != $nullDate)
 				{
-					$result->data->$dateProperty->value = HTMLHelper::_('date', $result->data->$dateProperty->value, 'Y-m-d H:i:s');
+					$result->data->$dateProperty->value = \JHtml::_('date', $result->data->$dateProperty->value, 'Y-m-d H:i:s');
 				}
 			}
 
@@ -133,7 +129,7 @@ class PreviewModel extends ItemModel
 		if (!empty($record->ucm_type_id))
 		{
 			// Check that the type id matches the type alias
-			$typeAlias = Factory::getApplication()->input->get('type_alias');
+			$typeAlias = \JFactory::getApplication()->input->get('type_alias');
 
 			/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
 			$contentTypeTable = $this->getTable('ContentType');
@@ -144,7 +140,7 @@ class PreviewModel extends ItemModel
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user   = Factory::getUser();
+				$user   = \JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
 
@@ -152,7 +148,7 @@ class PreviewModel extends ItemModel
 			if (!$result)
 			{
 				$contentTypeTable->load($record->ucm_type_id);
-				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$typeEditables = (array) \JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
 				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}

@@ -6,13 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Redirect\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -117,7 +115,7 @@ class RedirectField extends \JFormFieldList
 
 		foreach ($this->responseMap as $key => $value)
 		{
-			$options[] = HTMLHelper::_('select.option', $key, $value);
+			$options[] = \JHtml::_('select.option', $key, $value);
 		}
 
 		// Merge any additional options in the XML definition.

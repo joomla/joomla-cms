@@ -11,10 +11,6 @@ namespace Joomla\CMS\User;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -25,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  11.1
  */
-class User extends CMSObject
+class User extends \JObject
 {
 	/**
 	 * A cached switch for if this user has root access rights.
@@ -372,7 +368,7 @@ class User extends CMSObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$rootUser = Factory::getConfig()->get('root_user');
+			$rootUser = \JFactory::getConfig()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -415,7 +411,7 @@ class User extends CMSObject
 	{
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$subQuery = $db->getQuery(true)
 			->select('id,asset_id')
@@ -531,7 +527,7 @@ class User extends CMSObject
 	 */
 	public function getTimezone()
 	{
-		$timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
+		$timezone = $this->getParam('timezone', \JFactory::getApplication()->get('offset', 'GMT'));
 
 		return new \DateTimeZone($timezone);
 	}
@@ -612,7 +608,7 @@ class User extends CMSObject
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				Factory::getApplication()->enqueueMessage(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
 				return false;
 			}
@@ -622,7 +618,7 @@ class User extends CMSObject
 			$array['password'] = $this->userHelper->hashPassword($array['password']);
 
 			// Set the registration timestamp
-			$this->set('registerDate', Factory::getDate()->toSql());
+			$this->set('registerDate', \JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
@@ -640,7 +636,7 @@ class User extends CMSObject
 			{
 				if ($array['password'] != $array['password2'])
 				{
-					$this->setError(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+					$this->setError(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 
 					return false;
 				}
@@ -650,7 +646,7 @@ class User extends CMSObject
 				// Check if the user is reusing the current password if required to reset their password
 				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
 				{
-					$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+					$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
@@ -685,7 +681,7 @@ class User extends CMSObject
 		// Bind the array
 		if (!$this->setProperties($array))
 		{
-			$this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
+			$this->setError(\JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
 
 			return false;
 		}
@@ -729,7 +725,7 @@ class User extends CMSObject
 
 			// @todo ACL - this needs to be acl checked
 
-			$my = Factory::getUser();
+			$my = \JFactory::getUser();
 
 			// Are we creating a new user
 			$isNew = empty($this->id);
@@ -783,7 +779,7 @@ class User extends CMSObject
 			// Fire the onUserBeforeSave event.
 			PluginHelper::importPlugin('user');
 
-			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+			$result = \JFactory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 
 			if (in_array(false, $result, true))
 			{
@@ -807,7 +803,7 @@ class User extends CMSObject
 			}
 
 			// Fire the onUserAfterSave event
-			Factory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+			\JFactory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
 		catch (\Exception $e)
 		{
@@ -831,7 +827,7 @@ class User extends CMSObject
 		PluginHelper::importPlugin('user');
 
 		// Trigger the onUserBeforeDelete event
-		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
+		\JFactory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
 
 		// Create the user table object
 		$table = $this->getTable();
@@ -842,7 +838,7 @@ class User extends CMSObject
 		}
 
 		// Trigger the onUserAfterDelete event
-		Factory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+		\JFactory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
 
 		return $result;
 	}
@@ -867,7 +863,7 @@ class User extends CMSObject
 			// Reset to guest user
 			$this->guest = 1;
 
-			Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

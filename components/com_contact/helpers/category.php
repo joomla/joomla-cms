@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\Categories;
-
 /**
  * Contact Component Category Tree
  *
  * @since  1.6
  */
-class ContactCategories extends Categories
+class ContactCategories extends JCategories
 {
 	/**
 	 * Class constructor

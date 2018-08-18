@@ -6,17 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Templates\Administrator\View\Style;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
 
 /**
  * View to edit a template style.
@@ -76,7 +71,7 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		if ((!Multilanguage::isEnabled()) && ($this->item->client_id == 0))
+		if ((!\JLanguageMultilang::isEnabled()) && ($this->item->client_id == 0))
 		{
 			$this->form->setFieldAttribute('home', 'type', 'radio');
 			$this->form->setFieldAttribute('home', 'class', 'switcher');
@@ -96,14 +91,14 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
 
-		ToolbarHelper::title(
-			$isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
-			: Text::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
+		\JToolbarHelper::title(
+			$isNew ? \JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
+			: \JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
 		);
 
 		$toolbarButtons = [];
@@ -121,30 +116,30 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'style.save2copy'];
 		}
 
-		ToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			ToolbarHelper::cancel('style.cancel');
+			\JToolbarHelper::cancel('style.cancel');
 		}
 		else
 		{
-			ToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::divider();
+		\JToolbarHelper::divider();
 
 		// Get the help information for the template item.
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = Text::_($help->url);
+			$url = \JText::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -152,6 +147,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		ToolbarHelper::help($help->key, false, $url);
+		\JToolbarHelper::help($help->key, false, $url);
 	}
 }

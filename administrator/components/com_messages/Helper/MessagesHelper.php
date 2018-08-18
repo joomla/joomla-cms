@@ -6,13 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Messages\Administrator\Helper;
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Messages helper class.
@@ -33,13 +29,13 @@ class MessagesHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_MESSAGES_ADD'),
+			\JText::_('COM_MESSAGES_ADD'),
 			'index.php?option=com_messages&view=message&layout=edit',
 			$vName == 'message'
 		);
 
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_MESSAGES_READ'),
+			\JText::_('COM_MESSAGES_READ'),
 			'index.php?option=com_messages',
 			$vName == 'messages'
 		);
@@ -56,9 +52,9 @@ class MessagesHelper
 	{
 		// Build the filter options.
 		$options   = array();
-		$options[] = HTMLHelper::_('select.option', '1', Text::_('COM_MESSAGES_OPTION_READ'));
-		$options[] = HTMLHelper::_('select.option', '0', Text::_('COM_MESSAGES_OPTION_UNREAD'));
-		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
+		$options[] = \JHtml::_('select.option', '1', \JText::_('COM_MESSAGES_OPTION_READ'));
+		$options[] = \JHtml::_('select.option', '0', \JText::_('COM_MESSAGES_OPTION_UNREAD'));
+		$options[] = \JHtml::_('select.option', '-2', \JText::_('JTRASHED'));
 
 		return $options;
 	}

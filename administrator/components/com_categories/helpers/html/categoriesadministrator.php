@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Administrator category HTML
@@ -44,7 +41,7 @@ abstract class JHtmlCategoriesAdministrator
 			$associations = ArrayHelper::toInteger($associations);
 
 			// Get the associated categories
-			$db = Factory::getDbo();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.title')
 				->select('l.sef as lang_sef')
@@ -71,7 +68,7 @@ abstract class JHtmlCategoriesAdministrator
 				foreach ($items as &$item)
 				{
 					$text       = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
-					$url        = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
+					$url        = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
 					$classes    = 'hasPopover badge badge-secondary';
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '" data-placement="top">'
@@ -79,7 +76,7 @@ abstract class JHtmlCategoriesAdministrator
 				}
 			}
 
-			HTMLHelper::_('bootstrap.popover');
+			JHtml::_('bootstrap.popover');
 
 			$html = \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.associations', $items);
 		}

@@ -1,85 +1,76 @@
 /**
-* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
-* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
-**/
-
-/**
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function (Awesomplete, Joomla, window, document) {
-  'use strict';
 
-  if (!Joomla) {
-    throw new Error('core.js was not properly initialised');
-  }
+Joomla = window.Joomla || {};
 
-  // Handle the autocomplete
-  var onKeyUp = function onKeyUp(event) {
-    if (event.target.value.length > 1) {
-      event.target.awesomplete.list = [];
+(function() {
+	'use strict';
 
-      Joomla.request({
-        url: Joomla.getOptions('finder-search').url + '&q=' + event.target.value,
-        method: 'GET',
-        data: { q: event.target.value },
-        perform: true,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        onSuccess: function onSuccess(resp) {
-          var response = JSON.parse(resp);
-          if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
-            event.target.awesomplete.list = response.suggestions;
-          }
-        },
-        onError: function onError(xhr) {
-          if (xhr.status > 0) {
-            Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
-          }
-        }
-      });
-    }
-  };
+	document.addEventListener('DOMContentLoaded', function() {
+		var forms, searchword = document.querySelectorAll('.js-finder-search-query');
 
-  // Handle the submit
-  var onSubmit = function onSubmit(event) {
-    event.stopPropagation();
-    var advanced = event.target.querySelector('.js-finder-advanced');
+		for (var i = 0; i < searchword.length; i++) {
+			// If the current value equals the default value, clear it.
+			searchword[i].addEventListener('focus', function (event) {
+				if (event.target.value === Joomla.JText._('MOD_FINDER_SEARCH_VALUE')) {
+					event.target.value = '';
+				}
+			});
 
-    // Disable select boxes with no value selected.
-    if (advanced.length) {
-      var fields = [].slice.call(advanced.querySelectorAll('select'));
+			// Handle the auto suggestion
+			if (Joomla.getOptions('finder-search')) {
 
-      fields.forEach(function (field) {
-        if (!field.value) {
-          field.setAttribute('disabled', 'disabled');
-        }
-      });
-    }
-  };
+				// If the current value is empty, set the previous value.
+				searchword[i].addEventListener('keypress', function (event) {
+					if (event.target.value.length > 1) {
 
-  // The boot sequence
-  var onBoot = function onBoot() {
-    var searchWords = [].slice.call(document.querySelectorAll('.js-finder-search-query'));
+						Joomla.request(
+							{
+								url:    Joomla.getOptions('finder-search').url+ '&q=' + event.target.value,
+								method: 'GET',
+								data:    { q: event.target.value },
+								perform: true,
+								headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+								onSuccess: function(response, xhr)
+								{
+									response = JSON.parse(response);
+									if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
+										new Awesomplete(event.target, { list: response.suggestions });
+									}
+								},
+								onError: function(xhr)
+								{
+									Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+								}
+							}
+						);
+					}
+				});
+			}
+		}
 
-    searchWords.forEach(function (searchword) {
-      // Handle the auto suggestion
-      if (Joomla.getOptions('finder-search')) {
-        searchword.awesomplete = new Awesomplete(searchword);
+		forms = document.querySelectorAll('.js-finder-searchform');
 
-        // If the current value is empty, set the previous value.
-        searchword.addEventListener('keyup', onKeyUp);
-      }
-    });
+		for (var i = 0; i < forms.length; i++) {
+			forms[i].addEventListener('submit', function(event) {
+				event.stopPropagation();
+				var advanced = event.target.querySelector('.js-finder-advanced');
 
-    var forms = [].slice.call(document.querySelectorAll('.js-finder-searchform'));
+				// Disable select boxes with no value selected.
+				if (advanced.length) {
+					var fields = advanced.querySelector('select');
 
-    forms.forEach(function (form) {
-      form.addEventListener('submit', onSubmit);
-    });
+					for (var j = 0; j < fields.length; j++) {
+						if (!fields[j].value) {
+							fields[j].setAttribute('disabled', 'disabled');
+						}
+					}
+				}
+			})
+		}
 
-    // Cleanup
-    document.removeEventListener('DOMContentLoaded', onBoot);
-  };
+	});
 
-  document.addEventListener('DOMContentLoaded', onBoot);
-})(window.Awesomplete, window.Joomla, window, document);
+})();

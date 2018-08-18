@@ -18,7 +18,6 @@ use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Menus component helper.
@@ -44,12 +43,12 @@ class MenusHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_MENUS_SUBMENU_MENUS'),
+			\JText::_('COM_MENUS_SUBMENU_MENUS'),
 			'index.php?option=com_menus&view=menus',
 			$vName == 'menus'
 		);
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_MENUS_SUBMENU_ITEMS'),
+			\JText::_('COM_MENUS_SUBMENU_ITEMS'),
 			'index.php?option=com_menus&view=items',
 			$vName == 'items'
 		);
@@ -114,7 +113,7 @@ class MenusHelper
 	 */
 	public static function getMenuTypes($clientId = 0)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.menutype')
 			->from('#__menu_types AS a');
@@ -146,7 +145,7 @@ class MenusHelper
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array(), $clientId = 0)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(a.id) AS value,
 					  a.title AS text,
@@ -221,7 +220,7 @@ class MenusHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -248,7 +247,7 @@ class MenusHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -372,7 +371,7 @@ class MenusHelper
 		{
 			$menuItems = array();
 
-			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		return $menuItems;
@@ -396,7 +395,7 @@ class MenusHelper
 
 		if (count($items) == 0)
 		{
-			throw new \Exception(Text::_('COM_MENUS_PRESET_LOAD_FAILED'));
+			throw new \Exception(\JText::_('COM_MENUS_PRESET_LOAD_FAILED'));
 		}
 
 		static::installPresetItems($items, $menutype, 1);

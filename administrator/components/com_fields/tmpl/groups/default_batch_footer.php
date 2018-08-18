@@ -8,12 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
 ?>
 <button class="btn btn-secondary" type="button" onclick="document.getElementById('batch-field-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">
-	<?php echo Text::_('JCANCEL'); ?>
+	<?php echo JText::_('JCANCEL'); ?>
 </button>
 <button class="btn btn-success" type="submit" onclick="Joomla.submitbutton('group.batch');">
-	<?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?>
+	<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
 </button>

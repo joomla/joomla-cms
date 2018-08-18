@@ -10,8 +10,6 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-
 /**
  * JsonDocument class, provides an easy interface to parse and display JSON output
  *
@@ -68,7 +66,7 @@ class JsonDocument extends Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$app->allowCache(false);
 

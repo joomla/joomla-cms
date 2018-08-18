@@ -21,31 +21,26 @@ switch ((string) $item->text)
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
 		$icon = 'fa fa-angle-double-left';
-		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
 		$icon = 'fa fa-angle-left';
-		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
 		$icon = 'fa fa-angle-right';
-		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
 		$icon = 'fa fa-angle-double-right';
-		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	default:
 		$icon = null;
-		$aria = Text::sprintf('JLIB_HTML_GOTO_PAGE', strtolower($item->text));
 		break;
 }
 
@@ -65,8 +60,16 @@ if ($displayData['active'])
 		$limit = 'limitstart.value=0';
 	}
 
-	$class = 'active';
-	$title = 'title="' . $item->text . '"';
+	$cssClasses = array();
+
+	$title = '';
+
+	if (!is_numeric($item->text))
+	{
+		$cssClasses[] = 'hasTooltip';
+		$title = ' title="' . $item->text . '" ';
+	}
+
 	$onClick = 'document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;';
 }
 else
@@ -75,18 +78,13 @@ else
 }
 ?>
 <?php if ($displayData['active']) : ?>
-	<li class="<?php echo $class; ?> page-link">
-		<a <?php echo $title; ?> aria-label="<?php echo $aria; ?>" href="#" onclick="<?php echo $onClick; ?>">
+	<li>
+		<a <?php echo $cssClasses ? 'class="' . implode(' ', $cssClasses) . '"' : ''; ?> <?php echo $title; ?> href="#" onclick="<?php echo $onClick; ?>">
 			<?php echo $display; ?>
 		</a>
 	</li>
-<?php elseif (isset($item->active) && $item->active) : ?>
-	<?php $aria = Text::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
-	<li class="<?php echo $class; ?> page-link current">
-		<span aria-current="true" aria-label="<?php echo $aria; ?>"><?php echo $display; ?></span>
-	</li>
 <?php else : ?>
-	<li class="<?php echo $class; ?> page-link">
-		<?php echo $display; ?>
+	<li class="<?php echo $class; ?>">
+		<span><?php echo $display; ?></span>
 	</li>
-<?php endif; ?>
+<?php endif;

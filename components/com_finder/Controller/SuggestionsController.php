@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Finder\Site\Controller;
 
 defined('_JEXEC') or die;
@@ -39,28 +38,7 @@ class SuggestionsController extends BaseController
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 		echo '{ "suggestions": ' . json_encode($suggestions) . ' }';
-	}
-
-	/**
-	 * Method to find search query suggestions for OpenSearch
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function opensearchsuggest()
-	{
-		$app = $this->app;
-		$app->mimeType = 'application/json';
-		$result = array();
-		$result[] = $app->input->request->get('q', '', 'string');
-
-		$result[] = $this->getSuggestions();
-
-		// Send the response.
-		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
-		$app->sendHeaders();
-		echo json_encode($result);
+		$app->close();
 	}
 
 	/**

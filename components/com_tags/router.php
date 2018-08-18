@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterBase;
-use Joomla\CMS\Factory;
 
 /**
  * Routing class from com_tags
@@ -172,7 +171,7 @@ class TagsRouter extends RouterBase
 	 */
 	protected function fixSegment($segment)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Try to find tag id
 		$alias = str_replace(':', '-', $segment);

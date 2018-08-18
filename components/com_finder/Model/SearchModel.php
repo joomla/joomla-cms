@@ -3,10 +3,9 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Finder\Site\Model;
 
 defined('_JEXEC') or die;
@@ -97,7 +96,6 @@ class SearchModel extends ListModel
 		{
 			// Build the result object.
 			$result = unserialize($row->object);
-			$result->cleanURL = $result->route;
 
 			// Add the result back to the stack.
 			$results[] = $result;

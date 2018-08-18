@@ -10,8 +10,6 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -25,11 +23,11 @@ class Extension extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
 	}
@@ -58,7 +56,7 @@ class Extension extends Table
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
 		}
@@ -106,7 +104,7 @@ class Extension extends Table
 	 */
 	public function find($options = array())
 	{
-		// Get the DatabaseQuery object
+		// Get the \JDatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
 		foreach ($options as $col => $val)
@@ -154,7 +152,7 @@ class Extension extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -164,7 +162,7 @@ class Extension extends Table
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
 		{
 			$checkin = '';
 		}

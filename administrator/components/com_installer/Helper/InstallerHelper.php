@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -84,7 +83,7 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT type')
 			->from('#__extensions');
@@ -175,7 +174,7 @@ class InstallerHelper
 	 *
 	 * @return  \SimpleXMLElement
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getInstallationXML($element, $type, $client_id = 1, $folder = null)
 	{

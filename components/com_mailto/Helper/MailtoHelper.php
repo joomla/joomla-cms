@@ -6,12 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Mailto\Site\Helper;
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 
 /**
  * Mailto route helper class.
@@ -34,7 +31,7 @@ abstract class MailtoHelper
 		$hash = sha1($url);
 		self::cleanHashes();
 
-		$session      = Factory::getApplication()->getSession();
+		$session      = \JFactory::getApplication()->getSession();
 		$mailto_links = $session->get('com_mailto.links', array());
 
 		if (!isset($mailto_links[$hash]))
@@ -61,7 +58,7 @@ abstract class MailtoHelper
 		$retval  = false;
 
 		self::cleanHashes();
-		$mailto_links = Factory::getApplication()->getSession()->get('com_mailto.links', array());
+		$mailto_links = \JFactory::getApplication()->getSession()->get('com_mailto.links', array());
 
 		if (isset($mailto_links[$hash]))
 		{
@@ -88,7 +85,7 @@ abstract class MailtoHelper
 		if (!$cleaned)
 		{
 			$past         = time() - $lifetime;
-			$session      = Factory::getApplication()->getSession();
+			$session      = \JFactory::getApplication()->getSession();
 			$mailto_links = $session->get('com_mailto.links', array());
 
 			foreach ($mailto_links as $index => $link)

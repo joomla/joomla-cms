@@ -12,9 +12,8 @@ namespace Joomla\CMS\Image\Filter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
-use Joomla\CMS\Log\Log;
 
-Log::add('JImageFilterEmboss is deprecated, use Joomla\Image\Filter\Emboss instead.', Log::WARNING, 'deprecated');
+\JLog::add('JImageFilterEmboss is deprecated, use Joomla\Image\Filter\Emboss instead.', \JLog::WARNING, 'deprecated');
 
 /**
  * Image Filter class to emboss an image.

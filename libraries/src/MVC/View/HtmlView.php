@@ -11,11 +11,6 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla Html View
@@ -111,7 +106,7 @@ class HtmlView extends AbstractView
 		// Set the charset (used by the variable escaping functions)
 		if (array_key_exists('charset', $config))
 		{
-			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
+			\JLog::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', \JLog::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
@@ -173,7 +168,7 @@ class HtmlView extends AbstractView
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = Uri::base(true);
+		$this->baseurl = \JUri::base(true);
 	}
 
 	/**
@@ -333,7 +328,7 @@ class HtmlView extends AbstractView
 		// Clear prior output
 		$this->_output = null;
 
-		$template = Factory::getApplication()->getTemplate();
+		$template = \JFactory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -345,7 +340,7 @@ class HtmlView extends AbstractView
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
@@ -358,13 +353,13 @@ class HtmlView extends AbstractView
 		// Load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$this->_template = Path::find($this->_path['template'], $filetofind);
+		$this->_template = \JPath::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
 		{
 			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-			$this->_template = Path::find($this->_path['template'], $filetofind);
+			$this->_template = \JPath::find($this->_path['template'], $filetofind);
 		}
 
 		if ($this->_template != false)
@@ -393,7 +388,7 @@ class HtmlView extends AbstractView
 			return $this->_output;
 		}
 
-		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
+		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 	}
 
 	/**
@@ -412,7 +407,7 @@ class HtmlView extends AbstractView
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$helper = Path::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+		$helper = \JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
 		if ($helper != false)
 		{
@@ -442,7 +437,7 @@ class HtmlView extends AbstractView
 			$component = ApplicationHelper::getComponentName();
 		}
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -483,7 +478,7 @@ class HtmlView extends AbstractView
 		foreach ((array) $path as $dir)
 		{
 			// Clean up the path
-			$dir = Path::clean($dir);
+			$dir = \JPath::clean($dir);
 
 			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
@@ -551,7 +546,7 @@ class HtmlView extends AbstractView
 	 */
 	public function setDocumentTitle($title)
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
@@ -560,11 +555,11 @@ class HtmlView extends AbstractView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

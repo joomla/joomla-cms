@@ -6,16 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Redirect\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Link Table for Redirect.
@@ -27,11 +23,11 @@ class LinkTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database object.
+	 * @param   \JDatabaseDriver  $db  Database object.
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}
@@ -62,7 +58,7 @@ class LinkTable extends Table
 		// Check for valid name.
 		if (empty($this->old_url))
 		{
-			$this->setError(Text::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
 
 			return false;
 		}
@@ -76,7 +72,7 @@ class LinkTable extends Table
 		// Check for valid name if not in advanced mode.
 		if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
 		{
-			$this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
 			return false;
 		}
@@ -85,7 +81,7 @@ class LinkTable extends Table
 			// Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
 			if ($this->header < 400 && $this->header >= 300)
 			{
-				$this->setError(Text::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+				$this->setError(\JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
 				return false;
 			}
@@ -94,7 +90,7 @@ class LinkTable extends Table
 		// Check for duplicates
 		if ($this->old_url == $this->new_url)
 		{
-			$this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
 
 			return false;
 		}
@@ -105,14 +101,14 @@ class LinkTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from('#__redirect_links')
-			->where($db->quoteName('old_url') . ' = ' . $db->quote(rawurlencode($this->old_url)));
+			->where($db->quoteName('old_url') . ' = ' . $db->quote($this->old_url));
 		$db->setQuery($query);
 
 		$xid = (int) $db->loadResult();
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 
 			return false;
 		}
@@ -136,7 +132,7 @@ class LinkTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = Factory::getDate()->toSql();
+		$date = \JFactory::getDate()->toSql();
 
 		if (!$this->id)
 		{

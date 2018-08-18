@@ -11,10 +11,8 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
+use  \Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Config\Site\Model\ConfigModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Requests from the frontend
@@ -33,7 +31,7 @@ class RequestController extends BaseController
 	public function getJson()
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = \JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_config');
 
@@ -65,7 +63,7 @@ class RequestController extends BaseController
 		if (!$this->app->getIdentity()->authorise('core.admin', $component)
 			&& !$this->app->getIdentity()->authorise('core.options', $component))
 		{
-			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return;
 		}

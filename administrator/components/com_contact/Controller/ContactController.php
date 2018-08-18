@@ -6,17 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * Controller for a single contact
@@ -42,7 +37,7 @@ class ContactController extends FormController
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = Factory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = \JFactory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -83,7 +78,7 @@ class ContactController extends FormController
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;
@@ -103,14 +98,14 @@ class ContactController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		/** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
 		$model = $this->getModel('Contact', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(Route::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

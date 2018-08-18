@@ -6,13 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content Component Archive Model
@@ -44,13 +44,13 @@ class ArchiveModel extends ArticlesModel
 	{
 		parent::populateState();
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Add archive properties
-		$params = $this->state->get('params');
+		$params = $this->state->params;
 
 		// Filter on archived articles
-		$this->setState('filter.condition', 1);
+		$this->setState('filter.published', 2);
 
 		// Filter on month, year
 		$this->setState('filter.month', $app->input->getInt('month'));
@@ -61,7 +61,7 @@ class ArchiveModel extends ArticlesModel
 
 		// Get list limit
 		$itemid = $app->input->get('Itemid', 0, 'int');
-		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
+		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		$this->setState('list.limit', $limit);
 
 		// Set the archive ordering
@@ -85,18 +85,12 @@ class ArchiveModel extends ArticlesModel
 	protected function getListQuery()
 	{
 		$params           = $this->state->params;
-		$app              = Factory::getApplication();
+		$app              = \JFactory::getApplication();
 		$catids           = $app->input->getVar('catid', array());
 		$catids           = array_values(array_diff($catids, array('')));
-		$states           = $app->input->getVar('state', array());
-		$states           = array_values(array_diff($states, array('')));
-
 		$articleOrderDate = $params->get('order_date');
 
-		$this->setState('filter.condition', false);
-
 		// Create a new query object.
-		$db = $this->getDbo();
 		$query = parent::getListQuery();
 
 		// Add routing for archive
@@ -122,11 +116,6 @@ class ArchiveModel extends ArticlesModel
 			$query->where('c.id IN (' . implode(', ', $catids) . ')');
 		}
 
-		if (count($states) > 0)
-		{
-			$query->where($db->quoteName('stage_id') . ' IN (' . implode(', ', $states) . ')');
-		}
-
 		return $query;
 	}
 
@@ -138,7 +127,7 @@ class ArchiveModel extends ArticlesModel
 	 */
 	public function getData()
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -196,13 +185,13 @@ class ArchiveModel extends ArticlesModel
 	{
 		$db = $this->getDbo();
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(Factory::getDate()->toSql());
+		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
-		$years = $query->year($db->quoteName('created'));
+		$years = $query->year($db->qn('created'));
 		$query->select('DISTINCT (' . $years . ')')
-			->from($db->quoteName('#__content'))
-			->where($db->quoteName('state') . '= 3')
+			->from($db->qn('#__content'))
+			->where($db->qn('state') . '= 2')
 			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
 			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');

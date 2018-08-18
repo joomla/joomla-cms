@@ -121,7 +121,7 @@ abstract class ToolbarButton
 		else
 		{
 			$options['tagName'] = 'button';
-			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-primary');
+			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
 			$options['attributes']['type'] = 'button';
 		}
 	}
@@ -186,7 +186,7 @@ abstract class ToolbarButton
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 		$options['btnClass'] = 'button-' . $this->getName() . ' ' . ($options['btnClass'] ?? '');
 
-		// Instantiate a new LayoutFile instance and render the layout
+		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new FileLayout($this->layout);
 
 		return $layout->render($options);

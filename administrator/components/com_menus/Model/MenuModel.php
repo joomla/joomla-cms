@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -16,7 +15,6 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Menu Item Model for Menus.
@@ -51,7 +49,7 @@ class MenuModel extends FormModel
 	 */
 	protected function canDelete($record)
 	{
-		return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
+		return \JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -65,7 +63,7 @@ class MenuModel extends FormModel
 	 */
 	protected function canEditState($record)
 	{
-		return Factory::getUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
+		return \JFactory::getUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -95,7 +93,7 @@ class MenuModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$id = $app->input->getInt('id');
@@ -172,7 +170,7 @@ class MenuModel extends FormModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_menus.edit.menu.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_menus.edit.menu.data', array());
 
 		if (empty($data))
 		{
@@ -232,7 +230,7 @@ class MenuModel extends FormModel
 		}
 
 		// Trigger the before event.
-		$result = Factory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -243,7 +241,7 @@ class MenuModel extends FormModel
 		}
 
 		// Trigger the after save event.
-		Factory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
 
 		$this->setState('menu.id', $table->id);
 
@@ -279,7 +277,7 @@ class MenuModel extends FormModel
 			if ($table->load($itemId))
 			{
 				// Trigger the before delete event.
-				$result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
+				$result = \JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($itemId))
 				{
@@ -289,7 +287,7 @@ class MenuModel extends FormModel
 				}
 
 				// Trigger the after delete event.
-				Factory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
+				\JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
 
 				// TODO: Delete the menu associations - Menu items and Modules
 			}

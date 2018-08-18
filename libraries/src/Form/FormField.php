@@ -10,11 +10,11 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Log\Log;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Abstract Form Field class for the Joomla Platform.
@@ -897,6 +897,21 @@ abstract class FormField
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since      3.2
+	 * @deprecated 3.2.3 Use renderField() instead
+	 */
+	public function getControlGroup()
+	{
+		Log::add('FormField->getControlGroup() is deprecated use FormField->renderField().', Log::WARNING, 'deprecated');
+
+		return $this->renderField();
 	}
 
 	/**

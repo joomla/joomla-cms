@@ -962,13 +962,13 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24)
-			{
-				hoursEl.value = (hrs == "00") ? "12" : hrs;
-			}
-			else
-			{
-				hoursEl.value = hrs;
+			if (!this.params.time24) 
+			{ 
+				hoursEl.value = (hrs == "00") ? "12" : hrs; 
+			} 
+			else 
+			{ 
+				hoursEl.value = hrs; 
 			}
 
 			/* remove the selected class  for the minutes*/

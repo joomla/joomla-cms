@@ -36,7 +36,7 @@ class MediaProviderEvent extends AbstractEvent
 	 *
 	 * @since  4.0.0
 	 */
-	public function getProviderManager(): ProviderManager
+	public function getProviderManager()
 	{
 		return $this->providerManager;
 	}
@@ -50,7 +50,7 @@ class MediaProviderEvent extends AbstractEvent
 	 *
 	 * @since  4.0.0
 	 */
-	public function setProviderManager(ProviderManager $providerManager)
+	public function setProviderManager($providerManager)
 	{
 		$this->providerManager = $providerManager;
 	}

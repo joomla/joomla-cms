@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Romanian language support class for the Finder indexer package.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderIndexerLanguagero extends FinderIndexerLanguage
 {
@@ -20,7 +20,7 @@ class FinderIndexerLanguagero extends FinderIndexerLanguage
 	 * Language locale of the class
 	 * 
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $language = 'ro';
 
@@ -28,14 +28,14 @@ class FinderIndexerLanguagero extends FinderIndexerLanguage
 	 * The romanian stemmer object.
 	 *
 	 * @var    \Wamania\Snowball\Romanian
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $stemmer = null;
 
 	/**
 	 * Method to construct the language object.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct()
 	{
@@ -49,7 +49,7 @@ class FinderIndexerLanguagero extends FinderIndexerLanguage
 	 *
 	 * @return  string  The stemmed token.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function stem($token)
 	{

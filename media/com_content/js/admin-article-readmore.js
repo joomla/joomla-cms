@@ -10,17 +10,24 @@
 (function () {
   'use strict';
 
-  var options = window.Joomla.getOptions('xtd-readmore');
-
   window.insertReadmore = function (editor) {
-    if (!options) {
+    if (!Joomla.getOptions('xtd-readmore')) {
       // Something went wrong!
-      throw new Error('XTD Button \'read more\' not properly initialized');
+      return false;
     }
 
-    var content = window.Joomla.editors.instances[editor].getValue();
+    var content = void 0;
+    var options = window.Joomla.getOptions('xtd-readmore');
 
-    if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
+    if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty.call(editor)) {
+      content = window.Joomla.editors.instances[editor].getValue();
+    } else {
+      content = function content() {
+        return options.editor;
+      };
+    }
+
+    if (!content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
       Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
     } else {
       // TODO replace with joomla-alert

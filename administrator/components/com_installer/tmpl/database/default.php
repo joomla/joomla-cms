@@ -32,46 +32,53 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 					<div class="control-group">
 						<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 						<?php if (empty($this->changeSet)) : ?>
-							<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+							<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 						<?php else : ?>
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<td class="nowrap" style="width:1%">
+										<th class="nowrap" style="width:1%">
 											<?php echo HTMLHelper::_('grid.checkall'); ?>
-										</td>
-										<th scope="col" class="nowrap">
+										</th>
+										<th class="nowrap">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="text-center" style="width:10%">
+										<th class="text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="text-center" style="width:10%">
+										<th class="text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th class="d-none d-md-table-cell text-center" style="width:10%">
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th class="d-none d-md-table-cell text-center" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th class="d-none d-md-table-cell text-center" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th class="d-none d-md-table-cell text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="nowrap d-none d-md-table-cell text-center" style="width:1%">
+										<th class="nowrap d-none d-md-table-cell text-center" style="width:1%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 										</th>
 									</tr>
 								</thead>
+								<tfoot>
+									<tr>
+										<td colspan="9">
+											<?php echo $this->pagination->getListFooter(); ?>
+										</td>
+									</tr>
+								</tfoot>
 								<tbody>
 									<?php foreach ($this->changeSet as $i => $item) : ?>
 										<?php $extension = $item['extension']; ?>
@@ -81,14 +88,14 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<td>
 												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
 											</td>
-											<th scope="row">
+											<td>
 												<label for="cb<?php echo $i; ?>">
 													<span class="hasPopover" data-original-title="<?php echo $extension->name; ?>"
 														data-content="<?php echo Text::_($manifest->description) ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
 														<?php echo $extension->name; ?>
 													</span>
 												</label>
-											</th>
+											</td>
 											<td class="text-center">
 												<?php echo $extension->client_translated; ?>
 											</td>
@@ -118,10 +125,6 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 									<?php endforeach; ?>
 								</tbody>
 							</table>
-
-							<?php // load the pagination. ?>
-							<?php echo $this->pagination->getListFooter(); ?>
-
 						<?php endif; ?>
 					</div>
 					<input type="hidden" name="task" value="">

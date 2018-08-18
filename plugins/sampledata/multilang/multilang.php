@@ -24,7 +24,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Sampledata - Multilang Plugin
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgSampledataMultilang extends CMSPlugin
 {
@@ -33,7 +33,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    JDatabaseDriver
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $db;
 
@@ -42,7 +42,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    JApplicationCms
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -51,7 +51,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -60,21 +60,21 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var     MenusModelItem
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private $menuItemModel;
 
 	/**
 	 * @var     string language path
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $path = null;
 
 	/**
 	 * @var    Admin Id, author of all generated content.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $adminId;
 
@@ -83,7 +83,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onSampledataGetOverview()
 	{
@@ -91,8 +91,8 @@ class PlgSampledataMultilang extends CMSPlugin
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_DESC');
-		$data->icon        = 'wifi';
-		$data->steps       = 8;
+		$data->icon        = 'broadcast';
+		$data->steps       = 7;
 
 		return $data;
 	}
@@ -102,7 +102,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
@@ -148,7 +148,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
@@ -192,7 +192,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
@@ -231,7 +231,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
@@ -295,7 +295,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
@@ -339,7 +339,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
@@ -426,7 +426,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
@@ -461,28 +461,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * Final step to show completion of sampledata.
-	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
-	 *
-	 * @since  4.0.0
-	 */
-	public function onAjaxSampledataApplyStep8()
-	{
-		$response['success'] = true;
-		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
-
-		return $response;
-	}
-
-	/**
 	 * Enable a Joomla plugin.
 	 *
 	 * @param   string  $pluginName  The name of plugin.
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function enablePlugin($pluginName)
 	{
@@ -547,7 +532,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function disableModuleMainMenu()
 	{
@@ -583,7 +568,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addModuleLanguageSwitcher()
 	{
@@ -636,7 +621,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addModuleMenu($itemLanguage)
 	{
@@ -689,7 +674,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addMenuGroup($itemLanguage)
 	{
@@ -733,7 +718,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 
 	private function addAllCategoriesMenuItem($itemLanguage)
@@ -816,7 +801,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addBlogMenuItem($itemLanguage, $categoryId)
 	{
@@ -895,7 +880,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addAssociations($groupedAssociations)
 	{
@@ -934,7 +919,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addModuleInModuleMenu($moduleId)
 	{
@@ -968,7 +953,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addCategory($itemLanguage)
 	{
@@ -1031,7 +1016,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function addArticle($itemLanguage, $categoryId)
 	{
@@ -1118,7 +1103,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function publishContentLanguages()
 	{
@@ -1148,7 +1133,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getInstalledlangsAdministrator()
 	{
@@ -1160,7 +1145,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array  List of installed languages in the frontend application.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getInstalledlangsFrontend()
 	{
@@ -1174,7 +1159,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInstalledlangs($cms_client = 'administrator')
 	{
@@ -1231,7 +1216,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  object  The language data.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getLanguageList($client_id = 1)
 	{
@@ -1262,7 +1247,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{
@@ -1274,7 +1259,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  string  The path to the languages folders.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getPath()
 	{
@@ -1294,7 +1279,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getClient($client = 'administrator')
 	{
@@ -1308,7 +1293,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  integer|boolean  One Administrator ID.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getAdminId()
 	{

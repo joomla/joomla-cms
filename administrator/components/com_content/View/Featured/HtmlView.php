@@ -12,11 +12,6 @@ namespace Joomla\Component\Content\Administrator\View\Featured;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 
 \JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
@@ -102,8 +97,7 @@ class HtmlView extends BaseHtmlView
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->transitions   = $this->get('Transitions');
-		$this->vote          = PluginHelper::isEnabled('content', 'vote');
+		$this->vote          = \JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -115,7 +109,7 @@ class HtmlView extends BaseHtmlView
 		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
-		if (!Multilanguage::isEnabled())
+		if (!\JLanguageMultilang::isEnabled())
 		{
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
@@ -134,33 +128,39 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$state = $this->get('State');
-		$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+		$canDo = \JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
 
-		ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
+		\JToolbarHelper::title(\JText::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('article.add');
+			\JToolbarHelper::addNew('article.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			ToolbarHelper::archiveList('articles.archive');
-			ToolbarHelper::checkin('articles.checkin');
+			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+			\JToolbarHelper::archiveList('articles.archive');
+			\JToolbarHelper::checkin('articles.checkin');
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			\JToolbarHelper::trash('articles.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_content');
+			\JToolbarHelper::preferences('com_content');
 		}
 
-		ToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
+		\JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
 	}
 
 	/**
@@ -173,15 +173,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'fp.ordering'    => Text::_('JGRID_HEADING_ORDERING'),
-			'a.state'        => Text::_('JSTATUS'),
-			'a.title'        => Text::_('JGLOBAL_TITLE'),
-			'category_title' => Text::_('JCATEGORY'),
-			'access_level'   => Text::_('JGRID_HEADING_ACCESS'),
-			'a.created_by'   => Text::_('JAUTHOR'),
-			'language'       => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.created'      => Text::_('JDATE'),
-			'a.id'           => Text::_('JGRID_HEADING_ID'),
+			'fp.ordering'    => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'        => \JText::_('JSTATUS'),
+			'a.title'        => \JText::_('JGLOBAL_TITLE'),
+			'category_title' => \JText::_('JCATEGORY'),
+			'access_level'   => \JText::_('JGRID_HEADING_ACCESS'),
+			'a.created_by'   => \JText::_('JAUTHOR'),
+			'language'       => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.created'      => \JText::_('JDATE'),
+			'a.id'           => \JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

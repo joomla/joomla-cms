@@ -9,7 +9,6 @@ namespace Joomla\CMS\Menu\Node;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Menu\Node;
 
 /**
@@ -72,7 +71,7 @@ class Url extends Node
 	public function __construct($title, $link, $target = null, $class = null, $id = null, $icon = null)
 	{
 		$this->title  = $title;
-		$this->link   =	OutputFilter::ampReplace($link);
+		$this->link   =	\JFilterOutput::ampReplace($link);
 		$this->target = $target;
 		$this->class  = $class;
 		$this->id     = $id;

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Associations\Administrator\View\Associations;
 
 defined('_JEXEC') or die;
@@ -15,9 +14,6 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Associations;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
 
 /**
  * View class for a list of articles.
@@ -79,12 +75,12 @@ class HtmlView extends BaseHtmlView
 
 		if (!Associations::isEnabled())
 		{
-			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
-			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
+			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
+			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
 		}
 		elseif ($this->state->get('itemtype') == '' || $this->state->get('language') == '')
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
 		}
 		else
 		{
@@ -105,7 +101,7 @@ class HtmlView extends BaseHtmlView
 
 			if (is_null($type))
 			{
-				Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
 			}
 			else
 			{
@@ -204,7 +200,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		if (isset($this->typeName) && isset($this->extensionName))
 		{
@@ -219,14 +215,14 @@ class HtmlView extends BaseHtmlView
 			}
 
 			ToolbarHelper::title(
-				Text::sprintf(
-					'COM_ASSOCIATIONS_TITLE_LIST', Text::_($this->extensionName), Text::_($languageKey)
+				\JText::sprintf(
+					'COM_ASSOCIATIONS_TITLE_LIST', \JText::_($this->extensionName), \JText::_($languageKey)
 				), 'contract assoc'
 			);
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
+			ToolbarHelper::title(\JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
 		}
 
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))

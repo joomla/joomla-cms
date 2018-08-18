@@ -11,9 +11,6 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -26,15 +23,15 @@ class Module extends Table
 	/**
 	 * Constructor.
 	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__modules', 'id', $db);
 
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) \JFactory::getConfig()->get('access');
 	}
 
 	/**
@@ -132,7 +129,7 @@ class Module extends Table
 		// Check for valid name
 		if (trim($this->title) === '')
 		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
 
 			return false;
 		}
@@ -198,12 +195,6 @@ class Module extends Table
 		if (!$this->publish_down)
 		{
 			$this->publish_down = $this->_db->getNullDate();
-		}
-
-		if (!$this->ordering)
-		{
-			$query = $this->_db->getQuery(true);
-			$this->ordering = $this->getNextOrder($query->quoteName('position') . ' = ' . $query->quote($this->position));
 		}
 
 		return parent::store($updateNulls);

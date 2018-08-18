@@ -9,20 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.combobox');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_CATEGORY')));
-HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
+JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.combobox');
+JHtml::_('behavior.keepalive');
+JHtml::_('behavior.tabstate');
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
@@ -36,15 +30,15 @@ if ($hasContent)
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
 
-Text::script('JYES');
-Text::script('JNO');
-Text::script('JALL');
-Text::script('JTRASHED');
+JText::script('JYES');
+JText::script('JNO');
+JText::script('JALL');
+JText::script('JTRASHED');
 
-Factory::getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
-HTMLHelper::_('script', 'com_modules/admin-module-edit.min.js', array('version' => 'auto', 'relative' => true));
+JFactory::getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
+JHtml::_('script', 'com_modules/admin-module-edit.min.js', array('version' => 'auto', 'relative' => true));
 
-$input = Factory::getApplication()->input;
+$input = JFactory::getApplication()->input;
 
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
@@ -52,14 +46,14 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
-	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_MODULES_MODULE')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_MODULES_MODULE')); ?>
 
 		<div class="row">
 			<div class="col-md-9">
@@ -69,25 +63,25 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							<?php
 							if ($this->item->xml)
 							{
-								echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->module;
+								echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;
 							}
 							else
 							{
-								echo Text::_('COM_MODULES_ERR_XML');
+								echo JText::_('COM_MODULES_ERR_XML');
 							}
 							?>
 						</h3>
 						<div class="info-labels">
-							<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
-								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+							<span class="badge badge-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
+								<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 							</span>
 						</div>
 						<div>
 							<?php
 							$this->fieldset    = 'description';
-							$short_description = Text::_($this->item->xml->description);
+							$short_description = JText::_($this->item->xml->description);
 							$this->fieldset    = 'description';
-							$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
+							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
 
 							if (!$long_description)
 							{
@@ -109,14 +103,14 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							<?php if ($long_description) : ?>
 								<p class="readmore">
 									<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
-										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+										<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 									</a>
 								</p>
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<joomla-alert type="danger"><?php echo Text::_('COM_MODULES_ERR_XML'); ?></joomla-alert>
+					<joomla-alert type="danger"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></joomla-alert>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)
@@ -124,7 +118,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					echo $this->form->getInput($hasContentFieldName);
 				}
 				$this->fieldset = 'basic';
-				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
 				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
@@ -156,44 +150,44 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 						?>
 						<?php if ($this->item->client_id == 0) : ?>
-							<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+							<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 						<?php else : ?>
-							<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+							<?php echo JLayoutHelper::render('joomla.edit.admin_modules', $this); ?>
 						<?php endif; ?>
  					</div>
 				</div>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if (isset($long_description) && $long_description != '') : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
 			<?php echo $long_description; ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->item->client_id == 0) : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'assignment', Text::_('COM_MODULES_MENU_ASSIGNMENT')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_MODULES_MENU_ASSIGNMENT')); ?>
 			<?php echo $this->loadTemplate('assignment'); ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php
 		$this->fieldsets        = array();
 		$this->ignore_fieldsets = array('basic', 'description');
-		echo LayoutHelper::render('joomla.edit.params', $this);
+		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'permissions', Text::_('COM_MODULES_FIELDSET_RULES')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MODULES_FIELDSET_RULES')); ?>
 			<?php echo $this->form->getInput('rules'); ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="">
-		<?php echo HTMLHelper::_('form.token'); ?>
+		<?php echo JHtml::_('form.token'); ?>
 		<?php echo $this->form->getInput('module'); ?>
 		<?php echo $this->form->getInput('client_id'); ?>
 	</div>

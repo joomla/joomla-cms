@@ -33,6 +33,7 @@ extract($displayData);
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
+ * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
@@ -49,6 +50,7 @@ $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -56,7 +58,7 @@ $attributes = array(
 	isset($max) ? 'max="' . $max . '"' : '',
 	!empty($step) ? 'step="' . $step . '"' : '',
 	isset($min) ? 'min="' . $min . '"' : '',
-	$required ? 'required' : '',
+	$required ? 'required aria-required="true"' : '',
 	$autocomplete,
 	$autofocus ? 'autofocus' : ''
 );

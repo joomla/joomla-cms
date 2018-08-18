@@ -11,19 +11,12 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
-use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 
 /**
@@ -93,9 +86,9 @@ class PackageAdapter extends InstallerAdapter
 			{
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				throw new \RuntimeException(
-					Text::sprintf(
+					\JText::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
-						Text::_('JLIB_INSTALLER_' . $this->route),
+						\JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->type,
 						$this->parent->getPath('extension_root')
 					)
@@ -126,13 +119,13 @@ class PackageAdapter extends InstallerAdapter
 		if (!count($this->getManifest()->files->children()))
 		{
 			throw new \RuntimeException(
-				Text::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
-					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+				\JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
+					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
 
-		$dispatcher = Factory::getApplication()->getDispatcher();
+		$dispatcher = \JFactory::getApplication()->getDispatcher();
 
 		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
 		if (!$dispatcher->hasListener([$this, 'onExtensionAfterInstall'], 'onExtensionAfterInstall'))
@@ -163,9 +156,9 @@ class PackageAdapter extends InstallerAdapter
 			if (!$installResult)
 			{
 				throw new \RuntimeException(
-					Text::sprintf(
+					\JText::sprintf(
 						'JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION',
-						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						basename($file)
 					)
 				);
@@ -234,7 +227,7 @@ class PackageAdapter extends InstallerAdapter
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
-				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
+				\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), \JLog::WARNING, 'jerror');
 			}
 		}
 
@@ -247,9 +240,9 @@ class PackageAdapter extends InstallerAdapter
 		{
 			// Install failed, rollback changes
 			throw new \RuntimeException(
-				Text::sprintf(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP',
-					Text::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')
+					\JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')
 				)
 			);
 		}
@@ -260,12 +253,12 @@ class PackageAdapter extends InstallerAdapter
 			// First, we have to create a folder for the script if one isn't present
 			if (!file_exists($this->parent->getPath('extension_root')))
 			{
-				if (!Folder::create($this->parent->getPath('extension_root')))
+				if (!\JFolder::create($this->parent->getPath('extension_root')))
 				{
 					throw new \RuntimeException(
-						Text::sprintf(
+						\JText::sprintf(
 							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-							Text::_('JLIB_INSTALLER_' . $this->route),
+							\JText::_('JLIB_INSTALLER_' . $this->route),
 							$this->parent->getPath('extension_root')
 						)
 					);
@@ -293,7 +286,7 @@ class PackageAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_MANIFEST'));
+					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_MANIFEST'));
 				}
 			}
 		}
@@ -309,15 +302,12 @@ class PackageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$extensionId = $this->extension->extension_id;
-
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = :extension_id')
-			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
+			->where('extension_id = ' . $this->extension->extension_id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -335,13 +325,13 @@ class PackageAdapter extends InstallerAdapter
 			$update->delete($uid);
 		}
 
-		File::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+		\JFile::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
 
 		$folder = $this->parent->getPath('extension_root');
 
-		if (Folder::exists($folder))
+		if (\JFolder::exists($folder))
 		{
-			Folder::delete($folder);
+			\JFolder::delete($folder);
 		}
 
 		$this->extension->delete();
@@ -366,7 +356,7 @@ class PackageAdapter extends InstallerAdapter
 			$element = (string) $this->getManifest()->packagename;
 
 			// Filter the name for illegal characters
-			$element = 'pkg_' . InputFilter::getInstance()->clean($element, 'cmd');
+			$element = 'pkg_' . \JFilterInput::getInstance()->clean($element, 'cmd');
 		}
 
 		return $element;
@@ -426,7 +416,6 @@ class PackageAdapter extends InstallerAdapter
 	protected function removeExtensionFiles()
 	{
 		$manifest = new PackageManifest(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
-		$error = false;
 
 		foreach ($manifest->filelist as $extension)
 		{
@@ -440,12 +429,12 @@ class PackageAdapter extends InstallerAdapter
 				if (!$tmpInstaller->uninstall($extension->type, $id))
 				{
 					$error = true;
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), Log::WARNING, 'jerror');
+					\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), \JLog::WARNING, 'jerror');
 				}
 			}
 			else
 			{
-				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
+				\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
 			}
 		}
 
@@ -455,7 +444,7 @@ class PackageAdapter extends InstallerAdapter
 		// Clean up manifest file after we're done if there were no errors
 		if ($error)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
 		}
 	}
 
@@ -474,9 +463,9 @@ class PackageAdapter extends InstallerAdapter
 		if (empty($packagepath))
 		{
 			throw new \RuntimeException(
-				Text::sprintf(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_PACK',
-					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
@@ -505,20 +494,20 @@ class PackageAdapter extends InstallerAdapter
 		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (!file_exists($manifestFile))
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'));
 		}
 
 		$xml = simplexml_load_file($manifestFile);
 
 		if (!$xml)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() !== 'extension')
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
 		}
 
 		$this->setManifest($xml);
@@ -543,9 +532,9 @@ class PackageAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					Text::sprintf(
+					\JText::sprintf(
 						'JLIB_INSTALLER_ABORT_ALREADY_EXISTS',
-						Text::_('JLIB_INSTALLER_' . $this->route),
+						\JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
 					)
 				);
@@ -576,7 +565,7 @@ class PackageAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				Text::sprintf(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK',
 					$this->extension->getError()
 				)
@@ -612,9 +601,9 @@ class PackageAdapter extends InstallerAdapter
 					{
 						// The script failed, rollback changes
 						throw new \RuntimeException(
-							Text::sprintf(
+							\JText::sprintf(
 								'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-								Text::_('JLIB_INSTALLER_' . $this->route)
+								\JText::_('JLIB_INSTALLER_' . $this->route)
 							)
 						);
 					}
@@ -637,9 +626,9 @@ class PackageAdapter extends InstallerAdapter
 						{
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								Text::sprintf(
+								\JText::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									Text::_('JLIB_INSTALLER_' . $this->route)
+									\JText::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -680,18 +669,14 @@ class PackageAdapter extends InstallerAdapter
 		$query = $db->getQuery(true)
 			->select('extension_id')
 			->from('#__extensions')
-			->where('type = :type')
-			->where('element = :element')
-			->bind(':type', $type)
-			->bind(':element', $id);
+			->where('type = ' . $db->quote($type))
+			->where('element = ' . $db->quote($id));
 
 		switch ($type)
 		{
 			case 'plugin':
 				// Plugins have a folder but not a client
-				$query->where('folder = :folder')
-					->bind(':folder', $group);
-
+				$query->where('folder = ' . $db->quote($group));
 				break;
 
 			case 'library':
@@ -705,11 +690,8 @@ class PackageAdapter extends InstallerAdapter
 			case 'module':
 			case 'template':
 				// Languages, modules and templates have a client but not a folder
-				$clientId = ApplicationHelper::getClientInfo($client, true)->id;
-
-				$query->where('client_id = :client_id')
-					->bind(':client_id', $clientId, ParameterType::INTEGER);
-
+				$client = ApplicationHelper::getClientInfo($client, true);
+				$query->where('client_id = ' . (int) $client->id);
 				break;
 		}
 
@@ -745,7 +727,7 @@ class PackageAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

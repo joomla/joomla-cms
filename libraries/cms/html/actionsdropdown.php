@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
-
 /**
  * HTML utility class for building a dropdown menu
  *
@@ -42,7 +40,7 @@ abstract class JHtmlActionsDropdown
 
 		if ($item)
 		{
-			$html[] = '<span class="sr-only">' . Text::sprintf('JACTIONS', $item) . '</span>';
+			$html[] = '<span class="sr-only">' . JText::sprintf('JACTIONS', $item) . '</span>';
 		}
 
 		$html[] = '</button>';
@@ -68,7 +66,7 @@ abstract class JHtmlActionsDropdown
 	public static function publish($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'publish';
-		static::addCustomItem(Text::_('JTOOLBAR_PUBLISH'), 'publish', $id, $task);
+		static::addCustomItem(JText::_('JTOOLBAR_PUBLISH'), 'publish', $id, $task);
 	}
 
 	/**
@@ -84,7 +82,7 @@ abstract class JHtmlActionsDropdown
 	public static function unpublish($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'unpublish';
-		static::addCustomItem(Text::_('JTOOLBAR_UNPUBLISH'), 'unpublish', $id, $task);
+		static::addCustomItem(JText::_('JTOOLBAR_UNPUBLISH'), 'unpublish', $id, $task);
 	}
 
 	/**
@@ -100,7 +98,7 @@ abstract class JHtmlActionsDropdown
 	public static function feature($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'featured';
-		static::addCustomItem(Text::_('JFEATURE'), 'featured', $id, $task);
+		static::addCustomItem(JText::_('JFEATURE'), 'featured', $id, $task);
 	}
 
 	/**
@@ -116,7 +114,7 @@ abstract class JHtmlActionsDropdown
 	public static function unfeature($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'unfeatured';
-		static::addCustomItem(Text::_('JUNFEATURE'), 'unfeatured', $id, $task);
+		static::addCustomItem(JText::_('JUNFEATURE'), 'unfeatured', $id, $task);
 	}
 
 	/**
@@ -132,7 +130,7 @@ abstract class JHtmlActionsDropdown
 	public static function archive($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'archive';
-		static::addCustomItem(Text::_('JTOOLBAR_ARCHIVE'), 'archive', $id, $task);
+		static::addCustomItem(JText::_('JTOOLBAR_ARCHIVE'), 'archive', $id, $task);
 	}
 
 	/**
@@ -148,7 +146,7 @@ abstract class JHtmlActionsDropdown
 	public static function unarchive($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'unpublish';
-		static::addCustomItem(Text::_('JTOOLBAR_UNARCHIVE'), 'unarchive', $id, $task);
+		static::addCustomItem(JText::_('JTOOLBAR_UNARCHIVE'), 'unarchive', $id, $task);
 	}
 
 	/**
@@ -164,7 +162,7 @@ abstract class JHtmlActionsDropdown
 	public static function duplicate($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'duplicate';
-		static::addCustomItem(Text::_('JTOOLBAR_DUPLICATE'), 'copy', $id, $task);
+		static::addCustomItem(JText::_('JTOOLBAR_DUPLICATE'), 'copy', $id, $task);
 	}
 
 	/**
@@ -180,7 +178,7 @@ abstract class JHtmlActionsDropdown
 	public static function trash($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'trash';
-		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'trash', $id, $task);
+		static::addCustomItem(JText::_('JTOOLBAR_TRASH'), 'trash', $id, $task);
 	}
 
 	/**
@@ -225,7 +223,7 @@ abstract class JHtmlActionsDropdown
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
 		static::$dropDownList[] = '<li>'
-			. '<a href = "javascript://" onclick="Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')">'
+			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
 			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
 			. $label
 			. '</a>'

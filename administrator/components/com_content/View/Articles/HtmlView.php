@@ -12,14 +12,10 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
+
+\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
  * View class for a list of articles.
@@ -97,7 +93,7 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() !== 'modal')
 		{
-			ContentHelper::addSubmenu('articles');
+			\ContentHelper::addSubmenu('articles');
 		}
 
 		$this->items         = $this->get('Items');
@@ -106,8 +102,7 @@ class HtmlView extends BaseHtmlView
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->transitions   = $this->get('Transitions');
-		$this->vote          = PluginHelper::isEnabled('content', 'vote');
+		$this->vote          = \JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -122,7 +117,7 @@ class HtmlView extends BaseHtmlView
 			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!Multilanguage::isEnabled())
+			if (!\JLanguageMultilang::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
@@ -132,7 +127,7 @@ class HtmlView extends BaseHtmlView
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -158,13 +153,13 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-		$user  = Factory::getUser();
+		$canDo = \JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+		$user  = \JFactory::getUser();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
+		ToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
@@ -173,6 +168,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
+			$toolbar->publish('articles.publish')->listCheck(true);
+
+			$toolbar->unpublish('articles.unpublish')->listCheck(true);
+
 			$toolbar->standardButton('featured')
 				->text('JFEATURE')
 				->task('articles.featured')
@@ -183,13 +182,15 @@ class HtmlView extends BaseHtmlView
 				->task('articles.unfeatured')
 				->listCheck(true);
 
+			$toolbar->archive('articles.archive')->listCheck(true);
+
 			$toolbar->checkin('articles.checkin')->listCheck(true);
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_content')
 			&& $user->authorise('core.edit', 'com_content')
-			&& $user->authorise('core.execute.transition', 'com_content'))
+			&& $user->authorise('core.edit.state', 'com_content'))
 		{
 			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
@@ -197,7 +198,7 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		if ($this->state->get('filter.condition') == Workflow::TRASHED && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -227,16 +228,16 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
-			'a.state'        => Text::_('JSTATUS'),
-			'a.title'        => Text::_('JGLOBAL_TITLE'),
-			'category_title' => Text::_('JCATEGORY'),
-			'access_level'   => Text::_('JGRID_HEADING_ACCESS'),
-			'a.created_by'   => Text::_('JAUTHOR'),
-			'language'       => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.created'      => Text::_('JDATE'),
-			'a.id'           => Text::_('JGRID_HEADING_ID'),
-			'a.featured'     => Text::_('JFEATURED')
+			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'        => \JText::_('JSTATUS'),
+			'a.title'        => \JText::_('JGLOBAL_TITLE'),
+			'category_title' => \JText::_('JCATEGORY'),
+			'access_level'   => \JText::_('JGRID_HEADING_ACCESS'),
+			'a.created_by'   => \JText::_('JAUTHOR'),
+			'language'       => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.created'      => \JText::_('JDATE'),
+			'a.id'           => \JText::_('JGRID_HEADING_ID'),
+			'a.featured'     => \JText::_('JFEATURED')
 		);
 	}
 }

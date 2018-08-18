@@ -10,9 +10,6 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
 /**
@@ -109,7 +106,7 @@ class LibraryHelper
 		if (static::isEnabled($element))
 		{
 			// Save params in DB
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($params->toString()))
@@ -159,7 +156,7 @@ class LibraryHelper
 	{
 		$loader = function($element)
 		{
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
@@ -171,7 +168,7 @@ class LibraryHelper
 		};
 
 		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache('_system', 'callback');
+		$cache = \JFactory::getCache('_system', 'callback');
 
 		try
 		{
@@ -185,8 +182,8 @@ class LibraryHelper
 		if (empty(static::$libraries[$element]))
 		{
 			// Fatal error.
-			$error = Text::_('JLIB_APPLICATION_ERROR_LIBRARY_NOT_FOUND');
-			Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), Log::WARNING, 'jerror');
+			$error = \JText::_('JLIB_APPLICATION_ERROR_LIBRARY_NOT_FOUND');
+			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

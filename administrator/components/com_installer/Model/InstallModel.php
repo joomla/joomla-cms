@@ -6,22 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Updater\Update;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\InstallerHelper;
-use Joomla\CMS\Installer\Installer;
 
 /**
  * Extension Manager Install Model
@@ -58,7 +48,7 @@ class InstallModel extends BaseDatabaseModel
 	 */
 	protected function populateState()
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -80,8 +70,8 @@ class InstallModel extends BaseDatabaseModel
 		$this->setState('action', 'install');
 
 		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
-		$app = Factory::getApplication();
+		\JClientHelper::setCredentialsFromRequest('ftp');
+		$app = \JFactory::getApplication();
 
 		// Load installer plugins for assistance if required:
 		PluginHelper::importPlugin('installer');
@@ -123,7 +113,7 @@ class InstallModel extends BaseDatabaseModel
 					break;
 
 				default:
-					$app->setUserState('com_installer.message', Text::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
+					$app->setUserState('com_installer.message', \JText::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
 
 					return false;
 					break;
@@ -142,20 +132,20 @@ class InstallModel extends BaseDatabaseModel
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
-				InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+				\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
 			return false;
 		}
 
 		// Get an installer instance.
-		$installer = Installer::getInstance();
+		$installer = \JInstaller::getInstance();
 
 		/*
 		 * Check for a Joomla core package.
-		 * To do this we need to set the source path to find the manifest (the same first step as Installer::install())
+		 * To do this we need to set the source path to find the manifest (the same first step as \JInstaller::install())
 		 *
-		 * This must be done before the unpacked check because InstallerHelper::detectType() returns a boolean false since the manifest
+		 * This must be done before the unpacked check because \JInstallerHelper::detectType() returns a boolean false since the manifest
 		 * can't be found in the expected location.
 		 */
 		if (is_array($package) && isset($package['dir']) && is_dir($package['dir']))
@@ -170,11 +160,11 @@ class InstallModel extends BaseDatabaseModel
 					// We have a Joomla package
 					if (in_array($installType, array('upload', 'url')))
 					{
-						InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+						\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 					}
 
 					$app->enqueueMessage(
-						Text::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', Route::_('index.php?option=com_joomlaupdate')),
+						\JText::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', \JRoute::_('index.php?option=com_joomlaupdate')),
 						'warning'
 					);
 
@@ -188,10 +178,10 @@ class InstallModel extends BaseDatabaseModel
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
-				InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+				\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
-			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 
 			return false;
 		}
@@ -200,14 +190,14 @@ class InstallModel extends BaseDatabaseModel
 		if (!$installer->install($package['dir']))
 		{
 			// There was an error installing the package.
-			$msg = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg = \JText::sprintf('COM_INSTALLER_INSTALL_ERROR', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
 			$msgType = 'error';
 		}
 		else
 		{
 			// Package installed successfully.
-			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg = \JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', \JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 			$msgType = 'message';
 		}
@@ -226,11 +216,11 @@ class InstallModel extends BaseDatabaseModel
 		// Cleanup the install files.
 		if (!is_file($package['packagefile']))
 		{
-			$config = Factory::getConfig();
+			$config = \JFactory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
-		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+		\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		// Clear the cached extension data and menu cache
 		$this->cleanCache('_system', 0);
@@ -253,7 +243,7 @@ class InstallModel extends BaseDatabaseModel
 	protected function _getPackageFromUpload()
 	{
 		// Get the uploaded file information.
-		$input    = Factory::getApplication()->input;
+		$input    = \JFactory::getApplication()->input;
 
 		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
 		$userfile = $input->files->get('install_package', null, 'raw');
@@ -261,7 +251,7 @@ class InstallModel extends BaseDatabaseModel
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
 			return false;
 		}
@@ -269,7 +259,7 @@ class InstallModel extends BaseDatabaseModel
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 'error');
 
 			return false;
 		}
@@ -277,7 +267,7 @@ class InstallModel extends BaseDatabaseModel
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 'error');
 
 			return false;
 		}
@@ -285,8 +275,8 @@ class InstallModel extends BaseDatabaseModel
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
-			Factory::getApplication()->enqueueMessage(
-				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+			\JFactory::getApplication()->enqueueMessage(
+				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
 				'error'
 			);
 
@@ -296,8 +286,8 @@ class InstallModel extends BaseDatabaseModel
 		// Is the max upload size too small in php.ini?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
-			Factory::getApplication()->enqueueMessage(
-				Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+			\JFactory::getApplication()->enqueueMessage(
+				\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . \JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 				'error'
 			);
 
@@ -307,22 +297,22 @@ class InstallModel extends BaseDatabaseModel
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 
 			return false;
 		}
 
 		// Build the appropriate paths.
-		$config   = Factory::getApplication()->getConfig();
+		$config   = \JFactory::getApplication()->getConfig();
 		$tmp_dest = $config->get('tmp_path') . '/' . $userfile['name'];
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
 		jimport('joomla.filesystem.file');
-		File::upload($tmp_src, $tmp_dest, false, true);
+		\JFile::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
-		$package = InstallerHelper::unpack($tmp_dest, true);
+		$package = \JInstallerHelper::unpack($tmp_dest, true);
 
 		return $package;
 	}
@@ -336,27 +326,27 @@ class InstallModel extends BaseDatabaseModel
 	 */
 	protected function _getPackageFromFolder()
 	{
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		// Get the path to the package to install.
 		$p_dir = $input->getString('install_directory');
-		$p_dir = Path::clean($p_dir);
+		$p_dir = \JPath::clean($p_dir);
 
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'), 'error');
 
 			return false;
 		}
 
 		// Detect the package type
-		$type = InstallerHelper::detectType($p_dir);
+		$type = \JInstallerHelper::detectType($p_dir);
 
 		// Did you give us a valid package?
 		if (!$type)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'), 'error');
 		}
 
 		$package['packagefile'] = null;
@@ -376,7 +366,7 @@ class InstallModel extends BaseDatabaseModel
 	 */
 	protected function _getPackageFromUrl()
 	{
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		// Get the URL of the package to install.
 		$url = $input->getString('install_url');
@@ -384,7 +374,7 @@ class InstallModel extends BaseDatabaseModel
 		// Did you give us a URL?
 		if (!$url)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
 
 			return false;
 		}
@@ -393,7 +383,7 @@ class InstallModel extends BaseDatabaseModel
 		if (preg_match('/\.xml\s*$/', $url))
 		{
 			jimport('joomla.updater.update');
-			$update = new Update;
+			$update = new \JUpdate;
 			$update->loadFromXml($url);
 			$package_url = trim($update->get('downloadurl', false)->_data);
 
@@ -406,21 +396,21 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// Download the package at the URL given.
-		$p_file = InstallerHelper::downloadPackage($url);
+		$p_file = \JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'error');
 
 			return false;
 		}
 
-		$config   = Factory::getConfig();
+		$config   = \JFactory::getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.
-		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
+		$package = \JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
 	}

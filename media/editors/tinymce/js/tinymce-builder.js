@@ -275,7 +275,7 @@
     // Init the builder
     $(document).ready(function(){
         var options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {})
-				:  (Joomla.optionsStorage.plg_editors_tinymce_builder || {});
+        			:  (Joomla.optionsStorage.plg_editors_tinymce_builder || {});
 
         new JoomlaTinyMCEBuilder($('#joomla-tinymce-builder'), options);
 

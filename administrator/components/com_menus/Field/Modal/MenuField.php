@@ -6,16 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Menus\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal menu item picker.
@@ -164,8 +160,8 @@ class MenuField extends FormField
 		$modalId = 'Item_' . $this->id;
 
 		// Add the modal field script to the document head.
-		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('jquery.framework');
+		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($this->allowSelect)
@@ -191,10 +187,10 @@ class MenuField extends FormField
 		}
 
 		// Setup variables for display.
-		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
+		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
 		$linkItems  = 'index.php?option=com_menus&amp;view=items' . $linkSuffix;
 		$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
-		$modalTitle = Text::_('COM_MENUS_CHANGE_MENUITEM');
+		$modalTitle = \JText::_('COM_MENUS_CHANGE_MENUITEM');
 
 		if (isset($this->element['language']))
 		{
@@ -223,7 +219,7 @@ class MenuField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
@@ -232,11 +228,11 @@ class MenuField extends FormField
 		{
 			if ($this->element->option && (string) $this->element->option['value'] == '')
 			{
-				$title_holder = Text::_($this->element->option, true);
+				$title_holder = \JText::_($this->element->option, true);
 			}
 			else
 			{
-				$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM', true);
+				$title_holder = \JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
 			}
 		}
 
@@ -265,8 +261,8 @@ class MenuField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_CHANGE_MENUITEM') . '">'
-				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
+				. ' title="' . \JHtml::tooltipText('COM_MENUS_CHANGE_MENUITEM') . '">'
+				. '<span class="icon-file" aria-hidden="true"></span> ' . \JText::_('JSELECT')
 				. '</a>';
 		}
 
@@ -279,8 +275,8 @@ class MenuField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_NEW_MENUITEM') . '">'
-				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+				. ' title="' . \JHtml::tooltipText('COM_MENUS_NEW_MENUITEM') . '">'
+				. '<span class="icon-new" aria-hidden="true"></span> ' . \JText::_('JACTION_CREATE')
 				. '</a>';
 		}
 
@@ -293,8 +289,8 @@ class MenuField extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_EDIT_MENUITEM') . '">'
-				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
+				. ' title="' . \JHtml::tooltipText('COM_MENUS_EDIT_MENUITEM') . '">'
+				. '<span class="icon-edit" aria-hidden="true"></span> ' . \JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -306,7 +302,7 @@ class MenuField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
+				. '<span class="icon-remove" aria-hidden="true"></span>' . \JText::_('JCLEAR')
 				. '</a>';
 		}
 
@@ -318,7 +314,7 @@ class MenuField extends FormField
 		// Select menu item modal
 		if ($this->allowSelect)
 		{
-			$html .= HTMLHelper::_(
+			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -329,7 +325,7 @@ class MenuField extends FormField
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+										. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 				)
 			);
 		}
@@ -337,11 +333,11 @@ class MenuField extends FormField
 		// New menu item modal
 		if ($this->allowNew)
 		{
-			$html .= HTMLHelper::_(
+			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
-					'title'       => Text::_('COM_MENUS_NEW_MENUITEM'),
+					'title'       => \JText::_('COM_MENUS_NEW_MENUITEM'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -352,13 +348,13 @@ class MenuField extends FormField
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
+							. \JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. \JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -366,11 +362,11 @@ class MenuField extends FormField
 		// Edit menu item modal
 		if ($this->allowEdit)
 		{
-			$html .= HTMLHelper::_(
+			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(
-					'title'       => Text::_('COM_MENUS_EDIT_MENUITEM'),
+					'title'       => \JText::_('COM_MENUS_EDIT_MENUITEM'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -381,13 +377,13 @@ class MenuField extends FormField
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
+							. \JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. \JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
@@ -398,11 +394,11 @@ class MenuField extends FormField
 		// Placeholder if option is present or not when clearing field
 		if ($this->element->option && (string) $this->element->option['value'] == '')
 		{
-			$title_holder = Text::_($this->element->option, true);
+			$title_holder = \JText::_($this->element->option, true);
 		}
 		else
 		{
-			$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM', true);
+			$title_holder = \JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
 		}
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name

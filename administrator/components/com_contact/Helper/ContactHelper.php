@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Contact component helper.
@@ -35,13 +32,13 @@ class ContactHelper extends ContentHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_CONTACT_SUBMENU_CONTACTS'),
+			\JText::_('COM_CONTACT_SUBMENU_CONTACTS'),
 			'index.php?option=com_contact&view=contacts',
 			$vName == 'contacts'
 		);
 
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_CONTACT_SUBMENU_CATEGORIES'),
+			\JText::_('COM_CONTACT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
@@ -49,12 +46,12 @@ class ContactHelper extends ContentHelper
 		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
 		{
 			\JHtmlSidebar::addEntry(
-				Text::_('JGLOBAL_FIELDS'),
+				\JText::_('JGLOBAL_FIELDS'),
 				'index.php?option=com_fields&context=com_contact.contact',
 				$vName == 'fields.fields'
 			);
 			\JHtmlSidebar::addEntry(
-				Text::_('JGLOBAL_FIELD_GROUPS'),
+				\JText::_('JGLOBAL_FIELD_GROUPS'),
 				'index.php?option=com_fields&view=groups&context=com_contact.contact',
 				$vName == 'fields.groups'
 			);
@@ -72,7 +69,7 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -127,7 +124,7 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
 
@@ -200,13 +197,13 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function validateSection($section, $item)
 	{
-		if (Factory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof \JForm)
+		if (\JFactory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof \JForm)
 		{
 			// The contact form needs to be the mail section
 			$section = 'mail';
 		}
 
-		if (Factory::getApplication()->isClient('site') && $section == 'category')
+		if (\JFactory::getApplication()->isClient('site') && $section == 'category')
 		{
 			// The contact form needs to be the mail section
 			$section = 'contact';
@@ -230,12 +227,12 @@ class ContactHelper extends ContentHelper
 	 */
 	public static function getContexts()
 	{
-		Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+		\JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
-			'com_contact.mail'       => Text::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
-			'com_contact.categories' => Text::_('JCATEGORY')
+			'com_contact.contact'    => \JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail'       => \JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.categories' => \JText::_('JCATEGORY')
 		);
 
 		return $contexts;

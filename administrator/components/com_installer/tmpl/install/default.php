@@ -9,27 +9,22 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+JHtml::_('behavior.core');
+JText::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
+JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
+JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
+JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
-HTMLHelper::_('behavior.core');
-Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
-Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
-Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
-Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
+JHtml::_('behavior.tabstate');
+JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
+JHtml::_('script', 'com_installer/installer.js', false, true);
 
-HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('stylesheet', 'com_installer/installer.css', false, true);
-HTMLHelper::_('script', 'com_installer/installer.js', false, true);
-
-$app = Factory::getApplication();
+$app = JFactory::getApplication();
 ?>
 
 <div id="installer-install" class="clearfix">
 
-	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
+	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
 			<div id="j-sidebar-container" class="col-md-2">
 				<?php echo $this->sidebar; ?>
@@ -43,33 +38,33 @@ $app = Factory::getApplication();
 					<?php // Show installation tabs at the start ?>
 					<?php $firstTab = $app->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
 					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
-					<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
+					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
-						<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
+						<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
 						<fieldset class="uploadform">
 							<?php echo $tab['content']; ?>
 						</fieldset>
-						<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endforeach; ?>
 					<?php // Show installation tabs at the end ?>
 					<?php $lastTab = $app->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
 					<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 					<?php if (!$tabs) : ?>
-						<?php $app->enqueueMessage(Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
+						<?php $app->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
 					<?php endif; ?>
 
 					<?php if ($this->ftp) : ?>
-						<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'ftp', Text::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
+						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
-						<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
 					<input type="hidden" name="installtype" value="">
 					<input type="hidden" name="task" value="install.install">
-					<?php echo HTMLHelper::_('form.token'); ?>
+					<?php echo JHtml::_('form.token'); ?>
 
-					<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+					<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 				</div>
 			</div>
 		</div>

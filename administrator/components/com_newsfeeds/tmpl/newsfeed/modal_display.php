@@ -9,7 +9,5 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
-
 $this->fieldset = 'jbasic';
-echo LayoutHelper::render('joomla.edit.fieldset', $this);
+echo JLayoutHelper::render('joomla.edit.fieldset', $this);

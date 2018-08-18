@@ -88,32 +88,4 @@ class PlgSystemHighlight extends CMSPlugin
 
 		return true;
 	}
-
-	/**
-	 * Method to catch the onFinderResult event.
-	 *
-	 * @param   FinderIndexerResult  $item   The search result
-	 * @param   array                $query  The search query of this result
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onFinderResult($item, $query)
-	{
-		static $params;
-
-		if (is_null($params))
-		{
-			$params = ComponentHelper::getParams('com_finder');
-		}
-
-		// Get the route with highlighting information.
-		if (!empty($query->highlight)
-			&& empty($item->mime)
-			&& $params->get('highlight_terms', 1))
-		{
-			$item->route .= '&highlight=' . base64_encode(json_encode($query->highlight));
-		}
-	}
 }

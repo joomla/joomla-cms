@@ -12,7 +12,6 @@ namespace Joomla\Component\Content\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Featured Table class.
@@ -24,11 +23,11 @@ class FeaturedTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database connector object
+	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__content_frontpage', 'content_id', $db);
 	}

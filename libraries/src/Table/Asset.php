@@ -10,8 +10,6 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Database\DatabaseDriver;
-
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
@@ -54,11 +52,11 @@ class Asset extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__assets', 'id', $db);
 	}
@@ -119,7 +117,7 @@ class Asset extends Nested
 		// Nested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
-			// Get the DatabaseQuery object
+			// Get the \JDatabaseQuery object
 			$query = $this->_db->getQuery(true)
 				->select('1')
 				->from($this->_db->quoteName($this->_tbl))
@@ -176,7 +174,7 @@ class Asset extends Nested
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			if ($this->hasField('ordering'))
+			if (property_exists($this, 'ordering'))
 			{
 				$query->order('parent_id, ordering, lft');
 			}

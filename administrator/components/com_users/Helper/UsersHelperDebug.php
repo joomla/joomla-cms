@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Users\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -96,7 +95,7 @@ class UsersHelperDebug
 		// Use default actions from configuration if no component selected or component doesn't have actions
 		if (empty($actions))
 		{
-			$filename = JPATH_ADMINISTRATOR . '/components/com_config/forms/application.xml';
+			$filename = JPATH_ADMINISTRATOR . '/components/com_config/model/form/application.xml';
 
 			if (is_file($filename))
 			{

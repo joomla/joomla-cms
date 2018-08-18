@@ -11,8 +11,6 @@ namespace Joomla\CMS\Cache\Storage;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 /**
@@ -336,7 +334,7 @@ class FileStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		return is_writable(Factory::getConfig()->get('cache_path', JPATH_CACHE));
+		return is_writable(\JFactory::getConfig()->get('cache_path', JPATH_CACHE));
 	}
 
 	/**
@@ -514,7 +512,7 @@ class FileStorage extends CacheStorage
 		if (!$path || !is_dir($path) || empty($this->_root))
 		{
 			// Bad programmer! Bad, bad programmer!
-			Log::add(__METHOD__ . ' ' . Text::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -526,7 +524,7 @@ class FileStorage extends CacheStorage
 
 		if ($pos === false || $pos > 0)
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -550,7 +548,7 @@ class FileStorage extends CacheStorage
 				// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
 				if (@unlink($file) !== true)
 				{
-					Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
+					Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -582,7 +580,7 @@ class FileStorage extends CacheStorage
 			return true;
 		}
 
-		Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
+		Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 
 		return false;
 	}
@@ -637,7 +635,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -727,7 +725,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}

@@ -6,15 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Tags\Site\View\Tags;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Tags component all tags view
@@ -32,9 +28,9 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = Factory::getApplication();
-		$document       = Factory::getDocument();
-		$document->link = Route::_('index.php?option=com_tags&view=tags');
+		$app            = \JFactory::getApplication();
+		$document       = \JFactory::getDocument();
+		$document->link = \JRoute::_('index.php?option=com_tags&view=tags');
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -62,7 +58,7 @@ class FeedView extends BaseHtmlView
 			$date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
 
 			// Load individual item creator class
-			$feeditem = new FeedItem;
+			$feeditem = new \JFeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
 			$feeditem->description = $description;

@@ -6,15 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Modules\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Modules component helper.
@@ -44,10 +40,10 @@ abstract class ModulesHelper
 	{
 		// Build the filter options.
 		$options   = array();
-		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
-		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
-		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
-		$options[] = HTMLHelper::_('select.option', '*', Text::_('JALL'));
+		$options[] = \JHtml::_('select.option', '1', \JText::_('JPUBLISHED'));
+		$options[] = \JHtml::_('select.option', '0', \JText::_('JUNPUBLISHED'));
+		$options[] = \JHtml::_('select.option', '-2', \JText::_('JTRASHED'));
+		$options[] = \JHtml::_('select.option', '*', \JText::_('JALL'));
 
 		return $options;
 	}
@@ -61,8 +57,8 @@ abstract class ModulesHelper
 	{
 		// Build the filter options.
 		$options   = array();
-		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
-		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
+		$options[] = \JHtml::_('select.option', '0', \JText::_('JSITE'));
+		$options[] = \JHtml::_('select.option', '1', \JText::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -77,7 +73,7 @@ abstract class ModulesHelper
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(position)')
 			->from('#__modules')
@@ -93,7 +89,7 @@ abstract class ModulesHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return;
 		}
@@ -105,11 +101,11 @@ abstract class ModulesHelper
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = HTMLHelper::_('select.option', 'none', Text::_('COM_MODULES_NONE'));
+				$options[] = \JHtml::_('select.option', 'none', \JText::_('COM_MODULES_NONE'));
 			}
 			else
 			{
-				$options[] = HTMLHelper::_('select.option', $position, $position);
+				$options[] = \JHtml::_('select.option', $position, $position);
 			}
 		}
 
@@ -127,7 +123,7 @@ abstract class ModulesHelper
 	 */
 	public static function getTemplates($clientId = 0, $state = '', $template = '')
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);
@@ -164,7 +160,7 @@ abstract class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		$db    = Factory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
@@ -176,7 +172,7 @@ abstract class ModulesHelper
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		foreach ($modules as $i => $module)
 		{
@@ -185,7 +181,7 @@ abstract class ModulesHelper
 			$source = $path . "/modules/$extension";
 				$lang->load("$extension.sys", $path, null, false, true)
 			||	$lang->load("$extension.sys", $source, null, false, true);
-			$modules[$i]->text = Text::_($module->text);
+			$modules[$i]->text = \JText::_($module->text);
 		}
 
 		$modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
@@ -203,13 +199,13 @@ abstract class ModulesHelper
 	public static function getAssignmentOptions($clientId)
 	{
 		$options = array();
-		$options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
-		$options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
+		$options[] = \JHtml::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
+		$options[] = \JHtml::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
 		if ($clientId == 0)
 		{
-			$options[] = HTMLHelper::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
-			$options[] = HTMLHelper::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
+			$options[] = \JHtml::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
+			$options[] = \JHtml::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
 		}
 
 		return $options;
@@ -229,7 +225,7 @@ abstract class ModulesHelper
 	public static function getTranslatedModulePosition($clientId, $template, $position)
 	{
 		// Template translation
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		$loaded = $lang->getPaths('tpl_' . $template . '.sys');
@@ -244,14 +240,14 @@ abstract class ModulesHelper
 		}
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
-		$text = Text::_($langKey);
+		$text = \JText::_($langKey);
 
 		// Avoid untranslated strings
 		if (!self::isTranslatedText($langKey, $text))
 		{
 			// Modules component translation
 			$langKey = strtoupper('COM_MODULES_POSITION_' . $position);
-			$text = Text::_($langKey);
+			$text = \JText::_($langKey);
 
 			// Avoid untranslated strings
 			if (!self::isTranslatedText($langKey, $text))

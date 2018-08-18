@@ -15,9 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Cache\Cache;
 
 // Uncomment the following line to enable debug mode for testing purposes. Note: statistics will be sent on every page load
 // define('PLG_SYSTEM_STATS_DEBUG', 1);
@@ -348,7 +345,7 @@ class PlgSystemStats extends CMSPlugin
 	{
 		if (null === $this->uniqueId)
 		{
-			$this->uniqueId = $this->params->get('unique_id', hash('sha1', UserHelper::genRandomPassword(28) . time()));
+			$this->uniqueId = $this->params->get('unique_id', hash('sha1', JUserHelper::genRandomPassword(28) . time()));
 		}
 
 		return $this->uniqueId;
@@ -509,7 +506,7 @@ class PlgSystemStats extends CMSPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			$response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -557,7 +554,7 @@ class PlgSystemStats extends CMSPlugin
 					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE)
 				);
 
-				$cache = Cache::getInstance('callback', $options);
+				$cache = JCache::getInstance('callback', $options);
 				$cache->clean();
 			}
 			catch (Exception $e)

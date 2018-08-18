@@ -10,7 +10,6 @@ namespace Joomla\CMS\UCM;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
@@ -49,7 +48,7 @@ class UCMBase implements UCM
 	public function __construct($alias = null, UCMType $type = null)
 	{
 		// Setup dependencies.
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$this->alias = $alias ?: $input->get('option') . '.' . $input->get('view');
 
 		$this->type = $type ?: $this->getType();

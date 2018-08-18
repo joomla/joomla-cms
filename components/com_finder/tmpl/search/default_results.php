@@ -44,15 +44,14 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />
-<dl class="search-results list-striped">
+<ul class="com-finder__results-list search-results list-striped">
 	<?php $this->baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
-	<?php foreach ($this->results as $i => $result) : ?>
+	<?php foreach ($this->results as $result) : ?>
 		<?php $this->result = &$result; ?>
-		<?php $this->result->counter = $i + 1; ?>
 		<?php $layout = $this->getLayoutFile($this->result->layout); ?>
 		<?php echo $this->loadTemplate($layout); ?>
 	<?php endforeach; ?>
-</dl>
+</ul>
 <br id="highlighter-end" />
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">

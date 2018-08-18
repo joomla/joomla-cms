@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Modules\Administrator\View\Modules;
 
 defined('_JEXEC') or die;
@@ -15,12 +14,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View class for a list of modules.
@@ -112,7 +105,7 @@ class HtmlView extends BaseHtmlView
 			$this->addToolbar();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!Multilanguage::isEnabled())
+			if (!\JLanguageMultilang::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
@@ -125,7 +118,7 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->removeField('client_id', '');
 
 			// If in the frontend state and language should not activate the search tools.
-			if (Factory::getApplication()->isClient('site'))
+			if (\JFactory::getApplication()->isClient('site'))
 			{
 				unset($this->activeFilters['state']);
 				unset($this->activeFilters['language']);
@@ -133,7 +126,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		return parent::display($tpl);
 	}
@@ -149,23 +142,23 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_modules');
-		$user  = Factory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$bar = \JToolbar::getInstance('toolbar');
 
 		if ($state->get('client_id') == 1)
 		{
-			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			// Instantiate a new FileLayout instance and render the layout
+			// Instantiate a new \JLayoutFile instance and render the layout
 			$layout = new FileLayout('toolbar.newmodule');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'new');
@@ -173,24 +166,24 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+			\JToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::checkin('modules.checkin');
+			\JToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::checkin('modules.checkin');
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
-			$title = Text::_('JTOOLBAR_BATCH');
+			\JHtml::_('bootstrap.renderModal', 'collapseModal');
+			$title = \JText::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new FileLayout instance and render the batch button
+			// Instantiate a new \JLayoutFile instance and render the batch button
 			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
@@ -199,19 +192,19 @@ class HtmlView extends BaseHtmlView
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('modules.trash');
+			\JToolbarHelper::trash('modules.trash');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::preferences('com_modules');
+			\JToolbarHelper::preferences('com_modules');
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		\JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
 		if (\JHtmlSidebar::getEntries())
 		{
@@ -235,26 +228,26 @@ class HtmlView extends BaseHtmlView
 			if ($this->getLayout() == 'default')
 			{
 				return array(
-					'ordering'       => Text::_('JGRID_HEADING_ORDERING'),
-					'a.published'    => Text::_('JSTATUS'),
-					'a.title'        => Text::_('JGLOBAL_TITLE'),
-					'position'       => Text::_('COM_MODULES_HEADING_POSITION'),
-					'name'           => Text::_('COM_MODULES_HEADING_MODULE'),
-					'pages'          => Text::_('COM_MODULES_HEADING_PAGES'),
-					'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-					'language_title' => Text::_('JGRID_HEADING_LANGUAGE'),
-					'a.id'           => Text::_('JGRID_HEADING_ID')
+					'ordering'       => \JText::_('JGRID_HEADING_ORDERING'),
+					'a.published'    => \JText::_('JSTATUS'),
+					'a.title'        => \JText::_('JGLOBAL_TITLE'),
+					'position'       => \JText::_('COM_MODULES_HEADING_POSITION'),
+					'name'           => \JText::_('COM_MODULES_HEADING_MODULE'),
+					'pages'          => \JText::_('COM_MODULES_HEADING_PAGES'),
+					'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+					'language_title' => \JText::_('JGRID_HEADING_LANGUAGE'),
+					'a.id'           => \JText::_('JGRID_HEADING_ID')
 				);
 			}
 
 			return array(
-				'a.title'        => Text::_('JGLOBAL_TITLE'),
-				'position'       => Text::_('COM_MODULES_HEADING_POSITION'),
-				'name'           => Text::_('COM_MODULES_HEADING_MODULE'),
-				'pages'          => Text::_('COM_MODULES_HEADING_PAGES'),
-				'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-				'language_title' => Text::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'           => Text::_('JGRID_HEADING_ID')
+				'a.title'        => \JText::_('JGLOBAL_TITLE'),
+				'position'       => \JText::_('COM_MODULES_HEADING_POSITION'),
+				'name'           => \JText::_('COM_MODULES_HEADING_MODULE'),
+				'pages'          => \JText::_('COM_MODULES_HEADING_PAGES'),
+				'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+				'language_title' => \JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'           => \JText::_('JGRID_HEADING_ID')
 			);
 		}
 		else
@@ -262,24 +255,24 @@ class HtmlView extends BaseHtmlView
 			if ($this->getLayout() == 'default')
 			{
 				return array(
-					'ordering'       => Text::_('JGRID_HEADING_ORDERING'),
-					'a.published'    => Text::_('JSTATUS'),
-					'a.title'        => Text::_('JGLOBAL_TITLE'),
-					'position'       => Text::_('COM_MODULES_HEADING_POSITION'),
-					'name'           => Text::_('COM_MODULES_HEADING_MODULE'),
-					'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-					'a.language'     => Text::_('JGRID_HEADING_LANGUAGE'),
-					'a.id'           => Text::_('JGRID_HEADING_ID')
+					'ordering'       => \JText::_('JGRID_HEADING_ORDERING'),
+					'a.published'    => \JText::_('JSTATUS'),
+					'a.title'        => \JText::_('JGLOBAL_TITLE'),
+					'position'       => \JText::_('COM_MODULES_HEADING_POSITION'),
+					'name'           => \JText::_('COM_MODULES_HEADING_MODULE'),
+					'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+					'a.language'     => \JText::_('JGRID_HEADING_LANGUAGE'),
+					'a.id'           => \JText::_('JGRID_HEADING_ID')
 				);
 			}
 
 			return array(
-				'a.title'     => Text::_('JGLOBAL_TITLE'),
-				'position'    => Text::_('COM_MODULES_HEADING_POSITION'),
-				'name'        => Text::_('COM_MODULES_HEADING_MODULE'),
-				'a.access'    => Text::_('JGRID_HEADING_ACCESS'),
-				'a.language'  => Text::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'        => Text::_('JGRID_HEADING_ID')
+				'a.title'     => \JText::_('JGLOBAL_TITLE'),
+				'position'    => \JText::_('COM_MODULES_HEADING_POSITION'),
+				'name'        => \JText::_('COM_MODULES_HEADING_MODULE'),
+				'a.access'    => \JText::_('JGRID_HEADING_ACCESS'),
+				'a.language'  => \JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'        => \JText::_('JGRID_HEADING_ID')
 			);
 		}
 	}

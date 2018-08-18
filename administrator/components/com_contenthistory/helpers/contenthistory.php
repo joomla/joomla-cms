@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @since       3.2
- *
- * @deprecated  5.0 Use \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper instead
+ * @since  3.2
  */
 class ContenthistoryHelper extends \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper
 {

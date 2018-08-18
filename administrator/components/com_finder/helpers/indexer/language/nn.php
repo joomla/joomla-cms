@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Norwegian language support class for the Finder indexer package.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderIndexerLanguagenn extends FinderIndexerLanguage
 {
@@ -20,7 +20,7 @@ class FinderIndexerLanguagenn extends FinderIndexerLanguage
 	 * Language locale of the class
 	 * 
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $language = 'nn';
 
@@ -28,14 +28,14 @@ class FinderIndexerLanguagenn extends FinderIndexerLanguage
 	 * The norwegian stemmer object.
 	 *
 	 * @var    \Wamania\Snowball\Norwegian
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $stemmer = null;
 
 	/**
 	 * Method to construct the language object.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct()
 	{
@@ -49,7 +49,7 @@ class FinderIndexerLanguagenn extends FinderIndexerLanguage
 	 *
 	 * @return  string  The stemmed token.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function stem($token)
 	{

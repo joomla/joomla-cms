@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Redirect\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,9 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Redirect link model.
@@ -47,7 +43,7 @@ class LinkModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		return $user->authorise('core.delete', 'com_redirect');
 	}
@@ -64,7 +60,7 @@ class LinkModel extends AdminModel
 	protected function canEditState($record)
 	{
 		// Check the component since there are no categories or other assets.
-		return Factory::getUser()->authorise('core.edit.state', 'com_redirect');
+		return \JFactory::getUser()->authorise('core.edit.state', 'com_redirect');
 	}
 
 	/**
@@ -119,7 +115,7 @@ class LinkModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_redirect.edit.link.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_redirect.edit.link.data', array());
 
 		if (empty($data))
 		{
@@ -144,7 +140,7 @@ class LinkModel extends AdminModel
 	 */
 	public function activate(&$pks, $url, $comment = null)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -152,13 +148,13 @@ class LinkModel extends AdminModel
 		$pks = ArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : Text::sprintf('COM_REDIRECT_REDIRECTED_ON', HTMLHelper::_('date', time()));
+		$comment = (!empty($comment)) ? $comment : \JText::sprintf('COM_REDIRECT_REDIRECTED_ON', \JHtml::_('date', time()));
 
 		// Access checks.
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -202,7 +198,7 @@ class LinkModel extends AdminModel
 	 */
 	public function duplicateUrls(&$pks, $url, $comment = null)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -213,14 +209,14 @@ class LinkModel extends AdminModel
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}
 
 		if (!empty($pks))
 		{
-			$date = Factory::getDate()->toSql();
+			$date = \JFactory::getDate()->toSql();
 
 			// Update the link rows.
 			$query = $db->getQuery(true)

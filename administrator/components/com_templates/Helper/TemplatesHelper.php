@@ -6,16 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Templates\Administrator\Helper;
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Installer\Installer;
 
 /**
  * Templates component helper.
@@ -34,12 +27,12 @@ class TemplatesHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_TEMPLATES_SUBMENU_STYLES'),
+			\JText::_('COM_TEMPLATES_SUBMENU_STYLES'),
 			'index.php?option=com_templates&view=styles',
 			$vName == 'styles'
 		);
 		\JHtmlSidebar::addEntry(
-			Text::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
+			\JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
 			'index.php?option=com_templates&view=templates',
 			$vName == 'templates'
 		);
@@ -54,8 +47,8 @@ class TemplatesHelper
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
-		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
+		$options[] = \JHtml::_('select.option', '0', \JText::_('JSITE'));
+		$options[] = \JHtml::_('select.option', '1', \JText::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -70,7 +63,7 @@ class TemplatesHelper
 	public static function getTemplateOptions($clientId = '*')
 	{
 		// Build the filter options.
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('element', 'value'))
@@ -106,11 +99,11 @@ class TemplatesHelper
 		$data = new \JObject;
 
 		// Check of the xml file exists
-		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{
-			$xml = Installer::parseXMLInstallFile($filePath);
+			$xml = \JInstaller::parseXMLInstallFile($filePath);
 
 			if ($xml['type'] != 'template')
 			{
@@ -141,7 +134,7 @@ class TemplatesHelper
 		$positions = array();
 
 		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+		$filePath = \JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
 		if (is_file($filePath))
 		{

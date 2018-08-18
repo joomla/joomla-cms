@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,8 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Modules Component Module Model
@@ -75,7 +72,7 @@ class ModulesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.position', $direction = 'asc')
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$layout = $app->input->get('layout', '', 'cmd');
 
@@ -232,7 +229,7 @@ class ModulesModel extends ListModel
 	 */
 	protected function translate(&$items)
 	{
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		foreach ($items as $item)
@@ -241,23 +238,23 @@ class ModulesModel extends ListModel
 			$source = $clientPath . "/modules/$extension";
 			$lang->load("$extension.sys", $clientPath, null, false, true)
 				|| $lang->load("$extension.sys", $source, null, false, true);
-			$item->name = Text::_($item->name);
+			$item->name = \JText::_($item->name);
 
 			if (is_null($item->pages))
 			{
-				$item->pages = Text::_('JNONE');
+				$item->pages = \JText::_('JNONE');
 			}
 			elseif ($item->pages < 0)
 			{
-				$item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
+				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
 			}
 			elseif ($item->pages > 0)
 			{
-				$item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
+				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
 			}
 			else
 			{
-				$item->pages = Text::_('JALL');
+				$item->pages = \JText::_('JALL');
 			}
 		}
 	}
@@ -318,7 +315,7 @@ class ModulesModel extends ListModel
 		$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
 
 		// Filter by current user access level.
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		// Get the current user for authorisation checks
 		if ($user->authorise('core.admin') !== true)
@@ -417,7 +414,7 @@ class ModulesModel extends ListModel
 		{
 			if ($language === 'current')
 			{
-				$query->where($db->quoteName('a.language') . ' IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$query->where($db->quoteName('a.language') . ' IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 			else
 			{

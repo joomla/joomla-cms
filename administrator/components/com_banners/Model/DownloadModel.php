@@ -6,14 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Factory;
 
 /**
  * Download model.
@@ -40,7 +38,7 @@ class DownloadModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		$this->setState('basename', $input->cookie->getString(ApplicationHelper::getHash($this->_context . '.basename'), '__SITE__'));
 		$this->setState('compressed', $input->cookie->getInt(ApplicationHelper::getHash($this->_context . '.compressed'), 1));

@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		var label = document.createElement('div');
 		label.setAttribute('class', 'text-xs-center');
 		label.setAttribute('id', 'password-' + i);
-
+		
 		fields[i].parentNode.insertAdjacentElement('afterEnd', label);
 		fields[i].parentNode.insertAdjacentElement('afterEnd', meter);
 

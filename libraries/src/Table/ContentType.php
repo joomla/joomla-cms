@@ -10,9 +10,6 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
-
 /**
  * Tags table
  *
@@ -23,11 +20,11 @@ class ContentType extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__content_types', 'type_id', $db);
 	}
@@ -85,7 +82,7 @@ class ContentType extends Table
 
 		if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0))
 		{
-			$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}

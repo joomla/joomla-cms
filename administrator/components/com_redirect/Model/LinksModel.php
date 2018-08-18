@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Redirect\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of redirect links.
@@ -233,7 +231,7 @@ class LinksModel extends ListModel
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
 					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
-					$db->quote(Factory::getDate()->toSql())
+					$db->quote(\JFactory::getDate()->toSql())
 				);
 		}
 

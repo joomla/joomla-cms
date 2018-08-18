@@ -8,13 +8,9 @@
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-
 ?>
 <?php
-	echo HTMLHelper::_('bootstrap.startAccordion', 'moduleOptions', array('active' => 'collapse0'));
+	echo JHtml::_('bootstrap.startAccordion', 'moduleOptions', array('active' => 'collapse0'));
 	$fieldSets = $this->form->getFieldsets('params');
 	$i = 0;
 
@@ -22,9 +18,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . $name . '_FIELDSET_LABEL';
 		$class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
-		echo HTMLHelper::_('bootstrap.addSlide', 'moduleOptions', Text::_($label), 'collapse' . ($i++), $class);
+		echo JHtml::_('bootstrap.addSlide', 'moduleOptions', JText::_($label), 'collapse' . ($i++), $class);
 			if (isset($fieldSet->description) && trim($fieldSet->description)) :
-				echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
+				echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
 			endif;
 			?>
 				<?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -37,6 +33,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 						</div>
 					</div>
 				<?php endforeach;
-		echo HTMLHelper::_('bootstrap.endSlide');
+		echo JHtml::_('bootstrap.endSlide');
 	endforeach;
-echo HTMLHelper::_('bootstrap.endAccordion');
+echo JHtml::_('bootstrap.endAccordion');

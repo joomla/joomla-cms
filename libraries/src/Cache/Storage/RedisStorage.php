@@ -11,7 +11,6 @@ namespace Joomla\CMS\Cache\Storage;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
 /**
@@ -69,7 +68,7 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$this->_persistent = $app->get('redis_persist', true);
 

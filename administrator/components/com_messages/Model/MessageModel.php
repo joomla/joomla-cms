@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -15,11 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Component\Messages\Administrator\Model\ConfigModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 /**
  * Private Message model.
@@ -50,9 +44,9 @@ class MessageModel extends AdminModel
 	{
 		parent::populateState();
 
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
-		$user  = Factory::getUser();
+		$user  = \JFactory::getUser();
 		$this->setState('user.id', $user->get('id'));
 
 		$messageId = (int) $input->getInt('message_id');
@@ -75,7 +69,7 @@ class MessageModel extends AdminModel
 	{
 		$pks   = (array) $pks;
 		$table = $this->getTable();
-		$user  = Factory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -89,11 +83,11 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{
-						Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -150,7 +144,7 @@ class MessageModel extends AdminModel
 						}
 
 						$this->item->set('user_id_to', $message->user_id_from);
-						$re = Text::_('COM_MESSAGES_RE');
+						$re = \JText::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
@@ -158,9 +152,9 @@ class MessageModel extends AdminModel
 						}
 					}
 				}
-				elseif ($this->item->user_id_to != Factory::getUser()->id)
+				elseif ($this->item->user_id_to != \JFactory::getUser()->id)
 				{
-					$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+					$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
 
 					return false;
 				}
@@ -177,7 +171,7 @@ class MessageModel extends AdminModel
 			}
 
 			// Get the user name for an existing messasge.
-			if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from))
+			if ($this->item->user_id_from && $fromUser = new \JUser($this->item->user_id_from))
 			{
 				$this->item->set('from_user_name', $fromUser->name);
 			}
@@ -219,7 +213,7 @@ class MessageModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_messages.edit.message.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_messages.edit.message.data', array());
 
 		if (empty($data))
 		{
@@ -243,7 +237,7 @@ class MessageModel extends AdminModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user  = Factory::getUser();
+		$user  = \JFactory::getUser();
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 
@@ -261,11 +255,11 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{
-						Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
+						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -300,12 +294,12 @@ class MessageModel extends AdminModel
 		// Assign empty values.
 		if (empty($table->user_id_from))
 		{
-			$table->user_id_from = Factory::getUser()->get('id');
+			$table->user_id_from = \JFactory::getUser()->get('id');
 		}
 
 		if ((int) $table->date_time == 0)
 		{
-			$table->date_time = Factory::getDate()->toSql();
+			$table->date_time = \JFactory::getDate()->toSql();
 		}
 
 		// Check the data.
@@ -330,7 +324,7 @@ class MessageModel extends AdminModel
 
 		if ($config->get('locked', false))
 		{
-			$this->setError(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
+			$this->setError(\JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
 			return false;
 		}
@@ -346,78 +340,56 @@ class MessageModel extends AdminModel
 		if ($config->get('mail_on_new', true))
 		{
 			// Load the user details (already valid from table check).
-			$fromUser         = User::getInstance($table->user_id_from);
-			$toUser           = User::getInstance($table->user_id_to);
-			$debug            = Factory::getConfig()->get('debug_lang');
+			$fromUser         = \JUser::getInstance($table->user_id_from);
+			$toUser           = \JUser::getInstance($table->user_id_to);
+			$debug            = \JFactory::getConfig()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
-			$sitename = Factory::getApplication()->get('sitename');
-			$siteURL  = Uri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
+			$sitename = \JFactory::getApplication()->get('sitename');
+			$siteURL  = \JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
 			$subject  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
 			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
-			$mailer = Factory::getMailer();
+			$mailer = \JFactory::getMailer();
 
-			try
-			{
-				if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
-				{
-					try
-					{
-						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
-					}
-					catch (\RuntimeException $exception)
-					{
-						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
-					}
-
-					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-					return true;
-				}
-
-				if (!$mailer->addRecipient($toUser->email, $toUser->name))
-				{
-					try
-					{
-						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
-					}
-					catch (\RuntimeException $exception)
-					{
-						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
-					}
-
-					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-					return true;
-				}
-
-				$mailer->setSubject($subject);
-				$mailer->setBody($msg);
-
-				$mailer->Send();
-			}
-			catch (\Exception $exception)
+			if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
 			{
 				try
 				{
-					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
-
-					return false;
+					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
 				}
 				catch (\RuntimeException $exception)
 				{
-					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
-
-					return false;
+					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
 				}
+
+				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+				return true;
 			}
+
+			if (!$mailer->addRecipient($toUser->email, $toUser->name))
+			{
+				try
+				{
+					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
+				}
+
+				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+				return true;
+			}
+
+			$mailer->setSubject($subject);
+			$mailer->setBody($msg);
+
+			$mailer->Send();
 		}
 
 		return true;

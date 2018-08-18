@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
-use Joomla\CMS\Factory;
 
 /**
  * Banner model for the Joomla Banners component.
@@ -78,7 +75,7 @@ class BannerModel extends BaseDatabaseModel
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = Factory::getDate()->format('Y-m-d H');
+			$trackDate = \JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear()
 				->select($db->quoteName('count'))
@@ -149,7 +146,7 @@ class BannerModel extends BaseDatabaseModel
 		if (!isset($this->_item))
 		{
 			/** @var \JCacheControllerCallback $cache */
-			$cache = Factory::getCache('com_banners', 'callback');
+			$cache = \JFactory::getCache('com_banners', 'callback');
 
 			$id = $this->getState('banner.id');
 
@@ -180,7 +177,7 @@ class BannerModel extends BaseDatabaseModel
 			{
 				$this->_item = $cache->get($loader, array($id), md5(__METHOD__ . $id));
 			}
-			catch (CacheExceptionInterface $e)
+			catch (\JCacheException $e)
 			{
 				$this->_item = $loader($id);
 			}

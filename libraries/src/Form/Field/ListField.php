@@ -18,8 +18,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -54,7 +54,7 @@ class ListField extends FormField
 		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".

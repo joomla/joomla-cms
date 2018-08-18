@@ -46,6 +46,9 @@ if (!$displayData->get('show_options', 1))
 	// The HTML buffer
 	$html   = array();
 
+	// Hide the whole buffer
+	$html[] = '<div style="display:none;">';
+
 	// Loop over the fieldsets
 	foreach ($fieldSets as $name => $fieldSet)
 	{
@@ -76,6 +79,9 @@ if (!$displayData->get('show_options', 1))
 			$ignoreFieldsets[] = $name;
 		}
 	}
+
+	// Close the container
+	$html[] = '</div>';
 
 	// Echo the hidden fieldsets
 	echo implode('', $html);
@@ -109,10 +115,8 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
-	$helper = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
-
 	// Start the tab
-	echo HTMLHelper::_($helper . '.addTab', $tabName, 'attrib-' . $name, $label);
+	echo HTMLHelper::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
 
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
@@ -130,5 +134,5 @@ foreach ($fieldSets as $name => $fieldSet)
 	echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
 
 	// End the tab
-	echo HTMLHelper::_($helper . '.endTab');
+	echo HTMLHelper::_('bootstrap.endTab');
 }

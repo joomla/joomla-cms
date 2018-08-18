@@ -82,13 +82,13 @@ if ($current->get('link') === '#')
 	$link = '#collapse' . $this->tree->getCounter();
 }
 
-if ($link !== null && $current->get('target') !== null && $current->get('target') !== '')
+if ($link !== null && $current->get('target') !== null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
 		. $iconClass
 		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
 }
-elseif ($link !== null)
+elseif ($link !== null && $current->get('target') === null)
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. $iconClass

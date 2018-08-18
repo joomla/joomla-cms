@@ -11,14 +11,13 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Console\SessionGcCommand;
+use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Console\SessionGcCommand;
-use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
-use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\ContainerLoader;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
@@ -117,8 +116,7 @@ class Application implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$mapping = [
-						'session:gc'          => SessionGcCommand::class,
-						'session:metadata:gc' => SessionMetadataGcCommand::class,
+						'session:gc' => SessionGcCommand::class,
 					];
 
 					return new ContainerLoader($container, $mapping);

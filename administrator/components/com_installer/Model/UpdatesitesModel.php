@@ -6,18 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Update Sites Model
@@ -93,9 +87,9 @@ class UpdatesitesModel extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
+		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
 
 		$result = true;
@@ -138,9 +132,9 @@ class UpdatesitesModel extends InstallerModel
 	 */
 	public function delete($ids = array())
 	{
-		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		// Ensure eid is an array of extension ids
@@ -150,7 +144,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		$db  = $this->getDbo();
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$count = 0;
 
@@ -171,7 +165,7 @@ class UpdatesitesModel extends InstallerModel
 			// Don't allow to delete Joomla Core update sites.
 			if (in_array((int) $id, $joomlaUpdateSitesIds))
 			{
-				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
 				continue;
 			}
 
@@ -200,13 +194,13 @@ class UpdatesitesModel extends InstallerModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
 			}
 		}
 
 		if ($count > 0)
 		{
-			$app->enqueueMessage(Text::plural('COM_INSTALLER_MSG_UPDATESITES_N_DELETE_UPDATESITES_DELETED', $count), 'message');
+			$app->enqueueMessage(\JText::plural('COM_INSTALLER_MSG_UPDATESITES_N_DELETE_UPDATESITES_DELETED', $count), 'message');
 		}
 	}
 
@@ -221,13 +215,13 @@ class UpdatesitesModel extends InstallerModel
 	 */
 	public function rebuild()
 	{
-		if (!Factory::getUser()->authorise('core.admin', 'com_installer'))
+		if (!\JFactory::getUser()->authorise('core.admin', 'com_installer'))
 		{
-			throw new \Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
+			throw new \Exception(\JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check if Joomla Extension plugin is enabled.
 		if (!PluginHelper::isEnabled('extension', 'joomla'))
@@ -242,8 +236,8 @@ class UpdatesitesModel extends InstallerModel
 
 			$pluginId = (int) $db->loadResult();
 
-			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
-			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'error');
+			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
+			$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'error');
 
 			return;
 		}
@@ -311,15 +305,15 @@ class UpdatesitesModel extends InstallerModel
 		// Search for updateservers in manifest files inside the folders to search.
 		foreach ($pathsToSearch as $extensionFolderPath)
 		{
-			$tmpInstaller = new Installer;
+			$tmpInstaller = new \JInstaller;
 
 			$tmpInstaller->setPath('source', $extensionFolderPath);
 
 			// Main folder manifests (higher priority)
-			$parentXmlfiles = Folder::files($tmpInstaller->getPath('source'), '.xml$', false, true);
+			$parentXmlfiles = \JFolder::files($tmpInstaller->getPath('source'), '.xml$', false, true);
 
 			// Search for children manifests (lower priority)
-			$allXmlFiles    = Folder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
+			$allXmlFiles    = \JFolder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
 
 			// Create an unique array of files ordered by priority
 			$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
@@ -366,11 +360,11 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($count > 0)
 		{
-			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_SUCCESS'), 'message');
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_SUCCESS'), 'message');
 		}
 		else
 		{
-			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
+			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
 		}
 	}
 

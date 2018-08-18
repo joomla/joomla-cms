@@ -12,11 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Observer\ContentHistory;
 use Joomla\CMS\Table\Observer\Tags;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -29,15 +26,15 @@ class Category extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) \JFactory::getConfig()->get('access');
 	}
 
 	/**
@@ -152,7 +149,7 @@ class Category extends Nested
 		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 
 			return false;
 		}
@@ -168,7 +165,7 @@ class Category extends Nested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		if (empty($this->modified_time))
@@ -226,8 +223,8 @@ class Category extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = Factory::getDate();
-		$user = Factory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		if ($this->id)
 		{
@@ -256,7 +253,7 @@ class Category extends Nested
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
 			return false;
 		}

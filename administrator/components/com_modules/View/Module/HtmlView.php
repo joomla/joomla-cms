@@ -6,16 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Modules\Administrator\View\Module;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
 
 /**
  * View to edit a module.
@@ -86,19 +82,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
+		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
+		\JToolbarHelper::title(\JText::sprintf('COM_MODULES_MANAGER_MODULE', \JText::_($this->item->module)), 'cube module');
 
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
 		{
-			ToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				[
 					['apply', 'module.apply'],
 					['save', 'module.save'],
@@ -107,7 +103,7 @@ class HtmlView extends BaseHtmlView
 				'btn-success'
 			);
 
-			ToolbarHelper::cancel('module.cancel');
+			\JToolbarHelper::cancel('module.cancel');
 		}
 		else
 		{
@@ -136,23 +132,23 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save2copy', 'module.save2copy'];
 			}
 
-			ToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			ToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		// Get the help information for the menu item.
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = Text::_($help->url);
+			$url = \JText::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -160,6 +156,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		ToolbarHelper::help($help->key, false, $url);
+		\JToolbarHelper::help($help->key, false, $url);
 	}
 }

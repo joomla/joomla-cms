@@ -11,12 +11,6 @@ namespace Joomla\CMS\Pagination;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Router\Route;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -120,7 +114,7 @@ class Pagination
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
-		$this->app = $app ?: Factory::getApplication();
+		$this->app = $app ?: \JFactory::getApplication();
 
 		if ($this->limit > $this->total)
 		{
@@ -271,7 +265,7 @@ class Pagination
 
 		if ($this->pagesTotal > 1)
 		{
-			$html .= Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
+			$html .= \JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
 		}
 
 		return $html;
@@ -302,12 +296,12 @@ class Pagination
 		// If there are results found.
 		if ($this->total > 0)
 		{
-			$msg = Text::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
+			$msg = \JText::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
 			$html .= "\n" . $msg;
 		}
 		else
 		{
-			$html .= "\n" . Text::_('JLIB_HTML_NO_RECORDS_FOUND');
+			$html .= "\n" . \JText::_('JLIB_HTML_NO_RECORDS_FOUND');
 		}
 
 		return $html;
@@ -342,9 +336,9 @@ class Pagination
 			 */
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
-				Log::add(
+				\JLog::add(
 					'pagination_item_active and pagination_item_inactive are deprecated. Use the layout joomla.pagination.link instead.',
-					Log::WARNING,
+					\JLog::WARNING,
 					'deprecated'
 				);
 
@@ -357,7 +351,7 @@ class Pagination
 			 */
 			if (function_exists('pagination_list_render'))
 			{
-				Log::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', Log::WARNING, 'deprecated');
+				\JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', \JLog::WARNING, 'deprecated');
 				$listOverride = true;
 			}
 		}
@@ -471,7 +465,7 @@ class Pagination
 			'pagesTotal'   => $this->pagesTotal,
 		);
 
-		return LayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
+		return \JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
 	}
 
 	/**
@@ -539,7 +533,7 @@ class Pagination
 
 			if (function_exists('pagination_list_footer'))
 			{
-				Log::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', Log::WARNING, 'deprecated');
+				\JLog::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', \JLog::WARNING, 'deprecated');
 
 				$list = array(
 					'prefix'       => $this->prefix,
@@ -572,19 +566,19 @@ class Pagination
 		// Make the option list.
 		for ($i = 5; $i <= 30; $i += 5)
 		{
-			$limits[] = HTMLHelper::_('select.option', "$i");
+			$limits[] = \JHtml::_('select.option', "$i");
 		}
 
-		$limits[] = HTMLHelper::_('select.option', '50', Text::_('J50'));
-		$limits[] = HTMLHelper::_('select.option', '100', Text::_('J100'));
-		$limits[] = HTMLHelper::_('select.option', '0', Text::_('JALL'));
+		$limits[] = \JHtml::_('select.option', '50', \JText::_('J50'));
+		$limits[] = \JHtml::_('select.option', '100', \JText::_('J100'));
+		$limits[] = \JHtml::_('select.option', '0', \JText::_('JALL'));
 
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
 		if ($this->app->isClient('administrator'))
 		{
-			$html = HTMLHelper::_(
+			$html = \JHtml::_(
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
@@ -596,7 +590,7 @@ class Pagination
 		}
 		else
 		{
-			$html = HTMLHelper::_(
+			$html = \JHtml::_(
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
@@ -628,7 +622,7 @@ class Pagination
 	{
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
 		{
-			return HTMLHelper::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
+			return \JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
@@ -655,7 +649,7 @@ class Pagination
 	{
 		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition)
 		{
-			return HTMLHelper::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
+			return \JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
@@ -676,7 +670,7 @@ class Pagination
 	{
 		$html = "<div class=\"list-footer\">\n";
 
-		$html .= "\n<div class=\"limit\">" . Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "</div>";
+		$html .= "\n<div class=\"limit\">" . \JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">" . $list['pagescounter'] . "</div>";
 
@@ -697,7 +691,7 @@ class Pagination
 	 */
 	protected function _list_render($list)
 	{
-		return LayoutHelper::render('joomla.pagination.list', array('list' => $list));
+		return \JLayoutHelper::render('joomla.pagination.list', array('list' => $list));
 	}
 
 	/**
@@ -708,10 +702,28 @@ class Pagination
 	 * @return  string  HTML link
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `\JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
 	 */
 	protected function _item_active(PaginationObject $item)
 	{
-		return LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true]);
+		$title = '';
+		$class = '';
+
+		if (!is_numeric($item->text))
+		{
+			$title = ' title="' . $item->text . '"';
+			$class = 'hasTooltip ';
+		}
+
+		if ($this->app->isClient('administrator'))
+		{
+			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
+			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
+		}
+		else
+		{
+			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'page-link">' . $item->text . '</a>';
+		}
 	}
 
 	/**
@@ -722,10 +734,18 @@ class Pagination
 	 * @return  string
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `\JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
 	 */
 	protected function _item_inactive(PaginationObject $item)
 	{
-		return LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false]);
+		if ($this->app->isClient('administrator'))
+		{
+			return '<span>' . $item->text . '</span>';
+		}
+		else
+		{
+			return '<span class="page-link">' . $item->text . '</span>';
+		}
 	}
 
 	/**
@@ -750,17 +770,17 @@ class Pagination
 			}
 		}
 
-		$data->all = new PaginationObject(Text::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
+		$data->all = new PaginationObject(\JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
 
 		if (!$this->viewall)
 		{
 			$data->all->base = '0';
-			$data->all->link = Route::_($params . '&' . $this->prefix . 'limitstart=');
+			$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
 		}
 
 		// Set the start and previous data objects.
-		$data->start    = new PaginationObject(Text::_('JLIB_HTML_START'), $this->prefix);
-		$data->previous = new PaginationObject(Text::_('JPREV'), $this->prefix);
+		$data->start    = new PaginationObject(\JText::_('JLIB_HTML_START'), $this->prefix);
+		$data->previous = new PaginationObject(\JText::_('JPREV'), $this->prefix);
 
 		if ($this->pagesCurrent > 1)
 		{
@@ -770,14 +790,14 @@ class Pagination
 			// @todo remove code: $page = $page == 0 ? '' : $page;
 
 			$data->start->base    = '0';
-			$data->start->link    = Route::_($params . '&' . $this->prefix . 'limitstart=0');
+			$data->start->link    = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;
-			$data->previous->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+			$data->previous->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
 		}
 
 		// Set the next and end data objects.
-		$data->next = new PaginationObject(Text::_('JNEXT'), $this->prefix);
-		$data->end  = new PaginationObject(Text::_('JLIB_HTML_END'), $this->prefix);
+		$data->next = new PaginationObject(\JText::_('JNEXT'), $this->prefix);
+		$data->end  = new PaginationObject(\JText::_('JLIB_HTML_END'), $this->prefix);
 
 		if ($this->pagesCurrent < $this->pagesTotal)
 		{
@@ -785,9 +805,9 @@ class Pagination
 			$end  = ($this->pagesTotal - 1) * $this->limit;
 
 			$data->next->base = $next;
-			$data->next->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $next);
+			$data->next->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $next);
 			$data->end->base  = $end;
-			$data->end->link  = Route::_($params . '&' . $this->prefix . 'limitstart=' . $end);
+			$data->end->link  = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $end);
 		}
 
 		$data->pages = array();
@@ -802,7 +822,7 @@ class Pagination
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
-				$data->pages[$i]->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				$data->pages[$i]->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}
 			else
 			{

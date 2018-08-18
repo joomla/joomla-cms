@@ -12,7 +12,6 @@ namespace Joomla\Component\Media\Administrator\Event;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\Input\Input;
 
 /**
  * Event object to retrieve OAuthCallbacks.
@@ -66,7 +65,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	/**
 	 * Get the event input.
 	 *
-	 * @return  Input
+	 * @return \JInput
 	 *
 	 * @since  4.0.0
 	 */
@@ -78,7 +77,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	/**
 	 * Set the event input.
 	 *
-	 * @param   Input  $input  Event input
+	 * @param   \JInput  $input  Event input
 	 *
 	 * @return void
 	 *

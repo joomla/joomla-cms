@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Tags\Administrator\View\Tag;
 
 defined('_JEXEC') or die;
@@ -15,8 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Tags component
@@ -82,7 +79,7 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -96,19 +93,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$user       = Factory::getUser();
+		$user       = \JFactory::getUser();
 		$userId     = $user->get('id');
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load('com_tags', JPATH_BASE, null, false, true)
 		|| $lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
 
 		// Get the results for each action.
 		$canDo = $this->canDo;
-		$title = Text::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
+		$title = \JText::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 
 		/**
 		 * Prepare the toolbar.

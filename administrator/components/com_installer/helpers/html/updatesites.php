@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 /**
  * Installer HTML class.
  *
@@ -54,6 +52,6 @@ abstract class InstallerHtmlUpdatesites
 			),
 		);
 
-		return HTMLHelper::_('jgrid.state', $states, $value, $i, 'updatesites.', $enabled, true, $checkbox);
+		return JHtml::_('jgrid.state', $states, $value, $i, 'updatesites.', $enabled, true, $checkbox);
 	}
 }

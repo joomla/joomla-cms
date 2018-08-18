@@ -2,30 +2,35 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-((Joomla) => {
-  'use strict';
 
-  if (window.parent.Joomla) {
-    throw new Error('core.js was not properly initialised');
-  }
+Joomla = window.Joomla || {};
 
-  if (!Joomla) {
-    window.Joomla = {};
-  }
+(function(Joomla) {
+	Joomla.fieldIns = function(id, editor) {
+		/** Use the API, if editor supports it **/
+		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
+			window.parent.Joomla.editors.instances[editor].replaceSelection("{field " + id + "}")
+		} else {
+			window.parent.jInsertEditorText("{field " + id + "}", editor);
+		}
 
-  Joomla.fieldIns = (id, editor) => {
-    window.parent.Joomla.editors.instances[editor].replaceSelection(`{field ${id}}`);
+		if (window.parent.Joomla.currentModal) {
+			// @TODO Remove jQuery, use Joomla-UI
+			parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+		}
+	};
 
-    if (window.parent.Joomla.Modal) {
-      window.parent.Joomla.Modal.getCurrent().close();
-    }
-  };
+	Joomla.fieldgroupIns = function(id, editor) {
+		/** Use the API, if editor supports it **/
+		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
+			window.parent.Joomla.editors.instances[editor].replaceSelection("{fieldgroup " + id + "}")
+		} else {
+			window.parent.jInsertEditorText("{fieldgroup " + id + "}", editor);
+		}
 
-  Joomla.fieldgroupIns = (id, editor) => {
-    window.parent.Joomla.editors.instances[editor].replaceSelection(`{fieldgroup ${id}}`);
-
-    if (window.parent.Joomla.Modal) {
-      window.parent.Joomla.Modal.getCurrent().close();
-    }
-  };
+		if (window.parent.Joomla.currentModal) {
+			// @TODO Remove jQuery, use Joomla-UI
+			parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+		}
+	};
 })(Joomla);

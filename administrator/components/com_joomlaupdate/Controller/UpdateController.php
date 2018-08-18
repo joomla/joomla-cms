@@ -6,19 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * The Joomla! update controller for the Update view
@@ -36,16 +28,16 @@ class UpdateController extends BaseController
 	 */
 	public function download()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
-		$user = Factory::getUser();
+		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		$user = \JFactory::getUser();
 
 		try
 		{
-			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
+			\JLog::add(\JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), \JLog::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -68,7 +60,7 @@ class UpdateController extends BaseController
 
 			try
 			{
-				Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
+				\JLog::add(\JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), \JLog::INFO, 'Update');
 			}
 			catch (\RuntimeException $exception)
 			{
@@ -79,7 +71,7 @@ class UpdateController extends BaseController
 		{
 			$this->app->setUserState('com_joomlaupdate.file', null);
 			$url = 'index.php?option=com_joomlaupdate';
-			$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
+			$message = \JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
 			$messageType = 'error';
 		}
 
@@ -95,15 +87,15 @@ class UpdateController extends BaseController
 	 */
 	public function install()
 	{
-		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken('get') or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
+			\JLog::add(\JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), \JLog::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -115,7 +107,7 @@ class UpdateController extends BaseController
 		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
-		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$file = \JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$model->createRestorationFile($file);
 
 		$this->display();
@@ -134,7 +126,7 @@ class UpdateController extends BaseController
 		 * Finalize with login page. Used for pre-token check versions
 		 * to allow updates without problems but with a maximum of security.
 		 */
-		if (!Session::checkToken('get'))
+		if (!\JSession::checkToken('get'))
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
@@ -143,11 +135,11 @@ class UpdateController extends BaseController
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
+			\JLog::add(\JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), \JLog::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -161,7 +153,7 @@ class UpdateController extends BaseController
 
 		$model->finaliseUpgrade();
 
-		$url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . Session::getFormToken() . '=1';
+		$url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . \JSession::getFormToken() . '=1';
 		$this->setRedirect($url);
 	}
 
@@ -178,7 +170,7 @@ class UpdateController extends BaseController
 		 * Cleanup with login page. Used for pre-token check versions to be able to update
 		 * from =< 3.2.7 to allow updates without problems but with a maximum of security.
 		 */
-		if (!Session::checkToken('get'))
+		if (!\JSession::checkToken('get'))
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
@@ -187,11 +179,11 @@ class UpdateController extends BaseController
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
-		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+		\JLog::addLogger($options, \JLog::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
+			\JLog::add(\JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), \JLog::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -210,7 +202,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
+			\JLog::add(\JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), \JLog::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -228,7 +220,7 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Purge updates
 		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
@@ -249,10 +241,10 @@ class UpdateController extends BaseController
 	public function upload()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
+		\JFactory::getUser()->authorise('core.admin') or jexit(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
 		$this->_applyCredentials();
 
@@ -269,7 +261,7 @@ class UpdateController extends BaseController
 			$this->setRedirect($url, $e->getMessage(), 'error');
 		}
 
-		$token = Session::getFormToken();
+		$token = \JSession::getFormToken();
 		$url = 'index.php?option=com_joomlaupdate&task=update.captive&' . $token . '=1';
 		$this->setRedirect($url);
 	}
@@ -284,22 +276,22 @@ class UpdateController extends BaseController
 	public function captive()
 	{
 		// Check for request forgeries
-		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken('get') or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Do I really have an update package?
-		$tempFile = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+		$tempFile = \JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
 		\JLoader::import('joomla.filesystem.file');
 
-		if (empty($tempFile) || !File::exists($tempFile))
+		if (empty($tempFile) || !\JFile::exists($tempFile))
 		{
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		$this->input->set('view', 'upload');
@@ -318,12 +310,12 @@ class UpdateController extends BaseController
 	public function confirm()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Get the model
@@ -336,7 +328,7 @@ class UpdateController extends BaseController
 		// Do I really have an update package?
 		if (!$model->captiveFileExists())
 		{
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Try to log in
@@ -352,7 +344,7 @@ class UpdateController extends BaseController
 		{
 			$model->removePackageFiles();
 
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Set the update source in the session
@@ -360,7 +352,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), Log::INFO, 'Update');
+			\JLog::add(\JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), \JLog::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -368,7 +360,7 @@ class UpdateController extends BaseController
 		}
 
 		// Redirect to the actual update page
-		$url = 'index.php?option=com_joomlaupdate&task=update.install&' . Session::getFormToken() . '=1';
+		$url = 'index.php?option=com_joomlaupdate&task=update.install&' . \JSession::getFormToken() . '=1';
 		$this->setRedirect($url);
 	}
 
@@ -385,7 +377,7 @@ class UpdateController extends BaseController
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = \JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'update');
@@ -422,7 +414,7 @@ class UpdateController extends BaseController
 	{
 		$this->app->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
-		if (!ClientHelper::hasCredentials('ftp'))
+		if (!\JClientHelper::hasCredentials('ftp'))
 		{
 			$user = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
 			$pass = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', null, 'raw');
@@ -430,9 +422,9 @@ class UpdateController extends BaseController
 			if ($user != '' && $pass != '')
 			{
 				// Add credentials to the session
-				if (!ClientHelper::setCredentials('ftp', $user, $pass))
+				if (!\JClientHelper::setCredentials('ftp', $user, $pass))
 				{
-					$this->app->enqueueMessage(Text::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
+					$this->app->enqueueMessage(\JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
 				}
 			}
 		}
@@ -448,12 +440,12 @@ class UpdateController extends BaseController
 	public function finaliseconfirm()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Did a non Super User try do this?
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+			throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Get the model
@@ -472,14 +464,14 @@ class UpdateController extends BaseController
 		// The login fails?
 		if (!$result)
 		{
-			$this->setMessage(Text::_('JGLOBAL_AUTH_INVALID_PASS'), 'warning');
+			$this->setMessage(\JText::_('JGLOBAL_AUTH_INVALID_PASS'), 'warning');
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
 			return false;
 		}
 
 		// Redirect back to the actual finalise page
-		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . Session::getFormToken() . '=1');
+		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . \JSession::getFormToken() . '=1');
 	}
 
 	/**
@@ -500,7 +492,7 @@ class UpdateController extends BaseController
 		$model = $this->getModel('default');
 		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
-		$this->app = Factory::getApplication();
+		$this->app = JFactory::getApplication();
 		$this->app->mimeType = 'application/json';
 		$this->app->charSet = 'utf-8';
 		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
@@ -508,7 +500,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			echo new JsonResponse($updateFileUrl);
+			echo new JResponseJson($updateFileUrl);
 		}
 		catch (Exception $e)
 		{

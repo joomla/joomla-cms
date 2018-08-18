@@ -40,11 +40,6 @@ $fields = $displayData->get('fields') ?: array(
 	'version_note',
 );
 
-if (isset($displayData->get('item')->id) && ($displayData->get('item')->id !== null))
-{
-	array_unshift($fields, 'transition');
-}
-
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 
 if (!$saveHistory)

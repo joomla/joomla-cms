@@ -10,60 +10,56 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.combobox');
+JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
+JHtml::_('behavior.combobox');
 
 HTMLHelper::_('script', 'com_config/modules-default.js', ['relative' => true, 'version' => 'auto']);
 
 $hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
 // If multi-language site, make language read-only
-if (Multilanguage::isEnabled())
+if (JLanguageMultilang::isEnabled())
 {
 	$this->form->setFieldAttribute('language', 'readonly', 'true');
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate"  data-cancel-task="config.cancel.modules">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate"  data-cancel-task="config.cancel.modules">
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
+			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
 						<span class="fa fa-check" aria-hidden="true"></span>
-						<?php echo Text::_('JAPPLY') ?>
+						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
 						<span class="fa fa-check" aria-hidden="true"></span>
-						<?php echo Text::_('JSAVE') ?>
+						<?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
 						<span class="fa fa-times" aria-hidden="true"></span>
-						<?php echo Text::_('JCANCEL') ?>
+						<?php echo JText::_('JCANCEL') ?>
 					</button>
 				</div>
 			</div>
 
 			<hr>
 
-			<legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
+			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
-				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
 				<span class="badge badge-secondary"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
-				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
 				<span class="badge badge-secondary"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr>
@@ -98,7 +94,7 @@ if (Multilanguage::isEnabled())
 
 					<hr>
 
-					<?php if (Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+					<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('published'); ?>
@@ -143,7 +139,7 @@ if (Multilanguage::isEnabled())
 						</div>
 					</div>
 
-					<?php if (Multilanguage::isEnabled()) : ?>
+					<?php if (\JLanguageMultilang::isEnabled()) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('language'); ?>
@@ -177,9 +173,9 @@ if (Multilanguage::isEnabled())
 				</div>
 
 				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
-				<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64'); ?>">
+				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>">
 				<input type="hidden" name="task" value="">
-				<?php echo HTMLHelper::_('form.token'); ?>
+				<?php echo JHtml::_('form.token'); ?>
 
 			</div>
 

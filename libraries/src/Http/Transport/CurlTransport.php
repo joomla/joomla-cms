@@ -10,7 +10,6 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
@@ -151,7 +150,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		}
 
 		// Proxy configuration
-		$config = Factory::getConfig();
+		$config = \JFactory::getConfig();
 
 		if ($config->get('proxy_enable'))
 		{

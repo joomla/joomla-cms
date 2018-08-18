@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $msgList = $displayData['msgList'];
@@ -27,8 +26,6 @@ $alert = [
 	'message'                     => 'success'
 ];
 
-// Alerts progressive enhancement
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 ?>
 <div id="system-message-container">
 	<div id="system-message">

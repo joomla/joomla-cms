@@ -63,6 +63,7 @@ if (!Joomla) {
         return false;
       }
 
+      const self = this;
       const pattern1 = new RegExp(webInstallerOptions.options.base_url);
       const pattern2 = new RegExp('^index.php');
 
@@ -102,7 +103,7 @@ if (!Joomla) {
         cache: true,
         jsonpCallback: 'jedapps_jsonpcallback',
         timeout: 20000,
-        success: (response) => {
+        success(response) {
           if (document.getElementById('web-loader')) {
             document.getElementById('web-loader').classList.add('hidden');
           }
@@ -112,18 +113,18 @@ if (!Joomla) {
 
           document.getElementById('com-apps-searchbox').addEventListener('keypress', (event) => {
             if (event.which === 13) {
-              this.initiateSearch();
+              self.initiateSearch();
             }
           });
 
           document.getElementById('search-extensions').addEventListener('click', () => {
-            this.initiateSearch();
+            self.initiateSearch();
           });
 
           document.getElementById('search-reset').addEventListener('click', () => {
             const searchBox = document.getElementById('com-apps-searchbox');
             searchBox.value = '';
-            this.initiateSearch();
+            self.initiateSearch();
           });
 
           const orderingSelect = document.getElementById('com-apps-ordering');
@@ -132,35 +133,35 @@ if (!Joomla) {
             orderingSelect.addEventListener('change', () => {
               const index = orderingSelect.selectedIndex;
               webInstallerOptions.ordering = orderingSelect.options[index].value;
-              this.installfromwebajaxsubmit();
+              self.installfromwebajaxsubmit();
             });
           }
 
           if (webInstallerOptions.options.installfrom_url !== '') {
-            WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
+            self.installfromweb(webInstallerOptions.options.installfrom_url);
           }
         },
-        fail: () => {
+        fail() {
           if (document.getElementById('web-loader')) {
             document.getElementById('web-loader').classList.add('hidden');
             document.getElementById('web-loader-error').classList.remove('hidden');
           }
         },
-        complete: () => {
+        complete() {
           const installAtField = document.getElementById('joomlaapsinstallatinput');
 
           if (installAtField) {
             installAtField.value = webInstallerOptions.options.installat_url;
           }
 
-          this.clickforlinks();
+          self.clickforlinks();
           WebInstaller.clicker();
 
           if (webInstallerOptions.view !== 'extension') {
             [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
               element.addEventListener('click', (event) => {
                 event.preventDefault();
-                this.processLinkClick(element.getAttribute('data-url'));
+                self.processLinkClick(element.getAttribute('data-url'));
               });
 
               element.setAttribute('href', '#');
@@ -173,7 +174,7 @@ if (!Joomla) {
 
             if (installExtensionButton) {
               installExtensionButton.addEventListener('click', () => {
-                WebInstaller.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+                self.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
               });
             }
 
@@ -207,7 +208,7 @@ if (!Joomla) {
             jQuery('#appsloading').trigger('ajaxStop');
           }
         },
-        error: (request) => {
+        error(request) {
           const errorContainer = document.getElementById('web-loader-error');
           const loaderContainer = document.getElementById('web-loader');
 
@@ -226,12 +227,14 @@ if (!Joomla) {
     }
 
     clickforlinks() {
+      const self = this;
+
       [].slice.call(document.querySelectorAll('a.transcode')).forEach((element) => {
         const ajaxurl = element.getAttribute('href');
 
         element.addEventListener('click', (event) => {
           event.preventDefault();
-          this.processLinkClick(ajaxurl);
+          self.processLinkClick(ajaxurl);
         });
 
         element.setAttribute('href', '#');
@@ -313,7 +316,7 @@ if (!Joomla) {
      * @returns {boolean}
      * @todo Migrate this function's alert to a CE dialog
      */
-    static installfromweb(installUrl, name = null) {
+    installfromweb(installUrl, name) {
       if (!installUrl) {
         alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 

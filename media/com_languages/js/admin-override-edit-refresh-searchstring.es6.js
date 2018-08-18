@@ -19,3 +19,4 @@ document.addEventListener('DOMContentLoaded', () => {
     Joomla.overrider.searchStrings(Joomla.overrider.states.more);
   }, false);
 });
+

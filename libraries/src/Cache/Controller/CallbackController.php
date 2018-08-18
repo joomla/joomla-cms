@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Factory;
 
 /**
  * Joomla! Cache callback type object
@@ -100,7 +99,7 @@ class CallbackController extends CacheController
 
 		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 		{
-			$document = Factory::getDocument();
+			$document = \JFactory::getDocument();
 
 			if (method_exists($document, 'getHeadData'))
 			{

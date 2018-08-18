@@ -6,14 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Associations\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('groupedlist');
 
@@ -54,7 +52,7 @@ class ItemtypeField extends \JFormFieldGroupedList
 				foreach ($extension->get('types') as $type)
 				{
 					$context = $extension->get('component') . '.' . $type->get('name');
-					$options[$extension->get('title')][] = HTMLHelper::_('select.option', $context, $type->get('title'));
+					$options[$extension->get('title')][] = \JHtml::_('select.option', $context, $type->get('title'));
 				}
 			}
 		}

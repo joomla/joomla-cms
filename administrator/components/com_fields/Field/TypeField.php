@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
@@ -14,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -64,7 +62,7 @@ class TypeField extends \JFormFieldList
 
 		foreach ($fieldTypes as $fieldType)
 		{
-			$options[] = HTMLHelper::_('select.option', $fieldType['type'], $fieldType['label']);
+			$options[] = \JHtml::_('select.option', $fieldType['type'], $fieldType['label']);
 		}
 
 		// Sorting the fields based on the text which is displayed
@@ -76,22 +74,18 @@ class TypeField extends \JFormFieldList
 			}
 		);
 
-		$js = <<<JS
-(function () {
-  window.typeHasChanged = function(element) {
-    Joomla.loadingLayer('show');
-    document.querySelector('input[name=task]').value = 'field.reload';
-    element.form.submit();
-  };
-
-  document.addEventListener('DOMContentLaoded', function() {
-    Joomla.loadingLayer('load');
-  });
-})();
-JS;
-
-		// @todo move the script to a file
-		Factory::getDocument()->addScriptDeclaration($js);
+		Factory::getDocument()->addScriptDeclaration("
+			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
+			});
+			function typeHasChanged(element){
+				Joomla.loadingLayer('show');
+				var cat = jQuery(element);
+				jQuery('input[name=task]').val('field.reload');
+				element.form.submit();
+			}
+		"
+		);
 
 		return $options;
 	}

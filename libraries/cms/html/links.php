@@ -9,10 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\FileLayout;
-
 /**
  * Utility class for icons.
  *
@@ -35,33 +31,33 @@ abstract class JHtmlLinks
 
 		if (count($groupsOfLinks) > 0)
 		{
-			$layout = new FileLayout('joomla.links.groupsopen');
+			$layout = new JLayoutFile('joomla.links.groupsopen');
 			$html[] = $layout->render('');
 
 			foreach ($groupsOfLinks as $title => $links)
 			{
 				if (isset($links[0]['separategroup']))
 				{
-					$layout = new FileLayout('joomla.links.groupseparator');
+					$layout = new JLayoutFile('joomla.links.groupseparator');
 					$html[] = $layout->render($title);
 				}
 
-				$layout = new FileLayout('joomla.links.groupopen');
+				$layout = new JLayoutFile('joomla.links.groupopen');
 				$htmlHeader = $layout->render($title);
 
-				$htmlLinks  = HTMLHelper::_('links.links', $links);
+				$htmlLinks  = JHtml::_('links.links', $links);
 
 				if ($htmlLinks != '')
 				{
 					$html[] = $htmlHeader;
 					$html[] = $htmlLinks;
 
-					$layout = new FileLayout('joomla.links.groupclose');
+					$layout = new JLayoutFile('joomla.links.groupclose');
 					$html[] = $layout->render('');
 				}
 			}
 
-			$layout = new FileLayout('joomla.links.groupsclose');
+			$layout = new JLayoutFile('joomla.links.groupsclose');
 			$html[] = $layout->render('');
 		}
 
@@ -83,7 +79,7 @@ abstract class JHtmlLinks
 
 		foreach ($links as $link)
 		{
-			$html[] = HTMLHelper::_('links.link', $link);
+			$html[] = JHtml::_('links.link', $link);
 		}
 
 		return implode($html);
@@ -112,7 +108,7 @@ abstract class JHtmlLinks
 			else
 			{
 				// Get the user object to verify permissions
-				$user = Factory::getUser();
+				$user = JFactory::getUser();
 
 				// Take each pair of permission, context values.
 				for ($i = 0, $n = count($link['access']); $i < $n; $i += 2)
@@ -125,8 +121,8 @@ abstract class JHtmlLinks
 			}
 		}
 
-		// Instantiate a new FileLayout instance and render the layout
-		$layout = new FileLayout('joomla.links.link');
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.links.link');
 
 		return $layout->render($link);
 	}

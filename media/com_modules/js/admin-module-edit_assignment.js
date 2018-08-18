@@ -1,37 +1,26 @@
 /**
-* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
-* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
-**/
-
-/**
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function () {
-  'use strict';
+Joomla = window.Joomla || {};
 
-  var onChange = function onChange(value) {
-    if (value === '-' || parseInt(value, 10) === 0) {
-      document.getElementById('menuselect-group').style.display = 'none';
-    } else {
-      document.getElementById('menuselect-group').style.display = 'block';
-    }
-  };
+(function(Joomla) {
+	"use strict";
 
-  var onBoot = function onBoot() {
-    var element = document.getElementById('jform_assignment');
+	Joomla.menuHide = function(value) {
+		if (value == 0 || value == '-') {
+			document.getElementById('menuselect-group').style.display = 'none';
+		} else {
+			document.getElementById('menuselect-group').style.display = 'block';
+		}
+	};
 
-    if (element) {
-      // Initialise the state
-      onChange(element.value);
+	document.addEventListener('DOMContentLoaded', function() {
+		Joomla.menuHide(document.getElementById('jform_assignment').value);
 
-      // Check for changes in the state
-      element.addEventListener('change', function (event) {
-        onChange(event.target.value);
-      });
-    }
+		document.getElementById('jform_assignment').addEventListener('change', function(event) {
+			Joomla.menuHide(event.target.value);
+		});
+	});
+})(Joomla);
 
-    document.removeEventListener('DOMContentLoaded', onBoot);
-  };
-  document.addEventListener('DOMContentLoaded', onBoot);
-})();

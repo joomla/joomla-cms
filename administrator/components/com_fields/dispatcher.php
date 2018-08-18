@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
-use Joomla\CMS\Factory;
 
 /**
  * Dispatcher class for com_content
@@ -39,7 +38,7 @@ class FieldsDispatcher extends Dispatcher
 	{
 		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-		$app       = Factory::getApplication();
+		$app       = JFactory::getApplication();
 		$context   = $app->getUserStateFromRequest(
 			'com_fields.groups.context',
 			'context',

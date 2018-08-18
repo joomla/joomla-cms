@@ -10,10 +10,6 @@ namespace Joomla\CMS\Authentication;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -23,7 +19,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  11.1
  */
-class Authentication extends CMSObject
+class Authentication extends \JObject
 {
 	use DispatcherAwareTrait;
 
@@ -87,7 +83,7 @@ class Authentication extends CMSObject
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = Factory::getContainer()->get('dispatcher');
+			$dispatcher = \JFactory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -96,7 +92,7 @@ class Authentication extends CMSObject
 
 		if (!$isLoaded)
 		{
-			Log::add(Text::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), Log::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), \JLog::WARNING, 'jerror');
 		}
 	}
 
@@ -159,7 +155,7 @@ class Authentication extends CMSObject
 			else
 			{
 				// Bail here if the plugin can't be created
-				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), Log::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), \JLog::WARNING, 'jerror');
 				continue;
 			}
 
@@ -211,7 +207,7 @@ class Authentication extends CMSObject
 		// Get plugins in case they haven't been imported already
 		PluginHelper::importPlugin('user');
 		PluginHelper::importPlugin('authentication');
-		$results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
+		$results = \JFactory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;
 	}

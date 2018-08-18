@@ -66,11 +66,11 @@ $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
-	$required ? 'required' : '',
+	$required ? 'required aria-required="true"' : '',
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	!empty($inputmode) ? $inputmode : '',
+	!empty($inputmode) ? 'inputmode="' . $inputmode . '"' : '',
 	!empty($pattern) ? 'pattern="' . $pattern . '"' : '',
 
 	// @TODO add a proper string here!!!

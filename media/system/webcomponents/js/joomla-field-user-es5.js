@@ -21,6 +21,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
     _createClass(JoomlaFieldUser, [{
       key: 'connectedCallback',
+
+
+      // attributeChangedCallback(attr, oldValue, newValue) {}
+
       value: function connectedCallback() {
         // Set up elements
         this.modal = this.querySelector(this.modalClass);

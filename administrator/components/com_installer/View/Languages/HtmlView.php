@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\View\Languages;
 
 defined('_JEXEC') or die;
@@ -15,7 +14,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
-use Joomla\CMS\Language\Text;
 
 /**
  * Extension Manager Language Install View
@@ -67,7 +65,7 @@ class HtmlView extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_installer');
-		ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
+		ToolbarHelper::title(\JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
 
 		if ($canDo->get('core.admin'))
 		{

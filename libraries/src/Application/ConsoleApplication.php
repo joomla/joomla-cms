@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
-use Joomla\CMS\Factory;
+use Joomla\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -20,7 +20,6 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Cli;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -74,7 +73,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
-		$container = $container ?: Factory::getContainer();
+		$container = $container ?: \JFactory::getContainer();
 		$this->setContainer($container);
 
 		if ($dispatcher)

@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Joomlaupdate\Administrator\View\Upload;
-
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+
+defined('_JEXEC') or die;
 
 /**
  * Joomla! Update's Update View
@@ -35,12 +32,12 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load com_installer's language
-		$language = Factory::getLanguage();
+		$language = \JFactory::getLanguage();
 		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
 		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 

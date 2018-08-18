@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
-$title = Text::_('COM_MEDIA_CREATE_NEW_FOLDER');
+$title = JText::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
 <button class="btn btn-sm btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
     <span class="icon-folder-close" title="<?php echo $title; ?>"></span> <?php echo $title; ?>

@@ -6,14 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
-use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
@@ -33,9 +29,9 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = Factory::getApplication();
-		$document       = Factory::getDocument();
-		$document->link = Route::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app            = \JFactory::getApplication();
+		$document       = \JFactory::getDocument();
+		$document->link = \JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -61,7 +57,7 @@ class FeedView extends BaseHtmlView
 
 				// URL link to tagged item
 				// Change to new routing once it is merged
-				$link = Route::_($item->link);
+				$link = \JRoute::_($item->link);
 
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
@@ -69,7 +65,7 @@ class FeedView extends BaseHtmlView
 				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 				// Load individual item creator class
-				$feeditem              = new FeedItem;
+				$feeditem              = new \JFeedItem;
 				$feeditem->title       = $title;
 				$feeditem->link        = $link;
 				$feeditem->description = $description;

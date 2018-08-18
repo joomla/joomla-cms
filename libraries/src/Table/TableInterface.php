@@ -57,9 +57,9 @@ interface TableInterface
 	public function delete($pk = null);
 
 	/**
-	 * Method to get the DatabaseDriver object.
+	 * Method to get the \JDatabaseDriver object.
 	 *
-	 * @return  DatabaseDriver  The internal database driver object.
+	 * @return  \JDatabaseDriver  The internal database driver object.
 	 *
 	 * @since   3.2
 	 */
@@ -122,15 +122,4 @@ interface TableInterface
 	 * @since  4.0
 	 */
 	public function getId();
-
-	/**
-	 * Check if the record has a property (applying a column alias if it exists)
-	 *
-	 * @param   string  $key  key to be checked
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function hasField($key);
 }

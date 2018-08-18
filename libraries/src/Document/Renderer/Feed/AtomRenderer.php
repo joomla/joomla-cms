@@ -11,9 +11,6 @@ namespace Joomla\CMS\Document\Renderer\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -52,27 +49,27 @@ class AtomRenderer extends DocumentRenderer
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Gets and sets timezone offset from site configuration
 		$tz  = new \DateTimeZone($app->get('offset'));
-		$now = Factory::getDate();
+		$now = \JFactory::getDate();
 		$now->setTimeZone($tz);
 
 		$data = $this->_doc;
 
 		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = Route::_('&format=feed&type=atom');
+		$syndicationURL = \JRoute::_('&format=feed&type=atom');
 
 		$title = $data->getTitle();
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = Text::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
@@ -149,7 +146,7 @@ class AtomRenderer extends DocumentRenderer
 				$data->items[$i]->date = $now->toUnix();
 			}
 
-			$itemDate = Factory::getDate($data->items[$i]->date);
+			$itemDate = \JFactory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";

@@ -3,47 +3,31 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @since      3.5.0
  */
-((document) => {
+
+(function (document) {
   'use strict';
 
   // Selectors used by this script
-  const statsDataTogglerId = 'js-pstats-data-details-toggler';
-  const statsDataDetailsId = 'js-pstats-data-details';
-  const resetId = 'js-pstats-reset-uid';
-  const uniqueIdFieldId = 'jform_params_unique_id';
+  var statsDataTogglerId = 'js-pstats-data-details-toggler';
+  var statsDataDetailsId = 'js-pstats-data-details';
+  var resetId = 'js-pstats-reset-uid';
+  var uniqueIdFieldId = 'jform_params_unique_id';
 
-  const onToggle = (event) => {
-    event.preventDefault();
-    const element = document.getElementById(statsDataDetailsId);
-
-    if (element) {
-      element.classList.toggle('d-none');
-    }
-  };
-
-  const onReset = (event) => {
-    event.preventDefault();
-    document.getElementById(uniqueIdFieldId).value = '';
-    Joomla.submitbutton('plugin.apply');
-  };
-
-  const onBoot = () => {
+  document.addEventListener('DOMContentLoaded', function () {
     // Toggle stats details
-    const toggler = document.getElementById(statsDataTogglerId);
-    if (toggler) {
-      toggler.addEventListener('click', onToggle);
-    }
-
+    document.getElementById(statsDataTogglerId).addEventListener('click', function (event) {
+      event.preventDefault();
+      var element = document.getElementById(statsDataDetailsId);
+      if (element) {
+        element.classList.toggle('d-none');
+      }
+    });
 
     // Reset the unique id
-    const reset = document.getElementById(resetId);
-    if (reset) {
-      reset.addEventListener('click', onReset);
-    }
-
-    // Cleanup
-    document.removeEventListener('DOMContentLoaded', onBoot);
-  };
-
-  document.addEventListener('DOMContentLoaded', onBoot);
+    document.getElementById(resetId).addEventListener('click', function (event) {
+      event.preventDefault();
+      document.getElementById(uniqueIdFieldId).value = '';
+      Joomla.submitbutton('plugin.apply');
+    });
+  });
 })(document, Joomla);

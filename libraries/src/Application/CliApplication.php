@@ -16,14 +16,13 @@ use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
-use Joomla\CMS\Factory;
+use Joomla\Input\Cli;
+use Joomla\Input\Input;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Cli;
-use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 
@@ -89,7 +88,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 			$this->close();
 		}
 
-		$container = $container ?: Factory::getContainer();
+		$container = $container ?: \JFactory::getContainer();
 		$this->setContainer($container);
 
 		$this->output   = $output ?: new Stdout;

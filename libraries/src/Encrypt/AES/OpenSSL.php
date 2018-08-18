@@ -103,8 +103,7 @@ class Openssl extends AbstractAES implements AesInterface
 		$cipherText = substr($cipherText, $iv_size);
 		$plainText  = openssl_decrypt($cipherText, $this->method, $key, $this->openSSLOptions, $iv);
 
-		// remove the zero padding
-		return rtrim($plainText, "\0");
+		return $plainText;
 	}
 
 	public function isSupported()

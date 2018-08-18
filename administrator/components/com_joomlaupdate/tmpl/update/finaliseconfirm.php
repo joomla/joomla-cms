@@ -9,40 +9,34 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Helper\AuthenticationHelper;
+JHtml::_('behavior.keepalive');
 
-HTMLHelper::_('behavior.keepalive');
-
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods();
 
 ?>
 
 <joomla-alert type="warning">
 	<h4 class="alert-heading">
-		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
 	</h4>
 	<p>
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', Factory::getConfig()->get('sitename')); ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', JFactory::getConfig()->get('sitename')); ?>
 	</p>
 </joomla-alert>
 
 <hr>
 
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
+<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="username" tabindex="1" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+					<input name="username" tabindex="1" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-append">
 						<span class="input-group-text">
 							<span class="fa fa-user" aria-hidden="true"></span>
 							<label for="mod-login-username" class="sr-only">
-								<?php echo Text::_('JGLOBAL_USERNAME'); ?>
+								<?php echo JText::_('JGLOBAL_USERNAME'); ?>
 							</label>
 						</span>
 					</span>
@@ -52,12 +46,12 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-addon">
-					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
+					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<span class="input-group-append">
 						<span class="input-group-text">
 							<span class="fa fa-lock" aria-hidden="true"></span>
 							<label for="mod-login-password" class="sr-only">
-								<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
+								<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 							</label>
 						</span>
 					</span>
@@ -68,12 +62,12 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<div class="control-group">
 				<div class="controls">
 					<div class="input-group">
-						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
+						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="input-group-append">
-							<span class="input-group-text hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="input-group-text hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 								<span class="fa fa-star" aria-hidden="true"></span>
 								<label for="mod-login-secretkey" class="sr-only">
-									<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
+									<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 								</label>
 							</span>
 						</span>
@@ -85,10 +79,10 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<div class="controls">
 				<div class="btn-group">
 					<a tabindex="4" class="btn btn-danger btn-sm" href="index.php?option=com_joomlaupdate">
-						<span class="icon-cancel icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+						<span class="icon-cancel icon-white" aria-hidden="true"></span> <?php echo JText::_('JCANCEL'); ?>
 					</a>
 					<button tabindex="5" class="btn btn-primary btn-lg">
-						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
+						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>
@@ -96,6 +90,6 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 		<input type="hidden" name="option" value="com_joomlaupdate">
 		<input type="hidden" name="task" value="update.finaliseconfirm">
-		<?php echo HTMLHelper::_('form.token'); ?>
+		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>

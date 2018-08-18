@@ -5,7 +5,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -15,9 +14,6 @@ jimport('joomla.updater.update');
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 
 /**
  * Languages Installer Model
@@ -125,7 +121,7 @@ class LanguagesModel extends ListModel
 
 		try
 		{
-			$response = HttpFactory::getHttp()->get($updateSite);
+			$response = \JHttpFactory::getHttp()->get($updateSite);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -134,7 +130,7 @@ class LanguagesModel extends ListModel
 
 		if ($response === null || $response->code !== 200)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
 
 			return;
 		}
@@ -239,7 +235,7 @@ class LanguagesModel extends ListModel
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$this->setState('extension_message', Factory::getApplication()->getUserState('com_installer.extension_message'));
+		$this->setState('extension_message', \JFactory::getApplication()->getUserState('com_installer.extension_message'));
 
 		parent::populateState($ordering, $direction);
 	}

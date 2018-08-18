@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
 defined('JPATH_PLATFORM') or die;

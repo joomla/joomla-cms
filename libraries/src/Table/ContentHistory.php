@@ -10,9 +10,6 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
-
 /**
  * Content History table.
  *
@@ -42,11 +39,11 @@ class ContentHistory extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__ucm_history', 'version_id', $db);
 		$this->ignoreChanges = array(
@@ -86,8 +83,8 @@ class ContentHistory extends Table
 		// Modify author and date only when not toggling Keep Forever
 		if ($this->get('keep_forever') === null)
 		{
-			$this->set('editor_user_id', Factory::getUser()->id);
-			$this->set('save_date', Factory::getDate()->toSql());
+			$this->set('editor_user_id', \JFactory::getUser()->id);
+			$this->set('save_date', \JFactory::getDate()->toSql());
 		}
 
 		return parent::store($updateNulls);

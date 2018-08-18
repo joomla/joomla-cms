@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 
 /**
  * Language controller class for the Joomla Installer.
@@ -40,7 +39,7 @@ class LanguageController extends JSONController
 
 		if ($session->isNew())
 		{
-			$this->sendJsonResponse(new \Exception(Text::_('INSTL_COOKIES_NOT_ENABLED'), 500));
+			$this->sendJsonResponse(new \Exception(\JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
 		}
 
 		/** @var SetupModel $model */
@@ -104,12 +103,12 @@ class LanguageController extends JSONController
 		if (!$model->setDefault($admin_lang, 'administrator'))
 		{
 			// Create an error response message.
-			$this->app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
+			$this->app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
 		}
 		else
 		{
 			// Create a response body.
-			$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_ADMIN_SET_DEFAULT', $admin_lang), 'message');
+			$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_ADMIN_SET_DEFAULT', $admin_lang), 'message');
 		}
 
 		// Check for request forgeries in the site language
@@ -125,12 +124,12 @@ class LanguageController extends JSONController
 		if (!$model->setDefault($frontend_lang, 'site'))
 		{
 			// Create an error response message.
-			$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_FRONTEND_COULDNT_SET_DEFAULT'), 'error');
+			$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_FRONTEND_COULDNT_SET_DEFAULT'), 'error');
 		}
 		else
 		{
 			// Create a response body.
-			$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang), 'message');
+			$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang), 'message');
 		}
 
 		// Check if user has activated the multilingual site
@@ -140,7 +139,7 @@ class LanguageController extends JSONController
 		{
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
-				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');
+				$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');
 			}
 
 			// Activate optional ISO code Plugin
@@ -148,12 +147,12 @@ class LanguageController extends JSONController
 
 			if ($activatePluginIsoCode && !$model->enablePlugin('plg_system_languagecode'))
 			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
 			}
 
 			if (!$model->addModuleLanguageSwitcher())
 			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE'), 'warning');
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE'), 'warning');
 			}
 
 			// Add menus
@@ -166,7 +165,7 @@ class LanguageController extends JSONController
 			{
 				if (!$model->addMenuGroup($siteLang))
 				{
-					$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name), 'warning');
+					$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name), 'warning');
 
 					continue;
 				}
@@ -175,7 +174,7 @@ class LanguageController extends JSONController
 				{
 					if (!$tableMenuItem = $model->addFeaturedMenuItem($siteLang))
 					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
 
 						continue;
 					}
@@ -185,7 +184,7 @@ class LanguageController extends JSONController
 
 				if (!$tableMenuItem = $model->addAllCategoriesMenuItem($siteLang))
 				{
-					$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+					$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
 
 					continue;
 				}
@@ -194,7 +193,7 @@ class LanguageController extends JSONController
 
 				if (!$model->addModuleMenu($siteLang))
 				{
-					$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang), 'warning');
+					$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang), 'warning');
 
 					continue;
 				}
@@ -203,7 +202,7 @@ class LanguageController extends JSONController
 				{
 					if (!$tableCategory = $model->addCategory($siteLang))
 					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang), 'warning');
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang), 'warning');
 
 						continue;
 					}
@@ -212,7 +211,7 @@ class LanguageController extends JSONController
 
 					if (!$tableMenuItem = $model->addBlogMenuItem($siteLang, $tableCategory->id))
 					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
 
 						continue;
 					}
@@ -221,7 +220,7 @@ class LanguageController extends JSONController
 
 					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
 					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang), 'warning');
+						$app->enqueueMessage(\JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang), 'warning');
 
 						continue;
 					}
@@ -232,17 +231,17 @@ class LanguageController extends JSONController
 
 			if (!$model->addAssociations($groupedAssociations))
 			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ADD_ASSOCIATIONS'), 'warning');
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ADD_ASSOCIATIONS'), 'warning');
 			}
 
 			if (!$model->disableModuleMainMenu())
 			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_UNPUBLISH_MOD_DEFAULTMENU'), 'warning');
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_UNPUBLISH_MOD_DEFAULTMENU'), 'warning');
 			}
 
 			if (!$model->enableModule('mod_multilangstatus'))
 			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_PUBLISH_MOD_MULTILANGSTATUS'), 'warning');
+				$app->enqueueMessage(\JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_PUBLISH_MOD_MULTILANGSTATUS'), 'warning');
 			}
 		}
 

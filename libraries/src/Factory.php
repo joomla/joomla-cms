@@ -21,12 +21,13 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Joomla Platform Factory class.
@@ -103,7 +104,7 @@ abstract class Factory
 	/**
 	 * Global database object
 	 *
-	 * @var    DatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  11.1
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
@@ -350,9 +351,9 @@ abstract class Factory
 	{
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('DatabaseDriver'))
+			if (self::getContainer()->exists('JDatabaseDriver'))
 			{
-				self::$database = self::getContainer()->get('DatabaseDriver');
+				self::$database = self::getContainer()->get('JDatabaseDriver');
 			}
 			else
 			{
@@ -562,9 +563,9 @@ abstract class Factory
 	/**
 	 * Create a database object
 	 *
-	 * @return  DatabaseDriver
+	 * @return  \JDatabaseDriver
 	 *
-	 * @see     DatabaseDriver
+	 * @see     \JDatabaseDriver
 	 * @since   11.1
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
@@ -592,7 +593,7 @@ abstract class Factory
 
 		try
 		{
-			$db = DatabaseDriver::getInstance($options);
+			$db = \JDatabaseDriver::getInstance($options);
 		}
 		catch (\RuntimeException $e)
 		{

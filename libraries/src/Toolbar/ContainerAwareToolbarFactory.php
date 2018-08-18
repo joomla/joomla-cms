@@ -10,10 +10,6 @@ namespace Joomla\CMS\Toolbar;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 
@@ -46,19 +42,19 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 		{
 			$dirs = $toolbar->getButtonPath();
 
-			$file = InputFilter::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
+			$file = \JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
 			jimport('joomla.filesystem.path');
 
-			if ($buttonFile = Path::find($dirs, $file))
+			if ($buttonFile = \JPath::find($dirs, $file))
 			{
 				include_once $buttonFile;
 			}
 			else
 			{
-				Log::add(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), Log::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), \JLog::WARNING, 'jerror');
 
-				throw new \InvalidArgumentException(Text::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
+				throw new \InvalidArgumentException(\JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
 			}
 		}
 

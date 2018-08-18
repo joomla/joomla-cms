@@ -10,8 +10,6 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Registry\Registry;
 
 /**
@@ -19,7 +17,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class CategoryNode extends CMSObject
+class CategoryNode extends \JObject
 {
 	/**
 	 * Primary key
@@ -594,10 +592,10 @@ class CategoryNode extends CMSObject
 	{
 		if ($modified_user)
 		{
-			return Factory::getUser($this->modified_user_id);
+			return \JFactory::getUser($this->modified_user_id);
 		}
 
-		return Factory::getUser($this->created_user_id);
+		return \JFactory::getUser($this->created_user_id);
 	}
 
 	/**

@@ -9,11 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Layout\LayoutHelper;
-
 /**
  * Utility class for Bootstrap elements.
  *
@@ -45,9 +40,9 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.alert', array($selector => ''));
+		JFactory::getDocument()->addScriptOptions('bootstrap.alert', array($selector => ''));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -70,9 +65,9 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.button', array($selector));
+		JFactory::getDocument()->addScriptOptions('bootstrap.button', array($selector));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -101,13 +96,13 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
 		// Setup options object
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
 		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
-		Factory::getDocument()->addScriptOptions('bootstrap.carousel', array($selector => $opt));
+		JFactory::getDocument()->addScriptOptions('bootstrap.carousel', array($selector => $opt));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -130,9 +125,9 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', array($selector));
+		JFactory::getDocument()->addScriptOptions('bootstrap.dropdown', array($selector));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -159,10 +154,10 @@ abstract class JHtmlBootstrap
 		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
 
 		// Load the needed scripts
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'vendor/bootstrap/bootstrap.bundle.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
-		HTMLHelper::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('behavior.core');
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'vendor/bootstrap/bootstrap.bundle.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -198,7 +193,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
 		$layoutData = array(
 			'selector' => $selector,
@@ -208,7 +203,7 @@ abstract class JHtmlBootstrap
 
 		static::$loaded[__METHOD__][$selector] = true;
 
-		return LayoutHelper::render('joomla.modal.main', $layoutData);
+		return JLayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
@@ -248,7 +243,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
 		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
 		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
@@ -266,7 +261,7 @@ abstract class JHtmlBootstrap
 
 		$opt     = (object) array_filter((array) $opt);
 
-		Factory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
+		JFactory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -292,9 +287,9 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', array($selector => $params));
+		JFactory::getDocument()->addScriptOptions('bootstrap.scrollspy', array($selector => $params));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -337,7 +332,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
 		// Setup options object
 		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
@@ -359,7 +354,7 @@ abstract class JHtmlBootstrap
 
 		$opt     = (object) array_filter((array) $opt);
 
-		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
+		JFactory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
@@ -396,7 +391,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		JHtml::_('bootstrap.framework');
 
 		// Setup options object
 		$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : '';
@@ -406,7 +401,7 @@ abstract class JHtmlBootstrap
 		$opt['onHide'] = isset($params['onHide']) ? (string) $params['onHide'] : null;
 		$opt['onHidden'] = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
-		Factory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
+		JFactory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
 
 		static::$loaded[__METHOD__][$selector] = true;
 
@@ -484,19 +479,19 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			HTMLHelper::_('bootstrap.framework');
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			Factory::getDocument()->addScriptOptions('bootstrap.tabs', array($selector => $opt));
+			JFactory::getDocument()->addScriptOptions('bootstrap.tabs', array($selector => $opt));
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
-		return LayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+		return JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
 	}
 
 	/**
@@ -508,7 +503,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTabSet()
 	{
-		return LayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
+		return JLayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
 	}
 
 	/**
@@ -527,13 +522,13 @@ abstract class JHtmlBootstrap
 		static $tabScriptLayout = null;
 		static $tabLayout = null;
 
-		$tabScriptLayout = $tabScriptLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
-		$tabLayout = $tabLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+		$tabScriptLayout = $tabScriptLayout === null ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabLayout = $tabLayout === null ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
 		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		// Inject tab into UL
-		Factory::getDocument()
+		JFactory::getDocument()
 			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector, 'id' => $id, 'active' => $active, 'title' => $title)));
 
 		return $tabLayout->render(array('id' => $id, 'active' => $active, 'title' => $title));
@@ -548,7 +543,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTab()
 	{
-		return LayoutHelper::render('libraries.cms.html.bootstrap.endtab');
+		return JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
 	}
 
 	/**
@@ -556,7 +551,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
 	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
-	 * @param   array    $attribs         Optional array of attributes to be passed to HTMLHelper::_('stylesheet')
+	 * @param   array    $attribs         Optional array of attributes to be passed to JHtml::_('stylesheet')
 	 *
 	 * @return  void
 	 *
@@ -567,7 +562,7 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			HTMLHelper::_('stylesheet', 'vendor/bootstrap/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			JHtml::_('stylesheet', 'vendor/bootstrap/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
 		}
 
 		/**
@@ -575,7 +570,7 @@ abstract class JHtmlBootstrap
 		 * Load Bootstrap RTL CSS
 		 * if ($direction === 'rtl')
 		 * {
-		 *  HTMLHelper::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
+		 *  JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
 		 * }
 		 */
 

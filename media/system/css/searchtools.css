@@ -22,18 +22,11 @@
 /* Fixed filter fields (selector) */
 .js-stools .js-stools-container-selector {
 	float: left;
-	margin-right: auto;
-}
-.js-stools .js-stools-container-selector-first {
 	margin-right: 8px;
 }
 html[dir=rtl] .js-stools .js-stools-container-selector {
 	float: right;
-	margin-left: auto;
-	margin-right: 0;
-}
-html[dir=rtl] .js-stools .js-stools-container-selector-first {
-	margin-left: 8px;
+	margin-left: 10px;
 	margin-right: 0;
 }
 .js-stools .js-stools-container-bar {

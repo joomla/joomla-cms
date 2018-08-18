@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * Greek language support class for the Finder indexer package.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderIndexerLanguageel extends FinderIndexerLanguage
 {
@@ -24,7 +24,7 @@ class FinderIndexerLanguageel extends FinderIndexerLanguage
 	 * Language locale of the class
 	 * 
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $language = 'el';
 
@@ -38,7 +38,7 @@ class FinderIndexerLanguageel extends FinderIndexerLanguage
 	 *
 	 * @return  array  An array of term strings.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function tokenise($input)
 	{
@@ -79,7 +79,7 @@ class FinderIndexerLanguageel extends FinderIndexerLanguage
 	 *
 	 * @return  string  The stemmed token.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function stem($token)
 	{
@@ -836,7 +836,7 @@ class FinderIndexerLanguageel extends FinderIndexerLanguage
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function toUpperCase($token, &$w_CASE)
 	{
@@ -927,7 +927,7 @@ class FinderIndexerLanguageel extends FinderIndexerLanguage
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function toLowerCase($token, $w_CASE)
 	{

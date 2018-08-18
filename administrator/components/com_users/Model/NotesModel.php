@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -122,10 +121,10 @@ class NotesModel extends ListModel
 			$query->where('(a.state IN (0, 1))');
 		}
 
-		// Filter by a single category.
-		$categoryId = (int) $this->getState('filter.category_id');
+		// Filter by a single or group of categories.
+		$categoryId = $this->getState('filter.category_id');
 
-		if ($categoryId)
+		if ($categoryId && is_scalar($categoryId))
 		{
 			$query->where('a.catid = ' . $categoryId);
 		}

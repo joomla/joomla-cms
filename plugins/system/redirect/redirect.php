@@ -38,7 +38,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 	 * Database object.
 	 *
 	 * @var    DatabaseInterface
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
@@ -47,7 +47,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getSubscribedEvents(): array
 	{

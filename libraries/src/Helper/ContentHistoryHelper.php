@@ -8,12 +8,10 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Table\Table;
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Versions helper class, provides methods to perform various tasks relevant
@@ -58,7 +56,7 @@ class ContentHistoryHelper extends CMSHelper
 		$id = $table->$key;
 		$typeTable = Table::getInstance('Contenttype', 'JTable');
 		$typeId = $typeTable->getTypeId($this->typeAlias);
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__ucm_history'))
 			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $id)
@@ -80,7 +78,7 @@ class ContentHistoryHelper extends CMSHelper
 	 */
 	public function getHistory($typeId, $id)
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
 			->from($db->quoteName('#__ucm_history') . ' AS h ')
@@ -120,13 +118,13 @@ class ContentHistoryHelper extends CMSHelper
 		}
 
 		$historyTable->set('version_data', json_encode($dataObject));
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$data = $input->get('jform', array(), 'array');
 		$versionName = false;
 
 		if (isset($data['version_note']))
 		{
-			$versionName = InputFilter::getInstance()->clean($data['version_note'], 'string');
+			$versionName = \JFilterInput::getInstance()->clean($data['version_note'], 'string');
 			$historyTable->set('version_note', $versionName);
 		}
 

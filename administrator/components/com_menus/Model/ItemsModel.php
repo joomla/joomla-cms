@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -15,9 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Menu Item List Model for Menus.
@@ -84,7 +80,7 @@ class ItemsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -244,7 +240,7 @@ class ItemsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select all fields from the table.
 		$query->select(
@@ -535,14 +531,14 @@ class ItemsModel extends ListModel
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
+				\JLog::add(\JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), \JLog::ERROR, 'jerror');
 
 				return false;
 			}
 			// Check if menu type is valid against ACL.
-			elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			elseif (!\JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
+				\JLog::add(\JText::_('JERROR_ALERTNOAUTHOR'), \JLog::ERROR, 'jerror');
 
 				return false;
 			}
@@ -565,7 +561,7 @@ class ItemsModel extends ListModel
 		if (!isset($this->cache[$store]))
 		{
 			$items = parent::getItems();
-			$lang  = Factory::getLanguage();
+			$lang  = \JFactory::getLanguage();
 
 			if ($items)
 			{
@@ -578,7 +574,7 @@ class ItemsModel extends ListModel
 					}
 
 					// Translate component name
-					$item->title = Text::_($item->title);
+					$item->title = \JText::_($item->title);
 				}
 			}
 

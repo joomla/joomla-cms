@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -18,8 +17,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Languages Component Language Model
@@ -79,7 +76,7 @@ class LanguageModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app    = Factory::getApplication();
+		$app    = \JFactory::getApplication();
 		$params = ComponentHelper::getParams('com_languages');
 
 		// Load the User state.
@@ -120,7 +117,7 @@ class LanguageModel extends AdminModel
 		// Set a valid accesslevel in case '0' is stored due to a bug in the installation SQL (was fixed with PR 2714).
 		if ($table->access == '0')
 		{
-			$table->access = (int) Factory::getConfig()->get('access');
+			$table->access = (int) \JFactory::getConfig()->get('access');
 		}
 
 		$properties = $table->getProperties(1);
@@ -162,7 +159,7 @@ class LanguageModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_languages.edit.language.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_languages.edit.language.data', array());
 
 		if (empty($data))
 		{
@@ -208,7 +205,7 @@ class LanguageModel extends AdminModel
 		// Prevent saving an incorrect language tag
 		if (!preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code']))
 		{
-			$this->setError(Text::_('COM_LANGUAGES_ERROR_LANG_TAG'));
+			$this->setError(\JText::_('COM_LANGUAGES_ERROR_LANG_TAG'));
 
 			return false;
 		}
@@ -233,7 +230,7 @@ class LanguageModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		// Check the event responses.
 		if (in_array(false, $result, true))
@@ -252,7 +249,7 @@ class LanguageModel extends AdminModel
 		}
 
 		// Trigger the after save event.
-		Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		$this->setState('language.id', $table->lang_id);
 

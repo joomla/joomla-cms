@@ -10,10 +10,6 @@ namespace Joomla\CMS\Date;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
-
 /**
  * JDate is a class that stores a date and provides logic to manipulate
  * and render that date in a variety of formats.
@@ -239,19 +235,19 @@ class Date extends \DateTime
 		switch ($day)
 		{
 			case 0:
-				return $abbr ? Text::_('SUN') : Text::_('SUNDAY');
+				return $abbr ? \JText::_('SUN') : \JText::_('SUNDAY');
 			case 1:
-				return $abbr ? Text::_('MON') : Text::_('MONDAY');
+				return $abbr ? \JText::_('MON') : \JText::_('MONDAY');
 			case 2:
-				return $abbr ? Text::_('TUE') : Text::_('TUESDAY');
+				return $abbr ? \JText::_('TUE') : \JText::_('TUESDAY');
 			case 3:
-				return $abbr ? Text::_('WED') : Text::_('WEDNESDAY');
+				return $abbr ? \JText::_('WED') : \JText::_('WEDNESDAY');
 			case 4:
-				return $abbr ? Text::_('THU') : Text::_('THURSDAY');
+				return $abbr ? \JText::_('THU') : \JText::_('THURSDAY');
 			case 5:
-				return $abbr ? Text::_('FRI') : Text::_('FRIDAY');
+				return $abbr ? \JText::_('FRI') : \JText::_('FRIDAY');
 			case 6:
-				return $abbr ? Text::_('SAT') : Text::_('SATURDAY');
+				return $abbr ? \JText::_('SAT') : \JText::_('SATURDAY');
 		}
 	}
 
@@ -363,29 +359,29 @@ class Date extends \DateTime
 		switch ($month)
 		{
 			case 1:
-				return $abbr ? Text::_('JANUARY_SHORT') : Text::_('JANUARY');
+				return $abbr ? \JText::_('JANUARY_SHORT') : \JText::_('JANUARY');
 			case 2:
-				return $abbr ? Text::_('FEBRUARY_SHORT') : Text::_('FEBRUARY');
+				return $abbr ? \JText::_('FEBRUARY_SHORT') : \JText::_('FEBRUARY');
 			case 3:
-				return $abbr ? Text::_('MARCH_SHORT') : Text::_('MARCH');
+				return $abbr ? \JText::_('MARCH_SHORT') : \JText::_('MARCH');
 			case 4:
-				return $abbr ? Text::_('APRIL_SHORT') : Text::_('APRIL');
+				return $abbr ? \JText::_('APRIL_SHORT') : \JText::_('APRIL');
 			case 5:
-				return $abbr ? Text::_('MAY_SHORT') : Text::_('MAY');
+				return $abbr ? \JText::_('MAY_SHORT') : \JText::_('MAY');
 			case 6:
-				return $abbr ? Text::_('JUNE_SHORT') : Text::_('JUNE');
+				return $abbr ? \JText::_('JUNE_SHORT') : \JText::_('JUNE');
 			case 7:
-				return $abbr ? Text::_('JULY_SHORT') : Text::_('JULY');
+				return $abbr ? \JText::_('JULY_SHORT') : \JText::_('JULY');
 			case 8:
-				return $abbr ? Text::_('AUGUST_SHORT') : Text::_('AUGUST');
+				return $abbr ? \JText::_('AUGUST_SHORT') : \JText::_('AUGUST');
 			case 9:
-				return $abbr ? Text::_('SEPTEMBER_SHORT') : Text::_('SEPTEMBER');
+				return $abbr ? \JText::_('SEPTEMBER_SHORT') : \JText::_('SEPTEMBER');
 			case 10:
-				return $abbr ? Text::_('OCTOBER_SHORT') : Text::_('OCTOBER');
+				return $abbr ? \JText::_('OCTOBER_SHORT') : \JText::_('OCTOBER');
 			case 11:
-				return $abbr ? Text::_('NOVEMBER_SHORT') : Text::_('NOVEMBER');
+				return $abbr ? \JText::_('NOVEMBER_SHORT') : \JText::_('NOVEMBER');
 			case 12:
-				return $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER');
+				return $abbr ? \JText::_('DECEMBER_SHORT') : \JText::_('DECEMBER');
 		}
 	}
 
@@ -425,19 +421,19 @@ class Date extends \DateTime
 	/**
 	 * Gets the date as an SQL datetime string.
 	 *
-	 * @param   boolean         $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
+	 * @param   boolean           $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   \JDatabaseDriver  $db     The database driver or null to use \JFactory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
-	public function toSql($local = false, DatabaseDriver $db = null)
+	public function toSql($local = false, \JDatabaseDriver $db = null)
 	{
 		if ($db === null)
 		{
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 		}
 
 		return $this->format($db->getDateFormat(), $local, false);

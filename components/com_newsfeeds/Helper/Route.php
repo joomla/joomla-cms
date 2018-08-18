@@ -6,13 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Newsfeeds\Site\Helper;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Categories\CategoryNode;
+
+defined('_JEXEC') or die;
 
 /**
  * Newsfeeds Component Route Helper
@@ -58,7 +56,7 @@ abstract class Route
 	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
-		if ($catid instanceof CategoryNode)
+		if ($catid instanceof \JCategoryNode)
 		{
 			$id = $catid->id;
 		}

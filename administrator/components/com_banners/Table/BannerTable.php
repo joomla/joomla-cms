@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\Table;
 
 defined('_JEXEC') or die;
@@ -16,9 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Banner table
@@ -30,17 +26,17 @@ class BannerTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database connector object
+	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_banners.banner';
 
 		parent::__construct('#__banners', 'id', $db);
 
-		$this->created = Factory::getDate()->toSql();
+		$this->created = \JFactory::getDate()->toSql();
 		$this->setColumnAlias('published', 'state');
 	}
 
@@ -93,13 +89,13 @@ class BannerTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			$this->setError(\JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
 			return false;
 		}
@@ -152,14 +148,14 @@ class BannerTable extends Table
 
 			if ((int) $registry->get('width', 0) < 0)
 			{
-				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
+				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', \JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 
 				return false;
 			}
 
 			if ((int) $registry->get('height', 0) < 0)
 			{
-				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', Text::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
+				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', \JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 
 				return false;
 			}
@@ -215,19 +211,19 @@ class BannerTable extends Table
 					$this->reset = $this->_db->getNullDate();
 					break;
 				case 2:
-					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+1 year ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 3:
-					$date = Factory::getDate('+1 month ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+1 month ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 4:
-					$date = Factory::getDate('+7 day ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+7 day ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 				case 5:
-					$date = Factory::getDate('+1 day ' . date('Y-m-d'));
+					$date = \JFactory::getDate('+1 day ' . date('Y-m-d'));
 					$this->reset = $date->toSql();
 					break;
 			}
@@ -252,7 +248,7 @@ class BannerTable extends Table
 
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 			{
-				$this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+				$this->setError(\JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
 				return false;
 			}
@@ -303,7 +299,7 @@ class BannerTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}

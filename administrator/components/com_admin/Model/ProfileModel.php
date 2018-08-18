@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -15,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Users\Administrator\Model\UserModel;
-use Joomla\CMS\Factory;
 
 /**
  * User model.
@@ -70,7 +68,7 @@ class ProfileModel extends UserModel
 		}
 
 		// If the user needs to change their password, mark the password fields as required
-		if (Factory::getUser()->requireReset)
+		if (\JFactory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -89,7 +87,7 @@ class ProfileModel extends UserModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_users.edit.user.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_users.edit.user.data', array());
 
 		if (empty($data))
 		{
@@ -115,7 +113,7 @@ class ProfileModel extends UserModel
 	 */
 	public function getItem($pk = null)
 	{
-		return parent::getItem(Factory::getUser()->id);
+		return parent::getItem(\JFactory::getUser()->id);
 	}
 
 	/**
@@ -129,7 +127,7 @@ class ProfileModel extends UserModel
 	 */
 	public function save($data)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		unset($data['id']);
 		unset($data['groups']);

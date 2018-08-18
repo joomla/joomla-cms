@@ -10,12 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
 
@@ -41,7 +35,7 @@ abstract class JHtmlContact
 		$html = '';
 
 		// Get the associations
-		if ($associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $contactid))
+		if ($associations = JLanguageAssociations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $contactid))
 		{
 			foreach ($associations as $tag => $associated)
 			{
@@ -49,7 +43,7 @@ abstract class JHtmlContact
 			}
 
 			// Get the associated contact items
-			$db = Factory::getDbo();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.name as title')
 				->select('l.sef as lang_sef, lang_code')
@@ -77,8 +71,8 @@ abstract class JHtmlContact
 				foreach ($items as &$item)
 				{
 					$text = strtoupper($item->lang_sef);
-					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$url = JRoute::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 					$classes = 'hasPopover badge badge-secondary';
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
@@ -87,9 +81,9 @@ abstract class JHtmlContact
 				}
 			}
 
-			HTMLHelper::_('bootstrap.popover');
+			JHtml::_('bootstrap.popover');
 
-			$html = LayoutHelper::render('joomla.content.associations', $items);
+			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;
@@ -119,14 +113,14 @@ abstract class JHtmlContact
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3])
 				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
 			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '')
-				. '" title="' . HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+				. '" title="' . JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;

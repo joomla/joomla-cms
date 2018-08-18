@@ -6,16 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Plugins\Administrator\View\Plugin;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
 
 /**
  * View to edit a plugin.
@@ -77,16 +73,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'power-cord plugin');
+		\JToolbarHelper::title(\JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', \JText::_($this->item->name)), 'power-cord plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			ToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				[
 					['apply', 'plugin.apply'],
 					['save', 'plugin.save']
@@ -95,18 +91,18 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 
-		ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-		ToolbarHelper::divider();
+		\JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
+		\JToolbarHelper::divider();
 
 		// Get the help information for the plugin item.
-		$lang = Factory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = Text::_($help->url);
+			$url = \JText::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -114,6 +110,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		ToolbarHelper::help($help->key, false, $url);
+		\JToolbarHelper::help($help->key, false, $url);
 	}
 }

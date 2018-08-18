@@ -6,15 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Cache\Administrator\View\Purge;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Cache component
@@ -47,16 +43,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_('COM_CACHE_PURGE_EXPIRED_CACHE'), 'lightning purge');
-		ToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
-		ToolbarHelper::divider();
+		\JToolbarHelper::title(\JText::_('COM_CACHE_PURGE_EXPIRED_CACHE'), 'lightning purge');
+		\JToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
+		\JToolbarHelper::divider();
 
-		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
+		if (\JFactory::getUser()->authorise('core.admin', 'com_cache'))
 		{
-			ToolbarHelper::preferences('com_cache');
-			ToolbarHelper::divider();
+			\JToolbarHelper::preferences('com_cache');
+			\JToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_PURGE_EXPIRED_CACHE');
+		\JToolbarHelper::help('JHELP_SITE_MAINTENANCE_PURGE_EXPIRED_CACHE');
 	}
 }

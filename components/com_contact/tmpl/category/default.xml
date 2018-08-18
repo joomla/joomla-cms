@@ -303,7 +303,7 @@
 		</fieldset>
 
 		<fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
-			addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+			addfieldpath="/administrator/components/com_fields/models/fields">
 			<field 
 				name="presentation_style"
 				type="list"

@@ -10,15 +10,15 @@ namespace Joomla\CMS\HTML;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for all HTML drawing classes
@@ -842,7 +842,7 @@ abstract class HTMLHelper
 			$file,
 			$options['relative'] ?? true,
 			$options['detectBrowser'] ?? false,
-			$options['detectDebug'] ?? true
+			$options['detectDebug'] ?? false
 		);
 
 		if (count($includes) === 0)
@@ -1155,10 +1155,6 @@ abstract class HTMLHelper
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
 		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
-		}
 		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
@@ -1335,7 +1331,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
@@ -1378,7 +1374,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function convertToRelativePath($path)
 	{
@@ -1396,7 +1392,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static function checkFileOrder($first, $second)
 	{

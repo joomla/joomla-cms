@@ -10,7 +10,6 @@ namespace Joomla\CMS\Log\Logger;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
@@ -43,16 +42,16 @@ class MessagequeueLogger extends Logger
 			case Log::ALERT:
 			case Log::CRITICAL:
 			case Log::ERROR:
-				Factory::getApplication()->enqueueMessage($entry->message, 'error');
+				\JFactory::getApplication()->enqueueMessage($entry->message, 'error');
 				break;
 			case Log::WARNING:
-				Factory::getApplication()->enqueueMessage($entry->message, 'warning');
+				\JFactory::getApplication()->enqueueMessage($entry->message, 'warning');
 				break;
 			case Log::NOTICE:
-				Factory::getApplication()->enqueueMessage($entry->message, 'notice');
+				\JFactory::getApplication()->enqueueMessage($entry->message, 'notice');
 				break;
 			case Log::INFO:
-				Factory::getApplication()->enqueueMessage($entry->message, 'message');
+				\JFactory::getApplication()->enqueueMessage($entry->message, 'message');
 				break;
 			default:
 				// Ignore other priorities.

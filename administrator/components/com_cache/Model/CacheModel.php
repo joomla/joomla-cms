@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Cache\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,11 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Cache\Exception\CacheConnectingException;
-use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
-use Joomla\CMS\Factory;
 
 /**
  * Cache Model
@@ -160,14 +154,14 @@ class CacheModel extends ListModel
 					$this->_data = array();
 				}
 			}
-			catch (CacheConnectingException $exception)
+			catch (\JCacheExceptionConnecting $exception)
 			{
-				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
+				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
 				$this->_data = array();
 			}
-			catch (UnsupportedCacheException $exception)
+			catch (\JCacheExceptionUnsupported $exception)
 			{
-				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
+				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
 				$this->_data = array();
 			}
 		}
@@ -178,11 +172,11 @@ class CacheModel extends ListModel
 	/**
 	 * Method to get cache instance.
 	 *
-	 * @return CacheController
+	 * @return \JCacheController
 	 */
 	public function getCache()
 	{
-		$conf = Factory::getConfig();
+		$conf = \JFactory::getConfig();
 
 		$options = array(
 			'defaultgroup' => '',
@@ -191,7 +185,7 @@ class CacheModel extends ListModel
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
 		);
 
-		return Cache::getInstance('', $options);
+		return \JCache::getInstance('', $options);
 	}
 
 	/**
@@ -238,11 +232,11 @@ class CacheModel extends ListModel
 		{
 			return $this->getCache()->clean($group);
 		}
-		catch (CacheConnectingException $exception)
+		catch (\JCacheExceptionConnecting $exception)
 		{
 			return false;
 		}
-		catch (UnsupportedCacheException $exception)
+		catch (\JCacheExceptionUnsupported $exception)
 		{
 			return false;
 		}
@@ -279,13 +273,13 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return Factory::getCache('')->gc();
+			return \JFactory::getCache('')->gc();
 		}
-		catch (CacheConnectingException $exception)
+		catch (\JCacheExceptionConnecting $exception)
 		{
 			return false;
 		}
-		catch (UnsupportedCacheException $exception)
+		catch (\JCacheExceptionUnsupported $exception)
 		{
 			return false;
 		}

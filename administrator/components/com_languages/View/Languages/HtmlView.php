@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Languages\Administrator\View\Languages;
 
 defined('_JEXEC') or die;
@@ -14,9 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 
 /**
  * HTML Languages View class for the Languages component.
@@ -111,45 +107,45 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_languages');
 
-		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
+		\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('language.add');
+			\JToolbarHelper::addNew('language.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($this->state->get('filter.published') != 2)
 			{
-				ToolbarHelper::publishList('languages.publish');
-				ToolbarHelper::unpublishList('languages.unpublish');
+				\JToolbarHelper::publishList('languages.publish');
+				\JToolbarHelper::unpublishList('languages.unpublish');
 			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
-			ToolbarHelper::divider();
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('languages.trash');
-			ToolbarHelper::divider();
+			\JToolbarHelper::trash('languages.trash');
+			\JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
 			// Add install languages link to the lang installer component.
-			$bar = Toolbar::getInstance('toolbar');
+			$bar = \JToolbar::getInstance('toolbar');
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-			ToolbarHelper::divider();
+			\JToolbarHelper::divider();
 
-			ToolbarHelper::preferences('com_languages');
-			ToolbarHelper::divider();
+			\JToolbarHelper::preferences('com_languages');
+			\JToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
+		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
 
 		\JHtmlSidebar::setAction('index.php?option=com_languages&view=languages');
 
@@ -165,15 +161,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
-			'a.published'    => Text::_('JSTATUS'),
-			'a.title'        => Text::_('JGLOBAL_TITLE'),
-			'a.title_native' => Text::_('COM_LANGUAGES_HEADING_TITLE_NATIVE'),
-			'a.lang_code'    => Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'),
-			'a.sef'          => Text::_('COM_LANGUAGES_FIELD_LANG_CODE_LABEL'),
-			'a.image'        => Text::_('COM_LANGUAGES_HEADING_LANG_IMAGE'),
-			'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-			'a.lang_id'      => Text::_('JGRID_HEADING_ID')
+			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => \JText::_('JSTATUS'),
+			'a.title'        => \JText::_('JGLOBAL_TITLE'),
+			'a.title_native' => \JText::_('COM_LANGUAGES_HEADING_TITLE_NATIVE'),
+			'a.lang_code'    => \JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'),
+			'a.sef'          => \JText::_('COM_LANGUAGES_FIELD_LANG_CODE_LABEL'),
+			'a.image'        => \JText::_('COM_LANGUAGES_HEADING_LANG_IMAGE'),
+			'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+			'a.lang_id'      => \JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

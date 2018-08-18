@@ -10,18 +10,13 @@ namespace Joomla\CMS\Installer\Adapter;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\Manifest\LibraryManifest;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
-use Joomla\Database\ParameterType;
+
+\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Library installer
@@ -60,7 +55,7 @@ class LibraryAdapter extends InstallerAdapter
 			else
 			{
 				// Abort the install, no upgrade possible
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
+				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
 			}
 		}
 	}
@@ -77,7 +72,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
 		}
 	}
 
@@ -116,7 +111,7 @@ class LibraryAdapter extends InstallerAdapter
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
 			}
 
 			// If there is a manifest script, let's copy it.
@@ -131,9 +126,9 @@ class LibraryAdapter extends InstallerAdapter
 					{
 						// Install failed, rollback changes
 						throw new \RuntimeException(
-							Text::sprintf(
+							\JText::sprintf(
 								'JLIB_INSTALLER_ABORT_MANIFEST',
-								Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+								\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
 							)
 						);
 					}
@@ -152,15 +147,12 @@ class LibraryAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$extensionId = $this->extension->extension_id;
-
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = :extension_id')
-			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
+			->where('extension_id = ' . $this->extension->extension_id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -196,7 +188,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = Path::clean($this->parent->getPath('manifest'));
+			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
 			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 
@@ -267,19 +259,19 @@ class LibraryAdapter extends InstallerAdapter
 	protected function removeExtensionFiles()
 	{
 		$this->parent->removeFiles($this->getManifest()->files, -1);
-		File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
+		\JFile::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
 
 		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
-		if (Folder::exists($this->parent->getPath('extension_root')))
+		if (\JFolder::exists($this->parent->getPath('extension_root')))
 		{
 			if (is_dir($this->parent->getPath('extension_root')))
 			{
-				$files = Folder::files($this->parent->getPath('extension_root'));
+				$files = \JFolder::files($this->parent->getPath('extension_root'));
 
 				if (!count($files))
 				{
-					Folder::delete($this->parent->getPath('extension_root'));
+					\JFolder::delete($this->parent->getPath('extension_root'));
 				}
 			}
 		}
@@ -302,7 +294,7 @@ class LibraryAdapter extends InstallerAdapter
 
 		if (!$group)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
@@ -325,7 +317,7 @@ class LibraryAdapter extends InstallerAdapter
 			// Remove this row entry since its invalid
 			$this->extension->delete($this->extension->extension_id);
 
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 		}
 
 		$manifest = new LibraryManifest($manifestFile);
@@ -341,13 +333,13 @@ class LibraryAdapter extends InstallerAdapter
 		// If we cannot load the XML file return null
 		if (!$xml)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() !== 'extension')
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
 		}
 
 		$this->setManifest($xml);
@@ -380,7 +372,7 @@ class LibraryAdapter extends InstallerAdapter
 			if (!$this->extension->store())
 			{
 				// Install failed, roll back changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
+				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
 			}
 
 			return;
@@ -405,7 +397,7 @@ class LibraryAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				Text::sprintf(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_LIB_INSTALL_ROLLBACK',
 					$this->extension->getError()
 				)
@@ -445,7 +437,7 @@ class LibraryAdapter extends InstallerAdapter
 
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = InputFilter::getInstance()->clean($name, 'string');
+		$name = \JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 
 		$this->name    = $name;
@@ -458,8 +450,7 @@ class LibraryAdapter extends InstallerAdapter
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = :element')
-			->bind(':element', $element);
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
@@ -488,12 +479,12 @@ class LibraryAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$file_list = Folder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
+		$file_list = \JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 
 		foreach ($file_list as $file)
 		{
 			$manifest_details = Installer::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
-			$file = File::stripExt($file);
+			$file = \JFile::stripExt($file);
 			$extension = Table::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
@@ -533,7 +524,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			Log::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}

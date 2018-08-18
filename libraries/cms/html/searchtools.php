@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -42,8 +39,8 @@ abstract class JHtmlSearchtools
 		if (empty(static::$loaded[__METHOD__]))
 		{
 			// Load the script && css files
-			HTMLHelper::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
 
 			static::$loaded[__METHOD__] = true;
 		}
@@ -73,11 +70,11 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			// Load the script && css files
-			HTMLHelper::_('behavior.core');
-			HTMLHelper::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('behavior.core');
+			JHtml::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
 
-			Factory::getDocument()->addScriptOptions('searchtools', $options);
+			JFactory::getDocument()->addScriptOptions('searchtools', $options);
 
 			static::$loaded[__METHOD__][$sig] = true;
 		}
@@ -149,6 +146,6 @@ abstract class JHtmlSearchtools
 		$data->icon      = $icon;
 		$data->formName  = $formName;
 
-		return LayoutHelper::render('joomla.searchtools.grid.sort', $data);
+		return JLayoutHelper::render('joomla.searchtools.grid.sort', $data);
 	}
 }

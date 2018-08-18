@@ -6,17 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\View\Banner;
+
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
 
 /**
  * View to edit a banner.
@@ -80,17 +75,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
+		$user       = \JFactory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo = ContentHelper::getActions('com_banners', 'category', $this->item->catid);
+		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->item->catid);
 
-		ToolbarHelper::title($isNew ? Text::_('COM_BANNERS_MANAGER_BANNER_NEW') : Text::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
+		\JToolbarHelper::title($isNew ? \JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : \JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
 
 		$toolbarButtons = [];
 
@@ -112,26 +107,26 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'banner.save2copy'];
 		}
 
-		ToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			ToolbarHelper::cancel('banner.cancel');
+			\JToolbarHelper::cancel('banner.cancel');
 		}
 		else
 		{
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				ToolbarHelper::versions('com_banners.banner', $this->item->id);
+				\JToolbarHelper::versions('com_banners.banner', $this->item->id);
 			}
 
-			ToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
 	}
 }

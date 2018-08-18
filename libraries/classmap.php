@@ -152,7 +152,7 @@ JLoader::registerAlias('JUcmBase',                          '\\Joomla\\CMS\\UCM\
 JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\UCM\\UCMContent', '5.0');
 JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\UCM\\UCMType', '5.0');
 
-JLoader::registerAlias('JToolbar',                          '\\Joomla\\CMS\\Toolbar\\Toolbar', '5.0');
+JLoader::registerAlias('JToolBar',                          '\\Joomla\\CMS\\Toolbar\\Toolbar', '5.0');
 JLoader::registerAlias('JToolbarButton',                    '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '5.0');
 JLoader::registerAlias('JToolbarButtonConfirm',             '\\Joomla\\CMS\\Toolbar\\Button\\ConfirmButton', '5.0');
 JLoader::registerAlias('JToolbarButtonCustom',              '\\Joomla\\CMS\\Toolbar\\Button\\CustomButton', '5.0');

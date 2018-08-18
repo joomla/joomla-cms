@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\View\AbstractView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Sysinfo View class for the Admin component
@@ -35,9 +32,9 @@ class TextView extends AbstractView
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('Content-Type: text/plain; charset=utf-8');
@@ -65,7 +62,7 @@ class TextView extends AbstractView
 
 		echo str_replace(JPATH_ROOT, 'xxxxxx', implode("\n\n", $lines));
 
-		Factory::getApplication()->close();
+		\JFactory::getApplication()->close();
 	}
 
 	/**
@@ -82,27 +79,27 @@ class TextView extends AbstractView
 
 		return array(
 			'info' => array(
-				'title' => Text::_('COM_ADMIN_SYSTEM_INFORMATION', true),
+				'title' => \JText::_('COM_ADMIN_SYSTEM_INFORMATION', true),
 				'data'  => $model->getSafeData('info')
 			),
 			'phpSettings' => array(
-				'title' => Text::_('COM_ADMIN_PHP_SETTINGS', true),
+				'title' => \JText::_('COM_ADMIN_PHP_SETTINGS', true),
 				'data'  => $model->getSafeData('phpSettings')
 			),
 			'config' => array(
-				'title' => Text::_('COM_ADMIN_CONFIGURATION_FILE', true),
+				'title' => \JText::_('COM_ADMIN_CONFIGURATION_FILE', true),
 				'data'  => $model->getSafeData('config')
 			),
 			'directories' => array(
-				'title' => Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
+				'title' => \JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
 				'data'  => $model->getSafeData('directory', true)
 			),
 			'phpInfo' => array(
-				'title' => Text::_('COM_ADMIN_PHP_INFORMATION', true),
+				'title' => \JText::_('COM_ADMIN_PHP_INFORMATION', true),
 				'data'  => $model->getSafeData('phpInfoArray')
 			),
 			'extensions' => array(
-				'title' => Text::_('COM_ADMIN_EXTENSIONS', true),
+				'title' => \JText::_('COM_ADMIN_EXTENSIONS', true),
 				'data'  => $model->getSafeData('extensions')
 			)
 		);

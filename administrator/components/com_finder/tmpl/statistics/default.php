@@ -16,13 +16,13 @@ defined('_JEXEC') or die;
 <div class="row">
 	<div class="col-md-12">
 		<p class="tab-description"><?php echo JText::sprintf('COM_FINDER_STATISTICS_STATS_DESCRIPTION', number_format($this->data->term_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_node_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_branch_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))); ?></p>
-		<table class="table table-sm">
+		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
-					<th scope="col">
+					<th>
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_HEADING'); ?>
 					</th>
-					<th scope="col">
+					<th>
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_COUNT'); ?>
 					</th>
 				</tr>
@@ -30,13 +30,13 @@ defined('_JEXEC') or die;
 			<tbody>
 				<?php foreach ($this->data->type_list as $type) : ?>
 				<tr>
-					<th scope="row">
+					<td>
 						<?php
 						$lang_key    = 'PLG_FINDER_STATISTICS_' . str_replace(' ', '_', $type->type_title);
 						$lang_string = JText::_($lang_key);
 						echo $lang_string === $lang_key ? $type->type_title : $lang_string;
 						?>
-					</th>
+					</td>
 					<td>
 						<span class="badge badge-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
 					</td>

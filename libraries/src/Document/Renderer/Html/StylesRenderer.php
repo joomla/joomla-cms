@@ -116,11 +116,6 @@ class StylesRenderer extends DocumentRenderer
 				$buffer .= ' type="' . $type . '"';
 			}
 
-			if ($this->_doc->cspNonce)
-			{
-				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
-			}
-
 			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
@@ -147,9 +142,9 @@ class StylesRenderer extends DocumentRenderer
 		{
 			$nonce = '';
 
-			if ($this->_doc->cspNonce)
+			if ($this->_doc->scriptNonce)
 			{
-				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
+				$nonce = ' nonce="' . $this->_doc->scriptNonce . '"';
 			}
 
 			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';

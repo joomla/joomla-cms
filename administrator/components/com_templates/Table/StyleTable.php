@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Templates\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Template style table class.
@@ -26,11 +23,11 @@ class StyleTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__template_styles', 'id', $db);
 	}
@@ -56,7 +53,7 @@ class StyleTable extends Table
 		// Verify that the default style is not unset
 		if ($array['home'] == '0' && $this->home == '1')
 		{
-			$this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+			$this->setError(\JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 
 			return false;
 		}
@@ -86,7 +83,7 @@ class StyleTable extends Table
 
 		if (empty($this->title))
 		{
-			$this->setError(Text::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
+			$this->setError(\JText::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
 
 			return false;
 		}
@@ -145,7 +142,7 @@ class StyleTable extends Table
 
 			if (count($results) == 1 && $results[0] == $pk)
 			{
-				$this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
+				$this->setError(\JText::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 
 				return false;
 			}

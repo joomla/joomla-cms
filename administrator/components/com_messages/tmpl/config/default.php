@@ -9,17 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
-
 // Include the HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
 ?>
 <div class="container-popup">
-	<form action="<?php echo Route::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form">
+	<form action="<?php echo JRoute::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form">
 		<fieldset>
 			<?php echo $this->form->renderField('lock'); ?>
 			<?php echo $this->form->renderField('mail_on_new'); ?>
@@ -28,6 +25,6 @@ HTMLHelper::_('behavior.keepalive');
 		<button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitform('config.save', this.form);"></button>
 
 		<input type="hidden" name="task" value="">
-		<?php echo HTMLHelper::_('form.token'); ?>
+		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

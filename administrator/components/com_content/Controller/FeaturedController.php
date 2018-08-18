@@ -11,10 +11,6 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
-
 /**
  * Featured content controller class.
  *
@@ -32,9 +28,9 @@ class FeaturedController extends ArticlesController
 	public function delete()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
@@ -44,13 +40,13 @@ class FeaturedController extends ArticlesController
 			{
 				// Prune items that you can't delete.
 				unset($ids[$i]);
-				Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -61,7 +57,7 @@ class FeaturedController extends ArticlesController
 			// Remove the items.
 			if (!$model->featured($ids, 0))
 			{
-				Factory::getApplication()->enqueueMessage($model->getError(), 'error');
+				\JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
 			}
 		}
 

@@ -12,7 +12,6 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console\SessionGcCommand;
-use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -38,23 +37,7 @@ class Console implements ServiceProviderInterface
 			SessionGcCommand::class,
 			function (Container $container)
 			{
-				/*
-				 * The command will need the same session handler that web apps use to run correctly,
-				 * since this is based on an option we need to inject the container
-				 */
-				$command = new SessionGcCommand;
-				$command->setContainer($container);
-
-				return $command;
-			},
-			true
-		);
-
-		$container->share(
-			SessionMetadataGcCommand::class,
-			function (Container $container)
-			{
-				return new SessionMetadataGcCommand($container->get('session'), $container->get('db'));
+				return new SessionGcCommand($container->get('session'));
 			},
 			true
 		);

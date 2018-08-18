@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-
 /**
  * HTML utility class for creating a sortable table list
  *
@@ -56,16 +53,16 @@ abstract class JHtmlSortablelist
 		}
 
 		// Depends on Joomla.getOptions()
-		HTMLHelper::_('behavior.core');
+		JHtml::_('behavior.core');
 
 		// Depends on jQuery UI
-		HTMLHelper::_('jquery.ui', array('core', 'sortable'));
+		JHtml::_('jquery.ui', array('core', 'sortable'));
 
-		HTMLHelper::_('script', 'legacy/sortablelist.min.js', false, true);
-		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', false, true, false);
+		JHtml::_('script', 'legacy/sortablelist.min.js', false, true);
+		JHtml::_('stylesheet', 'legacy/sortablelist.css', false, true, false);
 
 		// Attach sortable to document
-		Factory::getDocument()->addScriptOptions(
+		JFactory::getDocument()->addScriptOptions(
 			'sortable-list',
 			array(
 				'id'         => '#' . $tableId . ' tbody',

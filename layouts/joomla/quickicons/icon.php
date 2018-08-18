@@ -23,7 +23,7 @@ if ($id !== '')
 }
 
 ?>
-<a<?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+<a<?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?> role="button">
 	<div class="quickicon-icon d-flex align-items-end"><span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span></div>
 	<div class="quickicon-text d-flex align-items-center"><?php echo $text; ?></div>
 </a>

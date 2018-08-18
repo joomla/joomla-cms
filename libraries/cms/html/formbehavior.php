@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
@@ -72,29 +69,29 @@ abstract class JHtmlFormbehavior
 
 		if (!isset($options['placeholder_text_multiple']))
 		{
-			$options['placeholder_text_multiple'] = Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
+			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
 		}
 
 		if (!isset($options['placeholder_text_single']))
 		{
-			$options['placeholder_text_single'] = Text::_('JGLOBAL_SELECT_AN_OPTION');
+			$options['placeholder_text_single'] = JText::_('JGLOBAL_SELECT_AN_OPTION');
 		}
 
 		if (!isset($options['no_results_text']))
 		{
-			$options['no_results_text'] = Text::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+			$options['no_results_text'] = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 		}
 
 		// Include jQuery
-		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'legacy/chosen.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'legacy/chosen.min.css', ['version' => 'auto', 'relative' => true]);
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'legacy/chosen.min.js', ['version' => 'auto', 'relative' => true]);
+		JHtml::_('stylesheet', 'legacy/chosen.min.css', ['version' => 'auto', 'relative' => true]);
 
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
 
-		Factory::getDocument()->addScriptDeclaration(
+		JFactory::getDocument()->addScriptDeclaration(
 			"
 		jQuery(document).ready(function (){
 			jQuery('" . $selector . "').chosen(" . $options_str . ");
@@ -139,15 +136,15 @@ abstract class JHtmlFormbehavior
 			// Requires chosen to work
 			static::chosen($selector, $debug);
 
-			Text::script('JGLOBAL_KEEP_TYPING');
-			Text::script('JGLOBAL_LOOKING_FOR');
+			JText::script('JGLOBAL_KEEP_TYPING');
+			JText::script('JGLOBAL_LOOKING_FOR');
 
 			// Include scripts
-			HTMLHelper::_('behavior.core');
-			HTMLHelper::_('jquery.framework');
-			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', false, true, false, false, $debug);
+			JHtml::_('behavior.core');
+			JHtml::_('jquery.framework');
+			JHtml::_('script', 'legacy/ajax-chosen.min.js', false, true, false, false, $debug);
 
-			Factory::getDocument()->addScriptOptions(
+			JFactory::getDocument()->addScriptOptions(
 				'ajax-chosen',
 				array(
 					'url'            => $url,

@@ -6,14 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -80,7 +78,7 @@ class MenuOrderingField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Allow translation of custom admin menus
@@ -88,14 +86,14 @@ class MenuOrderingField extends \JFormFieldList
 		{
 			if ($option->clientId != 0)
 			{
-				$option->text = Text::_($option->text);
+				$option->text = \JText::_($option->text);
 			}
 		}
 
 		$options = array_merge(
-			array(array('value' => '-1', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+			array(array('value' => '-1', 'text' => \JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
 			$options,
-			array(array('value' => '-2', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+			array(array('value' => '-2', 'text' => \JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
 		);
 
 		// Merge any additional options in the XML definition.
@@ -115,7 +113,7 @@ class MenuOrderingField extends \JFormFieldList
 	{
 		if ($this->form->getValue('id', 0) == 0)
 		{
-			return '<span class="readonly">' . Text::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
+			return '<span class="readonly">' . \JText::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
 		}
 		else
 		{

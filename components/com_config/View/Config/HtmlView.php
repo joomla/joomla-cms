@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
-use Joomla\CMS\Factory;
 
 /**
  * View for the global configuration
@@ -57,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		// Access backend com_config

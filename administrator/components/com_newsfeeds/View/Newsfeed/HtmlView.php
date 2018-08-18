@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeed;
 
 defined('_JEXEC') or die;
@@ -14,9 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
 
 /**
  * View to edit a newsfeed.
@@ -71,7 +67,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -97,17 +93,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
+		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
-		$title = $isNew ? Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
-		ToolbarHelper::title($title, 'feed newsfeeds');
+		$title = $isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
+		\JToolbarHelper::title($title, 'feed newsfeeds');
 
 		$toolbarButtons = [];
 
@@ -129,26 +125,26 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
 
-		ToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			ToolbarHelper::cancel('newsfeed.cancel');
+			\JToolbarHelper::cancel('newsfeed.cancel');
 		}
 		else
 		{
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				ToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
+				\JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
 
-			ToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
 	}
 }

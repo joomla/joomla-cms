@@ -9,7 +9,6 @@
 namespace Joomla\CMS\Toolbar;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
@@ -488,9 +487,9 @@ trait CoreButtonsTrait
 		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
-		// Options array for Layout
+		// Options array for JLayout
 		$options              = array();
-		$options['title']     = Text::_($text);
+		$options['title']     = \JText::_($text);
 		$options['height']    = $height;
 		$options['width']     = $width;
 		$options['itemId']    = $itemId;

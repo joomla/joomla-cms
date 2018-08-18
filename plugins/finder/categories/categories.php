@@ -287,14 +287,12 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
-		// Create a URL as identifier to recognise items again.
+		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
 
-		/*
-		 * Build the necessary route information.
-		 * Need to import component route helpers dynamically, hence the reason it's handled here.
-		 */
 		$class = $extension . 'HelperRoute';
+
+		// Need to import component route helpers dynamically, hence the reason it's handled here.
 		JLoader::register($class, JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php');
 
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
@@ -305,6 +303,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		{
 			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
 		}
+
+		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -14,11 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Updater\Updater;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Installer Update Controller
@@ -37,7 +31,7 @@ class UpdateController extends BaseController
 	public function update()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
@@ -47,7 +41,7 @@ class UpdateController extends BaseController
 
 		// Get the minimum stability.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+		$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
 
 		$model->update($uid, $minimum_stability);
 
@@ -55,14 +49,14 @@ class UpdateController extends BaseController
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 
 		// Don't redirect to an external URL.
-		if (!Uri::isInternal($redirect_url))
+		if (!\JUri::isInternal($redirect_url))
 		{
 			$redirect_url = '';
 		}
 
 		if (empty($redirect_url))
 		{
-			$redirect_url = Route::_('index.php?option=com_installer&view=update', false);
+			$redirect_url = \JRoute::_('index.php?option=com_installer&view=update', false);
 		}
 		else
 		{
@@ -84,7 +78,7 @@ class UpdateController extends BaseController
 	 */
 	public function find()
 	{
-		(Session::checkToken() or Session::checkToken('get')) or jexit(Text::_('JINVALID_TOKEN'));
+		(\JSession::checkToken() or \JSession::checkToken('get')) or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
@@ -92,7 +86,7 @@ class UpdateController extends BaseController
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+		$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
 
 		// Find updates.
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
@@ -102,12 +96,12 @@ class UpdateController extends BaseController
 
 		if ($disabledUpdateSites)
 		{
-			$updateSitesUrl = Route::_('index.php?option=com_installer&view=updatesites');
-			$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
+			$updateSitesUrl = \JRoute::_('index.php?option=com_installer&view=updatesites');
+			$this->setMessage(\JText::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
 		}
 
 		$model->findUpdates(0, $cache_timeout, $minimum_stability);
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=update', false));
 	}
 
 	/**
@@ -120,7 +114,7 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
@@ -132,7 +126,7 @@ class UpdateController extends BaseController
 		 * $model->enableSites();
 		 */
 
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false), $model->_message);
+		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
 	}
 
 	/**
@@ -146,11 +140,11 @@ class UpdateController extends BaseController
 	{
 		$app = $this->app;
 
-		if (!Session::checkToken('get'))
+		if (!\JSession::checkToken('get'))
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN');
+			echo \JText::_('JINVALID_TOKEN');
 			$app->close();
 		}
 
@@ -169,7 +163,7 @@ class UpdateController extends BaseController
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+			$minimum_stability = $params->get('minimum_stability', \JUpdater::STABILITY_STABLE, 'int');
 		}
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */

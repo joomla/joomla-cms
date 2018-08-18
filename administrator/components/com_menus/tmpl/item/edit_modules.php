@@ -9,42 +9,37 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::_('behavior.core');
+JHtml::_('behavior.core');
 
 foreach ($this->levels as $key => $value)
 {
 	$allLevels[$value->id] = $value->title;
 }
 
-Factory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
-HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
+JFactory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
+JHtml::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
 
 // TODO: Re-remove the jQuery dependency in the admin-item-edit_modules.js file:
-HTMLHelper::_('jquery.framework');
-HTMLHelper::_('script', 'com_menus/admin-item-edit_modules.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('jquery.framework');
+JHtml::_('script', 'com_menus/admin-item-edit_modules.min.js', array('version' => 'auto', 'relative' => true));
 
 // Set up the bootstrap modal that will be used for all module editors
-echo HTMLHelper::_(
+echo JHtml::_(
 	'bootstrap.renderModal',
 	'moduleEditModal',
 	array(
-		'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+		'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 		'backdrop'    => 'static',
 		'keyboard'    => false,
 		'closeButton' => false,
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
 		'footer'      => '<a type="button" class="btn" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true">'
-				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn" aria-hidden="true">'
-				. Text::_('JSAVE') . '</button>'
+				. JText::_('JSAVE') . '</button>'
 				. '<button type="button" class="btn btn-success" data-target="#applyBtn" aria-hidden="true">'
-				. Text::_('JAPPLY') . '</button>',
+				. JText::_('JAPPLY') . '</button>',
 	)
 );
 
@@ -53,25 +48,25 @@ echo HTMLHelper::_(
 // Set main fields.
 $this->fields = array('toggle_modules_assigned','toggle_modules_published');
 
-echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
+echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
 <table class="table">
 	<thead>
 		<tr>
 			<th>
-				<?php echo Text::_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
+				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
 			</th>
 			<th class="text-center">
-				<?php echo Text::_('COM_MENUS_HEADING_LEVELS'); ?>
+				<?php echo JText::_('COM_MENUS_HEADING_LEVELS'); ?>
 			</th>
 			<th class="text-center">
-				<?php echo Text::_('COM_MENUS_HEADING_POSITION'); ?>
+				<?php echo JText::_('COM_MENUS_HEADING_POSITION'); ?>
 			</th>
 			<th class="text-center">
-				<?php echo Text::_('COM_MENUS_HEADING_DISPLAY'); ?>
+				<?php echo JText::_('COM_MENUS_HEADING_DISPLAY'); ?>
 			</th>
 			<th class="text-center">
-				<?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
+				<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
 			</th>
 		</tr>
 	</thead>
@@ -96,7 +91,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				<a href="#moduleEditModal"
 					role="button"
 					class="btn btn-link module-edit-link"
-					title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
+					title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
 					id="title-<?php echo $module->id; ?>"
 					data-module-id="<?php echo $module->id; ?>">
 					<?php echo $this->escape($module->title); ?></a>
@@ -111,35 +106,35 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				<?php if (is_null($module->menuid)) : ?>
 					<?php if ($module->except) : ?>
 						<span class="badge badge-success">
-							<?php echo Text::_('JYES'); ?>
+							<?php echo JText::_('JYES'); ?>
 						</span>
 					<?php else : ?>
 						<span class="badge badge-danger">
-							<?php echo Text::_('JNO'); ?>
+							<?php echo JText::_('JNO'); ?>
 						</span>
 					<?php endif; ?>
 				<?php elseif ($module->menuid > 0) : ?>
 					<span class="badge badge-success">
-						<?php echo Text::_('JYES'); ?>
+						<?php echo JText::_('JYES'); ?>
 					</span>
 				<?php elseif ($module->menuid < 0) : ?>
 					<span class="badge badge-danger">
-						<?php echo Text::_('JNO'); ?>
+						<?php echo JText::_('JNO'); ?>
 					</span>
 				<?php else : ?>
 					<span class="badge badge-info">
-						<?php echo Text::_('JALL'); ?>
+						<?php echo JText::_('JALL'); ?>
 					</span>
 				<?php endif; ?>
 			</td>
 			<td id="status-<?php echo $module->id; ?>" class="text-center">
 				<?php if ($module->published) : ?>
 					<span class="badge badge-success">
-						<?php echo Text::_('JYES'); ?>
+						<?php echo JText::_('JYES'); ?>
 					</span>
 				<?php else : ?>
 					<span class="badge badge-danger">
-						<?php echo Text::_('JNO'); ?>
+						<?php echo JText::_('JNO'); ?>
 					</span>
 				<?php endif; ?>
 			</td>

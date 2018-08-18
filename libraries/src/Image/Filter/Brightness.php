@@ -12,9 +12,8 @@ namespace Joomla\CMS\Image\Filter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
-use Joomla\CMS\Log\Log;
 
-Log::add('JImageFilterBrightness is deprecated, use Joomla\Image\Filter\Brightness instead.', Log::WARNING, 'deprecated');
+\JLog::add('JImageFilterBrightness is deprecated, use Joomla\Image\Filter\Brightness instead.', \JLog::WARNING, 'deprecated');
 
 /**
  * Image Filter class adjust the brightness of an image.

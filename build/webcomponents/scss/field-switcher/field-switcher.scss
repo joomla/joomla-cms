@@ -1,0 +1,118 @@
+// Switcher
+
+@import "../functions";
+@import "../mixins";
+@import "../variables";
+
+$switcher-width:  62px;
+$switcher-height: 28px;
+$border-width:    1px;
+
+joomla-field-switcher {
+  box-sizing: border-box;
+  display: block;
+  height: $switcher-height;
+
+  .switcher {
+    position: relative;
+    box-sizing: border-box;
+    display: inline-block;
+    width: $switcher-width;
+    height: $switcher-height;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: darken($white, 5%);
+    background-clip: content-box;
+    border: $border-width solid rgba(0,0,0,.18);
+    border-radius: $border-radius;
+    box-shadow: 0 0 0 0 rgb(223,223,223) inset;
+    transition: border .4s ease 0s, box-shadow .4s ease 0s;
+
+    &.active {
+      transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s;
+
+      .switch {
+        left: calc((#{$switcher-width} / 2) - (#{$border-width} * 2));
+      }
+    }
+
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: $switcher-width;
+    height: $switcher-height;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  .switch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(#{$switcher-width} / 2);
+    height: calc(#{$switcher-height} - (#{$border-width} * 2));
+    background: $white;
+    border-radius: $border-radius;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    transition: left .2s ease 0s;
+  }
+
+  .switcher:focus .switch {
+    animation: switcherPulsate 1.5s infinite;
+  }
+
+  input:checked {
+    z-index: 0;
+  }
+
+  .switcher-labels {
+    position: relative;
+
+    span {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      color: $gray-600;
+      visibility: hidden;
+      opacity: 0;
+      transition: all .2s ease-in-out;
+
+      &.active {
+        visibility: visible;
+        opacity: 1;
+        transition: all .2s ease-in-out;
+      }
+
+    }
+
+  }
+
+}
+
+// Alternate styles
+@each $color, $value in $theme-colors {
+  joomla-field-switcher[type="#{$color}"] .switcher.active {
+    background-color: theme-color-level($color);
+    border-color: theme-color-level($color);
+    box-shadow: 0 0 0 calc(#{$switcher-height} / 2) theme-color-level($color) inset;
+  }
+}
+
+@keyframes switcherPulsate {
+  0% {
+    box-shadow: 0 0 0 0 rgba(66,133,244,.55);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(66,133,244,0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(66,133,244,0);
+  }
+}

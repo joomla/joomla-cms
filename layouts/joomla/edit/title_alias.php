@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 $form  = $displayData->getForm();
-
 $title = $form->getField('title') ? 'title' : ($form->getField('name') ? 'name' : '');
 
 ?>

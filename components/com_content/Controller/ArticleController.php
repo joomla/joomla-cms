@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Content\Site\Controller;
 
 defined('_JEXEC') or die;
@@ -16,9 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
 
 /**
  * Content article class.
@@ -70,7 +66,7 @@ class ArticleController extends FormController
 
 		// Redirect to the edit screen.
 		$this->setRedirect(
-			Route::_(
+			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item . '&a_id=0'
 				. $this->getRedirectToItemAppend(), false
 			)
@@ -224,7 +220,7 @@ class ArticleController extends FormController
 			}
 		}
 
-		$this->setRedirect(Route::_($redirlink, false));
+		$this->setRedirect(\JRoute::_($redirlink, false));
 
 		return $result;
 	}
@@ -246,7 +242,7 @@ class ArticleController extends FormController
 
 		if (!$result)
 		{
-			$this->setRedirect(Route::_($this->getReturnPage(), false));
+			$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
 		}
 
 		return $result;
@@ -341,9 +337,9 @@ class ArticleController extends FormController
 	{
 		$return = $this->input->get('return', null, 'base64');
 
-		if (empty($return) || !Uri::isInternal(base64_decode($return)))
+		if (empty($return) || !\JUri::isInternal(base64_decode($return)))
 		{
-			return Uri::base();
+			return \JUri::base();
 		}
 		else
 		{
@@ -385,7 +381,7 @@ class ArticleController extends FormController
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
+				$this->setRedirect(\JRoute::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
 		else
@@ -393,7 +389,7 @@ class ArticleController extends FormController
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(Route::_($this->getReturnPage(), false));
+				$this->setRedirect(\JRoute::_($this->getReturnPage(), false));
 			}
 		}
 
@@ -438,11 +434,11 @@ class ArticleController extends FormController
 
 			if ($model->storeVote($id, $user_rating))
 			{
-				$this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
+				$this->setRedirect($url, \JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
 			}
 			else
 			{
-				$this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
+				$this->setRedirect($url, \JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
 			}
 		}
 	}

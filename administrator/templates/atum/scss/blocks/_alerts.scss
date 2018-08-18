@@ -5,13 +5,14 @@
   .alert {
     margin: 10px;
   }
+
 }
 
 .notify-alerts {
   position: fixed;
   top: 15px;
   left: 50%;
-  z-index: 1080;
+  z-index: 1031;
   margin-left: 125px;
   transition: all .5s ease;
   transform: translateX(-50%);
@@ -30,6 +31,7 @@
     &:first-of-type {
       animation-delay: .3s;
     }
+
   }
 
   &.fullWidth {
@@ -41,6 +43,7 @@
       max-width: none;
       margin-left: 0;
     }
+
   }
 
   .close {
@@ -51,6 +54,7 @@
     color: $black;
     opacity: 1;
   }
+
 }
 
 .closed {
@@ -62,6 +66,7 @@
   + .notify-alerts.fullWidth {
     left: 70px;
   }
+
 }
 
 .wrapper0 {
@@ -69,6 +74,7 @@
   .notify-alerts {
     margin-left: 0;
   }
+
 }
 
 @keyframes fadeIn {
@@ -82,4 +88,5 @@
     opacity: 1;
     transform: translateY(0);
   }
+
 }

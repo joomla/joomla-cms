@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Tags\Site\Model;
 
 defined('_JEXEC') or die;
@@ -16,9 +15,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Tags Component Tag Model
@@ -178,7 +174,7 @@ class TagModel extends ListModel
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load the parameters.
 		$params = $app->isClient('administrator') ? ComponentHelper::getParams('com_tags') : $app->getParams();
@@ -298,14 +294,14 @@ class TagModel extends ListModel
 						}
 					}
 
-					if (!in_array($table->access, Factory::getUser()->getAuthorisedViewLevels()))
+					if (!in_array($table->access, \JFactory::getUser()->getAuthorisedViewLevels()))
 					{
 						continue;
 					}
 
-					// Convert the Table to a clean CMSObject.
+					// Convert the \JTable to a clean \JObject.
 					$properties = $table->getProperties(1);
-					$this->item[] = ArrayHelper::toObject($properties, CMSObject::class);
+					$this->item[] = ArrayHelper::toObject($properties, 'JObject');
 				}
 				catch (\RuntimeException $e)
 				{
@@ -318,7 +314,7 @@ class TagModel extends ListModel
 
 		if (!$this->item)
 		{
-			throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
+			throw new \Exception(\JText::_('COM_TAGS_TAG_NOT_FOUND'), 404);
 		}
 
 		return $this->item;
@@ -335,7 +331,7 @@ class TagModel extends ListModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input    = Factory::getApplication()->input;
+		$input    = \JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
@@ -349,7 +345,7 @@ class TagModel extends ListModel
 
 			if (!$table->hasPrimaryKey())
 			{
-				throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
+				throw new \Exception(\JText::_('COM_TAGS_TAG_NOT_FOUND'), 404);
 			}
 		}
 

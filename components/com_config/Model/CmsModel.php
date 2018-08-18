@@ -13,9 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Prototype admin model.
@@ -73,7 +70,7 @@ abstract class CmsModel extends BaseDatabaseModel
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -151,7 +148,7 @@ abstract class CmsModel extends BaseDatabaseModel
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -219,18 +216,18 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = Factory::getConfig();
+		$conf = \JFactory::getConfig();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
+			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
 		];
 
-		$cache = Cache::getInstance('callback', $options);
+		$cache = \JCache::getInstance('callback', $options);
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**
@@ -251,7 +248,7 @@ abstract class CmsModel extends BaseDatabaseModel
 				return false;
 			}
 
-			$user = Factory::getUser();
+			$user = \JFactory::getUser();
 
 			return $user->authorise('core.delete', $this->option);
 		}
@@ -268,7 +265,7 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		return $user->authorise('core.edit.state', $this->option);
 	}

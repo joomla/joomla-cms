@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -16,9 +15,6 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Factory;
 
 /**
  * Languages Overrides Model
@@ -74,7 +70,7 @@ class OverridesModel extends ListModel
 		// Delete the override.ini file if empty.
 		if (file_exists($filename) && empty($strings))
 		{
-			File::delete($filename);
+			\JFile::delete($filename);
 		}
 
 		// Filter the loaded strings according to the search box.
@@ -162,7 +158,7 @@ class OverridesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'key', $direction = 'asc')
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Use default language of frontend for default filter.
 		$default = ComponentHelper::getParams('com_languages')->get('site') . '0';
@@ -223,12 +219,12 @@ class OverridesModel extends ListModel
 		// Create a single array of them.
 		foreach ($site_languages as $tag => $language)
 		{
-			$languages[$tag . '0'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JSITE'));
+			$languages[$tag . '0'] = \JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], \JText::_('JSITE'));
 		}
 
 		foreach ($admin_languages as $tag => $language)
 		{
-			$languages[$tag . '1'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JADMINISTRATOR'));
+			$languages[$tag . '1'] = \JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], \JText::_('JADMINISTRATOR'));
 		}
 
 		// Sort it by language tag and by client after that.
@@ -252,16 +248,16 @@ class OverridesModel extends ListModel
 	public function delete($cids)
 	{
 		// Check permissions first.
-		if (!Factory::getUser()->authorise('core.delete', 'com_languages'))
+		if (!\JFactory::getUser()->authorise('core.delete', 'com_languages'))
 		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
 
 		jimport('joomla.filesystem.file');
 
-		$filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
+		$filterclient = \JFactory::getApplication()->getUserState('com_languages.overrides.filter.client');
 		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in oder to get the keys and strings.
@@ -297,7 +293,7 @@ class OverridesModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database
@@ -310,6 +306,6 @@ class OverridesModel extends ListModel
 			return $e;
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));
+		\JFactory::getApplication()->enqueueMessage(\JText::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));
 	}
 }

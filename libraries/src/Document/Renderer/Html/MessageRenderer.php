@@ -11,9 +11,8 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * HTML document renderer for the system message queue
@@ -43,7 +42,7 @@ class MessageRenderer extends DocumentRenderer
 			'content' => $content,
 		);
 
-		$app        = Factory::getApplication();
+		$app        = \JFactory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
 		if (file_exists($chromePath))
@@ -74,7 +73,7 @@ class MessageRenderer extends DocumentRenderer
 		$lists = array();
 
 		// Get the message queue
-		$messages = Factory::getApplication()->getMessageQueue();
+		$messages = \JFactory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && !empty($messages))

@@ -10,21 +10,19 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Factory;
 
-$user = Factory::getUser();
+$user = JFactory::getUser();
 ?>
 
 <div class="row">
-	<?php $iconmodules = ModuleHelper::getModules('icon');
+	<?php $iconmodules = JModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
 		<div class="col-md-12">
 			<?php
 			// Display the submenu position modules
 			foreach ($iconmodules as $iconmodule)
 			{
-				echo ModuleHelper::renderModule($iconmodule);
+				echo JModuleHelper::renderModule($iconmodule);
 			}
 			?>
 		</div>
@@ -35,7 +33,7 @@ $user = Factory::getUser();
 	$cols = 0;
 	foreach ($this->modules as $module)
 	{
-		echo ModuleHelper::renderModule($module, array('style' => 'well'));
+		echo JModuleHelper::renderModule($module, array('style' => 'well'));
 	}
 	?>
 </div>

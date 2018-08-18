@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of contact records.
@@ -82,7 +80,7 @@ class ContactsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -147,7 +145,7 @@ class ContactsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(

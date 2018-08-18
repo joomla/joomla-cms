@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Tags\Administrator\Table;
 
 defined('_JEXEC') or die;
@@ -16,9 +15,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Table\Nested;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Tags table
@@ -30,9 +26,9 @@ class TagTable extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_tags.tag';
 
@@ -116,7 +112,7 @@ class TagTable extends Nested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -162,7 +158,7 @@ class TagTable extends Nested
 		}
 
 		// Not Null sanity check
-		$date = Factory::getDate();
+		$date = \JFactory::getDate();
 
 		if (empty($this->params))
 		{
@@ -233,8 +229,8 @@ class TagTable extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = Factory::getDate();
-		$user = Factory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		$this->modified_time = $date->toSql();
 
@@ -263,7 +259,7 @@ class TagTable extends Nested
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}

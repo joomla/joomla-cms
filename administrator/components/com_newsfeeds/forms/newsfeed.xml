@@ -100,6 +100,7 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			default="5"
+			size="2"
 		/>
 
 		<field
@@ -107,6 +108,7 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			default="3600"
+			size="4"
 		/>
 
 		<field
@@ -320,6 +322,7 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			default="5"
+			size="2"
 		/>
 
 		<field
@@ -327,6 +330,7 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			default="3600"
+			size="4"
 		/>
 
 		<field
@@ -377,6 +381,7 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
+				size="6"
 				useglobal="true"
 			/>
 
@@ -431,6 +436,7 @@
 				type="number"
 				label="JGLOBAL_HITS"
 				class="readonly"
+				size="6"
 				readonly="true"
 				filter="unset"
 			/>

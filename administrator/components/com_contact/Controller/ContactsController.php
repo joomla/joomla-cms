@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -14,9 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * Contacts list controller class.
@@ -54,7 +50,7 @@ class ContactsController extends AdminController
 	public function featured()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);
@@ -70,17 +66,17 @@ class ContactsController extends AdminController
 		{
 			$item = $model->getItem($id);
 
-			if (!Factory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid))
+			if (!\JFactory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+				$this->app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			$this->app->enqueueMessage(Text::_('COM_CONTACT_NO_ITEM_SELECTED'), 'warning');
+			$this->app->enqueueMessage(\JText::_('COM_CONTACT_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -92,11 +88,11 @@ class ContactsController extends AdminController
 
 			if ($value == 1)
 			{
-				$message = Text::plural('COM_CONTACT_N_ITEMS_FEATURED', count($ids));
+				$message = JText::plural('COM_CONTACT_N_ITEMS_FEATURED', count($ids));
 			}
 			else
 			{
-				$message = Text::plural('COM_CONTACT_N_ITEMS_UNFEATURED', count($ids));
+				$message = JText::plural('COM_CONTACT_N_ITEMS_UNFEATURED', count($ids));
 			}
 		}
 

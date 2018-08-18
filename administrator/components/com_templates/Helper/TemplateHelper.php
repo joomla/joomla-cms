@@ -6,15 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Templates\Administrator\Helper;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Factory;
+
+defined('_JEXEC') or die;
 
 /**
  * Template Helper class.
@@ -54,8 +50,8 @@ abstract class TemplateHelper
 
 		if (empty($file['name']))
 		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_UPLOAD_INPUT'), 'error');
+			$app = \JFactory::getApplication();
+			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
@@ -75,8 +71,8 @@ abstract class TemplateHelper
 			{
 				if (in_array($extensionName, $explodedFileName))
 				{
-					$app = Factory::getApplication();
-					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
+					$app = \JFactory::getApplication();
+					$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
 
 					return false;
 				}
@@ -85,15 +81,15 @@ abstract class TemplateHelper
 
 		jimport('joomla.filesystem.file');
 
-		if ($file['name'] !== File::makeSafe($file['name']) || preg_match('/\s/', File::makeSafe($file['name'])))
+		if ($file['name'] !== \JFile::makeSafe($file['name']) || preg_match('/\s/', \JFile::makeSafe($file['name'])))
 		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'error');
+			$app = \JFactory::getApplication();
+			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
 
-		$format = strtolower(File::getExt($file['name']));
+		$format = strtolower(\JFile::getExt($file['name']));
 
 		$imageTypes   = explode(',', $params->get('image_formats'));
 		$sourceTypes  = explode(',', $params->get('source_formats'));
@@ -104,8 +100,8 @@ abstract class TemplateHelper
 
 		if ($format == '' || $format == false || (!in_array($format, $allowable)))
 		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
+			$app = \JFactory::getApplication();
+			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -128,8 +124,8 @@ abstract class TemplateHelper
 
 						if (!in_array($ext, $allowable))
 						{
-							$app = Factory::getApplication();
-							$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
+							$app = \JFactory::getApplication();
+							$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
 
 							return false;
 						}
@@ -138,8 +134,8 @@ abstract class TemplateHelper
 			}
 			else
 			{
-				$app = Factory::getApplication();
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+				$app = \JFactory::getApplication();
+				$app->enqueueMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
 
 				return false;
 			}
@@ -150,8 +146,8 @@ abstract class TemplateHelper
 
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$app = Factory::getApplication();
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETOOLARGE'), 'error');
+			$app = \JFactory::getApplication();
+			$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
@@ -173,8 +169,8 @@ abstract class TemplateHelper
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
 			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
 			{
-				$app = Factory::getApplication();
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNIEXSS'), 'error');
+				$app = \JFactory::getApplication();
+				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}

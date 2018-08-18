@@ -15,9 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 
 /**
  * View for the global configuration
@@ -52,11 +49,11 @@ class HtmlView extends BaseHtmlView
 			// Load Form and Data
 			$form = $this->get('form');
 			$data = $this->get('data');
-			$user = Factory::getUser();
+			$user = \JFactory::getUser();
 		}
 		catch (\Exception $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -74,7 +71,7 @@ class HtmlView extends BaseHtmlView
 		$mediaParams = ComponentHelper::getParams('com_media');
 
 		// Load settings for the FTP layer.
-		$ftp = ClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
 
 		$this->form        = &$form;
 		$this->data        = &$data;
@@ -100,7 +97,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
+		ToolbarHelper::title(\JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
 		ToolbarHelper::saveGroup(
 			[
 				['apply', 'application.apply'],

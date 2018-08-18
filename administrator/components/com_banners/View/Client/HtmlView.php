@@ -6,19 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Banners\Administrator\View\Client;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
-
 \JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
+
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * View to edit a client.
@@ -67,7 +61,7 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = ContentHelper::getActions('com_banners');
+		$this->canDo = \JHelperContent::getActions('com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -89,15 +83,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
+		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->id);
 		$canDo      = $this->canDo;
 
-		ToolbarHelper::title(
-			$isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
+		\JToolbarHelper::title(
+			$isNew ? \JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : \JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
 			'bookmark banners-clients'
 		);
 
@@ -121,26 +115,26 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'client.save2copy'];
 		}
 
-		ToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			ToolbarHelper::cancel('client.cancel');
+			\JToolbarHelper::cancel('client.cancel');
 		}
 		else
 		{
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				ToolbarHelper::versions('com_banners.client', $this->item->id);
+				\JToolbarHelper::versions('com_banners.client', $this->item->id);
 			}
 
-			ToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS_EDIT');
 	}
 }

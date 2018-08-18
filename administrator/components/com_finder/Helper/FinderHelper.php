@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Finder\Administrator\Helper;
 
 use Joomla\CMS\Helper\ContentHelper;
@@ -53,11 +52,6 @@ class FinderHelper
 			\JText::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
 			$vName === 'filters'
-		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_SEARCHES'),
-			'index.php?option=com_finder&view=searches',
-			$vName === 'searches'
 		);
 	}
 

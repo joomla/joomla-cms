@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Contact\Site\View\Category;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
-use Joomla\CMS\Mail\MailHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML View class for the Contacts component
@@ -73,9 +70,9 @@ class HtmlView extends CategoryView
 			{
 				$item->email_to = trim($item->email_to);
 
-				if (!empty($item->email_to) && MailHelper::isEmailAddress($item->email_to))
+				if (!empty($item->email_to) && \JMailHelper::isEmailAddress($item->email_to))
 				{
-					$item->email_to = HTMLHelper::_('email.cloak', $item->email_to);
+					$item->email_to = \JHtml::_('email.cloak', $item->email_to);
 				}
 				else
 				{

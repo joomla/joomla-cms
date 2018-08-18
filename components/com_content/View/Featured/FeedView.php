@@ -6,17 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\AbstractView;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Frontpage View class
@@ -35,16 +29,16 @@ class FeedView extends AbstractView
 	public function display($tpl = null)
 	{
 		// Parameters
-		$app       = Factory::getApplication();
-		$doc       = Factory::getDocument();
+		$app       = \JFactory::getApplication();
+		$doc       = \JFactory::getDocument();
 		$params    = $app->getParams();
 		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
-		$doc->link = Route::_('index.php?option=com_content&view=featured');
+		$doc->link = \JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		$app->input->set('limit', $app->get('feed_limit'));
-		$categories = Categories::getInstance('Content');
+		$categories = \JCategories::getInstance('Content');
 		$rows       = $this->get('Items');
 
 		foreach ($rows as $row)
@@ -57,10 +51,10 @@ class FeedView extends AbstractView
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// URL link to article
-			$link = Route::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
+			$link = \JRoute::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			// Get row fulltext
-			$db = Factory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('fulltext'))
 				->from($db->quoteName('#__content'))
@@ -82,14 +76,14 @@ class FeedView extends AbstractView
 			$author      = $row->created_by_alias ?: $row->author;
 
 			// Load individual item creator class
-			$item           = new FeedItem;
+			$item           = new \JFeedItem;
 			$item->title    = $title;
 			$item->link     = $link;
 			$item->date     = $row->publish_up;
 			$item->category = array();
 
 			// All featured articles are categorized as "Featured"
-			$item->category[] = Text::_('JFEATURED');
+			$item->category[] = \JText::_('JFEATURED');
 
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
 			{
@@ -114,7 +108,7 @@ class FeedView extends AbstractView
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
-				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . \JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 
 			// Load item description and add div

@@ -10,13 +10,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Folder;
 
-JLoader::register('Folder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
+JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
  * FieldsHelper
@@ -102,7 +97,7 @@ class FieldsHelper
 			$item = (object) $item;
 		}
 
-		if (Multilanguage::isEnabled() && isset($item->language) && $item->language != '*')
+		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language != '*')
 		{
 			self::$fieldsCache->setState('filter.language', array('*', $item->language));
 		}
@@ -184,16 +179,16 @@ class FieldsHelper
 
 				if ($prepareValue)
 				{
-					PluginHelper::importPlugin('fields');
+					JPluginHelper::importPlugin('fields');
 
 					/*
 					 * On before field prepare
 					 * Event allow plugins to modfify the output of the field before it is prepared
 					 */
-					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
+					JFactory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
-					$value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
+					$value = JFactory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
 
 					if (is_array($value))
 					{
@@ -204,7 +199,7 @@ class FieldsHelper
 					 * On after field render
 					 * Event allows plugins to modify the output of the prepared field
 					 */
-					Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
+					JFactory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
 					$field->value = $value;
@@ -245,13 +240,13 @@ class FieldsHelper
 		if ($parts = self::extract($context))
 		{
 			// Trying to render the layout on the component from the context
-			$value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
+			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
 		if ($value == '')
 		{
 			// Trying to render the layout on Fields itself
-			$value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
+			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
 		return $value;
@@ -327,31 +322,20 @@ class FieldsHelper
 			*/
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 
-			$formControl = $form->getFormControl();
-
-			// @todo move the script to a file
 			// Preload spindle-wheel when we need to submit form due to category selector changed
-			Factory::getDocument()->addScriptDeclaration(
-<<<JS
-function categoryHasChanged(element) {
-	if (cat.value === '$assignedCatids') {
-	  return;
-	}
-
-	Joomla.loadingLayer('show');
-	document.querySelector('input[name=task]').value = "$section.reload";
-	element.form.submit();
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    Joomla.loadingLayer('load');
-
-	var element = document.getElementById("$formControl" + "_catid")
-	if (!element.val() !== "$assignedCatids") {
-	  element.value = "$assignedCatids";
-	}
-});
-JS
+			JFactory::getDocument()->addScriptDeclaration("
+			function categoryHasChanged(element) {
+				var cat = jQuery(element);
+				if (cat.val() == '" . $assignedCatids . "')return;
+				Joomla.loadingLayer('show');
+				jQuery('input[name=task]').val('" . $section . ".reload');
+				element.form.submit();
+			}
+			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
+				var formControl = '#" . $form->getFormControl() . "_catid';
+				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
+			});"
 			);
 		}
 
@@ -437,7 +421,7 @@ JS
 			{
 				$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-				if (!Factory::getLanguage()->hasKey($key))
+				if (!JFactory::getLanguage()->hasKey($key))
 				{
 					$key = 'JGLOBAL_FIELDS';
 				}
@@ -449,7 +433,7 @@ JS
 			{
 				$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
 
-				if (Factory::getLanguage()->hasKey($key))
+				if (JFactory::getLanguage()->hasKey($key))
 				{
 					$description = $key;
 				}
@@ -463,7 +447,7 @@ JS
 			{
 				try
 				{
-					Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+					JFactory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
 					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
@@ -476,7 +460,7 @@ JS
 				}
 				catch (Exception $e)
 				{
-					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 
@@ -492,11 +476,11 @@ JS
 
 		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
-		if ((!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
-			&& Factory::getApplication()->isClient('site'))
+		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'modules'
+			&& JFactory::getApplication()->isClient('site'))
 		{
 			// Modules on front end editing don't have data and an id set
-			$data->id = Factory::getApplication()->input->getInt('id');
+			$data->id = JFactory::getApplication()->input->getInt('id');
 		}
 
 		// Looping through the fields again to set the value
@@ -545,7 +529,7 @@ JS
 	{
 		$parts = self::extract($field->context);
 
-		return Factory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
+		return JFactory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
 	}
 
 	/**
@@ -559,7 +543,7 @@ JS
 	 */
 	public static function countItems(&$items)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -612,7 +596,7 @@ JS
 			return array();
 		}
 
-		$db    = Factory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('c.title'))
@@ -634,7 +618,7 @@ JS
 	 */
 	public static function getFieldsPluginId()
 	{
-		$db    = Factory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -648,7 +632,7 @@ JS
 		}
 		catch (RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			$result = 0;
 		}
 
@@ -684,7 +668,7 @@ JS
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file  = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (!file_exists($file))
 		{
@@ -697,7 +681,7 @@ JS
 
 		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
 		{
-			$lang = Factory::getLanguage();
+			$lang = JFactory::getLanguage();
 			$lang->load($component, JPATH_ADMINISTRATOR)
 			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
@@ -719,8 +703,8 @@ JS
 	 */
 	public static function getFieldTypes()
 	{
-		PluginHelper::importPlugin('fields');
-		$eventData = Factory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
+		JPluginHelper::importPlugin('fields');
+		$eventData = JFactory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
 
 		$data = array();
 

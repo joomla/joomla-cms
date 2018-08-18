@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Text;
  * None
  */
 
-HTMLHelper::_('script', 'layouts/joomla/html/batch/batch-language.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'system/fields/batch-language.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
 <label id="batch-language-lbl" for="batch-language-id" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC'); ?>">

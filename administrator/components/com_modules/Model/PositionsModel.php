@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -15,8 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Modules Component Positions Model
@@ -97,7 +94,7 @@ class PositionsModel extends ListModel
 	{
 		if (!isset($this->items))
 		{
-			$lang            = Factory::getLanguage();
+			$lang            = \JFactory::getLanguage();
 			$search          = $this->getState('filter.search');
 			$state           = $this->getState('filter.state');
 			$clientId        = $this->getState('client_id');
@@ -149,7 +146,7 @@ class PositionsModel extends ListModel
 			// Load the positions from the installed templates.
 			foreach (ModulesHelper::getTemplates($clientId) as $template)
 			{
-				$path = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+				$path = \JPath::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
 
 				if (file_exists($path))
 				{

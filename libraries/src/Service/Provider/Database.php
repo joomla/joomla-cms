@@ -37,7 +37,7 @@ class Database implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('db', DatabaseInterface::class)
-			->alias('DatabaseDriver', DatabaseInterface::class)
+			->alias('JDatabaseDriver', DatabaseInterface::class)
 			->alias(DatabaseDriver::class, DatabaseInterface::class)
 			->share(
 				DatabaseInterface::class,
