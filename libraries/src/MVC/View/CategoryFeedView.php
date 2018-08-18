@@ -104,7 +104,7 @@ class CategoryFeedView extends HtmlView
 			{
 				$date = date('r', strtotime($item->$publishedField));
 			}
-			else if ($createdField)
+			elseif ($createdField)
 			{
 				$date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
 			}
