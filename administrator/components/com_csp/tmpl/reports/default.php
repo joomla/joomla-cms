@@ -58,7 +58,7 @@ $saveOrder = $listOrder == 'a.id';
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="articleList">
+					<table class="table" id="articleList">
 						<thead>
 							<tr>
 								<td class="text-center">

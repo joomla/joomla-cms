@@ -31,37 +31,37 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 123, 0, 'root.1', 'Root Asset', '{\"core.login.site\":{\"6\":1,\"2\":1},\"core.login.admin\":{\"6\":1},\"core.login.offline\":{\"6\":1},\"core.admin\":{\"8\":1},\"core.manage\":{\"7\":1},\"core.create\":{\"6\":1,\"3\":1},\"core.delete\":{\"6\":1},\"core.edit\":{\"6\":1,\"4\":1},\"core.edit.state\":{\"6\":1,\"5\":1},\"core.edit.own\":{\"6\":1,\"3\":1}}'),
+(1, 0, 0, 123, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
-(3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"6\":1}}'),
-(4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"7\":1}}'),
-(5, 1, 9, 10, 1, 'com_checkin', 'com_checkin', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"7\":1}}'),
+(3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(5, 1, 9, 10, 1, 'com_checkin', 'com_checkin', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
 (6, 1, 11, 12, 1, 'com_config', 'com_config', '{}'),
-(7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"6\":1}}'),
-(8, 1, 17, 38, 1, 'com_content', 'com_content', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"6\":1},\"core.create\":{\"3\":1},\"core.edit\":{\"4\":1},\"core.edit.state\":{\"5\":1},\"core.execute.transition\":{\"6\":1,\"5\":1}}'),
+(7, 1, 13, 16, 1, 'com_contact', 'com_contact', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(8, 1, 17, 38, 1, 'com_content', 'com_content', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.edit":{"4":1},"core.edit.state":{"5":1},"core.execute.transition":{"6":1,"5":1}}'),
 (9, 1, 39, 40, 1, 'com_cpanel', 'com_cpanel', '{}'),
-(10, 1, 41, 42, 1, 'com_installer', 'com_installer', '{\"core.manage\":{\"7\":0},\"core.delete\":{\"7\":0},\"core.edit.state\":{\"7\":0}}'),
-(11, 1, 43, 44, 1, 'com_languages', 'com_languages', '{\"core.admin\":{\"7\":1}}'),
+(10, 1, 41, 42, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'),
+(11, 1, 43, 44, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'),
 (12, 1, 45, 46, 1, 'com_login', 'com_login', '{}'),
 (13, 1, 47, 48, 1, 'com_mailto', 'com_mailto', '{}'),
 (14, 1, 49, 50, 1, 'com_massmail', 'com_massmail', '{}'),
-(15, 1, 51, 52, 1, 'com_media', 'com_media', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"6\":1},\"core.create\":{\"3\":1},\"core.delete\":{\"5\":1}}'),
-(16, 1, 53, 56, 1, 'com_menus', 'com_menus', '{\"core.admin\":{\"7\":1}}'),
-(17, 1, 57, 58, 1, 'com_messages', 'com_messages', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"7\":1}}'),
-(18, 1, 59, 92, 1, 'com_modules', 'com_modules', '{\"core.admin\":{\"7\":1}}'),
-(19, 1, 93, 96, 1, 'com_newsfeeds', 'com_newsfeeds', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"6\":1}}'),
-(20, 1, 97, 98, 1, 'com_plugins', 'com_plugins', '{\"core.admin\":{\"7\":1}}'),
-(21, 1, 99, 100, 1, 'com_redirect', 'com_redirect', '{\"core.admin\":{\"7\":1}}'),
-(22, 1, 101, 102, 1, 'com_search', 'com_search', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"6\":1}}'),
-(23, 1, 103, 104, 1, 'com_templates', 'com_templates', '{\"core.admin\":{\"7\":1}}'),
-(24, 1, 105, 108, 1, 'com_users', 'com_users', '{\"core.admin\":{\"7\":1}}'),
+(15, 1, 51, 52, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
+(16, 1, 53, 56, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
+(17, 1, 57, 58, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(18, 1, 59, 92, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(19, 1, 93, 96, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(20, 1, 97, 98, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
+(21, 1, 99, 100, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
+(22, 1, 101, 102, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 103, 104, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(24, 1, 105, 108, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
 (26, 1, 109, 110, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
 (30, 19, 94, 95, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
 (32, 24, 106, 107, 2, 'com_users.category.7', 'Uncategorised', '{}'),
-(33, 1, 111, 112, 1, 'com_finder', 'com_finder', '{\"core.admin\":{\"7\":1},\"core.manage\":{\"6\":1}}'),
+(33, 1, 111, 112, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34, 1, 113, 114, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
 (35, 1, 115, 116, 1, 'com_tags', 'com_tags', '{}'),
 (36, 1, 117, 118, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
-  `state` int(10) NOT NULL DEFAULT 0,
+  `state` tinyint(3) NOT NULL DEFAULT 0,
   `catid` int(10) unsigned NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
@@ -1939,36 +1939,36 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 -- Table structure for table `#__workflows`
 --
 
+
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL DEFAULT '',
-  `extension` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `extension` varchar(50) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
-  `created` datetime NOT NULL DEFAULT NOW(),
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) NOT NULL DEFAULT 0,
-  `modified` datetime NOT NULL DEFAULT NOW(),
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `asset_id` (`asset_id`),
-  KEY `title` (`title`(191)),
-  KEY `extension` (`extension`(191)),
-  KEY `default` (`default`),
-  KEY `created` (`created`),
-  KEY `created_by` (`created_by`),
-  KEY `modified` (`modified`),
-  KEY `modified_by` (`modified_by`)
-) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
-
+  KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_title` (`title`(191)),
+  KEY `idx_extension` (`extension`),
+  KEY `idx_default` (`default`),
+  KEY `idx_created` (`created`),
+  KEY `idx_created_by` (`created_by`),
+  KEY `idx_modified` (`modified`),
+  KEY `idx_modified_by` (`modified_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 --
 -- Dumping data for table `#__workflows`
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, NOW(), 0, '0000-00-00 00:00:00', 0);
+(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
@@ -1977,12 +1977,12 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
   `stage_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
-  `extension` varchar(100) NOT NULL,
+  `extension` varchar(50) NOT NULL,
   PRIMARY KEY (`item_id`, `stage_id`, `extension`),
   KEY `idx_item_id` (`item_id`),
   KEY `idx_stage_id` (`stage_id`),
-  KEY `idx_extension` (`extension`(100))
-) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
+  KEY `idx_extension` (`extension`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table `#__workflow_stages`
@@ -1995,25 +1995,25 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL DEFAULT '',
-  `condition` enum('0','1','-2') NOT NULL,
+  `description` text NOT NULL,
+  `condition` int(10) DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `workflow_id` (`workflow_id`),
-  KEY `title` (`title`(191)),
-  KEY `asset_id` (`asset_id`),
-  KEY `default` (`default`)
-) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
+  KEY `idx_workflow_id` (`workflow_id`),
+  KEY `idx_title` (`title`(191)),
+  KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_default` (`default`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_stages`
 --
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 1, 'Unpublished', '', '0', 0),
-(2, 58, 2, 1, 1, 'Published', '', '1', 1),
-(3, 59, 3, 1, 1, 'Trashed', '', '-2', 0),
-(4, 60, 4, 1, 1, 'Archived', '', '1', 0);
+(1, 57, 1, 1, 1, 'Unpublished', '', 0, 0),
+(2, 58, 2, 1, 1, 'Published', '', 1, 1),
+(3, 59, 3, 1, 1, 'Trashed', '', -2, 0),
+(4, 60, 4, 1, 1, 'Archived', '', 2, 0);
 
 --
 -- Table structure for table `#__workflow_transitions`
@@ -2026,16 +2026,16 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `workflow_id` int(10) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL DEFAULT '',
+  `description` text NOT NULL,
   `from_stage_id` int(10) NOT NULL,
   `to_stage_id` int(10) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `title` (`title`(191)),
-  KEY `asset_id` (`asset_id`),
-  KEY `from_stage_id` (`from_stage_id`),
-  KEY `to_stage_id` (`to_stage_id`),
-  KEY `workflow_id` (`workflow_id`)
-) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
+  KEY `idx_title` (`title`(191)),
+  KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_from_stage_id` (`from_stage_id`),
+  KEY `idx_to_stage_id` (`to_stage_id`),
+  KEY `idx_workflow_id` (`workflow_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_transitions`
