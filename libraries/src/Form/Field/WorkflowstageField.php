@@ -98,7 +98,8 @@ class WorkflowstageField extends GroupedlistField
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
 				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
-				->order($db->quoteName('w.ordering'));
+				->order($db->quoteName('w.ordering'))
+				->order($db->quoteName('ws.ordering'));
 
 		if ($this->activeonly)
 		{
