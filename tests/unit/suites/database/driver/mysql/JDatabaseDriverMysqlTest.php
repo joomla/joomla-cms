@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	{
 		return array(
 			array("'%_abc123", false, '\\\'%_abc123'),
-			array("'%_abc123", true, '\\\'\\%\_abc123')
+			array("'%_abc123", true, '\\\'\\%\_abc123'),
+			array(3, false, 3),
+			array(3.14, false, '3.14'),
 		);
 	}
 
@@ -140,6 +142,39 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	public function testEscape($text, $extra, $expected)
 	{
 		$this->assertSame($expected, self::$driver->escape($text, $extra), 'The string was not escaped properly');
+	}
+
+	/**
+	 * Tests the escape method 2.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testEscapeNonLocaleAware()
+	{
+		$origin = setLocale(LC_NUMERIC, 0);
+
+		// Test with decimal_point equals to comma
+		setLocale(LC_NUMERIC, 'pl_PL');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Test with C locale
+		setLocale(LC_NUMERIC, 'C');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Revert to origin locale
+		setLocale(LC_NUMERIC, $origin);
 	}
 
 	/**
@@ -281,7 +316,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 			self::$driver->getTableColumns('jos_dbtest')
 		);
 
-		/* not only type field */
+		// Not only type field
 		$id = new stdClass;
 		$id->Default    = null;
 		$id->Field      = 'id';
@@ -463,7 +498,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
 		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
@@ -490,7 +525,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
 		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
@@ -517,7 +552,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
 		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
@@ -542,7 +577,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -569,7 +604,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -596,7 +631,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
-		/* last call to free cursor, asserting that returns false */
+		// Last call to free cursor, asserting that returns false
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -793,7 +828,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		self::$driver->transactionCommit();
 
-		/* check if value is present */
+		// Check if value is present
 		$queryCheck = self::$driver->getQuery(true);
 		$queryCheck->select('*')
 			->from('#__dbtest')
@@ -821,20 +856,20 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	{
 		self::$driver->transactionStart();
 
-		/* try to insert this tuple, inserted only when savepoint != null */
+		// Try to insert this tuple, inserted only when savepoint != null
 		$queryIns = self::$driver->getQuery(true);
 		$queryIns->insert('#__dbtest')
 			->columns('id, title, start_date, description')
 			->values("7, 'testRollback', '1970-01-01', 'testRollbackSp'");
 		self::$driver->setQuery($queryIns)->execute();
 
-		/* create savepoint only if is passed by data provider */
+		// Create savepoint only if is passed by data provider
 		if (!is_null($toSavepoint))
 		{
 			self::$driver->transactionStart((boolean) $toSavepoint);
 		}
 
-		/* try to insert this tuple, always rolled back */
+		// Try to insert this tuple, always rolled back
 		$queryIns = self::$driver->getQuery(true);
 		$queryIns->insert('#__dbtest')
 			->columns('id, title, start_date, description')
@@ -843,13 +878,14 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		self::$driver->transactionRollback((boolean) $toSavepoint);
 
-		/* release savepoint and commit only if a savepoint exists */
+		// Release savepoint and commit only if a savepoint exists
 		if (!is_null($toSavepoint))
 		{
 			self::$driver->transactionCommit();
 		}
 
-		/* find how many rows have description='testRollbackSp' :
+		/*
+		 * Find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
 		 *   - 1 if a savepoint exists
 		 */

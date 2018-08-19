@@ -112,6 +112,23 @@
 			type="separator"
 		/>
 		<menuitem
+			title="MOD_MENU_FIELDS"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;context=com_users.user"
+			class="class:fields"
+		/>
+		<menuitem
+			title="MOD_MENU_FIELDS_GROUP"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
+			class="class:category"
+		/>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_COM_USERS_NOTES"
 			type="component"
 			element="com_users"
@@ -141,20 +158,6 @@
 				scope="edit"
 			/>
 		</menuitem>
-		<menuitem
-			title="MOD_MENU_FIELDS"
-			type="component"
-			element="com_fields"
-			link="index.php?option=com_fields&amp;context=com_users.user"
-			class="class:fields"
-		/>
-		<menuitem
-			title="MOD_MENU_FIELDS_GROUP"
-			type="component"
-			element="com_fields"
-			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
-			class="class:category"
-		/>
 		<menuitem
 			type="separator"
 		/>
@@ -210,10 +213,10 @@
 			sql_from="#__menu_types AS a"
 			sql_where="a.client_id = 0"
 			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
-			sql_group="a.id"
+			sql_group="a.id, m.language, l.image"
 			sql_order="a.title ASC">
 			<menuitem
-				title="{sql:title}"
+				title="{sql:title} "
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
@@ -289,6 +292,16 @@
 			/>
 		</menuitem>
 		<menuitem
+			title="MOD_MENU_COM_CONTENT_FEATURED"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=featured"
+			class="class:featured"
+		/>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
@@ -301,13 +314,6 @@
 			element="com_fields"
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
 			class="class:category"
-		/>
-		<menuitem
-			title="MOD_MENU_COM_CONTENT_FEATURED"
-			type="component"
-			element="com_content"
-			link="index.php?option=com_content&amp;view=featured"
-			class="class:featured"
 		/>
 		<menuitem
 			type="separator"
@@ -343,6 +349,9 @@
 			element="com_postinstall"
 			link="index.php?option=com_postinstall"
 			class="class:component"
+		/>
+		<menuitem
+			type="separator"
 		/>
 		<menuitem
 			title="MOD_MENU_SYSTEM"
@@ -498,6 +507,9 @@
 			scope="help"
 		/>
 		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM"
@@ -528,6 +540,9 @@
 			link="https://docs.joomla.org"
 			class="class:help-docs"
 			scope="help"
+		/>
+		<menuitem
+			type="separator"
 		/>
 		<menuitem
 			type="url"

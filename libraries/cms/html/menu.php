@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -351,7 +351,7 @@ abstract class JHtmlMenu
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if ($level <= $maxlevel && @$children[$id])
+		if ($level <= $maxlevel && isset($children[$id]) && is_array($children[$id]))
 		{
 			if ($type)
 			{
@@ -379,8 +379,16 @@ abstract class JHtmlMenu
 
 				$list[$id]           = $v;
 				$list[$id]->treename = $indent . $txt;
-				$list[$id]->children = count(@$children[$id]);
-				$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+
+				if (isset($children[$id]) && is_array($children[$id]))
+				{
+					$list[$id]->children = count($children[$id]);
+					$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				}
+				else
+				{
+					$list[$id]->children = 0;
+				}
 			}
 		}
 

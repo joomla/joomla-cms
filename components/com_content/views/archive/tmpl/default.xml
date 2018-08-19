@@ -101,7 +101,7 @@
 
 			<field 
 				name="introtext_limit" 
-				type="text" 
+				type="number" 
 				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
 				description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC" 
 				default="100"

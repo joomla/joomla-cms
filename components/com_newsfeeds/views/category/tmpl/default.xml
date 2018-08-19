@@ -268,7 +268,7 @@
 
 			<field 
 				name="feed_character_count" 
-				type="text"
+				type="number"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				size="6"

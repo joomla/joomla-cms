@@ -43,7 +43,7 @@
 			
 			<field
 				name="tag_columns"
-				type="text"
+				type="number"
 				label="COM_TAGS_COMPACT_COLUMNS_LABEL"
 				description="COM_TAGS_NUMBER_COLUMNS_DESC"
 				default="4"
@@ -131,7 +131,7 @@
 
 			<field
 				name="all_tags_tag_maximum_characters"
-				type="text"
+				type="number"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 				filter="integer"
@@ -156,7 +156,7 @@
 			
 			<field
 				name="maximum"
-				type="text"
+				type="number"
 				label="COM_TAGS_LIST_MAX_LABEL"
 				description="COM_TAGS_LIST_MAX_DESC"
 				default="200"

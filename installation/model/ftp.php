@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ class InstallationModelFtp extends JModelBase
 			return false;
 		}
 
-		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
+		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass_plain')))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
 
@@ -162,7 +162,7 @@ class InstallationModelFtp extends JModelBase
 			return false;
 		}
 
-		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
+		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass_plain')))
 		{
 			$ftp->quit();
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
