@@ -14,6 +14,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Content search plugin.
@@ -279,9 +280,13 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
+				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
 				->where(
-					'(' . $where . ') AND ws.condition=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
+					'(' . $where . ') AND ws.condition= ' . ContentComponent::CONDITION_PUBLISHED . ' AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
@@ -342,8 +347,13 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid AND c.access IN (' . $groups . ')')
+				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
 				->where(
-					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
+					'(' . $where . ') AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . ' AND c.published = 1 AND a.access IN (' . $groups
 						. ') AND c.access IN (' . $groups . ') '
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'

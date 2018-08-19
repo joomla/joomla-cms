@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -126,9 +127,13 @@ abstract class RelatedItemsHelper
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-					->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state')
+					->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+					->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+					->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
 					->where('a.id != ' . (int) $id)
-					->where('ws.condition = 1')
+					->where('ws.condition = ' . (int) ContentComponent::CONDITION_PUBLISHED)
 					->where('a.access IN (' . $groups . ')');
 
 				$wheres = array();

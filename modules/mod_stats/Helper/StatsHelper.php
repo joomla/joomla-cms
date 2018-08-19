@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Helper for mod_stats
@@ -92,10 +93,15 @@ class StatsHelper
 			}
 
 			$query->clear()
-				->select('COUNT(id) AS count_items')
-				->from('#__content')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
-				->where('ws.condition = 1');
+				->select('COUNT(c.id) AS count_items')
+				->from($db->quoteName('#__content', 'c'))
+				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+				->where($db->quoteName('ws.condition') . ' = ' . (int) ContentComponent::CONDITION_PUBLISHED);
+
 			$db->setQuery($query);
 
 			try
@@ -127,10 +133,14 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(hits) AS count_hits')
-				->from('#__content')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
-				->where('ws.condition = 1');
+				->select('SUM(c.hits) AS count_hits')
+				->from($db->quoteName('#__content', 'c'))
+				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+				->where($db->quoteName('ws.condition') . ' = ' . (int) ContentComponent::CONDITION_PUBLISHED);
 			$db->setQuery($query);
 
 			try

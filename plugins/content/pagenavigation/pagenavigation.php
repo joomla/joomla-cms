@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Pagenavigation plugin class.
@@ -124,7 +125,7 @@ class PlgContentPagenavigation extends CMSPlugin
 					break;
 			}
 
-			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
+			$xwhere = ' AND (ws.condition = ' . (int) ContentComponent::CONDITION_PUBLISHED . ')'
 				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
 				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
@@ -144,7 +145,11 @@ class PlgContentPagenavigation extends CMSPlugin
 				->select($case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
+				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'));
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
