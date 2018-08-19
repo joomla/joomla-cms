@@ -24,13 +24,10 @@
 		/>
 		<field
 			name="condition"
-			type="list"
+			type="workflowcondition"
 			label="COM_WORKFLOW_CONDITION"
-			>
-			<option value="1">COM_WORKFLOW_PUBLISHED</option>
-			<option value="0">COM_WORKFLOW_UNPUBLISHED</option>
-			<option value="-2">COM_WORKFLOW_TRASHED</option>
-		</field>
+			description="COM_WORKFLOW_CONDITION_DESC"
+		/>
 	</fieldset>
 
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">

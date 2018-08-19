@@ -31,7 +31,7 @@ class PlgContentJoomla extends CMSPlugin
 	/**
 	 * Database Driver Instance
 	 *
-	 * @var    \Joomla\CMS\Database\DatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
@@ -412,11 +412,11 @@ class PlgContentJoomla extends CMSPlugin
 	{
 		$pks = ArrayHelper::toInteger($pks);
 
-		if ($context == 'com_workflow.stage' && $value == -2)
+		if ($context === 'com_workflow.stage' && $value == -2)
 		{
 			foreach ($pks as $pk)
 			{
-				if (!$this->_canDeleteStates($pk))
+				if (!$this->_canDeleteStages($pk))
 				{
 					return false;
 				}
@@ -514,8 +514,8 @@ class PlgContentJoomla extends CMSPlugin
 
 					$message = array(
 						'user_id_to' => $user_id,
-						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_SUBJECT'),
-						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_MSG'), $user->name, $article->title)
+						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_SUBJECT'),
+						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title)
 					);
 
 					$model_message = new MessageModel;
