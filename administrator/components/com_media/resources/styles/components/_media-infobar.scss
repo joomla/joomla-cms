@@ -13,7 +13,7 @@
   h2 {
     padding: 10px ($gutter-width + 30px) 10px $gutter-width;
     margin: (-$gutter-width) (-$gutter-width) $gutter-width;
-    font-weight: normal;
+    font-weight: 400;
     line-height: $info-title-height;
     word-wrap: break-word;
     background-color: $info-title-bg;
@@ -35,7 +35,7 @@
   dt {
     flex: 0 0 $info-dt-width;
     max-width: $info-dt-width;
-    font-weight: normal;
+    font-weight: 400;
     color: rgba(0, 0, 0, .54);
   }
   dd {
