@@ -122,8 +122,10 @@ if ($saveOrder)
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 												<?php echo $editIcon; ?><?php echo $item->title; ?>
 											</a>
+											<div class="small"><?php echo $item->description; ?></div>
 										<?php else: ?>
 											<?php echo $item->title; ?>
+											<div class="small"><?php echo $item->description; ?></div>
 										<?php endif; ?>
 									</th>
 									<td class="text-center">

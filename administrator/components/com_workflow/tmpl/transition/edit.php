@@ -34,9 +34,9 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_WORKFLOW_DESCRIPTION')); ?>
 		<div class="row">
 			<div class="col-md-9">
-			<?php foreach ($this->form->getGroup('transition') as $field) : ?>
-				<?php echo $field->renderField(); ?>
-			<?php endforeach; ?>
+				<?php echo $this->form->renderField('from_stage_id'); ?>
+				<?php echo $this->form->renderField('to_stage_id'); ?>
+				<?php echo $this->form->renderField('description'); ?>
 			</div>
 			<div class="col-md-3">
 				<div class="card card-block card-light">

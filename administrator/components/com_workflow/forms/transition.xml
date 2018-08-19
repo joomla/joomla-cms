@@ -7,42 +7,41 @@
 		size="40"
 		required="true"
 	/>
-	<fields name="transition">
-		<fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
-			<field
-				name="id"
-				type="hidden"
-				label="JGLOBAL_FIELD_ID_LABEL"
-				default="0"
-				class="readonly"
-				size="10"
-				readonly="true"
-			/>
-			<field
-				name="from_stage_id"
-				type="sql"
-				label="COM_WORKFLOW_FROM_STAGE"
-				required="true"
-				sql_select="id as value, title as from_stage_id"
-				sql_from="#__workflow_stages"
-				>
-				<option value="-1">JALL</option>
-			</field>
-			<field
-				name="to_stage_id"
-				type="sql"
-				label="COM_WORKFLOW_TO_STAGE"
-				required="true"
-				sql_select="id as value, title as to_stage_id"
-				sql_from="#__workflow_stages"
-			/>
-			<field
-				name="description"
-				type="text"
-				label="COM_WORKFLOW_TRANSITION_NOTE"
-			/>
-		</fieldset>
-	</fields>
+	<fieldset name="transition" addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+		<field
+			name="id"
+			type="hidden"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			size="10"
+			readonly="true"
+		/>
+		<field
+			name="from_stage_id"
+			type="sql"
+			label="COM_WORKFLOW_FROM_STAGE"
+			required="true"
+			sql_select="id as value, title as from_stage_id"
+			sql_from="#__workflow_stages"
+			>
+			<option value="-1">JALL</option>
+		</field>
+		<field
+			name="to_stage_id"
+			type="sql"
+			label="COM_WORKFLOW_TO_STAGE"
+			required="true"
+			sql_select="id as value, title as to_stage_id"
+			sql_from="#__workflow_stages"
+		/>
+		<field
+			name="description"
+			type="text"
+			label="COM_WORKFLOW_TRANSITION_NOTE"
+		/>
+	</fieldset>
+
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
