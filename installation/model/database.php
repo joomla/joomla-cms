@@ -215,15 +215,8 @@ class InstallationModelDatabase extends JModelBase
 		// HTTP Status Code
 		$statusCode = JHttpFactory::getHttp()->get((string) $uri)->code;
 
-		// Check the security file if the db_host is not save and HTTP status code is not 401 (HTTP authentication required)
-		if (!in_array($options->db_host, $localhost) && $statusCode !== 401)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		// Check if the db_host is safe or HTTP status code is 401 (HTTP authentication required)
+		return in_array($options->db_host, $localhost) || $statusCode == 401
 	}
 
 	/**
