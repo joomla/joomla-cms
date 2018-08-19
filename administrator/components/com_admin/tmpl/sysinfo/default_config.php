@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset class="adminform">
-	<legend><?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?></legend>
+<div class="adminform">
 	<table class="table">
 		<thead>
 			<tr>
@@ -25,11 +24,6 @@ use Joomla\CMS\Language\Text;
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<?php foreach ($this->config as $key => $value) : ?>
 				<tr>
@@ -43,4 +37,4 @@ use Joomla\CMS\Language\Text;
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-</fieldset>
+</div>
