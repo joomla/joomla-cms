@@ -28,7 +28,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated 4.0 No replacement
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
@@ -321,7 +321,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated 4.0 No replacement
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function behavior()
 	{
