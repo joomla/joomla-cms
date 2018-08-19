@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<field
-		name="title"
-		type="text"
-		label="COM_WORKFLOW_FIELD_NAME_LABEL"
-		size="40"
-		required="true"
-	/>
 	<fieldset name="transition" addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
 		<field
 			name="id"
@@ -16,6 +9,13 @@
 			class="readonly"
 			size="10"
 			readonly="true"
+		/>
+		<field
+			name="title"
+			type="text"
+			label="COM_WORKFLOW_FIELD_NAME_LABEL"
+			size="40"
+			required="true"
 		/>
 		<field
 			name="from_stage_id"
