@@ -54,4 +54,28 @@ class TransitionsController extends AdminController
 			)
 		);
 	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish()
+	{
+		parent::publish();
+
+		$extension = $this->input->get('extension');
+		$extensionURL = $extension ? '&extension=' . $extension : '';
+
+		$workflow_id = $this->input->getInt('workflow_id');
+
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. $extensionURL . '&workflow_id=' . $workflow_id, false
+			)
+		);
+	}
 }
