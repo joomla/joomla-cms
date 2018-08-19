@@ -63,6 +63,7 @@ class ExtensionHelper
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
+		array('component', 'com_workflow', '', 1),
 		array('component', 'com_wrapper', '', 0),
 
 		// Core file extensions
