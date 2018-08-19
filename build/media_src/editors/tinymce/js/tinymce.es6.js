@@ -82,14 +82,16 @@
         buttonValues.push(tmp);
       });
 
-      options.setup = (editor) => {
-        editor.addButton('jxtdbuttons', {
-          type: 'menubutton',
-          text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
-          icon: 'none icon-joomla',
-          menu: buttonValues,
-        });
-      };
+      if (buttonValues.length) {
+        options.setup = (editor) => {
+          editor.addButton('jxtdbuttons', {
+            type: 'menubutton',
+            text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
+            icon: 'none icon-joomla',
+            menu: buttonValues,
+          });
+        };
+      }
 
       // Create a new instance
       // eslint-disable-next-line no-undef
