@@ -194,11 +194,11 @@ class ArchiveModel extends ArticlesModel
 		$years = $query->year($db->quoteName('c.created'));
 		$query->select('DISTINCT (' . $years . ')')
 			->from($db->quoteName('#__content', 'c'))
-			->from($db->quoteName('#__workflow_associations ', 'wa'))
+			->from($db->quoteName('#__workflow_associations', 'wa'))
 			->from($db->quoteName('#__workflow_stages', 'ws'))
 			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
 			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
-			->where($db->quoteName('wa.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
+			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
 			->where('(c.publish_up = ' . $nullDate . ' OR c.publish_up <= ' . $nowDate . ')')
 			->where('(c.publish_down = ' . $nullDate . ' OR c.publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
