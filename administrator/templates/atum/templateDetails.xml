@@ -28,10 +28,12 @@
 		<folder>less</folder>
 	</files>
 	<positions>
+<!-- part of the template -->
 		<position>menu</position>
 		<position>submenu</position>
 		<position>toolbar</position>
 		<position>title</position>
+<!-- used directly in a component and included here so the position will appear in the list of available positions -->
 		<position>status</position>
 		<position>icon</position>
 		<position>cp_shell</position>
