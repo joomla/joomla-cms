@@ -77,7 +77,8 @@ trait WorkflowServiceTrait
 				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
 				->whereIn($db->quoteName('s.id'), $stage_ids);
 
-		try {
+		try
+		{
 			return (int) $db->setQuery($query)->loadResult() === 0;
 		}
 		catch (Exception $ex)

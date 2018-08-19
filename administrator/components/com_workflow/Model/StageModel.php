@@ -313,7 +313,7 @@ class StageModel extends AdminModel
 		{
 			foreach ($pks as $i => $pk)
 			{
-				if ($table->load(array('id' => $pk)) && $table->default)
+				if ($table->load($pk) && $table->default)
 				{
 					// Prune items that you can't change.
 					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
