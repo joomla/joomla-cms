@@ -335,10 +335,10 @@ class HtmlView extends BaseHtmlView
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language));
 			}
 
-			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
+			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language), false);
 		}
 
 		// Process the content plugins.

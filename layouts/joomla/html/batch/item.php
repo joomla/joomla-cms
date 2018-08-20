@@ -26,6 +26,7 @@ $options = array(
 	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
 	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 );
+HTMLHelper::_('script', 'layouts/joomla/html/batch/batch-language.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <label id="batch-choose-action-lbl" for="batch-choose-action"><?php echo Text::_('JLIB_HTML_BATCH_MENU_LABEL'); ?></label>
 <div id="batch-choose-action" class="control-group">
