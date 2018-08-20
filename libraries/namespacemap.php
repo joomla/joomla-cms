@@ -62,14 +62,14 @@ class JNamespacePsr4Map
 	 */
 	public function create()
 	{
-		$extensions = $this->getExtensions('components');
-		$extensions = array_merge($extensions, $this->getExtensions('administrator/components'));
-		$extensions = array_merge($extensions, $this->getExtensions('modules'));
-		$extensions = array_merge($extensions, $this->getExtensions('administrator/modules'));
+		$extensions = $this->getNamespaces('components');
+		$extensions = array_merge($extensions, $this->getNamespaces('administrator/components'));
+		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
+		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
 
 		foreach (Folder::folders(JPATH_ROOT . '/plugins') as $pluginGroup)
 		{
-			$extensions = array_merge($extensions, $this->getExtensions('/plugins/' . $pluginGroup));
+			$extensions = array_merge($extensions, $this->getNamespaces('/plugins/' . $pluginGroup));
 		}
 
 		$this->writeNamespaceFile($extensions);
@@ -138,7 +138,7 @@ class JNamespacePsr4Map
 	 *
 	 * @since   4.0.0
 	 */
-	private function getExtensions(string $dir): array
+	private function getNamespaces(string $dir): array
 	{
 		// If it is not a dir return
 		if (!is_dir(JPATH_ROOT . '/' . $dir))
