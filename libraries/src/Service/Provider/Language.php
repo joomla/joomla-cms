@@ -39,7 +39,7 @@ class Language implements ServiceProviderInterface
 				LanguageFactoryInterface::class,
 				function (Container $container)
 				{
-					return new LanguageFactory();
+					return new LanguageFactory;
 				},
 				true
 			);
