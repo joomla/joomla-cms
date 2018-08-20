@@ -183,7 +183,7 @@ class JNamespacePsr4Map
 			$namespaceNode = $xml->namespace;
 
 			// The namespace string
-			$namespace = (string)$namespaceNode;
+			$namespace = (string) $namespaceNode;
 
 			// Ignore when the string is empty
 			if (!$namespace)
