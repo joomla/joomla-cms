@@ -32,7 +32,9 @@
       batchSelector = batchPosition;
     }
 
-    batchCopyMove.style.display = 'none';
+    if (batchCopyMove) {
+      batchCopyMove.style.display = 'none';
+    }
 
     if (batchCopyMove) {
       batchSelector.addEventListener('change', onChange);
