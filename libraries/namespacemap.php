@@ -106,7 +106,7 @@ class JNamespacePsr4Map
 	/**
 	 * Write the Namespace mapping file
 	 *
-	 * @param   array $elements Array of elements
+	 * @param   array  $elements  Array of elements
 	 *
 	 * @return  void
 	 *
@@ -203,8 +203,11 @@ class JNamespacePsr4Map
 				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
 			}
 
-			// Add the application specific segment
-			$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+			// Add the application specific segment when not a plugin
+			if (strpos($dir, '/plugins/') !== 0)
+			{
+				$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+			}
 
 			// Set the namespace
 			$extensions[$namespace] = $namespacePath . $namespaceNode->attributes()->path;

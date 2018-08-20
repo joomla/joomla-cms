@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_FILESYSTEM_LOCAL_XML_DESCRIPTION</description>
+	<namespace>Joomla\Plugin\Filesystem\Local</namespace>
 	<files>
 		<filename plugin="local">local.php</filename>
 		<folder>Adapter</folder>
