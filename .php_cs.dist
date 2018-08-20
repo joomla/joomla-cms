@@ -10,7 +10,6 @@ $mainFinder = PhpCsFixer\Finder::create()
 		array(
 			__DIR__ . '/libraries/cms',
 			__DIR__ . '/libraries/joomla',
-			__DIR__ . '/libraries/legacy',
 		)
 	)
 	->append($topFilesFinder);
