@@ -47,7 +47,8 @@ class JNamespacePsr4Map
 	 */
 	public function ensureMapFileExists()
 	{
-		if (!$this->exists()) {
+		if (!$this->exists())
+		{
 			$this->create();
 		}
 	}
@@ -61,7 +62,8 @@ class JNamespacePsr4Map
 	 */
 	public function create()
 	{
-		$extensions = $this->getExtensions('administrator/components');
+		$extensions = $this->getExtensions('components');
+		$extensions = array_merge($extensions, $this->getExtensions('administrator/components'));
 		$extensions = array_merge($extensions, $this->getExtensions('modules'));
 		$extensions = array_merge($extensions, $this->getExtensions('administrator/modules'));
 
@@ -84,7 +86,8 @@ class JNamespacePsr4Map
 	 */
 	public function load()
 	{
-		if (!$this->exists()) {
+		if (!$this->exists())
+		{
 			$this->create();
 		}
 
@@ -92,7 +95,8 @@ class JNamespacePsr4Map
 
 		$loader = include JPATH_LIBRARIES . '/vendor/autoload.php';
 
-		foreach ($map as $namespace => $path) {
+		foreach ($map as $namespace => $path)
+		{
 			$loader->setPsr4($namespace, $path);
 		}
 
@@ -117,7 +121,7 @@ class JNamespacePsr4Map
 
 		foreach ($elements as $namespace => $path)
 		{
-			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . "' . $path . '",],';
+			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . "' . $path . '"],';
 		}
 
 		$content[] = ');';
@@ -187,20 +191,23 @@ class JNamespacePsr4Map
 				continue;
 			}
 
+			// The namespace path
+			$namespacePath = '/' . $dir . '/' . $extension . '/';
+
 			// Normalize the namespace string
 			$namespace = str_replace('\\', '\\\\', $namespace) . '\\\\';
 
 			// Add the site path when a component
 			if (strpos($extension, 'com_') === 0)
 			{
-				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $extensionPath) . $namespaceNode->attributes()->path;
+				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
 			}
 
 			// Add the application specific segment
-			$namespace .=  strpos($extensionPath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+			$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
 
 			// Set the namespace
-			$extensions[$namespace] = $extensionPath . $namespaceNode->attributes()->path;
+			$extensions[$namespace] = $namespacePath . $namespaceNode->attributes()->path;
 		}
 
 		// Return the namespaces
