@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -18,6 +21,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Field Model
@@ -79,7 +85,7 @@ class FieldModel extends AdminModel
 	{
 		parent::__construct($config, $factory);
 
-		$this->typeAlias = \JFactory::getApplication()->input->getCmd('context', 'com_content.article') . '.field';
+		$this->typeAlias = Factory::getApplication()->input->getCmd('context', 'com_content.article') . '.field';
 	}
 
 	/**
@@ -108,7 +114,7 @@ class FieldModel extends AdminModel
 		}
 
 		// Alter the title for save as copy
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -283,7 +289,7 @@ class FieldModel extends AdminModel
 			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
 
 			// Check if the test succeeded
-			return $result === true ? : \JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+			return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
 		}
 		catch (\UnexpectedValueException $e)
 		{
@@ -333,7 +339,7 @@ class FieldModel extends AdminModel
 			// Prime required properties.
 			if (empty($result->id))
 			{
-				$result->context = \JFactory::getApplication()->input->getCmd('context', $this->getState('field.context'));
+				$result->context = Factory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
 			if (property_exists($result, 'fieldparams'))
@@ -359,11 +365,11 @@ class FieldModel extends AdminModel
 
 			// Convert the created and modified dates to local user time for
 			// display in the form.
-			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
-				$date = new \JDate($result->created_time);
+				$date = new Date($result->created_time);
 				$date->setTimezone($tz);
 
 				$result->created_time = $date->toSql(true);
@@ -375,7 +381,7 @@ class FieldModel extends AdminModel
 
 			if ((int) $result->modified_time)
 			{
-				$date = new \JDate($result->modified_time);
+				$date = new Date($result->modified_time);
 				$date->setTimezone($tz);
 
 				$result->modified_time = $date->toSql(true);
@@ -493,7 +499,7 @@ class FieldModel extends AdminModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		$context = $this->getState('field.context');
-		$jinput  = \JFactory::getApplication()->input;
+		$jinput  = Factory::getApplication()->input;
 
 		// A workaround to get the context into the model for save requests.
 		if (empty($context) && isset($data['context']))
@@ -542,7 +548,7 @@ class FieldModel extends AdminModel
 		$fieldId  = $jinput->get('id');
 		$assetKey = $this->state->get('field.component') . '.field.' . $fieldId;
 
-		if (!\JFactory::getUser()->authorise('core.edit.state', $assetKey))
+		if (!Factory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -587,32 +593,25 @@ class FieldModel extends AdminModel
 		$needsInsert = false;
 		$needsUpdate = false;
 
-		if ($field->default_value == $value)
+		$oldValue = $this->getFieldValue($fieldId, $itemId);
+		$value    = (array) $value;
+
+		if ($oldValue === null)
 		{
-			$needsDelete = true;
+			// No records available, doing normal insert
+			$needsInsert = true;
+		}
+		elseif (count($value) == 1 && count((array) $oldValue) == 1)
+		{
+			// Only a single row value update can be done
+			$needsUpdate = true;
 		}
 		else
 		{
-			$oldValue = $this->getFieldValue($fieldId, $itemId);
-			$value    = (array) $value;
-
-			if ($oldValue === null)
-			{
-				// No records available, doing normal insert
-				$needsInsert = true;
-			}
-			elseif (count($value) == 1 && count((array) $oldValue) == 1)
-			{
-				// Only a single row value update can be done
-				$needsUpdate = true;
-			}
-			else
-			{
-				// Multiple values, we need to purge the data and do a new
-				// insert
-				$needsDelete = true;
-				$needsInsert = true;
-			}
+			// Multiple values, we need to purge the data and do a new
+			// insert
+			$needsDelete = true;
+			$needsInsert = true;
 		}
 
 		if ($needsDelete)
@@ -795,7 +794,7 @@ class FieldModel extends AdminModel
 
 			$parts = \FieldsHelper::extract($record->context);
 
-			return \JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+			return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 		}
 
 		return false;
@@ -813,7 +812,7 @@ class FieldModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 		$parts = \FieldsHelper::extract($record->context);
 
 		// Check for existing field.
@@ -834,7 +833,7 @@ class FieldModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -879,7 +878,7 @@ class FieldModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app  = \JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$data = $app->getUserState('com_fields.edit.field.data', array());
 
 		if (empty($data))
@@ -899,7 +898,7 @@ class FieldModel extends AdminModel
 				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
 				);
 
 				// Set the type if available from the request
@@ -954,14 +953,14 @@ class FieldModel extends AdminModel
 			// Allow to override the default value label and description through the plugin
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
 
-			if (\JFactory::getLanguage()->hasKey($key))
+			if (Factory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'label', $key);
 			}
 
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
 
-			if (\JFactory::getLanguage()->hasKey($key))
+			if (Factory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);
 			}
@@ -973,14 +972,28 @@ class FieldModel extends AdminModel
 			}
 		}
 
-		// Setting the context for the category field
-		$cat = \JCategories::getInstance(str_replace('com_', '', $component));
-
-		if ($cat && $cat->get('root')->hasChildren())
+		try
 		{
-			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+			// Setting the context for the category field
+			$componentObject = $this->bootComponent($component);
+
+			if (!$componentObject instanceof CategoriesServiceInterface)
+			{
+				throw new SectionNotFoundException;
+			}
+
+			$cat = $componentObject->getCategories();
+
+			if ($cat->get('root')->hasChildren())
+			{
+				$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+			}
+			else
+			{
+				$form->removeField('assigned_cat_ids');
+			}
 		}
-		else
+		catch (SectionNotFoundException $e)
 		{
 			$form->removeField('assigned_cat_ids');
 		}
@@ -990,23 +1003,23 @@ class FieldModel extends AdminModel
 		$form->setFieldAttribute('rules', 'component', $component);
 
 		// Looking in the component forms folder for a specific section forms file
-		$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/forms/fields/' . $section . '.xml');
+		$path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/forms/fields/' . $section . '.xml');
 
 		if (!file_exists($path))
 		{
 			// Looking in the component models/forms folder for a specific section forms file
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+			$path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
 		}
 
 		if (file_exists($path))
 		{
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 			$lang->load($component, JPATH_BASE, null, false, true);
 			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 
 			if (!$form->loadFile($path, false))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -1026,7 +1039,7 @@ class FieldModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$context = \JFactory::getApplication()->input->get('context');
+		$context = Factory::getApplication()->input->get('context');
 
 		switch ($context)
 		{
@@ -1059,7 +1072,7 @@ class FieldModel extends AdminModel
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user      = \JFactory::getUser();
+		$user      = Factory::getUser();
 		$table     = $this->getTable();
 		$newIds    = array();
 		$component = $this->state->get('filter.component');
@@ -1095,7 +1108,7 @@ class FieldModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -1121,9 +1134,9 @@ class FieldModel extends AdminModel
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user      = \JFactory::getUser();
+		$user      = Factory::getUser();
 		$table     = $this->getTable();
-		$context   = explode('.', \JFactory::getApplication()->getUserState('com_fields.fields.context'));
+		$context   = explode('.', Factory::getApplication()->getUserState('com_fields.fields.context'));
 		$value     = (int) $value;
 
 		foreach ($pks as $pk)
@@ -1144,7 +1157,7 @@ class FieldModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}

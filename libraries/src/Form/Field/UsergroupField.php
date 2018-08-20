@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -40,7 +41,7 @@ class UsergroupField extends FormField
 	 */
 	protected function getInput()
 	{
-		\JLog::add('JFormFieldUsergroup is deprecated. Use JFormFieldUserGroupList instead.', \JLog::WARNING, 'deprecated');
+		Log::add('JFormFieldUsergroup is deprecated. Use JFormFieldUserGroupList instead.', Log::WARNING, 'deprecated');
 
 		$options = array();
 		$attr = '';
@@ -50,7 +51,7 @@ class UsergroupField extends FormField
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= $this->size ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->required ? ' required' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
@@ -70,7 +71,7 @@ class UsergroupField extends FormField
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 
 			// Create a new option object based on the <option /> element.
-			$tmp = \JHtml::_(
+			$tmp = HTMLHelper::_(
 				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
 				$disabled
 			);
@@ -85,6 +86,6 @@ class UsergroupField extends FormField
 			$options[] = $tmp;
 		}
 
-		return \JHtml::_('access.usergroup', $this->name, $this->value, $attr, $options, $this->id);
+		return HTMLHelper::_('access.usergroup', $this->name, $this->value, $attr, $options, $this->id);
 	}
 }

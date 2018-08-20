@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Table;
 
 defined('_JEXEC') or die;
@@ -108,6 +109,11 @@ class FilterTable extends Table
 			$this->params = (string) $params;
 		}
 
+		if (empty($this->modified))
+		{
+			$this->modified = $nullDate;
+		}
+
 		return true;
 	}
 
@@ -154,7 +160,7 @@ class FilterTable extends Table
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = '';
 		}
@@ -220,12 +226,11 @@ class FilterTable extends Table
 		$date = \JFactory::getDate()->toSql();
 		$userId = \JFactory::getUser()->id;
 
-		$this->modified = $date;
-
 		if ($this->filter_id)
 		{
 			// Existing item
 			$this->modified_by = $userId;
+			$this->modified    = $date;
 		}
 		else
 		{
@@ -254,7 +259,7 @@ class FilterTable extends Table
 		}
 
 		// Verify that the alias is unique
-		$table = new Filter($this->getDbo());
+		$table = new static($this->getDbo());
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0))
 		{

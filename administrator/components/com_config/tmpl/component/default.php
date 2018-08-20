@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,12 +47,11 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 		<div class="col-md-10" id="config">
 
 			<?php if ($this->fieldsets): ?>
-			<ul class="nav nav-tabs flex-wrap" id="configTabs">
+			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
-						<?php HTMLHelper::_('jquery.framework'); ?>
-						<?php HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true)); ?>
+						<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 						<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
@@ -74,8 +73,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 								$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
 							?>
 							<?php if ($field->showon) : ?>
-								<?php HTMLHelper::_('jquery.framework'); ?>
-								<?php HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true)); ?>
+								<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 								<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 							<?php endif; ?>
 							<?php if ($field->hidden) : ?>

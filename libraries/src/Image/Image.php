@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
 
 /**
@@ -39,7 +40,7 @@ class Image extends FrameworkImage
 	public function __construct($source = null)
 	{
 		// Inject the PSR-3 compatible logger in for forward compatibility
-		$this->setLogger(\JLog::createDelegatedLogger());
+		$this->setLogger(Log::createDelegatedLogger());
 
 		parent::__construct($source);
 	}
@@ -287,7 +288,7 @@ class Image extends FrameworkImage
 
 			if (!class_exists($className))
 			{
-				\JLog::add('The ' . ucfirst($type) . ' image filter is not available.', \JLog::ERROR);
+				Log::add('The ' . ucfirst($type) . ' image filter is not available.', Log::ERROR);
 				throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
 			}
 		}
@@ -299,7 +300,7 @@ class Image extends FrameworkImage
 		if (!($instance instanceof ImageFilter))
 		{
 			// @codeCoverageIgnoreStart
-			\JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', \JLog::ERROR);
+			Log::add('The ' . ucfirst($type) . ' image filter is not valid.', Log::ERROR);
 			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			// @codeCoverageIgnoreEnd

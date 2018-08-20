@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,11 @@ $fields = $displayData->get('fields') ?: array(
 	'note',
 	'version_note',
 );
+
+if (isset($displayData->get('item')->id) && ($displayData->get('item')->id !== null))
+{
+	array_unshift($fields, 'transition');
+}
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 

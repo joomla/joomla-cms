@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,12 +21,34 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
+// Check for presence of vendor dependencies not included in the git repository
+if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor'))
+{
+	echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
+	echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
+	echo 'Please see https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+
+	exit;
+}
+
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
-// Configure error reporting to maximum for CLI output.
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Boot the DI container
+$container = \Joomla\CMS\Factory::getContainer();
+
+/*
+ * Alias the session service keys to the CLI session service as that is the primary session backend for this application
+ *
+ * In addition to aliasing "common" service keys, we also create aliases for the PHP classes to ensure autowiring objects
+ * is supported.  This includes aliases for aliased class names, and the keys for alised class names should be considered
+ * deprecated to be removed when the class name alias is removed as well.
+ */
+$container->alias('session', 'session.cli')
+	->alias('JSession', 'session.cli')
+	->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+	->alias(\Joomla\Session\Session::class, 'session.cli')
+	->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
 $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,9 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -116,7 +119,7 @@ class LanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (\JFactory::getApplication()->isClient('installation'))
+			if (Factory::getApplication()->isClient('installation'))
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);
@@ -131,7 +134,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$cache = \JFactory::getCache('com_languages', '');
+				$cache = Factory::getCache('com_languages', '');
 
 				if ($cache->contains('languages'))
 				{
@@ -139,7 +142,7 @@ class LanguageHelper
 				}
 				else
 				{
-					$db = \JFactory::getDbo();
+					$db = Factory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
 						->from('#__languages')
@@ -189,7 +192,7 @@ class LanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			$cache = Factory::getCache('com_languages', '');
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -197,7 +200,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
@@ -240,10 +243,11 @@ class LanguageHelper
 					{
 						$lang->metadata = self::parseXMLLanguageFile($metafile);
 					}
+
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -251,7 +255,7 @@ class LanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->metadata))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -264,10 +268,11 @@ class LanguageHelper
 					{
 						$lang->manifest = \JInstaller::parseXMLInstallFile($metafile);
 					}
+
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -275,7 +280,7 @@ class LanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->manifest))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -323,24 +328,24 @@ class LanguageHelper
 	/**
 	 * Get a list of content languages.
 	 *
-	 * @param   boolean  $checkPublished  Check if the content language is published.
-	 * @param   boolean  $checkInstalled  Check if the content language is installed.
-	 * @param   string   $pivot           The pivot of the returning array.
-	 * @param   string   $orderField      Field to order the results.
-	 * @param   string   $orderDirection  Direction to order the results.
+	 * @param   array    $publishedStates  Array with the content language published states. Empty array for all.
+	 * @param   boolean  $checkInstalled   Check if the content language is installed.
+	 * @param   string   $pivot            The pivot of the returning array.
+	 * @param   string   $orderField       Field to order the results.
+	 * @param   string   $orderDirection   Direction to order the results.
 	 *
 	 * @return  array  Array of the content languages.
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
+	public static function getContentLanguages($publishedStates = array(1), $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
 		$orderDirection = null)
 	{
 		static $contentLanguages = null;
 
 		if ($contentLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			$cache = Factory::getCache('com_languages', '');
 
 			if ($cache->contains('contentlanguages'))
 			{
@@ -348,7 +353,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select('*')
@@ -362,12 +367,22 @@ class LanguageHelper
 
 		$languages = $contentLanguages;
 
-		// Check if the language is published, if needed.
-		if ($checkPublished)
+		// B/C layer. Before 3.8.3.
+		if ($publishedStates === true)
+		{
+			$publishedStates = array(1);
+		}
+		elseif ($publishedStates === false)
+		{
+			$publishedStates = array();
+		}
+
+		// Check the language published state, if needed.
+		if (count($publishedStates) > 0)
 		{
 			foreach ($languages as $key => $language)
 			{
-				if ((int) $language->published === 0)
+				if (!in_array((int) $language->published, $publishedStates, true))
 				{
 					unset($languages[$key]);
 				}
@@ -418,7 +433,7 @@ class LanguageHelper
 		// Write override.ini file with the strings.
 		$registry = new Registry($strings);
 
-		return \JFile::write($filename, $registry->toString('INI'));
+		return File::write($filename, $registry->toString('INI'));
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -23,7 +25,7 @@ use Joomla\Registry\Registry;
  *
  * @since  11.1
  */
-class Update extends \JObject
+class Update extends CMSObject
 {
 	/**
 	 * Update manifest `<name>` element
@@ -96,6 +98,14 @@ class Update extends \JObject
 	 * @since  11.1
 	 */
 	protected $downloads;
+
+	/**
+	 * Update manifest `<downloadsource>` elements
+	 *
+	 * @var    DownloadSource[]
+	 * @since  3.8.3
+	 */
+	protected $downloadSources = array();
 
 	/**
 	 * Update manifest `<tags>` element
@@ -260,6 +270,20 @@ class Update extends \JObject
 			// This is a new update; create a current update
 			case 'UPDATE':
 				$this->currentUpdate = new \stdClass;
+				break;
+
+			// Handle the array of download sources
+			case 'DOWNLOADSOURCE':
+				$source = new DownloadSource;
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$source->$key = $data;
+				}
+
+				$this->downloadSources[] = $source;
+
 				break;
 
 			// Don't do anything
@@ -442,6 +466,15 @@ class Update extends \JObject
 			return;
 		}
 
+		if ($tag == 'downloadsource')
+		{
+			// Grab the last source so we can append the URL
+			$source = end($this->downloadSources);
+			$source->url = $data;
+
+			return;
+		}
+
 		if (isset($this->currentUpdate->$tag))
 		{
 			$this->currentUpdate->$tag->_data .= $data;
@@ -477,7 +510,7 @@ class Update extends \JObject
 		if ($response === null || $response->code !== 200)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
-			Log::add(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
 			return false;
 		}

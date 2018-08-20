@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Module\ArticlesArchive\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
@@ -39,14 +40,23 @@ class ArticlesArchiveHelper
 
 		// Get database
 		$db    = Factory::getDbo();
+		$states = (array) $params->get('state', [4]);
+
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
-			->from('#__content')
-			->where('state = 2')
-			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
-			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
+			->from($db->quoteName('#__content', 'c'))
+			->innerJoin($db->quoteName('#__workflow_associations', 'wa') . ' ON wa.item_id = c.id')
+			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
+			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
+
+		if (!empty($states))
+		{
+			$states = ArrayHelper::toInteger($states);
+
+			$query->where($db->qn('wa.stage_id') . ' IN (' . implode(', ', $states) . ')');
+		}
 
 		// Filter by language
 		if ($app->getLanguageFilter())
@@ -64,7 +74,7 @@ class ArticlesArchiveHelper
 		{
 			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-			return;
+			return [];
 		}
 
 		$menu   = $app->getMenu();
@@ -74,20 +84,30 @@ class ArticlesArchiveHelper
 		$i     = 0;
 		$lists = array();
 
+		$states = array_map(
+			function ($el)
+			{
+				return '&state[]=' . (int) $el;
+			},
+			$states
+		);
+
+		$states = implode($states);
+
 		foreach ($rows as $row)
 		{
 			$date = Factory::getDate($row->created);
 
-			$created_month = $date->format('n');
-			$created_year  = $date->format('Y');
+			$createdMonth = $date->format('n');
+			$createdYear  = $date->format('Y');
 
-			$created_year_cal = HTMLHelper::_('date', $row->created, 'Y');
-			$month_name_cal   = HTMLHelper::_('date', $row->created, 'F');
+			$createdYearCal = HTMLHelper::_('date', $row->created, 'Y');
+			$monthNameCal   = HTMLHelper::_('date', $row->created, 'F');
 
 			$lists[$i] = new \stdClass;
 
-			$lists[$i]->link = Route::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
-			$lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
+			$lists[$i]->link = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $itemid);
+			$lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
 
 			$i++;
 		}

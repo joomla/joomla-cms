@@ -6,7 +6,6 @@
 			type="number" 
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly" 
-			size="10" 
 			default="0"
 			readonly="true" 
 		/>
@@ -50,21 +49,6 @@
 		/>
 
 		<field 
-			name="state" 
-			type="list" 
-			label="JSTATUS"
-			class="custom-select-color-state"
-			filter="intval" 
-			size="1" 
-			default="1"
-			>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASHED</option>
-		</field>
-
-		<field 
 			name="catid"
 			type="categoryedit"
 			class="advancedSelect"
@@ -73,6 +57,15 @@
 			required="true"
 			default=""
 		/>
+
+		<field
+			name="transition"
+			type="transition"
+			component="com_content"
+			label="COM_CONTENT_TRANSITION"
+			class="advancedSelect"
+		>
+		</field>
 
 		<field 
 			name="tags"
@@ -209,7 +202,6 @@
 			type="number" 
 			label="JGLOBAL_HITS"
 			class="readonly" 
-			size="6"
 			readonly="true" 
 			filter="unset" 
 		/>

@@ -3,7 +3,7 @@
 	<name>mod_articles_archive</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -29,6 +29,16 @@
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 				/>
+
+				<field
+					name="state"
+					type="workflowstage"
+					multiple="true"
+					size="5"
+					label="MOD_ARTICLES_ARCHIVE_CHOOSE_STATE"
+					default="4"
+				>
+				</field>
 			</fieldset>
 
 			<fieldset name="advanced">

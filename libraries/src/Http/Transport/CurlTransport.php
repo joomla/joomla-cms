@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
@@ -150,7 +151,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		}
 
 		// Proxy configuration
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		if ($config->get('proxy_enable'))
 		{
@@ -207,10 +208,12 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->getOption('follow_location', true))
 		{
 			$redirect_uri = new Uri($response->headers['Location']);
+
 			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
 			{
 				throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
 			}
+
 			$response = $this->request($method, $redirect_uri, $data, $headers, $timeout, $userAgent);
 		}
 

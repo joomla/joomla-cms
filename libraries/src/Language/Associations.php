@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 /**
@@ -43,11 +44,12 @@ class Associations
 
 		// Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
 		$queryKey = implode('|', func_get_args());
+
 		if (!isset($multilanguageAssociations[$queryKey]))
 		{
 			$multilanguageAssociations[$queryKey] = array();
 
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$categoriesExtraSql = (($tablename === '#__categories') ? ' AND c2.extension = ' . $db->quote($extension) : '');
 			$query = $db->getQuery(true)
 				->select($db->quoteName('c2.language'))
@@ -90,6 +92,7 @@ class Associations
 			}
 
 			$query->where('c.' . $pk . ' = ' . (int) $id);
+
 			if ($tablename === '#__categories')
 			{
 				$query->where('c.extension = ' . $db->quote($extension));

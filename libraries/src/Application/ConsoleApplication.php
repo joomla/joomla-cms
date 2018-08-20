@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,8 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
-use Joomla\CMS\Input\Cli;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -19,6 +20,7 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Input\Cli;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -30,7 +32,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
 
 	/**
 	 * The application message queue.
@@ -72,16 +74,13 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
-		$container = $container ?: \JFactory::getContainer();
+		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
 		if ($dispatcher)
 		{
 			$this->setDispatcher($dispatcher);
 		}
-
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -134,6 +133,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws  \Throwable
 	 */
 	public function execute()
 	{
@@ -167,7 +167,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Get the commands which should be registered by default to the application.
 	 *
-	 * @return  CommandInterface[]
+	 * @return  \Joomla\Console\CommandInterface[]
 	 *
 	 * @since   4.0.0
 	 */
@@ -181,6 +181,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\RemoveOldFilesCommand,
 			]
 		);
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   4.0.0
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 
 	/**

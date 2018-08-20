@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,15 +41,7 @@ class Application implements ServiceProviderInterface
 			InstallationApplication::class,
 			function (Container $container)
 			{
-				$config = null;
-
-				// Load the global configuration file if available
-				if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
-				{
-					$config = Factory::getConfig();
-				}
-
-				$app = new InstallationApplication(null, $config, null, $container);
+				$app = new InstallationApplication(null, $container->get('config'), null, $container);
 
 				// The session service provider needs JFactory::$application, set it if still null
 				if (Factory::$application === null)

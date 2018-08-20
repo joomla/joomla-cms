@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ class StatsAdminHelper
 			$rows[$i]        = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_PHP');
 			$rows[$i]->icon  = 'cogs';
-			$rows[$i]->data  = phpversion();
+			$rows[$i]->data  = PHP_VERSION;
 			$i++;
 
 			$rows[$i]        = new \stdClass;
@@ -75,6 +75,7 @@ class StatsAdminHelper
 			$query->select('COUNT(id) AS count_users')
 				->from('#__users');
 			$db->setQuery($query);
+
 			try
 			{
 				$users = $db->loadResult();
@@ -89,6 +90,7 @@ class StatsAdminHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
+
 			try
 			{
 				$items = $db->loadResult();

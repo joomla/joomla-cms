@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
@@ -89,7 +90,7 @@ class CssMenu
 		$this->enabled = $enabled;
 		$menutype      = $this->params->get('menutype', '*');
 
-		if ($menutype == '*')
+		if ($menutype === '*')
 		{
 			$name   = $this->params->get('preset', 'joomla');
 			$levels = MenuHelper::loadPreset($name);
@@ -261,7 +262,7 @@ class CssMenu
 			$item->icon  = $item->icon ?? '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
 			{
 				continue;
 			}
@@ -287,7 +288,7 @@ class CssMenu
 			}
 
 			// Exclude Mass Mail if disabled in global configuration
-			if ($item->scope == 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
+			if ($item->scope === 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
@@ -295,12 +296,12 @@ class CssMenu
 			// Exclude item if the component is not authorised
 			$assetName = $item->element;
 
-			if ($item->element == 'com_categories')
+			if ($item->element === 'com_categories')
 			{
 				parse_str($item->link, $query);
 				$assetName = $query['extension'] ?? 'com_content';
 			}
-			elseif ($item->element == 'com_fields')
+			elseif ($item->element === 'com_fields')
 			{
 				parse_str($item->link, $query);
 
@@ -319,14 +320,46 @@ class CssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
+			elseif ($item->element === 'com_workflow')
+			{
+				parse_str($item->link, $query);
 
-			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
+				// Only display Fields menus when enabled in the component
+				$workflow = null;
+
+				if (isset($query['extension']))
+				{
+					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+				}
+
+				if (!$workflow)
+				{
+					continue;
+				}
+
+				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
+			}
+			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif ($item->element === 'com_admin')
+			{
+				parse_str($item->link, $query);
+
+				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin'))
+				{
+					continue;
+				}
+			}
+
+			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
 				continue;
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) == '')
+			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
 			{
 				continue;
 			}
@@ -335,7 +368,7 @@ class CssMenu
 			$item->submenu = $this->preprocess($item->submenu);
 
 			// Populate automatic children for container items
-			if ($item->type == 'container')
+			if ($item->type === 'container')
 			{
 				$exclude    = (array) $item->params->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
@@ -352,7 +385,7 @@ class CssMenu
 			}
 
 			// Remove repeated and edge positioned separators, It is important to put this check at the end of any logical filtering.
-			if ($item->type == 'separator')
+			if ($item->type === 'separator')
 			{
 				if ($noSeparator)
 				{
@@ -373,7 +406,7 @@ class CssMenu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
-			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
 			{
 				$item->title = '';
 			}
@@ -407,11 +440,11 @@ class CssMenu
 		{
 			$class = $this->enabled ? $item->class : 'disabled';
 
-			if ($item->type == 'separator')
+			if ($item->type === 'separator')
 			{
 				$this->tree->addChild(new Node\Separator($item->title));
 			}
-			elseif ($item->type == 'heading')
+			elseif ($item->type === 'heading')
 			{
 				// We already excluded heading type menu item with no children.
 				$this->tree->addChild(new Node\Heading($item->title, $class, null, $item->icon), $this->enabled);
@@ -422,7 +455,7 @@ class CssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'url')
+			elseif ($item->type === 'url')
 			{
 				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
@@ -433,7 +466,7 @@ class CssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'component')
+			elseif ($item->type === 'component')
 			{
 				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
@@ -444,7 +477,7 @@ class CssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'container')
+			elseif ($item->type === 'container')
 			{
 				// We already excluded container type menu item with no children.
 				$this->tree->addChild(new Node\Container($item->title, $item->class, null, $item->icon), $this->enabled);

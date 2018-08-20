@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
@@ -49,16 +50,18 @@ class CollectionAdapter extends UpdateAdapter
 	protected $pop_parent = 0;
 
 	/**
-	 * @var array A list of discovered update sites
+	 * A list of discovered update sites
+	 *
+	 * @var  array
 	 */
-	protected $update_sites;
+	protected $update_sites = array();
 
 	/**
 	 * A list of discovered updates
 	 *
-	 * @var array
+	 * @var  array
 	 */
-	protected $updates;
+	protected $updates = array();
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -249,7 +252,7 @@ class CollectionAdapter extends UpdateAdapter
 
 			$app = Factory::getApplication();
 			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}

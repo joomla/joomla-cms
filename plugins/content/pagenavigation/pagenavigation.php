@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,7 +124,7 @@ class PlgContentPagenavigation extends CMSPlugin
 					break;
 			}
 
-			$xwhere = ' AND (a.state = 1 OR a.state = -1)'
+			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
 				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
 				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
@@ -143,7 +143,8 @@ class PlgContentPagenavigation extends CMSPlugin
 				->select($case_when)
 				->select($case_when1)
 				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{

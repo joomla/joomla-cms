@@ -9,7 +9,7 @@
 }
 
 .icon-white {
-  color: $white-offset;
+  color: $white;
 }
 
 .icon-publish {
@@ -27,7 +27,8 @@
   background-color: transparent;
   border: 0;
 
-  span {
+  [class^='icon-'],
+  [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -36,22 +37,22 @@
     border: 2px solid #ccc;
     border-radius: 50%;
   }
+
   .icon-publish {
     color: theme-color("success");
     border-color: theme-color("success");
   }
+
   .icon-featured {
-    color: theme-color("warning");
-    border-color: theme-color("warning");
+    color: theme-color("primary");
+    border-color: theme-color("primary");
   }
-  .icon-unpublish {
-    color: theme-color("danger");
-    border-color: theme-color("danger");
-  }
+
   .icon-archive {
     color: $gray-700;
     border-color: $gray-700;
   }
+
   .icon-checkedout {
     width: auto;
     height: auto;

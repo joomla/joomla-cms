@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * Newsfeeds component helper.
@@ -30,14 +33,14 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		 \JHtmlSidebar::addEntry(
-			 \JText::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
+		\JHtmlSidebar::addEntry(
+			Text::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
 			'index.php?option=com_newsfeeds&view=newsfeeds',
 			$vName == 'newsfeeds'
 		);
 
-		 \JHtmlSidebar::addEntry(
-			 \JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
+		\JHtmlSidebar::addEntry(
+			Text::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);
@@ -54,7 +57,7 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		foreach ($items as $item)
 		{
@@ -109,14 +112,17 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
+
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
+
 		$join = $db->qn('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
+
 		if ($section === 'category')
 		{
 			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
@@ -164,5 +170,5 @@ class NewsfeedsHelper extends ContentHelper
 		}
 
 		return $items;
-	}	
+	}
 }

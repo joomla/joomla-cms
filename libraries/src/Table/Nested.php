@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,9 +10,9 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -311,12 +311,10 @@ class Nested extends Table
 	 */
 	public function moveByReference($referenceId, $position = 'after', $pk = null, $recursiveUpdate = true)
 	{
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
-		// @codeCoverageIgnoreEnd
 
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -336,12 +334,10 @@ class Nested extends Table
 
 		$children = $this->_db->setQuery($query)->loadColumn();
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			$this->_logtable(false);
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children))
@@ -426,12 +422,10 @@ class Nested extends Table
 			$this->_db->setQuery($query, 0, 1);
 			$reference = $this->_db->loadObject();
 
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable(false);
 			}
-			// @codeCoverageIgnoreEnd
 
 			// Get the reposition data for re-inserting the node after the found root.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
@@ -492,7 +486,7 @@ class Nested extends Table
 			// Update the title and alias fields if they exist for the table.
 			$fields = $this->getFields();
 
-			if (property_exists($this, 'title') && $this->title !== null)
+			if ($this->hasField('title') && $this->title !== null)
 			{
 				$query->set('title = ' . $this->_db->quote($this->title));
 			}
@@ -512,7 +506,7 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published') && $recursiveUpdate)
+		if ($this->hasField('published') && $recursiveUpdate)
 		{
 			$this->recursiveUpdatePublishedColumn($node->$k);
 		}
@@ -764,13 +758,11 @@ class Nested extends Table
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeStore', $event);
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\n" . get_class($this) . "::store\n";
 			$this->_logtable(true, false);
 		}
-		// @codeCoverageIgnoreEnd
 
 		/*
 		 * If the primary key is empty, then we assume we are inserting a new node into the
@@ -804,12 +796,10 @@ class Nested extends Table
 					$this->_db->setQuery($query, 0, 1);
 					$reference = $this->_db->loadObject();
 
-					// @codeCoverageIgnoreStart
 					if ($this->_debug)
 					{
 						$this->_logtable(false);
 					}
-					// @codeCoverageIgnoreEnd
 				}
 				// We have a real node set as a location reference.
 				else
@@ -902,18 +892,16 @@ class Nested extends Table
 
 		if ($result)
 		{
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable();
 			}
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published'))
+		if ($this->hasField('published'))
 		{
 			$this->recursiveUpdatePublishedColumn($this->$k);
 		}
@@ -984,7 +972,7 @@ class Nested extends Table
 		}
 
 		// Determine if there is checkout support for the table.
-		$checkoutSupport = (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'));
+		$checkoutSupport = ($this->hasField('checked_out') || $this->hasField('checked_out_time'));
 
 		// Iterate over the primary keys to execute the publish action if possible.
 		foreach ($pks as $pk)
@@ -1347,7 +1335,7 @@ class Nested extends Table
 			// If the table has an ordering field, use that for ordering.
 			$orderingField = $this->getColumnAlias('ordering');
 
-			if (property_exists($this, $orderingField))
+			if ($this->hasField($orderingField))
 			{
 				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
 			}
@@ -1504,12 +1492,10 @@ class Nested extends Table
 
 					$this->_db->setQuery($query)->execute();
 
-					// @codeCoverageIgnoreStart
 					if ($this->_debug)
 					{
 						$this->_logtable();
 					}
-					// @codeCoverageIgnoreEnd
 				}
 
 				return $this->rebuild();
@@ -1747,14 +1733,12 @@ class Nested extends Table
 				break;
 		}
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where"
 				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
 				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
 		}
-		// @codeCoverageIgnoreEnd
 
 		return $data;
 	}
@@ -1806,7 +1790,7 @@ class Nested extends Table
 	/**
 	 * Runs a query and unlocks the database on an error.
 	 *
-	 * @param   mixed   $query         A string or \JDatabaseQuery object.
+	 * @param   mixed   $query         A string or DatabaseQuery object.
 	 * @param   string  $errorMessage  Unused.
 	 *
 	 * @return  boolean  void
@@ -1822,12 +1806,10 @@ class Nested extends Table
 		{
 			$this->_db->setQuery($query)->execute();
 
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable();
 			}
-			// @codeCoverageIgnoreEnd
 		}
 		catch (\Exception $e)
 		{

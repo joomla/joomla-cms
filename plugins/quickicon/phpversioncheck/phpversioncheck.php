@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.phpversioncheck
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,6 +119,10 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 			'7.1' => array(
 				'security' => '2018-12-01',
 				'eos'      => '2019-12-01'
+			),
+			'7.2' => array(
+				'security' => '2019-11-30',
+				'eos'      => '2020-11-30'
 			),
 		);
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * The TaskButton class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ActionButton
 {
@@ -26,7 +26,7 @@ class ActionButton
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $states = [
 		'_default' => [
@@ -50,7 +50,7 @@ class ActionButton
 	 *
 	 * @var  Registry
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $options;
 
@@ -59,7 +59,7 @@ class ActionButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.button.action-button';
 
@@ -68,7 +68,7 @@ class ActionButton
 	 *
 	 * @param   array  $options  The options for all buttons in this group.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(array $options = [])
 	{
@@ -85,7 +85,7 @@ class ActionButton
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preprocess()
 	{
@@ -103,7 +103,7 @@ class ActionButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addState(string $value, string $task, string $icon = 'ok', string $title = '', array $options = []): self
 	{
@@ -126,7 +126,7 @@ class ActionButton
 	 *
 	 * @return  array  Return state profile or NULL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getState(string $value): array
 	{
@@ -141,7 +141,7 @@ class ActionButton
 	 *
 	 * @return  static  Return to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function removeState(string $value): self
 	{
@@ -162,7 +162,7 @@ class ActionButton
 	 *
 	 * @return  string  Rendered HTML.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
@@ -194,7 +194,7 @@ class ActionButton
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __toString(): string
 	{
@@ -213,7 +213,7 @@ class ActionButton
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getLayout(): string
 	{
@@ -227,7 +227,7 @@ class ActionButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setLayout(string $layout): self
 	{
@@ -241,7 +241,7 @@ class ActionButton
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getOptions(): array
 	{
@@ -255,7 +255,7 @@ class ActionButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setOptions(array $options): self
 	{
@@ -272,7 +272,7 @@ class ActionButton
 	 *
 	 * @return  mixed  Return option value or default value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOption(string $name, $default = null)
 	{
@@ -287,7 +287,7 @@ class ActionButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setOption(string $name, $value): self
 	{
@@ -305,7 +305,7 @@ class ActionButton
 	 *
 	 * @return  string  CSS class name.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function fetchIconClass(string $identifier): string
 	{

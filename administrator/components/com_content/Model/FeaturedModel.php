@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,9 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -75,7 +78,7 @@ class FeaturedModel extends ArticlesModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -111,8 +114,30 @@ class FeaturedModel extends ArticlesModel
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join over the workflow asociations.
+		$query->select('wa.stage_id AS stage_id')
+			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
+
+		// Join over the workflow stages.
+		$query	->select(
+					$query->quoteName(
+					[
+						'ws.title',
+						'ws.condition',
+						'ws.workflow_id'
+					],
+					[
+						'stage_title',
+						'stage_condition',
+						'workflow_id'
+					]
+					)
+				)
+				->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
+				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+
 		// Join on voting table
-		if (\JPluginHelper::isEnabled('content', 'vote'))
+		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
@@ -132,17 +157,35 @@ class FeaturedModel extends ArticlesModel
 			$query->where('c.access IN (' . $groups . ')');
 		}
 
-		// Filter by published state
-		$published = $this->getState('filter.published');
+		// Filter by workflows stages
+		$workflowStage = (string) $this->getState('filter.state');
 
-		if (is_numeric($published))
+		if (is_numeric($workflowStage))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('wa.stage_id = ' . (int) $workflowStage);
 		}
-		elseif ($published === '')
+
+		$condition = (string) $this->getState('filter.condition');
+
+		if ($condition !== '*')
 		{
-			$query->where('(a.state = 0 OR a.state = 1)');
+			if (is_numeric($condition))
+			{
+				$query->where($db->quoteName('ws.condition') . '=' . (int) $condition);
+			}
+			elseif (!is_numeric($workflowStage))
+			{
+				$query->whereIn(
+					$db->quoteName('ws.condition'),
+					[
+						ContentComponent::CONDITION_PUBLISHED,
+						ContentComponent::CONDITION_UNPUBLISHED
+					]
+				);
+			}
 		}
+
+		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by a single or group of categories.
 		$baselevel = 1;

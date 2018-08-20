@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,15 +26,9 @@ $fullWidth = 1;
 // Add JavaScript Frameworks
 HTMLHelper::_('behavior.core');
 
-// Add template js
-HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
-
 // Add Stylesheets
 HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
-
-// Alerts progressive enhancement
-HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Template color
 if ($this->params->get('templateColor'))

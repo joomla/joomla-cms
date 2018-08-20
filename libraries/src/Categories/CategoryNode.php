@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,8 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Registry\Registry;
 
 /**
@@ -17,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class CategoryNode extends \JObject
+class CategoryNode extends CMSObject
 {
 	/**
 	 * Primary key
@@ -148,7 +150,7 @@ class CategoryNode extends \JObject
 	public $metadesc = null;
 
 	/**
-	 * Key words for meta data
+	 * Key words for metadata
 	 *
 	 * @var    string
 	 * @since  1.6
@@ -156,7 +158,7 @@ class CategoryNode extends \JObject
 	public $metakey = null;
 
 	/**
-	 * JSON string of other meta data
+	 * JSON string of other metadata
 	 *
 	 * @var    string
 	 * @since  1.6
@@ -592,10 +594,10 @@ class CategoryNode extends \JObject
 	{
 		if ($modified_user)
 		{
-			return \JFactory::getUser($this->modified_user_id);
+			return Factory::getUser($this->modified_user_id);
 		}
 
-		return \JFactory::getUser($this->created_user_id);
+		return Factory::getUser($this->created_user_id);
 	}
 
 	/**

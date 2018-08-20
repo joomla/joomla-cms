@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,10 @@ namespace Joomla\CMS\User;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -21,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  11.1
  */
-class User extends \JObject
+class User extends CMSObject
 {
 	/**
 	 * A cached switch for if this user has root access rights.
@@ -368,7 +372,7 @@ class User extends \JObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$rootUser = \JFactory::getConfig()->get('root_user');
+			$rootUser = Factory::getConfig()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -411,7 +415,7 @@ class User extends \JObject
 	{
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
 			->select('id,asset_id')
@@ -509,6 +513,7 @@ class User extends \JObject
 	public function setLastVisit($timestamp = null)
 	{
 		// Create the user table object
+		/** @var \Joomla\CMS\Table\User $table */
 		$table = $this->getTable();
 		$table->load($this->id);
 
@@ -526,7 +531,7 @@ class User extends \JObject
 	 */
 	public function getTimezone()
 	{
-		$timezone = $this->getParam('timezone', \JFactory::getApplication()->get('offset', 'GMT'));
+		$timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
 
 		return new \DateTimeZone($timezone);
 	}
@@ -555,7 +560,7 @@ class User extends \JObject
 	 * @param   string  $type    The user table name to be used
 	 * @param   string  $prefix  The user table prefix to be used
 	 *
-	 * @return  object  The user table object
+	 * @return  Table  The user table object
 	 *
 	 * @note    At 4.0 this method will no longer be static
 	 * @since   11.1
@@ -607,7 +612,7 @@ class User extends \JObject
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
 				return false;
 			}
@@ -617,7 +622,7 @@ class User extends \JObject
 			$array['password'] = $this->userHelper->hashPassword($array['password']);
 
 			// Set the registration timestamp
-			$this->set('registerDate', \JFactory::getDate()->toSql());
+			$this->set('registerDate', Factory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
@@ -635,7 +640,7 @@ class User extends \JObject
 			{
 				if ($array['password'] != $array['password2'])
 				{
-					$this->setError(\JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+					$this->setError(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 
 					return false;
 				}
@@ -645,7 +650,7 @@ class User extends \JObject
 				// Check if the user is reusing the current password if required to reset their password
 				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
 				{
-					$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+					$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
@@ -680,7 +685,7 @@ class User extends \JObject
 		// Bind the array
 		if (!$this->setProperties($array))
 		{
-			$this->setError(\JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+			$this->setError(Text::_('JLIB_USER_ERROR_BIND_ARRAY'));
 
 			return false;
 		}
@@ -724,7 +729,7 @@ class User extends \JObject
 
 			// @todo ACL - this needs to be acl checked
 
-			$my = \JFactory::getUser();
+			$my = Factory::getUser();
 
 			// Are we creating a new user
 			$isNew = empty($this->id);
@@ -778,7 +783,7 @@ class User extends \JObject
 			// Fire the onUserBeforeSave event.
 			PluginHelper::importPlugin('user');
 
-			$result = \JFactory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 
 			if (in_array(false, $result, true))
 			{
@@ -802,7 +807,7 @@ class User extends \JObject
 			}
 
 			// Fire the onUserAfterSave event
-			\JFactory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+			Factory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
 		catch (\Exception $e)
 		{
@@ -826,7 +831,7 @@ class User extends \JObject
 		PluginHelper::importPlugin('user');
 
 		// Trigger the onUserBeforeDelete event
-		\JFactory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
+		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
 
 		// Create the user table object
 		$table = $this->getTable();
@@ -837,7 +842,7 @@ class User extends \JObject
 		}
 
 		// Trigger the onUserAfterDelete event
-		\JFactory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+		Factory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
 
 		return $result;
 	}
@@ -862,7 +867,7 @@ class User extends \JObject
 			// Reset to guest user
 			$this->guest = 1;
 
-			\JLog::add(\JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
 
 			return false;
 		}

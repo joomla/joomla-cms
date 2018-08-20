@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,10 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
@@ -74,6 +77,14 @@ class HtmlDocument extends Document
 	public $_file = null;
 
 	/**
+	 * Script nonce (string if set, null otherwise)
+	 *
+	 * @var    string|null
+	 * @since  4.0.0
+	 */
+	public $cspNonce = null;
+
+	/**
 	 * String holding parsed template
 	 *
 	 * @var    string
@@ -119,7 +130,7 @@ class HtmlDocument extends Document
 		// Set document type
 		$this->_type = 'html';
 
-		// Set default mime type and document metadata (meta data syncs with mime type by default)
+		// Set default mime type and document metadata (metadata syncs with mime type by default)
 		$this->setMimeEncoding('text/html');
 	}
 
@@ -143,7 +154,7 @@ class HtmlDocument extends Document
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
-		$data['scriptText']  = \JText::script();
+		$data['scriptText']  = Text::getScriptStrings();
 
 		return $data;
 	}
@@ -252,7 +263,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['scriptText'] as $key => $string)
 			{
-				\JText::script($key, $string);
+				Text::script($key, $string);
 			}
 		}
 
@@ -459,7 +470,7 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules')
 		{
-			$cache = \JFactory::getCache('com_modules', '');
+			$cache = CmsFactory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
@@ -552,6 +563,11 @@ class HtmlDocument extends Document
 			$this->parse($params);
 		}
 
+		if (array_key_exists('csp_nonce', $params) && $params['csp_nonce'] !== null)
+		{
+			$this->cspNonce = $params['csp_nonce'];
+		}
+
 		$data = $this->_renderTemplate();
 		parent::render();
 
@@ -610,8 +626,8 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = \JFactory::getDbo();
-			$app = \JFactory::getApplication();
+			$db = CmsFactory::getDbo();
+			$app = CmsFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
@@ -688,7 +704,7 @@ class HtmlDocument extends Document
 	{
 		// Check
 		$directory = $params['directory'] ?? 'templates';
-		$filter = \JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
 
@@ -703,7 +719,7 @@ class HtmlDocument extends Document
 		}
 
 		// Load the language file for the template
-		$lang = \JFactory::getLanguage();
+		$lang = CmsFactory::getLanguage();
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
@@ -733,8 +749,9 @@ class HtmlDocument extends Document
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
-			$template_tags_first = array();
-			$template_tags_last = array();
+			$messages = [];
+			$template_tags_first = [];
+			$template_tags_last = [];
 
 			// Step through the jdocs in reverse order.
 			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
@@ -744,19 +761,21 @@ class HtmlDocument extends Document
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
-				if ($type == 'module' || $type == 'modules')
+				if ($type === 'module' || $type === 'modules')
 				{
-					$template_tags_first[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_first[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
+				}
+				elseif ($type === 'message')
+				{
+					$messages = [$matches[0][$i] => ['type' => $type, 'name' => $name, 'attribs' => $attribs]];
 				}
 				else
 				{
-					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
 			}
-			// Reverse the last array so the jdocs are in forward order.
-			$template_tags_last = array_reverse($template_tags_last);
 
-			$this->_template_tags = $template_tags_first + $template_tags_last;
+			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
 		}
 
 		return $this;
@@ -771,8 +790,8 @@ class HtmlDocument extends Document
 	 */
 	protected function _renderTemplate()
 	{
-		$replace = array();
-		$with = array();
+		$replace = [];
+		$with = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{

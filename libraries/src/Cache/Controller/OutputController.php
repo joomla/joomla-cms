@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Cache\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Log\Log;
 
 /**
  * Joomla Cache output type object

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
@@ -59,7 +60,7 @@ class InputFilter extends BaseInputFilter
 			try
 			{
 				// Get the database driver
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				if ($db instanceof UTF8MB4SupportInterface)
 				{

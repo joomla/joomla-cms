@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,8 +126,9 @@ abstract class RelatedItemsHelper
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+					->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state')
 					->where('a.id != ' . (int) $id)
-					->where('a.state = 1')
+					->where('ws.condition = 1')
 					->where('a.access IN (' . $groups . ')');
 
 				$wheres = array();

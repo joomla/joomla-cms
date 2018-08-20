@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,8 +25,7 @@ use Joomla\CMS\Form\FormHelper;
         	<?php $datashowon = ''; ?>
         	<?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
             <?php if ($field->showon) : ?>
-                <?php HTMLHelper::_('jquery.framework'); ?>
-                <?php HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true)); ?>
+                <?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
                 <?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
             <?php endif; ?>
             <div class="control-group<?php echo $groupClass; ?>"<?php echo $datashowon; ?>>

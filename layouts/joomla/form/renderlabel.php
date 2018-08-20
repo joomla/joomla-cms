@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,7 @@ $classes = array_filter((array) $classes);
 
 $id    = $for . '-lbl';
 $title = '';
+$forAttr = '';
 
 if (!empty($description))
 {
@@ -56,7 +57,11 @@ if ($required)
 	$classes[] = 'required';
 }
 
+if(!isset($displayData['field']->skipLabelFor) || $displayData['field']->skipLabelFor !== true)
+{
+	$forAttr = 'for="' . $for . '"';
+}
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) echo ' class="' . implode(' ', $classes) . '"'; ?><?php echo $title; ?><?php echo $position; ?>>
-	<?php echo $text; ?><?php if ($required) : ?><span class="star">&#160;*</span><?php endif; ?>
+<label id="<?php echo $id; ?>" <?php echo $forAttr; ?><?php if (!empty($classes)) echo ' class="' . implode(' ', $classes) . '"'; ?><?php echo $title; ?><?php echo $position; ?>>
+	<?php echo $text; ?><?php if ($required) : ?><span class="star" aria-hidden="true">&#160;*</span><?php endif; ?>
 </label>
