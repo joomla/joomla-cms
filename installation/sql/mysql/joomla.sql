@@ -746,7 +746,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
 CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `field_id` int(10) unsigned NOT NULL,
   `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
-  `value` text NOT NULL DEFAULT '',
+  `value` longtext NOT NULL DEFAULT '',
   KEY `idx_field_id` (`field_id`),
   KEY `idx_item_id` (`item_id`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
