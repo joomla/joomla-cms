@@ -117,14 +117,14 @@ class JNamespacePsr4Map
 		$content   = array();
 		$content[] = "<?php";
 		$content[] = 'defined(\'_JEXEC\') or die;';
-		$content[] = 'return array(';
+		$content[] = 'return [';
 
 		foreach ($elements as $namespace => $path)
 		{
 			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . "' . $path . '"],';
 		}
 
-		$content[] = ');';
+		$content[] = '];';
 
 		File::write($this->file, implode("\n", $content));
 	}
