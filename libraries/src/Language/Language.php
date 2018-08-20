@@ -10,6 +10,7 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\String\StringHelper;
 
@@ -295,13 +296,14 @@ class Language
 	 *
 	 * @return  Language  The Language object.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the language factory instead
 	 */
 	public static function getInstance($lang, $debug = false)
 	{
 		if (!isset(self::$languages[$lang . $debug]))
 		{
-			self::$languages[$lang . $debug] = new static($lang, $debug);
+			self::$languages[$lang . $debug] = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
 		}
 
 		return self::$languages[$lang . $debug];
