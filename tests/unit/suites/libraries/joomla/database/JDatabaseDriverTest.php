@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -445,9 +445,11 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 */
 	public function testQuoteFloat()
 	{
+		// This call `escape()` method from nosqldriver, which is locale aware
 		$this->assertThat(
+			// Below line may generate "'-3.14-'" or "'-3,14-'"
 			$this->db->quote(3.14),
-			$this->equalTo("'-3.14-'"),
+			$this->equalTo("'-" . 3.14 . "-'"),
 			'Tests handling of float with escaping (default).'
 		);
 	}

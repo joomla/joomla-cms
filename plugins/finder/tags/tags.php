@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,6 +101,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		{
 			return true;
 		}
+
 		// Remove the items.
 		return $this->remove($id);
 	}
@@ -185,6 +186,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		{
 			$this->itemStateChange($pks, $value);
 		}
+
 		// Handle when the plugin is disabled
 		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
@@ -313,8 +315,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Join the #__users table
 		$query->select('u.name AS author')
-			->join('LEFT', '#__users AS u ON u.id = b.created_user_id')
-			->from('#__tags AS b');
+			->join('LEFT', '#__users AS u ON u.id = a.created_user_id');
 
 		// Exclude the ROOT item
 		$query->where($db->quoteName('a.id') . ' > 1');

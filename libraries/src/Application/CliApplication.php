@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,12 +55,10 @@ class CliApplication extends BaseApplication
 	public function __construct(Cli $input = null, Registry $config = null, \JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
-		// @codeCoverageIgnoreStart
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
-		// @codeCoverageIgnoreEnd
 
 		// If an input object is given use it.
 		if ($input instanceof Input)

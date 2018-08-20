@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -341,9 +341,15 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
-		if (is_int($text) || is_float($text))
+		if (is_int($text))
 		{
 			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
 		}
 
 		$text = str_replace("'", "''", $text);

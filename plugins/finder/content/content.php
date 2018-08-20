@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -251,6 +251,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->context = 'com_content.article';
+
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
 		$item->params = JComponentHelper::getParams('com_content', true);
@@ -259,8 +261,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->metadata = new Registry($item->metadata);
 
 		// Trigger the onContentPrepare event.
-		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
-		$item->body = FinderIndexerHelper::prepareContent($item->body, $item->params);
+		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params, $item);
+		$item->body    = FinderIndexerHelper::prepareContent($item->body, $item->params, $item);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);

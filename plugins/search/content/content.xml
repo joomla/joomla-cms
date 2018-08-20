@@ -3,7 +3,7 @@
 	<name>plg_search_content</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -21,10 +21,11 @@
 			<fieldset name="basic">
 				<field
 					name="search_limit"
-					type="text"
+					type="number"
 					label="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_LABEL"
 					description="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_DESC"
 					default="50"
+					filter="integer"
 					size="5"
 				/>
 
@@ -34,7 +35,8 @@
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
 					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -46,7 +48,8 @@
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
 					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
 					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

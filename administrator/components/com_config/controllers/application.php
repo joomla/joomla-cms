@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Method to save the configuration.
 	 *
-	 * @return  bool  True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use ConfigControllerApplicationSave instead.
@@ -91,7 +91,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Method to remove the root property from the configuration.
 	 *
-	 * @return  bool  True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use ConfigControllerApplicationRemoveroot instead.

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,7 +61,7 @@ class JFormFieldNumber extends JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -83,7 +83,7 @@ class JFormFieldNumber extends JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -143,6 +143,41 @@ class JFormFieldNumber extends JFormField
 	 */
 	protected function getInput()
 	{
+		if ($this->element['useglobal'])
+		{
+			$component = JFactory::getApplication()->input->getCmd('option');
+
+			// Get correct component for menu items
+			if ($component == 'com_menus')
+			{
+				$link      = $this->form->getData()->get('link');
+				$uri       = new JUri($link);
+				$component = $uri->getVar('option', 'com_menus');
+			}
+
+			$params = JComponentHelper::getParams($component);
+			$value  = $params->get($this->fieldname);
+
+			// Try with global configuration
+			if (is_null($value))
+			{
+				$value = JFactory::getConfig()->get($this->fieldname);
+			}
+
+			// Try with menu configuration
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			{
+				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+			}
+
+			if (!is_null($value))
+			{
+				$value = (string) $value;
+
+				$this->hint = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+			}
+		}
+
 		// Trim the trailing line in the layout file
 		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
 	}

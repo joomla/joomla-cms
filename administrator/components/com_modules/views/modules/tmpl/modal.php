@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ if (JFactory::getApplication()->isClient('site'))
 // Load needed scripts
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
 
 // Scripts for the modules xtd-button
@@ -30,10 +31,16 @@ JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searc
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
+$link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1';
+
+if (!empty($editor))
+{
+	$link = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&editor=' . $editor . '&' . JSession::getFormToken() . '=1';
+}
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
@@ -122,6 +129,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="editor" value="<?php echo $editor; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 
 	</form>

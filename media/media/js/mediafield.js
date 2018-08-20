@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,8 +135,12 @@
 			}
 		} else {
 			// Reset tooltip and preview
-			this.$containerPreview.popover('destroy');
-			this.$input.tooltip('destroy');
+			try {
+				this.$containerPreview.popover('destroy');
+				this.$input.tooltip('destroy');
+			} catch(err) {
+				// Doing this so that jQueryUI tooltips and popover can exist alongside Bootstrap.
+			}
 
 			var value = this.$input.val();
 
