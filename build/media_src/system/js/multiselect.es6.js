@@ -77,7 +77,7 @@
 
           this.boxes[currentCheckBox].checked = !this.boxes[currentCheckBox].checked;
           isChecked = this.boxes[currentCheckBox].checked;
-          Joomla.isChecked(this.boxes[currentCheckBox].checked);
+          Joomla.isChecked(this.boxes[currentCheckBox].checked, this.tableEl.id);
         }
 
         this.changeBg(this.rows[currentCheckBox - 1], isChecked);

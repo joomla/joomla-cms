@@ -72,11 +72,12 @@ abstract class JHtmlJGrid
 
 			if ($formId !== null)
 			{
-				$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\',\'' . $formId . '\')"';
+				$html[] = 'href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix .
+					$task . '\',\'' . $formId . '\')"';
 			}
 			else
 			{
-				$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
+				$html[] = 'href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			}
 
 			$html[] = $tip ? ' title="' . $title . '"' : '';
