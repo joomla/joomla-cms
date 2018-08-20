@@ -37,15 +37,6 @@ class HtmlView extends InstallerViewDefault
 		$items = $this->get('Items');
 		$this->messages = &$items;
 		parent::display($tpl);
-
-		if (count($items) > 0)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), 'warning');
-		}
-		else
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'info');
-		}
 	}
 
 	/**
