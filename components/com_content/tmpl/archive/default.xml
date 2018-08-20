@@ -24,20 +24,6 @@
 			>
 				<option value="">JOPTION_ALL_CATEGORIES</option>
 			</field>
-
-			<field
-				name="state"
-			    type="sql"
-			    sql_select="id, title"
-			    sql_from="#__workflow_stages"
-			    key_field="id"
-			    value_field="title"
-				multiple="true"
-				size="5"
-			    label="COM_CONTENT_STATE"
-			    >
-
-			</field>
 		</fieldset>
 	</fields>
 
@@ -48,8 +34,8 @@
 		<fieldset name="basic" label="JGLOBAL_ARCHIVE_OPTIONS"
 		>
 
-			<field 
-				name="orderby_sec" 
+			<field
+				name="orderby_sec"
 				type="list"
 				label="JGLOBAL_ARTICLE_ORDER_LABEL"
 				default="alpha"
@@ -69,8 +55,8 @@
 				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 			</field>
 
-			<field 
-				name="order_date" 
+			<field
+				name="order_date"
 				type="list"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
 				default="created"
@@ -80,8 +66,8 @@
 				<option value="published">JPUBLISHED</option>
 			</field>
 
-			<field 
-				name="display_num" 
+			<field
+				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
 				default="5"
@@ -108,11 +94,11 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="introtext_limit" 
-				type="number" 
+			<field
+				name="introtext_limit"
+				type="number"
 				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
-				description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC" 
+				description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC"
 				default="100"
 			/>
 
@@ -123,8 +109,8 @@
 			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL"
 		>
 
-			<field 
-				name="show_intro" 
+			<field
+				name="show_intro"
 				type="list"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				useglobal="true"
@@ -159,8 +145,8 @@
 				<option	value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_category" 
+			<field
+				name="show_category"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				useglobal="true"
@@ -170,8 +156,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="link_category" 
+			<field
+				name="link_category"
 				type="list"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				useglobal="true"
@@ -201,8 +187,8 @@
 				<option	value="1">JYES</option>
 			</field>
 
-			<field 
-				name="link_titles" 
+			<field
+				name="link_titles"
 				type="list"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC"
@@ -213,8 +199,8 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field 
-				name="show_author" 
+			<field
+				name="show_author"
 				type="list"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				useglobal="true"
@@ -234,8 +220,8 @@
 				<option	value="1">JYES</option>
 			</field>
 
-			<field 
-				name="show_create_date" 
+			<field
+				name="show_create_date"
 				type="list"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				useglobal="true"
@@ -245,8 +231,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_modify_date" 
+			<field
+				name="show_modify_date"
 				type="list"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				useglobal="true"
@@ -256,8 +242,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_publish_date" 
+			<field
+				name="show_publish_date"
 				type="list"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				useglobal="true"
@@ -267,8 +253,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_item_navigation" 
+			<field
+				name="show_item_navigation"
 				type="list"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				useglobal="true"
@@ -278,8 +264,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_hits" 
+			<field
+				name="show_hits"
 				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				useglobal="true"
