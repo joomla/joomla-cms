@@ -581,7 +581,7 @@ CREATE TABLE "#__content_types" (
   "type_id" bigint IDENTITY(10000,1) NOT NULL,
   "type_title" nvarchar(255) NOT NULL DEFAULT '',
   "type_alias" nvarchar(255) NOT NULL DEFAULT '',
-  "table" nvarchar(255) NOT NULL DEFAULT '',
+  "table" nvarchar(2048) NOT NULL DEFAULT '',
   "rules" nvarchar(max) NOT NULL,
   "field_mappings" nvarchar(max) NOT NULL,
   "router" nvarchar(255) NOT NULL DEFAULT '',
