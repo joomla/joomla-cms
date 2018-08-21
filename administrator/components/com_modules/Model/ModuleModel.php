@@ -837,8 +837,6 @@ class ModuleModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang     = Factory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');

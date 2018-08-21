@@ -275,8 +275,6 @@ class ProfileController extends BaseController
 	 */
 	public function gethelpsites()
 	{
-		jimport('joomla.filesystem.file');
-
 		// Set FTP credentials, if given
 		ClientHelper::setCredentialsFromRequest('ftp');
 

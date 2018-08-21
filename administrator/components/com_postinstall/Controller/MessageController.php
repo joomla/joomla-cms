@@ -98,8 +98,6 @@ class MessageController extends BaseController
 				break;
 
 			case 'action':
-				jimport('joomla.filesystem.file');
-
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->action_file);
 

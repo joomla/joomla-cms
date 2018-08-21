@@ -644,8 +644,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$lang_code = $this->default_lang;
 				}
 
-				jimport('joomla.filesystem.folder');
-
 				// The language has been deleted/disabled or the related content language does not exist/has been unpublished
 				// or the related home page does not exist/has been unpublished
 				if (!array_key_exists($lang_code, $this->lang_codes)
