@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
@@ -83,9 +84,9 @@ class PlgMediaActionFocus extends CMSPlugin
 	 */
 	protected function loadJs()
 	{
-		\JHtml::_(
-			'script',
-			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
+		HTMLHelper::_(
+			'script', 
+			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js', 
 			array('version' => 'auto', 'relative' => true)
 		);
 	}
@@ -99,7 +100,7 @@ class PlgMediaActionFocus extends CMSPlugin
 	 */
 	protected function loadCss()
 	{
-		\JHtml::_(
+		HTMLHelper::_(
 			'stylesheet',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.css',
 			array('version' => 'auto', 'relative' => true)
