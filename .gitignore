@@ -18,6 +18,7 @@
 /configuration.php
 /.htaccess
 /web.config
+/.php_cs
 /.php_cs.cache
 /media
 /plugins/media-action/focus/data/*

@@ -329,19 +329,22 @@ class ArticlesModel extends ListModel
 
 		$condition = (string) $this->getState('filter.condition');
 
-		if (is_numeric($condition))
+		if ($condition !== '*')
 		{
-			$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
-		}
-		elseif (!is_numeric($workflowStage))
-		{
-			$query->whereIn(
-				$db->quoteName('ws.condition'),
-				[
-					ContentComponent::CONDITION_PUBLISHED,
-					ContentComponent::CONDITION_UNPUBLISHED
-				]
-			);
+			if (is_numeric($condition))
+			{
+				$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
+			}
+			elseif (!is_numeric($workflowStage))
+			{
+				$query->whereIn(
+					$db->quoteName('ws.condition'),
+					[
+						ContentComponent::CONDITION_PUBLISHED,
+						ContentComponent::CONDITION_UNPUBLISHED
+					]
+				);
+			}
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
