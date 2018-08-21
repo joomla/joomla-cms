@@ -56,7 +56,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 		}
 
 		// Check if the language is English or All.
-		if ($lang !== 'en' && $lang != '*')
+		if ($lang !== 'en' && $lang !== '*')
 		{
 			return $token;
 		}
@@ -92,7 +92,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	private static function step1ab($word)
 	{
 		// Part a
-		if (substr($word, -1) == 's')
+		if (substr($word, -1) === 's')
 		{
 			self::replace($word, 'sses', 'ss')
 			|| self::replace($word, 'ies', 'i')
@@ -101,7 +101,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 		}
 
 		// Part b
-		if (substr($word, -2, 1) != 'e' || !self::replace($word, 'eed', 'ee', 0))
+		if (substr($word, -2, 1) !== 'e' || !self::replace($word, 'eed', 'ee', 0))
 		{
 			// First rule
 			$v = self::$regex_vowel;
@@ -115,11 +115,13 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				if (!self::replace($word, 'at', 'ate') && !self::replace($word, 'bl', 'ble') && !self::replace($word, 'iz', 'ize'))
 				{
 					// Double consonant ending
-					if (self::doubleConsonant($word) && substr($word, -2) != 'll' && substr($word, -2) != 'ss' && substr($word, -2) != 'zz')
+					$wordSubStr = substr($word, -2);
+
+					if ($wordSubStr !== 'll' && $wordSubStr !== 'ss' && $wordSubStr !== 'zz' && self::doubleConsonant($word))
 					{
 						$word = substr($word, 0, -1);
 					}
-					elseif (self::m($word) == 1 && self::cvc($word))
+					elseif (self::m($word) === 1 && self::cvc($word))
 					{
 						$word .= 'e';
 					}
@@ -143,7 +145,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	{
 		$v = self::$regex_vowel;
 
-		if (substr($word, -1) == 'y' && preg_match("#$v+#", substr($word, 0, -1)))
+		if (substr($word, -1) === 'y' && preg_match("#$v+#", substr($word, 0, -1)))
 		{
 			self::replace($word, 'y', 'i');
 		}
@@ -280,7 +282,9 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 				|| self::replace($word, 'ent', '', 1);
 				break;
 			case 'o':
-				if (substr($word, -4) == 'tion' || substr($word, -4) == 'sion')
+				$wordSubStr = substr($word, -4);
+
+				if ($wordSubStr === 'tion' || $wordSubStr === 'sion')
 				{
 					self::replace($word, 'ion', '', 1);
 				}
@@ -322,13 +326,13 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	private static function step5($word)
 	{
 		// Part a
-		if (substr($word, -1) == 'e')
+		if (substr($word, -1) === 'e')
 		{
 			if (self::m(substr($word, 0, -1)) > 1)
 			{
 				self::replace($word, 'e', '');
 			}
-			elseif (self::m(substr($word, 0, -1)) == 1)
+			elseif (self::m(substr($word, 0, -1)) === 1)
 			{
 				if (!self::cvc(substr($word, 0, -1)))
 				{
@@ -338,7 +342,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 		}
 
 		// Part b
-		if (self::m($word) > 1 && self::doubleConsonant($word) && substr($word, -1) == 'l')
+		if (self::m($word) > 1 && self::doubleConsonant($word) && substr($word, -1) === 'l')
 		{
 			$word = substr($word, 0, -1);
 		}
@@ -365,11 +369,11 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	{
 		$len = 0 - strlen($check);
 
-		if (substr($str, $len) == $check)
+		if (substr($str, $len) === $check)
 		{
 			$substr = substr($str, 0, $len);
 
-			if (is_null($m) || self::m($substr) > $m)
+			if ($m === null || self::m($substr) > $m)
 			{
 				$str = $substr . $repl;
 			}
@@ -423,7 +427,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	{
 		$c = self::$regex_consonant;
 
-		return preg_match("#$c{2}$#", $str, $matches) && $matches[0]{0} == $matches[0]{1};
+		return preg_match("#$c{2}$#", $str, $matches) && $matches[0][0] === $matches[0][1];
 	}
 
 	/**
@@ -440,7 +444,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 		$c = self::$regex_consonant;
 		$v = self::$regex_vowel;
 
-		return preg_match("#($c$v$c)$#", $str, $matches) && strlen($matches[1]) == 3 && $matches[1]{2} != 'w' && $matches[1]{2} != 'x'
-			&& $matches[1]{2} != 'y';
+		return preg_match("#($c$v$c)$#", $str, $matches) && strlen($matches[1]) === 3 && $matches[1][2] !== 'w' && $matches[1][2] !== 'x'
+			&& $matches[1][2] !== 'y';
 	}
 }

@@ -88,6 +88,30 @@ class FinderIndexerToken
 	public $language;
 
 	/**
+	 * The container for matches.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $matches = array();
+
+	/**
+	 * Is derived token (from individual words)
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $derived;
+
+	/**
+	 * The suggested term
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $suggestion;
+
+	/**
 	 * Method to construct the token object.
 	 *
 	 * @param   mixed   $term    The term as a string for words or an array for phrases.
@@ -138,9 +162,9 @@ class FinderIndexerToken
 			 * 3. If numeric, multiply weight by 1.5.
 			 * 4. Round weight to 4 decimal points.
 			 */
-			$this->weight = (($this->length >= 15 ? 15 : $this->length) / 15);
-			$this->weight = ($this->common == true ? $this->weight / 8 : $this->weight);
-			$this->weight = ($this->numeric == true ? $this->weight * 1.5 : $this->weight);
+			$this->weight = ($this->length >= 15 ? 15 : $this->length) / 15;
+			$this->weight = $this->common === true ? $this->weight / 8 : $this->weight;
+			$this->weight = $this->numeric === true ? $this->weight * 1.5 : $this->weight;
 			$this->weight = round($this->weight, 4);
 		}
 	}
