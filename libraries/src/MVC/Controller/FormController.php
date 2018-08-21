@@ -11,17 +11,17 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -312,7 +312,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$recordId = $this->input->getInt($key);
 
 		// Attempt to check-in the current record.
-		if ($recordId && property_exists($table, 'checked_out') && $model->checkin($recordId) === false)
+		if ($recordId && $table->hasField('checked_out') && $model->checkin($recordId) === false)
 		{
 			// Check-in failed, go back to the record and display a notice.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
@@ -376,7 +376,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		// Get the previous record id (if any) and the current record id.
 		$recordId = (int) (count($cid) ? $cid[0] : $this->input->getInt($urlVar));
-		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
+		$checkin = $table->hasField('checked_out');
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -624,7 +624,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
-		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
+		$checkin = $table->hasField('checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 

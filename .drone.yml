@@ -16,7 +16,6 @@ pipeline:
       mount:
         - ./node_modules
         - ./libraries/vendor
-        - ./media/vendor
       volumes:
         - /tmp/cache:/cache
 
@@ -30,6 +29,15 @@ pipeline:
       - composer update joomla/test-system --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       - npm install --unsafe-perm
+
+  rebuild-cache:
+      image: drillster/drone-volume-cache
+      rebuild: true
+      mount:
+        - ./node_modules
+        - ./libraries/vendor
+      volumes:
+        - /tmp/cache:/cache
 
   php70-unit:
     group: unit
@@ -62,16 +70,6 @@ pipeline:
       image: joomlaprojects/docker-systemtests:develop
       commands:
         - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
-
-  rebuild-cache:
-      image: drillster/drone-volume-cache
-      rebuild: true
-      mount:
-        - ./node_modules
-        - ./libraries/vendor
-        - ./media/vendor
-      volumes:
-        - /tmp/cache:/cache
 
 services:
   mysql:

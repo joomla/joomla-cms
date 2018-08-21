@@ -11,10 +11,11 @@ namespace Joomla\CMS\Installer;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\ParameterType;
 
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
@@ -142,7 +143,7 @@ class InstallerScript
 		// Abort if the extension being installed is not newer than the currently installed version
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
-			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', Factory::getDbo()->quote($this->extension));
+			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))
@@ -167,6 +168,8 @@ class InstallerScript
 	 */
 	public function getInstances($isModule)
 	{
+		$extension = $this->extension;
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -176,13 +179,15 @@ class InstallerScript
 		if ($isModule)
 		{
 			$query->from($db->quoteName('#__modules'))
-				->where($db->quoteName('module') . ' = ' . $db->quote($this->extension));
+				->where($db->quoteName('module') . ' = :extension');
 		}
 		else
 		{
 			$query->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = ' . $db->quote($this->extension));
+				->where($db->quoteName('element') . ' = :extension');
 		}
+
+		$query->bind(':extension', $extension);
 
 		// Set the query and obtain an array of id's
 		return $db->setQuery($query)->loadColumn();
@@ -265,8 +270,10 @@ class InstallerScript
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->paramTable))
-			->set('params = ' . $db->quote($paramsString))
-			->where('id = ' . $id);
+			->set('params = :params')
+			->where('id = :id')
+			->bind(':params', $paramsString)
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		// Update table
 		$db->setQuery($query)->execute();
@@ -282,7 +289,7 @@ class InstallerScript
 	 * @param   string  $element     The element to get from the query
 	 * @param   string  $table       The table to search for the data in
 	 * @param   string  $column      The column of the database to search from
-	 * @param   mixed   $identifier  The integer id or the already quoted string
+	 * @param   mixed   $identifier  The integer id or the string
 	 *
 	 * @return  array  Associated array containing data from the cell
 	 *
@@ -293,11 +300,14 @@ class InstallerScript
 		// Get the DB and query objects
 		$db = Factory::getDbo();
 
+		$paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
+
 		// Build the query
 		$query = $db->getQuery(true)
 			->select($db->quoteName($element))
 			->from($db->quoteName($table))
-			->where($db->quoteName($column) . ' = ' . $identifier);
+			->where($db->quoteName($column) . ' = :id')
+			->bind(':id', $identifier, $paramType);
 		$db->setQuery($query);
 
 		// Load the single cell and json_decode data
