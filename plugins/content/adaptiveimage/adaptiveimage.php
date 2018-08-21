@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\AdaptiveImage\JSONFocusStore;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -38,6 +38,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 * @since   4.0.0
 	 */
 	protected $cacheDir =  "/media/focus";
+
 	/**
 	 * Plugin that inserts focus points into the image.
 	 *
@@ -50,9 +51,6 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-		// Add ResponsifyJS into the client page
-		HTMLHelper::_('script', 'media/plg_media-action_smartcrop/js/responsive-images.min.js', ['version' => 'auto', 'relative' => false]);
-
 		// Don't run this plugin when the content is being indexed
 		if ($context === 'com_finder.indexer')
 		{
@@ -132,10 +130,10 @@ class PlgContentAdaptiveImage extends CMSPlugin
 					array_push($cacheImages, $imgData);
 				}
 			}
-			// Arrangeing widths in the order
+			// Arranging widths in the order
 			arsort($cacheImages);
 
-			// Skiping if no resized images are present
+			// Skipping if no resized images are present
 			if (empty($cacheImages))
 			{
 				continue;
@@ -153,7 +151,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 			}
 			$element .= $image . "\n</picture>";
 
-			// Replaceing the previous tag with new one in the article.
+			// Replacing the previous tag with new one in the article.
 			$text = str_replace($image, $element, $text);
 		}
 		return true;

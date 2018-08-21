@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 interface FocusStoreInterface
 {
 	/**
-	 * Pubic function for storeing the focus points
+	 * Pubic function for storing the focus points
 	 * to the file system.
 	 *
 	 * @param   array    $dataFocus  Focus point selected
@@ -46,7 +46,7 @@ interface FocusStoreInterface
 	public function getFocus($imgSrc, $width);
 
 	/**
-	 * Function for removeing the focus points for all widths
+	 * Function for removing the focus points for all widths
 	 * 
 	 * @param   string  $imgSrc  Path of the image
 	 * 
@@ -57,7 +57,7 @@ interface FocusStoreInterface
 	public function deleteFocus($imgSrc);
 
 	/**
-	 * Function for removeing all the associated resized images
+	 * Function for removing all the associated resized images
 	 * 
 	 * @param   string  $imgSrc  Path of the image
 	 * 

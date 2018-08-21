@@ -50,6 +50,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 * @since   4.0.0
 	 */
 	protected $cacheDir =  "/media/focus";
+	
 	/**
 	 * Checks the storage at the initilization of the class
 	 * 
@@ -148,7 +149,7 @@ class JSONFocusStore implements FocusStoreInterface
 		}
 	}
 	/**
-	 * Function for removeing the focus points for all widths
+	 * Function for removing the focus points for all widths
 	 * 
 	 * @param   string  $imgSrc  Path of the image
 	 * 
@@ -171,7 +172,7 @@ class JSONFocusStore implements FocusStoreInterface
 		return true;
 	}
 	/**
-	 * Function for removeing all the associated resized images
+	 * Function for removing all the associated resized images
 	 * 
 	 * @param   string  $imgSrc  Path of the image
 	 * 
@@ -202,7 +203,7 @@ class JSONFocusStore implements FocusStoreInterface
 		return true;
 	}
 	/**
-	 * Check whether the file exist
+	 * Check whether the file exists
 	 *
 	 * @param   string  $dataLocation  location of storage file
 	 * 
@@ -220,7 +221,7 @@ class JSONFocusStore implements FocusStoreInterface
 		return true;
 	}
 	/**
-	 * Fine the max value of all the focus area selected
+	 * Find the max value of all the focus areas selected
 	 * 
 	 * @param   array  $dataFocuses  Collection of dataFocus for diffrent sizes.
 	 * 

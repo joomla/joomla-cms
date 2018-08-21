@@ -34,7 +34,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		});
 	}
 
-	// Saveing the focus points to the storage
+	// Saving the focus points to the storage
 	function saveFocusPoints(width) {
 		// Data to be saved in the storage
 		var data = "&box-left=" + Joomla.MediaManager.Edit.focus.cropper.boxLeft +

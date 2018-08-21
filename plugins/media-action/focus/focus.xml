@@ -12,7 +12,6 @@
     <media destination="plg_media-action_focus" folder="media">
         <folder>js</folder>
         <folder>css</folder>
-        <!--folder>responsifyjs</folder-->
     </media>
     <files>
         <filename plugin="focus">focus.php</filename>
