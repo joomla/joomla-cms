@@ -90,7 +90,8 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Move to namespaces
 	 */
 	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
 	{
@@ -184,7 +185,8 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Move to namespaces
 	 */
 	public static function import($key, $base = null)
 	{
@@ -300,7 +302,8 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Move to namespaces
 	 */
 	public static function register($class, $path, $force = true)
 	{
