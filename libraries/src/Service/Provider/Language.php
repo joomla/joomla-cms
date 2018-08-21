@@ -16,7 +16,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * Service provider for the form dependency
+ * Service provider for the language dependency
  *
  * @since  4.0
  */
