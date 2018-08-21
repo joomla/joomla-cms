@@ -10,7 +10,7 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\LanguageFactory;
+use Joomla\CMS\Language\CachingLanguageFactory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -34,12 +34,12 @@ class Language implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('language.factory', LanguageFactoryInterface::class)
-			->alias(LanguageFactory::class, LanguageFactoryInterface::class)
+			->alias(CachingLanguageFactory::class, LanguageFactoryInterface::class)
 			->share(
 				LanguageFactoryInterface::class,
 				function (Container $container)
 				{
-					return new LanguageFactory;
+					return new CachingLanguageFactory;
 				},
 				true
 			);
