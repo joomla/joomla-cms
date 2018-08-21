@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 // Include the component HTML helpers.
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
