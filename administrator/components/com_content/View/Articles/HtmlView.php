@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -197,7 +198,7 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		if ($this->state->get('filter.condition') == Workflow::TRASHED && $canDo->get('core.delete'))
+		if ($this->state->get('filter.condition') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

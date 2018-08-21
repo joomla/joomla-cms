@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_workflow
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\CMS\Form\Field;
 
 defined('_JEXEC') or die;
@@ -29,9 +29,9 @@ class WorkflowstageField extends GroupedlistField
 	protected $type = 'Workflowstage';
 
 	/**
-	 * The extension where we're
+	 * The component and section separated by ".".
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extension = 'com_content';

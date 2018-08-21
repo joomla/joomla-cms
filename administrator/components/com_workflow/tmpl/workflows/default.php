@@ -59,7 +59,7 @@ $userId = $user->id;
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
@@ -81,8 +81,8 @@ $userId = $user->id;
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
 								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
-									<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?></span>
+									<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>"></span>
+									<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?></span>
 								</th>
 								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
 									<span class="fa fa-arrows-h text-info hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>"></span>	
@@ -156,7 +156,7 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
 								<td class="text-center btns hidden-sm-down">
-									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
+									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_states; ?></a>
 								</td>
 								<td class="text-center btns hidden-sm-down">
