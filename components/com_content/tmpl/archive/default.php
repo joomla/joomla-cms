@@ -24,17 +24,25 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 	</div>
 <?php endif; ?>
 
-<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-content-archive__form form-inline">
+<form id="adminForm" action="<?php echo Route::_('index.php'); ?>" method="post" class="com-content-archive__form">
 	<fieldset class="com-content-archive__filters filters">
-	<div class="filter-search">
+	<div class="filter-search form-inline">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
-		<label class="filter-search-lbl sr-only" for="filter-search"><?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
-		<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox col-md-2" onchange="document.getElementById('adminForm').submit();" placeholder="<?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>">
+		<div class="mr-2">
+			<label class="filter-search-lbl sr-only" for="filter-search"><?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
+			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox col-md-2" onchange="document.getElementById('adminForm').submit();" placeholder="<?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>">
+		</div>
 		<?php endif; ?>
 
+		<div class="mr-2">
 		<?php echo $this->form->monthField; ?>
+		</div>
+		<div class="mr-2">
 		<?php echo $this->form->yearField; ?>
+		</div>
+		<div class="mr-2">
 		<?php echo $this->form->limitField; ?>
+		</div>
 
 		<button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
 		<input type="hidden" name="view" value="archive">

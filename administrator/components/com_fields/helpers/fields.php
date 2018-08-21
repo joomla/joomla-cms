@@ -327,20 +327,31 @@ class FieldsHelper
 			*/
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 
+			$formControl = $form->getFormControl();
+
+			// @todo move the script to a file
 			// Preload spindle-wheel when we need to submit form due to category selector changed
-			Factory::getDocument()->addScriptDeclaration("
-			function categoryHasChanged(element) {
-				var cat = jQuery(element);
-				if (cat.val() == '" . $assignedCatids . "')return;
-				Joomla.loadingLayer('show');
-				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
-			}
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-				var formControl = '#" . $form->getFormControl() . "_catid';
-				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
-			});"
+			Factory::getDocument()->addScriptDeclaration(
+<<<JS
+function categoryHasChanged(element) {
+	if (cat.value === '$assignedCatids') {
+	  return;
+	}
+
+	Joomla.loadingLayer('show');
+	document.querySelector('input[name=task]').value = "$section.reload";
+	element.form.submit();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    Joomla.loadingLayer('load');
+
+	var element = document.getElementById("$formControl" + "_catid")
+	if (!element.val() !== "$assignedCatids") {
+	  element.value = "$assignedCatids";
+	}
+});
+JS
 			);
 		}
 
@@ -535,52 +546,6 @@ class FieldsHelper
 		$parts = self::extract($field->context);
 
 		return Factory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
-	}
-
-	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   stdClass[]  &$items  The field category objects
-	 *
-	 * @return  stdClass[]
-	 *
-	 * @since   3.7.0
-	 */
-	public static function countItems(&$items)
-	{
-		$db = Factory::getDbo();
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
-				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-
-			$fields = $db->loadObjectList();
-
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
-			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
-			}
-		}
-
-		return $items;
 	}
 
 	/**

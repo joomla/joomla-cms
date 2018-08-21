@@ -25,15 +25,12 @@
 			class="input-xxlarge input-large-text"
 		/>
 		<field
-			name="condition"
-			type="list"
-			label="COM_WORKFLOW_CONDITION"
-			class="input-xxlarge input-large-text"
-			>
-			<option value="1">COM_WORKFLOW_PUBLISHED</option>
-			<option value="0">COM_WORKFLOW_UNPUBLISHED</option>
-			<option value="-2">COM_WORKFLOW_TRASHED</option>
-		</field>
+				name="condition"
+				type="workflowcondition"
+				label="COM_WORKFLOW_CONDITION"
+				description="COM_WORKFLOW_CONDITION_DESC"
+				class="input-xxlarge input-large-text"
+		/>
 	</fieldset>
 
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
