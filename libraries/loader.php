@@ -837,7 +837,8 @@ if (!function_exists('jexit'))
  *
  * @return  boolean  True on success.
  *
- * @since   11.1
+ * @since       11.1
+ * @deprecated  5.0 Move to namespaces
  */
 function jimport($path, $base = null)
 {
