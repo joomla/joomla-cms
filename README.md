@@ -9,7 +9,7 @@ Build Status
 
 What is this?
 ---------------------
-* This is a Joomla! 4.x installation/upgrade package.
+* This is the source of Joomla! 4.x.
 * Joomla's [Official website](https://www.joomla.org).
 * Joomla! 4.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.0_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.0-dev).
@@ -20,62 +20,39 @@ What is Joomla?
 * It is a simple and powerful web server application which requires a server with PHP and either MySQL or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
-Is Joomla! for you?
+Looking for an installable package?
 ---------------------
-* Joomla! is [the right solution for most content web projects](https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More).
-* View Joomla's [core features here](https://www.joomla.org/core-features.html).
-* Try it out for yourself in our [online demo](https://demo.joomla.org).
+Joomla is not installable out of the box from this repository, please use:
+- For the latest stable package: https://downloads.joomla.org
+- For a nightly package: https://developer.joomla.org/nightly-builds.html
 
-How to find a Joomla! translation?
+How to get a working installation from the source
 ---------------------
-* Repository of [accredited language packs](https://community.joomla.org/translations.html).
-* You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J4.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
-* Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/Special:MyLanguage/J4.x:Setup_a_Multilingual_Site)
+For detailed instructions please visit https://docs.joomla.org/J4.x:Setting_Up_Your_Local_Environment
 
-Learn Joomla!
----------------------
-* Read ['Getting Started with Joomla!'](https://docs.joomla.org/Special:MyLanguage/J4.x:Getting_Started_with_Joomla!) to learn the basics.
-* Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Special:MyLanguage/Portal:Beginners).
+You will need:
+- PHP - basically the same as you need for running a Joomla Site, but you need the cli (command line interface) Version (see https://docs.joomla.org/Configuring_a_LAMPP_server_for_PHP_development)
+- Composer - for managing Joomla's PHP Dependencies. For help installing composer please read the documentation at https://getcomposer.org/doc/00-intro.md
+- Node.js - for compiling Joomla's Javascript and SASS files. For help installing Node.js please follow the instructions available on https://nodejs.org/en/
+- Git - for version management. Download from here https://git-scm.com/downloads (MacOS users can also use Brew and Linux users can use the built-in package manager, eg apt, yum, etc). 
 
-What are the benefits of Joomla?
----------------------
-* The functionality of a Joomla! website can be extended by installing extensions that you can create (or download) to suit your needs.
-* There are many ready-made extensions that you can download and install.
-* Check out the [Joomla! Extensions Directory (JED)](https://extensions.joomla.org).
-
-Is it easy to change the layout display?
----------------------
-* The layout is controlled by templates that you can edit.
-* There are a lot of ready-made professional templates that you can download.
-* Template management information is [available here](https://docs.joomla.org/Special:MyLanguage/Portal:Template_Management).
-
-Ready to install Joomla?
----------------------
-* Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
-* How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla)?
-* You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally).
-When ready, it can be moved to an online hosting account of your choice.
-
-Updates are free!
----------------------
-* Always use the [latest version](https://downloads.joomla.org/latest).
-
-Where can you get support and help?
----------------------
-* [The Joomla! Documentation](https://docs.joomla.org/Special:MyLanguage/Main_Page);
-* [Frequently Asked Questions](https://docs.joomla.org/Special:MyLanguage/Category:FAQ) (FAQ);
-* Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here);
-* Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html);
-* Post questions at [our forums](https://forum.joomla.org);
-* [Joomla Resources Directory](https://resources.joomla.org) (JRD).
-
-Do you already have a Joomla! site that isn't built with Joomla! 4.x?
----------------------
-* What's [new in Joomla! 4.x](https://www.joomla.org/4)?
-* What are the [main differences between 3.x and 4.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_3.x_and_4.x)?
-* How to [migrate from 3.x to 4.x](https://docs.joomla.org/Special:MyLanguage/Joomla_3.x_to_4.x_Step_by_Step_Migration).
-* How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_2.5_to_3.x_Step_by_Step_Migration).
-* How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_1.5_to_3.x_Step_by_Step_Migration).
+**Steps to setup the local environment:**
+- Clone the repository:
+```bash
+git clone git@github.com:joomla/joomla-cms.git
+```
+- Go to the joomla-cms folder:
+```bash
+cd joomla-cms
+```
+- Install all the needed composer packages:
+```bash
+composer install
+```
+- Install all the needed npm packages:
+```bash
+npm install
+```
 
 Do you want to improve Joomla?
 --------------------

@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Login\Administrator\Dispatcher;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
@@ -17,17 +18,8 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  *
  * @since  4.0.0
  */
-class LoginDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Login';
-
 	/**
 	 * Dispatch a controller task.
 	 *
@@ -55,6 +47,5 @@ class LoginDispatcher extends ComponentDispatcher
 	 */
 	protected function checkAccess()
 	{
-
 	}
 }

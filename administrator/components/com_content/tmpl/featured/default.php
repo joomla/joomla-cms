@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 HTMLHelper::_('behavior.multiselect');
@@ -49,20 +50,22 @@ if ($saveOrder)
 	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$js = "
-	;(function($)
-	{
-		$(function()
-		{
-			$('.article-status').on('click', function(e)
-			{
-				e.stopPropagation();
-			});
-		});
-	})(jQuery);
-";
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
-\Joomla\CMS\Factory::getDocument()->addScriptDeclaration($js);
+	  elements.forEach(function (element) {
+	    element.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	  });
+	});
+})();
+JS;
+
+// @todo mode the script to a file
+Factory::getDocument()->addScriptDeclaration($js);
 
 ?>
 
@@ -179,19 +182,18 @@ $js = "
 										<div class="btn-group tbody-icon mr-1">
 											<?php echo HTMLHelper::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 											<?php
-
-											$icon = 'publish';
-
 											switch ($item->stage_condition) :
-
-												case Workflow::TRASHED:
+												case ContentComponent::CONDITION_TRASHED :
 													$icon = 'trash';
 													break;
-
-												case Workflow::UNPUBLISHED:
+												case ContentComponent::CONDITION_UNPUBLISHED :
 													$icon = 'unpublish';
 													break;
-
+												case ContentComponent::CONDITION_ARCHIVED :
+													$icon = 'archive';
+													break;
+												default :
+													$icon = 'publish';
 											endswitch;
 											?>
 											<?php if ($hasTransitions) : ?>

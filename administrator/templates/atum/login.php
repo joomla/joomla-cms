@@ -46,6 +46,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
+// Set page title
+$this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
