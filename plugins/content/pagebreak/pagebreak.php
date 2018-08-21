@@ -18,8 +18,6 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Pagination\Pagination;
 
-jimport('joomla.utilities.utility');
-
 /**
  * Page break plugin
  *
