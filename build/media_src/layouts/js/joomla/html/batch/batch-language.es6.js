@@ -11,6 +11,15 @@
     const batchCopyMove = document.getElementById('batch-copy-move');
     let batchSelector;
 
+    const onChange = () => {
+      if (!batchSelector.value ||
+          (batchSelector.value && parseInt(batchSelector.value, 10) === 0)) {
+        batchCopyMove.style.display = 'none';
+      } else {
+        batchCopyMove.style.display = 'block';
+      }
+    };
+
     if (batchCategory) {
       batchSelector = batchCategory;
     }
@@ -23,16 +32,12 @@
       batchSelector = batchPosition;
     }
 
-    batchCopyMove.style.display = 'none';
+    if (batchCopyMove) {
+      batchCopyMove.style.display = 'none';
+    }
 
     if (batchCopyMove) {
-      batchSelector.addEventListener('change', () => {
-        if (batchSelector.value !== 0 || batchSelector.value !== '') {
-          batchCopyMove.style.display = 'block';
-        } else {
-          batchCopyMove.style.display = 'none';
-        }
-      });
+      batchSelector.addEventListener('change', onChange);
     }
 
     // Cleanup
