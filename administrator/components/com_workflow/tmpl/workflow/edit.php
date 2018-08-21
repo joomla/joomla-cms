@@ -36,7 +36,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<div>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'decription', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->renderField('description'); ?>
