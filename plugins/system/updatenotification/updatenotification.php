@@ -56,7 +56,6 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	public function onAfterRender()
 	{
 		// Get the timeout for Joomla! updates, as configured in com_installer's component parameters
-		JLoader::import('joomla.application.component.helper');
 		$component = ComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */

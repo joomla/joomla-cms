@@ -359,8 +359,6 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	protected function downloadPackage($url, $target)
 	{
-		\JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-
 		try
 		{
 			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), Log::INFO, 'Update');
@@ -1007,8 +1005,6 @@ ENDDATA;
 	{
 		$file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-		\JLoader::import('joomla.filesystem.file');
-
 		if (empty($file) || !File::exists($file))
 		{
 			return false;
@@ -1030,8 +1026,6 @@ ENDDATA;
 			Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null),
 			Factory::getApplication()->getUserState('com_joomlaupdate.file', null),
 		);
-
-		\JLoader::import('joomla.filesystem.file');
 
 		foreach ($files as $file)
 		{

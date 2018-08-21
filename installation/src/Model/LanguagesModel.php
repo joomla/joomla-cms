@@ -24,8 +24,6 @@ use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Language\Text;
 
-\JLoader::import('joomla.updater.update');
-
 /**
  * Language Installer model for the Joomla Core Installer.
  *
