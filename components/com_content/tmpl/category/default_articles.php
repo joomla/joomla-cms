@@ -198,7 +198,7 @@ if (!empty($this->items))
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
-				<?php if ($article->state_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+				<?php if ($article->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 					<span class="list-published label label-warning">
 						<?php echo JText::_('JUNPUBLISHED'); ?>
 					</span>
