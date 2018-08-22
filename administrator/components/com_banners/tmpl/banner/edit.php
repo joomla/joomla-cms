@@ -28,9 +28,9 @@ HTMLHelper::_('script', 'com_banners/admin-banner-edit.min.js', array('version' 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_BANNERS_BANNER_DETAILS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_BANNERS_BANNER_DETAILS')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->renderField('type'); ?>
@@ -53,13 +53,13 @@ HTMLHelper::_('script', 'com_banners/admin-banner-edit.min.js', array('version' 
 				</div>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'otherparams', Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'otherparams', Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS')); ?>
 		<?php echo $this->form->renderFieldset('otherparams'); ?>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
 				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -68,9 +68,9 @@ HTMLHelper::_('script', 'com_banners/admin-banner-edit.min.js', array('version' 
 				<?php echo $this->form->renderFieldset('metadata'); ?>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="">
