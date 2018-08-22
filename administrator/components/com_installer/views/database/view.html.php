@@ -18,6 +18,8 @@ JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php'
  */
 class InstallerViewDatabase extends InstallerViewDefault
 {
+	protected $canDo;
+
 	/**
 	 * Display the view.
 	 *
@@ -81,11 +83,27 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
+		$this->canDo = JHelperContent::getActions('com_installer');
+
 		/*
 		 * Set toolbar items for the page.
 		 */
 		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
 		JToolbarHelper::divider();
+
+		if ($this->canDo->get('core.admin'))
+		{
+			$link = 'index.php?option=com_installer&task=database.dump&format=raw';
+			$text = '<span class="icon-download"></span> ' . JText::_('COM_INSTALLER_TOOLBAR_DATABASE_DUMP');
+
+			$btn = JHtml::_('link', '#installer-dump-modal', $text, array('id' => 'installer-dump', 'class' => 'btn btn-small', 'data-toggle' => 'modal'));
+
+			$bar = JToolbar::getInstance('toolbar');
+			$bar->appendButton('Custom', $btn);
+
+			JToolbarHelper::divider();
+		}
+
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
 	}

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -53,6 +54,8 @@ class InstallerModelDatabase extends InstallerModel
 	 * Fixes database problems.
 	 *
 	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function fix()
 	{
@@ -78,6 +81,174 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			$installer->convertTablesToUtf8mb4(false);
 		}
+	}
+
+	/**
+	 * Create a full database dump.
+	 *
+	 * @param   string  $hash  A unique hash to generate the dump in multiple steps
+	 *
+	 * @return string  The dump string
+	 *
+	 * @throws RuntimeException
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function dump($hash = '')
+	{
+		jimport('joomla.filesystem.path');
+		jimport('joomla.filesystem.file');
+
+		$app = JFactory::getApplication();
+		$now = JFactory::getDate();
+
+		if (StringHelper::strlen($hash) != 20)
+		{
+			$hash = JUserHelper::genRandomPassword(20);
+		}
+
+		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
+
+		if (!is_writable($path))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
+		}
+
+		$file = JPath::check($path . '/' . $hash . '.php');
+
+		// Create the file with a die
+		if (!JFile::exists($file))
+		{
+			$this->prepareDump($hash);
+		}
+
+		$tables = (array) $app->getUserState('installer.dump.' . $hash . '.tables', array());
+
+		$list = $this->getDbo()->getTableCreate($tables);
+
+		$max_execute = ini_get('max_execution_time') / 2;
+
+		$handle = fopen($file, 'a+');
+
+		while ($max_execute > 1 && !empty($tables))
+		{
+			$starttime = microtime(1);
+
+			if (!$app->getUserState('installer.dump.' . $hash . '.current'))
+			{
+				$table = reset($tables);
+
+				$create = $list[$table];
+
+				$app->setUserState('installer.dump.' . $hash . '.current', $table);
+
+				$command = "\n\n" . $create . ';';
+
+				fwrite($handle, $command);
+
+				$query = $this->getDbo()->getQuery(true);
+
+				$query->select('COUNT(*)')->from($query->qn($table));
+
+				$num_rows = (int) $this->getDbo()->setQuery($query)->loadResult();
+
+				$app->setUserState('installer.dump.' . $hash . '.max_rows', $num_rows);
+				$app->setUserState('installer.dump.' . $hash . '.cur_rows', 0);
+
+				$endtime = microtime(1);
+
+				$max_execute -= ceil($endtime - $starttime);
+
+				continue;
+			}
+			// All rows loaded, get the next table
+			elseif ((int) $app->getUserState('installer.dump.' . $hash . '.cur_rows') >= (int) $app->getUserState('installer.dump.' . $hash . '.max_rows'))
+			{
+				$app->setUserState('installer.dump.' . $hash . '.current', '');
+
+				array_shift($tables);
+
+				$app->setUserState('installer.dump.' . $hash . '.tables', $tables);
+
+				continue;
+			}
+
+			$table = $app->getUserState('installer.dump.' . $hash . '.current');
+			$cur_rows = (int) $app->getUserState('installer.dump.' . $hash . '.cur_rows');
+			$max_rows = (int) $app->getUserState('installer.dump.' . $hash . '.max_rows');
+
+			$query = $this->getDbo()->getQuery(true);
+
+			$query->select('*')->from($query->quoteName($table))->setLimit(100, $cur_rows);
+
+			$rows = $this->getDbo()->setQuery($query)->loadAssocList();
+
+			$app->setUserState('installer.dump.' . $hash . '.cur_rows', $cur_rows + 100);
+
+			if (!empty($rows))
+			{
+				$query = $this->getDbo()->getQuery(true);
+
+				$query->insert($query->quoteName($table));
+
+				$columns = $this->getDbo()->getTableColumns($table);
+
+				$query->columns($query->quoteName(array_keys($columns)));
+
+				foreach ($rows as $row)
+				{
+					$query->values(implode(',', $query->quote($row)));
+				}
+
+				$command = "\n\n" . (string) $query . ';';
+
+				fwrite($handle, $command);
+			}
+
+			$endtime = microtime(1);
+
+			$max_execute -= ceil($endtime - $starttime);
+		}
+
+		$result = array(
+			'hash' => $hash,
+			'finished' => !count($tables),
+			'percent' => 100 - round(count($tables) * 100 / $app->getUserState('installer.dump.' . $hash . '.num_tables'))
+		);
+
+		return $result;
+	}
+
+	/**
+	 * Initialize the dump file and set the session values
+	 *
+	 * @param   string  $hash  A unique hash to generate the dump in multiple steps
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function prepareDump($hash)
+	{
+		$app = JFactory::getApplication();
+
+		$path = $app->get('tmp_path', JPATH_ROOT . '/tmp');
+
+		$file = JPath::check($path . '/' . $hash . '.php');
+
+		JFile::write($file, '-- <?php die; ?>');
+
+		$tables = $this->getDbo()->getTableList();
+
+		$prefix = $this->getDbo()->getPrefix();
+
+		$tables = array_filter($tables, function($table) use($prefix)
+		{
+			return strpos($table, $prefix) === 0;
+		});
+
+		$app->setUserState('installer.dump.' . $hash . '.tables', $tables);
+		$app->setUserState('installer.dump.' . $hash . '.num_tables', count($tables));
 	}
 
 	/**
