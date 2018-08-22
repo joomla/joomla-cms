@@ -32,7 +32,6 @@ JFactory::getDocument()->addScriptDeclaration($js);
 			<div class="span9">
 				<fieldset class="adminform">
 					<?php echo $this->form->renderField('email'); ?>
-					<?php echo $this->form->renderField('user_id'); ?>
 					<?php echo $this->form->renderField('status'); ?>
 					<?php echo $this->form->renderField('request_type'); ?>
 				</fieldset>

@@ -53,24 +53,21 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 * - Contact custom fields
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
-		if ((!$request->user_id) && (!$request->email))
+		if ((!$user) && (!$request->email))
 		{
 			return array();
 		}
 
-		/** @var JTableUser $user */
-		$user = JUser::getTable();
-		$user->load($request->user_id);
-
 		$domains   = array();
-		$domains[] = $this->createContactDomain($user);
+		$domains[] = $this->createContactDomain($request, $user);
 
 		// An user may have more than 1 contact linked to them
 		foreach ($this->contacts as $contact)
@@ -84,17 +81,18 @@ class PlgPrivacyContact extends PrivacyPlugin
 	/**
 	 * Create the domain for the user contact data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyExportDomain
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function createContactDomain(JTableUser $user)
+	private function createContactDomain(PrivacyTableRequest $request, JUser $user = null)
 	{
 		$domain = $this->createDomain('user contact', 'Joomla! user contact data');
 
-		if (!$user->email)
+		if ($user)
 		{
 			$query = $this->db->getQuery(true)
 				->select('*')
@@ -107,7 +105,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 			$query = $this->db->getQuery(true)
 				->select('*')
 				->from($this->db->quoteName('#__contact_details'))
-				->where($this->db->quoteName('email_to') . ' = ' . $this->db->quote($user->email))
+				->where($this->db->quoteName('email_to') . ' = ' . $this->db->quote($request->email))
 				->order($this->db->quoteName('ordering') . ' ASC');
 		}
 

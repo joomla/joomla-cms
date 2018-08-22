@@ -21,7 +21,6 @@ defined('_JEXEC') or die;
  * @property   string   $confirm_token_created_at  The time the confirmation token was generated
  * @property   integer  $checked_out               User ID who has checked out the item for editing
  * @property   string   $checked_out_time          The time the item was checked out for editing
- * @property   integer  $user_id                   User ID (pseudo foreign key to the #__users table) if the request is associated to a user account
  *
  * @since  __DEPLOY_VERSION__
  */

@@ -56,9 +56,6 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap">
-							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
-						</th>
-						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUEST_TYPE', 'a.request_type', $listDirn, $listOrder); ?>
 						</th>
 						<th width="15%" class="nowrap">
@@ -103,9 +100,6 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
 									<span class="label"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
 								<?php endif; ?>
-							</td>
-							<td class="break-word">
-								<?php echo $item->user_id ? $this->escape($item->username) : JText::_('JGLOBAL_NONAPPLICABLE'); ?>
 							</td>
 							<td class="break-word">
 								<?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>

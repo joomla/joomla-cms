@@ -12,13 +12,6 @@
 		/>
 
 		<field
-			name="user_id"
-			type="user"
-			label="COM_PRIVACY_FIELD_USER_ID_LABEL"
-			description="COM_PRIVACY_FIELD_USER_ID_DESC"
-		/>
-
-		<field
 			name="status"
 			type="list"
 			label="JSTATUS"

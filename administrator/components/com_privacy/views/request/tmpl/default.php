@@ -36,15 +36,6 @@ JFactory::getDocument()->addScriptDeclaration($js);
 				<dt><?php echo JText::_('JGLOBAL_EMAIL'); ?>:</dt>
 				<dd><?php echo $this->item->email; ?></dd>
 
-				<dt><?php echo JText::_('COM_PRIVACY_FIELD_USER_ID_LABEL'); ?>:</dt>
-				<dd>
-					<?php if ($this->item->user_id) : ?>
-						<?php echo JUser::getInstance($this->item->user_id)->name; ?>
-					<?php else : ?>
-						<?php echo JText::_('JGLOBAL_NONAPPLICABLE'); ?>
-					<?php endif; ?>
-				</dd>
-
 				<dt><?php echo JText::_('JSTATUS'); ?>:</dt>
 				<dd><?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $this->item->status); ?></dd>
 
