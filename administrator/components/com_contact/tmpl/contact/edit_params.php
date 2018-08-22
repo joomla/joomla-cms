@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 $fieldSets = $this->form->getFieldsets('params');
 foreach ($fieldSets as $name => $fieldSet) :
 	$paramstabs = 'params-' . $name;
-	echo HTMLHelper::_('bootstrap.addTab', 'myTab', $paramstabs, Text::_($fieldSet->label));
+	echo HTMLHelper::_('z', 'myTab', $paramstabs, Text::_($fieldSet->label));
 
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
 		echo '<joomla-alert type="info">' . $this->escape(Text::_($fieldSet->description)) . '</joomla-alert>';
