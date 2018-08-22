@@ -378,6 +378,31 @@ class PrivacyModelRequest extends JModelAdmin
 	}
 
 	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($data)
+	{
+		$table = $this->getTable();
+		$key   = $table->getKeyName();
+		$pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if (!$pk && !JFactory::getConfig()->get('mailonline', 1))
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+
+			return false;
+		}
+
+		return parent::save($data);
+	}
+
+	/**
 	 * Method to validate the form data.
 	 *
 	 * @param   JForm   $form   The form to validate against.

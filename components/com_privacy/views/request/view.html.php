@@ -43,6 +43,14 @@ class PrivacyViewRequest extends JViewLegacy
 	protected $params;
 
 	/**
+	 * Flag indicating the site supports sending email
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sendMailEnabled;
+
+	/**
 	 * The state information
 	 *
 	 * @var    JObject
@@ -64,9 +72,10 @@ class PrivacyViewRequest extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$this->form   = $this->get('Form');
-		$this->state  = $this->get('State');
-		$this->params = $this->state->params;
+		$this->form            = $this->get('Form');
+		$this->state           = $this->get('State');
+		$this->params          = $this->state->params;
+		$this->sendMailEnabled = (bool) JFactory::getConfig()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

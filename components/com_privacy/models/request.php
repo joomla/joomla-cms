@@ -27,6 +27,14 @@ class PrivacyModelRequest extends JModelAdmin
 	 */
 	public function createRequest($data)
 	{
+		// Creating requests requires the site's email sending be enabled
+		if (!JFactory::getConfig()->get('mailonline', 1))
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+
+			return false;
+		}
+
 		// Get the form.
 		$form = $this->getForm();
 		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
