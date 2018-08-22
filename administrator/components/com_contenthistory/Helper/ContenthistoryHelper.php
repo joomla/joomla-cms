@@ -169,8 +169,6 @@ class ContenthistoryHelper
 	public static function getFormFile(ContentType $typesTable)
 	{
 		$result = false;
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
 
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
