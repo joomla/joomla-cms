@@ -41,6 +41,11 @@ class TransitionField extends ListField
 	 */
 	protected $extension;
 
+	/**
+	 * The workflow stage to use.
+	 *
+	 * @var   integer
+	 */
 	protected $workflowStage;
 
 	/**

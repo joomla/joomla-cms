@@ -11,12 +11,12 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * The workflow stages controller
@@ -26,20 +26,57 @@ use Joomla\CMS\Session\Session;
 class StagesController extends AdminController
 {
 	/**
+	 * The workflow in where the stage belons to
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $workflowId;
+
+	/**
+	 * The extension
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $extension;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException when no extension or workflow id is set
 	 */
-	public function __construct(array $config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
+
+		// If workflow id is not set try to get it from input or throw an exception
+		if (empty($this->workflowId))
+		{
+			$this->workflowId = $this->input->getInt('workflow_id');
+
+			if (empty($this->workflowId))
+			{
+				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_WORKFLOW_ID_NOT_SET'));
+			}
+		}
+
+		// If extension is not set try to get it from input or throw an exception
+		if (empty($this->extension))
+		{
+			$this->extension = $this->input->getCmd('extension');
+
+			if (empty($this->extension))
+			{
+				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
+			}
+		}
 
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
@@ -84,7 +121,7 @@ class StagesController extends AdminController
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&extension=' . $this->input->getCmd("extension"), false
+					. '&extension=' . $this->extension, false
 				)
 			);
 
@@ -121,8 +158,8 @@ class StagesController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd("extension")
-				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+				. '&extension=' . $this->extension
+				. '&workflow_id=' . $this->workflowId, false
 			)
 		);
 	}
@@ -141,8 +178,8 @@ class StagesController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd('extension')
-				. '&workflow_id=' . $this->input->getCmd('workflow_id'), false
+				. '&extension=' . $this->extension
+				. '&workflow_id=' . $this->workflowId, false
 			)
 		);
 	}
@@ -160,8 +197,8 @@ class StagesController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd("extension")
-				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+				. '&extension=' . $this->extension
+				. '&workflow_id=' . $this->workflowId, false
 			)
 		);
 	}
@@ -177,15 +214,11 @@ class StagesController extends AdminController
 	{
 		parent::publish();
 
-		$extension = $this->input->get('extension');
-		$extensionURL = $extension ? '&extension=' . $extension : '';
-
-		$workflow_id = $this->input->getInt('workflow_id');
-
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $extensionURL . '&workflow_id=' . $workflow_id, false
+				. '&extension=' . $this->extension
+				. $extensionURL . '&workflow_id=' . $this->workflowId, false
 			)
 		);
 	}
