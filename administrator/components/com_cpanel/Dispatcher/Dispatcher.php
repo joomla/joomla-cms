@@ -15,7 +15,7 @@ use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
- * Dispatcher class for com_cpanel
+ * ComponentDispatcher class for com_cpanel
  *
  * @since  4.0.0
  */

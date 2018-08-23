@@ -19,14 +19,14 @@ use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
 
 /**
- * Dispatcher class for com_media
+ * ComponentDispatcher class for com_media
  *
  * @since  4.0.0
  */
 class Dispatcher extends ComponentDispatcher
 {
 	/**
-	 * Constructor for Dispatcher
+	 * Constructor for ComponentDispatcher
 	 *
 	 * @param   CMSApplication              $app                The application instance
 	 * @param   Input                       $input              The input instance

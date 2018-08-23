@@ -12,12 +12,12 @@ namespace Joomla\Component\Associations\Administrator\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
- * Dispatcher class for com_associations
+ * ComponentDispatcher class for com_associations
  *
  * @since  4.0.0
  */

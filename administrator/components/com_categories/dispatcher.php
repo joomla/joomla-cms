@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
- * Dispatcher class for com_categories
+ * ComponentDispatcher class for com_categories
  *
  * @since  4.0.0
  */

@@ -16,7 +16,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
- * Dispatcher class for com_contenthistory
+ * ComponentDispatcher class for com_contenthistory
  *
  * @since  4.0.0
  */

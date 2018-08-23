@@ -16,11 +16,11 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
- * Dispatcher class for com_content
+ * ComponentDispatcher class for com_content
  *
  * @since  4.0.0
  */
-class FieldsDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Method to check component access permission

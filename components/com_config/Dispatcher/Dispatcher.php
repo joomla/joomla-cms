@@ -15,7 +15,7 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
- * Dispatcher class for com_config
+ * ComponentDispatcher class for com_config
  *
  * @since  4.0.0
  */
