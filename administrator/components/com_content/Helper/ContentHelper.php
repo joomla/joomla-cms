@@ -63,19 +63,19 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$vName == 'workflows'
 			);
 
-			if ($vName == 'stages' || $vName == 'transitions')
+			if ($vName == 'stages' || $vName == 'transitions' || $vName == 'articles')
 			{
 				$app        = Factory::getApplication();
 				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
 
 				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_STAGES'),
+					Text::_('COM_CONTENT_SUBMENU_WORKFLOWS_STAGES'),
 					'index.php?option=com_workflow&view=stages&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'stages`'
 				);
 
 				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_TRANSITIONS'),
+					Text::_('COM_CONTENT_SUBMENU_WORKFLOWS_TRANSITIONS'),
 					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'transitions'
 				);

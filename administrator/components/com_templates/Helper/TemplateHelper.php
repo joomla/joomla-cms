@@ -83,8 +83,6 @@ abstract class TemplateHelper
 			}
 		}
 
-		jimport('joomla.filesystem.file');
-
 		if ($file['name'] !== File::makeSafe($file['name']) || preg_match('/\s/', File::makeSafe($file['name'])))
 		{
 			$app = Factory::getApplication();

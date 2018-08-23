@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Abstract Fields Plugin
@@ -213,7 +214,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		}
 
 		// Check if it is allowed to edit the field
-		if (!\FieldsHelper::canEditFieldValue($field))
+		if (!FieldsHelper::canEditFieldValue($field))
 		{
 			$node->setAttribute('disabled', 'true');
 		}
