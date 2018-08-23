@@ -94,7 +94,7 @@ class StatsHelper
 			$query->clear()
 				->select('COUNT(c.id) AS count_items')
 				->from($db->quoteName('#__content', 'c'))
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = c.state')
 				->where('ws.condition = 1');
 			$db->setQuery($query);
 
