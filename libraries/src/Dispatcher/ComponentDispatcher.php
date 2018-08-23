@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
@@ -174,7 +175,7 @@ class ComponentDispatcher extends Dispatcher
 		// Check if the controller could be created
 		if (!$controller)
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name));
+			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name));
 		}
 
 		return $controller;
