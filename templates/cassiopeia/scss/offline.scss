@@ -47,7 +47,7 @@ body {
 }
 
 html[dir=rtl] .header {
-  border-radius: 5px 0;
+  border-radius: 5px 0 0 5px;
 }
 
 .header::after {
