@@ -54,8 +54,6 @@ class OverridesModel extends ListModel
 	 */
 	public function getOverrides($all = false)
 	{
-		jimport('joomla.filesystem.file');
-
 		// Get a storage key.
 		$store = $this->getStoreId();
 
@@ -258,8 +256,6 @@ class OverridesModel extends ListModel
 
 			return false;
 		}
-
-		jimport('joomla.filesystem.file');
 
 		$filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
 		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';

@@ -18,8 +18,6 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Pagination\Pagination;
 
-jimport('joomla.utilities.utility');
-
 /**
  * Page break plugin
  *
@@ -211,7 +209,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 				if ($style === 'tabs')
 				{
-					$t[] = (string) HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'article' . $row->id . '-' . $style . '0'));
+					$t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'article' . $row->id . '-' . $style . '0'));
 				}
 				else
 				{
@@ -243,7 +241,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 					if ($style === 'tabs')
 					{
-						$t[] = (string) HTMLHelper::_('bootstrap.addTab', 'myTab', $index, $title);
+						$t[] = (string) HTMLHelper::_('uitab.addTab', 'myTab', $index, $title);
 					}
 					else
 					{
@@ -254,7 +252,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 					if ($style === 'tabs')
 					{
-						$t[] = (string) HTMLHelper::_('bootstrap.endTab');
+						$t[] = (string) HTMLHelper::_('uitab.endTab');
 					}
 					else
 					{
@@ -264,7 +262,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 				if ($style === 'tabs')
 				{
-					$t[] = (string) HTMLHelper::_('bootstrap.endTabSet');
+					$t[] = (string) HTMLHelper::_('uitab.endTabSet');
 				}
 				else
 				{

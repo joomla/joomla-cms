@@ -179,8 +179,6 @@ class Menu extends Nested
 			}
 
 			// Verify that a first level menu item alias is not the name of a folder.
-			jimport('joomla.filesystem.folder');
-
 			if (in_array($this->alias, Folder::folders(JPATH_ROOT)))
 			{
 				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));

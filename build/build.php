@@ -274,7 +274,7 @@ $doNotPackage = array(
 	'.github',
 	'.gitignore',
 	'.hound.yml',
-	'.php_cs',
+	'.php_cs.dist',
 	'.travis.yml',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -60,7 +61,7 @@ class TypeField extends \JFormFieldList
 	{
 		$options = parent::getOptions();
 
-		$fieldTypes = \FieldsHelper::getFieldTypes();
+		$fieldTypes = FieldsHelper::getFieldTypes();
 
 		foreach ($fieldTypes as $fieldType)
 		{
