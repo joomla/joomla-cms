@@ -12,7 +12,6 @@
 		<field
 				name="stage"
 				type="workflowstage"
-				label="COM_CONTENT_STAGE"
 				onchange="this.form.submit();"
 				activeonly="true"
 		>
@@ -22,7 +21,6 @@
 		<field
 				name="condition"
 				type="workflowcondition"
-				label="COM_CONTENT_CONDITION"
 				onchange="this.form.submit();"
 				extension="com_content"
 		>
