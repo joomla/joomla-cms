@@ -64,8 +64,6 @@ class StringsModel extends BaseDatabaseModel
 		$files = array();
 
 		// Parse common language directory.
-		jimport('joomla.filesystem.folder');
-
 		if (is_dir($path))
 		{
 			$files = Folder::files($path, $language . '.*ini$', false, true);

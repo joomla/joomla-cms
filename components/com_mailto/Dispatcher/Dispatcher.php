@@ -7,27 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Mailto\Site\Dispatcher;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
-use Joomla\CMS\MVC\Controller\BaseController;
+defined('_JEXEC') or die;
 
 /**
  * Dispatcher class for com_mailto
  *
  * @since  4.0.0
  */
-class MailtoDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Mailto';
-
 	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
 	 *
