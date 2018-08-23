@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+	<fieldset name="workflow" addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
 		<field
 			name="id"
-			type="text"
+			type="hidden"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -18,15 +18,13 @@
 			name="title"
 			type="text"
 			label="COM_WORKFLOW_FIELD_NAME_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>
 		<field
 			name="description"
-			type="editor"
-			label="COM_WORKFLOW_FIELD_DESC_LABEL"
-			class="input-xxlarge input-large-text"
+			type="text"
+			label="COM_WORKFLOW_WORKFLOW_NOTE"
 		/>
 	</fieldset>
 
@@ -52,13 +50,13 @@
 		</field>
 		<field
 			name="created"
-			type="text"
+			type="hidden"
 			label="COM_WORKFLOW_CREATED_LABEL"
 			readonly="true"
 		/>
 		<field
 			name="modified"
-			type="text"
+			type="hidden"
 			label="COM_WORKFLOW_MODIFIED_LABEL"
 			readonly="true"
 		/>

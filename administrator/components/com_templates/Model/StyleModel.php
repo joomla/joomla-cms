@@ -412,8 +412,6 @@ class StyleModel extends AdminModel
 			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
-		jimport('joomla.filesystem.path');
-
 		$formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
