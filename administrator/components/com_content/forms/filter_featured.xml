@@ -23,7 +23,7 @@
 			type="workflowcondition"
 			onchange="this.form.submit();"
 			extension="com_content"
-		>
+			>
 			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
 		</field>
 
