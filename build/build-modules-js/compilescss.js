@@ -34,6 +34,7 @@ const compileCSSFiles = (options, path) => {
     }
   } else {
     files = [
+      `${rootPath}/templates/cassiopeia/scss/offline.scss`,
       `${rootPath}/templates/cassiopeia/scss/template.scss`,
       `${rootPath}/templates/cassiopeia/scss/template-rtl.scss`,
       `${rootPath}/administrator/templates/atum/scss/bootstrap.scss`,
