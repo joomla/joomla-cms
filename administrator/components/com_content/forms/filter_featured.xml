@@ -14,7 +14,7 @@
 			type="workflowstage"
 			onchange="this.form.submit();"
 			activeonly="true"
-		>
+			>
 			<option value="">COM_CONTENT_SELECT_STAGE</option>
 		</field>
 
