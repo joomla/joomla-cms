@@ -355,9 +355,9 @@ class Text
 	/**
 	 * Translate a string into the current language and stores it in the JavaScript language store.
 	 *
-	 * @param   string   $string                The Text key.
-	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
-	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
+	 * @param   string|array $string               The Text key.
+	 * @param   boolean      $jsSafe               Ensure the output is JavaScript safe.
+	 * @param   boolean      $interpretBackSlashes Interpret \t and \n.
 	 *
 	 * @return  string
 	 *
@@ -377,6 +377,16 @@ class Text
 				Log::WARNING,
 				'deprecated'
 			);
+		}
+		
+		if(is_array($string))
+		{
+			foreach ($string as $key)
+			{
+				self::script($key, $jsSafe, $interpretBackSlashes);
+			}
+			
+			return static::getScriptStrings();
 		}
 
 		if (is_array($jsSafe))
