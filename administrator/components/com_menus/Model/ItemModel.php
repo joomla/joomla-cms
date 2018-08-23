@@ -26,8 +26,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
 
-jimport('joomla.filesystem.path');
-
 /**
  * Menu Item Model for Menus.
  *

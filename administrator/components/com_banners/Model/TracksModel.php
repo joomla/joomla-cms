@@ -500,8 +500,6 @@ class TracksModel extends ListModel
 				$ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 
 				// Run the packager
-				jimport('joomla.filesystem.folder');
-				jimport('joomla.filesystem.file');
 				$delete = Folder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete))

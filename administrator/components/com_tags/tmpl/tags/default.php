@@ -55,7 +55,7 @@ if ($section === 'categories')
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>

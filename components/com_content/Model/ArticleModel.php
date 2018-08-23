@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Content Component Article Model
@@ -61,7 +62,8 @@ class ArticleModel extends ItemModel
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$this->setState('filter.published', 1);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.archived', ContentComponent::CONDITION_ARCHIVED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -149,10 +151,11 @@ class ArticleModel extends ItemModel
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
+				$archived = $this->getState('filter.archived');
 
 				if (is_numeric($published))
 				{
-					$query->where($db->quoteName('ws.condition') . ' = ' . $db->quote((int) $published));
+					$query->whereIn($db->quoteName('ws.condition'), [(int) $published, (int) $archived]);
 				}
 
 				$db->setQuery($query);
@@ -165,7 +168,7 @@ class ArticleModel extends ItemModel
 				}
 
 				// Check for published state if filter set.
-				if (is_numeric($published) && $data->condition != $published)
+				if ((is_numeric($published) || is_numeric($archived)) && ($data->condition != $published && $data->condition != $archived))
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
