@@ -165,7 +165,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$hasTransitions = count($transitions) > 0;
 
 							$default = [
-								JHtml::_('select.option', '', Text::_($this->escape($item->stage_title))),
+								JHtml::_('select.option', '', $this->escape(Text::_($item->stage_title))),
 								JHtml::_('select.option', '-1', '--------', ['disable' => true])
 							];
 
@@ -222,7 +222,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 											<span class="icon-<?php echo $icon; ?>"></span>
 										<?php endif; ?>
 										</div>
-										<div class="mr-auto"><?php echo Text::_($this->escape($item->stage_title)); ?></div>
+										<div class="mr-auto"><?php echo $this->escape(Text::_($item->stage_title)); ?></div>
 										<?php if ($hasTransitions) : ?>
 										<div class="d-none">
 											<?php

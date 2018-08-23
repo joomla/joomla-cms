@@ -126,11 +126,11 @@ if ($saveOrder)
 									<?php if ($item->from_stage_id < 0) : ?>
 										<?php echo Text::_('JALL'); ?>
 									<?php else : ?>
-										<?php echo Text::_($this->escape($item->from_stage)); ?>
+										<?php echo $this->escape(Text::_($item->from_stage)); ?>
 									<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo Text::_($this->escape($item->to_stage)); ?>
+										<?php echo $this->escape(Text::_($item->to_stage)); ?>
 									</td>
 									<td class="text-right">
 										<?php echo $item->id; ?>
