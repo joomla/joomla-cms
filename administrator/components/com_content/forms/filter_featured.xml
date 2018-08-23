@@ -10,19 +10,19 @@
 		/>
 
 		<field
-				name="stage"
-				type="workflowstage"
-				onchange="this.form.submit();"
-				activeonly="true"
+			name="stage"
+			type="workflowstage"
+			onchange="this.form.submit();"
+			activeonly="true"
 		>
 			<option value="">COM_CONTENT_SELECT_STAGE</option>
 		</field>
 
 		<field
-				name="condition"
-				type="workflowcondition"
-				onchange="this.form.submit();"
-				extension="com_content"
+			name="condition"
+			type="workflowcondition"
+			onchange="this.form.submit();"
+			extension="com_content"
 		>
 			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
 		</field>
