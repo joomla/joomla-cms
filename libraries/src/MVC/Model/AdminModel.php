@@ -1375,11 +1375,6 @@ abstract class AdminModel extends FormModel
 			{
 				$this->table->$orderingField = $order[$i];
 
-				if ($this->type)
-				{
-					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-				}
-
 				if (!$this->table->store())
 				{
 					$this->setError($this->table->getError());

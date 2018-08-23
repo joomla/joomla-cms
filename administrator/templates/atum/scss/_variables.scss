@@ -156,7 +156,7 @@ $list-group-bg:                    $white-offset;
 $custom-select-bg:                 $white-offset;
 
 // Modals
-$zindex-modal:					   1080;
+$zindex-modal:                     1080;
 $modal-header-height:              46px;
 
 // Badges
@@ -174,4 +174,7 @@ $quickicon-box-shadow-danger:      0 0 3px 0 theme-color("danger");
 $grid-gutter-width:                15px;
 
 // A11y
-$focus-highlight-color:              #39f;
+$focus-highlight-color:            #39f;
+
+// Breadcrumbs 
+$breadcrumb-bg:                    #fff;

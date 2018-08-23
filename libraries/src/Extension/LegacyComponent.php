@@ -16,7 +16,7 @@ use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
-use Joomla\CMS\Dispatcher\LegacyDispatcher;
+use Joomla\CMS\Dispatcher\LegacyComponentDispatcher;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -63,7 +63,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 */
 	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
-		return new LegacyDispatcher($application);
+		return new LegacyComponentDispatcher($application);
 	}
 
 	/**
