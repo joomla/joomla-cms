@@ -1,59 +1,60 @@
+// TODO use _variables.scss
 html {
-  background-color: #3a92c8;
   background: radial-gradient(circle, #fdfdfd, #f1f1f1);
+  background-color: #3a92c8;
+  background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-image: none;
 }
 
 body {
-  margin: 0;
   padding: 0;
+  margin: 0;
   font: 14px / 18px sans-serif;
   color: #555;
-  background-color: transparent
+  background-color: transparent;
 }
 
 .outer {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  position: relative;
-  padding: 20px;
+  justify-content: center;
   width: 100%;
   height: 100vh;
+  padding: 20px;
   overflow: hidden;
 }
 
 .offline-card {
-  margin: 0 auto 60px;
   width: 100%;
   max-width: 30em;
-  background-color: #ffffff;
-  border: 1px solid rgba(0,0,0,0.1);
+  margin: 0 auto 60px;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.1);
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  box-shadow: 0 0 10px rgba(0,0,0,.05);
 }
 
 .header {
   position: relative;
-  text-align: center;
-  margin: 0;
   padding-top: 25px;
   padding-bottom: 35px;
+  margin: 0;
+  text-align: center;
   border-radius: 5px 5px 0 0;
 }
 
 html[dir=rtl] .header {
-  border-radius: 5px 0 5px 0;
+  border-radius: 5px 0 5px;
 }
 
 .header::after {
   position: absolute;
   top: 100%;
-  left: 0;
   right: 0;
+  left: 0;
   height: 3px;
   content: "";
   background-color: #007eb7;
@@ -76,8 +77,8 @@ img {
 }
 
 form, fieldset {
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 
 label {
@@ -92,19 +93,19 @@ input[type="text"], input[type="password"] {
 }
 
 input {
-  margin: .5em 0 1em 0;
+  margin: .5em 0 1em;
 }
 
 .logo-icon {
   position: absolute;
-  left: 50%;
   top: 100%;
+  left: 50%;
   z-index: 1;
-  margin-top: 2px;
   padding: 12px;
+  margin-top: 2px;
   background-color: #fff;
+  border: 1px solid rgba(0,0,0,.05);
   border-radius: 50%;
-  border: 1px solid rgba(0,0,0,0.05);
   box-shadow: 0 0 5px rgba(0,0,0,.075);
   transform: translate(-50%, -50%);
 }
