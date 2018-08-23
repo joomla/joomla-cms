@@ -248,8 +248,6 @@ class PluginModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
 		$lang    = Factory::getLanguage();

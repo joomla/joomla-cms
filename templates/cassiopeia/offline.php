@@ -27,7 +27,8 @@ $fullWidth = 1;
 HTMLHelper::_('behavior.core');
 
 // Add Stylesheets
-HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+// Load template CSS file
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
 
 // Template color
