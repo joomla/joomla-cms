@@ -7,10 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Fields\Administrator\Dispatcher;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
-use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Dispatcher class for com_content
@@ -20,15 +23,6 @@ use Joomla\CMS\Factory;
 class FieldsDispatcher extends ComponentDispatcher
 {
 	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Fields';
-
-	/**
 	 * Method to check component access permission
 	 *
 	 * @since   4.0.0
@@ -37,13 +31,10 @@ class FieldsDispatcher extends ComponentDispatcher
 	 */
 	protected function checkAccess()
 	{
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
-		$app       = Factory::getApplication();
-		$context   = $app->getUserStateFromRequest(
+		$context   = $this->app->getUserStateFromRequest(
 			'com_fields.groups.context',
 			'context',
-			$app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD'),
+			$this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD'),
 			'CMD'
 		);
 
@@ -51,7 +42,7 @@ class FieldsDispatcher extends ComponentDispatcher
 
 		if (!$parts || !$this->app->getIdentity()->authorise('core.manage', $parts[0]))
 		{
-			throw new \Joomla\CMS\Access\Exception\Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 }

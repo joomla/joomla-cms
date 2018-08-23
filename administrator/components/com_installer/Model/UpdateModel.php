@@ -11,8 +11,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-jimport('joomla.updater.update');
-
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -559,8 +557,6 @@ class UpdateModel extends ListModel
 	 */
 	protected function preparePreUpdate($update, $table)
 	{
-		jimport('joomla.filesystem.file');
-
 		switch ($table->type)
 		{
 			// Components could have a helper which adds additional data

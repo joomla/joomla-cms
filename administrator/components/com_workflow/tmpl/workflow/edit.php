@@ -36,10 +36,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<div>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
 		<div class="row">
 			<div class="col-md-9">
-				<?php echo $this->form->getInput('description'); ?>
+				<?php echo $this->form->renderField('description'); ?>
 			</div>
 			<div class="col-md-3">
 				<div class="card card-block card-light">
@@ -59,22 +59,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 								</div>
 								<div class="controls">
 									<?php echo $this->form->getInput('default'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('created'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('created'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('modified'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('modified'); ?>
 								</div>
 							</div>
 						</fieldset>
