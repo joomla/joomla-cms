@@ -30,6 +30,7 @@
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
+			<filename>content.xml</filename>
 			<folder>Controller</folder>
 			<folder>Extension</folder>
 			<folder>Field</folder>
