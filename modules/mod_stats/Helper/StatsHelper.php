@@ -94,7 +94,8 @@ class StatsHelper
 			$query->clear()
 				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
 				->from($db->quoteName('#__content', 'c'))
-				->leftJoin($db->quoteName('#__workflow_stages', 'ws') 
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws') 
 					. ' ON ' .  $db->quoteName('ws.id') . ' = ' . $db->quoteName('c.state')
 				)
 				->where($db->quoteName('ws.condition') . ' = 1');
@@ -129,9 +130,10 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(' . $db->quotename('hits') .') AS count_hits')
+				->select('SUM(' . $db->quotename('hits') . ') AS count_hits')
 				->from($db->quoteName('#__content'))
-				->leftJoin($db->quoteName('#__workflow_stages', 'ws') 
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws') 
 					. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('state')
 				)
 				->where($db->quoteName('ws.condition') . ' = 1');
