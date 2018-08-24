@@ -10,7 +10,6 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
