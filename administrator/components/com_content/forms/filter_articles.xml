@@ -15,7 +15,7 @@
 			onchange="this.form.submit();"
 			activeonly="true"
 			>
-			<option value="">COM_CONTENT_SELECT_STAGE</option>
+			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
 
 		<field
@@ -24,7 +24,7 @@
 			onchange="this.form.submit();"
 			extension="com_content"
 			>
-			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
+			<option value="">JOPTION_SELECT_CONDITION</option>
 		</field>
 
 		<field
