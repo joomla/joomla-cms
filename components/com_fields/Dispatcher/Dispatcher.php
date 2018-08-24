@@ -12,14 +12,15 @@ namespace Joomla\Component\Fields\Site\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
- * Dispatcher class for com_fields
+ * ComponentDispatcher class for com_fields
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Method to check component access permission
