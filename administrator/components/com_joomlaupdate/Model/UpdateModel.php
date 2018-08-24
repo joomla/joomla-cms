@@ -28,9 +28,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
  * Joomla! update overview Model
  *
@@ -205,7 +202,6 @@ class UpdateModel extends BaseDatabaseModel
 		$this->updateInformation['hasUpdate'] = $updateObject->version != \JVERSION;
 
 		// Fetch the full update details from the update details URL.
-		jimport('joomla.updater.update');
 		$update = new Update;
 		$update->loadFromXML($updateObject->detailsurl);
 
@@ -367,8 +363,6 @@ class UpdateModel extends BaseDatabaseModel
 		{
 			// Informational log only
 		}
-
-		jimport('joomla.filesystem.file');
 
 		// Make sure the target does not exist.
 		File::delete($target);
@@ -936,8 +930,6 @@ ENDDATA;
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		jimport('joomla.filesystem.file');
-
 		if (version_compare(\JVERSION, '3.4.0', 'ge'))
 		{
 			$result = File::upload($tmp_src, $tmp_dest, false, true);
