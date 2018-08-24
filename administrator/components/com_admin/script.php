@@ -3947,8 +3947,6 @@ class JoomlaInstallerScript
 			'/media/jui/less',
 		);
 
-		jimport('joomla.filesystem.file');
-
 		foreach ($files as $file)
 		{
 			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
@@ -3956,8 +3954,6 @@ class JoomlaInstallerScript
 				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
 			}
 		}
-
-		jimport('joomla.filesystem.folder');
 
 		foreach ($folders as $folder)
 		{

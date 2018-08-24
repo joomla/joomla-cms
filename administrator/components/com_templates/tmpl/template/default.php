@@ -66,8 +66,8 @@ if ($this->type == 'font')
 	");
 }
 ?>
-<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
+<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'editor')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
 	<div class="col-md-6" id="conditional-section">
 		<?php if($this->type == 'file') : ?>
@@ -234,9 +234,9 @@ if ($this->type == 'font')
 		<?php endif; ?>
 	</div>
 </div>
-<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row">
 	<div class="col-md-4">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
@@ -308,12 +308,12 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 </div>
-<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
 
-<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 <?php if ($this->pluginState) : ?>
 	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'files', Text::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
@@ -321,7 +321,7 @@ if ($this->type == 'font')
 	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 <?php endif; ?>
 
-<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 <?php // Collapse Modal
 $copyModalData = array(
