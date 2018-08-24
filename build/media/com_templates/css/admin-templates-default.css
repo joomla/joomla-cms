@@ -70,16 +70,17 @@
 
 #jform_show_core {
 	display: inline;
-	margin-right: 8em;
 }
 
 #jform_show_diff {
 	display: inline;
-	margin-right: 5.5em;
+	margin-left: 3.5em;
+}
+
+#toggle-buttons {
+	margin-right: 5em;
 }
 
 .switcher-label-0, .switcher-label-1 {
-	min-width: 5em;
-	max-width: 5em;
-	text-align: left;
+	white-space: nowrap;
 }
