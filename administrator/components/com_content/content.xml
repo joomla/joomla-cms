@@ -25,6 +25,9 @@
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_content.ini</language>
 	</languages>
+	<media destination="com_content" folder="media">
+		<folder>js</folder>
+	</media>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
