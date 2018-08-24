@@ -341,10 +341,12 @@ class Language
 				$string = '**' . $value . '**';
 						
 				$caller = $this->getCallerInfo();
+
 				if (!array_key_exists($key, $this->used))
 				{
 					$this->used[$key] = array();
 				}
+
 				$this->used[$key][] = $caller;
 			}
 		}
