@@ -316,9 +316,9 @@ if ($this->type == 'font')
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 <?php if ($this->pluginState) : ?>
-	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'files', Text::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'files', Text::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
 	<?php echo $this->loadTemplate('updated_files'); ?>
-	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 <?php endif; ?>
 
 <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
