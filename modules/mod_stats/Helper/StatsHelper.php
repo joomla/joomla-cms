@@ -78,8 +78,8 @@ class StatsHelper
 
 		if ($siteinfo)
 		{
-			$query->select('COUNT(id) AS count_users')
-				->from('#__users');
+			$query->select('COUNT(' . $db->quoteName('id') . ') AS count_users')
+				->from($db->quoteName('#__users'));
 			$db->setQuery($query);
 
 			try
@@ -92,10 +92,13 @@ class StatsHelper
 			}
 
 			$query->clear()
-				->select('COUNT(c.id) AS count_items')
+				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
 				->from($db->quoteName('#__content', 'c'))
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = c.state')
-				->where('ws.condition = 1');
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws') 
+					. ' ON ' .  $db->quoteName('ws.id') . ' = ' . $db->quoteName('c.state')
+				)
+				->where($db->quoteName('ws.condition') . ' = 1');
 			$db->setQuery($query);
 
 			try
@@ -127,10 +130,13 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(hits) AS count_hits')
-				->from('#__content')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
-				->where('ws.condition = 1');
+				->select('SUM(' . $db->quotename('hits') . ') AS count_hits')
+				->from($db->quoteName('#__content'))
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws') 
+					. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('state')
+				)
+				->where($db->quoteName('ws.condition') . ' = 1');
 			$db->setQuery($query);
 
 			try
