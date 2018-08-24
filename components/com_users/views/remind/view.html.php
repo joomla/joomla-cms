@@ -119,8 +119,5 @@ class UsersViewRemind extends JViewLegacy
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
-
-		// Make sure we don't send a referer
-		$app->setHeader('Referrer-Policy', 'no-referrer', true);
 	}
 }
