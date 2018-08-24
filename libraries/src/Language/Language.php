@@ -333,7 +333,7 @@ class Language
 		if (isset($this->strings[$key]))
 		{
 			$string = $this->strings[$key];				
-		
+
 			// Store debug information
 			if ($this->debug)
 			{
