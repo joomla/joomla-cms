@@ -131,7 +131,7 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.12
 	 */
 	public function generateTitle($categoryId, $table)
 	{
