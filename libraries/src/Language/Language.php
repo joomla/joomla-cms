@@ -339,7 +339,7 @@ class Language
 			{
 				$value = \JFactory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
 				$string = '**' . $value . '**';
-						
+
 				$caller = $this->getCallerInfo();
 
 				if (!array_key_exists($key, $this->used))
