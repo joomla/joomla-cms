@@ -31,16 +31,12 @@
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
-			type="list"
+			type="status"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
-			class="custom-select-color-state"
 			default="1"
-			>
-			<option value="1">JENABLED</option>
-			<option value="0">JDISABLED</option>
-			<option value="-2">JTRASHED</option>
-		</field>
+			filter="-2,0,1"
+		/>
 		<field
 			name="default"
 			type="radio"
