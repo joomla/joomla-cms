@@ -19,7 +19,6 @@
 		<folder>helpers</folder>
 		<folder>Model</folder>
 		<folder>Service</folder>
-		<folder>Table</folder>
 		<folder>tmpl</folder>
 		<folder>View</folder>
 	</files>
