@@ -14,8 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Multilanguage;
-
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Fields Plugin

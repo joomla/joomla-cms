@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
  *
  * @since  4.0.0
  */
-class LegacyDispatcher implements DispatcherInterface
+class LegacyComponentDispatcher implements DispatcherInterface
 {
 	/**
 	 * The application instance
