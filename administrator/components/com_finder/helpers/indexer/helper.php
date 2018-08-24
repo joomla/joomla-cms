@@ -64,7 +64,7 @@ class FinderIndexerHelper
 	 * @param   string   $lang    The language of the input.
 	 * @param   boolean  $phrase  Flag to indicate whether input could be a phrase. [optional]
 	 *
-	 * @return  array  An array of FinderIndexerToken objects.
+	 * @return  array|FinderIndexerToken  An array of FinderIndexerToken objects or a single FinderIndexerToken object.
 	 *
 	 * @since   2.5
 	 */
@@ -124,14 +124,14 @@ class FinderIndexerHelper
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
 				$charMatches = array();
-				$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+				$charCount   = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
 
 				// Split apart any groups of Chinese characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
 
-					if (!empty($tSplit))
+					if ((bool) $tSplit)
 					{
 						$terms[$i] = $tSplit;
 					}
@@ -177,7 +177,12 @@ class FinderIndexerHelper
 				if ($i2 < $n && isset($tokens[$i2]))
 				{
 					// Tokenize the two word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token          = new FinderIndexerToken(
+						array(
+							$tokens[$i]->term,
+							$tokens[$i2]->term
+						), $lang, $lang === 'zh' ? '' : ' '
+					);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -188,7 +193,13 @@ class FinderIndexerHelper
 				if ($i3 < $n && isset($tokens[$i3]))
 				{
 					// Tokenize the three word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token          = new FinderIndexerToken(
+						array(
+							$tokens[$i]->term,
+							$tokens[$i2]->term,
+							$tokens[$i3]->term
+						), $lang, $lang === 'zh' ? '' : ' '
+					);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -265,7 +276,7 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
@@ -432,7 +443,7 @@ class FinderIndexerHelper
 		}
 
 		// Build the relative route.
-		$uri = $router->build($url);
+		$uri   = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
 		$route = str_replace(JUri::base(true) . '/', '', $route);
 
@@ -450,7 +461,7 @@ class FinderIndexerHelper
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public static function getContentExtras(FinderIndexerResult &$item)
+	public static function getContentExtras(FinderIndexerResult $item)
 	{
 		// Get the event dispatcher.
 		$dispatcher = JEventDispatcher::getInstance();
@@ -504,7 +515,7 @@ class FinderIndexerHelper
 		}
 
 		// Create a mock content object.
-		$content = JTable::getInstance('Content');
+		$content       = JTable::getInstance('Content');
 		$content->text = $text;
 
 		if ($item)
