@@ -195,19 +195,7 @@
 				link="index.php?option=com_users&amp;view=levels">
 		</menuitem>
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_WORKFLOW"
-			type="component"
-			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content">
-		</menuitem>
-		<menuitem
 			type="separator"
-		/>
-		<menuitem
-			title="MOD_MENU_FIELDS"
-			type="component"
-			element="com_fields"
-			link="index.php?option=com_fields&amp;context=com_content.article"
 		/>
 		<menuitem
 				title="MOD_MENU_FIELDS"

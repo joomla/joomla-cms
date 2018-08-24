@@ -1,9 +1,7 @@
 <?php
 /**
- * States model for com_workflow
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,7 +15,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
 
 /**
- * Model class for items
+ * Model class for stages
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -97,7 +95,9 @@ class StagesModel extends ListModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'workflow_id = ' . $this->getDbo()->q((int) $table->workflow_id);
+		return [
+			'workflow_id = ' . (int) $table->workflow_id
+		];
 	}
 
 	/**
@@ -130,15 +130,15 @@ class StagesModel extends ListModel
 		$query = parent::getListQuery();
 
 		$select = $db->quoteName(
-					array(
-						's.id',
-						's.title',
-						's.ordering',
-						's.condition',
-						's.default',
-						's.published'
-					)
-				);
+			array(
+				's.id',
+				's.title',
+				's.ordering',
+				's.condition',
+				's.default',
+				's.published'
+			)
+		);
 
 		$query
 			->select($select)
@@ -150,10 +150,12 @@ class StagesModel extends ListModel
 			$query->where($db->quoteName('s.workflow_id') . ' = ' . $workflowID);
 		}
 
+		$condition = $this->getState('filter.condition');
+
 		// Filter by condition
-		if ($condition = $this->getState('filter.condition'))
+		if (is_numeric($condition))
 		{
-			$query->where($db->quoteName('s.condition') . ' = ' . $db->quote($db->escape($condition)));
+			$query->where($db->quoteName('s.condition') . ' = ' . (int) $db->escape($condition));
 		}
 
 		$status = (string) $this->getState('filter.published');

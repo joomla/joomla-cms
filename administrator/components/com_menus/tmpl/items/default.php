@@ -34,7 +34,7 @@ $menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string
 
 if ($saveOrder && $menuType && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 

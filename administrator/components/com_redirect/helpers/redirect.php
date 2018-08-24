@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Redirect component helper.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  5.0 Use \Joomla\Component\Redirect\Administrator\Helper\RedirectHelp instead
  */
 class RedirectHelper extends \Joomla\Component\Redirect\Administrator\Helper\RedirectHelper
 {
-
 }

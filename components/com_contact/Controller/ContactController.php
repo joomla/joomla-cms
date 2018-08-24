@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
@@ -20,6 +21,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Controller for single contact view
@@ -204,9 +206,9 @@ class ContactController extends FormController
 		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 		// Load the custom fields
-		if (!empty($data['com_fields']) && $fields = \FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
+		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 		{
-			$output = \FieldsHelper::render(
+			$output = FieldsHelper::render(
 				'com_contact.mail',
 				'fields.render',
 				array(

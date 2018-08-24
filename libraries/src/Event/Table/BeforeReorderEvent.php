@@ -70,7 +70,7 @@ class BeforeReorderEvent extends AbstractEvent
 	/**
 	 * Setter for the where argument
 	 *
-	 * @param   string|null  $value  The value to set
+	 * @param   array|string|null  $value  A string or array of where conditions.
 	 *
 	 * @return  mixed
 	 *
@@ -78,9 +78,9 @@ class BeforeReorderEvent extends AbstractEvent
 	 */
 	protected function setWhere($value)
 	{
-		if (!empty($value) && !is_string($value))
+		if (!empty($value) && !is_string($value) && !is_array($value))
 		{
-			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
+			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
 		}
 
 		return $value;
