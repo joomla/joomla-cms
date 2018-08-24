@@ -18,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -212,7 +213,7 @@ class FieldModel extends AdminModel
 			}
 		}
 
-		\FieldsHelper::clearFieldsCache();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -236,7 +237,7 @@ class FieldModel extends AdminModel
 			return true;
 		}
 
-		$types = \FieldsHelper::getFieldTypes();
+		$types = FieldsHelper::getFieldTypes();
 
 		// Check if type exists
 		if (!array_key_exists($data['type'], $types))
@@ -505,7 +506,7 @@ class FieldModel extends AdminModel
 		if (empty($context) && isset($data['context']))
 		{
 			$context = $data['context'];
-			$parts   = \FieldsHelper::extract($context);
+			$parts   = FieldsHelper::extract($context);
 
 			$this->setState('field.context', $context);
 
@@ -584,7 +585,7 @@ class FieldModel extends AdminModel
 		}
 
 		// Don't save the value when the user is not authorized to change it
-		if (!$field || !\FieldsHelper::canEditFieldValue($field))
+		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -653,7 +654,7 @@ class FieldModel extends AdminModel
 		}
 
 		$this->valueCache = array();
-		\FieldsHelper::clearFieldsCache();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -792,7 +793,7 @@ class FieldModel extends AdminModel
 				return false;
 			}
 
-			$parts = \FieldsHelper::extract($record->context);
+			$parts = FieldsHelper::extract($record->context);
 
 			return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 		}
@@ -813,7 +814,7 @@ class FieldModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user  = Factory::getUser();
-		$parts = \FieldsHelper::extract($record->context);
+		$parts = FieldsHelper::extract($record->context);
 
 		// Check for existing field.
 		if (!empty($record->id))
@@ -841,7 +842,7 @@ class FieldModel extends AdminModel
 
 		$context = $app->input->get('context', 'com_content.article');
 		$this->setState('field.context', $context);
-		$parts = \FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context);
 
 		// Extract the component name
 		$this->setState('field.component', $parts[0]);

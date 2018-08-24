@@ -15,9 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Model\Form;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
-use Joomla\Component\Workflow\Administrator\Table\StateTable;
+use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -30,6 +31,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Item Model for an Article.
@@ -87,9 +89,6 @@ class ArticleModel extends AdminModel
 
 		PluginHelper::importPlugin('system');
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		// Parent exists so we let's proceed
 		while (!empty($pks))
 		{
@@ -116,7 +115,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -196,9 +195,9 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
-	 * Batch change workflow state or current.
+	 * Batch change workflow stage or current.
 	 *
-	 * @param   integer  $value     The workflow state ID.
+	 * @param   integer  $value     The workflow stage ID.
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
@@ -206,7 +205,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function batchWorkflowState($value, $pks, $contexts)
+	protected function batchWorkflowStage($value, $pks, $contexts)
 	{
 		$user = Factory::getUser();
 
@@ -215,19 +214,19 @@ class ArticleModel extends AdminModel
 			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
 		}
 
-		// Get state information
-		$state = new StateTable($this->_db);
+		// Get workflow stage information
+		$stage = new StageTable($this->_db);
 
-		if (empty($value) || !$state->load($value))
+		if (empty($value) || !$stage->load($value))
 		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
 
 			return false;
 		}
 
 		if (empty($pks))
 		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
 
 			return false;
 		}
@@ -235,7 +234,7 @@ class ArticleModel extends AdminModel
 		$workflow = new Workflow(['extension' => 'com_content']);
 
 		// Update content state value and workflow associations
-		return ContentHelper::updateContentState($pks, $state->condition)
+		return ContentHelper::updateContentState($pks, $stage->condition)
 				&& $workflow->updateAssociations($pks, $value);
 	}
 
@@ -271,9 +270,6 @@ class ArticleModel extends AdminModel
 
 		PluginHelper::importPlugin('system');
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
@@ -302,7 +298,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 
 			$fieldsData = array();
 
@@ -358,13 +354,13 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$state = new StateTable($this->_db);
+			$stage = new StageTable($this->_db);
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
 			$assoc = $workflow->getAssociation($record->id);
 
-			if (!$state->load($assoc->state_id) || $state->condition != Workflow::TRASHED)
+			if (!$stage->load($assoc->stage_id) || $stage->condition != ContentComponent::CONDITION_TRASHED)
 			{
 				return false;
 			}
@@ -541,7 +537,7 @@ class ArticleModel extends AdminModel
 				// Transition field
 				$assoc = $workflow->getAssociation($table->id);
 
-				$form->setFieldAttribute('transition', 'workflow_state', (int) $assoc->state_id);
+				$form->setFieldAttribute('transition', 'workflow_stage', (int) $assoc->stage_id);
 			}
 		}
 		else
@@ -780,7 +776,7 @@ class ArticleModel extends AdminModel
 		}
 
 		$workflowId = 0;
-		$stateId = 0;
+		$stageId = 0;
 
 		// Set status depending on category
 		if (empty($data['id']))
@@ -794,7 +790,7 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			$stateId = (int) $workflow->state_id;
+			$stageId = (int) $workflow->stage_id;
 			$workflowId = (int) $workflow->id;
 
 			// B/C state
@@ -823,21 +819,21 @@ class ArticleModel extends AdminModel
 			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
 					->from($db->quoteName('#__workflow_stages', 'ws'))
 					->from($db->quoteName('#__workflow_transitions', 'wt'))
-					->where($db->quoteName('wt.to_state_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
 					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
 					->where($db->quoteName('ws.published') . ' = 1')
 					->where($db->quoteName('wt.published') . ' = 1');
 
-			$state = $db->setQuery($query)->loadObject();
+			$stage = $db->setQuery($query)->loadObject();
 
-			if (empty($state->id))
+			if (empty($stage->id))
 			{
 				$this->setError(Text::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
 
 				return false;
 			}
 
-			$data['state'] = (int) $state->condition;
+			$data['state'] = (int) $stage->condition;
 
 		}
 
@@ -888,7 +884,7 @@ class ArticleModel extends AdminModel
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
-			if (empty($stateId))
+			if (empty($stageId))
 			{
 				$assoc = $workflow->getAssociation($this->getState($this->getName() . '.id'));
 
@@ -908,7 +904,7 @@ class ArticleModel extends AdminModel
 						return false;
 					}
 
-					$stateId = (int) $workflow->state_id;
+					$stageId = (int) $workflow->stage_id;
 					$workflowId = (int) $workflow->id;
 
 					// B/C state
@@ -919,9 +915,9 @@ class ArticleModel extends AdminModel
 			}
 
 			// If we have a new state, create the workflow association
-			if (!empty($stateId))
+			if (!empty($stageId))
 			{
-				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stateId);
+				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
 			}
 
 			return true;
@@ -1218,7 +1214,7 @@ class ArticleModel extends AdminModel
 							]
 						)
 					)
-					->select($db->quoteName('ws.id', 'state_id'))
+					->select($db->quoteName('ws.id', 'stage_id'))
 					->from($db->quoteName('#__workflow_stages', 'ws'))
 					->from($db->quoteName('#__workflows', 'w'))
 					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))

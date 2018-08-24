@@ -151,9 +151,11 @@
 
       this.orderCols.forEach((item) => {
         item.addEventListener('click', (event) => {
+          const element = event.target.tagName.toLowerCase() === 'span' ? event.target.parentNode : event.target;
+
           // Order to set
-          const newOrderCol = event.target.getAttribute('data-order');
-          const newDirection = event.target.getAttribute('data-direction');
+          const newOrderCol = element.getAttribute('data-order');
+          const newDirection = element.getAttribute('data-direction');
           const newOrdering = `${newOrderCol} ${newDirection}`;
 
           // The data-order attribute is required

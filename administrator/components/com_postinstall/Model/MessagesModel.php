@@ -228,8 +228,6 @@ class MessagesModel extends BaseDatabaseModel
 			// Filter out messages based on dynamically loaded programmatic conditions.
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
-				jimport('joomla.filesystem.file');
-
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->condition_file);
 

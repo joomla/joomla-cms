@@ -105,7 +105,7 @@ abstract class AdminModel extends FormModel
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag',
-		'workflowstage_id' => 'batchWorkflowState',
+		'workflowstage_id' => 'batchWorkflowStage',
 	);
 
 	/**
@@ -1347,11 +1347,6 @@ abstract class AdminModel extends FormModel
 			elseif ($this->table->$orderingField != $order[$i])
 			{
 				$this->table->$orderingField = $order[$i];
-
-				if ($this->type)
-				{
-					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-				}
 
 				if (!$this->table->store())
 				{

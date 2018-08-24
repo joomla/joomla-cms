@@ -25,6 +25,8 @@ HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search
 $app = Factory::getApplication();
 $input = $app->input;
 
+$this->useCoreUI = true;
+
 HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
@@ -32,8 +34,8 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
-	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 	<div class="row">
 		<div class="col-md-9">
 			<?php echo $this->form->renderField('type'); ?>
@@ -73,10 +75,10 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 			</div>
 		</div>
 	</div>
-	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 	<div class="row">
 		<div class="col-md-6">
 			<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -84,13 +86,13 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, '
 		<div class="col-md-6">
 		</div>
 	</div>
-	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php if ($this->canDo->get('core.admin')) : ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
 		<?php echo $this->form->getInput('rules'); ?>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>
-	<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php echo $this->form->getInput('context'); ?>
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>

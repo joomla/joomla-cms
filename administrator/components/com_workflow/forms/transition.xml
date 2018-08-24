@@ -21,7 +21,7 @@
 		<field
 			name="from_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_FROM_STATE"
+			label="COM_WORKFLOW_FROM_STAGE"
 			required="true"
 			sql_select="id as value, title as from_stage_id"
 			sql_from="#__workflow_stages"
@@ -31,7 +31,7 @@
 		<field
 			name="to_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_TO_STATE"
+			label="COM_WORKFLOW_TO_STAGE"
 			required="true"
 			sql_select="id as value, title as to_stage_id"
 			sql_from="#__workflow_stages"
