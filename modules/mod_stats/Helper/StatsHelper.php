@@ -79,8 +79,8 @@ class StatsHelper
 
 		if ($siteinfo)
 		{
-			$query->select('COUNT(id) AS count_users')
-				->from('#__users');
+			$query->select('COUNT(' . $db->quoteName('id') . ') AS count_users')
+				->from($db->quoteName('#__users'));
 			$db->setQuery($query);
 
 			try
@@ -93,8 +93,9 @@ class StatsHelper
 			}
 
 			$query->clear()
-				->select('COUNT(c.id) AS count_items')
+				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
 				->from($db->quoteName('#__content', 'c'))
+
 				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
 				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
 				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
@@ -133,7 +134,7 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(c.hits) AS count_hits')
+				->select('SUM(' . $db->quotename('c.hits') . ') AS count_hits')
 				->from($db->quoteName('#__content', 'c'))
 				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
 				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
@@ -141,6 +142,7 @@ class StatsHelper
 				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
 				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
 				->where($db->quoteName('ws.condition') . ' = ' . (int) ContentComponent::CONDITION_PUBLISHED);
+
 			$db->setQuery($query);
 
 			try
