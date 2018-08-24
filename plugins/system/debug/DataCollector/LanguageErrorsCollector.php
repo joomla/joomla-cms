@@ -100,10 +100,6 @@ class LanguageErrorsCollector extends AbstractDataCollector
 				$count++;
 			}
 		}
-		else
-		{
-			$errors[] = Text::_('JNONE');
-		}
 
 		return $errors;
 	}
