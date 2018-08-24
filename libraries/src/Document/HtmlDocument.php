@@ -11,15 +11,13 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-
-jimport('joomla.utilities.utility');
 
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
@@ -470,7 +468,7 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules')
 		{
-			$cache = Factory::getCache('com_modules', '');
+			$cache = CmsFactory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
@@ -626,8 +624,8 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = Factory::getDbo();
-			$app = Factory::getApplication();
+			$db = CmsFactory::getDbo();
+			$app = CmsFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
@@ -719,7 +717,7 @@ class HtmlDocument extends Document
 		}
 
 		// Load the language file for the template
-		$lang = Factory::getLanguage();
+		$lang = CmsFactory::getLanguage();
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
@@ -749,8 +747,9 @@ class HtmlDocument extends Document
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
-			$template_tags_first = array();
-			$template_tags_last = array();
+			$messages = [];
+			$template_tags_first = [];
+			$template_tags_last = [];
 
 			// Step through the jdocs in reverse order.
 			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
@@ -760,20 +759,21 @@ class HtmlDocument extends Document
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
-				if ($type == 'module' || $type == 'modules')
+				if ($type === 'module' || $type === 'modules')
 				{
-					$template_tags_first[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_first[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
+				}
+				elseif ($type === 'message')
+				{
+					$messages = [$matches[0][$i] => ['type' => $type, 'name' => $name, 'attribs' => $attribs]];
 				}
 				else
 				{
-					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
 			}
 
-			// Reverse the last array so the jdocs are in forward order.
-			$template_tags_last = array_reverse($template_tags_last);
-
-			$this->_template_tags = $template_tags_first + $template_tags_last;
+			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
 		}
 
 		return $this;
@@ -788,8 +788,8 @@ class HtmlDocument extends Document
 	 */
 	protected function _renderTemplate()
 	{
-		$replace = array();
-		$with = array();
+		$replace = [];
+		$with = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{

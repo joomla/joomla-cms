@@ -6,15 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Content Component Archive Model
@@ -52,7 +51,7 @@ class ArchiveModel extends ArticlesModel
 		$params = $this->state->get('params');
 
 		// Filter on archived articles
-		$this->setState('filter.condition', 1);
+		$this->setState('filter.condition', ContentComponent::CONDITION_ARCHIVED);
 
 		// Filter on month, year
 		$this->setState('filter.month', $app->input->getInt('month'));
@@ -90,12 +89,8 @@ class ArchiveModel extends ArticlesModel
 		$app              = Factory::getApplication();
 		$catids           = $app->input->getVar('catid', array());
 		$catids           = array_values(array_diff($catids, array('')));
-		$states           = $app->input->getVar('state', array());
-		$states           = array_values(array_diff($states, array('')));
 
 		$articleOrderDate = $params->get('order_date');
-
-		$this->setState('filter.condition', false);
 
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -122,11 +117,6 @@ class ArchiveModel extends ArticlesModel
 		if (count($catids) > 0)
 		{
 			$query->where('c.id IN (' . implode(', ', $catids) . ')');
-		}
-
-		if (count($states) > 0)
-		{
-			$query->where($db->quoteName('state_id') . ' IN (' . implode(', ', $states) . ')');
 		}
 
 		return $query;
@@ -201,12 +191,16 @@ class ArchiveModel extends ArticlesModel
 		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
-		$years = $query->year($db->quoteName('created'));
+		$years = $query->year($db->quoteName('c.created'));
 		$query->select('DISTINCT (' . $years . ')')
-			->from($db->quoteName('#__content'))
-			->where($db->quoteName('state') . '= 3')
-			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
-			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
+			->from($db->quoteName('#__content', 'c'))
+			->from($db->quoteName('#__workflow_associations', 'wa'))
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
+			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
+			->where('(c.publish_up = ' . $nullDate . ' OR c.publish_up <= ' . $nowDate . ')')
+			->where('(c.publish_down = ' . $nullDate . ' OR c.publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
 
 		$db->setQuery($query);

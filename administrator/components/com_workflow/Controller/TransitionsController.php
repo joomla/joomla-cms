@@ -14,9 +14,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Workflow Transitions controller
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -53,6 +51,30 @@ class TransitionsController extends AdminController
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
 				. '&extension=' . $this->input->getCmd("extension")
 				. '&workflow_id=' . $this->input->getCmd("workflow_id"), false
+			)
+		);
+	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish()
+	{
+		parent::publish();
+
+		$extension = $this->input->get('extension');
+		$extensionURL = $extension ? '&extension=' . $extension : '';
+
+		$workflow_id = $this->input->getInt('workflow_id');
+
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. $extensionURL . '&workflow_id=' . $workflow_id, false
 			)
 		);
 	}

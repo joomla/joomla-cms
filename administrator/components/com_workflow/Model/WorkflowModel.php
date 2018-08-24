@@ -1,9 +1,7 @@
 <?php
 /**
- * Item Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -20,9 +18,7 @@ use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Model class for workflow
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -108,21 +104,21 @@ class WorkflowModel extends AdminModel
 
 		$result = parent::save($data);
 
-		// Create a default state
+		// Create a default stage
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
-			$state = $this->getTable('State');
+			$stage = $this->getTable('Stage');
 
-			$newstate = new \stdClass;
+			$newstage = new \stdClass;
 
-			$newstate->workflow_id = (int) $this->getState($this->getName() . '.id');
-			$newstate->title = Text::_('COM_WORKFLOW_PUBLISHED');
-			$newstate->description = '';
-			$newstate->published = 1;
-			$newstate->condition = 1;
-			$newstate->default = 1;
+			$newstage->workflow_id = (int) $this->getState($this->getName() . '.id');
+			$newstage->title = Text::_('COM_WORKFLOW_PUBLISHED');
+			$newstage->description = '';
+			$newstage->published = 1;
+			$newstage->condition = 1;
+			$newstage->default = 1;
 
-			$state->save($newstate);
+			$stage->save($newstage);
 		}
 
 		return $result;
@@ -242,7 +238,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->getDbo()->q($table->extension);
+		return 'extension = ' . $this->getDbo()->quote($table->extension);
 	}
 
 	/**

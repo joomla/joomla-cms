@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
@@ -15,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -50,7 +52,7 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
-				'state_condition', 'ws.condition',
+				'stage_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -124,7 +126,7 @@ class ArticlesModel extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', Workflow::PUBLISHED);
+			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -204,7 +206,8 @@ class ArticlesModel extends ListModel
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
 				// If category is not published then force 0
-				'CASE WHEN c.published = 2 AND ws.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE ws.condition END as state,' .
+				'CASE WHEN c.published = 2 AND ws.condition > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED .
+				' WHEN c.published != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED . ' ELSE ws.condition END as state,' .
 				// Use created if modified is 0
 				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 				'a.modified_by, uam.name as modified_by_name,' .
@@ -240,12 +243,12 @@ class ArticlesModel extends ListModel
 		}
 
 		// Join over the states.
-		$query->select('wa.state_id AS state_id')
+		$query->select('wa.stage_id AS stage_id')
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
 
 		// Join over the states.
-		$query->select('ws.title AS state_title, ws.condition AS state_condition')
-			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
+		$query->select('ws.title AS state_title, ws.condition AS stage_condition')
+			->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
@@ -287,7 +290,8 @@ class ArticlesModel extends ListModel
 			 * If category is archived then article has to be published or archived.
 			 * Or categogy is published then article has to be archived.
 			 */
-			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
+			$query->where('((c.published = 2 AND ws.condition > ' . (int) ContentComponent::CONDITION_UNPUBLISHED .
+					') OR (c.published = 1 AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . '))');
 		}
 		elseif (is_numeric($condition))
 		{

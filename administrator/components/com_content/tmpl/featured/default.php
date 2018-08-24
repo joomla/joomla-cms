@@ -15,7 +15,9 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 HTMLHelper::_('behavior.multiselect');
@@ -45,24 +47,26 @@ else
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$js = "
-	;(function($)
-	{
-		$(function()
-		{
-			$('.article-status').on('click', function(e)
-			{
-				e.stopPropagation();
-			});
-		});
-	})(jQuery);
-";
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
-\Joomla\CMS\Factory::getDocument()->addScriptDeclaration($js);
+	  elements.forEach(function (element) {
+	    element.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	  });
+	});
+})();
+JS;
+
+// @todo mode the script to a file
+Factory::getDocument()->addScriptDeclaration($js);
 
 ?>
 
@@ -138,12 +142,12 @@ $js = "
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
 							$hasTransitions = count($transitions) > 0;
 
 							$default = [
-								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '', $this->escape($item->stage_title)),
 								JHtml::_('select.option', '-1', '--------', ['disable' => true])
 							];
 
@@ -179,19 +183,18 @@ $js = "
 										<div class="btn-group tbody-icon mr-1">
 											<?php echo HTMLHelper::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 											<?php
-
-											$icon = 'publish';
-
-											switch ($item->state_condition) :
-
-												case Workflow::TRASHED:
+											switch ($item->stage_condition) :
+												case ContentComponent::CONDITION_TRASHED :
 													$icon = 'trash';
 													break;
-
-												case Workflow::UNPUBLISHED:
+												case ContentComponent::CONDITION_UNPUBLISHED :
 													$icon = 'unpublish';
 													break;
-
+												case ContentComponent::CONDITION_ARCHIVED :
+													$icon = 'archive';
+													break;
+												default :
+													$icon = 'publish';
 											endswitch;
 											?>
 											<?php if ($hasTransitions) : ?>
@@ -202,7 +205,7 @@ $js = "
 												<span class="icon-<?php echo $icon; ?>"></span>
 											<?php endif; ?>
 										</div>
-										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<div class="mr-auto"><?php echo $this->escape($item->stage_title); ?></div>
 										<?php if ($hasTransitions) : ?>
 											<div class="d-none">
 												<?php

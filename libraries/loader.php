@@ -90,7 +90,9 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+	 *                    your files.
 	 */
 	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
 	{
@@ -184,7 +186,9 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+	 *                    your files.
 	 */
 	public static function import($key, $base = null)
 	{
@@ -300,7 +304,9 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+	 *                    your files.
 	 */
 	public static function register($class, $path, $force = true)
 	{
@@ -834,7 +840,9 @@ if (!function_exists('jexit'))
  *
  * @return  boolean  True on success.
  *
- * @since   11.1
+ * @since       11.1
+ * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+ *                    your files.
  */
 function jimport($path, $base = null)
 {

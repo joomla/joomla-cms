@@ -47,9 +47,9 @@ if (!$editoroptions)
 
 	<form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
-			<?php echo HTMLHelper::_('bootstrap.startTabSet', $this->tab_name, array('active' => 'editor')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, array('active' => 'editor')); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 				<?php echo $this->form->renderField('title'); ?>
 
 				<?php if (is_null($this->item->id)) : ?>
@@ -61,10 +61,10 @@ if (!$editoroptions)
 				<?php if ($this->captchaEnabled) : ?>
 					<?php echo $this->form->renderField('captcha'); ?>
 				<?php endif; ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php if ($params->get('show_urls_images_frontend')) : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'images', Text::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'images', Text::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
@@ -94,12 +94,12 @@ if (!$editoroptions)
 						<?php echo $this->form->getInput('targetc', 'urls'); ?>
 					</div>
 				</div>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
 			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
 				<?php if ($params->get('save_history', 0)) : ?>
@@ -128,24 +128,24 @@ if (!$editoroptions)
 						</div>
 					</div>
 				<?php endif; ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php if (Multilanguage::isEnabled()) : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'language', Text::_('JFIELD_LANGUAGE_LABEL')); ?>
+				<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'language', Text::_('JFIELD_LANGUAGE_LABEL')); ?>
 					<?php echo $this->form->renderField('language'); ?>
-				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php else: ?>
 				<?php echo $this->form->renderField('language'); ?>
 			<?php endif; ?>
 
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'metadata', Text::_('COM_CONTENT_METADATA')); ?>
+				<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'metadata', Text::_('COM_CONTENT_METADATA')); ?>
 					<?php echo $this->form->renderField('metadesc'); ?>
 					<?php echo $this->form->renderField('metakey'); ?>
-				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
-			<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+			<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="">
 			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">

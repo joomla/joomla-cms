@@ -19,6 +19,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.tooltip');
+HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
 
@@ -50,7 +51,7 @@ if ($saveOrder)
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
@@ -66,10 +67,10 @@ if ($saveOrder)
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STATE', 't.from_state', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STAGE', 't.from_stage', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STATE', 't.to_state', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STAGE', 't.to_stage', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
@@ -122,14 +123,14 @@ if ($saveOrder)
 										<?php endif; ?>
 									</th>
 									<td class="text-center">
-									<?php if ($item->from_state_id < 0) : ?>
+									<?php if ($item->from_stage_id < 0) : ?>
 										<?php echo Text::_('JALL'); ?>
 									<?php else : ?>
-										<?php echo $item->from_state; ?>
+										<?php echo $item->from_stage; ?>
 									<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo $this->escape($item->to_state); ?>
+										<?php echo $this->escape($item->to_stage); ?>
 									</td>
 									<td class="text-right">
 										<?php echo $item->id; ?>

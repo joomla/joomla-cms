@@ -15,19 +15,19 @@ use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Filesystem\Stream;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
-use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Joomla Platform Factory class.
@@ -735,8 +735,6 @@ abstract class Factory
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)
 	{
-		\JLoader::import('joomla.filesystem.stream');
-
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new Version;
@@ -767,11 +765,11 @@ abstract class Factory
 				$prefix = JPATH_ROOT . '/';
 			}
 
-			$retval = new \JStream($prefix, JPATH_ROOT, $context);
+			$retval = new Stream($prefix, JPATH_ROOT, $context);
 		}
 		else
 		{
-			$retval = new \JStream('', '', $context);
+			$retval = new Stream('', '', $context);
 		}
 
 		return $retval;

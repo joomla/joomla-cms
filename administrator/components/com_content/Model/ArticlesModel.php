@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -224,27 +225,27 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		$query	->select($query->quoteName('wa.state_id', 'state_id'))
-				->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
-				->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
+		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
+			->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
+			->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
 
-		// Join over the states.
-		$query	->select(
-					$query->quoteName(
-					[
-						'ws.title',
-						'ws.condition',
-						'ws.workflow_id'
-					],
-					[
-						'state_title',
-						'state_condition',
-						'workflow_id'
-					]
-					)
-				)
-				->innerJoin($query->quoteName('#__workflow_states', 'ws'))
-				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.state_id'));
+		// Join over the workflow stages.
+		$query->select(
+			$query->quoteName(
+				[
+					'ws.title',
+					'ws.condition',
+					'ws.workflow_id'
+				],
+				[
+					'stage_title',
+					'stage_condition',
+					'workflow_id'
+				]
+			)
+		)
+			->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
+			->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -275,7 +276,7 @@ class ArticlesModel extends ListModel
 			'ws.title',
 			'ws.workflow_id',
 			'ws.condition',
-			'wa.state_id'
+			'wa.stage_id'
 		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -319,28 +320,31 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$workflowState = (string) $this->getState('filter.state');
+		$workflowStage = (string) $this->getState('filter.state');
 
-		if (is_numeric($workflowState))
+		if (is_numeric($workflowStage))
 		{
-			$query->where('wa.state_id = ' . (int) $workflowState);
+			$query->where('wa.stage_id = ' . (int) $workflowStage);
 		}
 
 		$condition = (string) $this->getState('filter.condition');
 
-		if (is_numeric($condition))
+		if ($condition !== '*')
 		{
-			switch ((int) $condition)
+			if (is_numeric($condition))
 			{
-				case Workflow::PUBLISHED:
-				case Workflow::UNPUBLISHED:
-				case Workflow::TRASHED:
-					$query->where($db->quoteName('ws.condition') . ' = ' . $query->quote($condition));
+				$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
 			}
-		}
-		elseif (!is_numeric($workflowState))
-		{
-			$query->where($db->quoteName('ws.condition') . ' IN (' . $query->quote(Workflow::PUBLISHED) . ',' . $query->quote(Workflow::UNPUBLISHED) . ')');
+			elseif (!is_numeric($workflowStage))
+			{
+				$query->whereIn(
+					$db->quoteName('ws.condition'),
+					[
+						ContentComponent::CONDITION_PUBLISHED,
+						ContentComponent::CONDITION_UNPUBLISHED
+					]
+				);
+			}
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
@@ -484,7 +488,7 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
-		$ids = ArrayHelper::getColumn($items, 'state_id');
+		$ids = ArrayHelper::getColumn($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
@@ -504,8 +508,8 @@ class ArticlesModel extends ListModel
 					array(
 						't.id',
 						't.title',
-						't.from_state_id',
-						't.to_state_id',
+						't.from_stage_id',
+						't.to_stage_id',
 						's.id',
 						's.title',
 						's.condition',
@@ -514,19 +518,22 @@ class ArticlesModel extends ListModel
 					array(
 						'value',
 						'text',
-						'from_state_id',
-						'to_state_id',
-						'state_id',
-						'state_title',
-						'state_condition',
+						'from_stage_id',
+						'to_stage_id',
+						'stage_id',
+						'stage_title',
+						'stage_condition',
 						'workflow_id'
 					)
 				);
 
 				$query->select($select)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->leftJoin($db->quoteName('#__workflow_states', 's') . ' ON ' . $db->quoteName('t.from_state_id') . ' IN(' . implode(',', $ids) . ')')
-					->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
+					->leftJoin(
+						$db->quoteName('#__workflow_stages', 's') . ' ON '
+						. $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
+					)
+					->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
 					->where($db->quoteName('t.published') . ' = 1')
 					->where($db->quoteName('s.published') . ' = 1')
 					->order($db->quoteName('t.ordering'));
@@ -544,9 +551,9 @@ class ArticlesModel extends ListModel
 					else
 					{
 						// Update the transition text with final state value
-						$conditionName = $workflow->getConditionName($transition['state_condition']);
+						$conditionName = $workflow->getConditionName($transition['stage_condition']);
 
-						$transitions[$key]['text'] .=  ' [' . \JText::_($conditionName) . ']';
+						$transitions[$key]['text'] .= ' [' . \JText::_($conditionName) . ']';
 					}
 				}
 

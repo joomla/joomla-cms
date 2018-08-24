@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\ActionButton;
 use Joomla\CMS\Button\PublishedButton;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Language\Text;
@@ -54,23 +55,25 @@ else
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$js = "
-	;(function($)
-	{
-		$(function()
-		{
-			$('.article-status').on('click', function(e)
-			{
-				e.stopPropagation();
-			});
-		});
-	})(jQuery);
-";
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
+	  elements.forEach(function (element) {
+	    element.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	  });
+	});
+})();
+JS;
+
+// @todo move the script to a file
 Factory::getDocument()->addScriptDeclaration($js);
 
 $assoc = Associations::isEnabled();
@@ -157,12 +160,12 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
 							$hasTransitions = count($transitions) > 0;
 
 							$default = [
-								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '', $this->escape($item->stage_title)),
 								JHtml::_('select.option', '-1', '--------', ['disable' => true])
 							];
 
@@ -197,19 +200,18 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<div class="btn-group tbody-icon mr-1">
 										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 										<?php
-
-											$icon = 'publish';
-
-											switch ($item->state_condition) :
-
-												case Workflow::TRASHED:
+											switch ($item->stage_condition) :
+												case ContentComponent::CONDITION_TRASHED:
 													$icon = 'trash';
 													break;
-
-												case Workflow::UNPUBLISHED:
+												case ContentComponent::CONDITION_UNPUBLISHED:
 													$icon = 'unpublish';
 													break;
-
+												case ContentComponent::CONDITION_ARCHIVED:
+													$icon = 'archive';
+													break;
+												default:
+													$icon = 'publish';
 											endswitch;
 										?>
 										<?php if ($hasTransitions) : ?>
@@ -220,7 +222,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 											<span class="icon-<?php echo $icon; ?>"></span>
 										<?php endif; ?>
 										</div>
-										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<div class="mr-auto"><?php echo $this->escape($item->stage_title); ?></div>
 										<?php if ($hasTransitions) : ?>
 										<div class="d-none">
 											<?php
