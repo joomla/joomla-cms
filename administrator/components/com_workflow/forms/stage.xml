@@ -45,7 +45,7 @@
 		<field
 			name="default"
 			type="radio"
-			label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
+			label="COM_WORKFLOW_INITIAL_STAGE"
 			class="switcher"
 			default="0"
 			>
@@ -55,7 +55,7 @@
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
-		<field 
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset"

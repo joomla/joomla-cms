@@ -65,7 +65,7 @@ if ($saveOrder)
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:1%" class="text-center nowrap hidden-sm-down">
-									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
+									<?php echo Text::_('COM_WORKFLOW_INITIAL_STAGE'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
