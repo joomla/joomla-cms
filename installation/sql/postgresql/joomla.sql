@@ -2132,7 +2132,7 @@ COMMENT ON COLUMN "#__user_usergroup_map"."group_id" IS 'Foreign Key to #__userg
 --
 CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
-  `message_language_key` varchar(255) NOT NULL DEFAULT '',
+  "message_language_key" varchar(255) NOT NULL DEFAULT '',
   "message" text NOT NULL DEFAULT '',
   "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
