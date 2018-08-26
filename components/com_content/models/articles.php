@@ -461,7 +461,7 @@ class ContentModelArticles extends JModelList
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= ' . $query->dateAdd($nowDate, $relativeDate, 'DAY')
+					$dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
