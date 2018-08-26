@@ -66,6 +66,11 @@ pipeline:
       - fluxbox  > /dev/null 2>&1 &
       - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
 
+  system-tests:
+      image: joomlaprojects/docker-systemtests:develop
+      commands:
+        - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+
   analysis:
     image: rips/rips-cli
     secrets: [rips_username, rips_password]
@@ -76,11 +81,6 @@ pipeline:
       - if [ -z $RIPS_USERNAME ]; then echo "The analysis check require username and passwords"; fi
       - if [ -z $RIPS_USERNAME ]; then exit 0; fi
       - rips-cli rips:scan:start -a 3 -t 1 -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
-
-  system-tests:
-      image: joomlaprojects/docker-systemtests:develop
-      commands:
-        - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
 
 services:
   mysql:
