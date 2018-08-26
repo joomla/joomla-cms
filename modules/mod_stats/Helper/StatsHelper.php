@@ -96,7 +96,7 @@ class StatsHelper
 				->from($db->quoteName('#__content', 'c'))
 				->leftJoin(
 					$db->quoteName('#__workflow_stages', 'ws') 
-					. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('c.state')
+					. ' ON ' .  $db->quoteName('ws.id') . ' = ' . $db->quoteName('c.state')
 				)
 				->where($db->quoteName('ws.condition') . ' = 1');
 			$db->setQuery($query);
