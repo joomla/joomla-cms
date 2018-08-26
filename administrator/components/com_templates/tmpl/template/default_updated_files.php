@@ -24,9 +24,9 @@ $input = Factory::getApplication()->input;
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" style="width:5%" class="nowrap text-center">
+							<td style="width:5%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</th>
+							</td>
 							<th scope="col" style="width:7%" class="nowrap">
 								<?php echo Text::_('JSTATUS'); ?>
 							</th>
