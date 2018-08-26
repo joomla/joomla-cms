@@ -114,13 +114,13 @@ class HtmlDocument extends Document
 	 */
 	private $html5 = true;
 
-    /**
-     * Array of modals
-     *
-     * @var    array
-     * @since  4.0
-     */
-    public $modals = [];
+	/**
+	 * Array of modals
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
+	public $modals = [];
 
 	/**
 	 * Class constructor
@@ -809,12 +809,12 @@ class HtmlDocument extends Document
 		$buffer = str_replace($replace, $with, $this->_template);
 
 		if (!empty($this->modals))
-        {
-            foreach ($this->modals as $key => $value)
-            {
-                $modalsMarkup .= $value;
-            }
-        }
+		{
+			foreach ($this->modals as $key => $value)
+			{
+				$modalsMarkup .= $value;
+			}
+		}
 
 		return preg_replace('#<\/body>#', $modalsMarkup . '</body>', $buffer);
 	}
