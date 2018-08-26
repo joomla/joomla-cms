@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_menus
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_BASE') or die;
@@ -27,11 +27,17 @@ class TransitionField extends ListField
 	/**
 	 * The form field type.
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Transition';
 
+	/**
+	 * The component and section separated by ".".
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $extension;
 
 	/**

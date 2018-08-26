@@ -33,10 +33,6 @@ class RemoveOldFilesCommand extends AbstractCommand
 
 		$symfonyStyle->title('Removing Old Files');
 
-		// Import the dependencies
-		\JLoader::import('joomla.filesystem.file');
-		\JLoader::import('joomla.filesystem.folder');
-
 		// We need the update script
 		\JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 

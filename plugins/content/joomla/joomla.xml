@@ -34,8 +34,8 @@
 					name="check_states"
 					type="radio"
 					class="switcher"
-					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_LABEL"
-					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_STATES_DESC"
+					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_STAGES_LABEL"
+					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_STAGES_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
