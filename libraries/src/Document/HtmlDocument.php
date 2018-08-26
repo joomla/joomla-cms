@@ -32,7 +32,7 @@ class HtmlDocument extends Document
 	 * @var    array
 	 * @since  11.1
 	 */
-	public $_links = array();
+	public $_links = [];
 
 	/**
 	 * Array of custom tags
@@ -40,7 +40,7 @@ class HtmlDocument extends Document
 	 * @var    array
 	 * @since  11.1
 	 */
-	public $_custom = array();
+	public $_custom = [];
 
 	/**
 	 * Name of the template
@@ -96,7 +96,7 @@ class HtmlDocument extends Document
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_template_tags = array();
+	protected $_template_tags = [];
 
 	/**
 	 * Integer with caching setting
@@ -114,6 +114,14 @@ class HtmlDocument extends Document
 	 */
 	private $html5 = true;
 
+    /**
+     * Array of modals
+     *
+     * @var    array
+     * @since  4.0
+     */
+    public $modals = [];
+
 	/**
 	 * Class constructor
 	 *
@@ -121,7 +129,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		parent::__construct($options);
 
@@ -141,7 +149,7 @@ class HtmlDocument extends Document
 	 */
 	public function getHeadData()
 	{
-		$data = array();
+		$data = [];
 		$data['title']       = $this->title;
 		$data['description'] = $this->description;
 		$data['link']        = $this->link;
@@ -173,13 +181,13 @@ class HtmlDocument extends Document
 			$this->title        = '';
 			$this->description  = '';
 			$this->link         = '';
-			$this->_metaTags    = array();
-			$this->_links       = array();
-			$this->_styleSheets = array();
-			$this->_style       = array();
-			$this->_scripts     = array();
-			$this->_script      = array();
-			$this->_custom      = array();
+			$this->_metaTags    = [];
+			$this->_links       = [];
+			$this->_styleSheets = [];
+			$this->_style       = [];
+			$this->_scripts     = [];
+			$this->_script      = [];
+			$this->_custom      = [];
 		}
 
 		if (is_array($types))
@@ -225,7 +233,7 @@ class HtmlDocument extends Document
 			case 'script':
 			case 'custom':
 				$realType = '_' . $type;
-				$this->{$realType} = array();
+				$this->{$realType} = [];
 				break;
 		}
 	}
@@ -361,7 +369,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
+	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = [])
 	{
 		$this->_links[$href]['relation'] = $relation;
 		$this->_links[$href]['relType'] = $relType;
@@ -388,7 +396,7 @@ class HtmlDocument extends Document
 	public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace('\\', '/', $href);
-		$this->addHeadLink($href, $relation, 'rel', array('type' => $type));
+		$this->addHeadLink($href, $relation, 'rel', ['type' => $type]);
 
 		return $this;
 	}
@@ -449,7 +457,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	public function getBuffer($type = null, $name = null, $attribs = array())
+	public function getBuffer($type = null, $name = null, $attribs = [])
 	{
 		// If no type is specified, return the whole buffer
 		if ($type === null)
@@ -469,16 +477,16 @@ class HtmlDocument extends Document
 		if ($this->_caching == true && $type == 'modules')
 		{
 			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
+			$hash = md5(serialize([$name, $attribs, null, $renderer]));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
-				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
+				return Cache::getWorkarounds($cbuffer[$hash], ['mergehead' => 1]);
 			}
 			else
 			{
-				$options = array();
+				$options = [];
 				$options['nopathway'] = 1;
 				$options['nomodules'] = 1;
 				$options['modulemode'] = 1;
@@ -511,13 +519,13 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	public function setBuffer($content, $options = array())
+	public function setBuffer($content, $options = [])
 	{
 		// The following code is just for backward compatibility.
 		if (func_num_args() > 1 && !is_array($options))
 		{
 			$args = func_get_args();
-			$options = array();
+			$options = [];
 			$options['type'] = $args[1];
 			$options['name'] = $args[2] ?? null;
 			$options['title'] = $args[3] ?? null;
@@ -537,7 +545,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	public function parse($params = array())
+	public function parse($params = [])
 	{
 		return $this->_fetchTemplate($params)->_parseTemplate();
 	}
@@ -552,7 +560,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	public function render($caching = false, $params = array())
+	public function render($caching = false, $params = [])
 	{
 		$this->_caching = $caching;
 
@@ -675,7 +683,7 @@ class HtmlDocument extends Document
 		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
 
-		foreach (array($directory, JPATH_BASE) as $dir)
+		foreach ([$directory, JPATH_BASE] as $dir)
 		{
 			if (file_exists($dir . $icon))
 			{
@@ -698,7 +706,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	protected function _fetchTemplate($params = array())
+	protected function _fetchTemplate($params = [])
 	{
 		// Check
 		$directory = $params['directory'] ?? 'templates';
@@ -743,7 +751,7 @@ class HtmlDocument extends Document
 	 */
 	protected function _parseTemplate()
 	{
-		$matches = array();
+		$matches = [];
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
@@ -755,7 +763,7 @@ class HtmlDocument extends Document
 			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
-				$attribs = empty($matches[2][$i]) ? array() : \JUtility::parseAttributes($matches[2][$i]);
+				$attribs = empty($matches[2][$i]) ? [] : \JUtility::parseAttributes($matches[2][$i]);
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
@@ -790,6 +798,7 @@ class HtmlDocument extends Document
 	{
 		$replace = [];
 		$with = [];
+		$modalsMarkup = '';
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
@@ -797,6 +806,16 @@ class HtmlDocument extends Document
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
 
-		return str_replace($replace, $with, $this->_template);
+		$buffer = str_replace($replace, $with, $this->_template);
+
+		if (!empty($this->modals))
+        {
+            foreach ($this->modals as $key => $value)
+            {
+                $modalsMarkup .= $value;
+            }
+        }
+
+		return preg_replace('#<\/body>#', $modalsMarkup . '</body>', $buffer);
 	}
 }

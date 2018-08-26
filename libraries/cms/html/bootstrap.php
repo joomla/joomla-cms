@@ -208,7 +208,7 @@ abstract class JHtmlBootstrap
 
 		static::$loaded[__METHOD__][$selector] = true;
 
-		return LayoutHelper::render('joomla.modal.main', $layoutData);
+		Factory::getDocument()->modals[] = LayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
