@@ -85,14 +85,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $messageQueue = array();
 
 	/**
-	 * The session metadata manager
-	 *
-	 * @var    MetadataManager
-	 * @since  3.8.6
-	 */
-	protected $metadataManager = null;
-
-	/**
 	 * The name of the application.
 	 *
 	 * @var    string
@@ -147,8 +139,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		parent::__construct($input, $config, $client);
 
-		$this->metadataManager = new MetadataManager($this, Factory::getDbo());
-
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
@@ -181,7 +171,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$this->metadataManager->createRecordIfNonExisting(Factory::getSession(), Factory::getUser());
+		$metadataManager = new MetadataManager($this, Factory::getDbo());
+		$metadataManager->createRecordIfNonExisting(Factory::getSession(), Factory::getUser());
 	}
 
 	/**
