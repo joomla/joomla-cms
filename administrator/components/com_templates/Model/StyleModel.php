@@ -623,20 +623,20 @@ class StyleModel extends AdminModel
 		}
 
 		// Reset the home fields for the client_id.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE client_id = ' . (int) $style->client_id .
-			' AND home = \'1\''
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' .  $db->q('0'))
+			->where('client_id = ' . (int) $style->client_id)
+			->where('home = ' . $db->q('1'));
+		$db->setQuery($query);
 		$db->execute();
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'1\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->q('1'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.
@@ -666,11 +666,11 @@ class StyleModel extends AdminModel
 		}
 
 		// Lookup the client_id.
-		$db->setQuery(
-			'SELECT client_id, home' .
-			' FROM #__template_styles' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->select('client_id, home')
+			->from('#__template_styles')
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$style = $db->loadObject();
 
 		if (!is_numeric($style->client_id))
@@ -683,11 +683,11 @@ class StyleModel extends AdminModel
 		}
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->q('0'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.
