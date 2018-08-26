@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Helper\ModuleHelper; 
 use Joomla\Module\Stats\Site\Helper\StatsHelper;
 
 $serverinfo = $params->get('serverinfo');
