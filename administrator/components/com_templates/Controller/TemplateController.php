@@ -831,9 +831,6 @@ class TemplateController extends BaseController
 			$app->close();
 		}
 
-		// Created only for test.
-		$session = Factory::getSession();
-
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 

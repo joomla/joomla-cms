@@ -98,7 +98,7 @@ class TemplatesModel extends ListModel
 			->select('a.template')
 			->from($db->quoteName('#__template_overrides', 'a'))
 			->where('extension_id = ' . $db->quote($exid))
-			->where('state = ' . 0);
+			->where('state = 0');
 
 		// Reset the query.
 		$db->setQuery($query);
