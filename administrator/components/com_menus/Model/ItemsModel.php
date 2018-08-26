@@ -564,8 +564,9 @@ class ItemsModel extends ListModel
 
 		if (!isset($this->cache[$store]))
 		{
-			$items = parent::getItems();
-			$lang  = Factory::getLanguage();
+			$items  = parent::getItems();
+			$lang   = Factory::getLanguage();
+			$client = $this->state->get('filter.client_id');
 
 			if ($items)
 			{
@@ -578,7 +579,10 @@ class ItemsModel extends ListModel
 					}
 
 					// Translate component name
-					$item->title = Text::_($item->title);
+					if ($client === 1)
+					{
+						$item->title = Text::_($item->title);
+					}
 				}
 			}
 
