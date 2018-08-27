@@ -74,7 +74,7 @@
           progress.style.width = `${(step / steps) * 100}%`;
           progress.setAttribute('aria-valuemin', 0);
           progress.setAttribute('aria-valuemax', 100);
-          progress.setAttribute('aria-valuenow', step / steps * 100);
+          progress.setAttribute('aria-valuenow', (step / steps) * 100);
           progress.classList.add(progressClass);
 
           // Move on next step
