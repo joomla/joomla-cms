@@ -103,10 +103,6 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 */
 	public function getAssets()
 	{
-//		return array(
-//			'js' => \JUri::root(true) . '/build/media/plg_system_debug/widgets/languageErrors/widget.js',
-//			'css' => \JUri::root(true) . '/build/media/plg_system_debug/widgets/languageErrors/widget.css',
-//		);
 		return array(
 			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.js',
 			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.css',
