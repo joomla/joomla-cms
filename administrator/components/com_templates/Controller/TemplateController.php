@@ -803,7 +803,7 @@ class TemplateController extends BaseController
 	}
 
 	/**
-	 * Fetch and report updates in \JSON format, for A\JAX requests
+	 * Fetch and report updates in \JSON format, for AJAX requests
 	 *
 	 * @return void
 	 *
