@@ -113,7 +113,7 @@ if ($this->type == 'font')
 		<?php if ($this->type == 'file') : ?>
 			<div class="row">
 				<div class="col-md-12" id="override-pane">
-					<p class="lead"><?php echo JText::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></p>
+					<h2><?php echo JText::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
 					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 						<div class="editor-border">
 							<?php echo $this->form->getInput('source'); ?>
@@ -128,13 +128,13 @@ if ($this->type == 'font')
 					<?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
 					<?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
 					<div class="col-md-6" id="core-pane">
-						<p class="lead"><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></p>
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
 						<div class="editor-border">
 							<?php echo $this->form->getInput('core'); ?>
 						</div>
 					</div>
 					<div class="col-md-12" id="diff-main">
-						<p class="lead"><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></p>
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
 						<div class="diff-pane">
 							<div class="diffview" style="display:none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
 							<div class="diffview" style="display:none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
