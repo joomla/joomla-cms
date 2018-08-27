@@ -113,7 +113,7 @@ if ($this->type == 'font')
 		<?php if ($this->type == 'file') : ?>
 			<div class="row">
 				<div class="col-md-12" id="override-pane">
-					<?php $overrideCheck  = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
+					<?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
 					<?php if ($overrideCheck['1'] === 'html') : ?>
 						<h2><?php echo JText::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
 					<?php endif; ?>
