@@ -362,13 +362,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Creates the tags title for the output
 	 *
-<<<<<<< HEAD:components/com_tags/View/Tag/HtmlView.php
 	 * @return  string
 	 *
 	 * @since   3.1
-=======
-	 * @return  boolean
->>>>>>> 7f0d819:components/com_tags/views/tag/view.html.php
 	 */
 	protected function getTagsTitle()
 	{
