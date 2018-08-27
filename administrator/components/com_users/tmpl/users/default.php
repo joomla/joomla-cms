@@ -126,13 +126,11 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php echo $this->escape($item->username); ?>
 								</td>
 								<td class="text-center">
+                                    <?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
-										<?php
-										$self = $loggeduser->id == $item->id;
-										echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
-										?>
+										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
-										<?php echo Text::_($item->block ? 'JNO' : 'JYES'); ?>
+										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', false);; ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
