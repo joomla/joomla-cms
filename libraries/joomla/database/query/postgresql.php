@@ -688,7 +688,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * $query->select($query->dateAdd());
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 *
-	 * @param   datetime  $date      The date to add to
+	 * @param   string    $date      The db quoted string representation of the date to add to
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
