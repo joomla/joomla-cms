@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla Html View
@@ -356,7 +356,6 @@ class HtmlView extends AbstractView
 		}
 
 		// Load the template script
-		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
 		$this->_template = Path::find($this->_path['template'], $filetofind);
 
@@ -411,7 +410,6 @@ class HtmlView extends AbstractView
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
 		// Load the template script
-		jimport('joomla.filesystem.path');
 		$helper = Path::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
 		if ($helper != false)
@@ -477,8 +475,6 @@ class HtmlView extends AbstractView
 	 */
 	protected function _addPath($type, $path)
 	{
-		jimport('joomla.filesystem.path');
-
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{

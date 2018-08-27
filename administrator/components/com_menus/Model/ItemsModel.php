@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -117,6 +118,12 @@ class ItemsModel extends ListModel
 		// Watch changes in client_id and menutype and keep sync whenever needed.
 		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
 		$clientId        = $app->input->getInt('client_id', $currentClientId);
+
+		// Load mod_menu.ini file when client is administrator
+		if ($clientId == 1)
+		{
+			Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+		}
 
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
@@ -563,8 +570,9 @@ class ItemsModel extends ListModel
 
 		if (!isset($this->cache[$store]))
 		{
-			$items = parent::getItems();
-			$lang  = Factory::getLanguage();
+			$items  = parent::getItems();
+			$lang   = Factory::getLanguage();
+			$client = $this->state->get('filter.client_id');
 
 			if ($items)
 			{
@@ -577,7 +585,10 @@ class ItemsModel extends ListModel
 					}
 
 					// Translate component name
-					$item->title = Text::_($item->title);
+					if ($client === 1)
+					{
+						$item->title = Text::_($item->title);
+					}
 				}
 			}
 

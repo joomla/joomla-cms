@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -81,7 +82,6 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			jimport('joomla.filesystem.folder');
 			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
@@ -165,7 +165,6 @@ class TemplateModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		jimport('joomla.filesystem.file');
 		$app = Factory::getApplication();
 
 		// Load the User state.
@@ -270,7 +269,6 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			jimport('joomla.filesystem.folder');
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/');
 
@@ -338,8 +336,6 @@ class TemplateModel extends FormModel
 		$template = $this->getTemplate();
 		$oldName  = $template->element;
 		$manifest = json_decode($template->manifest_cache);
-
-		jimport('joomla.filesystem.file');
 
 		foreach ($files as $file)
 		{
@@ -484,8 +480,6 @@ class TemplateModel extends FormModel
 	 */
 	public function save($data)
 	{
-		jimport('joomla.filesystem.file');
-
 		// Get the template.
 		$template = $this->getTemplate();
 
@@ -675,8 +669,6 @@ class TemplateModel extends FormModel
 	 */
 	public function createOverride($override)
 	{
-		jimport('joomla.filesystem.folder');
-
 		if ($template = $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
@@ -904,8 +896,6 @@ class TemplateModel extends FormModel
 	 */
 	public function uploadFile($file, $location)
 	{
-		jimport('joomla.filesystem.folder');
-
 		if ($template = $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
@@ -953,8 +943,6 @@ class TemplateModel extends FormModel
 	 */
 	public function createFolder($name, $location)
 	{
-		jimport('joomla.filesystem.folder');
-
 		if ($template = $this->getTemplate())
 		{
 			$app    = Factory::getApplication();
@@ -990,8 +978,6 @@ class TemplateModel extends FormModel
 	 */
 	public function deleteFolder($location)
 	{
-		jimport('joomla.filesystem.folder');
-
 		if ($template = $this->getTemplate())
 		{
 			$app    = Factory::getApplication();

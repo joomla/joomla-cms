@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
 defined('_JEXEC') or die;
@@ -15,6 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Abstract Fields Plugin
@@ -212,7 +214,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		}
 
 		// Check if it is allowed to edit the field
-		if (!\FieldsHelper::canEditFieldValue($field))
+		if (!FieldsHelper::canEditFieldValue($field))
 		{
 			$node->setAttribute('disabled', 'true');
 		}

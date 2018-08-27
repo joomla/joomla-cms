@@ -10,11 +10,11 @@ namespace Joomla\CMS\Access;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Table\Asset;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class that handles all access authorisation routines.
@@ -330,7 +330,7 @@ class Access
 	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
-	 * @return  bool  True
+	 * @return  boolean  True
 	 *
 	 * @since   1.6
 	 * @note    This function will return void in 4.0.

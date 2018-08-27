@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Messages\Administrator\Model\ConfigModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;

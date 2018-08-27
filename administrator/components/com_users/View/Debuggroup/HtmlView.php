@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Debuggroup;
 
 defined('_JEXEC') or die;
@@ -92,8 +93,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
-
-		\JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
 
 		$this->actions       = $this->get('DebugActions');
 		$this->items         = $this->get('Items');

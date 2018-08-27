@@ -11,17 +11,17 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\Database\ParameterType;
 
 /**
@@ -1296,7 +1296,7 @@ class ComponentAdapter extends InstallerAdapter
 	 * @param   array    &$data     The menu item data to create
 	 * @param   integer  $parentId  The parent menu item ID
 	 *
-	 * @return  bool|int  Menu item ID on success, false on failure
+	 * @return  boolean|integer  Menu item ID on success, false on failure
 	 */
 	protected function _createAdminMenuItem(array &$data, $parentId)
 	{

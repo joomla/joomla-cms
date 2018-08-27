@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -154,7 +155,7 @@ class CategoriesHelper
 	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
-	 * @return int $catid  Category ID.
+	 * @return  integer  $catid  Category ID.
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{

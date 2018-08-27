@@ -6,11 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 
@@ -76,11 +79,11 @@ class FeaturedModel extends ArticlesModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
 		}
 		else
 		{
-			$this->setState('filter.published', array(0, 1, 2));
+			$this->setState('filter.condition', array(ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED));
 		}
 
 		// Process show_noauth parameter

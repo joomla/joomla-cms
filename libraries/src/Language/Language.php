@@ -10,8 +10,8 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\String\StringHelper;
 
 /**
  * Allows for quoting in language .ini files.
@@ -245,7 +245,8 @@ class Language
 
 		if (class_exists($class))
 		{
-			/* Class exists. Try to find
+			/**
+			 * Class exists. Try to find
 			 * -a transliterate method,
 			 * -a getPluralSuffixes method,
 			 * -a getIgnoredSearchWords method
@@ -953,7 +954,7 @@ class Language
 		// Check if we encountered any errors.
 		if (count($errors))
 		{
-			$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
+			$this->errorfiles[$filename] = $errors;
 		}
 		elseif ($php_errormsg)
 		{

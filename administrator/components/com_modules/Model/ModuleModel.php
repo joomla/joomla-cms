@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -836,8 +837,6 @@ class ModuleModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang     = Factory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
@@ -938,7 +937,7 @@ class ModuleModel extends AdminModel
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . Text::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 

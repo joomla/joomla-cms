@@ -140,7 +140,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   string  $value  URL to use
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
 	 */
 	public static function url($value)
 	{
@@ -205,7 +205,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   boolean  $value  input value
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public static function tos($value)
 	{
@@ -360,10 +360,10 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $isnew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
-	 * @return    boolean
+	 * @return  boolean
 	 *
 	 * @since   3.1
-	 * @throws    InvalidArgumentException on invalid date.
+	 * @throws  InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
@@ -411,7 +411,7 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{

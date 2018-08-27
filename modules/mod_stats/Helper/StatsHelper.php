@@ -52,7 +52,7 @@ class StatsHelper
 
 			$rows[$i] = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_PHP');
-			$rows[$i]->data  = phpversion();
+			$rows[$i]->data  = PHP_VERSION;
 			$i++;
 
 			$rows[$i] = new \stdClass;
@@ -78,8 +78,8 @@ class StatsHelper
 
 		if ($siteinfo)
 		{
-			$query->select('COUNT(id) AS count_users')
-				->from('#__users');
+			$query->select('COUNT(' . $db->quoteName('id') . ') AS count_users')
+				->from($db->quoteName('#__users'));
 			$db->setQuery($query);
 
 			try
@@ -92,9 +92,13 @@ class StatsHelper
 			}
 
 			$query->clear()
-				->select('COUNT(id) AS count_items')
-				->from('#__content')
-				->where('state = 1');
+				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
+				->from($db->quoteName('#__content', 'c'))
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws')
+					. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('c.state')
+				)
+				->where($db->quoteName('ws.condition') . ' = 1');
 			$db->setQuery($query);
 
 			try
@@ -126,9 +130,13 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(hits) AS count_hits')
-				->from('#__content')
-				->where('state = 1');
+				->select('SUM(' . $db->quotename('hits') . ') AS count_hits')
+				->from($db->quoteName('#__content'))
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws')
+					. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('state')
+				)
+				->where($db->quoteName('ws.condition') . ' = 1');
 			$db->setQuery($query);
 
 			try

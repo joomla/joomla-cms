@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -16,8 +17,6 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.path');
 /**
  * Menu Item Types Model for Menus.
  *
@@ -79,8 +78,6 @@ class MenutypesModel extends BaseDatabaseModel
 	 */
 	public function getTypeOptions()
 	{
-		jimport('joomla.filesystem.file');
-
 		$lang = Factory::getLanguage();
 		$list = array();
 
