@@ -87,7 +87,7 @@ class CompareModel extends ItemModel
 					$object->version_note = $table->version_note;
 
 					// Let's use custom calendars when present
-					$object->save_date = HTMLHelper::_('date', $table->save_date, 'Y-m-d H:i:s');
+					$object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
 					$dateProperties = array (
 						'modified_time',
@@ -103,7 +103,7 @@ class CompareModel extends ItemModel
 					{
 						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != $nullDate)
 						{
-							$object->data->$dateProperty->value = HTMLHelper::_('date', $object->data->$dateProperty->value, 'Y-m-d H:i:s');
+							$object->data->$dateProperty->value = HTMLHelper::_('date', $object->data->$dateProperty->value, Text::_('DATE_FORMAT_LC6'));
 						}
 					}
 

@@ -116,7 +116,7 @@ class ContactTable extends Table
 		$this->webpage = PunycodeHelper::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\');
+		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

@@ -54,7 +54,7 @@ foreach ($tmp as $customField)
 						</dt>
 						<dd>
 							<?php if (array_key_exists($field->fieldname, $customFields)) : ?>
-								<?php echo $customFields[$field->fieldname]->value ?: Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+                                <?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 							<?php elseif (HTMLHelper::isRegistered('users.' . $field->id)) : ?>
 								<?php echo HTMLHelper::_('users.' . $field->id, $field->value); ?>
 							<?php elseif (HTMLHelper::isRegistered('users.' . $field->fieldname)) : ?>

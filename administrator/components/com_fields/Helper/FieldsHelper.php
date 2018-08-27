@@ -80,10 +80,10 @@ class FieldsHelper
 	 * The values of the fields can be overridden by an associative array where the keys
 	 * have to be a name and its corresponding value.
 	 *
-	 * @param   string    $context           The context of the content passed to the helper
-	 * @param   stdClass  $item              item
-	 * @param   boolean   $prepareValue      prepareValue
-	 * @param   array     $valuesToOverride  The values to override
+	 * @param   string     $context           The context of the content passed to the helper
+	 * @param   \stdClass  $item              item
+	 * @param   int|bool   $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+	 * @param   array      $valuesToOverride  The values to override
 	 *
 	 * @return  array
 	 *
@@ -189,7 +189,8 @@ class FieldsHelper
 
 				$field->rawvalue = $field->value;
 
-				if ($prepareValue)
+				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display, 3 - After Display, 0 - Do not prepare
+				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
 					PluginHelper::importPlugin('fields');
 
@@ -582,7 +583,7 @@ class FieldsHelper
 	/**
 	 * Gets the fields system plugin extension id.
 	 *
-	 * @return  int  The fields system plugin extension id.
+	 * @return  integer  The fields system plugin extension id.
 	 *
 	 * @since   3.7.0
 	 */
