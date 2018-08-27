@@ -352,19 +352,45 @@ class WorkflowModel extends AdminModel
 
 		// Default workflow item existence checks.
 		foreach ($pks as $i => $pk)
-		{
-			if ($value != 1 && $table->default)
+		{ 
+			if ($table->load($pk) && $value != 1 && $table->default)
 			{
-				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				// Prune items that you can't change.
+				Factory::getApplication()->enqueueMessage(Text::_('COM_WORKFLOW_UNPUBLISH_DEFAULT_ERROR'), 'error');
 				unset($pks[$i]);
 				break;
 			}
-
-			$table->load($pk);
-			$table->modified = $date;
-			$table->store();
 		}
 
+		// Clean the cache
+		$this->cleanCache();
+
+		// Ensure that previous checks doesn't empty the array
+		if (empty($pks))
+		{
+			return true;
+		}
+
+		$table->load($pk);
+		$table->modified = $date;
+		$table->store();
+
 		return parent::publish($pks, $value);
+	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $type    The table name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
+	{
+		return parent::getTable($type, $prefix, $config);
 	}
 }
