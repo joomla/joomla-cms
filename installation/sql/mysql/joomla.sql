@@ -361,6 +361,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   KEY `idx_catid` (`catid`),
   KEY `idx_createdby` (`created_by`),
   KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_catid_ordering` (`catid`, `ordering`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`),
   KEY `idx_alias` (`alias`(191))
@@ -375,7 +376,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
 CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
   `content_id` int(11) NOT NULL DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`content_id`)
+  PRIMARY KEY (`content_id`),
+  KEY `idx_ordering` (`ordering`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

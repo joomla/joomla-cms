@@ -428,7 +428,7 @@ class ArticleModel extends AdminModel
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$table->ordering = $table->getNextOrder('catid = ' . (int) $table->catid);
 		}
 	}
 
@@ -985,10 +985,12 @@ class ArticleModel extends AdminModel
 
 				// Featuring.
 				$tuples = array();
+				$ordering = $table->getNextOrder();
 
 				foreach ($newFeatured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = $pk . ', ' . $ordering;
+					$ordering++;
 				}
 
 				if (count($tuples))
@@ -1009,8 +1011,6 @@ class ArticleModel extends AdminModel
 
 			return false;
 		}
-
-		$table->reorder();
 
 		$this->cleanCache();
 
