@@ -350,7 +350,7 @@ class WorkflowModel extends AdminModel
 
 		$date = Factory::getDate()->toSql();
 
-		// Default workflow item existence checks.
+		// Default workflow item check.
 		foreach ($pks as $i => $pk)
 		{ 
 			if ($table->load($pk) && $value != 1 && $table->default)
@@ -362,10 +362,10 @@ class WorkflowModel extends AdminModel
 			}
 		}
 
-		// Clean the cache
+		// Clean the cache.
 		$this->cleanCache();
 
-		// Ensure that previous checks doesn't empty the array
+		// Ensure that previous checks don't empty the array.
 		if (empty($pks))
 		{
 			return true;
@@ -376,21 +376,5 @@ class WorkflowModel extends AdminModel
 		$table->store();
 
 		return parent::publish($pks, $value);
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $type    The table name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
-	{
-		return parent::getTable($type, $prefix, $config);
 	}
 }
