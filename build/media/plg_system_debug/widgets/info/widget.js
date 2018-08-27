@@ -12,6 +12,8 @@
                 this.$el.empty();
                 var tr;
 
+                /*
+                // @todo enable Info link
                 var link = $('<a />')
                     .text('Info')
                     .attr('href', 'index.php?option=com_content&view=debug&id=' + data.requestId)
@@ -21,6 +23,7 @@
                     .append($('<td />').text('Info'))
                     .append($('<td />').append(link));
                 this.$el.append(tr);
+                */
 
                 tr = $('<tr />')
                     .append($('<td />').text('Joomla! Version'))
