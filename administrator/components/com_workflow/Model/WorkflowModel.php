@@ -352,7 +352,7 @@ class WorkflowModel extends AdminModel
 
 		// Default workflow item check.
 		foreach ($pks as $i => $pk)
-		{ 
+		{
 			if ($table->load($pk) && $value != 1 && $table->default)
 			{
 				// Prune items that you can't change.
