@@ -123,7 +123,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		// Force filter only enabled messages
 		$published = $this->getState('published', 1);
-		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
+		$query->where($db->qn('enabled') . ' = ' . (int) $published);
 
 		$query->from($db->quoteName('#__postinstall_messages'));
 
@@ -153,7 +153,7 @@ class MessagesModel extends BaseDatabaseModel
 		$query = $db->getQuery(true)
 			->select(array('name', 'element', 'client_id'))
 			->from($db->qn('#__extensions'))
-			->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+			->where($db->qn('extension_id') . ' = ' . (int) $eid);
 
 		$db->setQuery($query, 0, 1);
 
@@ -194,8 +194,30 @@ class MessagesModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true)
 			->update($db->qn('#__postinstall_messages'))
-			->set($db->qn('enabled') . ' = ' . $db->q(1))
-			->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+			->set($db->qn('enabled') . ' = 1')
+			->where($db->qn('extension_id') . ' = ' . (int) $eid);
+		$db->setQuery($query);
+
+		return $db->execute();
+	}
+
+	/**
+	 * Hides all messages for an extension
+	 *
+	 * @param   integer  $eid  The extension ID whose messages we'll hide
+	 *
+	 * @return  mixed  False if we fail, a db cursor otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hideMessages($eid)
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->update($db->qn('#__postinstall_messages'))
+			->set($db->qn('enabled') . ' = 0')
+			->where($db->qn('extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -515,7 +537,7 @@ class MessagesModel extends BaseDatabaseModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn($tableName))
-			->where($db->qn('extension_id') . ' = ' . $db->q($options['extension_id']))
+			->where($db->qn('extension_id') . ' = ' . (int) $options['extension_id'])
 			->where($db->qn('type') . ' = ' . $db->q($options['type']))
 			->where($db->qn('title_key') . ' = ' . $db->q($options['title_key']));
 
@@ -544,7 +566,7 @@ class MessagesModel extends BaseDatabaseModel
 			// Otherwise it's not the same row. Remove the old row before insert a new one.
 			$query = $db->getQuery(true)
 				->delete($db->qn($tableName))
-				->where($db->q('extension_id') . ' = ' . $db->q($options['extension_id']))
+				->where($db->q('extension_id') . ' = ' . (int) $options['extension_id'])
 				->where($db->q('type') . ' = ' . $db->q($options['type']))
 				->where($db->q('title_key') . ' = ' . $db->q($options['title_key']));
 

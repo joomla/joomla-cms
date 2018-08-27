@@ -43,9 +43,9 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * Tag data for the current tag or tags
+	 * Tag data for the current tag or tags (on success, false on failure)
 	 *
-	 * @var    \JObject[]
+	 * @var    \JObject|boolean
 	 * @since  3.1
 	 */
 	protected $item;
@@ -83,9 +83,9 @@ class HtmlView extends BaseHtmlView
 	protected $params;
 
 	/**
-	 * The title to display on the page
+	 * Array of tags title
 	 *
-	 * @var    string
+	 * @var    array
 	 * @since  3.1
 	 */
 	protected $tags_title;
@@ -362,9 +362,13 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Creates the tags title for the output
 	 *
+<<<<<<< HEAD:components/com_tags/View/Tag/HtmlView.php
 	 * @return  string
 	 *
 	 * @since   3.1
+=======
+	 * @return  boolean
+>>>>>>> 7f0d819:components/com_tags/views/tag/view.html.php
 	 */
 	protected function getTagsTitle()
 	{
