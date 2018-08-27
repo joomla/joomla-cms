@@ -401,9 +401,9 @@ class UpdatesitesModel extends InstallerModel
 			)
 			->where('('
 				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('joomla') . ')'
-				. ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
-				. ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->quoteName('e.element') . ' = '
-				. $db->quote('com_joomlaupdate') . ')'
+				. ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->quoteName('e.element')
+				. ' = ' . $db->quote('pkg_en-GB') . ')' . ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('component')
+				. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
 				. ')'
 			);
 
