@@ -29,6 +29,15 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	private $name = 'languageFiles';
 
 	/**
+	 * The count.
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $count = 0;
+
+
+	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
 	 * @since  __DEPLOY_VERSION__
@@ -46,6 +55,11 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 			foreach ($files as $file => $status)
 			{
 				$loaded[$extension][$file] = $status;
+
+				if ($status)
+				{
+					$this->count++;
+				}
 			}
 		}
 
@@ -53,6 +67,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 			'loaded' => $loaded,
 			'xdebug-link' => $this->getXdebugLinkTemplate(),
 			'jroot' => JPATH_ROOT,
+			'count' => $this->count,
 		];
 	}
 
@@ -84,7 +99,11 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 				'widget' => 'PhpDebugBar.Widgets.languageFilesWidget',
 				'map' => $this->name,
 				'default' => '[]'
-			]
+			],
+			'loaded:badge' => [
+				'map'     => $this->name . '.count',
+				'default' => 'null',
+			],
 		];
 	}
 
