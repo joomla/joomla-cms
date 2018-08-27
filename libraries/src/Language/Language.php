@@ -1013,7 +1013,7 @@ class Language
 			$class = @ $step['class'];
 
 			// We're looking for something outside of Language.php
-			if ($class !== __CLASS__)
+			if ($class !== __CLASS__ && $class !== Text::class)
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;
