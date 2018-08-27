@@ -67,10 +67,31 @@ $isModal  = $input->get('layout') == 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
+$lang     = Factory::getLanguage()->getTag();
+
+// Load mod_menu.ini file when client is administrator
+if ($clientId === 1)
+{
+	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+}
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
+
+	<?php // Add the translation of the menu item title when client is administrator ?>
+	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
+		<div class="form-inline form-inline-header">
+			<div class="control-group">
+				<div class="control-label">
+					<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
+				</div>
+				<div class="controls">
+					<input id="menus_title_translation" class="form-control input-xlarge" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
 
 	<div>
 
