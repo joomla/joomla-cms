@@ -954,7 +954,7 @@ class Language
 		// Check if we encountered any errors.
 		if (count($errors))
 		{
-			$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
+			$this->errorfiles[$filename] = $errors;
 		}
 		elseif ($php_errormsg)
 		{
