@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ abstract class ModTagsPopularHelper
 		$query->where($db->quoteName('t.published') . ' = 1 ');
 
 		// Filter by Parent Tag
-		$parentTags = $params->get('parentTag', 0);
+		$parentTags = $params->get('parentTag', array());
 
 		if ($parentTags)
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,11 +42,17 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	public function __construct($options = array())
 	{
-		// Disable transparent sid support
-		ini_set('session.use_trans_sid', '0');
+		if (!headers_sent())
+		{
+			// Disable transparent sid support
+			ini_set('session.use_trans_sid', '0');
 
-		// Only allow the session ID to come from cookies and nothing else.
-		ini_set('session.use_only_cookies', '1');
+			// Only allow the session ID to come from cookies and nothing else.
+			if ((int) ini_get('session.use_cookies') !== 1)
+			{
+				ini_set('session.use_only_cookies', 1);
+			}
+		}
 
 		// Set options
 		$this->setOptions($options);
@@ -91,7 +97,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	public function clear()
 	{
-		$session_name = $this->getName();
+		$sessionName = $this->getName();
 
 		/*
 		 * In order to kill the session altogether, such as to log the user out, the session id
@@ -99,9 +105,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 		 * then the session cookie must be deleted.
 		 * We need to use setcookie here or we will get a warning in some session handlers (ex: files).
 		 */
-		if (isset($_COOKIE[$session_name]))
+		if (isset($_COOKIE[$sessionName]))
 		{
-			setcookie($session_name, '', 1);
+			$cookie = session_get_cookie_params();
+
+			setcookie($sessionName, '', 1, $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 		}
 
 		parent::clear();
@@ -116,6 +124,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	protected function setCookieParams()
 	{
+		if (headers_sent())
+		{
+			return;
+		}
+
 		$cookie = session_get_cookie_params();
 
 		if ($this->force_ssl)

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class LimitboxField extends \JFormFieldList
 			asort($limits);
 
 			// Add an option to show all?
-			$showAll = isset($this->element['showall']) ? $this->element['showall'] === 'true' : true;
+			$showAll = isset($this->element['showall']) ? (string) $this->element['showall'] === 'true' : true;
 
 			if ($showAll)
 			{

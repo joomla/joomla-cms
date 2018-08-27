@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -170,19 +170,20 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									<ul class="dropdown-menu">
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 											<li>
-												<?php if ($canEdit) : ?>
+												<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 													<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 													<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
 														<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 												<?php else : ?>
-													<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
+													<a href="#" class="disabled" disabled="disabled">
+														<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 												<?php endif; ?>
 											</li>
 										<?php endforeach; ?>
 									</ul>
 								 </div>
 								<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
-									<?php if ($canEdit) : ?>
+									<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 										<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 										<?php echo JHtml::_(
 												'bootstrap.renderModal',

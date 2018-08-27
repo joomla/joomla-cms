@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,9 +40,8 @@ class TemplatesControllerStyle extends JControllerForm
 
 		$document = JFactory::getDocument();
 
-		if ($document->getType() == 'json')
+		if ($document->getType() === 'json')
 		{
-
 			$app   = JFactory::getApplication();
 			$lang  = JFactory::getLanguage();
 			$model = $this->getModel();
@@ -52,7 +51,7 @@ class TemplatesControllerStyle extends JControllerForm
 			$context = $this->option . '.edit.' . $this->context;
 			$task = $this->getTask();
 
-			$item = $model->getItem($app->getTemplate('template')->id);
+			$item = $model->getItem($app->getTemplate(true)->id);
 
 			// Setting received params
 			$item->set('params', $data);
@@ -65,7 +64,6 @@ class TemplatesControllerStyle extends JControllerForm
 			// Access check.
 			if (!$this->allowSave($data, $key))
 			{
-
 				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 				return false;
@@ -150,7 +148,6 @@ class TemplatesControllerStyle extends JControllerForm
 			$this->postSaveHook($model, $validData);
 
 			return true;
-
 		}
 		else
 		{

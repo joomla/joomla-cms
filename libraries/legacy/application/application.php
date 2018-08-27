@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -388,7 +388,7 @@ class JApplication extends BaseApplication
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
+			echo "<script>document.location.href=" . json_encode(str_replace("'", '&apos;', $url)) . ";</script>\n";
 		}
 		else
 		{
@@ -400,7 +400,7 @@ class JApplication extends BaseApplication
 			{
 				// MSIE type browser and/or server cause issues when URL contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script></head></html>';
+					. '<script>document.location.href=' . json_encode(str_replace("'", '&apos;', $url)) . ';</script></head></html>';
 			}
 			else
 			{

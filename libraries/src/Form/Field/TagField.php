@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class TagField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']?: array(0, 1);
+		$published = $this->element['published'] ?: array(0, 1);
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
 
@@ -260,7 +260,7 @@ class TagField extends \JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && $this->element['custom'] === 'deny')
+		if (isset($this->element['custom']) && (string) $this->element['custom'] === 'deny')
 		{
 			return false;
 		}

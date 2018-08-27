@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -108,7 +108,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Make sure the postgresql extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('PHP extension pg_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('The pgsql extension for PHP is not installed or enabled.');
 		}
 
 		// Build the DSN for the connection.
@@ -167,6 +167,17 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
 		$this->connect();
 
 		$result = pg_escape_string($this->connection, $text);

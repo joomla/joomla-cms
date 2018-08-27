@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -177,7 +177,7 @@ abstract class FinderIndexer
 	public static function getState()
 	{
 		// First, try to load from the internal state.
-		if (!empty(static::$state))
+		if ((bool) static::$state)
 		{
 			return static::$state;
 		}
@@ -307,8 +307,10 @@ abstract class FinderIndexer
 			// Update the link counts for the terms.
 			$query->clear()
 				->update($db->quoteName('#__finder_terms', 't'))
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
+				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') .
+					' ON ' . $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id')
+				)
+				->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
 				->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query)->execute();
 
@@ -424,7 +426,7 @@ abstract class FinderIndexer
 						$string = substr($buffer, 0, $ls);
 
 						// Adjust the buffer based on the last space for the next iteration and trim.
-						$buffer = JString::trim(substr($buffer, $ls));
+						$buffer = StringHelper::trim(substr($buffer, $ls));
 					}
 					// No space character was found.
 					else
@@ -441,8 +443,7 @@ abstract class FinderIndexer
 				// Parse, tokenise and add tokens to the database.
 				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				unset($string);
-				unset($tokens);
+				unset($string, $tokens);
 			}
 
 			return $count;
@@ -511,27 +512,39 @@ abstract class FinderIndexer
 
 		$query = clone $this->addTokensToDbQueryTemplate;
 
-		// Force tokens to an array.
-		$tokens = (array) $tokens;
-
 		// Count the number of token values.
 		$values = 0;
 
 		// Iterate through the tokens to create SQL value sets.
-		foreach ($tokens as $token)
+		if (!is_a($tokens, 'FinderIndexerToken'))
+		{
+			foreach ($tokens as $token)
+			{
+				$query->values(
+					$db->quote($token->term) . ', '
+					. $db->quote($token->stem) . ', '
+					. (int) $token->common . ', '
+					. (int) $token->phrase . ', '
+					. $db->escape((float) $token->weight) . ', '
+					. (int) $context . ', '
+					. $db->quote($token->language)
+				);
+				++$values;
+			}
+		}
+		else
 		{
 			$query->values(
-				$db->quote($token->term) . ', '
-				. $db->quote($token->stem) . ', '
-				. (int) $token->common . ', '
-				. (int) $token->phrase . ', '
-				. (float) $token->weight . ', '
+				$db->quote($tokens->term) . ', '
+				. $db->quote($tokens->stem) . ', '
+				. (int) $tokens->common . ', '
+				. (int) $tokens->phrase . ', '
+				. $db->escape((float) $tokens->weight) . ', '
 				. (int) $context . ', '
-				. $db->quote($token->language)
+				. $db->quote($tokens->language)
 			);
 			++$values;
 		}
-
 		$db->setQuery($query)->execute();
 
 		return $values;

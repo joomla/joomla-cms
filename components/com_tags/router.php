@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -163,7 +163,7 @@ class TagsRouter extends JComponentRouterBase
 	 * @return  string  The segment with founded id
 	 *
 	 * @since   3.7
-	*/
+	 */
 	protected function fixSegment($segment)
 	{
 		$db = JFactory::getDbo();

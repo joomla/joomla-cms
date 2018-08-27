@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -195,7 +195,7 @@ class JEventDispatcher extends JObject
 			// Make sure we haven't already attached this array as an observer
 			foreach ($this->_observers as $check)
 			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				if (is_array($check) && $check['event'] === $observer['event'] && $check['handler'] === $observer['handler'])
 				{
 					return;
 				}

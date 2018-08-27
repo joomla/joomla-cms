@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,9 +114,6 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('category.id', $pk);
 
-		$value = $app->input->get('filter_tag', 0, 'uint');
-		$this->setState('filter.tag', $value);
-
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
 		$menuParams = new Registry;
@@ -160,6 +157,9 @@ class ContentModelCategory extends JModelList
 		}
 
 		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+
+		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
+		$this->setState('filter.tag', $value);
 
 		// Optional filter text
 		$search = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
@@ -339,7 +339,7 @@ class ContentModelCategory extends JModelList
 	{
 		if (!is_object($this->_item))
 		{
-			if (isset( $this->state->params))
+			if (isset($this->state->params))
 			{
 				$params = $this->state->params;
 				$options = array();
@@ -454,7 +454,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (count($this->_children))
+		if ($this->_children)
 		{
 			$params = $this->getState()->get('params');
 

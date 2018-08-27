@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -326,6 +326,22 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 		$this->assertThat(
 			$this->class->serialize(),
 			$this->equalTo('a:3:{i:0;s:7:"options";i:1;s:4:"data";i:2;a:1:{s:7:"request";s:4:"keep";}}')
+		);
+	}
+
+	/**
+	 * Test the JInput::get method disallows access to non-whitelisted globals.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetDoesNotSupportNonWhitelistedGlobals()
+	{
+		$this->assertThat(
+			$this->class->_phpunit_configuration_file,
+			$this->isNull(),
+			'Access to library defined globals is restricted'
 		);
 	}
 

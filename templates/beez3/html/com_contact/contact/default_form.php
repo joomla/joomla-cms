@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,35 +38,35 @@ if (isset($this->error)) : ?>
 				<div class="control-label"><?php echo $this->form->getLabel('contact_message'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('contact_message'); ?></div>
 			</div>
-				<?php 	if ($this->params->get('show_email_copy')){ ?>
+				<?php if ($this->params->get('show_email_copy', 0)){ ?>
 					<div class="control-group">
 						<div class="control-label"><?php echo $this->form->getLabel('contact_email_copy'); ?></div>
 						<div class="controls"><?php echo $this->form->getInput('contact_email_copy'); ?></div>
 					</div>
-				<?php 	} ?>
+				<?php } ?>
 			<?php //Dynamically load any additional fields from plugins. ?>
-			     <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
-			          <?php if ($fieldset->name !== 'contact'):?>
-			               <?php $fields = $this->form->getFieldset($fieldset->name);?>
-			               <?php foreach ($fields as $field) : ?>
-			               	<div class="control-group">
-			                    <?php if ($field->hidden) : ?>
-			                    	<div class="controls">
-			                         <?php echo $field->input;?>
-			                        </div>
-			                    <?php else:?>
-			                         <div class="control-label">
-			                            <?php echo $field->label; ?>
-			                            <?php if (!$field->required && $field->type !== 'Spacer') : ?>
-			                               <span class="optional"><?php echo JText::_('COM_CONTACT_OPTIONAL');?></span>
-			                            <?php endif; ?>
-			                         </div>
-			                         <div class="controls"><?php echo $field->input;?></div>
-			                    <?php endif;?>
-			                   </div>
-			               <?php endforeach;?>
-			          <?php endif ?>
-			     <?php endforeach;?>
+				<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
+					<?php if ($fieldset->name !== 'contact'):?>
+						<?php $fields = $this->form->getFieldset($fieldset->name);?>
+						<?php foreach ($fields as $field) : ?>
+							<div class="control-group">
+								<?php if ($field->hidden) : ?>
+									<div class="controls">
+									 <?php echo $field->input;?>
+									</div>
+								<?php else:?>
+									<div class="control-label">
+										<?php echo $field->label; ?>
+										<?php if (!$field->required && $field->type !== 'Spacer') : ?>
+											<span class="optional"><?php echo JText::_('COM_CONTACT_OPTIONAL');?></span>
+										<?php endif; ?>
+									</div>
+									<div class="controls"><?php echo $field->input;?></div>
+								<?php endif;?>
+							</div>
+						<?php endforeach;?>
+					<?php endif ?>
+				<?php endforeach;?>
 				<div class="form-actions"><button class="btn btn-primary validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
 					<input type="hidden" name="option" value="com_contact" />
 					<input type="hidden" name="task" value="contact.submit" />

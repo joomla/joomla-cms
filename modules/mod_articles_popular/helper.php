@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +79,7 @@ abstract class ModArticlesPopularHelper
 		{
 			$item->slug = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

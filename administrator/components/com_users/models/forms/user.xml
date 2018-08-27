@@ -96,7 +96,7 @@
 
 		<field
 			name="resetCount"
-			type="text"
+			type="number"
 			label="COM_USERS_USER_FIELD_RESETCOUNT_LABEL"
 			description="COM_USERS_USER_FIELD_RESETCOUNT_DESC"
 			class="readonly"
@@ -142,7 +142,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			class="readonly"
@@ -165,6 +165,7 @@
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				client="administrator"
+				filter="uint"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

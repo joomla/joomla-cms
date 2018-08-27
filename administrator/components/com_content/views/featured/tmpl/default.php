@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
+JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
@@ -184,11 +188,22 @@ if ($saveOrder)
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php if ($item->created_by_alias) : ?>
-									<?php echo $this->escape($item->author_name); ?>
-									<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+								<?php if ((int) $item->created_by != 0) : ?>
+									<?php if ($item->created_by_alias) : ?>
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+										<?php echo $this->escape($item->author_name); ?></a>
+										<div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+									<?php else : ?>
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+										<?php echo $this->escape($item->author_name); ?></a>
+									<?php endif; ?>
 								<?php else : ?>
-									<?php echo $this->escape($item->author_name); ?>
+									<?php if ($item->created_by_alias) : ?>
+										<?php echo JText::_('JNONE'); ?>
+										<div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+									<?php else : ?>
+										<?php echo JText::_('JNONE'); ?>
+									<?php endif; ?>
 								<?php endif; ?>
 							</td>
 							<td class="small hidden-phone">
