@@ -9,6 +9,7 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
@@ -17,7 +18,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LanguageErrorsCollector extends AbstractDataCollector
+class LanguageErrorsCollector extends AbstractDataCollector implements AssetProvider
 {
 	/**
 	 * Collector name.
@@ -26,6 +27,14 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	 * @since __DEPLOY_VERSION__
 	 */
 	private $name = 'languageErrors';
+
+	/**
+	 * The count.
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $count = 0;
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
@@ -37,7 +46,11 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	public function collect(): array
 	{
 		return [
-			'data'  => $this->getData(),
+			'data'  => [
+				'files' => $this->getData(),
+				'jroot' => JPATH_ROOT,
+				'xdebugLink' => $this->getXdebugLinkTemplate(),
+			],
 			'count' => $this->getCount(),
 		];
 	}
@@ -67,7 +80,7 @@ class LanguageErrorsCollector extends AbstractDataCollector
 		return [
 			'errors'       => [
 				'icon' => 'warning',
-				'widget'  => 'PhpDebugBar.Widgets.KVListWidget',
+				'widget'  => 'PhpDebugBar.Widgets.languageErrorsWidget',
 				'map'     => $this->name . '.data',
 				'default' => '',
 			],
@@ -76,6 +89,28 @@ class LanguageErrorsCollector extends AbstractDataCollector
 				'default' => 'null',
 			],
 		];
+	}
+
+	/**
+	 * Returns an array with the following keys:
+	 *  - base_path
+	 *  - base_url
+	 *  - css: an array of filenames
+	 *  - js: an array of filenames
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 * @return array
+	 */
+	public function getAssets()
+	{
+//		return array(
+//			'js' => \JUri::root(true) . '/build/media/plg_system_debug/widgets/languageErrors/widget.js',
+//			'css' => \JUri::root(true) . '/build/media/plg_system_debug/widgets/languageErrors/widget.css',
+//		);
+		return array(
+			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.css',
+		);
 	}
 
 	/**
@@ -92,11 +127,13 @@ class LanguageErrorsCollector extends AbstractDataCollector
 
 		if (\count($errorFiles))
 		{
-			$count = 1;
-			foreach ($errorFiles as $error)
+			foreach ($errorFiles as $file => $lines)
 			{
-				$errors[$count] = $error;
-				$count++;
+				foreach ($lines as $line)
+				{
+					$errors[] = [$file, $line];
+					$this->count++;
+				}
 			}
 		}
 
@@ -112,6 +149,6 @@ class LanguageErrorsCollector extends AbstractDataCollector
 	 */
 	private function getCount(): int
 	{
-		return \count(Factory::getLanguage()->getErrorFiles());
+		return $this->count;
 	}
 }
