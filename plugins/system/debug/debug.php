@@ -1445,11 +1445,11 @@ class PlgSystemDebug extends CMSPlugin
 
 					if ($this->sqlShowProfiles)
 					{
-						foreach ($this->sqlShowProfiles as $qn)
+						foreach ($this->sqlShowProfiles as $quoteName)
 						{
 							// Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
-							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $qn['Query_ID']);
-							$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
+							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $quoteName['Query_ID']);
+							$this->sqlShowProfileEach[(int) ($quoteName['Query_ID'] - 1)] = $db->loadAssocList();
 						}
 					}
 				}
