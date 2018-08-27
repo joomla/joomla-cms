@@ -153,13 +153,13 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								</td>
 								<td class="d-none d-lg-table-cell text-center">
 									<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
-										<?php echo HTMLHelper::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
+										<?php echo HTMLHelper::_('date', $item->lastvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
 									<?php else : ?>
 										<?php echo Text::_('JNEVER'); ?>
 									<?php endif; ?>
 								</td>
 								<td class="d-none d-lg-table-cell text-center">
-									<?php echo HTMLHelper::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
+									<?php echo HTMLHelper::_('date', $item->registerDate, Text::_('DATE_FORMAT_LC6')); ?>
 								</td>
 								<td class="d-none d-md-table-cell text-center">
 									<?php echo (int) $item->id; ?>
