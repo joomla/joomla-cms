@@ -1768,7 +1768,7 @@ abstract class JDatabaseQuery
 	 * Note: Not all drivers support all units.
 	 *
 	 * @param   string  $date      The db quoted string representation of the date to add to. May be date or datetime.
-	 * @param   string  $interval  The db quoted string representation of the appropriate number of units
+	 * @param   string  $interval  The string representation of the appropriate number of units
 	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
