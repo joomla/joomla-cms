@@ -1778,7 +1778,7 @@ abstract class JDatabaseQuery
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return "DATE_ADD(" . $date . ", INTERVAL " . $interval . ' ' . $datePart . ')';
+		return 'DATE_ADD(' . $date . ', INTERVAL ' . $interval . ' ' . $datePart . ')';
 	}
 
 	/**
