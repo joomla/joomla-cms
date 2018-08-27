@@ -72,5 +72,10 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_postinstall', 550, 875);
 			ToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
 		}
+
+		if (!empty($this->items))
+		{
+			ToolbarHelper::custom('hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
+		}
 	}
 }

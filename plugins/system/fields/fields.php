@@ -382,7 +382,7 @@ class PlgSystemFields extends CMSPlugin
 			$params = new Registry($params);
 		}
 
-		$fields = FieldsHelper::getFields($context, $item, true);
+		$fields = FieldsHelper::getFields($context, $item, $displayType);
 
 		if ($fields)
 		{
@@ -447,6 +447,12 @@ class PlgSystemFields extends CMSPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
+		// Check property exists (avoid costly & useless recreation), if need to recreate them, just unset the property!
+		if (isset($item->jcfields))
+		{
+			return;
+		}
+
 		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
@@ -465,6 +471,8 @@ class PlgSystemFields extends CMSPlugin
 			$item = $this->prepareTagItem($item);
 		}
 
+		// Get item's fields, also preparing their value property for manual display
+		// (calling plugins events and loading layouts to get their HTML display)
 		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object
