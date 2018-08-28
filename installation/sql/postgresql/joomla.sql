@@ -865,7 +865,7 @@ CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_te
 CREATE TABLE IF NOT EXISTS "#__finder_logging" (
   "searchterm" character varying(255) NOT NULL DEFAULT '',
   "md5sum" character varying(32) NOT NULL DEFAULT '',
-  "query" bytes NOT NULL,
+  "query" bytea NOT NULL,
   "hits" integer NOT NULL DEFAULT 1,
   "results" integer NOT NULL DEFAULT 0,
   PRIMARY KEY ("md5sum")
