@@ -2309,6 +2309,8 @@ class JoomlaInstallerScript
 			'com_postinstall',
 			'com_fields',
 			'com_associations',
+			'com_privacy',
+			'com_actionlogs',
 		);
 
 		foreach ($newComponents as $component)
