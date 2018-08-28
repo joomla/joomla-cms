@@ -15,14 +15,6 @@ use Joomla\CMS\Language\Text;
 /**
  * Renders a standard button
  *
- * @method self listCheck(bool $value)
- * @method self listCheckMessage(string $value)
- * @method self form(string $value)
- * @method self formValidation(bool $value)
- * @method bool getListCheck()
- * @method bool getListCheckMessage()
- * @method bool getFormValidation()
- *
  * @since  3.0
  */
 class StandardButton extends BasicButton
@@ -148,25 +140,5 @@ class StandardButton extends BasicButton
 		}
 
 		return $cmd;
-	}
-
-	/**
-	 * Method to configure available option accessors.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected static function getAccessors(): array
-	{
-		return array_merge(
-			parent::getAccessors(),
-			[
-				'listCheck',
-				'listCheckMessage',
-				'form',
-				'formValidation'
-			]
-		);
 	}
 }
