@@ -350,20 +350,30 @@ class WorkflowModel extends AdminModel
 
 		$date = Factory::getDate()->toSql();
 
-		// Default workflow item existence checks.
+		// Default workflow item check.
 		foreach ($pks as $i => $pk)
 		{
-			if ($value != 1 && $table->default)
+			if ($table->load($pk) && $value != 1 && $table->default)
 			{
-				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
+				// Prune items that you can't change.
+				Factory::getApplication()->enqueueMessage(Text::_('COM_WORKFLOW_UNPUBLISH_DEFAULT_ERROR'), 'error');
 				unset($pks[$i]);
 				break;
 			}
-
-			$table->load($pk);
-			$table->modified = $date;
-			$table->store();
 		}
+
+		// Clean the cache.
+		$this->cleanCache();
+
+		// Ensure that previous checks don't empty the array.
+		if (empty($pks))
+		{
+			return true;
+		}
+
+		$table->load($pk);
+		$table->modified = $date;
+		$table->store();
 
 		return parent::publish($pks, $value);
 	}
