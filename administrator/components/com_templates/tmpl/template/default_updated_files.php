@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Factory;
 
 $input = Factory::getApplication()->input;
 ?>
@@ -24,22 +24,22 @@ $input = Factory::getApplication()->input;
 				<table class="table">
 					<thead>
 						<tr>
-							<th style="width:5%" class="nowrap text-center">
+							<td style="width:5%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</th>
-							<th style="width:7%" class="nowrap">
+							</td>
+							<th scope="col" style="width:7%" class="nowrap">
 								<?php echo Text::_('JSTATUS'); ?>
 							</th>
-							<th style="width:30%">
+							<th scope="col" style="width:30%">
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
 							</th>
-							<th>
+							<th scope="col">
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CREATED_DATE'); ?>
 							</th>
-							<th>
+							<th scope="col">
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_MODIFIED_DATE'); ?>
 							</th>
-							<th>
+							<th scope="col">
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_ACTION'); ?>
 							</th>
 						</tr>

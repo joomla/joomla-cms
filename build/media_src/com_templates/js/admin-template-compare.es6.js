@@ -22,6 +22,7 @@
         '&#8221;': '”',
       };
 
+      /* eslint-disable */
       return text.replace(/\&[\w\d\#]{2,5}\;/g, (m) => { const n = map[m]; return n; });
     };
 
@@ -31,6 +32,8 @@
       let pre = null;
       const diff = JsDiff.diffLines(original.innerHTML, changed.innerHTML);
       const fragment = document.createDocumentFragment();
+
+      /* eslint-enable */
 
       diff.forEach((part) => {
         if (part.added) {

@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
@@ -98,7 +98,7 @@ class TemplatesModel extends ListModel
 			->select('a.template')
 			->from($db->quoteName('#__template_overrides', 'a'))
 			->where('extension_id = ' . $db->quote($exid))
-			->where('state = ' . 0);
+			->where('state = 0');
 
 		// Reset the query.
 		$db->setQuery($query);

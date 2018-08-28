@@ -11,16 +11,16 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\Component\Installer\Administrator\Model\InstallModel;
-use Joomla\CMS\Client\ClientHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template style controller class.
@@ -803,7 +803,7 @@ class TemplateController extends BaseController
 	}
 
 	/**
-	 * Fetch and report updates in \JSON format, for A\JAX requests
+	 * Fetch and report updates in \JSON format, for AJAX requests
 	 *
 	 * @return void
 	 *
@@ -830,9 +830,6 @@ class TemplateController extends BaseController
 
 			$app->close();
 		}
-
-		// Created only for test.
-		$session = Factory::getSession();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
