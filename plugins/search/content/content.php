@@ -55,7 +55,7 @@ class PlgSearchContent extends CMSPlugin
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db         = Factory::getDbo();
-		$serverType = $db->serverType;
+		$serverType = $db->getServerType();
 		$app        = Factory::getApplication();
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());

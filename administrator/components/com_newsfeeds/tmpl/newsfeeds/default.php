@@ -32,7 +32,7 @@ $assoc     = Associations::isEnabled();
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>

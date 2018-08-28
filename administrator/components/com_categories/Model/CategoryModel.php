@@ -387,8 +387,6 @@ class CategoryModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang = Factory::getLanguage();
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');

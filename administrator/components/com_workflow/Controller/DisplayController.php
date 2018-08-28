@@ -31,7 +31,7 @@ class DisplayController extends BaseController
 	protected $default_view = 'workflows';
 
 	/**
-	 * The extension for which the categories apply.
+	 * The extension for which the workflow apply.
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__

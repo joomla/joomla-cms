@@ -17,8 +17,6 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.path');
 /**
  * Menu Item Types Model for Menus.
  *
@@ -80,8 +78,6 @@ class MenutypesModel extends BaseDatabaseModel
 	 */
 	public function getTypeOptions()
 	{
-		jimport('joomla.filesystem.file');
-
 		$lang = Factory::getLanguage();
 		$list = array();
 

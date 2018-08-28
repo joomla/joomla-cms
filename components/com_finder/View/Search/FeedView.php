@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Search feed view class for the Finder package.
@@ -89,7 +90,9 @@ class FeedView extends BaseHtmlView
 			$item->title       = $result->title;
 			$item->link        = \JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date        = date('r', strtotime($result->start_date));
+
+			// Use Unix date to cope for non-english languages
+			$item->date        = (int) $result->start_date ? HTMLHelper::_('date', $result->start_date, 'U') : $result->indexdate;
 
 			// Loads item info into RSS array
 			$this->document->addItem($item);
