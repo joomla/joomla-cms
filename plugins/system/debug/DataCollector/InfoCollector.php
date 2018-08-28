@@ -121,7 +121,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 		// @todo autoloadability ??
 		\JLoader::register(SysInfoModel::class, JPATH_ADMINISTRATOR . '/components/com_admin/Model/SysinfoModel.php');
 
-		$model = new SysInfoModel();
+		$model = new SysInfoModel;
 
 		return [
 			'phpVersion' => PHP_VERSION,
@@ -192,6 +192,15 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 		];
 	}
 
+	/**
+	 * Get database info.
+	 *
+	 * @param   array  $info  General information.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @return array
+	 */
 	private function getDatabaseInfo(array $info)
 	{
 		return [
