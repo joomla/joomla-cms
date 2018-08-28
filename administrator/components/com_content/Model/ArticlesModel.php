@@ -226,7 +226,8 @@ class ArticlesModel extends ListModel
 
 		// Join over the associations.
 		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
-			->innerJoin($query->quoteName('#__workflow_associations', 'wa') 
+			->innerJoin(
+				$query->quoteName('#__workflow_associations', 'wa') 
 				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
 			);
 
@@ -245,7 +246,8 @@ class ArticlesModel extends ListModel
 				]
 			)
 		)
-		->innerJoin($query->quoteName('#__workflow_stages', 'ws')
+		->innerJoin(
+			$query->quoteName('#__workflow_stages', 'ws')
 			. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
 		);
 
