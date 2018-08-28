@@ -2042,7 +2042,7 @@ CREATE INDEX "#__workflow_transitions_idx_from_stage_id" ON "#__workflow_transit
 CREATE INDEX "#__workflow_transitions_idx_to_stage_id" ON "#__workflow_transitions" ("to_stage_id");
 CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitions" ("workflow_id");
 
-INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_state_id", "to_state_id") VALUES
+INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id") VALUES
 (1, 0, 1, 1, 1, 'Unpublish', '', -1, 1),
 (2, 0, 1, 2, 1, 'Publish', '', -1, 2),
 (3, 0, 1, 3, 1, 'Trash', '', -1, 3),
