@@ -14,6 +14,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
+use Joomla\Component\Admin\Administrator\Model\SysInfoModel;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 use Psr\Http\Message\ResponseInterface;
@@ -117,6 +118,11 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 		/* @type SiteApplication|AdministratorApplication $application */
 		$application = Factory::getApplication();
 
+		// @todo autoloadability ??
+		\JLoader::register(SysInfoModel::class, JPATH_ADMINISTRATOR . '/components/com_admin/Model/SysinfoModel.php');
+
+		$model = new SysInfoModel();
+
 		return [
 			'phpVersion' => PHP_VERSION,
 			'joomlaVersion' => JVERSION,
@@ -124,6 +130,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 			'identity' => $this->getIdentityInfo($application->getIdentity()),
 			'response' => $this->getResponseInfo($application->getResponse()),
 			'template' => $this->getTemplateInfo($application->getTemplate(true)),
+			'database' => $this->getDatabaseInfo($model->getInfo()),
 		];
 	}
 
@@ -182,6 +189,16 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 			'template' => $template->template ?? '',
 			'home' => $template->home ?? '',
 			'id' => $template->id ?? '',
+		];
+	}
+
+	private function getDatabaseInfo(array $info)
+	{
+		return [
+			'dbserver' => $info['dbserver'] ?? '',
+			'dbversion' => $info['dbversion'] ?? '',
+			'dbcollation' => $info['dbcollation'] ?? '',
+			'dbconnectioncollation' => $info['dbconnectioncollation'] ?? '',
 		];
 	}
 }
