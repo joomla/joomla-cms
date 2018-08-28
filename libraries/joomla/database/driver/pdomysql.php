@@ -381,20 +381,6 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Get the version of the database connector.
-	 *
-	 * @return  string  The database connector version.
-	 *
-	 * @since   3.4
-	 */
-	public function getVersion()
-	{
-		$this->connect();
-
-		return $this->getOption(PDO::ATTR_SERVER_VERSION);
-	}
-
-	/**
 	 * Locks a table in the database.
 	 *
 	 * @param   string  $table  The name of the table to unlock.
@@ -456,12 +442,18 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function escape($text, $extra = false)
 	{
-		$this->connect();
-
-		if (is_int($text) || is_float($text))
+		if (is_int($text))
 		{
 			return $text;
 		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
+		$this->connect();
 
 		$result = substr($this->connection->quote($text), 1, -1);
 

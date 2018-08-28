@@ -13,11 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\String\StringHelper;
 
 /**
- * Allows for quoting in language .ini files.
- */
-define('_QQ_', '"');
-
-/**
  * Languages/translation handler class
  *
  * @since  11.1
@@ -197,19 +192,7 @@ class Language
 		$this->metadata = LanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
-		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
-
-		if (file_exists($filename) && $contents = $this->parse($filename))
-		{
-			if (is_array($contents))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($contents, SORT_STRING);
-				$this->override = $contents;
-			}
-
-			unset($contents);
-		}
+		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
@@ -771,7 +754,7 @@ class Language
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string  $filename   The name of the file.
+	 * @param   string  $fileName   The name of the file.
 	 * @param   string  $extension  The name of the extension.
 	 *
 	 * @return  boolean  True if new strings have been added to the language
@@ -779,19 +762,14 @@ class Language
 	 * @see     Language::load()
 	 * @since   11.1
 	 */
-	protected function loadLanguage($filename, $extension = 'unknown')
+	protected function loadLanguage($fileName, $extension = 'unknown')
 	{
 		$this->counter++;
 
-		$result = false;
-		$strings = false;
+		$result  = false;
+		$strings = $this->parse($fileName);
 
-		if (file_exists($filename))
-		{
-			$strings = $this->parse($filename);
-		}
-
-		if (is_array($strings) && count($strings))
+		if ($strings !== array())
 		{
 			$this->strings = array_replace($this->strings, $strings, $this->override);
 			$result = true;
@@ -803,7 +781,7 @@ class Language
 			$this->paths[$extension] = array();
 		}
 
-		$this->paths[$extension][$filename] = $result;
+		$this->paths[$extension][$fileName] = $result;
 
 		return $result;
 	}
@@ -811,51 +789,20 @@ class Language
 	/**
 	 * Parses a language file.
 	 *
-	 * @param   string  $filename  The name of the file.
+	 * @param   string  $fileName  The name of the file.
 	 *
 	 * @return  array  The array of parsed strings.
 	 *
 	 * @since   11.1
 	 */
-	protected function parse($filename)
+	protected function parse($fileName)
 	{
-		// Capture hidden PHP errors from the parsing.
-		if ($this->debug)
+		$strings = \JLanguageHelper::parseIniFile($fileName, $this->debug);
+
+		// Debug the ini file if needed.
+		if ($this->debug === true && file_exists($fileName))
 		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
-			$php_errormsg = null;
-
-			$trackErrors = ini_get('track_errors');
-			ini_set('track_errors', true);
-		}
-
-		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
-		// issue it is solving
-		$disabledFunctions = explode(',', ini_get('disable_functions'));
-		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
-
-		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
-		{
-			$contents = file_get_contents($filename);
-			$contents = str_replace('_QQ_', '"\""', $contents);
-			$strings = @parse_ini_string($contents);
-		}
-		else
-		{
-			$strings = @parse_ini_file($filename);
-		}
-
-		if (!is_array($strings))
-		{
-			$strings = array();
-		}
-
-		// Restore error tracking to what it was before.
-		if ($this->debug)
-		{
-			ini_set('track_errors', $trackErrors);
-
-			$this->debugFile($filename);
+			$this->debugFile($fileName);
 		}
 
 		return $strings;

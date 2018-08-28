@@ -104,9 +104,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @Deprecated 4.0 Use native HTML figure tags.
 	 */
 	public static function caption($selector = 'img.caption')
 	{
+		JLog::add('JHtmlBehavior::caption is deprecated. Use native HTML figure tags.', JLog::WARNING, 'deprecated');
+
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{

@@ -4709,7 +4709,6 @@ a.badge:focus {
 	.input-prepend input[class*="span"],
 	.input-append input[class*="span"] {
 		display: inline-block;
-		width: auto;
 	}
 	.controls-row [class*="span"] + [class*="span"] {
 		margin-left: 0;
@@ -7538,7 +7537,9 @@ textarea.noResize {
 		margin-bottom: 10px;
 	}
 }
-.subform-table-layout .control-group,
+.subform-table-layout .control-group {
+	margin-bottom: 10px;
+}
 .subform-table-layout .control-group:last-of-type {
 	margin-bottom: 0;
 }
@@ -9027,6 +9028,12 @@ input:focus,
 .hero-unit,
 .hero-unit .lead {
 	font-weight: 400;
+}
+@media (min-width: 1200px) {
+	#permissions .tab-content {
+		position: sticky;
+		top: 90px;
+	}
 }
 .com_cpanel .well {
 	padding: 8px 14px;

@@ -85,9 +85,6 @@ class UsersViewProfile extends JViewLegacy
 			return false;
 		}
 
-		$this->data->tags = new JHelperTags;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
-
 		JPluginHelper::importPlugin('content');
 		$this->data->text = '';
 		JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));

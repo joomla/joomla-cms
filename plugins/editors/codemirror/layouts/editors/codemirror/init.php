@@ -51,9 +51,9 @@ JFactory::getDocument()->addScriptDeclaration(
 
 				cm.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
-				if (mode)
+				if (mode && mode.mime)
 				{
-					editor.setOption('mode', mode.mode);
+					editor.setOption('mode', mode.mime);
 				}
 
 				// Handle gutter clicks (place or remove a marker).

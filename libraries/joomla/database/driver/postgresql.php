@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver
 {
@@ -167,6 +168,17 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
 		$this->connect();
 
 		$result = pg_escape_string($this->connection, $text);
@@ -307,12 +319,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		if ($new)
 		{
-			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryPostgresql'))
-			{
-				throw new JDatabaseExceptionUnsupported('JDatabaseQueryPostgresql Class not found.');
-			}
-
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
 
 			return $this->queryObject;

@@ -4709,7 +4709,6 @@ a.badge:focus {
 	.input-prepend input[class*="span"],
 	.input-append input[class*="span"] {
 		display: inline-block;
-		width: auto;
 	}
 	.controls-row [class*="span"] + [class*="span"] {
 		margin-left: 0;
@@ -7538,7 +7537,9 @@ textarea.noResize {
 		margin-bottom: 10px;
 	}
 }
-.subform-table-layout .control-group,
+.subform-table-layout .control-group {
+	margin-bottom: 10px;
+}
 .subform-table-layout .control-group:last-of-type {
 	margin-bottom: 0;
 }
@@ -9028,6 +9029,12 @@ input:focus,
 .hero-unit .lead {
 	font-weight: 400;
 }
+@media (min-width: 1200px) {
+	#permissions .tab-content {
+		position: sticky;
+		top: 90px;
+	}
+}
 .com_cpanel .well {
 	padding: 8px 14px;
 	border: 1px solid rgba(0,0,0,0.05);
@@ -9349,22 +9356,6 @@ body {
 }
 .pager .previous a {
 	float: right;
-}
-.btn-group > .btn:first-child,
-.radio.btn-group > label:first-of-type {
-	margin-left: 0;
-	-webkit-border-bottom-left-radius: 0px;
-	border-bottom-left-radius: 0px;
-	-webkit-border-top-left-radius: 0px;
-	border-top-left-radius: 0px;
-	-moz-border-radius-bottomleft: 0px;
-	-moz-border-radius-topleft: 0px;
-	-webkit-border-bottom-right-radius: 4px;
-	border-bottom-right-radius: 4px;
-	-webkit-border-top-right-radius: 4px;
-	border-top-right-radius: 4px;
-	-moz-border-radius-bottomright: 4px;
-	-moz-border-radius-topright: 4px;
 }
 .icon-arrow-right {
 	background-position: -241px -94px;
