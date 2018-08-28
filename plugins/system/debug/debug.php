@@ -198,12 +198,6 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			$this->app->getDocument()->setMediaVersion(null);
 		}
-
-		// Only if debugging is enabled for SQL query popovers.
-		if (JDEBUG && $this->isAuthorisedDisplayDebug())
-		{
-			HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
-		}
 	}
 
 	/**
