@@ -33,7 +33,7 @@ class ConfigControllerCmsbase extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Check for request forgeries.
+		// Check for request forgeries
 		if (!JSession::checkToken())
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'));
