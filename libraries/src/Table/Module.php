@@ -11,6 +11,7 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -137,6 +138,17 @@ class Module extends Table
 			return false;
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
@@ -179,6 +191,93 @@ class Module extends Table
 	}
 
 	/**
+	 * Method to check a row in if the necessary properties/fields exist.
+	 *
+	 * Checking a row in will allow other users the ability to edit the row.
+	 *
+	 * Overload checkIn method in order to set column checked_out_time to NULL.
+	 *
+	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLY_VERSION__
+	 * @throws  \UnexpectedValueException
+	 */
+	public function checkIn($pk = null)
+	{
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeCheckin',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeCheckin', $event);
+
+		$checkedOutField = $this->getColumnAlias('checked_out');
+		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
+
+		// If there is no checked_out or checked_out_time field, just return true.
+		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
+		{
+			return true;
+		}
+
+		if (is_null($pk))
+		{
+			$pk = array();
+
+			foreach ($this->_tbl_keys as $key)
+			{
+				$pk[$this->$key] = $this->$key;
+			}
+		}
+		elseif (!is_array($pk))
+		{
+			$pk = array($this->_tbl_key => $pk);
+		}
+
+		foreach ($this->_tbl_keys as $key)
+		{
+			$pk[$key] = empty($pk[$key]) ? $this->$key : $pk[$key];
+
+			if ($pk[$key] === null)
+			{
+				throw new \UnexpectedValueException('Null primary key not allowed.');
+			}
+		}
+
+		// Check the row in by primary key.
+		$query = $this->_db->getQuery(true)
+			->update($this->_tbl)
+			->set($this->_db->quoteName($checkedOutField) . ' = 0')
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = NULL');
+		$this->appendPrimaryKeys($query, $pk);
+		$this->_db->setQuery($query);
+
+		// Check for a database error.
+		$this->_db->execute();
+
+		// Set table values in the object.
+		$this->$checkedOutField      = 0;
+		$this->$checkedOutTimeField = null;
+
+		// Post-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterCheckin',
+			[
+				'subject'	=> $this,
+				'pk'		=> $pk,
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
+
+		return true;
+	}
+
+	/**
 	 * Stores a module.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -187,23 +286,11 @@ class Module extends Table
 	 *
 	 * @since   3.7.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
-		// Set publish_up, publish_down and checked_out_time to null date if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = $this->_db->getNullDate();
-		}
-
-		if (!$this->publish_down)
-		{
-			$this->publish_down = $this->_db->getNullDate();
-		}
-
 		if (!$this->ordering)
 		{
-			$query = $this->_db->getQuery(true);
-			$this->ordering = $this->getNextOrder($query->quoteName('position') . ' = ' . $query->quote($this->position));
+			$this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
 		}
 
 		return parent::store($updateNulls);
