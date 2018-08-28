@@ -115,9 +115,9 @@ if ($this->type == 'font')
 				<div class="col-md-12" id="override-pane">
 					<?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
 					<?php if ($overrideCheck['1'] === 'html') : ?>
-						<h2><?php echo JText::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
 					<?php endif; ?>
-					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+					<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 						<div class="editor-border">
 							<?php echo $this->form->getInput('source'); ?>
 						</div>
