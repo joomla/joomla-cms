@@ -2066,6 +2066,15 @@ class Form
 
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$disabled = ((string) $element['disabled'] == 'true' || (string) $element['disabled'] == 'disabled');
+
+		$fieldExistsInRequestData = $input->exists((string) $element['name']) || $input->exists($group . '.' . (string) $element['name']);
+
+		// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
+		if ($disabled && $fieldExistsInRequestData)
+		{
+			return new \RuntimeException(\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $element['name']));
+		}
 
 		if ($required)
 		{
