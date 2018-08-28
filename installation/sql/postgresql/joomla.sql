@@ -479,7 +479,7 @@ CREATE TABLE IF NOT EXISTS "#__core_log_searches" (
 --
 
 CREATE TABLE IF NOT EXISTS "#__csp" (
-  "id" int(11) NOT NULL AUTO_INCREMENT,
+  "id" serial NOT NULL,
   "document_uri" varchar(500) NOT NULL DEFAULT '',
   "blocked_uri" varchar(500) NOT NULL DEFAULT '',
   "directive" varchar(500) NOT NULL DEFAULT '',
@@ -556,8 +556,8 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
-(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Workflow'),
-(36, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Csp'),
+(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, 'Joomla\\Component\\Workflow'),
+(36, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, 'Joomla\\Component\\Csp'),
 (102, 0, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (106, 0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -686,7 +686,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (486, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (487, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (488, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
-(489, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(489, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (490, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0, ''),
 (492, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -867,7 +867,7 @@ CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_te
 CREATE TABLE IF NOT EXISTS "#__finder_logging" (
   "searchterm" character varying(255) NOT NULL DEFAULT '',
   "md5sum" character varying(32) NOT NULL DEFAULT '',
-  "query" bytes NOT NULL,
+  "query" bytea NOT NULL,
   "hits" integer NOT NULL DEFAULT 1,
   "results" integer NOT NULL DEFAULT 0,
   PRIMARY KEY ("md5sum")
@@ -1968,7 +1968,7 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
-  "title" varchar(255) DEFAULT '' NOT NULL,,
+  "title" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
   "extension" varchar(50) NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
@@ -1992,21 +1992,24 @@ CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
 (1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
 
-SELECT setval('#__workflow_id_seq', 2, false);
+SELECT setval('#__workflows_id_seq', 2, false);
 
 --
 -- Table structure for table "#__workflow_associations"
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
-  "item_id" bigint DEFAULT 0 NOT NULL COMMENT 'Extension table id value',
-  "stage_id" bigint DEFAULT 0 NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
+  "item_id" bigint DEFAULT 0 NOT NULL,
+  "stage_id" bigint DEFAULT 0 NOT NULL,
   "extension" varchar(50) NOT NULL,
   PRIMARY KEY ("item_id", "stage_id", "extension")
 );
 CREATE INDEX "#__workflow_associations_idx_item_id" ON "#__workflow_associations" ("item_id");
 CREATE INDEX "#__workflow_associations_idx_stage_id" ON "#__workflow_associations" ("stage_id");
 CREATE INDEX "#__workflow_associations_idx_extension" ON "#__workflow_associations" ("extension");
+
+COMMENT ON COLUMN "#__workflow_associations"."item_id" IS 'Extension table id value';
+COMMENT ON COLUMN "#__workflow_associations"."stage_id" IS 'Foreign Key to #__workflow_stages.id';
 
 --
 -- Table structure for table "#__workflow_stages"
@@ -2063,7 +2066,7 @@ CREATE INDEX "#__workflow_transitions_idx_from_stage_id" ON "#__workflow_transit
 CREATE INDEX "#__workflow_transitions_idx_to_stage_id" ON "#__workflow_transitions" ("to_stage_id");
 CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitions" ("workflow_id");
 
-INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_state_id", "to_state_id") VALUES
+INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id") VALUES
 (1, 0, 1, 1, 1, 'Unpublish', '', -1, 1),
 (2, 0, 1, 2, 1, 'Publish', '', -1, 2),
 (3, 0, 1, 3, 1, 'Trash', '', -1, 3),
