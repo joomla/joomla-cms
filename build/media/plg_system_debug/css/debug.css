@@ -210,9 +210,3 @@ div#system-debug {
 {
 	color:grey;
 }
-
-/* Debug Bar */
-.phpdebugbar-badge {
-	color: white !important;
-	background-color: rgb(63, 63, 117) !important;
-}
