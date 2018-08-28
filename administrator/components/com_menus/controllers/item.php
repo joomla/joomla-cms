@@ -509,7 +509,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = JFactory::getApplication();
 

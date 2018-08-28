@@ -298,7 +298,7 @@ class AdminController extends BaseController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
