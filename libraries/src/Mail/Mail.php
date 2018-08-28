@@ -440,7 +440,8 @@ class Mail extends \PHPMailer
 	 * Add file attachment to the email
 	 *
 	 * @param   mixed   $path         Either a string or array of strings [filenames]
-	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   mixed   $name         Either a string or array of strings [names]. N.B. if this is an array it must contain the same
+	 *                                number of elements as the array of paths supplied.
 	 * @param   mixed   $encoding     The encoding of the attachment
 	 * @param   mixed   $type         The mime type
 	 * @param   string  $disposition  The disposition of the attachment

@@ -519,6 +519,24 @@ class PlgSystemLanguageFilter extends JPlugin
 	}
 
 	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			JText::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+				JText::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+			)
+		);
+	}
+
+	/**
 	 * Before store user method.
 	 *
 	 * Method is called before user data is stored in the database.
