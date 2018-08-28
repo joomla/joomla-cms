@@ -1947,7 +1947,7 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
-  "title" varchar(255) DEFAULT '' NOT NULL,,
+  "title" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
   "extension" varchar(50) NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
