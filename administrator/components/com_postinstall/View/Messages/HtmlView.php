@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!empty($this->items))
 		{
-			ToolbarHelper::custom('hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
+			ToolbarHelper::custom('message.hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
 		}
 	}
 }
