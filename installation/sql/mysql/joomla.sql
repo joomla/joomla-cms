@@ -666,6 +666,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (491, 0, 'plg_privacy_content', 'plugin', 'content', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (492, 0, 'plg_privacy_message', 'plugin', 'message', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (493, 0, 'plg_privacy_actionlogs', 'plugin', 'actionlogs', 'privacy', 0, 0, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(494, 0, 'plg_captcha_recaptcha_invisible', 'plugin', 'recaptcha_invisible', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"clean"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (503, 0, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (504, 0, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (506, 0, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -1698,6 +1699,7 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
 CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `state` INT(10) NOT NULL DEFAULT '1',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `subject` varchar(255) NOT NULL DEFAULT '',
   `body` text NOT NULL,
@@ -1748,10 +1750,10 @@ CREATE TABLE IF NOT EXISTS `#__schemas` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__session` (
-  `session_id` varchar(191) NOT NULL DEFAULT '',
+  `session_id` varbinary(192) NOT NULL,
   `client_id` tinyint(3) unsigned DEFAULT NULL,
-  `guest` tinyint(4) unsigned DEFAULT 1,
-  `time` varchar(14) DEFAULT '',
+  `guest` tinyint(3) unsigned DEFAULT 1,
+  `time` int(11) NOT NULL DEFAULT 0,
   `data` mediumtext,
   `userid` int(11) DEFAULT 0,
   `username` varchar(150) DEFAULT '',
