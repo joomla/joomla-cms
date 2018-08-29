@@ -157,7 +157,6 @@ class TagsViewTag extends JViewLegacy
 					$itemElement->core_body = $itemElement->text;
 				}
 
-
 				// Categories store the images differently so lets re-map it so the display is correct
 				if ($itemElement->type_alias === 'com_content.category')
 				{
