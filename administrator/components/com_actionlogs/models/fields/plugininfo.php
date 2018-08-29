@@ -50,7 +50,7 @@ class JFormFieldPluginInfo extends JFormField
 		{
 			JError::raiseWarning(500, $e->getMessage());
 		}
-	
+
 		$link = JHtml::_(
 			'link',
 			JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $result),
