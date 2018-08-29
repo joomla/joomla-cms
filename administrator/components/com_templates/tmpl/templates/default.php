@@ -56,7 +56,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<th style="width:10%" class="d-none d-md-table-cell text-center">
 										<?php echo Text::_('COM_TEMPLATES_OVERRIDES'); ?>
 									</th>
-								<?php endif;?>
+								<?php endif; ?>
 							</tr>
 						</thead>
 						<tbody>
