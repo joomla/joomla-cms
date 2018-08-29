@@ -110,6 +110,31 @@ class PrivacyViewConsents extends JViewLegacy
 	{
 		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CONSENTS'), 'lock');
 
+		$bar = JToolbar::getInstance('toolbar');
+
+		// Add a button to invalidate a consent
+		$bar->appendButton(
+			'Confirm',
+			'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_CONFIRM_MSG',
+			'trash',
+			'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE',
+			'consents.invalidate',
+			true
+		);
+
+		// If the filter is restricted to a specific subject, show the "Invalidate all" button
+		if ($this->state->get('filter.subject') != '')
+		{
+			$bar->appendButton(
+				'Confirm',
+				'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL_CONFIRM_MSG',
+				'cancel',
+				'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL',
+				'consents.invalidateAll',
+				false
+			);
+		}
+
 		JToolbarHelper::preferences('com_privacy');
 
 		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
