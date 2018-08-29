@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,33 +16,51 @@ namespace Joomla\Filesystem\Support;
 class StringController
 {
 	/**
+	 * Internal string references
+	 *
+	 * @var     array
+	 * @ssince  1.4.0
+	 */
+	private static $strings = array();
+
+	/**
 	 * Defines a variable as an array
 	 *
 	 * @return  array
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Use `getArray` instead.
 	 */
-	public function _getArray()
+	public static function _getArray()
 	{
-		static $strings = array();
+		return self::getArray();
+	}
 
-		return $strings;
+	/**
+	 * Defines a variable as an array
+	 *
+	 * @return  array
+	 *
+	 * @since   1.4.0
+	 */
+	public static function getArray()
+	{
+		return self::$strings;
 	}
 
 	/**
 	 * Create a reference
 	 *
 	 * @param   string  $reference  The key
-	 * @param   string  &$string    The value
+	 * @param   string  $string     The value
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 */
-	public function createRef($reference, &$string)
+	public static function createRef($reference, &$string)
 	{
-		$ref = &self::_getArray();
-		$ref[$reference] = & $string;
+		self::$strings[$reference] = & $string;
 	}
 
 	/**
@@ -50,21 +68,17 @@ class StringController
 	 *
 	 * @param   string  $reference  The key for the reference.
 	 *
-	 * @return  mixed  False if not set, reference if it it exists
+	 * @return  mixed  False if not set, reference if it exists
 	 *
 	 * @since   1.0
 	 */
-	public function getRef($reference)
+	public static function getRef($reference)
 	{
-		$ref = &self::_getArray();
+		if (isset(self::$strings[$reference]))
+		{
+			return self::$strings[$reference];
+		}
 
-		if (isset($ref[$reference]))
-		{
-			return $ref[$reference];
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 }
