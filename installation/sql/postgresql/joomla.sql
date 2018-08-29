@@ -679,6 +679,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (491, 0, 'plg_privacy_content', 'plugin', 'content', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (492, 0, 'plg_privacy_message', 'plugin', 'message', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (493, 0, 'plg_privacy_actionlogs', 'plugin', 'actionlogs', 'privacy', 0, 0, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(494, 0, 'plg_captcha_recaptcha_invisible', 'plugin', 'recaptcha_invisible', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"clean"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (503, 0, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (504, 0, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (506, 0, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -1682,6 +1683,7 @@ CREATE INDEX "#__privacy_requests_idx_checked_out" ON "#__privacy_requests" ("ch
 CREATE TABLE "#__privacy_consents" (
   "id" serial NOT NULL,
   "user_id" bigint DEFAULT 0 NOT NULL,
+  "state" smallint DEFAULT 1 NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "subjext" varchar(255) DEFAULT '' NOT NULL,
   "body" text NOT NULL,
@@ -1726,10 +1728,10 @@ CREATE TABLE "#__schemas" (
 --
 
 CREATE TABLE "#__session" (
-  "session_id" varchar(200) DEFAULT '' NOT NULL,
+  "session_id" bytea NOT NULL,
   "client_id" smallint DEFAULT NULL,
   "guest" smallint DEFAULT 1,
-  "time" varchar(14) DEFAULT '',
+  "time" integer DEFAULT 0 NOT NULL,
   "data" text,
   "userid" bigint DEFAULT 0,
   "username" varchar(150) DEFAULT '',
