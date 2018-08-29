@@ -60,7 +60,7 @@ class AssociationsModelAssociations extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
@@ -144,7 +144,7 @@ class AssociationsModelAssociations extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery|bool
+	 * @return  JDatabaseQuery|boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -395,7 +395,8 @@ class AssociationsModelAssociations extends JModelList
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(' . $db->qn($fields['title']) . ' LIKE ' . $search
-					. ' OR ' . $db->qn($fields['alias']) . ' LIKE ' . $search . ')');
+					. ' OR ' . $db->qn($fields['alias']) . ' LIKE ' . $search . ')'
+				);
 			}
 		}
 

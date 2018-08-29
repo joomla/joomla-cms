@@ -25,8 +25,9 @@
 					name="count"
 					type="number"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
-					description="MOD_LOGGED_FIELD_COUNT_DESC" 
+					description="MOD_LOGGED_FIELD_COUNT_DESC"
 					default="5"
+					filter="integer"
 				/>
 
 				<field
@@ -35,6 +36,7 @@
 					label="MOD_LOGGED_NAME"
 					description="MOD_LOGGED_FIELD_NAME_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">MOD_LOGGED_NAME</option>
 					<option value="0">JGLOBAL_USERNAME</option>
@@ -45,7 +47,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
@@ -63,6 +65,7 @@
 					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

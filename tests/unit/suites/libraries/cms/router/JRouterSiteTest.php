@@ -692,8 +692,8 @@ class JRouterSiteTest extends TestCaseDatabase
 				'url'          => '?testvar=testvalue',
 				'mode'         => JROUTER_MODE_RAW,
 				'appConfig'    => array(),
-				'expParseVars' => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
-				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
+				'expParseVars' => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
+				'expObjVars'   => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
 			),
 			'abs-raw-path.ext-no_qs-no_sfx' => array(
 				'url'          => '/test/path.json',
@@ -1191,6 +1191,11 @@ class JRouterSiteTest extends TestCaseDatabase
 				'url'      => 'test?limitstart=42',
 				'mode'     => JROUTER_MODE_SEF,
 				'expected' => 'test?start=42'
+			),
+			'limitstart_zero' => array(
+				'url'      => 'test?limitstart=0',
+				'mode'     => JROUTER_MODE_SEF,
+				'expected' => 'test?start=0'
 			),
 		);
 	}

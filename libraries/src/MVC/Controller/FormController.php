@@ -694,6 +694,14 @@ class FormController extends BaseController
 			return false;
 		}
 
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $data;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array($this->option . '.' . $this->context, $objData, $form)
+		);
+		$data = (array) $objData;
+
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
 

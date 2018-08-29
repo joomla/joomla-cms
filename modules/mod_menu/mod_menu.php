@@ -19,7 +19,7 @@ $default    = ModMenuHelper::getDefault();
 $active_id  = $active->id;
 $default_id = $default->id;
 $path       = $base->tree;
-$showAll    = $params->get('showAllChildren');
+$showAll    = $params->get('showAllChildren', 1);
 $class_sfx  = htmlspecialchars($params->get('class_sfx'), ENT_COMPAT, 'UTF-8');
 
 if (count($list))

@@ -46,7 +46,7 @@ class InstallationModelFtp extends JModelBase
 			return false;
 		}
 
-		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
+		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass_plain')))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');
 
@@ -162,7 +162,7 @@ class InstallationModelFtp extends JModelBase
 			return false;
 		}
 
-		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass')))
+		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass_plain')))
 		{
 			$ftp->quit();
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NOLOGIN'), 'error');

@@ -31,10 +31,16 @@ JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searc
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
+$link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1';
+
+if (!empty($editor))
+{
+	$link = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&editor=' . $editor . '&' . JSession::getFormToken() . '=1';
+}
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
@@ -123,6 +129,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="editor" value="<?php echo $editor; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 
 	</form>

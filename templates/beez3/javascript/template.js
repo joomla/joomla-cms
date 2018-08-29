@@ -10,7 +10,7 @@
 {
 	$(document).ready(function()
 	{
-		$('*[rel=tooltip]').tooltip()
+		$('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
@@ -30,6 +30,7 @@
 					label.addClass('active btn-success');
 				}
 				input.prop('checked', true);
+				input.trigger('change');
 			}
 		});
 		$(".btn-group input[checked=checked]").each(function()

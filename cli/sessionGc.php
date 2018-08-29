@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ require_once JPATH_LIBRARIES . '/cms.php';
 /**
  * Cron job to trash expired session data.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.6
  */
 class SessionGc extends JApplicationCli
 {
@@ -45,7 +45,7 @@ class SessionGc extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	public function doExecute()
 	{

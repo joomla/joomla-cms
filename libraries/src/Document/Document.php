@@ -612,7 +612,7 @@ class Document
 
 		if ($merge && is_array($options))
 		{
-			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+			$this->scriptOptions[$key] = array_replace_recursive($this->scriptOptions[$key], $options);
 		}
 		else
 		{
@@ -968,7 +968,7 @@ class Document
 	}
 
 	/**
-	 * Return the title of the page.
+	 * Return the description of the document.
 	 *
 	 * @return  string
 	 *

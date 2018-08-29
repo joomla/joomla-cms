@@ -18,18 +18,60 @@ use Joomla\Registry\Registry;
  */
 class TagsViewTag extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var    \Joomla\Registry\Registry
+	 * @since  3.1
+	 */
 	protected $state;
 
+	/**
+	 * An array of items.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
 	protected $items;
 
+	/**
+	 * The active JObject (on success, false on failure)
+	 *
+	 * @var    JObject|boolean
+	 * @since  3.1
+	 */
 	protected $item;
 
+	/**
+	 * Array of Children objects
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
 	protected $children;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var    JPagination
+	 * @since  3.1
+	 */
 	protected $pagination;
 
+	/**
+	 * The application parameters
+	 *
+	 * @var    \Joomla\Registry\Registry  The parameters object
+	 * @since  3.1
+	 */
 	protected $params;
 
+	/**
+	 * Array of tags title
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
 	protected $tags_title;
 
 	/**
@@ -114,20 +156,18 @@ class TagsViewTag extends JViewLegacy
 				{
 					$itemElement->core_body = $itemElement->text;
 				}
-			}
-		}
 
-		// Categories store the images differently so lets re-map it so the display is correct
-		if ($items && $items[0]->type_alias === 'com_content.category')
-		{
-			foreach ($items as $row)
-			{
-				$row->core_images = json_encode(
-					array(
-					'image_intro' => $row->core_params->get('image', ''),
-					'image_intro_alt' => $row->core_params->get('image_alt', '')
-					)
-				);
+
+				// Categories store the images differently so lets re-map it so the display is correct
+				if ($itemElement->type_alias === 'com_content.category')
+				{
+					$itemElement->core_images = json_encode(
+					  array(
+						  'image_intro' => $itemElement->core_params->get('image', ''),
+						  'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
+					  )
+					);
+				}
 			}
 		}
 
@@ -210,7 +250,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{
@@ -298,7 +338,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Creates the tags title for the output
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function getTagsTitle()
 	{

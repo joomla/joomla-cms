@@ -49,7 +49,7 @@ class PlgSearchContent extends JPlugin
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db         = JFactory::getDbo();
-		$serverType = $db->serverType;
+		$serverType = $db->getServerType();
 		$app        = JFactory::getApplication();
 		$user       = JFactory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
@@ -90,6 +90,8 @@ class PlgSearchContent extends JPlugin
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
+
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
@@ -145,6 +147,8 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
+
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 					if ($phrase === 'all')
 					{
@@ -274,6 +278,12 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
@@ -341,6 +351,12 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
+
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
 
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '

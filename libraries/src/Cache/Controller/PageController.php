@@ -207,7 +207,8 @@ class PageController extends CacheController
 		$app = \JFactory::getApplication();
 
 		// Send not modified header and exit gracefully
-		header('HTTP/1.x 304 Not Modified', true);
+		$app->setHeader('Status', 304, true);
+		$app->sendHeaders();
 		$app->close();
 	}
 
@@ -222,6 +223,6 @@ class PageController extends CacheController
 	 */
 	protected function _setEtag($etag)
 	{
-		\JFactory::getApplication()->setHeader('ETag', $etag, true);
+		\JFactory::getApplication()->setHeader('ETag', '"' . $etag . '"', true);
 	}
 }

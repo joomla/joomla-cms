@@ -20,17 +20,19 @@ $content = $displayData->content;
 $buttons = $displayData->buttons;
 $modifier = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
 
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(function () {
-		var id = ' . json_encode($id) . ', options = ' . json_encode($options) . ';
-		/** Register Editor */
-		Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);
-	});
-');
 ?>
+
 <p class="label">
     <?php echo JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $modifier, $params->get('fullScreen', 'F10')); ?>
 </p>
-<?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 
-<?php echo $displayData->buttons; ?>
+<?php
+	echo '<textarea class="codemirror-source" name="', $name,
+		'" id="', $id,
+		'" cols="', $cols,
+		'" rows="', $rows,
+		'" data-options="', htmlspecialchars(json_encode($options)),
+		'">', $content, '</textarea>';
+?>
+
+<?php echo $buttons; ?>

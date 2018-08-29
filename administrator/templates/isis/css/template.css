@@ -4709,7 +4709,6 @@ a.badge:focus {
 	.input-prepend input[class*="span"],
 	.input-append input[class*="span"] {
 		display: inline-block;
-		width: auto;
 	}
 	.controls-row [class*="span"] + [class*="span"] {
 		margin-left: 0;
@@ -4742,6 +4741,14 @@ a.badge:focus {
 	.form-horizontal .form-actions {
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+	.tag-category input#filter-search,
+	.newsfeed-category input#filter-search {
+		width: auto;
+		margin-bottom: 9px;
+	}
+	.category-list input#filter-search {
+		width: auto;
 	}
 	.media .pull-left,
 	.media .pull-right {
@@ -7530,7 +7537,9 @@ textarea.noResize {
 		margin-bottom: 10px;
 	}
 }
-.subform-table-layout .control-group,
+.subform-table-layout .control-group {
+	margin-bottom: 10px;
+}
 .subform-table-layout .control-group:last-of-type {
 	margin-bottom: 0;
 }
@@ -9020,6 +9029,12 @@ input:focus,
 .hero-unit .lead {
 	font-weight: 400;
 }
+@media (min-width: 1200px) {
+	#permissions .tab-content {
+		position: sticky;
+		top: 90px;
+	}
+}
 .com_cpanel .well {
 	padding: 8px 14px;
 	border: 1px solid rgba(0,0,0,0.05);
@@ -9080,8 +9095,6 @@ input:focus,
 	margin-bottom: 15px;
 	width: 100%;
 	list-style: none;
-	-webkit-column-break-inside: avoid;
-	-webkit-backface-visibility: hidden;
 }
 #menu-assignment .menu-links-block {
 	background-color: #fafafa;

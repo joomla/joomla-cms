@@ -73,7 +73,7 @@ else
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
 			data-repeatable-element="tr.subform-repeatable-group"
-			data-rows-container="tbody" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
+			data-rows-container="tbody.subform-repeatable-container" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
 
 		<table class="adminlist table table-striped table-bordered">
 			<thead>
@@ -90,7 +90,7 @@ else
 					<?php endif; ?>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="subform-repeatable-container">
 			<?php
 			foreach ($forms as $k => $form) :
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
