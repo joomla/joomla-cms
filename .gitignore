@@ -105,6 +105,7 @@ Desktop.ini
 /libraries/vendor/joomla/session/Joomla/Session/composer.json
 /libraries/vendor/joomla/session/Joomla/Session/phpunit.xml.dist
 /libraries/vendor/joomla/session/Joomla/Session/README.md
+/libraries/vendor/joomla/session/Joomla/Session/ruleset.xml
 /libraries/vendor/leafo/lessphp/docs
 /libraries/vendor/leafo/lessphp/tests
 /libraries/vendor/leafo/lessphp/.gitignore

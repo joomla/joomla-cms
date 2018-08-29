@@ -16,7 +16,6 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Joomla\\Utilities\\' => array($vendorDir . '/joomla/utilities/src'),
-    'Joomla\\Uri\\Tests\\' => array($vendorDir . '/joomla/uri/Tests'),
     'Joomla\\Uri\\' => array($vendorDir . '/joomla/uri/src'),
     'Joomla\\String\\' => array($vendorDir . '/joomla/string/src'),
     'Joomla\\Registry\\' => array($vendorDir . '/joomla/registry/src'),
