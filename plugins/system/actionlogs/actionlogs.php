@@ -123,6 +123,7 @@ class PlgSystemActionLogs extends JPlugin
 		if (!JPluginHelper::isEnabled('actionlog', 'joomla'))
 		{
 			$form->loadFile('information', false);
+
 			return true;
 		}
 
