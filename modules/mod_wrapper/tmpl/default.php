@@ -12,17 +12,26 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('webcomponent', 'com_wrapper/joomla-iframe.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<iframe <?php echo $load; ?>
-	id="blockrandom-<?php echo $id; ?>"
-	name="<?php echo $target; ?>"
-	src="<?php echo $url; ?>"
-	width="<?php echo $width; ?>"
-	height="<?php echo $height; ?>"
-	scrolling="<?php echo $scroll; ?>"
-	frameborder="<?php echo $frameborder; ?>"
-    title="<?php echo $ititle; ?>"
-	class="mod-wrapper wrapper">
-	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
-</iframe>
+<joomla-iframe iframe-auto-height="<?php echo $load; ?>"
+		iframe-name="<?php echo $target; ?>"
+		iframe-src="<?php echo $url; ?>"
+		iframe-width="<?php echo $width; ?>"
+		iframe-height="<?php echo $height; ?>"
+		iframe-scrolling="<?php echo $scroll; ?>"
+		iframe-border="<?php echo $frameborder; ?>"
+		iframe-title="<?php echo $title; ?>"
+		iframe-class="wrapper">
+</joomla-iframe>
+<noscript>
+	<iframe name="<?php echo $target; ?>"
+			id="blockrandom-<?php echo $id; ?>"
+			iframe-title="<?php echo $title; ?>"
+			src="<?php echo $url; ?>"
+			width="<?php echo $width; ?>"
+			height="<?php echo $height; ?>"
+			scrolling="<?php echo $scroll; ?>"
+			frameborder="<?php echo $frameborder; ?>"
+			class="wrapper"></iframe>
+</noscript>

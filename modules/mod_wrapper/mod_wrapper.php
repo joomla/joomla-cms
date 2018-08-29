@@ -21,7 +21,7 @@ $width       = htmlspecialchars($params->get('width'), ENT_COMPAT, 'UTF-8');
 $height      = htmlspecialchars($params->get('height'), ENT_COMPAT, 'UTF-8');
 $scroll      = htmlspecialchars($params->get('scrolling'), ENT_COMPAT, 'UTF-8');
 $frameborder = htmlspecialchars($params->get('frameborder'), ENT_COMPAT, 'UTF-8');
-$ititle      = $module->title;
+$title      = htmlspecialchars($module->title, ENT_COMPAT, 'UTF-8');
 $id          = $module->id;
 
 require ModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

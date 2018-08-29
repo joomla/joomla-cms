@@ -10,19 +10,25 @@ const UglyCss = require('uglifycss');
 const UglifyJS = require('uglify-es');
 const rootPath = require('./rootpath.js')._();
 
-const createJsFiles = (element, es6File) => {
+const createJsFiles = (element, es6File, options) => {
   const b = browserify();
   const c = browserify();
 
-  fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}.js`, es6File, { encoding: 'utf8' });
+  if (!options.settings.webcomponents[element]) {
+    return;
+  }
+  // fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}.js`, es6File, { encoding: 'utf8' });
+  fs.writeFileSync(`${rootPath}/${options.settings.webcomponents[element].js}/joomla-${element}.js`, es6File, { encoding: 'utf8' });
 
   // And the minified version
-  fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}.min.js`, UglifyJS.minify(es6File).code, { encoding: 'utf8' });
+  // fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}.min.js`, UglifyJS.minify(es6File).code, { encoding: 'utf8' });
+  fs.writeFileSync(`${rootPath}/${options.settings.webcomponents[element].js}/joomla-${element}.min.js`, UglifyJS.minify(es6File).code, { encoding: 'utf8' });
 
   // Transpile a copy for ES5
-  fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.js`, '');
-  const bundleFs = fs.createWriteStream(`${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.js`);
-  const bundleFsMin = fs.createWriteStream(`${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.min.js`);
+  // fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.js`, '');
+  // fs.writeFileSync(`${rootPath}/${options.settings.webcomponents[element].js}/joomla-${element}-es5.js`, '');
+  const bundleFs = fs.createWriteStream(`${rootPath}/${options.settings.webcomponents[element].js}/joomla-${element}-es5.js`);
+  const bundleFsMin = fs.createWriteStream(`${rootPath}/${options.settings.webcomponents[element].js}/joomla-${element}-es5.min.js`);
 
   b.add(`${rootPath}/build/media/webcomponents/js/${element}/${element}.js`);
   c.add(`${rootPath}/build/media/webcomponents/js/${element}/${element}.js`);
@@ -44,14 +50,24 @@ const compile = (options) => {
   }
 
   options.settings.elements.forEach((element) => {
+    if (options.settings.webcomponents[element]){
+      if (options.settings.webcomponents[element].js){
+        if (!fs.existsSync(`${rootPath}/${options.settings.webcomponents[element].js}`)) {
+          fsExtra.mkdirSync(`${rootPath}/${options.settings.webcomponents[element].js}`);
+        }
+      }
+      if (options.settings.webcomponents[element].css){
+        if (!fs.existsSync(`${rootPath}/${options.settings.webcomponents[element].css}`)) {
+          fsExtra.mkdirSync(`${rootPath}/${options.settings.webcomponents[element].css}`);
+        }
+      }
+    }
+
+
     // Copy the ES6 file
     let es6File = fs.readFileSync(`${rootPath}/build/media/webcomponents/js/${element}/${element}.js`, 'utf8');
     // Check if there is a css file
     if (fs.existsSync(`${rootPath}/build/media/webcomponents/scss/${element}/${element}.scss`)) {
-      if (!fs.existsSync(`${rootPath}/build/media/webcomponents/scss/${element}/${element}.scss`)) {
-        return;
-      }
-
       Sass.render({
         file: `${rootPath}/build/media/webcomponents/scss/${element}/${element}.scss`,
       }, (error, result) => {
@@ -91,18 +107,20 @@ const compile = (options) => {
                 } else {
                   if (typeof res === 'object' && res.css) {
                     fs.writeFileSync(
-                      `${rootPath}/media/system/webcomponents/css/joomla-${element}.css`,
+                      // `${rootPath}/media/system/webcomponents/css/joomla-${element}.css`,
+                      `${rootPath}/${options.settings.webcomponents[element].css}/joomla-${element}.css`,
                       res.css.toString(),
                       { encoding: 'UTF-8' },
                     );
                     fs.writeFileSync(
-                      `${rootPath}/media/system/webcomponents/css/joomla-${element}.min.css`,
+                      // `${rootPath}/media/system/webcomponents/css/joomla-${element}.min.css`,
+                      `${rootPath}/${options.settings.webcomponents[element].css}/joomla-${element}.min.css`,
                       UglyCss.processString(res.css.toString(), { expandVars: false }),
                       { encoding: 'UTF-8' },
                     );
                   }
 
-                  createJsFiles(element, es6File);
+                  createJsFiles(element, es6File, options);
                 }
               })
 
@@ -120,7 +138,7 @@ const compile = (options) => {
         }
       });
     } else {
-      createJsFiles(element, es6File);
+      createJsFiles(element, es6File, options);
     }
   });
 };

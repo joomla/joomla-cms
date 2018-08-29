@@ -16,9 +16,14 @@
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
-      "toolbar-button"
+      "toolbar-button",
+      "iframe"
     ],
     "webcomponents": {
+      "iframe": {
+        "css": "media/com_wrapper/css",
+        "js": "media/com_wrapper/js"
+      },
       "field-media": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
