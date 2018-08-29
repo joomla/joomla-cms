@@ -380,8 +380,8 @@ abstract class ModuleHelper
 
 		$nowDate = Factory::getDate()->toSql();
 
-		$query->where('(m.publish_up IS NULL OR m.publish_up <= ' . $db->quote($nowDate) . ')')
-			->where('(m.publish_down IS NULL OR m.publish_down >= ' . $db->quote($nowDate) . ')')
+		$query->where('(' . $query->isNullDatetime('m.publish_up') . ' OR m.publish_up <= ' . $db->quote($nowDate) . ')')
+			->where('(' . $query->isNullDatetime('m.publish_down') . ' OR m.publish_down >= ' . $db->quote($nowDate) . ')')
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
 			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
