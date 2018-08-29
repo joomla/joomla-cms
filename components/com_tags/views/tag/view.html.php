@@ -162,10 +162,10 @@ class TagsViewTag extends JViewLegacy
 				if ($itemElement->type_alias === 'com_content.category')
 				{
 					$itemElement->core_images = json_encode(
-					  array(
-						  'image_intro' => $itemElement->core_params->get('image', ''),
-						  'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
-					  )
+						array(
+							'image_intro' => $itemElement->core_params->get('image', ''),
+							'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
+						)
 					);
 				}
 			}
