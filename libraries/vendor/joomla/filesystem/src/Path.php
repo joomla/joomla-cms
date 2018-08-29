@@ -2,13 +2,15 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Filesystem;
 
-if (!defined('JPATH_ROOT'))
+use Joomla\Filesystem\Exception\FilesystemException;
+
+if (!\defined('JPATH_ROOT'))
 {
 	throw new \LogicException('The "JPATH_ROOT" constant must be defined for your application.');
 }
@@ -31,7 +33,12 @@ class Path
 	 */
 	public static function canChmod($path)
 	{
-		$perms = fileperms($path);
+		if (!file_exists($path))
+		{
+			return false;
+		}
+
+		$perms = @fileperms($path);
 
 		if ($perms !== false)
 		{
@@ -64,39 +71,42 @@ class Path
 
 		if (is_dir($path))
 		{
-			$dh = opendir($path);
+			$dh = @opendir($path);
 
-			while ($file = readdir($dh))
+			if ($dh)
 			{
-				if ($file != '.' && $file != '..')
+				while ($file = readdir($dh))
 				{
-					$fullpath = $path . '/' . $file;
+					if ($file != '.' && $file != '..')
+					{
+						$fullpath = $path . '/' . $file;
 
-					if (is_dir($fullpath))
-					{
-						if (!self::setPermissions($fullpath, $filemode, $foldermode))
+						if (is_dir($fullpath))
 						{
-							$ret = false;
-						}
-					}
-					else
-					{
-						if (isset($filemode))
-						{
-							if (!@ chmod($fullpath, octdec($filemode)))
+							if (!static::setPermissions($fullpath, $filemode, $foldermode))
 							{
 								$ret = false;
 							}
 						}
+						else
+						{
+							if (isset($filemode))
+							{
+								if (!static::canChmod($fullpath) || !@ chmod($fullpath, octdec($filemode)))
+								{
+									$ret = false;
+								}
+							}
+						}
 					}
 				}
-			}
 
-			closedir($dh);
+				closedir($dh);
+			}
 
 			if (isset($foldermode))
 			{
-				if (!@ chmod($path, octdec($foldermode)))
+				if (!static::canChmod($path) || !@ chmod($path, octdec($foldermode)))
 				{
 					$ret = false;
 				}
@@ -106,7 +116,10 @@ class Path
 		{
 			if (isset($filemode))
 			{
-				$ret = @ chmod($path, octdec($filemode));
+				if (!static::canChmod($path) || !@ chmod($path, octdec($filemode)))
+				{
+					$ret = false;
+				}
 			}
 		}
 
@@ -127,26 +140,26 @@ class Path
 		$path = self::clean($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
-		if (strlen($mode) < 3)
+		if (\strlen($mode) < 3)
 		{
 			return '---------';
 		}
 
-		$parsed_mode = '';
+		$parsedMode = '';
 
 		for ($i = 0; $i < 3; $i++)
 		{
 			// Read
-			$parsed_mode .= ($mode{$i} & 04) ? "r" : "-";
+			$parsedMode .= ($mode{$i} & 04) ? "r" : "-";
 
 			// Write
-			$parsed_mode .= ($mode{$i} & 02) ? "w" : "-";
+			$parsedMode .= ($mode{$i} & 02) ? "w" : "-";
 
 			// Execute
-			$parsed_mode .= ($mode{$i} & 01) ? "x" : "-";
+			$parsedMode .= ($mode{$i} & 01) ? "x" : "-";
 		}
 
-		return $parsed_mode;
+		return $parsedMode;
 	}
 
 	/**
@@ -157,20 +170,33 @@ class Path
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   1.0
-	 * @throws  \Exception
+	 * @throws  FilesystemException
 	 */
 	public static function check($path)
 	{
 		if (strpos($path, '..') !== false)
 		{
-			throw new \Exception('JPath::check Use of relative paths not permitted', 20);
+			throw new FilesystemException(
+				sprintf(
+					'%s() - Use of relative paths not permitted',
+					__METHOD__
+				),
+				20
+			);
 		}
 
-		$path = self::clean($path);
+		$path = static::clean($path);
 
-		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
+		if ((JPATH_ROOT != '') && strpos($path, static::clean(JPATH_ROOT)) !== 0)
 		{
-			throw new \Exception('JPath::check Snooping out of bounds @ ' . $path, 20);
+			throw new FilesystemException(
+				sprintf(
+					'%1$s() - Snooping out of bounds @ %2$s',
+					__METHOD__,
+					$path
+				),
+				20
+			);
 		}
 
 		return $path;
@@ -189,9 +215,19 @@ class Path
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
-		if (!is_string($path))
+		if (!\is_string($path))
 		{
 			throw new \UnexpectedValueException('JPath::clean $path is not a string.');
+		}
+
+		$stream = explode("://", $path, 2);
+		$scheme = '';
+		$path = $stream[0];
+
+		if (\count($stream) >= 2)
+		{
+			$scheme = $stream[0] . '://';
+			$path = $stream[1];
 		}
 
 		$path = trim($path);
@@ -211,7 +247,7 @@ class Path
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
-		return $path;
+		return $scheme . $path;
 	}
 
 	/**
@@ -227,7 +263,7 @@ class Path
 	{
 		$tmp = md5(random_bytes(16));
 		$ssp = ini_get('session.save_path');
-		$jtp = JPATH_ROOT . '/tmp';
+		$jtp = JPATH_ROOT;
 
 		// Try to find a writable directory
 		$dir = is_writable('/tmp') ? '/tmp' : false;
@@ -257,7 +293,7 @@ class Path
 	/**
 	 * Searches the directory paths for a given file.
 	 *
-	 * @param   mixed   $paths  An path string or array of path strings to search in
+	 * @param   mixed   $paths  A path string or array of path strings to search in
 	 * @param   string  $file   The file name to look for.
 	 *
 	 * @return  mixed   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
@@ -267,7 +303,7 @@ class Path
 	public static function find($paths, $file)
 	{
 		// Force to array
-		if (!is_array($paths) && !($paths instanceof \Iterator))
+		if (!\is_array($paths) && !($paths instanceof \Iterator))
 		{
 			settype($paths, 'array');
 		}
@@ -295,7 +331,7 @@ class Path
 			 * non-registered directories are not accessible via directory
 			 * traversal attempts.
 			 */
-			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
+			if (file_exists($fullname) && substr($fullname, 0, \strlen($path)) == $path)
 			{
 				return $fullname;
 			}
