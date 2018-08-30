@@ -894,6 +894,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (491, 0, 'plg_privacy_content', 'plugin', 'user', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (492, 0, 'plg_privacy_message', 'plugin', 'user', 'message', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (493, 0, 'plg_privacy_actionlogs', 'plugin', 'actionlogs', 'privacy', 0, 0, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
+(494, 0, 'plg_captcha_recaptcha_invisible', 'plugin', 'recaptcha_invisible', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"clean"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (503, 0, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (504, 0, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (506, 0, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
@@ -2402,6 +2403,7 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, O
 CREATE TABLE "#__privacy_consents" (
   "id" int IDENTITY(1,1) NOT NULL,
   "user_id" bigint NOT NULL DEFAULT 0,
+  "state" smallint NOT NULL DEFAULT 1,
   "created" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "subject" nvarchar(255) NOT NULL DEFAULT '',
   "body" nvarchar(max) NOT NULL,
@@ -2466,28 +2468,19 @@ CREATE TABLE "#__schemas" (
 --
 
 CREATE TABLE "#__session" (
-  "session_id" nvarchar(200) NOT NULL DEFAULT '',
+  "session_id" varbinary(192) NOT NULL,
   "client_id" tinyint DEFAULT NULL,
-  "guest" tinyint NULL DEFAULT 1,
-  "time" nvarchar(14) NULL DEFAULT '',
-  "data" nvarchar(max) NULL,
-  "userid" int NULL DEFAULT 0,
-  "username" nvarchar(150) NULL DEFAULT '',
- CONSTRAINT "PK_#__session_session_id" PRIMARY KEY CLUSTERED
-(
-  "session_id" ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY];
+  "guest" tinyint DEFAULT 1,
+  "time" int NOT NULL DEFAULT 0,
+  "data" nvarchar(max),
+  "userid" int DEFAULT 0,
+  "username" nvarchar(150) DEFAULT '',
+  CONSTRAINT "PK_#__session_session_id" PRIMARY KEY CLUSTERED ("session_id") ON [PRIMARY]
+)
+ON [PRIMARY];
 
-CREATE NONCLUSTERED INDEX "time" ON "#__session"
-(
-  "time" ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX "userid" ON "#__session"
-(
-  "userid" ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+CREATE NONCLUSTERED INDEX "time" ON "#__session" ("time");
+CREATE NONCLUSTERED INDEX "userid" ON "#__session" ("userid");
 
 --
 -- Table structure for table `#__tags`

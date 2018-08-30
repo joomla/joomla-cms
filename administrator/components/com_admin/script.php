@@ -1973,6 +1973,7 @@ class JoomlaInstallerScript
 			 * Joomla! 3.8.0 thru 3.9.0
 			 */
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
+			'/plugins/captcha/recaptcha/recaptchalib.php',
 
 			/*
 			 * Legacy FOF

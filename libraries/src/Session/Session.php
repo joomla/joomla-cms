@@ -361,7 +361,7 @@ class Session implements \IteratorAggregate
 	/**
 	 * Get session id
 	 *
-	 * @return  string  The session name
+	 * @return  string  The session id
 	 *
 	 * @since   11.1
 	 */
