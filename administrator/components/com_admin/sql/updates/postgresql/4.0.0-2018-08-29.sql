@@ -1,11 +1,11 @@
 ALTER TABLE "#__modules" ALTER COLUMN "publish_up" DROP NOT NULL;
-ALTER TABLE "#__modules" ALTER COLUMN "publish_up" SET DEFAULT NULL;
+ALTER TABLE "#__modules" ALTER COLUMN "publish_up" DROP DEFAULT;
 
 ALTER TABLE "#__modules" ALTER COLUMN "publish_down" DROP NOT NULL;
-ALTER TABLE "#__modules" ALTER COLUMN "publish_down" SET DEFAULT NULL;
+ALTER TABLE "#__modules" ALTER COLUMN "publish_down" DROP DEFAULT;
 
 ALTER TABLE "#__modules" ALTER COLUMN "checked_out_time" DROP NOT NULL;
-ALTER TABLE "#__modules" ALTER COLUMN "checked_out_time" SET DEFAULT NULL;
+ALTER TABLE "#__modules" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 
 UPDATE "#__modules" SET
 	"publish_up" = CASE WHEN "publish_up" = '1970-01-01 00:00:00' THEN NULL ELSE "publish_up" END,
