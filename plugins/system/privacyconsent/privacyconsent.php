@@ -199,7 +199,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			// Create the user note
 			$userNote = (object) array(
 				'user_id' => $userId,
-				'subject' => Text::_('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'),
+				'subject' => 'PLG_SYSTEM_PRIVACYCONSENT_SUBJECT',
 				'body'    => Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_BODY', $ip, $userAgent),
 				'created' => Factory::getDate()->toSql(),
 			);
@@ -375,7 +375,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$query = $this->db->getQuery(true);
 		$query->select('COUNT(*)')
 			->from('#__privacy_consents')
-			->where('user_id = ' . (int) $userId);
+			->where('user_id = ' . (int) $userId)
+			->where('state = 1');
 		$this->db->setQuery($query);
 
 		return (int) $this->db->loadResult() > 0;
@@ -486,7 +487,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Delete the expired privacy consents
-		$this->deleteExpiredConsents();
+		$this->invalidateExpiredConsents();
 
 		// Remind for privacy consents near to expire
 		$this->remindExpiringConsents();
@@ -603,7 +604,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function deleteExpiredConsents()
+	private function invalidateExpiredConsents()
 	{
 		// Load the parameters.
 		$expire = (int) $this->params->get('consentexpiration', 365);
@@ -611,10 +612,12 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$period = '-' . $expire;
 
 		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'user_id')))
-			->from($db->quoteName('#__privacy_consents'));
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'));
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName(array('id', 'user_id')))
+			->from($db->quoteName('#__privacy_consents'))
+			->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($db->quoteName('subject') . ' = ' . $query->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
+			->where($db->quoteName('state') . ' = 1');
 		$db->setQuery($query);
 
 		try
@@ -641,8 +644,9 @@ class PlgSystemPrivacyconsent extends JPlugin
 		foreach ($users as $user)
 		{
 			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__privacy_consents'));
-			$query->where($db->quoteName('id') . ' = ' . $user->id);
+				->update($db->quoteName('#__privacy_consents'))
+				->set('state = 0')
+				->where($db->quoteName('id') . ' = ' . $user->id);
 			$db->setQuery($query);
 
 			try
