@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -77,17 +78,17 @@ abstract class ContentHelperRoute
 		{
 			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
-			if ($language && $language !== '*' && Multilanguage::isEnabled())
+			if ($language && Multilanguage::isEnabled())
 			{
-				$link .= '&lang=' . $language;
-			}
-
-			$jinput = JFactory::getApplication()->input;
-			$layout = $jinput->get('layout');
-
-			if ($layout !== '')
-			{
-				$link .= '&layout=' . $layout;
+				if ($language !== '*')
+				{
+					$link .= '&lang=' . $language;
+				}
+				else
+				{
+					$lang  = Factory::getLanguage()->getTag();
+					$link .= '&lang=' . $lang;
+				}
 			}
 		}
 

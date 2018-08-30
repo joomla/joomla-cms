@@ -93,9 +93,11 @@ class HtmlView extends CategoryView
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
 		{
-			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-
-			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->slug           = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+			$item->catslug        = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->catlanguage    = $item->category_language;
+			$item->parent_slug    = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->parentlanguage = $item->parent_language;
 
 			// No link for ROOT category
 			if ($item->parent_alias === 'root')
@@ -103,7 +105,6 @@ class HtmlView extends CategoryView
 				$item->parent_slug = null;
 			}
 
-			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new \stdClass;
 
 			// Old plugins: Ensure that text property is available

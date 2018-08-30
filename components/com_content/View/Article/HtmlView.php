@@ -107,9 +107,11 @@ class HtmlView extends BaseHtmlView
 		$item->tagLayout = new FileLayout('joomla.content.tags');
 
 		// Add router helpers.
-		$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-		$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->slug           = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+		$item->catslug        = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+		$item->catlanguage    = $item->category_language;
+		$item->parent_slug    = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->parentlanguage = $item->parent_language;
 
 		// No link for ROOT category
 		if ($item->parent_alias === 'root')
@@ -302,7 +304,7 @@ class HtmlView extends BaseHtmlView
 
 			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
+				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

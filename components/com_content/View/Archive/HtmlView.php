@@ -115,13 +115,16 @@ class HtmlView extends BaseHtmlView
 
 		foreach ($items as $item)
 		{
-			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->slug           = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+			$item->catslug        = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->parent_slug    = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->catlanguage    = $item->category_language;
+			$item->parentlanguage = $item->parent_language;
 
 			// No link for ROOT category
 			if ($item->parent_alias === 'root')
 			{
-				$item->parent_slug = null;
+				$item->parent_slug    = null;
 			}
 
 			$item->event = new \stdClass;

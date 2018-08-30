@@ -17,7 +17,8 @@ use Joomla\CMS\Router\Route;
 <dd class="parent-category-name">
 	<?php $title = $this->escape($displayData['item']->parent_title); ?>
 	<?php if ($displayData['params']->get('link_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
-		<?php $url = '<a href="' . Route::_(ContentHelperRoute::getCategoryRoute($displayData['item']->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+		<?php $url = '<a href="' . Route::_(ContentHelperRoute::getCategoryRoute($displayData['item']->parent_slug,
+				$displayData['item']->parent_language)) . '" itemprop="genre">' . $title . '</a>'; ?>
 		<?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
 	<?php else : ?>
 		<?php echo Text::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
