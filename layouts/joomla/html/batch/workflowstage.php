@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * ---------------------
@@ -16,8 +19,8 @@ defined('JPATH_BASE') or die;
  */
 
 ?>
-<label id="batch-workflowstage-lbl" for="batch-workflowstage-id" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL', 'JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL_DESC'); ?>">
-	<?php echo JText::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL'); ?>
+<label id="batch-workflowstage-lbl" for="batch-workflowstage-id" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL', 'JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL_DESC'); ?>">
+	<?php echo Text::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL'); ?>
 </label>
 
 <?php
@@ -28,6 +31,6 @@ $attr = array(
 	'group.items' => null
 );
 
-$groups = JHtml::_('workflowstage.existing', array('title' => JText::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_NOCHANGE')));
+$groups = HTMLHelper::_('workflowstage.existing', array('title' => Text::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_NOCHANGE')));
 
-echo JHtml::_('select.groupedlist', $groups, 'batch[workflowstage_id]', $attr);
+echo HTMLHelper::_('select.groupedlist', $groups, 'batch[workflowstage_id]', $attr);

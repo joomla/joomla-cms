@@ -120,13 +120,9 @@ class TagModel extends ListModel
 						break;
 				}
 			}
+		}
 
-			return $items;
-		}
-		else
-		{
-			return false;
-		}
+		return $items;
 	}
 
 	/**
