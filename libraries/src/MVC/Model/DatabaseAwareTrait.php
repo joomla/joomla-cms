@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\Database\DatabaseInterface;
 
 /**
