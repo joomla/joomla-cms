@@ -10,7 +10,7 @@
 @import "../../../../media/vendor/bootstrap/scss/custom-forms";
 
 // Alert
-@import "../../../../media/system/scss/jalert";
+@import "../../../../build/media/system/scss/jalert";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -19,6 +19,7 @@
 @import "blocks/header";
 @import "blocks/icons";
 @import "blocks/iframe";
+@import "blocks/layout";
 @import "blocks/login";
 @import "blocks/modals";
 @import "blocks/quickicons";

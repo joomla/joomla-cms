@@ -77,8 +77,6 @@ abstract class ArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($input->getInt('id'));
 							break;

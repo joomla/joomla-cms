@@ -35,16 +35,15 @@ $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 
-// Load template CSS file
+// Load the dependencies CSS files
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
+
+// Load the template CSS file
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Alerts
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -121,9 +120,10 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
 					<div class="col-md-12">
-						<jdoc:include type="component" />
+						<main>
+							<jdoc:include type="component" />
+						</main>
 					</div>
-
 					<?php if ($this->countModules('bottom')) : ?>
 						<jdoc:include type="modules" name="bottom" style="xhtml" />
 					<?php endif; ?>

@@ -30,7 +30,7 @@ HTMLHelper::_('behavior.core');
 				<?php echo Text::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
 			</div>
 			<div class="controls">
-				<?php echo HTMLHelper::_('date', $this->item->date_time); ?>
+				<?php echo HTMLHelper::_('date', $this->item->date_time, Text::_('DATE_FORMAT_LC2')); ?>
 			</div>
 		</div>
 		<div class="control-group">

@@ -51,8 +51,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
-						<?php HTMLHelper::_('jquery.framework'); ?>
-						<?php HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true)); ?>
+						<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 						<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
@@ -74,8 +73,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 								$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
 							?>
 							<?php if ($field->showon) : ?>
-								<?php HTMLHelper::_('jquery.framework'); ?>
-								<?php HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true)); ?>
+								<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 								<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 							<?php endif; ?>
 							<?php if ($field->hidden) : ?>

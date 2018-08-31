@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Associations\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -121,7 +122,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  3.7.0
 	 */
@@ -177,7 +178,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  3.7.0
 	 */
@@ -493,7 +494,7 @@ class AssociationsHelper extends ContentHelper
 	 * @param   string  $typeName       The item type
 	 * @param   int     $itemId         The id of item for which we need the associated items
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  3.7.0
 	 */
@@ -673,7 +674,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * Gets the language filter system plugin extension id.
 	 *
-	 * @return  int  The language filter system plugin extension id.
+	 * @return  integer  The language filter system plugin extension id.
 	 *
 	 * @since   3.7.2
 	 */

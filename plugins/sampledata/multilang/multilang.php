@@ -24,7 +24,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Sampledata - Multilang Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgSampledataMultilang extends CMSPlugin
 {
@@ -33,7 +33,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    JDatabaseDriver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $db;
 
@@ -42,7 +42,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    JApplicationCms
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $app;
 
@@ -51,7 +51,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -60,21 +60,21 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @var     MenusModelItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $menuItemModel;
 
 	/**
 	 * @var     string language path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $path = null;
 
 	/**
 	 * @var    Admin Id, author of all generated content.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $adminId;
 
@@ -83,7 +83,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onSampledataGetOverview()
 	{
@@ -102,7 +102,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
@@ -148,7 +148,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
@@ -192,7 +192,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
@@ -231,7 +231,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
@@ -295,7 +295,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
@@ -339,7 +339,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
@@ -426,7 +426,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
@@ -465,7 +465,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
@@ -482,7 +482,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function enablePlugin($pluginName)
 	{
@@ -492,10 +492,10 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$query
 			->clear()
-			->update($db->qn('#__extensions'))
-			->set($db->qn('enabled') . ' = 1')
-			->where($db->qn('name') . ' = ' . $db->q($pluginName))
-			->where($db->qn('type') . ' = ' . $db->q('plugin'));
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('name') . ' = ' . $db->quote($pluginName))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 		$db->setQuery($query);
 
@@ -521,10 +521,10 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '}';
 			$query
 				->clear()
-				->update($db->qn('#__extensions'))
-				->set($db->qn('params') . ' = ' . $db->q($params))
-				->where($db->qn('name') . ' = ' . $db->q('plg_system_languagefilter'))
-				->where($db->qn('type') . ' = ' . $db->q('plugin'));
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 			$db->setQuery($query);
 
@@ -547,7 +547,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function disableModuleMainMenu()
 	{
@@ -558,12 +558,12 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Disable main menu module with Home set to ALL languages.
 		$query
 			->clear()
-			->update($db->qn('#__modules'))
-			->set($db->qn('published') . ' = 0')
-			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
-			->where($db->qn('language') . ' = ' . $db->q('*'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'))
-			->where($db->qn('position') . ' = ' . $db->q('sidebar-right'));
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 0')
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('position') . ' = ' . $db->quote('sidebar-right'));
 		$db->setQuery($query);
 
 		try
@@ -583,7 +583,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addModuleLanguageSwitcher()
 	{
@@ -636,7 +636,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addModuleMenu($itemLanguage)
 	{
@@ -689,7 +689,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addMenuGroup($itemLanguage)
 	{
@@ -733,7 +733,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 
 	private function addAllCategoriesMenuItem($itemLanguage)
@@ -816,7 +816,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addBlogMenuItem($itemLanguage, $categoryId)
 	{
@@ -895,7 +895,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addAssociations($groupedAssociations)
 	{
@@ -934,7 +934,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addModuleInModuleMenu($moduleId)
 	{
@@ -944,8 +944,8 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		// Add Module in Module menus.
 		$query->clear()
-			->insert($db->qn('#__modules_menu'))
-			->columns(array($db->qn('moduleid'), $db->qn('menuid')))
+			->insert($db->quoteName('#__modules_menu'))
+			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 			->values($moduleId . ', 0');
 		$db->setQuery($query);
 
@@ -968,7 +968,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addCategory($itemLanguage)
 	{
@@ -1031,7 +1031,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addArticle($itemLanguage, $categoryId)
 	{
@@ -1096,7 +1096,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		$newId = $article->get('id');
 
 		$query = $db->getQuery(true)
-			->insert($db->qn('#__content_frontpage'))
+			->insert($db->quoteName('#__content_frontpage'))
 			->values($newId . ', 0');
 
 		$db->setQuery($query);
@@ -1118,7 +1118,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function publishContentLanguages()
 	{
@@ -1148,7 +1148,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getInstalledlangsAdministrator()
 	{
@@ -1160,7 +1160,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array  List of installed languages in the frontend application.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getInstalledlangsFrontend()
 	{
@@ -1174,7 +1174,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getInstalledlangs($cms_client = 'administrator')
 	{
@@ -1231,7 +1231,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  object  The language data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLanguageList($client_id = 1)
 	{
@@ -1240,12 +1240,12 @@ class PlgSampledataMultilang extends CMSPlugin
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->qn(array('element', 'name')))
-			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' . $db->q('language'))
-			->where($db->qn('state') . ' = 0')
-			->where($db->qn('enabled') . ' = 1')
-			->where($db->qn('client_id') . ' = ' . (int) $client_id);
+		$query->select($db->quoteName(array('element', 'name')))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
+			->where($db->quoteName('state') . ' = 0')
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
 
 		$db->setQuery($query);
 
@@ -1262,7 +1262,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{
@@ -1274,7 +1274,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  string  The path to the languages folders.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getPath()
 	{
@@ -1294,7 +1294,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getClient($client = 'administrator')
 	{
@@ -1308,7 +1308,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  integer|boolean  One Administrator ID.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getAdminId()
 	{
@@ -1324,23 +1324,23 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Select the admin user ID
 		$query
 			->clear()
-			->select($db->qn('u') . '.' . $db->qn('id'))
-			->from($db->qn('#__users', 'u'))
+			->select($db->quoteName('u') . '.' . $db->quoteName('id'))
+			->from($db->quoteName('#__users', 'u'))
 			->join(
 				'LEFT',
-				$db->qn('#__user_usergroup_map', 'map')
-				. ' ON ' . $db->qn('map') . '.' . $db->qn('user_id')
-				. ' = ' . $db->qn('u') . '.' . $db->qn('id')
+				$db->quoteName('#__user_usergroup_map', 'map')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('user_id')
+				. ' = ' . $db->quoteName('u') . '.' . $db->quoteName('id')
 			)
 			->join(
 				'LEFT',
-				$db->qn('#__usergroups', 'g')
-				. ' ON ' . $db->qn('map') . '.' . $db->qn('group_id')
-				. ' = ' . $db->qn('g') . '.' . $db->qn('id')
+				$db->quoteName('#__usergroups', 'g')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('group_id')
+				. ' = ' . $db->quoteName('g') . '.' . $db->quoteName('id')
 			)
 			->where(
-				$db->qn('g') . '.' . $db->qn('title')
-				. ' = ' . $db->q('Super Users')
+				$db->quoteName('g') . '.' . $db->quoteName('title')
+				. ' = ' . $db->quote('Super Users')
 			);
 
 		$db->setQuery($query);

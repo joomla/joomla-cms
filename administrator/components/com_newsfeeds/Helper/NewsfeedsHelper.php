@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -66,7 +67,7 @@ class NewsfeedsHelper extends ContentHelper
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('published AS state, count(*) AS count')
-				->from($db->qn('#__newsfeeds'))
+				->from($db->quoteName('#__newsfeeds'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
@@ -120,11 +121,11 @@ class NewsfeedsHelper extends ContentHelper
 			$section = $parts[1];
 		}
 
-		$join = $db->qn('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
+		$join = $db->quoteName('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
 
 		if ($section === 'category')
 		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$join = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
 		}
 
 		foreach ($items as $item)
@@ -135,9 +136,9 @@ class NewsfeedsHelper extends ContentHelper
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('published AS state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
+				->where('ct.type_alias =' . $db->quote($extension))
 				->join('LEFT', $join)
 				->group('state');
 

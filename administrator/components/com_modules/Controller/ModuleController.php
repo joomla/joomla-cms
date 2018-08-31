@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -270,7 +271,7 @@ class ModuleController extends FormController
 		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
-			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->q($position))
+			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->quote($position))
 			->order('ordering');
 
 		$db->setQuery($query);

@@ -10,6 +10,7 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
@@ -300,6 +301,6 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !\JFactory::getConfig()->get('proxy_enable');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !Factory::getConfig()->get('proxy_enable');
 	}
 }

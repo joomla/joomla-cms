@@ -10,6 +10,7 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\String\StringHelper;
 
 /**
@@ -244,7 +245,8 @@ class Language
 
 		if (class_exists($class))
 		{
-			/* Class exists. Try to find
+			/**
+			 * Class exists. Try to find
 			 * -a transliterate method,
 			 * -a getPluralSuffixes method,
 			 * -a getIgnoredSearchWords method
@@ -690,7 +692,7 @@ class Language
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
-		\JLog::add(__METHOD__ . '() is deprecated, use LanguageHelper::exists() instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::exists() instead.', Log::WARNING, 'deprecated');
 
 		return LanguageHelper::exists($lang, $basePath);
 	}
@@ -952,7 +954,7 @@ class Language
 		// Check if we encountered any errors.
 		if (count($errors))
 		{
-			$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
+			$this->errorfiles[$filename] = $errors;
 		}
 		elseif ($php_errormsg)
 		{
@@ -1234,7 +1236,7 @@ class Language
 	 */
 	public static function getMetadata($lang)
 	{
-		\JLog::add(__METHOD__ . '() is deprecated, use LanguageHelper::getMetadata() instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::getMetadata() instead.', Log::WARNING, 'deprecated');
 
 		return LanguageHelper::getMetadata($lang);
 	}
@@ -1251,7 +1253,7 @@ class Language
 	 */
 	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{
-		\JLog::add(__METHOD__ . '() is deprecated, use LanguageHelper::getKnownLanguages() instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::getKnownLanguages() instead.', Log::WARNING, 'deprecated');
 
 		return LanguageHelper::getKnownLanguages($basePath);
 	}
@@ -1269,7 +1271,7 @@ class Language
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
-		\JLog::add(__METHOD__ . '() is deprecated, use LanguageHelper::getLanguagePath() instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::getLanguagePath() instead.', Log::WARNING, 'deprecated');
 
 		return LanguageHelper::getLanguagePath($basePath, $language);
 	}
@@ -1288,7 +1290,7 @@ class Language
 	 */
 	public function setLanguage($lang)
 	{
-		\JLog::add(__METHOD__ . ' is deprecated. Instantiate a new Language object instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated. Instantiate a new Language object instead.', Log::WARNING, 'deprecated');
 
 		$previous = $this->lang;
 		$this->lang = $lang;
@@ -1359,7 +1361,7 @@ class Language
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
-		\JLog::add(__METHOD__ . '() is deprecated, use LanguageHelper::parseLanguageFiles() instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::parseLanguageFiles() instead.', Log::WARNING, 'deprecated');
 
 		return LanguageHelper::parseLanguageFiles($dir);
 	}
@@ -1377,7 +1379,7 @@ class Language
 	 */
 	public static function parseXMLLanguageFile($path)
 	{
-		\JLog::add(__METHOD__ . '() is deprecated, use LanguageHelper::parseXMLLanguageFile() instead.', \JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::parseXMLLanguageFile() instead.', Log::WARNING, 'deprecated');
 
 		return LanguageHelper::parseXMLLanguageFile($path);
 	}

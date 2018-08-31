@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -1009,8 +1010,8 @@ class UserModel extends AdminModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__users'))
-			->where($db->qn('id') . ' = ' . (int) $user_id);
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('id') . ' = ' . (int) $user_id);
 		$db->setQuery($query);
 		$item = $db->loadObject();
 
@@ -1049,10 +1050,10 @@ class UserModel extends AdminModel
 			$otpKey = $method . ':' . $decryptedConfig;
 
 			$query = $db->getQuery(true)
-				->update($db->qn('#__users'))
-				->set($db->qn('otep') . '=' . $db->q($encryptedOtep))
-				->set($db->qn('otpKey') . '=' . $db->q($otpKey))
-				->where($db->qn('id') . ' = ' . $db->q($user_id));
+				->update($db->quoteName('#__users'))
+				->set($db->quoteName('otep') . '=' . $db->quote($encryptedOtep))
+				->set($db->quoteName('otpKey') . '=' . $db->quote($otpKey))
+				->where($db->quoteName('id') . ' = ' . $db->quote($user_id));
 			$db->setQuery($query);
 			$db->execute();
 		}

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\View\Items;
 
 defined('_JEXEC') or die;
@@ -210,11 +211,19 @@ class HtmlView extends BaseHtmlView
 							else
 							{
 								// Get XML file from component folder for standard layouts
-								$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+								$file = JPATH_SITE . '/components/' . $item->componentname . '/tmpl/' . $vars['view']
+									. '/' . $vars['layout'] . '.xml';
 
 								if (!file_exists($file))
 								{
-									$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+									$file = JPATH_SITE . '/components/' . $item->componentname . '/views/'
+										. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+
+									if (!file_exists($file))
+									{
+										$file = JPATH_SITE . '/components/' . $item->componentname . '/view/'
+											. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+									}
 								}
 							}
 

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -132,10 +133,10 @@ class CategoriesHelper
 			$db       = \JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn('published'))
-				->from($db->qn('#__categories'))
+				->select($db->quoteName('published'))
+				->from($db->quoteName('#__categories'))
 				->where('access IN (' . $groups . ')')
-				->where($db->qn('id') . ' = ' . (int) $assocId);
+				->where($db->quoteName('id') . ' = ' . (int) $assocId);
 
 			$result = (int) $db->setQuery($query)->loadResult();
 
@@ -154,7 +155,7 @@ class CategoriesHelper
 	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
-	 * @return int $catid  Category ID.
+	 * @return  integer  $catid  Category ID.
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{

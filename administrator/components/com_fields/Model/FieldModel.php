@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -17,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -200,7 +202,7 @@ class FieldModel extends AdminModel
 
 				foreach ($newParams as $param)
 				{
-					$names[] = $db->q($param['value']);
+					$names[] = $db->quote($param['value']);
 				}
 
 				$query = $db->getQuery(true);
@@ -211,7 +213,7 @@ class FieldModel extends AdminModel
 			}
 		}
 
-		\FieldsHelper::clearFieldsCache();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -235,7 +237,7 @@ class FieldModel extends AdminModel
 			return true;
 		}
 
-		$types = \FieldsHelper::getFieldTypes();
+		$types = FieldsHelper::getFieldTypes();
 
 		// Check if type exists
 		if (!array_key_exists($data['type'], $types))
@@ -467,16 +469,16 @@ class FieldModel extends AdminModel
 				// Delete Values
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_values'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_values'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 
 				// Delete Assigned Categories
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_categories'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_categories'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 			}
@@ -504,7 +506,7 @@ class FieldModel extends AdminModel
 		if (empty($context) && isset($data['context']))
 		{
 			$context = $data['context'];
-			$parts   = \FieldsHelper::extract($context);
+			$parts   = FieldsHelper::extract($context);
 
 			$this->setState('field.context', $context);
 
@@ -583,7 +585,7 @@ class FieldModel extends AdminModel
 		}
 
 		// Don't save the value when the user is not authorized to change it
-		if (!$field || !\FieldsHelper::canEditFieldValue($field))
+		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -602,8 +604,9 @@ class FieldModel extends AdminModel
 		}
 		elseif (count($value) == 1 && count((array) $oldValue) == 1)
 		{
-			// Only a single row value update can be done
-			$needsUpdate = true;
+			// Only a single row value update can be done when not empty
+			$needsUpdate = is_array($value[0]) ? count($value[0]) : strlen($value[0]);
+			$needsDelete = !$needsUpdate;
 		}
 		else
 		{
@@ -618,9 +621,9 @@ class FieldModel extends AdminModel
 			// Deleting the existing record as it is a reset
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->delete($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->delete($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' = ' . (int) $fieldId)
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
 		}
@@ -652,7 +655,7 @@ class FieldModel extends AdminModel
 		}
 
 		$this->valueCache = array();
-		\FieldsHelper::clearFieldsCache();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -705,10 +708,10 @@ class FieldModel extends AdminModel
 			// Create the query
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select(array($query->qn('field_id'), $query->qn('value')))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->select(array($query->quoteName('field_id'), $query->quoteName('value')))
+				->from($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			// Fetch the row from the database
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
@@ -760,15 +763,15 @@ class FieldModel extends AdminModel
 	{
 		// Delete with inner join is not possible so we need to do a subquery
 		$fieldsQuery = $this->getDbo()->getQuery(true);
-		$fieldsQuery->select($fieldsQuery->qn('id'))
-			->from($fieldsQuery->qn('#__fields'))
-			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+		$fieldsQuery->select($fieldsQuery->quoteName('id'))
+			->from($fieldsQuery->quoteName('#__fields'))
+			->where($fieldsQuery->quoteName('context') . ' = ' . $fieldsQuery->quote($context));
 
 		$query = $this->getDbo()->getQuery(true);
 
-		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
-			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+		$query->delete($query->quoteName('#__fields_values'))
+			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
+			->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
 	}
@@ -791,7 +794,7 @@ class FieldModel extends AdminModel
 				return false;
 			}
 
-			$parts = \FieldsHelper::extract($record->context);
+			$parts = FieldsHelper::extract($record->context);
 
 			return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 		}
@@ -812,7 +815,7 @@ class FieldModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user  = Factory::getUser();
-		$parts = \FieldsHelper::extract($record->context);
+		$parts = FieldsHelper::extract($record->context);
 
 		// Check for existing field.
 		if (!empty($record->id))
@@ -840,7 +843,7 @@ class FieldModel extends AdminModel
 
 		$context = $app->input->get('context', 'com_content.article');
 		$this->setState('field.context', $context);
-		$parts = \FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context);
 
 		// Extract the component name
 		$this->setState('field.component', $parts[0]);
