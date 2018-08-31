@@ -287,7 +287,7 @@ class HtmlView extends CategoryView
 
 			while (($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
+				$path[] = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 
