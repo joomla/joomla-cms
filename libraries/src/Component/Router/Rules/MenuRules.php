@@ -76,6 +76,12 @@ class MenuRules implements RulesInterface
 		// Get query language
 		$language = isset($query['lang']) ? $query['lang'] : '*';
 
+		// Set the language to the active one when multilang is enabled and item is tagged to ALL
+		if ($active !== null && Multilanguage::isEnabled() && $language === '*')
+		{
+			$language = $active->language;
+		}
+
 		if (!isset($this->lookup[$language]))
 		{
 			$this->buildLookup($language);

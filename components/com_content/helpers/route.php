@@ -84,11 +84,6 @@ abstract class ContentHelperRoute
 				{
 					$link .= '&lang=' . $language;
 				}
-				else
-				{
-					$lang  = Factory::getLanguage()->getTag();
-					$link .= '&lang=' . $lang;
-				}
 			}
 		}
 
