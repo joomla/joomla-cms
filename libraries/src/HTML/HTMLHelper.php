@@ -1179,6 +1179,8 @@ abstract class HTMLHelper
 		$hint         = $attribs['placeholder'] ?? '';
 		$class        = $attribs['class'] ?? '';
 		$onchange     = $attribs['onChange'] ?? '';
+		$minYear      = $attribs['minYear'] ?? null;
+		$maxYear      = $attribs['maxYear'] ?? null;
 
 		$showTime     = ($showTime) ? "1" : "0";
 		$todayBtn     = ($todayBtn) ? "1" : "0";
@@ -1223,6 +1225,8 @@ abstract class HTMLHelper
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
 			'onchange'     => $onchange,
+			'minYear'      => $minYear,
+			'maxYear'      => $maxYear,
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);

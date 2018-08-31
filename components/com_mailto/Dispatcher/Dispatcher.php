@@ -11,12 +11,14 @@ namespace Joomla\Component\Mailto\Site\Dispatcher;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
 /**
- * Dispatcher class for com_mailto
+ * ComponentDispatcher class for com_mailto
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
