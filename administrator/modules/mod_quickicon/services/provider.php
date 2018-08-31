@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  mod_quickicon
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,7 +15,7 @@ use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
 
 /**
- * The menu module service provider.
+ * The quickicon module service provider.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -32,7 +32,7 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Menu'));
+		$container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Quickicon'));
 
 		$container->registerServiceProvider(new Module);
 	}

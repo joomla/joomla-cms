@@ -1,21 +1,21 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  mod_quickicon
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Module\Menu\Site\Dispatcher;
+namespace Joomla\Module\Quickicon\Administrator\Dispatcher;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\Module\Menu\Site\Helper\MenuHelper;
+use Joomla\Module\Quickicon\Administrator\Helper\QuickIconHelper;
 
 /**
- * Dispatcher class for mod_menu
+ * Dispatcher class for mod_quickicon
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -35,21 +35,7 @@ class Dispatcher extends AbstractModuleDispatcher
 	{
 		$data = parent::getLayoutData();
 
-		$data['list'] = MenuHelper::getList($data['params']);
-
-		if (!count($data['list']))
-		{
-			return false;
-		}
-
-		$data['base']       = MenuHelper::getBase($data['params']);
-		$data['active']     = MenuHelper::getActive($data['params']);
-		$data['default']    = MenuHelper::getDefault();
-		$data['active_id']  = $data['active']->id;
-		$data['default_id'] = $data['default']->id;
-		$data['path']       = $data['base']->tree;
-		$data['showAll']    = $data['params']->get('showAllChildren');
-		$data['class_sfx']  = htmlspecialchars($data['params']->get('class_sfx'), ENT_COMPAT, 'UTF-8');
+		$data['buttons'] = QuickIconHelper::getButtons($data['params']);
 
 		return $data;
 	}

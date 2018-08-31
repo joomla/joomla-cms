@@ -11,6 +11,7 @@ namespace Joomla\Module\Quickicon\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -43,8 +44,13 @@ abstract class QuickIconHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function &getButtons($params)
+	public static function &getButtons($params, CMSApplication $application = null)
 	{
+		if ($application == null)
+		{
+			$application = Factory::getApplication();
+		}
+
 		$key = (string) $params;
 
 		if (!isset(self::$buttons[$key]))
@@ -54,7 +60,7 @@ abstract class QuickIconHelper
 			if ($context === 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
-				Factory::getLanguage()->load('mod_quickicon');
+				$application->getLanguage()->load('mod_quickicon');
 
 				self::$buttons[$key] = array(
 					array(
@@ -95,7 +101,7 @@ abstract class QuickIconHelper
 			// Include buttons defined by published quickicon plugins
 			PluginHelper::importPlugin('quickicon');
 
-			$arrays = (array) Factory::getApplication()->triggerEvent(
+			$arrays = (array) $application->triggerEvent(
 				'onGetIcons',
 				new QuickIconsEvent('onGetIcons', ['context' => $context])
 			);
