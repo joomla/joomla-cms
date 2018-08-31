@@ -191,6 +191,25 @@ class Module extends Table
 	}
 
 	/**
+	 * Stores a module.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   3.7.0
+	 */
+	public function store($updateNulls = true)
+	{
+		if (!$this->ordering)
+		{
+			$this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
+		}
+
+		return parent::store($updateNulls);
+	}
+
+	/**
 	 * Method to check a row in if the necessary properties/fields exist.
 	 *
 	 * Checking a row in will allow other users the ability to edit the row.
@@ -275,24 +294,5 @@ class Module extends Table
 		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
 
 		return true;
-	}
-
-	/**
-	 * Stores a module.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   3.7.0
-	 */
-	public function store($updateNulls = true)
-	{
-		if (!$this->ordering)
-		{
-			$this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
-		}
-
-		return parent::store($updateNulls);
 	}
 }
