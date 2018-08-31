@@ -35,7 +35,7 @@ class Module implements ModuleInterface
 	/**
 	 * Module constructor.
 	 *
-	 * @param   ModuleDispatcherFactoryInterface $dispatcherFactory The dispatcher factory
+	 * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

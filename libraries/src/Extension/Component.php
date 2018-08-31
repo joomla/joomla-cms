@@ -33,7 +33,7 @@ class Component implements ComponentInterface
 	/**
 	 * Component constructor.
 	 *
-	 * @param   ComponentDispatcherFactoryInterface $dispatcherFactory The dispatcher factory
+	 * @param   ComponentDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
 	 *
 	 * @since   4.0.0
 	 */

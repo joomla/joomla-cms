@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_quickicon
@@ -38,13 +39,14 @@ abstract class QuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param   \JObject  $params  The module parameters.
+	 * @param   Registry        $params       The module parameters
+	 * @param   CMSApplication  $application  The application
 	 *
 	 * @return  array  An array of buttons
 	 *
 	 * @since   1.6
 	 */
-	public static function &getButtons($params, CMSApplication $application = null)
+	public static function &getButtons(Registry $params, CMSApplication $application = null)
 	{
 		if ($application == null)
 		{
