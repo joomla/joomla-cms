@@ -6,7 +6,7 @@ ALTER TABLE `#__content` ADD INDEX `idx_catid_ordering` (`catid`, `ordering`);
 --
 -- Add index for ordering on #__content_frontpage table
 --
-ALTER TABLE `#__content` ADD INDEX `idx_ordering` (`ordering`);
+ALTER TABLE `#__content_frontpage` ADD INDEX `idx_ordering` (`ordering`);
 
 -- Reverse ordering in #__content table
 UPDATE `#__content` AS n
