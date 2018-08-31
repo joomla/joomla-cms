@@ -61,7 +61,7 @@ $params = $this->params;
 							<?php $title = $this->escape($item->parent_title); ?>
 							<?php if ($params->get('link_parent_category') && !empty($item->parent_id)) : ?>
 								<?php $url = '<a href="' . Route::_(
-									ContentHelperRoute::getCategoryRoute($item->parent_id), $item->parent_language
+									ContentHelperRoute::getCategoryRoute($item->parent_id, $item->parent_language)
 									)
 									. '" itemprop="genre">' . $title . '</a>'; ?>
 								<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -169,7 +169,7 @@ $params = $this->params;
 								<?php $title = $this->escape($item->category_title); ?>
 								<?php if ($params->get('link_category') && $item->catid) : ?>
 									<?php $url = '<a href="' . Route::_(
-										ContentHelperRoute::getCategoryRoute($item->catslug, $item->category_language)
+										ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language)
 										)
 										. '" itemprop="genre">' . $title . '</a>'; ?>
 									<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
