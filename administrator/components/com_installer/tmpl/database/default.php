@@ -37,7 +37,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 							<table class="table">
 								<thead>
 									<tr>
-										<td class="nowrap text-center" style="width:1%">
+										<td class="text-center" style="width:1%">
 											<?php echo HTMLHelper::_('grid.checkall'); ?>
 										</td>
 										<th scope="col" class="nowrap">
