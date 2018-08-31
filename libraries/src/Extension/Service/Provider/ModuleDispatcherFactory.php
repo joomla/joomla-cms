@@ -22,7 +22,7 @@ use Joomla\DI\ServiceProviderInterface;
 class ModuleDispatcherFactory implements ServiceProviderInterface
 {
 	/**
-	 * The extension namespace
+	 * The module namespace
 	 *
 	 * @var  string
 	 *
