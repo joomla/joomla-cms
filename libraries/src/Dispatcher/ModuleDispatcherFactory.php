@@ -68,11 +68,6 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
 			$className = '\\Joomla\\CMS\\Dispatcher\\DefaultModuleDispatcher';
 		}
 
-		if (!is_subclass_of($className, AbstractModuleDispatcher::class))
-		{
-			throw new \InvalidArgumentException("Dispatcher class is invalid for module " . $module->module);
-		}
-
 		return new $className($application, $input ?: $application->input, $module);
 	}
 }
