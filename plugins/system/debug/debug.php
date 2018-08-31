@@ -1508,9 +1508,12 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '<ul>';
 
-		foreach ($errorfiles as $file => $error)
+		foreach ($errorfiles as $file => $errors)
 		{
-			$html[] = '<li>' . $this->formatLink($file) . str_replace($file, '', $error) . '</li>';
+			foreach ($errors as $error)
+			{
+				$html[] = '<li>' . $this->formatLink($file, $error) . '</li>';
+			}
 		}
 
 		$html[] = '</ul>';

@@ -28,7 +28,7 @@ foreach ($value as $v)
 		continue;
 	}
 
-	$condition .= ', ' . $db->q($v);
+	$condition .= ', ' . $db->quote($v);
 }
 
 $query = $fieldParams->get('query', '');

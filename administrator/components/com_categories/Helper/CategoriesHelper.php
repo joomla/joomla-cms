@@ -133,10 +133,10 @@ class CategoriesHelper
 			$db       = \JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn('published'))
-				->from($db->qn('#__categories'))
+				->select($db->quoteName('published'))
+				->from($db->quoteName('#__categories'))
 				->where('access IN (' . $groups . ')')
-				->where($db->qn('id') . ' = ' . (int) $assocId);
+				->where($db->quoteName('id') . ' = ' . (int) $assocId);
 
 			$result = (int) $db->setQuery($query)->loadResult();
 
@@ -155,7 +155,7 @@ class CategoriesHelper
 	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
-	 * @return int $catid  Category ID.
+	 * @return  integer  $catid  Category ID.
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{

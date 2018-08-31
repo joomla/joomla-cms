@@ -57,6 +57,11 @@ class CategoriesModel extends ListModel
 			);
 		}
 
+		if (Associations::isEnabled())
+		{
+			$config['filter_fields'][] = 'association';
+		}
+
 		parent::__construct($config, $factory);
 	}
 

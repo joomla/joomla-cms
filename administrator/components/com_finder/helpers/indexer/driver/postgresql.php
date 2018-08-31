@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Indexer class supporting PostgreSQL for the Finder indexer package.
  *

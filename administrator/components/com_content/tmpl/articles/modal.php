@@ -111,12 +111,12 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<span class="<?php echo $iconStates[$this->escape($item->status)]; ?>" aria-hidden="true"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row">
 							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'
 								. ' data-id="' . $item->id . '"'
-								. ' data-title="' . $this->escape(addslashes($item->title)) . '"'
+								. ' data-title="' . $this->escape($item->title) . '"'
 								. ' data-cat-id="' . $this->escape($item->catid) . '"'
 								. ' data-uri="' . $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)) . '"'
 								. ' data-language="' . $this->escape($lang) . '"';

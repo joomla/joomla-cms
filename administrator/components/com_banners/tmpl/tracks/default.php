@@ -67,7 +67,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 										<?php echo $item->count; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo HTMLHelper::_('date', $item->track_date, Text::_('DATE_FORMAT_LC4') . ' H:i'); ?>
+										<?php echo HTMLHelper::_('date', $item->track_date, Text::_('DATE_FORMAT_LC5')); ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>
