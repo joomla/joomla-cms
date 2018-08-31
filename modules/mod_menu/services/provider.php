@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\Module;
+use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
 
 /**
  * The menu module service provider.
@@ -32,7 +32,7 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Module\\Menu'));
+		$container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Menu'));
 
 		$container->registerServiceProvider(new Module);
 	}

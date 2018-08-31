@@ -13,7 +13,7 @@ use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -45,7 +45,7 @@ return new class implements ServiceProviderInterface
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Content'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Content'));
 
 		$container->set(
 			ComponentInterface::class,
