@@ -11,7 +11,7 @@ namespace Joomla\Module\Menu\Site\Dispatcher;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Dispatcher\ModuleDispatcher;
+use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\Module\Menu\Site\Helper\MenuHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Module\Menu\Site\Helper\MenuHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Dispatcher extends ModuleDispatcher
+class Dispatcher extends AbstractModuleDispatcher
 {
 	/**
 	 * Returns the layout data. This function can be overridden by subclasses to add more

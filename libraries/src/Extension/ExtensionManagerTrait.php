@@ -135,7 +135,7 @@ trait ExtensionManagerTrait
 					$container->set($type, new LegacyComponent('com_' . $extensionName));
 					break;
 				case ModuleInterface::class:
-					$container->set($type, new LegacyModule);
+					$container->set($type, new BasicModule);
 					break;
 			}
 		}

@@ -10,15 +10,17 @@ namespace Joomla\CMS\Dispatcher;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\Registry\Registry;
 
 /**
- * Base class for a Joomla Module Dispatcher.
+ * Base class for a legacy Joomla Dispatcher
+ *
+ * Executes the single entry file of a legacy component.
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class ModuleDispatcher extends Dispatcher implements ModuleDispatcherInterface
+class ModuleDispatcher implements ModuleDispatcherInterface
 {
 	/**
 	 * The module instance
@@ -26,10 +28,30 @@ abstract class ModuleDispatcher extends Dispatcher implements ModuleDispatcherIn
 	 * @var    \stdClass
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $module;
+	private $module;
 
 	/**
-	 * Dispatches the dispatcher.
+	 * The application instance
+	 *
+	 * @var    CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $app;
+
+	/**
+	 * Constructor for Dispatcher
+	 *
+	 * @param   CMSApplication  $app  The application instance
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(CMSApplication $app)
+	{
+		$this->app = $app;
+	}
+
+	/**
+	 * Dispatch a controller task. Redirecting the user if appropriate.
 	 *
 	 * @return  void
 	 *
@@ -37,64 +59,33 @@ abstract class ModuleDispatcher extends Dispatcher implements ModuleDispatcherIn
 	 */
 	public function dispatch()
 	{
-		$this->loadLanguage();
+		$path = JPATH_BASE . '/modules/' . $this->module->module . '/' . $this->module->module . '.php';
 
-		$displayData = $this->getLayoutData();
-
-		// Abort when display data is false
-		if ($displayData === false)
+		if (!file_exists($path))
 		{
 			return;
 		}
 
-		// Execute the layout without the module context
-		$loader = static function(array $displayData)
-		{
-			extract($displayData);
-			require ModuleHelper::getLayoutPath($displayData['module']->module, $displayData['params']->get('layout', 'default'));
-		};
-
-		$loader($displayData);
-	}
-
-	/**
-	 * Returns the layout data. This function can be overridden by subclasses to add more
-	 * attributes for the layout.
-	 *
-	 * If false is returned, then it means that the dispatch process should be aborted.
-	 *
-	 * @return  array|false
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getLayoutData()
-	{
-		return ['module' => $this->module, 'params' => new Registry($this->module->params), 'app' => $this->app];
-	}
-
-	/**
-	 * Load the language.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function loadLanguage()
-	{
-		$language = $this->app->getLanguage();
+		$lang = $this->app->getLanguage();
 
 		$coreLanguageDirectory      = JPATH_BASE;
-		$extensionLanguageDirectory = dirname(JPATH_BASE . '/modules/' . $this->module->module);
+		$extensionLanguageDirectory = dirname($path);
 
-		$langPaths = $language->getPaths();
+		$langPaths = $lang->getPaths();
 
 		// Only load the module's language file if it hasn't been already
 		if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
 		{
 			// 1.5 or Core then 1.6 3PD
-			$language->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
-			$language->load($this->module->module, $extensionLanguageDirectory, null, false, true);
+			$lang->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
+			$lang->load($this->module->module, $extensionLanguageDirectory, null, false, true);
 		}
+
+		// Execute the module
+		$loader = static function($path, $module, $app, $template, $params) {
+			include $path;
+		};
+		$loader($path, $this->module, $this->app, $this->app->getTemplate(), new Registry($this->module->params));
 	}
 
 	/**
