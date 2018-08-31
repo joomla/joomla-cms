@@ -27,8 +27,6 @@ interface CategoriesServiceInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @see     CategoryInterface::setOptions()
-	 *
 	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
