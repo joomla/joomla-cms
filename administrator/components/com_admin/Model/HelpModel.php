@@ -156,7 +156,6 @@ class HelpModel extends BaseDatabaseModel
 		}
 
 		// Get Help files
-		jimport('joomla.filesystem.folder');
 		$files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 		$this->toc = array();
 

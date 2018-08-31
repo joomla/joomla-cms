@@ -133,8 +133,6 @@ class OverrideModel extends AdminModel
 	 */
 	public function save($data, $opposite_client = false)
 	{
-		jimport('joomla.filesystem.file');
-
 		$app = Factory::getApplication();
 
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 0);

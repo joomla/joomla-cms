@@ -40,7 +40,7 @@ $fields = $displayData->get('fields') ?: array(
 	'version_note',
 );
 
-if ($displayData->get('item')->id !== null)
+if (isset($displayData->get('item')->id) && ($displayData->get('item')->id !== null))
 {
 	array_unshift($fields, 'transition');
 }
