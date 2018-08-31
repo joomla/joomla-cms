@@ -123,6 +123,14 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	protected $_jsonEncode = array();
 
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = false;
+
+	/**
 	 * The UCM type alias. Used for tags, content versioning etc. Leave blank to effectively disable these features.
 	 *
 	 * @var    string
@@ -1283,11 +1291,13 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			}
 		}
 
+		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
 			->set($this->_db->quoteName($checkedOutField) . ' = 0')
-			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1296,7 +1306,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 
 		// Set table values in the object.
 		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = '';
+		$this->$checkedOutTimeField = $nullDate === 'NULL' ? null : '';
 
 		// Post-processing by observers
 		$event = AbstractEvent::create(

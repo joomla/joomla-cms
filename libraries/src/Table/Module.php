@@ -11,7 +11,6 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -24,6 +23,14 @@ use Joomla\Registry\Registry;
  */
 class Module extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor.
 	 *
@@ -207,92 +214,5 @@ class Module extends Table
 		}
 
 		return parent::store($updateNulls);
-	}
-
-	/**
-	 * Method to check a row in if the necessary properties/fields exist.
-	 *
-	 * Checking a row in will allow other users the ability to edit the row.
-	 *
-	 * Overload checkIn method in order to set column checked_out_time to NULL.
-	 *
-	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   __DEPLY_VERSION__
-	 * @throws  \UnexpectedValueException
-	 */
-	public function checkIn($pk = null)
-	{
-		// Pre-processing by observers
-		$event = AbstractEvent::create(
-			'onTableBeforeCheckin',
-			[
-				'subject'	=> $this,
-				'pk'		=> $pk,
-			]
-		);
-		$this->getDispatcher()->dispatch('onTableBeforeCheckin', $event);
-
-		$checkedOutField = $this->getColumnAlias('checked_out');
-		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
-
-		// If there is no checked_out or checked_out_time field, just return true.
-		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
-		{
-			return true;
-		}
-
-		if (is_null($pk))
-		{
-			$pk = array();
-
-			foreach ($this->_tbl_keys as $key)
-			{
-				$pk[$this->$key] = $this->$key;
-			}
-		}
-		elseif (!is_array($pk))
-		{
-			$pk = array($this->_tbl_key => $pk);
-		}
-
-		foreach ($this->_tbl_keys as $key)
-		{
-			$pk[$key] = empty($pk[$key]) ? $this->$key : $pk[$key];
-
-			if ($pk[$key] === null)
-			{
-				throw new \UnexpectedValueException('Null primary key not allowed.');
-			}
-		}
-
-		// Check the row in by primary key.
-		$query = $this->_db->getQuery(true)
-			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
-			->set($this->_db->quoteName($checkedOutTimeField) . ' = NULL');
-		$this->appendPrimaryKeys($query, $pk);
-		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		$this->_db->execute();
-
-		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = null;
-
-		// Post-processing by observers
-		$event = AbstractEvent::create(
-			'onTableAfterCheckin',
-			[
-				'subject'	=> $this,
-				'pk'		=> $pk,
-			]
-		);
-		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
-
-		return true;
 	}
 }
