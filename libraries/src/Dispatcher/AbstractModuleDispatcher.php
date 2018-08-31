@@ -47,7 +47,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	}
 
 	/**
-	 * Dispatches the dispatcher.
+	 * Runs the dispatcher.
 	 *
 	 * @return  void
 	 *
