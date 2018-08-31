@@ -10,10 +10,10 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-toolbar-button.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 
 /**
  * @var  int     $id
@@ -31,25 +31,14 @@ extract($displayData, EXTR_OVERWRITE);
 $tagName = $tagName ?? 'button';
 
 $modalAttrs['data-toggle'] = 'modal';
+$modalAttrs['data-target'] = '#' . $selector;
 
-if (!empty($listCheck))
-{
-	Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-	Text::script('ERROR');
-	$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-	$alert = 'Joomla.renderMessages(' . $message . ')';
+$idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
+$listAttr = !empty($listCheck) ? ' list-selection' : '';
 
-	$modalAttrs['onclick'] = <<<JS
-if (document.adminForm.boxchecked.value==0){ $alert } else { jQuery( '#$selector' ).modal('show'); return true; }
-JS;
-}
-else
-{
-	$modalAttrs['data-target'] = '#' . $selector;
-}
 ?>
+<joomla-toolbar-button <?php echo $idAttr.$listAttr; ?>>
 <<?php echo $tagName; ?>
-	id="<?php echo $id; ?>"
 	value="<?php echo $doTask; ?>"
 	class="<?php echo $btnClass; ?>"
 	<?php echo $htmlAttributes; ?>
@@ -58,3 +47,4 @@ else
 	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </<?php echo $tagName; ?>>
+</joomla-toolbar-button>
