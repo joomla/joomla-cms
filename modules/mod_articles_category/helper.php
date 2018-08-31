@@ -516,7 +516,7 @@ abstract class ModArticlesCategoryHelper
 	public static function groupByTags($list, $direction = 'ksort')
 	{
 		$grouped  = array();
-		$untagged = JText::_('MOD_ARTICLES_CATEGORY_UNTAGGED');
+		$untagged = 'MOD_ARTICLES_CATEGORY_UNTAGGED';
 
 		if (!$list)
 		{
