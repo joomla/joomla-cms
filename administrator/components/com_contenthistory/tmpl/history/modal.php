@@ -86,7 +86,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap text-center">
+					<th scope="col" style="width:10%" class="nowrap text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -128,7 +128,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<td class="d-none d-md-table-cell">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
-					<td class="text-center">
+					<td class="text-right">
 						<?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>
 					</td>
 				</tr>
