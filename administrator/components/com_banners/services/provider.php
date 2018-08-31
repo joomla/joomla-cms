@@ -39,7 +39,7 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new CategoriesFactory(['table' => '#__banners', 'extension' => 'com_banners']));
+		$container->registerServiceProvider(new CategoriesFactory('\\Joomla\\Component\\Banners'));
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Banners'));
 		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Banners'));
 

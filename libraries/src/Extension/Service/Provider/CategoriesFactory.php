@@ -22,24 +22,24 @@ use Joomla\DI\ServiceProviderInterface;
 class CategoriesFactory implements ServiceProviderInterface
 {
 	/**
-	 * The options
+	 * The namespace to create the categories from.
 	 *
-	 * @var  array
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @var    string
+	 * @since  4.0.0
 	 */
-	private $options;
+	private $namespace;
 
 	/**
-	 * Categories constructor. The options are for the default section only.
+	 * The namespace must be like:
+	 * Joomla\Component\Content
 	 *
-	 * @param   array  $options  The options
+	 * @param   string  $namespace  The namespace
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function __construct(array $options)
+	public function __construct($namespace)
 	{
-		$this->options = $options;
+		$this->namespace = $namespace;
 	}
 
 	/**
@@ -57,7 +57,7 @@ class CategoriesFactory implements ServiceProviderInterface
 			CategoriesFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Categories\CategoriesFactory(['' => $this->options]);
+				return new \Joomla\CMS\Categories\CategoriesFactory($this->namespace);
 			}
 		);
 	}

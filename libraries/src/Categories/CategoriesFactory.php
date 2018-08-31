@@ -18,29 +18,30 @@ defined('_JEXEC') or die;
 class CategoriesFactory implements CategoriesFactoryInterface
 {
 	/**
-	 * The options
+	 * The namespace to create the categories from.
 	 *
-	 * @var  array
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @var    string
+	 * @since  4.0.0
 	 */
-	private $options;
+	private $namespace;
 
 	/**
-	 * CategoriesFactory constructor.
+	 * The namespace must be like:
+	 * Joomla\Component\Content
 	 *
-	 * @param   array  $options  The options
+	 * @param   string  $namespace  The namespace
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function __construct(array $options)
+	public function __construct($namespace)
 	{
-		$this->options = $options;
+		$this->namespace = $namespace;
 	}
 
 	/**
 	 * Creates a category.
 	 *
+	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
 	 * @return  CategoryInterface
@@ -49,13 +50,15 @@ class CategoriesFactory implements CategoriesFactoryInterface
 	 *
 	 * @throws  SectionNotFoundException
 	 */
-	public function createCategory(string $section): CategoryInterface
+	public function createCategory(array $options, string $section): CategoryInterface
 	{
-		if (!array_key_exists($section, $this->options))
+		$className = trim($this->namespace, '\\') . '\\Site\\Service\\' . ucfirst($section) . 'Category';
+
+		if (!class_exists($className))
 		{
 			throw new SectionNotFoundException;
 		}
 
-		return new Categories($this->options[$section]);
+		return new $className($options);
 	}
 }

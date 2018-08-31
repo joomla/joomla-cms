@@ -43,7 +43,7 @@ return new class implements ServiceProviderInterface
 	{
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
-		$container->registerServiceProvider(new CategoriesFactory(['table' => '#__content', 'extension' => 'com_content']));
+		$container->registerServiceProvider(new CategoriesFactory('\\Joomla\\Component\\Banners'));
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Content'));
 

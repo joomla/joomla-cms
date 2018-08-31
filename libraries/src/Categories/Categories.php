@@ -109,12 +109,25 @@ class Categories implements CategoryInterface
 		$this->_statefield = $options['statefield'] ?? 'state';
 
 		// Default some optional options
-		$this->_options['access']      = 'true';
-		$this->_options['published']   = 1;
-		$this->_options['countItems']  = 0;
-		$this->_options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+		if (!isset($options['access']))
+		{
+			$this->_options['access'] = 'true';
+		}
 
-		$this->setOptions($options);
+		if (!isset($options['published']))
+		{
+			$this->_options['published'] = 1;
+		}
+
+		if (!isset($options['countItems']))
+		{
+			$this->_options['countItems'] = 0;
+		}
+
+		if (!isset($options['currentlang']))
+		{
+			$this->_options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+		}
 	}
 
 	/**
@@ -165,11 +178,9 @@ class Categories implements CategoryInterface
 	 * @param   mixed    $id         an optional id integer or equal to 'root'
 	 * @param   boolean  $forceload  True to force  the _load method to execute
 	 *
-	 * @return  CategoryNode  CategoryNode object
+	 * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
 	 *
 	 * @since   1.6
-	 *
-	 * @throws  CategoryNotFoundException
 	 */
 	public function get($id = 'root', $forceload = false)
 	{
@@ -195,7 +206,7 @@ class Categories implements CategoryInterface
 			return $this->_nodes[$id];
 		}
 
-		throw new CategoryNotFoundException;
+		return null;
 	}
 
 	/**
@@ -387,37 +398,5 @@ class Categories implements CategoryInterface
 		{
 			$this->_nodes[$id] = null;
 		}
-	}
-
-	/**
-	 * Allows to set some optional options, eg. if the access level should be considered.
-	 * Also clears the internal children cache.
-	 *
-	 * @param   array  $options  The new options
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setOptions(array $options)
-	{
-		if (isset($options['access']))
-		{
-			$this->_options['access'] = $options['access'];
-		}
-
-		if (isset($options['published']))
-		{
-			$this->_options['published'] = $options['published'];
-		}
-
-		if (isset($options['countItems']))
-		{
-			$this->_options['countItems'] = $options['countItems'];
-		}
-
-		// Reset the cache
-		$this->_nodes             = [];
-		$this->_checkedCategories = [];
 	}
 }

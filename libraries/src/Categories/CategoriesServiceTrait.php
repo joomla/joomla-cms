@@ -44,10 +44,7 @@ trait CategoriesServiceTrait
 	 */
 	public function getCategory(array $options = [], $section = ''): CategoryInterface
 	{
-		$category = $this->categoriesFactory->createCategory($section);
-		$category->setOptions($options);
-
-		return $category;
+		return $this->categoriesFactory->createCategory($options, $section);
 	}
 
 	/**

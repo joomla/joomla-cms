@@ -20,6 +20,7 @@ interface CategoriesFactoryInterface
 	/**
 	 * Creates a category.
 	 *
+	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
 	 * @return  CategoryInterface
@@ -28,5 +29,5 @@ interface CategoriesFactoryInterface
 	 *
 	 * @throws  SectionNotFoundException
 	 */
-	public function createCategory(string $section): CategoryInterface;
+	public function createCategory(array $options, string $section): CategoryInterface;
 }

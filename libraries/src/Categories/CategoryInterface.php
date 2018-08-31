@@ -30,16 +30,4 @@ interface CategoryInterface
 	 * @throws  CategoryNotFoundException
 	 */
 	public function get($id = 'root', $forceload = false);
-
-	/**
-	 * Allows to set some optional options, eg. if the access level should be considered.
-	 * Also clears the internal children cache.
-	 *
-	 * @param   array  $options  The new options
-	 *
-	 * @return  void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setOptions(array $options);
 }
