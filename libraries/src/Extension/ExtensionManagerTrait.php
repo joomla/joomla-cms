@@ -10,6 +10,7 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
@@ -135,7 +136,7 @@ trait ExtensionManagerTrait
 					$container->set($type, new LegacyComponent('com_' . $extensionName));
 					break;
 				case ModuleInterface::class:
-					$container->set($type, new BasicModule);
+					$container->set($type, new Module(new ModuleDispatcherFactory('')));
 					break;
 			}
 		}

@@ -32,7 +32,7 @@ class MVCFactoryFactory implements ServiceProviderInterface
 	private $namespace;
 
 	/**
-	 * DispatcherFactory constructor.
+	 * MVCFactory constructor.
 	 *
 	 * @param   string  $namespace  The namespace
 	 *

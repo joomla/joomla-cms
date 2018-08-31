@@ -6,31 +6,29 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Extension;
+namespace Joomla\CMS\Dispatcher;
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\Input\Input;
 
 /**
- * Access to module specific services.
+ * Component dispatcher factory interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-interface ModuleInterface
+interface ComponentDispatcherFactoryInterface
 {
 	/**
-	 * Returns the dispatcher for the given application, module and input.
+	 * Creates a dispatcher.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
-	 * @param   \stdClass                $module       The module
 	 * @param   Input                    $input        The input object, defaults to the one in the application
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getDispatcher(CMSApplicationInterface $application, \stdClass $module, Input $input = null): DispatcherInterface;
+	public function createDispatcher(CMSApplicationInterface $application, Input $input = null): DispatcherInterface;
 }

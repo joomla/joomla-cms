@@ -11,22 +11,25 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\Input\Input;
 
 /**
- * Dispatcher factory interface
+ * Module dispatcher factory interface
  *
  * @since  4.0.0
  */
-interface DispatcherFactoryInterface
+interface ModuleDispatcherFactoryInterface
 {
 	/**
 	 * Creates a dispatcher.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
+	 * @param   \stdClass                $module       The module
+	 * @param   Input                    $input        The input object, defaults to the one in the application
 	 *
 	 * @return  DispatcherInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function createDispatcher(CMSApplicationInterface $application): DispatcherInterface;
+	public function createDispatcher(CMSApplicationInterface $application, \stdClass $module, Input $input = null): DispatcherInterface;
 }

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
@@ -51,7 +51,7 @@ return new class implements ServiceProviderInterface
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new ContentComponent($container->get(DispatcherFactoryInterface::class));
+				$component = new ContentComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
 				$component->setRegistry($container->get(Registry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));

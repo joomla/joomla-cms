@@ -24,7 +24,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Dispatcher\DispatcherFactory;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Plugin\PluginHelper;

@@ -15,11 +15,11 @@ use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
 
 /**
- * Namesapce based implementation of the DispatcherFactoryInterface
+ * Namespace based implementation of the ComponentDispatcherFactoryInterface
  *
  * @since  4.0.0
  */
-class DispatcherFactory implements DispatcherFactoryInterface
+class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 {
 	/**
 	 * The extension namespace
@@ -40,14 +40,14 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	private $mvcFactoryFactory;
 
 	/**
-	 * DispatcherFactory constructor.
+	 * ComponentDispatcherFactory constructor.
 	 *
 	 * @param   string                      $namespace          The namespace
 	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory = null)
+	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
 		$this->namespace         = $namespace;
 		$this->mvcFactoryFactory = $mvcFactoryFactory;

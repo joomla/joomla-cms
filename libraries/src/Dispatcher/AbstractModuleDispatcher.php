@@ -10,7 +10,9 @@ namespace Joomla\CMS\Dispatcher;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -18,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class AbstractModuleDispatcher extends Dispatcher implements ModuleDispatcherInterface
+abstract class AbstractModuleDispatcher extends Dispatcher
 {
 	/**
 	 * The module instance
@@ -27,6 +29,22 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements ModuleDisp
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $module;
+
+	/**
+	 * Constructor for Dispatcher
+	 *
+	 * @param   CMSApplicationInterface  $app     The application instance
+	 * @param   Input                    $input   The input instance
+	 * @param   \stdClass                $module  The module
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct(CMSApplicationInterface $app, Input $input, \stdClass $module)
+	{
+		parent::__construct($app, $input);
+
+		$this->module = $module;
+	}
 
 	/**
 	 * Dispatches the dispatcher.
@@ -69,7 +87,13 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements ModuleDisp
 	 */
 	protected function getLayoutData()
 	{
-		return ['module' => $this->module, 'params' => new Registry($this->module->params), 'app' => $this->app];
+		return [
+			'module'   => $this->module,
+			'app'      => $this->app,
+			'input'    => $this->input,
+			'params'   => new Registry($this->module->params),
+			'template' => $this->app->getTemplate()
+		];
 	}
 
 	/**
@@ -95,31 +119,5 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements ModuleDisp
 			$language->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
 			$language->load($this->module->module, $extensionLanguageDirectory, null, false, true);
 		}
-	}
-
-	/**
-	 * Returns the module.
-	 *
-	 * @return  \stdClass
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getModule()
-	{
-		return $this->module;
-	}
-
-	/**
-	 * Sets the module.
-	 *
-	 * @param   \stdClass  $module  The module
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setModule(\stdClass $module)
-	{
-		$this->module = $module;
 	}
 }
