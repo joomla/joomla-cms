@@ -171,7 +171,7 @@ class Categories implements CategoryInterface
 	 *
 	 * @throws  CategoryNotFoundException
 	 */
-	public function get($id = 'root', $forceload = false): CategoryNode
+	public function get($id = 'root', $forceload = false)
 	{
 		if ($id !== 'root')
 		{

@@ -29,7 +29,7 @@ interface CategoryInterface
 	 *
 	 * @throws  CategoryNotFoundException
 	 */
-	public function get($id = 'root', $forceload = false): CategoryNode;
+	public function get($id = 'root', $forceload = false);
 
 	/**
 	 * Allows to set some optional options, eg. if the access level should be considered.
