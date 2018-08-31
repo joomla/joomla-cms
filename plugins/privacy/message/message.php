@@ -17,7 +17,7 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Privacy plugin managing Joomla user messages
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyMessage extends PrivacyPlugin
 {
@@ -25,7 +25,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -33,7 +33,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 * Affects constructor behaviour. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -47,7 +47,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -69,7 +69,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createMessageDomain(JUser $user)
 	{

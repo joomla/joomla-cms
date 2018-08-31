@@ -1972,6 +1972,19 @@ class JoomlaInstallerScript
 			/*
 			 * Joomla! 3.8.0 thru 3.9.0
 			 */
+			'/administrator/includes/toolbar.php',
+			'/libraries/joomla/filesystem/file.php',
+			'/libraries/joomla/filesystem/folder.php',
+			'/libraries/joomla/filesystem/helper.php',
+			'/libraries/joomla/filesystem/meta/language/en-GB/en-GB.lib_joomla_filesystem_patcher.ini',
+			'/libraries/joomla/filesystem/patcher.php',
+			'/libraries/joomla/filesystem/path.php',
+			'/libraries/joomla/filesystem/stream.php',
+			'/libraries/joomla/filesystem/streams/string.php',
+			'/libraries/joomla/filesystem/support/stringcontroller.php',
+			'/libraries/joomla/filesystem/wrapper/file.php',
+			'/libraries/joomla/filesystem/wrapper/folder.php',
+			'/libraries/joomla/filesystem/wrapper/path.php',
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 			'/plugins/captcha/recaptcha/recaptchalib.php',
 

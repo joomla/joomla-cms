@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * Typically, this object will only be used to communicate data will be removed.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyRemovalStatus
 {
@@ -22,7 +22,7 @@ class PrivacyRemovalStatus
 	 * Flag indicating the status reported by the plugin on whether the information can be removed
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $canRemove = true;
 
@@ -30,7 +30,7 @@ class PrivacyRemovalStatus
 	 * A status message indicating the reason data can or cannot be removed
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $reason;
 }

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Privacy component HTML helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyHtmlHelper
 {
@@ -23,7 +23,7 @@ class PrivacyHtmlHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function statusLabel($status)
 	{

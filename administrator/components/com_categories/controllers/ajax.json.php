@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Joomla\CMS\Language\LanguageHelper;
 /**
  * The categories controller for ajax requests
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class CategoriesControllerAjax extends JControllerLegacy
 {
@@ -28,7 +28,7 @@ class CategoriesControllerAjax extends JControllerLegacy
 	 *
 	 * @return  null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function fetchAssociations()
 	{

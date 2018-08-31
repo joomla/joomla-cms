@@ -418,7 +418,7 @@ class MessagesModelMessage extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function notifySuperUsers($subject, $message, $fromUser = null)
 	{

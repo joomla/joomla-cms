@@ -80,7 +80,7 @@ class LanguagesHelper
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
 	 * @since   2.5
-	 * @deprecated   __DEPLOY_VERSION__ Use JLanguageHelper::parseIniFile() instead.
+	 * @deprecated   3.9.0 Use JLanguageHelper::parseIniFile() instead.
 	 */
 	public static function parseFile($fileName)
 	{
