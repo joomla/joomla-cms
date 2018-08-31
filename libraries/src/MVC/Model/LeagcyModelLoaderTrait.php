@@ -51,8 +51,6 @@ trait LeagcyModelLoaderTrait
 
 		if (!empty($path))
 		{
-			jimport('joomla.filesystem.path');
-
 			foreach ((array) $path as $includePath)
 			{
 				if (!in_array($includePath, $paths[$prefix]))
@@ -115,7 +113,6 @@ trait LeagcyModelLoaderTrait
 
 		if (!class_exists($modelClass))
 		{
-			jimport('joomla.filesystem.path');
 			$path = \JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)
