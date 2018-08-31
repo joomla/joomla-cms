@@ -23,11 +23,9 @@ interface CategoryInterface
 	 * @param   mixed    $id         an optional id integer or equal to 'root'
 	 * @param   boolean  $forceload  True to force  the _load method to execute
 	 *
-	 * @return  CategoryNode  CategoryNode object
+	 * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @throws  CategoryNotFoundException
 	 */
 	public function get($id = 'root', $forceload = false);
 }
