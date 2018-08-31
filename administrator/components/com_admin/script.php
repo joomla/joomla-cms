@@ -2250,6 +2250,14 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
 			'/media/editors/tinymce/plugins/jdragdrop',
+			// Joomla! 3.9.0
+			'/libraries/joomla/filesystem/meta/language/en-GB',
+			'/libraries/joomla/filesystem/meta/language',
+			'/libraries/joomla/filesystem/meta',
+			'/libraries/joomla/filesystem/streams',
+			'/libraries/joomla/filesystem/support',
+			'/libraries/joomla/filesystem/wrapper',
+			'/libraries/joomla/filesystem',
 		);
 
 		jimport('joomla.filesystem.file');
