@@ -54,6 +54,7 @@ abstract class JHtmlWorkflowstage
 				)
 			->from($db->quoteName('#__workflow_stages', 'ws'))
 			->leftJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')
+			->where('w.published = 1')
 			->order('ws.ordering');
 
 		// Set the query and load the options.
