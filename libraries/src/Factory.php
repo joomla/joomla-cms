@@ -569,23 +569,6 @@ abstract class Factory
 	{
 		if (is_file($file))
 		{
-			// opcode cache busting before including the filename
-			if (function_exists('opcache_invalidate'))
-			{
-				opcache_invalidate($file);
-			}
-			if (function_exists('apc_compile_file'))
-			{
-				apc_compile_file($file);
-			}
-			if (function_exists('wincache_refresh_if_changed'))
-			{
-				wincache_refresh_if_changed(array($file));
-			}
-			if (function_exists('xcache_asm'))
-			{
-				xcache_asm($file);
-			}
 			include_once $file;
 		}
 
