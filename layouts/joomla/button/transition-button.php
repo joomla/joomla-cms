@@ -28,23 +28,23 @@ $id = (int) $options['id'];
 $tipTitle = $options['tip_title'];
 $checkboxName = $options['checkbox_name'];
 ?>
-<?php if($only_icon): ?>
+<?php if ($only_icon) : ?>
 	<span class="tbody-icon mr-1">
-		<span class="<?php echo $this->escape($icon ?? ''); ?> <?php echo $tip ? 'hasPopover' : '' ?>"
-			title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0) ?>"
-			data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0) ?>"
+		<span class="<?php echo $this->escape($icon ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
+			title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
+			data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
 			data-placement="top"
 		></span>
 	</span>
 	<div class="mr-auto"><?php echo $this->escape($options['stage']); ?></div>
 <?php else: ?>
 	<a class="tbody-icon mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?> <?php echo $tip ? 'hasPopover' : '' ?>"
-		<?php if (empty($disabled)): ?>
+		<?php if (empty($disabled)) : ?>
 			href="javascript://"
 		<?php endif; ?>
 
-		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0) ?>"
-		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0) ?>"
+		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
+		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
 		data-placement="top"
 		onclick="jQuery(this).nextAll().toggleClass('d-none');"
 	>
