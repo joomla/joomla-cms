@@ -112,7 +112,7 @@ class WorkflowModel extends AdminModel
 			$newstage = new \stdClass;
 
 			$newstage->workflow_id = (int) $this->getState($this->getName() . '.id');
-			$newstage->title = Text::_('COM_WORKFLOW_PUBLISHED');
+			$newstage->title = 'COM_WORKFLOW_PUBLISHED';
 			$newstage->description = '';
 			$newstage->published = 1;
 			$newstage->condition = 1;
