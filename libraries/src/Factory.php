@@ -569,7 +569,6 @@ abstract class Factory
 	{
 		if (is_file($file))
 		{
-			// opcode cache busting before including the filename
 			if (function_exists('opcache_invalidate'))
 			{
 				opcache_invalidate($file);
