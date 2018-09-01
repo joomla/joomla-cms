@@ -16,7 +16,7 @@ JLoader::register('PrivacyExportItem', __DIR__ . '/export/item.php');
 /**
  * Base class for privacy plugins
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 abstract class PrivacyPlugin extends JPlugin
 {
@@ -28,7 +28,7 @@ abstract class PrivacyPlugin extends JPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function createDomain($name, $description = '')
 	{
@@ -47,7 +47,7 @@ abstract class PrivacyPlugin extends JPlugin
 	 *
 	 * @return  PrivacyExportItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function createItemFromArray(array $data, $itemId = null)
 	{
@@ -83,7 +83,7 @@ abstract class PrivacyPlugin extends JPlugin
 	 *
 	 * @return  PrivacyExportItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function createItemForTable($table)
 	{

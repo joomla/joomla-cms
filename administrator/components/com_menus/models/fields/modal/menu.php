@@ -64,7 +64,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * Determinate, if the propagate button is shown
 	 *
 	 * @var     boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected $allowPropagate = false;
 

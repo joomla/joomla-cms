@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_act
 /**
  * Field to load a list of all users that have logged actions
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.9.0
  */
 class JFormFieldLogType extends JFormFieldCheckboxes
 {
@@ -23,7 +23,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'LogType';
 
@@ -32,7 +32,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getOptions()
 	{
