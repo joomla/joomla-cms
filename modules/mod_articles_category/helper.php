@@ -516,7 +516,7 @@ abstract class ModArticlesCategoryHelper
 	public static function groupByTags($list, $direction = 'ksort')
 	{
 		$grouped  = array();
-		$untagged = 'MOD_ARTICLES_CATEGORY_UNTAGGED';
+		$untagged = array();
 
 		if (!$list)
 		{
@@ -534,11 +534,16 @@ abstract class ModArticlesCategoryHelper
 			}
 			else
 			{
-				$grouped[$untagged][] = $item;
+				$untagged[] = $item;
 			}
 		}
 
 		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
+		}
 
 		return $grouped;
 	}
