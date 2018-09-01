@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -80,7 +79,7 @@ class MenuRules implements RulesInterface
 		// Set the language to the current one when multilang is enabled and item is tagged to ALL
 		if (Multilanguage::isEnabled() && $language === '*')
 		{
-			$language = Factory::getLanguage()->getTag();
+			$language = $this->router->app->get('language');
 		}
 
 		if (!isset($this->lookup[$language]))
