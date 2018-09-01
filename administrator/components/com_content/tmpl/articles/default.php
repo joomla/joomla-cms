@@ -162,15 +162,6 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
-							$hasTransitions = count($transitions) > 0;
-
-							$default = [
-								JHtml::_('select.option', '', $this->escape(Text::_($item->stage_title))),
-								JHtml::_('select.option', '-1', '--------', ['disable' => true])
-							];
-
-							$transitions = array_merge($default, $transitions);
-
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 								<td class="order nowrap text-center d-none d-md-table-cell">
@@ -203,7 +194,8 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 
 											$options = [
 												'transitions' => $transitions,
-												'stage' => Text::_($item->stage_title)
+												'stage' => Text::_($item->stage_title),
+												'id' => (int) $item->id
 											];
 
 											echo (new PublishedButton())
