@@ -78,12 +78,9 @@ abstract class ContentHelperRoute
 		{
 			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
-			if ($language && Multilanguage::isEnabled())
+			if ($language && $language !== '*' && Multilanguage::isEnabled())
 			{
-				if ($language !== '*')
-				{
-					$link .= '&lang=' . $language;
-				}
+				$link .= '&lang=' . $language;
 			}
 		}
 
