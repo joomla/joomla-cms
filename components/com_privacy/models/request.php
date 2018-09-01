@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelRequest extends JModelAdmin
 {
@@ -23,7 +23,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  mixed  Exception | JException | boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function createRequest($data)
 	{
@@ -225,7 +225,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -241,7 +241,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
@@ -256,7 +256,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState()
 	{

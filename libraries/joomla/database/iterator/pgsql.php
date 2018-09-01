@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database iterator for the PDO based PostgreSQL database driver.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JDatabaseIteratorPgsql extends JDatabaseIteratorPdo
 {

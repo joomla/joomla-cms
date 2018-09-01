@@ -731,7 +731,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function countItemsByMonth()
 	{

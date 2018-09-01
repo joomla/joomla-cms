@@ -18,7 +18,7 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Privacy plugin managing Joomla actionlogs data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyActionlogs extends PrivacyPlugin
 {
@@ -26,7 +26,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -34,7 +34,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -46,7 +46,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
