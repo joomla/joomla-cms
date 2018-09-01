@@ -334,7 +334,14 @@ class FileStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		return is_writable(\JFactory::getConfig()->get('cache_path', JPATH_CACHE));
+		$folder = \JFactory::getConfig()->get('cache_path', JPATH_CACHE);
+
+		if (!is_dir($folder))
+		{
+			@mkdir($folder);
+		}
+
+		return is_writable($folder);
 	}
 
 	/**
