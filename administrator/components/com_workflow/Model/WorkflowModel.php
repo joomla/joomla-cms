@@ -105,7 +105,7 @@ class WorkflowModel extends AdminModel
 
 		$result = parent::save($data);
 
-		// Create a default stages/transitions
+		// Create default stages/transitions
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
 			$workflow_id = (int) $this->getState($this->getName() . '.id');
