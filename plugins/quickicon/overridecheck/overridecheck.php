@@ -52,8 +52,9 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 
 		$token    = Session::getFormToken() . '=1';
 		$options  = array(
-			'url' => Uri::base() . 'index.php?option=com_templates&view=templates',
-			'ajaxUrl' => Uri::base() . 'index.php?option=com_templates&view=templates&task=template.ajax&' . $token,
+			'url'      => Uri::base() . 'index.php?option=com_templates&view=templates',
+			'ajaxUrl'  => Uri::base() . 'index.php?option=com_templates&view=templates&task=template.ajax&' . $token,
+			'pluginId' => $this->getOverridePluginId()
 		);
 
 		Factory::getDocument()->addScriptOptions('js-override-check', $options);
@@ -76,5 +77,34 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 				'group' => 'MOD_QUICKICON_MAINTENANCE'
 			)
 		);
+	}
+
+	/**
+	 * Gets the installer override plugin extension id.
+	 *
+	 * @return  integer  The installer override plugin extension id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOverridePluginId()
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('installer'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('override'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return $result;
 	}
 }
