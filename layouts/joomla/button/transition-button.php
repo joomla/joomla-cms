@@ -61,10 +61,10 @@ $checkboxName = $options['checkbox_name'];
 			$transitions = array_merge($default, $options['transitions']);
 
 			$attribs = [
-				'id'		=> 'transition-select_' . (int) $id,
+				'id'        => 'transition-select_' . (int) $id,
 				'list.attr' => [
-					'class'		=> 'custom-select custom-select-sm form-control form-control-sm',
-					'onchange'	=> "Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
+					'class'    => 'custom-select custom-select-sm form-control form-control-sm',
+					'onchange' => "Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
 				];
 
 			echo HTMLHelper::_('select.genericlist', $transitions, 'transition_' . (int) $id, $attribs);
