@@ -198,7 +198,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 												'id' => (int) $item->id
 											];
 
-											echo (new PublishedButton())
+											echo (new PublishedButton)
 													->removeState(0)
 													->removeState(1)
 													->removeState(2)
@@ -209,8 +209,6 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JTRASHED'])
 													->setLayout('joomla.button.transition-button')
 													->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
-
-
 										?>
 										</div>
 									</div>

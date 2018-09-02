@@ -37,8 +37,8 @@ $checkboxName = $options['checkbox_name'];
 		></span>
 	</span>
 	<div class="mr-auto"><?php echo $this->escape($options['stage']); ?></div>
-<?php else: ?>
-	<a class="tbody-icon mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?> <?php echo $tip ? 'hasPopover' : '' ?>"
+<?php else : ?>
+	<a class="tbody-icon mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
 		<?php if (empty($disabled)) : ?>
 			href="javascript://"
 		<?php endif; ?>
