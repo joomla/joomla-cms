@@ -31,7 +31,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onPrivacyCollectAdminCapabilities()
 	{
