@@ -1,6 +1,6 @@
 (function ($) {
 
-    var csscls = PhpDebugBar.utils.makecsscls('phpdebugbar-widgets-');
+    var csscls = PhpDebugBar.utils.makecsscls('phpdebugbar-widgets-')
     var languageFilesWidget = PhpDebugBar.Widgets.languageFilesWidget = PhpDebugBar.Widget.extend({
 
         tagName: 'table',
@@ -9,21 +9,25 @@
 
         render: function () {
             this.bindAttr('data', function (data) {
-                this.$el.empty();
-                var tr;
+                this.$el.empty()
+                var head = $('<tr />')
+                    .append($('<th />').text('Extension'))
+                    .append($('<th />').text('File'))
+                this.$el.append(head)
                 for (var extension in data.loaded) {
-                    var ul = $('<ul />');
+                    var ul = $('<ul />')
                     for (var file in data.loaded[extension]) {
-                        var css = data.loaded[extension][file] ? 'alert-success' : 'alert-warning';
-                        var relPath = file.replace(data.jroot, 'JROOT')
+                        var css = data.loaded[extension][file] ? 'alert-success' : 'alert-warning'
+                        var status = data.loaded[extension][file] ? '+' : '-'
+                        var relPath = status + ' ' + file.replace(data.jroot, '')
                         var li = $('<li />')
                             .addClass(css)
-                        if (data['xdebug-link']) {
+                        if (data.xdebugLink) {
                             var link = $('<a />')
                                 .text(relPath)
                                 .attr(
                                     'href',
-                                    data['xdebug-link']
+                                    data.xdebugLink
                                         .replace('%f', file)
                                         .replace('%l', '1')
                                 )
@@ -32,14 +36,14 @@
                             li.text(relPath)
                         }
 
-                        li.appendTo(ul);
+                        li.appendTo(ul)
                     }
-                    tr = $('<tr />')
+                    var tr = $('<tr />')
                         .append($('<td />').text(extension))
-                        .append($('<td />').append(ul));
-                    this.$el.append(tr);
+                        .append($('<td />').append(ul))
+                    this.$el.append(tr)
                 }
-            });
+            })
         }
-    });
-})(PhpDebugBar.$);
+    })
+})(PhpDebugBar.$)

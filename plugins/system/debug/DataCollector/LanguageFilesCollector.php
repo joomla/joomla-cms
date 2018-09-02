@@ -65,7 +65,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 
 		return [
 			'loaded' => $loaded,
-			'xdebug-link' => $this->getXdebugLinkTemplate(),
+			'xdebugLink' => $this->getXdebugLinkTemplate(),
 			'jroot' => JPATH_ROOT,
 			'count' => $this->count,
 		];
