@@ -62,23 +62,23 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
-									<th scope="col" style="width:10%" class="nowrap text-center">
+									<th scope="col" style="width:10%" class="nowrap">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -145,28 +145,28 @@ if ($saveOrder && !empty($this->items))
 										</div>
 									</div>
 								</th>
-								<td class="small text-center">
+								<td class="small">
 									<?php if (!empty($item->linked_user)) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 										<div class="small"><?php echo $item->email; ?></div>
 									<?php endif; ?>
 								</td>
-								<td class="small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell">
 									<?php echo $item->access_level; ?>
 								</td>
 								<?php if ($assoc) : ?>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php if ($item->association) : ?>
 										<?php echo HTMLHelper::_('contact.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>

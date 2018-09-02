@@ -235,8 +235,7 @@ if ($saveOrder && !empty($this->items))
 							</td>
 						<?php endif; ?>
 						<td class="d-none d-md-table-cell text-center">
-							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
-								<?php echo (int) $item->id; ?></span>
+							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
