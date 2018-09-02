@@ -28,7 +28,7 @@ $input = Factory::getApplication()->input;
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
 							<th scope="col" style="width:7%" class="nowrap">
-								<?php echo Text::_('JSTATUS'); ?>
+								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
 							</th>
 							<th scope="col" style="width:30%">
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
