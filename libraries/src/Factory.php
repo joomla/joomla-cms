@@ -573,18 +573,7 @@ abstract class Factory
 			{
 				opcache_invalidate($file);
 			}
-			if (function_exists('apc_compile_file'))
-			{
-				apc_compile_file($file);
-			}
-			if (function_exists('wincache_refresh_if_changed'))
-			{
-				wincache_refresh_if_changed(array($file));
-			}
-			if (function_exists('xcache_asm'))
-			{
-				xcache_asm($file);
-			}
+
 			include_once $file;
 		}
 
