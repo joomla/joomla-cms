@@ -137,6 +137,11 @@ div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-callstack th {
     font-weight: bold;
 }
 
+div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item {
+    border-bottom: 1px solid blue;
+    padding: 10px 6px;
+}
+
 div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-error {
     display: block;
     font-weight: bold;
