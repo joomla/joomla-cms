@@ -115,10 +115,10 @@ class PlgSampledataBlog extends CMSPlugin
 		$workflowModel = new WorkflowModel;
 
 		$workflow = [
-			'title'			=> Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_TITLE'),
-			'description'	=> Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_DESCRIPTION'),
-			'published'		=> 1,
-			'extension'		=> 'com_content'
+			'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_TITLE'),
+			'description' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_DESCRIPTION'),
+			'published'   => 1,
+			'extension'   => 'com_content'
 		];
 
 		try
