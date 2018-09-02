@@ -292,7 +292,7 @@ class ContentModelArticles extends JModelList
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
 
-			$query->where(implode(' OR ', $subCatItemsWhere));
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
 		// Case: Using only the by level filter
@@ -408,34 +408,5 @@ class ContentModelArticles extends JModelList
 
 		// Return the result
 		return $db->loadObjectList();
-	}
-
-	/**
-	 * Method to get a list of articles.
-	 * Overridden to add a check for access levels.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   1.6.1
-	 */
-	public function getItems()
-	{
-		$items = parent::getItems();
-
-		if (JFactory::getApplication()->isClient('site'))
-		{
-			$groups = JFactory::getUser()->getAuthorisedViewLevels();
-
-			foreach (array_keys($items) as $x)
-			{
-				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
-				{
-					unset($items[$x]);
-				}
-			}
-		}
-
-		return $items;
 	}
 }

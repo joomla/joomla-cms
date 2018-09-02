@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Mail;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
@@ -440,7 +440,8 @@ class Mail extends \PHPMailer
 	 * Add file attachment to the email
 	 *
 	 * @param   mixed   $path         Either a string or array of strings [filenames]
-	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   mixed   $name         Either a string or array of strings [names]. N.B. if this is an array it must contain the same
+	 *                                number of elements as the array of paths supplied.
 	 * @param   mixed   $encoding     The encoding of the attachment
 	 * @param   mixed   $type         The mime type
 	 * @param   string  $disposition  The disposition of the attachment

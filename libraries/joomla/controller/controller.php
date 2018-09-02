@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Application\AbstractApplication;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Application\AbstractApplication;
 
 /**
  * Joomla Platform Controller Interface

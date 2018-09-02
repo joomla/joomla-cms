@@ -23,17 +23,17 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 	?>
 	<li<?php echo $class; ?>>
 	<?php $class = ''; ?>
-		<span class="item-title"><a href="<?php echo JRoute::_(WeblinksHelperRoute::getCategoryRoute($item->id));?>">
+		<span class="item-title"><a href="<?php echo JRoute::_(WeblinksHelperRoute::getCategoryRoute($item->id)); ?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
-		<?php if ($this->params->get('show_subcat_desc_cat') == 1) :?>
+		<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>
 		<?php if ($item->description) : ?>
 			<div class="category-desc">
 				<?php echo JHtml::_('content.prepare', $item->description, '', 'com_weblinks.categories'); ?>
 			</div>
 		<?php endif; ?>
-        <?php endif; ?>
-		<?php if ($this->params->get('show_cat_num_links_cat') == 1) :?>
+		<?php endif; ?>
+		<?php if ($this->params->get('show_cat_num_links_cat') == 1) : ?>
 			<dl class="weblink-count"><dt>
 				<?php echo JText::_('COM_WEBLINKS_NUM'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>

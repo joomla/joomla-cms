@@ -132,7 +132,7 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive;
+			$archive = new Archive(array('tmp_path' => \JFactory::getConfig()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)

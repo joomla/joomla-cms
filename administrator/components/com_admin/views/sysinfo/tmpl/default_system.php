@@ -38,6 +38,14 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_TYPE'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['dbserver']; ?>
+				</td>
+			</tr>			
+			<tr>
+				<td>
 					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>
 				</td>
 				<td>

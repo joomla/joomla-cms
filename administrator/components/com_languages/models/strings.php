@@ -74,7 +74,7 @@ class LanguagesModelStrings extends JModelLegacy
 		$files = array_merge($files, JFolder::files($base . '/templates', $language . '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)

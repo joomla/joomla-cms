@@ -112,7 +112,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -131,7 +131,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -456,7 +456,7 @@ class AssociationsHelper extends JHelperContent
 	 * @param   string  $typeName       The item type
 	 * @param   int     $itemId         The id of item for which we need the associated items
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -636,7 +636,7 @@ class AssociationsHelper extends JHelperContent
 	/**
 	 * Gets the language filter system plugin extension id.
 	 *
-	 * @return  int  The language filter system plugin extension id.
+	 * @return  integer  The language filter system plugin extension id.
 	 *
 	 * @since   3.7.2
 	 */

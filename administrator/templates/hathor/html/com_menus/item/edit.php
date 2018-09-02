@@ -150,9 +150,9 @@ $clientId = $this->state->get('item.client_id', 0);
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 
-                <li><?php echo $this->form->getLabel('client_id'); ?>
+				<li><?php echo $this->form->getLabel('client_id'); ?>
 					<?php echo $this->form->getInput('client_id'); ?></li>
-            </ul>
+			</ul>
 
 	</fieldset>
 </div>

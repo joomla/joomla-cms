@@ -59,9 +59,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
- <dl class="article-info">
- <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
+<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) : ?>
+	<dl class="article-info">
+	<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_parent_category') && $this->item->parent_id != 1) : ?>
 		<dd class="parent-category-name">
@@ -115,10 +115,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) :?>
- 	</dl>
+<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) :?>
+	</dl>
 <?php endif; ?>
-<?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
+<?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img

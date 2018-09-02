@@ -32,6 +32,7 @@
 					label="MOD_BANNERS_FIELD_TARGET_LABEL"
 					description="MOD_BANNERS_FIELD_TARGET_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JBROWSERTARGET_PARENT</option>
 					<option value="1">JBROWSERTARGET_NEW</option>
@@ -44,8 +45,8 @@
 					label="MOD_BANNERS_FIELD_COUNT_LABEL"
 					description="MOD_BANNERS_FIELD_COUNT_DESC"
 					default="5"
-					class="validate-numeric"
 					filter="integer"
+					class="validate-numeric"
 				/>
 
 				<field
@@ -53,6 +54,7 @@
 					type="bannerclient"
 					label="MOD_BANNERS_FIELD_BANNERCLIENT_LABEL"
 					description="MOD_BANNERS_FIELD_BANNERCLIENT_DESC"
+					filter="integer"
 				/>
 
 				<field
@@ -62,11 +64,9 @@
 					description="MOD_BANNERS_FIELD_CATEGORY_DESC"
 					extension="com_banners"
 					multiple="true"
-					size="5"
-					default=""
-					>
-					<option value="">JOPTION_ALL_CATEGORIES</option>
-				</field>
+					filter="int_array"
+					class="multipleCategories"
+				/>
 
 				<field
 					name="tag_search"
@@ -75,6 +75,7 @@
 					description="MOD_BANNERS_FIELD_TAG_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -121,9 +122,10 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
 				/>
 
 				<field
@@ -132,6 +134,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -143,6 +146,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

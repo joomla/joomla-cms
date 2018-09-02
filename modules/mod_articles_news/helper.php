@@ -59,20 +59,22 @@ abstract class ModArticlesNewsHelper
 		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Filer by tag
-		$model->setState('filter.tag', $params->get('tag'), array());
+		$model->setState('filter.tag', $params->get('tag', array()));
 
-		//  Featured switch
-		switch ($params->get('show_featured'))
+		// Featured switch
+		$featured = $params->get('show_featured', '');
+
+		if ($featured === '')
 		{
-			case '1' :
-				$model->setState('filter.featured', 'only');
-				break;
-			case '0' :
-				$model->setState('filter.featured', 'hide');
-				break;
-			default :
-				$model->setState('filter.featured', 'show');
-				break;
+			$model->setState('filter.featured', 'show');
+		}
+		elseif ($featured)
+		{
+			$model->setState('filter.featured', 'only');
+		}
+		else
+		{
+			$model->setState('filter.featured', 'hide');
 		}
 
 		// Set ordering
@@ -101,7 +103,7 @@ abstract class ModArticlesNewsHelper
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

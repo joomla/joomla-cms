@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 // Stylus mode created by Dmitry Kiselyov http://git.io/AaRB
 
@@ -76,7 +76,7 @@
       if (ch == "#") {
         stream.next();
         // Hex color
-        if (stream.match(/^[0-9a-f]{6}|[0-9a-f]{3}/i)) {
+        if (stream.match(/^[0-9a-f]{3}([0-9a-f]([0-9a-f]{2}){0,2})?\b/i)) {
           return ["atom", "atom"];
         }
         // ID selector

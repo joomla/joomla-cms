@@ -282,7 +282,7 @@ class PlgSampledataBlog extends JPlugin
 				return $response;
 			}
 
-			// Get ID from category we just added
+			// Get ID from article we just added
 			$ids[] = $articleModel->getItem()->id;
 		}
 
@@ -340,11 +340,16 @@ class PlgSampledataBlog extends JPlugin
 
 			$menu['menutype'] = $i . $type;
 
-			$menuTable->load();
-			$menuTable->bind($menu);
-
 			try
 			{
+				$menuTable->load();
+				$menuTable->bind($menu);
+
+				if (!$menuTable->check())
+				{
+					throw new Exception($menuTable->getError());
+				}
+
 				$menuTable->store();
 			}
 			catch (Exception $e)

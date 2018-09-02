@@ -244,7 +244,8 @@ class Language
 
 		if (class_exists($class))
 		{
-			/* Class exists. Try to find
+			/**
+			 * Class exists. Try to find
 			 * -a transliterate method,
 			 * -a getPluralSuffixes method,
 			 * -a getIgnoredSearchWords method
@@ -790,13 +791,10 @@ class Language
 			$strings = $this->parse($filename);
 		}
 
-		if ($strings)
+		if (is_array($strings) && count($strings))
 		{
-			if (is_array($strings) && count($strings))
-			{
-				$this->strings = array_replace($this->strings, $strings, $this->override);
-				$result = true;
-			}
+			$this->strings = array_replace($this->strings, $strings, $this->override);
+			$result = true;
 		}
 
 		// Record the result of loading the extension's file.

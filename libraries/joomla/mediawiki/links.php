@@ -155,7 +155,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 * Method to return all interlanguage links from the given page(s).
 	 *
 	 * @param   array    $titles      Page titles to retrieve links.
-	 * @param   integer  $lllimit     Number of langauge links to return.
+	 * @param   integer  $lllimit     Number of language links to return.
 	 * @param   boolean  $llcontinue  When more results are available, use this to continue.
 	 * @param   string   $llurl       Whether to get the full URL.
 	 * @param   string   $lllang      Language code.

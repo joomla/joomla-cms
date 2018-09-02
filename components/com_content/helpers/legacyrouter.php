@@ -92,8 +92,8 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 
 		// Are we dealing with an article or category that is attached to a menu item?
 		if ($menuItem !== null
+			&& isset($menuItem->query['view'], $query['view'], $menuItem->query['id'], $query['id'])
 			&& $menuItem->query['view'] == $query['view']
-			&& isset($menuItem->query['id'], $query['id'])
 			&& $menuItem->query['id'] == (int) $query['id'])
 		{
 			unset($query['view']);
@@ -237,7 +237,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 				}
 			}
 
-			if (isset($query['month']))
+			if (isset($query['year']) && isset($query['month']))
 			{
 				if ($menuItemGiven)
 				{
@@ -384,7 +384,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		 * because the first segment will have the target category id prepended to it.  If the
 		 * last segment has a number prepended, it is an article, otherwise, it is a category.
 		 */
-		if ((!$advanced) && ($item->query['view'] !== 'archive'))
+		if (!$advanced)
 		{
 			$cat_id = (int) $segments[0];
 
@@ -403,16 +403,6 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 			}
 
 			return;
-		}
-
-		// Manage the archive view
-		if ($item->query['view'] == 'archive' && $count !== 1)
-		{
-			$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
-			$vars['month'] = $segments[$count - 1];
-			$vars['view']  = 'archive';
-
-			return;	
 		}
 
 		// We get the category id from the menu item and search from there
@@ -466,8 +456,18 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 					$cid = $segment;
 				}
 
-				$vars['id']   = $cid;
-				$vars['view'] = 'article';
+				$vars['id'] = $cid;
+
+				if ($item->query['view'] == 'archive' && $count != 1)
+				{
+					$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
+					$vars['month'] = $segments[$count - 1];
+					$vars['view'] = 'archive';
+				}
+				else
+				{
+					$vars['view'] = 'article';
+				}
 			}
 
 			$found = 0;

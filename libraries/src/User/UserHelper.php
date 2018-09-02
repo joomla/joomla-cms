@@ -43,23 +43,22 @@ abstract class UserHelper
 		// Add the user to the group if necessary.
 		if (!in_array($groupId, $user->groups))
 		{
-			// Get the title of the group.
+			// Check whether the group exists.
 			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
 				->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
-			$title = $db->loadResult();
 
 			// If the group does not exist, return an exception.
-			if (!$title)
+			if ($db->loadResult() === null)
 			{
 				throw new \RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
-			$user->groups[$title] = $groupId;
+			$user->groups[$groupId] = $groupId;
 
 			// Store the user object.
 			$user->save();
@@ -605,7 +604,7 @@ abstract class UserHelper
 				}
 				break;
 
-			case 'aprmd5': /* 64 characters that are valid for APRMD5 passwords. */
+			case 'aprmd5': // 64 characters that are valid for APRMD5 passwords.
 				$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 				if ($seed)
@@ -684,7 +683,7 @@ abstract class UserHelper
 	 */
 	protected static function _toAPRMD5($value, $count)
 	{
-		/* 64 characters that are valid for APRMD5 passwords. */
+		// 64 characters that are valid for APRMD5 passwords.
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 		$aprmd5 = '';
