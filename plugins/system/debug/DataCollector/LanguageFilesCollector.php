@@ -44,7 +44,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 *
 	 * @return array Collected data
 	 */
-	public function collect()
+	public function collect(): array
 	{
 		$paths = Factory::getLanguage()->getPaths();
 		$loaded = [];
@@ -78,7 +78,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -91,7 +91,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 *
 	 * @return array
 	 */
-	public function getWidgets()
+	public function getWidgets(): array
 	{
 		return [
 			'loaded' => [
@@ -117,7 +117,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 * @since  __DEPLOY_VERSION__
 	 * @return array
 	 */
-	public function getAssets()
+	public function getAssets(): array
 	{
 		return array(
 			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
