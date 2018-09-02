@@ -50,7 +50,7 @@ abstract class JHtmlContent
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function months($state)
 	{

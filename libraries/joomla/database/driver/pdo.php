@@ -515,7 +515,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getVersion()
 	{

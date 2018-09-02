@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper class for admin privacy dashboard module
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ModPrivacyDashboardHelper
 {
@@ -21,7 +21,7 @@ class ModPrivacyDashboardHelper
 	 *
 	 * @return  array  Array containing site privacy requests
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getData()
 	{

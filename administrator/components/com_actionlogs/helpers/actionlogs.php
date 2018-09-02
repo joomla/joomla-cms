@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Actionlogs component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsHelper
 {
@@ -27,7 +27,7 @@ class ActionlogsHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getCsvData($data)
 	{
@@ -61,7 +61,7 @@ class ActionlogsHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function loadTranslationFiles($extension)
 	{
@@ -113,7 +113,7 @@ class ActionlogsHelper
 	 *
 	 * @return  mixed  An object contains content type parameters, or null if not found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getLogContentTypeParams($context)
 	{
@@ -135,7 +135,7 @@ class ActionlogsHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getHumanReadableLogMessage($log)
 	{
@@ -175,7 +175,7 @@ class ActionlogsHelper
 	 *
 	 * @return  string  Link to the content item
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
 	{
@@ -212,7 +212,7 @@ class ActionlogsHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function loadActionLogPluginsLanguage()
 	{

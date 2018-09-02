@@ -16,7 +16,7 @@ JLoader::register('PrivacyExportItem', __DIR__ . '/item.php');
  *
  * A domain is typically a single database table and the items within the domain are separate rows from the table.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyExportDomain
 {
@@ -24,7 +24,7 @@ class PrivacyExportDomain
 	 * The name of this domain
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $name;
 
@@ -32,7 +32,7 @@ class PrivacyExportDomain
 	 * A short description of the data in this domain
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $description;
 
@@ -40,7 +40,7 @@ class PrivacyExportDomain
 	 * The items belonging to this domain
 	 *
 	 * @var    PrivacyExportItem[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $items = array();
 
@@ -51,7 +51,7 @@ class PrivacyExportDomain
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function addItem(PrivacyExportItem $item)
 	{
@@ -63,7 +63,7 @@ class PrivacyExportDomain
 	 *
 	 * @return  PrivacyExportItem[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function getItems()
 	{

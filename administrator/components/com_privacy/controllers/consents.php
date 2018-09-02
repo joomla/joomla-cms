@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Consents management controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyControllerConsents extends JControllerForm
 {
@@ -21,7 +21,7 @@ class PrivacyControllerConsents extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function invalidate($key = null, $urlVar = null)
 	{
@@ -57,7 +57,7 @@ class PrivacyControllerConsents extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function invalidateAll()
 	{
