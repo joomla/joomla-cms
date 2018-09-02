@@ -53,8 +53,9 @@ class DataFormatter extends DebugBarDataFormatter
 		}
 		elseif (isset($call['args']))
 		{
-			// If entry has args is a require/include.
-			$string .= htmlspecialchars($call['function']) . ' ' . $call['args'][0];
+			// If entry has args is a require/include or a call_user_func_array.
+			$args = \is_array($call['args'][0]) ? '(' . implode(', ', $call['args'][0]) . ')' : ' ' . $call['args'][0];
+			$string .= htmlspecialchars($call['function']) . $args;
 		}
 		else
 		{
