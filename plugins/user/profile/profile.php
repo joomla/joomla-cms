@@ -256,7 +256,7 @@ class PlgUserProfile extends JPlugin
 		// Change fields description when displayed in frontend or backend profile editing
 		$app = JFactory::getApplication();
 
-		if ($app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
+		if (!$app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
