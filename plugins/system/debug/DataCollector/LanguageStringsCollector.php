@@ -9,7 +9,9 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
@@ -17,7 +19,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LanguageStringsCollector extends AbstractDataCollector
+class LanguageStringsCollector extends AbstractDataCollector implements AssetProvider
 {
 	/**
 	 * Collector name.
@@ -37,7 +39,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	public function collect(): array
 	{
 		return [
-			'data' => $this->getData(),
+			'data'  => $this->getData(),
 			'count' => $this->getCount(),
 		];
 	}
@@ -65,17 +67,35 @@ class LanguageStringsCollector extends AbstractDataCollector
 	public function getWidgets(): array
 	{
 		return [
-			'untranslated' => [
-				'icon' => 'question-circle',
-				'widget' => 'PhpDebugBar.Widgets.KVListWidget',
-				'map' => $this->name . '.data',
+			'untranslated'       => [
+				'icon'    => 'question-circle',
+				'widget'  => 'PhpDebugBar.Widgets.languageStringsWidget',
+				'map'     => $this->name . '.data',
 				'default' => ''
 			],
 			'untranslated:badge' => [
-				'map' => $this->name . '.count',
+				'map'     => $this->name . '.count',
 				'default' => 'null'
 			]
 		];
+	}
+
+	/**
+	 * Returns an array with the following keys:
+	 *  - base_path
+	 *  - base_url
+	 *  - css: an array of filenames
+	 *  - js: an array of filenames
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 * @return array
+	 */
+	public function getAssets(): array
+	{
+		return array(
+			'js'  => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
+		);
 	}
 
 	/**
@@ -93,10 +113,65 @@ class LanguageStringsCollector extends AbstractDataCollector
 
 		foreach ($orphans as $orphan => $occurrences)
 		{
-			$data[$orphan] = $occurrences[0]['file'] ?? 'n/a';
+			$data[$orphan] = [];
+
+			foreach ($occurrences as $occurrence)
+			{
+				$item = [];
+
+				$item['string'] = $occurrence['string'] ?? 'n/a';
+				$item['trace']  = [];
+				$item['caller'] = '';
+
+				if (isset($occurrence['trace']))
+				{
+					$cnt            = 0;
+					$trace          = [];
+					$callerLocation = '';
+
+					array_shift($occurrence['trace']);
+
+					foreach ($occurrence['trace'] as $i => $stack)
+					{
+						$class = $stack['class'] ?? '';
+						$file  = $stack['file'] ?? '';
+						$line  = $stack['line'] ?? '';
+
+						$caller   = $this->formatCallerInfo($stack);
+						$location = $file && $line ? "$file:$line" : 'same';
+
+						$isCaller = 0;
+
+						if (!$callerLocation && $class !== Language::class && !strpos($file, 'Text.php'))
+						{
+							$callerLocation = $location;
+							$isCaller       = 1;
+						}
+
+						$trace[] = [
+							\count($occurrence['trace']) - $cnt,
+							$isCaller,
+							$caller,
+							$file,
+							$line,
+						];
+
+						$cnt++;
+					}
+
+					$item['trace']  = $trace;
+					$item['caller'] = $callerLocation;
+				}
+
+				$data[$orphan][] = $item;
+			}
 		}
 
-		return $data;
+		return [
+			'orphans'    => $data,
+			'jroot'      => JPATH_ROOT,
+			'xdebugLink' => $this->getXdebugLinkTemplate(),
+		];
 	}
 
 	/**
