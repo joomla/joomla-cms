@@ -93,8 +93,8 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 	public function getAssets(): array
 	{
 		return array(
-			'js'  => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
-			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
+			'js'  => \JUri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageStrings/widget.min.css',
 		);
 	}
 
