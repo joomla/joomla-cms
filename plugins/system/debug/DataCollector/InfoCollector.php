@@ -201,7 +201,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *
 	 * @return array
 	 */
-	private function getDatabaseInfo(array $info)
+	private function getDatabaseInfo(array $info): array
 	{
 		return [
 			'dbserver' => $info['dbserver'] ?? '',
