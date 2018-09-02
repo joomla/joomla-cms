@@ -245,6 +245,7 @@
 				name="article_layout" 
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				useglobal="true"
 				extension="com_content" 
 				view="article"

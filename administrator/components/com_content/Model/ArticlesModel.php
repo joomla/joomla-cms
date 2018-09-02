@@ -226,8 +226,10 @@ class ArticlesModel extends ListModel
 
 		// Join over the associations.
 		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
-			->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
-			->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
+			->innerJoin(
+				$query->quoteName('#__workflow_associations', 'wa') 
+				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
+			);
 
 		// Join over the workflow stages.
 		$query->select(
@@ -244,8 +246,10 @@ class ArticlesModel extends ListModel
 				]
 			)
 		)
-			->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
-			->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+		->innerJoin(
+			$query->quoteName('#__workflow_stages', 'ws')
+			. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+		);
 
 		// Join on voting table
 		$associationsGroupBy = array(
