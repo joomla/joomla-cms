@@ -119,7 +119,7 @@ if ($saveOrder)
 						<td class="nowrap small d-none d-md-table-cell">
 							<?php echo $this->escape($item->element); ?>
 						</td>
-						<td class="small d-none d-md-table-cell ">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="d-none d-md-table-cell">
