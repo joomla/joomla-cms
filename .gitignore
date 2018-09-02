@@ -38,6 +38,7 @@ phpdoc-*
 /media/com_patchtester
 
 # Install from Web plugin #
+/media/plg_installer_webinstaller
 /plugins/installer/webinstaller
 
 # Languages #
