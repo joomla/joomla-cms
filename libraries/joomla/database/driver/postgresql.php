@@ -114,7 +114,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		/*
 		 * pg_connect() takes the port as separate argument. Therefore, we
-		 * have to extract it from the host string (if povided).
+		 * have to extract it from the host string (if provided).
 		 */
 
 		// Check for empty port
