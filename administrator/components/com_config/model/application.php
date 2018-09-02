@@ -458,7 +458,7 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
-		
+
 		// Invalidates the cached configuration file
 		if (function_exists('opcache_invalidate'))
 		{
