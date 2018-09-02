@@ -20,6 +20,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Workflow\Administrator\Model\WorkflowModel;
 
 /**
  * Sampledata - Multilang Plugin
@@ -335,7 +336,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * Sixth step to add categories, articles and blog menu items
+	 * Sixth step to add workflow, categories, articles and blog menu items
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
@@ -366,11 +367,29 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
+		if (!ComponentHelper::isEnabled('com_workflow'))
+		{
+			$response            = array();
+			$response['success'] = true;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_STEP_SKIPPED', 6, 'com_workflow');
+
+			return $response;
+		}
+
 		$siteLanguages = $this->getInstalledlangsFrontend();
 
 		foreach ($siteLanguages as $siteLang)
 		{
-			if (!$tableCategory = $this->addCategory($siteLang))
+			if (!$tableWorkflow = $this->addWorkflow($siteLang))
+			{
+				$response            = array();
+				$response['success'] = false;
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6, $siteLang->language);
+
+				return $response;
+			}
+
+			if (!$tableCategory = $this->addCategory($siteLang, $tableWorkflow->id))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -962,15 +981,46 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
+	 * Method to create a workflow for a specific language.
+	 *
+	 * @param   stdClass  $itemLanguage  Language Object.
+	 *
+	 * @return  JTable|boolean  Workflow Object. False otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addWorkflow($itemLanguage)
+	{
+		$newlanguage = new Language($itemLanguage->language, false);
+		$newlanguage->load('plg_sampledata_multilang', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+
+		$workflowModel = new WorkflowModel;
+
+		$workflow = [
+			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE') . ' (' . strtolower($itemLanguage->language) . ')',
+			'description' => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_DESCRIPTION'),
+			'published'   => 1,
+			'extension'   => 'com_content'
+		];
+
+		$workflowModel->save($workflow);
+
+		$workflow = $workflowModel->getItem();
+
+		return $workflow;
+	}
+
+	/**
 	 * Method to create a category for a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   stdClass  $workflow_id   Workflow ID for this category.
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	public function addCategory($itemLanguage)
+	public function addCategory($itemLanguage, $workflow_id = 0)
 	{
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -985,7 +1035,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":""}',
+			'params'          => '{"target":"","image":"", "workflow_id":"' . (int) $workflow_id . '"}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
