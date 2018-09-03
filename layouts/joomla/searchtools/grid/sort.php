@@ -13,20 +13,36 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $data = $displayData;
+$icon = "icon-menu-2";
+$sort = "none";
+$caption = '';
+$selected ='';
+$id ='';
 
-$title = htmlspecialchars(Text::_($data->tip ?: $data->title));
-HTMLHelper::_('bootstrap.popover');
+if ($data->order === $data->selected) :
+    $icon = $data->orderIcon;
+    $sort = ($data->direction === "asc" ? "ascending" : "descending");
+    $caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : '';
+    $selected = " selected";
+    $id = "id=\"sorted\"";
+endif;
+
 ?>
-<a href="#" onclick="return false;" class="js-stools-column-order hasPopover"
-   data-order="<?php echo $data->order; ?>" data-direction="<?php echo strtoupper($data->direction); ?>" data-name="<?php echo Text::_($data->title); ?>"
-   title="<?php echo $title; ?>" data-content="<?php echo htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')); ?>" data-placement="top">
-<?php if (!empty($data->icon)) : ?>
-	<span class="<?php echo $data->icon; ?>" aria-hidden="true"></span>
-<?php endif; ?>
-<?php if (!empty($data->title)) : ?>
-	<?php echo Text::_($data->title); ?>
-<?php endif; ?>
-<?php if ($data->order === $data->selected) : ?>
-	<span class="<?php echo $data->orderIcon; ?>" aria-hidden="true"></span>
-<?php endif; ?>
+
+<a href="#" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?>"
+    <?php echo $id; ?>
+    data-order="<?php echo $data->order; ?>" 
+    data-direction="<?php echo strtoupper($data->direction); ?>" 
+    <?php if (!empty($data->title)) : ?>
+    data-name="<?php echo Text::_($data->title); ?>"   
+    <?php endif; ?>
+    <?php if (!empty($caption)) : ?>
+    data-caption="<?php echo $caption; ?>"
+    <?php endif; ?>
+    data-sort="<?php echo $sort; ?>">
+	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+	<?php if (!empty($data->title)) : ?>
+		<?php echo Text::_($data->title); ?>
+	<?php endif; ?>
 </a>
+
