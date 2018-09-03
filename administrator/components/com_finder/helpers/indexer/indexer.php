@@ -177,7 +177,7 @@ abstract class FinderIndexer
 	public static function getState()
 	{
 		// First, try to load from the internal state.
-		if (!empty(static::$state))
+		if ((bool) static::$state)
 		{
 			return static::$state;
 		}
@@ -443,8 +443,7 @@ abstract class FinderIndexer
 				// Parse, tokenise and add tokens to the database.
 				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				unset($string);
-				unset($tokens);
+				unset($string, $tokens);
 			}
 
 			return $count;
@@ -513,20 +512,12 @@ abstract class FinderIndexer
 
 		$query = clone $this->addTokensToDbQueryTemplate;
 
-		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
 		// Count the number of token values.
 		$values = 0;
 
-		// Break into chunks of no more than 1000 items
-		$chunks = array_chunk($tokens, 1000);
-
-		foreach ($chunks as $tokens)
+		// Iterate through the tokens to create SQL value sets.
+		if (!is_a($tokens, 'FinderIndexerToken'))
 		{
-			$query->clear('values');
-
-			// Iterate through the tokens to create SQL value sets.
 			foreach ($tokens as $token)
 			{
 				$query->values(
@@ -534,15 +525,27 @@ abstract class FinderIndexer
 					. $db->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
+					. $db->escape((float) $token->weight) . ', '
 					. (int) $context . ', '
 					. $db->quote($token->language)
 				);
 				++$values;
 			}
-
-			$db->setQuery($query)->execute();
 		}
+		else
+		{
+			$query->values(
+				$db->quote($tokens->term) . ', '
+				. $db->quote($tokens->stem) . ', '
+				. (int) $tokens->common . ', '
+				. (int) $tokens->phrase . ', '
+				. $db->escape((float) $tokens->weight) . ', '
+				. (int) $context . ', '
+				. $db->quote($tokens->language)
+			);
+			++$values;
+		}
+		$db->setQuery($query)->execute();
 
 		return $values;
 	}

@@ -200,6 +200,9 @@ class JFormFieldCalendar extends JFormField
 		{
 			$showTime = (string) $this->element['showtime'];
 
+			$lang  = \JFactory::getLanguage();
+			$debug = $lang->setDebug(false);
+
 			if ($showTime && $showTime != 'false')
 			{
 				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
@@ -208,6 +211,8 @@ class JFormFieldCalendar extends JFormField
 			{
 				$this->format = JText::_('DATE_FORMAT_CALENDAR_DATE');
 			}
+
+			$lang->setDebug($debug);
 		}
 
 		// If a known filter is given use it.

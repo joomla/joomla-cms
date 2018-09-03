@@ -1173,6 +1173,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			{
 				$this->serverType = 'postgresql';
 			}
+			elseif (stristr($name, 'pgsql') !== false)
+			{
+				$this->serverType = 'postgresql';
+			}
 			elseif (stristr($name, 'oracle') !== false)
 			{
 				$this->serverType = 'oracle';

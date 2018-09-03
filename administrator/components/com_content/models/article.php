@@ -46,138 +46,49 @@ class ContentModelArticle extends JModelAdmin
 	protected $associationsContext = 'com_content.item';
 
 	/**
-	 * Batch copy items to a new category or current.
+	 * Function that can be overriden to do any data cleanup after batch copying data
 	 *
-	 * @param   integer  $value     The new category.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
 	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since  3.8.12
 	 */
-	protected function batchCopy($value, $pks, $contexts)
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
 	{
-		$categoryId = (int) $value;
-
-		$newIds = array();
-
-		if (!$this->checkCategoryId($categoryId))
+		// Check if the article was featured and update the #__content_frontpage table
+		if ($table->featured == 1)
 		{
-			return false;
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__content_frontpage'))
+				->values($newId . ', 0');
+			$db->setQuery($query);
+			$db->execute();
 		}
-
-		JPluginHelper::importPlugin('system');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		// Register FieldsHelper
 		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-		// Parent exists so we let's proceed
-		while (!empty($pks))
+		$oldItem = $this->getTable();
+		$oldItem->load($oldId);
+		$fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
+
+		$fieldsData = array();
+
+		if (!empty($fields))
 		{
-			// Pop the first ID off the stack
-			$pk = array_shift($pks);
+			$fieldsData['com_fields'] = array();
 
-			$this->table->reset();
-
-			// Check that the row actually exists
-			if (!$this->table->load($pk))
+			foreach ($fields as $field)
 			{
-				if ($error = $this->table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
+				$fieldsData['com_fields'][$field->name] = $field->rawvalue;
 			}
-
-			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
-			$fieldsData = array();
-
-			if (!empty($fields))
-			{
-				$fieldsData['com_fields'] = array();
-
-				foreach ($fields as $field)
-				{
-					$fieldsData['com_fields'][$field->name] = $field->rawvalue;
-				}
-			}
-
-			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->title);
-			$this->table->title = $data['0'];
-			$this->table->alias = $data['1'];
-
-			// Reset the ID because we are making a copy
-			$this->table->id = 0;
-
-			// Reset hits because we are making a copy
-			$this->table->hits = 0;
-
-			// Unpublish because we are making a copy
-			$this->table->state = 0;
-
-			// New category ID
-			$this->table->catid = $categoryId;
-
-			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
-
-			// Get the featured state
-			$featured = $this->table->featured;
-
-			// Check the row.
-			if (!$this->table->check())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-
-			$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-
-			// Store the row.
-			if (!$this->table->store())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-
-			// Get the new item ID
-			$newId = $this->table->get('id');
-
-			// Add the new ID to the array
-			$newIds[$pk] = $newId;
-
-			// Check if the article was featured and update the #__content_frontpage table
-			if ($featured == 1)
-			{
-				$db = $this->getDbo();
-				$query = $db->getQuery(true)
-					->insert($db->quoteName('#__content_frontpage'))
-					->values($newId . ', 0');
-				$db->setQuery($query);
-				$db->execute();
-			}
-
-			// Run event for copied article
-			$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$this->table, true, $fieldsData));
 		}
 
-		// Clean the cache
-		$this->cleanCache();
-
-		return $newIds;
+		JEventDispatcher::getInstance()->trigger('onContentAfterSave', array('com_content.article', &$this->table, true, $fieldsData));
 	}
 
 	/**

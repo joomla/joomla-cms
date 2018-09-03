@@ -343,6 +343,16 @@ abstract class UserHelper
 
 			$rehash = true;
 		}
+		// Check for Argon2id hashes
+		elseif (strpos($hash, '$argon2id') === 0)
+		{
+			// This implementation is not supported through any existing polyfills
+			$match = password_verify($password, $hash);
+
+			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2ID);
+
+			$passwordAlgorithm = PASSWORD_ARGON2ID;
+		}
 		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{

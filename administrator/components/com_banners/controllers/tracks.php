@@ -50,7 +50,7 @@ class BannersControllerTracks extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the model.
 		/** @var BannersModelTracks $model */

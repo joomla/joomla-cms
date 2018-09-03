@@ -6,16 +6,22 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Toolbar;
+
 defined('_JEXEC') or die;
 
-JLoader::register('JSubMenuHelper', JPATH_BASE . '/includes/subtoolbar.php');
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for the button bar.
  *
  * @since  1.5
  */
-abstract class JToolbarHelper
+abstract class ToolbarHelper
 {
 	/**
 	 * Title cell.
@@ -32,12 +38,12 @@ abstract class JToolbarHelper
 	 */
 	public static function title($title, $icon = 'generic.png')
 	{
-		$layout = new JLayoutFile('joomla.toolbar.title');
+		$layout = new FileLayout('joomla.toolbar.title');
 		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
+		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
 	}
 
 	/**
@@ -51,7 +57,7 @@ abstract class JToolbarHelper
 	 */
 	public static function spacer($width = '')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a spacer.
 		$bar->appendButton('Separator', 'spacer', $width);
@@ -66,7 +72,7 @@ abstract class JToolbarHelper
 	 */
 	public static function divider()
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a divider.
 		$bar->appendButton('Separator', 'divider');
@@ -87,7 +93,7 @@ abstract class JToolbarHelper
 	 */
 	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Strip extension.
 		$icon = preg_replace('#\.[^.]*$#', '', $icon);
@@ -108,7 +114,7 @@ abstract class JToolbarHelper
 	 */
 	public static function preview($url = '', $updateEditors = false)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a preview button.
 		$bar->appendButton('Popup', 'preview', 'Preview', $url . '&task=preview');
@@ -128,7 +134,7 @@ abstract class JToolbarHelper
 	 */
 	public static function help($ref, $com = false, $override = null, $component = null)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a help button.
 		$bar->appendButton('Help', $ref, $com, $override, $component);
@@ -147,7 +153,7 @@ abstract class JToolbarHelper
 	 */
 	public static function back($alt = 'JTOOLBAR_BACK', $href = 'javascript:history.back();')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a back button.
 		$bar->appendButton('Link', 'back', $alt, $href);
@@ -166,7 +172,7 @@ abstract class JToolbarHelper
 	 */
 	public static function link($url, $text, $name = 'link')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		$bar->appendButton('Link', $name, $text, $url);
 	}
@@ -183,7 +189,7 @@ abstract class JToolbarHelper
 	 */
 	public static function media_manager($directory = '', $alt = 'JTOOLBAR_UPLOAD')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an upload button.
 		$bar->appendButton('Popup', 'upload', $alt, 'index.php?option=com_media&tmpl=component&task=popupUpload&folder=' . $directory, 800, 520);
@@ -201,7 +207,7 @@ abstract class JToolbarHelper
 	 */
 	public static function makeDefault($task = 'default', $alt = 'JTOOLBAR_DEFAULT')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a default button.
 		$bar->appendButton('Standard', 'default', $alt, $task, true);
@@ -219,7 +225,7 @@ abstract class JToolbarHelper
 	 */
 	public static function assign($task = 'assign', $alt = 'JTOOLBAR_ASSIGN')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an assign button.
 		$bar->appendButton('Standard', 'assign', $alt, $task, true);
@@ -238,7 +244,7 @@ abstract class JToolbarHelper
 	 */
 	public static function addNew($task = 'add', $alt = 'JTOOLBAR_NEW', $check = false)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a new button.
 		$bar->appendButton('Standard', 'new', $alt, $task, $check);
@@ -257,7 +263,7 @@ abstract class JToolbarHelper
 	 */
 	public static function publish($task = 'publish', $alt = 'JTOOLBAR_PUBLISH', $check = false)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a publish button.
 		$bar->appendButton('Standard', 'publish', $alt, $task, $check);
@@ -275,7 +281,7 @@ abstract class JToolbarHelper
 	 */
 	public static function publishList($task = 'publish', $alt = 'JTOOLBAR_PUBLISH')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a publish button (list).
 		$bar->appendButton('Standard', 'publish', $alt, $task, true);
@@ -294,7 +300,7 @@ abstract class JToolbarHelper
 	 */
 	public static function unpublish($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH', $check = false)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an unpublish button
 		$bar->appendButton('Standard', 'unpublish', $alt, $task, $check);
@@ -312,7 +318,7 @@ abstract class JToolbarHelper
 	 */
 	public static function unpublishList($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an unpublish button (list).
 		$bar->appendButton('Standard', 'unpublish', $alt, $task, true);
@@ -330,7 +336,7 @@ abstract class JToolbarHelper
 	 */
 	public static function archiveList($task = 'archive', $alt = 'JTOOLBAR_ARCHIVE')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an archive button.
 		$bar->appendButton('Standard', 'archive', $alt, $task, true);
@@ -348,7 +354,7 @@ abstract class JToolbarHelper
 	 */
 	public static function unarchiveList($task = 'unarchive', $alt = 'JTOOLBAR_UNARCHIVE')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an unarchive button (list).
 		$bar->appendButton('Standard', 'unarchive', $alt, $task, true);
@@ -366,7 +372,7 @@ abstract class JToolbarHelper
 	 */
 	public static function editList($task = 'edit', $alt = 'JTOOLBAR_EDIT')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an edit button.
 		$bar->appendButton('Standard', 'edit', $alt, $task, true);
@@ -384,7 +390,7 @@ abstract class JToolbarHelper
 	 */
 	public static function editHtml($task = 'edit_source', $alt = 'JTOOLBAR_EDIT_HTML')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an edit html button.
 		$bar->appendButton('Standard', 'edithtml', $alt, $task, true);
@@ -402,7 +408,7 @@ abstract class JToolbarHelper
 	 */
 	public static function editCss($task = 'edit_css', $alt = 'JTOOLBAR_EDIT_CSS')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an edit css button (hide).
 		$bar->appendButton('Standard', 'editcss', $alt, $task, true);
@@ -421,7 +427,7 @@ abstract class JToolbarHelper
 	 */
 	public static function deleteList($msg = '', $task = 'remove', $alt = 'JTOOLBAR_DELETE')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a delete button.
 		if ($msg)
@@ -447,7 +453,7 @@ abstract class JToolbarHelper
 	 */
 	public static function trash($task = 'remove', $alt = 'JTOOLBAR_TRASH', $check = true)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a trash button.
 		$bar->appendButton('Standard', 'trash', $alt, $task, $check, false);
@@ -466,7 +472,7 @@ abstract class JToolbarHelper
 	 */
 	public static function apply($task = 'apply', $alt = 'JTOOLBAR_APPLY')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an apply button
 		$bar->appendButton('Standard', 'apply', $alt, $task, false);
@@ -485,7 +491,7 @@ abstract class JToolbarHelper
 	 */
 	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save button.
 		$bar->appendButton('Standard', 'save', $alt, $task, false);
@@ -504,7 +510,7 @@ abstract class JToolbarHelper
 	 */
 	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
 		$bar->appendButton('Standard', 'save-new', $alt, $task, false);
@@ -524,7 +530,7 @@ abstract class JToolbarHelper
 	 */
 	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
 		$bar->appendButton('Standard', 'save-copy', $alt, $task, false);
@@ -543,7 +549,7 @@ abstract class JToolbarHelper
 	 */
 	public static function checkin($task = 'checkin', $alt = 'JTOOLBAR_CHECKIN', $check = true)
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
 		$bar->appendButton('Standard', 'checkin', $alt, $task, $check);
@@ -561,7 +567,7 @@ abstract class JToolbarHelper
 	 */
 	public static function cancel($task = 'cancel', $alt = 'JTOOLBAR_CANCEL')
 	{
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a cancel button.
 		$bar->appendButton('Standard', 'cancel', $alt, $task, false);
@@ -584,9 +590,9 @@ abstract class JToolbarHelper
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
-		$uri = (string) JUri::getInstance();
+		$uri = (string) Uri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.
@@ -613,22 +619,22 @@ abstract class JToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
-		$contentTypeTable = JTable::getInstance('Contenttype');
+		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
 		// Options array for JLayout
 		$options              = array();
-		$options['title']     = JText::_($alt);
+		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
 		$options['itemId']    = $itemId;
 		$options['typeId']    = $typeId;
 		$options['typeAlias'] = $typeAlias;
 
-		$bar    = JToolbar::getInstance('toolbar');
-		$layout = new JLayoutFile('joomla.toolbar.versions');
+		$bar    = Toolbar::getInstance('toolbar');
+		$layout = new FileLayout('joomla.toolbar.versions');
 		$bar->appendButton('Custom', $layout->render($options), 'versions');
 	}
 
@@ -645,11 +651,11 @@ abstract class JToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		$title = JText::_($alt);
+		$title = Text::_($alt);
 		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-small">
 			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
 
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);
 	}
 }
