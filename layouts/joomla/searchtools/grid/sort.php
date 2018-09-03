@@ -16,8 +16,8 @@ $data = $displayData;
 $icon = "icon-menu-2";
 $sort = "none";
 $caption = '';
-$selected ='';
-$id ='';
+$selected = '';
+$id = '';
 
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
