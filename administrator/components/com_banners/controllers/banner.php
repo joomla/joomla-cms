@@ -97,7 +97,7 @@ class BannersControllerBanner extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Banner', '', array());

@@ -290,7 +290,7 @@ class FormController extends BaseController
 	 */
 	public function cancel($key = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -614,7 +614,7 @@ class FormController extends BaseController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = \JFactory::getApplication();
 		$model = $this->getModel();
@@ -861,7 +861,7 @@ class FormController extends BaseController
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = \JFactory::getApplication();
 		$model   = $this->getModel();

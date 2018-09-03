@@ -34,7 +34,7 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	public function delete()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to dlete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
