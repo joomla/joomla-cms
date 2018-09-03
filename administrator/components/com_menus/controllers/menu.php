@@ -44,7 +44,7 @@ class MenusControllerMenu extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$data     = $this->input->post->get('jform', array(), 'array');
