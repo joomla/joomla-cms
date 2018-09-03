@@ -87,6 +87,12 @@ class AddUserCommand extends AbstractCommand
 		$this->userGroups = $this->getUserGroups();
 		$symfonyStyle->title('Add user');
 
+		if (in_array("error", $this->userGroups))
+		{
+			$symfonyStyle->error("You entered a wrong user group (" . $this->userGroups[1] . ")");
+			return 1;
+		}
+
 		$user['username'] = $this->user;
 		$user['password'] = $this->password;
 		$user['name'] = $this->name;
@@ -214,6 +220,15 @@ class AddUserCommand extends AbstractCommand
 
 			foreach ($option as $group)
 			{
+				$groupId = $this->getGroupId($group);
+				if (empty($groupId))
+				{
+					$groupList = array(
+						"error",
+						$group,
+					);
+					return $groupList;
+				}
 				array_push($groupList, $this->getGroupId($group));
 			}
 
