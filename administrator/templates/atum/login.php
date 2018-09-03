@@ -59,8 +59,8 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<?php // Container ?>
-	<div class="login-bg-grad"></div>
-	<div class="d-flex justify-content-center align-items-center h-100">
+	<main class="d-flex justify-content-center align-items-center h-100">
+		<div class="login-bg-grad"></div>
 		<div class="login">
 			<div class="login-logo">
 				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg" alt="">
@@ -88,8 +88,7 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 				<span class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</div>
 		</div>
-	</div>
-
+	</main>
 	<jdoc:include type="modules" name="debug" style="none" />
 
 	<jdoc:include type="scripts" />

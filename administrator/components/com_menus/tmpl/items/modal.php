@@ -154,9 +154,7 @@ if (!empty($editor))
 							<?php endif; ?>
 						</td>
 						<td class="d-none d-md-table-cell">
-							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
-								<?php echo (int) $item->id; ?>
-							</span>
+							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
