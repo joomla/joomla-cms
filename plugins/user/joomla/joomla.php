@@ -314,7 +314,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  bool  True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */

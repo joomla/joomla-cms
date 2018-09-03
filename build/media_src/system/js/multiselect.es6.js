@@ -57,6 +57,11 @@
     }
 
     onRowClick(event) {
+      // Do not interfere with links or buttons
+      if (event.target.tagName && (event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'button')) {
+        return;
+      }
+
       if (!this.boxes.length) {
         return;
       }

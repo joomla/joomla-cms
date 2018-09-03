@@ -232,11 +232,11 @@ class MenuField extends FormField
 		{
 			if ($this->element->option && (string) $this->element->option['value'] == '')
 			{
-				$title_holder = Text::_($this->element->option, true);
+				$title_holder = Text::_($this->element->option);
 			}
 			else
 			{
-				$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM', true);
+				$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 			}
 		}
 
@@ -398,11 +398,11 @@ class MenuField extends FormField
 		// Placeholder if option is present or not when clearing field
 		if ($this->element->option && (string) $this->element->option['value'] == '')
 		{
-			$title_holder = Text::_($this->element->option, true);
+			$title_holder = Text::_($this->element->option);
 		}
 		else
 		{
-			$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM', true);
+			$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 		}
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name

@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+
 // Check if we have all the data
 if (!array_key_exists('item', $displayData) || !array_key_exists('context', $displayData))
 {
@@ -28,8 +30,6 @@ if (!$context)
 {
 	return;
 }
-
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 $parts     = explode('.', $context);
 $component = $parts[0];
