@@ -27,10 +27,6 @@ HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' =>
 HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
-// Alerts
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto']);
-
-
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
@@ -50,6 +46,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
+// Set page title
+$this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -60,8 +59,8 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<?php // Container ?>
-	<div class="login-bg-grad"></div>
-	<div class="d-flex justify-content-center align-items-center h-100">
+	<main class="d-flex justify-content-center align-items-center h-100">
+		<div class="login-bg-grad"></div>
 		<div class="login">
 			<div class="login-logo">
 				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg" alt="">
@@ -89,8 +88,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				<span class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</div>
 		</div>
-	</div>
-
+	</main>
 	<jdoc:include type="modules" name="debug" style="none" />
 
 	<jdoc:include type="scripts" />

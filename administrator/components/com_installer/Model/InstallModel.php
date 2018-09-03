@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -317,7 +318,6 @@ class InstallModel extends BaseDatabaseModel
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		jimport('joomla.filesystem.file');
 		File::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
@@ -391,7 +391,6 @@ class InstallModel extends BaseDatabaseModel
 		// Handle updater XML file case:
 		if (preg_match('/\.xml\s*$/', $url))
 		{
-			jimport('joomla.updater.update');
 			$update = new Update;
 			$update->loadFromXml($url);
 			$package_url = trim($update->get('downloadurl', false)->_data);

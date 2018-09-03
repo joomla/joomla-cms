@@ -29,7 +29,7 @@ $saveOrder = $listOrder == 'ordering';
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>

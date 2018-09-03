@@ -11,9 +11,9 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Factory;
 
 /**
  * HTML document renderer for a module position

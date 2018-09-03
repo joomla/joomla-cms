@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 
 defined('_JEXEC') or die;
@@ -70,6 +71,11 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::preferences('com_postinstall', 550, 875);
 			ToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+		}
+
+		if (!empty($this->items))
+		{
+			ToolbarHelper::custom('message.hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
 		}
 	}
 }

@@ -11,14 +11,14 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Installer\InstallerAdapter;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Table\Update;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 
 /**
  * Plugin installer
@@ -199,12 +199,15 @@ class PluginAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
+		$extensionId = $this->extension->extension_id;
+
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 

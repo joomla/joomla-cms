@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 /**
  * Utility class for the Joomla core UI Tab element.
  *

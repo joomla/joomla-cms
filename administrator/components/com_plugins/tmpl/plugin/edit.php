@@ -22,6 +22,7 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
 
 $this->fieldsets = $this->form->getFieldsets('params');
+$this->useCoreUI = true;
 
 $input = Factory::getApplication()->input;
 
@@ -34,9 +35,9 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 <form action="<?php echo Route::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 	<div>
 
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_PLUGINS_PLUGIN')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_PLUGINS_PLUGIN')); ?>
 
 		<div class="row">
 			<div class="col-md-9">
@@ -139,12 +140,12 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 				</div>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php if (isset($long_description) && $long_description != '') : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
 			<?php echo $long_description; ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
 		<?php
@@ -153,7 +154,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="">

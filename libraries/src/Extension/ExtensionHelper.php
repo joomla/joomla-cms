@@ -63,6 +63,7 @@ class ExtensionHelper
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
+		array('component', 'com_workflow', '', 1),
 		array('component', 'com_wrapper', '', 0),
 
 		// Core file extensions
@@ -235,6 +236,7 @@ class ExtensionHelper
 		array('plugin', 'remember', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
+		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 
 		// Core plugin extensions - two factor authentication

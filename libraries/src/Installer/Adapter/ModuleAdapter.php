@@ -11,13 +11,14 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
-use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Module installer
@@ -212,22 +213,30 @@ class ModuleAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
+		$extensionId = $this->extension->extension_id;
+
 		$db     = $this->parent->getDbo();
 		$retval = true;
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
+
+		$element  = $this->extension->element;
+		$clientId = $this->extension->client_id;
 
 		// Let's delete all the module copies for the type we are uninstalling
 		$query->clear()
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote($this->extension->element))
-			->where($db->quoteName('client_id') . ' = ' . (int) $this->extension->client_id);
+			->where($db->quoteName('module') . ' = :element')
+			->where($db->quoteName('client_id') . ' = :client_id')
+			->bind(':element', $element)
+			->bind(':client_id', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -282,8 +291,10 @@ class ModuleAdapter extends InstallerAdapter
 		$this->extension->delete($this->extension->extension_id);
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote($this->extension->element))
-			->where($db->quote('client_id') . ' = ' . $this->extension->client_id);
+			->where($db->quoteName('module') . ' = :element')
+			->where($db->quoteName('client_id') . ' = :client_id')
+			->bind(':element', $element)
+			->bind(':client_id', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -681,10 +692,13 @@ class ModuleAdapter extends InstallerAdapter
 		// Get database connector object
 		$db = $this->parent->getDbo();
 
+		$moduleId = $arg['id'];
+
 		// Remove the entry from the #__modules_menu table
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__modules_menu'))
-			->where($db->quoteName('moduleid') . ' = ' . (int) $arg['id']);
+			->where($db->quoteName('moduleid') . ' = :module_id')
+			->bind(':module_id', $moduleId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -712,10 +726,13 @@ class ModuleAdapter extends InstallerAdapter
 		// Get database connector object
 		$db = $this->parent->getDbo();
 
+		$moduleId = $arg['id'];
+
 		// Remove the entry from the #__modules table
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__modules'))
-			->where($db->quoteName('id') . ' = ' . (int) $arg['id']);
+			->where($db->quoteName('id') . ' = :module_id')
+			->bind(':module_id', $moduleId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try

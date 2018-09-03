@@ -8,9 +8,6 @@ $fa-font-path: "../../../media/vendor/font-awesome/fonts";
 // FontAwesome
 @import "../../../media/vendor/font-awesome/scss/font-awesome";
 
-// Switcher
-// @import "../../../administrator/templates/atum/scss/blocks/switcher";
-
 body {
   background-color: #1c3d5c;
   background-image: linear-gradient(90deg, #1c3d5c 0%, #2a5c8b 100%);
@@ -36,6 +33,10 @@ body {
   width: 100%;
   max-width: 620px;
   margin: 0 auto;
+  h1 {
+    color: #fff;
+    text-align: center;
+  }
 }
 
 .j-footer {
@@ -45,6 +46,13 @@ body {
   color: #fff;
   text-align: right;
   background-color: #0b3257;
+  a {
+    color: $white;
+    text-decoration: underline;
+    &:hover {
+      color: $white;
+    }
+  }
 }
 
 .j-header-logo {
@@ -150,6 +158,7 @@ body {
 
 .alert-text {
   padding: 10px 20px;
+  width: 75%;
 }
 
 .lang-select {
@@ -253,32 +262,22 @@ legend {
   margin-bottom: 0;
 }
 
-// Validation
-.invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
-}
-.valid {
-  border-color: $switcher-color-success;
-}
-
 // Possibly temporary until Bootstrap support it themselves
 .custom-select[multiple] {
   height: auto;
   background: none;
 }
 
-// Validation
-.invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
-}
-
-.valid {
-  border-color: $switcher-color-success;
-}
-
 // Block display for the validation message
 .form-control-feedback {
   display: block;
+  color: $red;
+}
+
+// Language Table
+caption {
+  caption-side: top;
+}
+.badge-warning {
+  color: #292b2c;
 }

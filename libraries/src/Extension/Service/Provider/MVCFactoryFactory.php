@@ -23,7 +23,7 @@ use Joomla\DI\ServiceProviderInterface;
 class MVCFactoryFactory implements ServiceProviderInterface
 {
 	/**
-	 * The module namespace
+	 * The extension namespace
 	 *
 	 * @var  string
 	 *
@@ -32,7 +32,7 @@ class MVCFactoryFactory implements ServiceProviderInterface
 	private $namespace;
 
 	/**
-	 * DispatcherFactory constructor.
+	 * MVCFactoryFactory constructor.
 	 *
 	 * @param   string  $namespace  The namespace
 	 *

@@ -55,7 +55,7 @@ class PlgSearchContent extends CMSPlugin
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db         = Factory::getDbo();
-		$serverType = $db->serverType;
+		$serverType = $db->getServerType();
 		$app        = Factory::getApplication();
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
@@ -102,7 +102,7 @@ class PlgSearchContent extends CMSPlugin
 				$subQuery->select("cfv.item_id")
 					->from("#__fields_values AS cfv")
 					->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-					->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+					->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 					->where('(f.state IS NULL OR f.state = 1)')
 					->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 					->where('cfv.value LIKE ' . $text);
@@ -159,7 +159,7 @@ class PlgSearchContent extends CMSPlugin
 						$subQuery->select("cfv.item_id")
 							->from("#__fields_values AS cfv")
 							->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-							->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+							->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 							->where('(f.state IS NULL OR f.state = 1)')
 							->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
@@ -200,7 +200,7 @@ class PlgSearchContent extends CMSPlugin
 					$subQuery->select("cfv.item_id")
 						->from("#__fields_values AS cfv")
 						->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-						->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+						->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 						->where('(f.state IS NULL OR f.state = 1)')
 						->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');
@@ -279,8 +279,9 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
 				->where(
-					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
+					'(' . $where . ') AND ws.condition=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'

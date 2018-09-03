@@ -12,12 +12,12 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Registry\Registry;
 
 /**
  * Component helper class
@@ -481,7 +481,7 @@ class ComponentHelper
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName() || get_class($object) == Dispatcher::class)
+		if (!$reflect->getNamespaceName() || get_class($object) == ComponentDispatcher::class)
 		{
 			return 'com_' . strtolower($alternativeName);
 		}

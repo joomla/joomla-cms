@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contenthistory\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -168,8 +169,6 @@ class ContenthistoryHelper
 	public static function getFormFile(ContentType $typesTable)
 	{
 		$result = false;
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
 
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);

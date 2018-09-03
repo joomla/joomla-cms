@@ -2,8 +2,18 @@
 
 .com-cpanel {
 
-  &-help {
+  &-help, &-system {
+    .list-group-item {
+      padding: 0;
 
+      a {
+        display: block;
+        padding: $list-group-item-padding-y $list-group-item-padding-x;
+      }
+    }
+  }
+
+  &-help {
     &__header {
       color: $atum-template-color-dark;
     }
@@ -77,7 +87,8 @@
       margin-bottom: 0;
     }
 
-    .list-group {
+    .list-group, .table {
+      background-color: $white;
       box-shadow: $atum-box-shadow;
 
       > .published {
@@ -90,6 +101,7 @@
         border-left: 5px solid theme-color("danger");
       }
     }
+
   }
 
   .card-header {

@@ -29,13 +29,13 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 
 <div id="joomlaupdate-wrapper" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
 	<?php if ($this->showUploadAndUpdate) : ?>
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
 		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'joomlaupdate-tabs', 'pre-update-check', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_PRE_UPDATE_CHECK')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'pre-update-check', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_PRE_UPDATE_CHECK')); ?>
 			<?php echo $this->loadTemplate('preupdatecheck'); ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'online-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
 	<?php endif; ?>
 
 	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm">
@@ -68,11 +68,11 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 
 	<?php // Only Super Users have access to the Update & Install for obvious security reasons ?>
 	<?php if ($this->showUploadAndUpdate) : ?>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD')); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'joomlaupdate-tabs', 'upload-update', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD')); ?>
 		<?php echo $this->loadTemplate('upload'); ?>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 
 	<div id="download-message" style="display:none">

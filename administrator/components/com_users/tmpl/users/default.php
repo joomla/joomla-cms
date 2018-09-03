@@ -126,13 +126,11 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php echo $this->escape($item->username); ?>
 								</td>
 								<td class="text-center">
+                                    <?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
-										<?php
-										$self = $loggeduser->id == $item->id;
-										echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
-										?>
+										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
-										<?php echo Text::_($item->block ? 'JNO' : 'JYES'); ?>
+										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', false);; ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
@@ -153,13 +151,13 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								</td>
 								<td class="d-none d-lg-table-cell text-center">
 									<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
-										<?php echo HTMLHelper::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
+										<?php echo HTMLHelper::_('date', $item->lastvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
 									<?php else : ?>
 										<?php echo Text::_('JNEVER'); ?>
 									<?php endif; ?>
 								</td>
 								<td class="d-none d-lg-table-cell text-center">
-									<?php echo HTMLHelper::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
+									<?php echo HTMLHelper::_('date', $item->registerDate, Text::_('DATE_FORMAT_LC6')); ?>
 								</td>
 								<td class="d-none d-md-table-cell text-center">
 									<?php echo (int) $item->id; ?>

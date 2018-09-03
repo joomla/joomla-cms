@@ -11,10 +11,10 @@ namespace Joomla\CMS\Document\Renderer\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * RssRenderer is a feed that implements RSS 2.0 Specification

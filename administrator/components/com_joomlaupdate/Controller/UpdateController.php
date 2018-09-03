@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -293,8 +294,6 @@ class UpdateController extends BaseController
 
 		// Do I really have an update package?
 		$tempFile = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
-
-		\JLoader::import('joomla.filesystem.file');
 
 		if (empty($tempFile) || !File::exists($tempFile))
 		{

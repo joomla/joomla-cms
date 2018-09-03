@@ -39,7 +39,7 @@
     "mediaelement": "4.2.8",
     "popper.js": "^1.14.3",
     "punycode": "1.4.1",
-    "tinymce": "4.7.7"
+    "tinymce": "4.8.2"
   },
   "devDependencies": {
     "autoprefixer": "^8.0.0",

@@ -30,10 +30,14 @@ $published = $this->state->get('filter.published');
 		<?php if ($published >= 0) : ?>
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo HTMLHelper::_('batch.tag'); ?>
+					<?php echo HTMLHelper::_('batch.item', 'com_newsfeeds'); ?>
 				</div>
 			</div>
-		</div>
 		<?php endif; ?>
+		<div class="form-group col-md-6">
+			<div class="controls">
+				<?php echo HTMLHelper::_('batch.tag'); ?>
+			</div>
+		</div>
 	</div>
 </div>

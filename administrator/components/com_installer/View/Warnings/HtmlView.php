@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Warnings;
 
 defined('_JEXEC') or die;
@@ -36,15 +37,6 @@ class HtmlView extends InstallerViewDefault
 		$items = $this->get('Items');
 		$this->messages = &$items;
 		parent::display($tpl);
-
-		if (count($items) > 0)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), 'warning');
-		}
-		else
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'info');
-		}
 	}
 
 	/**

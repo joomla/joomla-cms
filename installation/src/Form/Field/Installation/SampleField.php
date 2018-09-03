@@ -12,6 +12,10 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Install Sample Data field.
@@ -51,11 +55,11 @@ class SampleField extends RadioField
 		}
 
 		// Get a list of files in the search path with the given filter.
-		$files = \JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
+		$files = Folder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
 
 		// Add option to not install sample data.
-		$options[] = \JHtml::_('select.option', '',
-			\JHtml::_('tooltip', \JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', \JText::_('JNO'))
+		$options[] = HTMLHelper::_('select.option', '',
+			HTMLHelper::_('tooltip', Text::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', Text::_('JNO'))
 		);
 
 		// Build the options list from the list of files.
@@ -63,9 +67,9 @@ class SampleField extends RadioField
 		{
 			foreach ($files as $file)
 			{
-				$options[] = \JHtml::_('select.option', $file, Factory::getLanguage()->hasKey($key = 'INSTL_' . ($file = \JFile::stripExt($file)) . '_SET') ?
-					\JHtml::_('tooltip', \JText::_('INSTL_' . strtoupper($file = \JFile::stripExt($file)) . '_SET_DESC'), '', '',
-						\JText::_('JYES')
+				$options[] = HTMLHelper::_('select.option', $file, Factory::getLanguage()->hasKey($key = 'INSTL_' . ($file = File::stripExt($file)) . '_SET') ?
+					HTMLHelper::_('tooltip', Text::_('INSTL_' . strtoupper($file = File::stripExt($file)) . '_SET_DESC'), '', '',
+						Text::_('JYES')
 					) : $file
 				);
 			}

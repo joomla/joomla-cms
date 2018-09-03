@@ -38,7 +38,7 @@ const uglifyJs = (options, path) => {
       (files) => {
         files.forEach(
             (file) => {
-            if (file.match(/.es6.js/)) {
+            if (file.match(/\.es6\.js/)) {
               // Transpile the file
               transpileEs5.compileFile(file);
             }
@@ -65,12 +65,12 @@ const watchFiles = (options, folders, compileFirst = false) => {
         (files) => {
           files.forEach(
             (file) => {
-              if (file.match(/.js/)) {
+              if (file.match(/\.js/)) {
                 fs.watchFile(file, () => {
                   // eslint-disable-next-line no-console
                   console.warn(`File: ${file} changed.`);
                   debounce(() => {
-                    if (file.match(/.es6.js/)) {
+                    if (file.match(/\.es6\.js/)) {
                       // Transpile the file
                       transpileEs5.compileFile(file);
                       fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });

@@ -267,10 +267,10 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 				$query = $db->getQuery(true);
 				$query
 					->select('t.id')
-					->from($db->qn('#__finder_taxonomy') . ' AS t')
-					->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
-					->where($db->qn('t.title') . ' = ' . $db->q($element['title']))
-					->where($db->qn('p.title') . ' = ' . $db->q($element['parent']));
+					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+					->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+					->where($db->quoteName('t.title') . ' = ' . $db->quote($element['title']))
+					->where($db->quoteName('p.title') . ' = ' . $db->quote($element['parent']));
 				$taxonomy = $db->setQuery($query)->loadResult();
 
 				// If we found it then add it to the list.
@@ -290,9 +290,9 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 			// Update the filter with the new taxonomy ids.
 			$query = $db->getQuery(true);
 			$query
-				->update($db->qn('#__finder_filters'))
-				->set($db->qn('data') . ' = ' . $db->q($taxonomyIds))
-				->where($db->qn('filter_id') . ' = ' . (int) $filter_id);
+				->update($db->quoteName('#__finder_filters'))
+				->set($db->quoteName('data') . ' = ' . $db->quote($taxonomyIds))
+				->where($db->quoteName('filter_id') . ' = ' . (int) $filter_id);
 			$db->setQuery($query)->execute();
 		}
 
@@ -320,7 +320,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		$query = $db->getQuery(true);
 		$query
 			->select('filter_id, title, data')
-			->from($db->qn('#__finder_filters'));
+			->from($db->quoteName('#__finder_filters'));
 		$filters = $db->setQuery($query)->loadObjectList();
 
 		// Get the name of each taxonomy and the name of its parent.
@@ -336,9 +336,9 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 			$query = $db->getQuery(true);
 			$query
 				->select('t.title, p.title AS parent')
-				->from($db->qn('#__finder_taxonomy') . ' AS t')
-				->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
-				->where($db->qn('t.id') . ' IN (' . $filter->data . ')');
+				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+				->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+				->where($db->quoteName('t.id') . ' IN (' . $filter->data . ')');
 			$taxonomies = $db->setQuery($query)->loadObjectList();
 
 			// Construct a temporary data structure to hold the filter information.

@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 \JLoader::register('JHtmlCategoriesAdministrator', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/html/categoriesadministrator.php');
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
- * Dispatcher class for com_categories
+ * ComponentDispatcher class for com_categories
  *
  * @since  4.0.0
  */
-class CategoriesDispatcher extends Dispatcher
+class CategoriesDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

@@ -86,7 +86,6 @@ if (!empty($editor))
 					-2 => 'icon-trash',
 					0  => 'icon-unpublish',
 					1  => 'icon-publish',
-					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -117,7 +116,7 @@ if (!empty($editor))
 						<th scope="row">
 							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'
 								. ' data-id="' . $item->id . '"'
-								. ' data-title="' . $this->escape(addslashes($item->title)) . '"'
+								. ' data-title="' . $this->escape($item->title) . '"'
 								. ' data-cat-id="' . $this->escape($item->catid) . '"'
 								. ' data-uri="' . $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)) . '"'
 								. ' data-language="' . $this->escape($lang) . '"';

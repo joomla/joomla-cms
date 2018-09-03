@@ -39,7 +39,7 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 							<th scope="col" style="width:10%" class="nowrap text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap text-center">
+							<th scope="col" style="width:10%" class="nowrap text-right">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -59,7 +59,7 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 								<td class="text-center">
 									<?php echo $item->count; ?>
 								</td>
-								<td class="text-center">
+								<td class="text-right">
 									<?php echo HTMLHelper::_('number.bytes', $item->size); ?>
 								</td>
 							</tr>

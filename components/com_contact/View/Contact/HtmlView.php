@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 defined('_JEXEC') or die;
@@ -334,10 +335,10 @@ class HtmlView extends BaseHtmlView
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language));
 			}
 
-			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
+			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language), false);
 		}
 
 		// Process the content plugins.

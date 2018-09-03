@@ -10,9 +10,9 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Filter\InputFilter as BaseInputFilter;
-use Joomla\CMS\Factory;
 
 /**
  * InputFilter is a class for filtering input from any data source

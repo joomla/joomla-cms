@@ -76,7 +76,7 @@ else
 		<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group"
-			rows-container="tbody.subform-repeatable-rows-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
+			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 
 		<table class="adminlist table table-striped table-bordered">
 			<thead>
@@ -94,7 +94,7 @@ else
 					<?php endif; ?>
 				</tr>
 			</thead>
-			<tbody class="subform-repeatable-rows-container">
+			<tbody class="subform-repeatable-container">
 			<?php
 			foreach ($forms as $k => $form) :
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));

@@ -10,8 +10,6 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
-
 /**
  * Stemmer base class.
  *

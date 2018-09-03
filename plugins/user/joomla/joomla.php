@@ -169,13 +169,31 @@ class PlgUserJoomla extends CMSPlugin
 			$user['password_clear']
 		);
 
-		$res = Factory::getMailer()->sendMail(
-			$this->app->get('mailfrom'),
-			$this->app->get('fromname'),
-			$user['email'],
-			$emailSubject,
-			$emailBody
-		);
+		try
+		{
+			$res = Factory::getMailer()->sendMail(
+				$this->app->get('mailfrom'),
+				$this->app->get('fromname'),
+				$user['email'],
+				$emailSubject,
+				$emailBody
+			);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$res = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$res = false;
+			}
+		}
 
 		if ($res === false)
 		{
@@ -296,7 +314,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  bool  True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */

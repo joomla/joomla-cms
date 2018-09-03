@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\DI\Container;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\DI\Container;
+use Joomla\Registry\Registry;
 
 /**
  * Joomla! Administrator Application class

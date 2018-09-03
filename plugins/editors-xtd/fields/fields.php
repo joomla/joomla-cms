@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Editor Fields button
@@ -47,9 +48,6 @@ class PlgButtonFields extends CMSPlugin
 		{
 			return;
 		}
-
-		// Register FieldsHelper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Guess the field context based on view.
 		$jinput = Factory::getApplication()->input;

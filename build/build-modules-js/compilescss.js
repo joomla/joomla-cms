@@ -14,6 +14,8 @@ const watches = [
   `${rootPath}/administrator/templates/atum/scss`,
   `${rootPath}/media/plg_installer_webinstaller/scss`,
   `${rootPath}/build/media_src`,
+  `${rootPath}/installation/template/scss/template.scss`,
+  `${rootPath}/installation/template/scss/template-rtl.scss`,
 ];
 
 const compileCSSFiles = (options, path) => {
@@ -32,6 +34,7 @@ const compileCSSFiles = (options, path) => {
     }
   } else {
     files = [
+      `${rootPath}/templates/cassiopeia/scss/offline.scss`,
       `${rootPath}/templates/cassiopeia/scss/template.scss`,
       `${rootPath}/templates/cassiopeia/scss/template-rtl.scss`,
       `${rootPath}/administrator/templates/atum/scss/bootstrap.scss`,
@@ -39,12 +42,24 @@ const compileCSSFiles = (options, path) => {
       `${rootPath}/administrator/templates/atum/scss/template.scss`,
       `${rootPath}/administrator/templates/atum/scss/template-rtl.scss`,
       `${rootPath}/build/media_src/plg_installer_webinstaller/scss/client.scss`,
+      `${rootPath}/installation/template/scss/template.scss`,
+      `${rootPath}/installation/template/scss/template-rtl.scss`,
     ];
 
     folders = [
       `${rootPath}/build/media_src`,
     ];
   }
+
+  // Loop to get the files that should be compiled via parameter
+  folders.forEach((folder) => {
+    let filesTocompile = fs.readdirSync(folder);
+    filesTocompile.forEach((fileTocompile) => {
+      if (Path.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) !== '_') {
+        files.push(folder + '/' + fileTocompile);
+      }
+    });
+  });
 
   // Loop to get some text for the packgage.json
   files.forEach((file) => {
