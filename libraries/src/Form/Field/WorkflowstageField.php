@@ -1,17 +1,19 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_workflow
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\CMS\Form\Field;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Workflow Stages field.
@@ -29,9 +31,9 @@ class WorkflowstageField extends GroupedlistField
 	protected $type = 'Workflowstage';
 
 	/**
-	 * The extension where we're
+	 * The component and section separated by ".".
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extension = 'com_content';
@@ -124,7 +126,7 @@ class WorkflowstageField extends GroupedlistField
 				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, $stage->workflow_stage_title);
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
 		}
 
 		// Merge any additional options in the XML definition.

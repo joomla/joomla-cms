@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
- * Dispatcher class for com_newsfeeds
+ * ComponentDispatcher class for com_newsfeeds
  *
  * @since  4.0.0
  */
-class NewsfeedsDispatcher extends Dispatcher
+class NewsfeedsDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

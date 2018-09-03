@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
-  "title" varchar(255) DEFAULT '' NOT NULL,,
+  "title" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
   "extension" varchar(50) NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
@@ -35,14 +35,17 @@ INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
-  "item_id" bigint DEFAULT 0 NOT NULL COMMENT 'Extension table id value',
-  "stage_id" bigint DEFAULT 0 NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
+  "item_id" bigint DEFAULT 0 NOT NULL,
+  "stage_id" bigint DEFAULT 0 NOT NULL,
   "extension" varchar(50) NOT NULL,
   PRIMARY KEY ("item_id", "stage_id", "extension")
 );
 CREATE INDEX "#__workflow_associations_idx_item_id" ON "#__workflow_associations" ("item_id");
 CREATE INDEX "#__workflow_associations_idx_stage_id" ON "#__workflow_associations" ("stage_id");
 CREATE INDEX "#__workflow_associations_idx_extension" ON "#__workflow_associations" ("extension");
+
+COMMENT ON COLUMN "#__workflow_associations"."item_id" IS 'Extension table id value';
+COMMENT ON COLUMN "#__workflow_associations"."stage_id" IS 'Foreign Key to #__workflow_stages.id';
 
 --
 -- Table structure for table "#__workflow_stages"
@@ -70,10 +73,10 @@ CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default"
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
-(1, 0, 1, 1, 1, 'Unpublished', '', 0, 0),
-(2, 0, 2, 1, 1, 'Published', '', 1, 1),
-(3, 0, 3, 1, 1, 'Trashed', '', -2, 0),
-(4, 0, 4, 1, 1, 'Archived', '', 1, 0);
+(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 0),
+(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 1),
+(3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0),
+(4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0);
 
 --
 -- Table structure for table "#__workflow_transitions"

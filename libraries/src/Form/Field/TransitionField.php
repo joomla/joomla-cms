@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_menus
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_BASE') or die;
@@ -13,6 +13,8 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
@@ -27,11 +29,17 @@ class TransitionField extends ListField
 	/**
 	 * The form field type.
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Transition';
 
+	/**
+	 * The component and section separated by ".".
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $extension;
 
 	/**
@@ -62,7 +70,7 @@ class TransitionField extends ListField
 	/**
 	 * Method to get a list of options for a list input.
 	 *
-	 * @return	array  An array of JHtml options.
+	 * @return	array  An array of HTMLHelper options.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -128,13 +136,13 @@ class TransitionField extends ListField
 
 		$workflowName = $db->setQuery($query)->loadResult();
 
-		$default = [\JHtml::_('select.option', '', $workflowName)];
+		$default = [HTMLHelper::_('select.option', '', Text::_($workflowName))];
 
 		$options = array_merge(parent::getOptions(), $items);
 
 		if (count($options))
 		{
-			$default[] = \JHtml::_('select.option', '-1', '--------', ['disable' => true]);
+			$default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
 		}
 
 		// Merge with defaults

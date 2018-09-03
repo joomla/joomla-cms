@@ -19,8 +19,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.tooltip');
+HTMLHelper::_('behavior.multiselect');
 
-$user      = Factory::getUser();
+$user	= Factory::getUser();
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -50,7 +51,7 @@ if ($saveOrder)
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
@@ -114,7 +115,7 @@ if ($saveOrder)
 									<th scope="row">
 										<?php if ($canEdit) : ?>
 											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
 												<?php echo $editIcon; ?><?php echo $item->title; ?>
 											</a>
 										<?php else: ?>
@@ -125,11 +126,11 @@ if ($saveOrder)
 									<?php if ($item->from_stage_id < 0) : ?>
 										<?php echo Text::_('JALL'); ?>
 									<?php else : ?>
-										<?php echo $item->from_stage; ?>
+										<?php echo $this->escape(Text::_($item->from_stage)); ?>
 									<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo $this->escape($item->to_stage); ?>
+										<?php echo $this->escape(Text::_($item->to_stage)); ?>
 									</td>
 									<td class="text-right">
 										<?php echo $item->id; ?>

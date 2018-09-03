@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Model\Form;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
@@ -30,6 +31,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Item Model for an Article.
@@ -87,9 +89,6 @@ class ArticleModel extends AdminModel
 
 		PluginHelper::importPlugin('system');
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		// Parent exists so we let's proceed
 		while (!empty($pks))
 		{
@@ -116,7 +115,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 			$fieldsData = array();
 
 			if (!empty($fields))
@@ -235,7 +234,7 @@ class ArticleModel extends AdminModel
 		$workflow = new Workflow(['extension' => 'com_content']);
 
 		// Update content state value and workflow associations
-		return ContentHelper::updateContentState($pks, $state->condition)
+		return ContentHelper::updateContentState($pks, $stage->condition)
 				&& $workflow->updateAssociations($pks, $value);
 	}
 
@@ -271,9 +270,6 @@ class ArticleModel extends AdminModel
 
 		PluginHelper::importPlugin('system');
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
@@ -302,7 +298,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 
-			$fields = \FieldsHelper::getFields('com_content.article', $this->table, true);
+			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 
 			$fieldsData = array();
 
@@ -364,7 +360,7 @@ class ArticleModel extends AdminModel
 
 			$assoc = $workflow->getAssociation($record->id);
 
-			if (!$stage->load($assoc->stage_id) || $stage->condition != Workflow::TRASHED)
+			if (!$stage->load($assoc->stage_id) || $stage->condition != ContentComponent::CONDITION_TRASHED)
 			{
 				return false;
 			}
@@ -837,7 +833,7 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			$data['state'] = (int) $state->condition;
+			$data['state'] = (int) $stage->condition;
 
 		}
 
