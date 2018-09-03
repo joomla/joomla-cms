@@ -400,7 +400,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
 
-			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id))
+			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id, $tableWorkflow->stageId))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -1007,6 +1007,14 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$workflow = $workflowModel->getItem();
 
+		$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__workflow_stages'))
+				->where($this->db->quoteName('workflow_id') . ' = ' . (int) $workflow->id)
+				->where($this->db->quoteName('default') . ' = 1');
+
+		$workflow->stageId = (int) $this->db->setQuery($query)->loadResult();
+
 		return $workflow;
 	}
 
@@ -1020,7 +1028,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	public function addCategory($itemLanguage, $workflow_id = 0)
+	public function addCategory($itemLanguage, $workflowId = 0)
 	{
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -1035,7 +1043,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":"", "workflow_id":"' . (int) $workflow_id . '"}',
+			'params'          => '{"target":"","image":"", "workflow_id":"' . (int) $workflowId . '"}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1078,12 +1086,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category where we want to add the article.
+	 * @param   integer   $stageId       The id of the initial stage.
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	private function addArticle($itemLanguage, $categoryId)
+	private function addArticle($itemLanguage, $categoryId, $stageId)
 	{
 		$db = Factory::getDbo();
 
@@ -1107,7 +1116,6 @@ class PlgSampledataMultilang extends CMSPlugin
 										. 'debet libris consulatu.</p>',
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
-			'state'            => 1,
 			'created'          => $currentDate,
 			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
@@ -1154,6 +1162,21 @@ class PlgSampledataMultilang extends CMSPlugin
 		try
 		{
 			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return false;
+		}
+
+		$assoc = new stdClass;
+
+		$assoc->item_id = $newId;
+		$assoc->stage_id = $stageId;
+		$assoc->extension = 'com_content';
+
+		try
+		{
+			$db->insertObject('#__workflow_associations', $assoc);
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
