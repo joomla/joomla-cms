@@ -90,8 +90,7 @@ class FieldsHelper
 	{
 		if (self::$fieldsCache === null)
 		{
-			// Load the model
-			JLoader::import('joomla.application.component.model');
+			// Load the model			
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
