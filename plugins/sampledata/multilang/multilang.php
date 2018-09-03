@@ -378,16 +378,17 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$siteLanguages = $this->getInstalledlangsFrontend();
 
+		if (!$tableWorkflow = $this->addWorkflow())
+		{
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6, $siteLang->language);
+
+			return $response;
+		}
+
 		foreach ($siteLanguages as $siteLang)
 		{
-			if (!$tableWorkflow = $this->addWorkflow($siteLang))
-			{
-				$response            = array();
-				$response['success'] = false;
-				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6, $siteLang->language);
-
-				return $response;
-			}
 
 			if (!$tableCategory = $this->addCategory($siteLang, $tableWorkflow->id))
 			{
@@ -989,15 +990,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addWorkflow($itemLanguage)
+	public function addWorkflow()
 	{
-		$newlanguage = new Language($itemLanguage->language, false);
-		$newlanguage->load('plg_sampledata_multilang', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
-
 		$workflowModel = new WorkflowModel;
 
 		$workflow = [
-			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE') . ' (' . strtolower($itemLanguage->language) . ')',
+			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE'),
 			'description' => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_DESCRIPTION'),
 			'published'   => 1,
 			'extension'   => 'com_content'
