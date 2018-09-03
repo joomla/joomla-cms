@@ -110,8 +110,6 @@ class Captcha extends \JObject
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
 				return;
 			}
 		}

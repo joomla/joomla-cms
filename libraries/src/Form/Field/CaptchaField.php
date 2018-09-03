@@ -89,10 +89,8 @@ class CaptchaField extends FormField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		$result = parent::setup($element, $value, $group);
-
-		$app = Factory::getApplication();
-
+		$result  = parent::setup($element, $value, $group);
+		$app     = Factory::getApplication();
 		$default = $app->get('captcha');
 
 		if ($app->isClient('site'))
@@ -100,13 +98,11 @@ class CaptchaField extends FormField
 			$default = $app->getParams()->get('captcha', $default);
 		}
 
-		$plugin = $this->element['plugin'] ?
-			(string) $this->element['plugin'] :
-			$default;
+		$this->plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : $default;
+		$this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
+		$this->captcha   = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
 
-		$this->plugin = $plugin;
-
-		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
+		if (!$this->plugin || !$this->captcha)
 		{
 			$this->hidden = true;
 		}
@@ -121,8 +117,6 @@ class CaptchaField extends FormField
 				$this->class .= ' required';
 			}
 		}
-
-		$this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
 		return $result;
 	}
@@ -140,14 +134,7 @@ class CaptchaField extends FormField
 		{
 			return '';
 		}
-		else
-		{
-			if (($captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace))) == null)
-			{
-				return '';
-			}
-		}
 
-		return $captcha->display($this->name, $this->id, $this->class);
+		return $this->captcha->display($this->name, $this->id, $this->class);
 	}
 }

@@ -47,16 +47,19 @@ class CaptchaRule extends FormRule
 			$plugin = $app->getParams()->get('captcha', $plugin);
 		}
 
-		$namespace = $element['namespace'] ?: $form->getName();
-
-		// Use 0 for none
-		if ($plugin === 0 || $plugin === '0')
+		// Plugin not set
+		if (!$plugin)
 		{
 			return true;
 		}
-		else
+
+		$namespace = $element['namespace'] ?: $form->getName();
+		$captcha   = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
+
+		// Plugin not enabled
+		if ($captcha === null)
 		{
-			$captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
+			return true;
 		}
 
 		// Test the value.
