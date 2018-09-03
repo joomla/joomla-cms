@@ -900,9 +900,9 @@ class TemplateModel extends FormModel
 			if (file_exists($filePath))
 			{
 				$item->extension_id = $this->getState('extension.id');
-				$item->filename = $fileName;
+				$item->filename = Path::clean($fileName);
 				$item->source = file_get_contents($filePath);
-				$item->filePath = $filePath;
+				$item->filePath = Path::clean($filePath);
 
 				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
 				{
