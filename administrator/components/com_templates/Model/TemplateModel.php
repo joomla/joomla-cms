@@ -175,7 +175,7 @@ class TemplateModel extends FormModel
 
 		if ($state)
 		{
-			$query->where('state = ' . 0);
+			$query->where('state = 0');
 		}
 
 		$query->order($db->quoteName('a.modified_date') . 'DESC');
