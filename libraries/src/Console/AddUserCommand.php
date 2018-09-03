@@ -90,6 +90,7 @@ class AddUserCommand extends AbstractCommand
 		if (in_array("error", $this->userGroups))
 		{
 			$symfonyStyle->error("You entered a wrong user group (" . $this->userGroups[1] . ")");
+
 			return 1;
 		}
 
@@ -221,14 +222,17 @@ class AddUserCommand extends AbstractCommand
 			foreach ($option as $group)
 			{
 				$groupId = $this->getGroupId($group);
+
 				if (empty($groupId))
 				{
 					$groupList = array(
 						"error",
 						$group,
 					);
+
 					return $groupList;
 				}
+
 				array_push($groupList, $this->getGroupId($group));
 			}
 
