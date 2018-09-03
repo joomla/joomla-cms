@@ -26,7 +26,6 @@ if ($data->order === $data->selected) :
     $selected = " selected";
     $id = "id=\"sorted\"";
 endif;
-
 ?>
 
 <a href="#" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?>"
