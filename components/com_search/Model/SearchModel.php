@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Search\Site\Model;
 
 defined('_JEXEC') or die;
@@ -25,35 +26,35 @@ class SearchModel extends BaseDatabaseModel
 	/**
 	 * Search data array
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $_data = null;
 
 	/**
 	 * Search total
 	 *
-	 * @var integer
+	 * @var   integer
 	 */
 	protected $_total = null;
 
 	/**
 	 * Search areas
 	 *
-	 * @var integer
+	 * @var   integer
 	 */
-	protected  $_areas = null;
+	protected $_areas = null;
 
 	/**
 	 * Pagination object
 	 *
-	 * @var object
+	 * @var   object
 	 */
 	protected $_pagination = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.5
+	 * @since  1.5
 	 */
 	public function __construct()
 	{
@@ -101,9 +102,9 @@ class SearchModel extends BaseDatabaseModel
 	 * @param   string  $match     matching option, exact|any|all
 	 * @param   string  $ordering  option, newest|oldest|popular|alpha|category
 	 *
-	 * @return  void
+	 * @access  public
 	 *
-	 * @access	public
+	 * @return  void
 	 */
 	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
@@ -133,7 +134,8 @@ class SearchModel extends BaseDatabaseModel
 	/**
 	 * Method to get search results for a given query
 	 *
-	 * @return array
+	 * @access  public
+	 * @return  array
 	 */
 	public function getData()
 	{
@@ -219,9 +221,9 @@ class SearchModel extends BaseDatabaseModel
 	/**
 	 * Method to get the search areas
 	 *
-	 * @return int
+	 * @return  integer
 	 *
-	 * @since 1.5
+	 * @since   1.5
 	 */
 	public function getAreas()
 	{

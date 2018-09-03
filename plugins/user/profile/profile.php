@@ -84,14 +84,14 @@ class PlgUserProfile extends CMSPlugin
 				$query = $db->getQuery(true)
 					->select(
 						array(
-							$db->qn('profile_key'),
-							$db->qn('profile_value'),
+							$db->quoteName('profile_key'),
+							$db->quoteName('profile_value'),
 						)
 					)
 					->from('#__user_profiles')
-					->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-					->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'))
-					->order($db->qn('ordering'));
+					->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
+					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
+					->order($db->quoteName('ordering'));
 
 				$db->setQuery($query);
 				$results = $db->loadRowList();
@@ -140,7 +140,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   string  $value  URL to use
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
 	 */
 	public static function url($value)
 	{
@@ -205,7 +205,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   boolean  $value  input value
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public static function tos($value)
 	{
@@ -360,10 +360,10 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $isnew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
-	 * @return    boolean
+	 * @return  boolean
 	 *
 	 * @since   3.1
-	 * @throws    InvalidArgumentException on invalid date.
+	 * @throws  InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
@@ -411,7 +411,7 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
@@ -451,7 +451,7 @@ class PlgUserProfile extends CMSPlugin
 
 			$order = 1;
 			$query->clear()
-				->insert($db->qn('#__user_profiles'));
+				->insert($db->quoteName('#__user_profiles'));
 
 			foreach ($data['profile'] as $k => $v)
 			{
@@ -494,9 +494,9 @@ class PlgUserProfile extends CMSPlugin
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__user_profiles'))
-				->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-				->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'));
+				->delete($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
+				->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
 
 			$db->setQuery($query);
 			$db->execute();

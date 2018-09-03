@@ -31,7 +31,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 			</div>
 
 			<div class="fltlft utitle">
-				<?php echo HTMLHelper::_('date', $item->created_time, 'D d M Y H:i'); ?>
+				<?php echo HTMLHelper::_('date', $item->created_time, Text::_('DATE_FORMAT_LC2')); ?>
 			</div>
 
 			<?php $category_image = $item->cparams->get('image'); ?>

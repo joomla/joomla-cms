@@ -245,7 +245,7 @@ class ApcuStorage extends CacheStorage
 		$supported = extension_loaded('apcu') && ini_get('apc.enabled');
 
 		// If on the CLI interface, the `apc.enable_cli` option must also be enabled
-		if ($supported && php_sapi_name() === 'cli')
+		if ($supported && PHP_SAPI === 'cli')
 		{
 			$supported = ini_get('apc.enable_cli');
 		}

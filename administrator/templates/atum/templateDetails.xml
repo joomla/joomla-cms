@@ -25,21 +25,20 @@
 		<folder>img</folder>
 		<folder>js</folder>
 		<folder>language</folder>
-		<folder>less</folder>
+		<folder>scss</folder>
 	</files>
 	<positions>
-		<position>menu</position>
-		<position>submenu</position>
-		<position>toolbar</position>
-		<position>title</position>
-		<position>status</position>
-		<position>icon</position>
-		<position>cp_shell</position>
-		<position>cpanel</position>
+		<!-- used directly in the template -->
 		<position>bottom</position>
-		<position>footer</position>
-		<position>login</position>
 		<position>debug</position>
+		<position>menu</position>
+		<position>status</position>
+		<position>title</position>
+		<position>toolbar</position>
+		<!-- used directly in a component and included here so the position will appear in the list of available positions -->
+		<position>cpanel</position>
+		<position>icon</position>
+		<position>login</position>
 	</positions>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>

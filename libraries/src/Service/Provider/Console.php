@@ -38,7 +38,14 @@ class Console implements ServiceProviderInterface
 			SessionGcCommand::class,
 			function (Container $container)
 			{
-				return new SessionGcCommand($container->get('session'));
+				/*
+				 * The command will need the same session handler that web apps use to run correctly,
+				 * since this is based on an option we need to inject the container
+				 */
+				$command = new SessionGcCommand;
+				$command->setContainer($container);
+
+				return $command;
 			},
 			true
 		);

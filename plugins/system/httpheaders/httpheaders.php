@@ -60,6 +60,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
+		'feature-policy',
 	];
 
 	/**

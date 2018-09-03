@@ -10,9 +10,9 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\HtmlDocument;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for form elements

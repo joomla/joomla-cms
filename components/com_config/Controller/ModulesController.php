@@ -110,7 +110,7 @@ class ModulesController extends BaseController
 		$app = Factory::getContainer()->get(AdministratorApplication::class);
 		$app->loadLanguage($this->app->getLanguage());
 
-		/** @var \Joomla\CMS\Dispatcher\Dispatcher $dispatcher */
+		/** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
 		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
 
 		/** @var ModuleController $controllerClass */

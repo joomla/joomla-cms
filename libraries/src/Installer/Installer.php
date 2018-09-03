@@ -11,18 +11,19 @@ namespace Joomla\CMS\Installer;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\UTF8MB4SupportInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 \JLoader::import('joomla.base.adapter');
 
@@ -398,10 +399,12 @@ class Installer extends \JAdapter
 					// Get database connector object
 					$db = $this->getDbo();
 					$query = $db->getQuery(true);
+					$stepId = (int) $step['id'];
 
 					// Remove the entry from the #__extensions table
 					$query->delete($db->quoteName('#__extensions'))
-						->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
+						->where($db->quoteName('extension_id') . ' = :step_id')
+						->bind(':step_id', $stepId, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
@@ -1071,15 +1074,20 @@ class Installer extends \JAdapter
 					// Update the database
 					$query = $db->getQuery(true)
 						->delete('#__schemas')
-						->where('extension_id = ' . $eid);
+						->where('extension_id = :extension_id')
+						->bind(':extension_id', $eid, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					if ($db->execute())
 					{
+						$schemaVersion = end($files);
+
 						$query->clear()
 							->insert($db->quoteName('#__schemas'))
 							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
-							->values($eid . ', ' . $db->quote(end($files)));
+							->values(':extension_id, :version_id')
+							->bind(':extension_id', $eid, ParameterType::INTEGER)
+							->bind(':version_id', $schemaVersion);
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1150,7 +1158,8 @@ class Installer extends \JAdapter
 					$query = $db->getQuery(true)
 						->select('version_id')
 						->from('#__schemas')
-						->where('extension_id = ' . $eid);
+						->where('extension_id = :extension_id')
+						->bind(':extension_id', $eid, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
@@ -1224,17 +1233,22 @@ class Installer extends \JAdapter
 					// Update the database
 					$query = $db->getQuery(true)
 						->delete('#__schemas')
-						->where('extension_id = ' . $eid);
+						->where('extension_id = :extension_id')
+						->bind(':extension_id', $eid, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
 					{
 						$db->execute();
 
+						$schemaVersion = end($files);
+
 						$query->clear()
 							->insert($db->quoteName('#__schemas'))
 							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
-							->values($eid . ', ' . $db->quote(end($files)));
+							->values(':extension_id, :version_id')
+							->bind(':extension_id', $eid, ParameterType::INTEGER)
+							->bind(':version_id', $schemaVersion);
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -2062,11 +2076,15 @@ class Installer extends \JAdapter
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
-			->where('type = ' . $db->quote($type))
-			->where('element = ' . $db->quote($element))
-			->where('folder = ' . $db->quote($folder))
-			->where('client_id = ' . (int) $client)
-			->where('state = -1');
+			->where('type = :type')
+			->where('element = :element')
+			->where('folder = :folder')
+			->where('client_id = :client_id')
+			->where('state = -1')
+			->bind(':type', $type)
+			->bind(':element', $element)
+			->bind(':folder', $folder)
+			->bind(':client_id', $client, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->execute();

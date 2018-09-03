@@ -13,9 +13,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Field\FolderlistField;
 
-jimport('joomla.form.helper');
-
-
 /**
  * Generates the list of directories  available for drag and drop upload.
  *

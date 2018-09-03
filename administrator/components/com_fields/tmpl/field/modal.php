@@ -24,6 +24,8 @@ HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 $app = Factory::getApplication();
 $input = $app->input;
 
+$this->useCoreUI = true;
+
 Factory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
@@ -54,9 +56,9 @@ Factory::getDocument()->addScriptDeclaration("
 		<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 		<div>
-			<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_FIELDS', true)); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS', true)); ?>
 			<div class="row">
 				<div class="col-md-9">
 					<?php echo $this->form->getLabel('description'); ?>
@@ -66,9 +68,9 @@ Factory::getDocument()->addScriptDeclaration("
 					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('COM_FIELDS_FIELDSET_PUBLISHING', true)); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_FIELDS_FIELDSET_PUBLISHING', true)); ?>
 			<div class="row">
 				<div class="col-md-6">
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -76,17 +78,17 @@ Factory::getDocument()->addScriptDeclaration("
 				<div class="col-md-6">
 				</div>
 			</div>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'rules', Text::_('COM_FIELDS_FIELDSET_RULES', true)); ?>
+				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('COM_FIELDS_FIELDSET_RULES', true)); ?>
 				<?php echo $this->form->getInput('rules'); ?>
-				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
 			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+			<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 			<?php echo $this->form->getInput('context'); ?>
 			<input type="hidden" name="task" value="">

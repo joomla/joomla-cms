@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -20,10 +22,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-
-defined('_JEXEC') or die;
-
-\JLoader::import('joomla.updater.update');
+use Joomla\CMS\Language\Text;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -96,11 +95,11 @@ class LanguagesModel extends BaseInstallationModel
 		$db        = Factory::getDbo();
 		$extQuery  = $db->getQuery(true);
 
-		$extQuery->select($db->qn('extension_id'))
-			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' . $db->q('package'))
-			->where($db->qn('element') . ' = ' . $db->q('pkg_en-GB'))
-			->where($db->qn('client_id') . ' = 0');
+		$extQuery->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('pkg_en-GB'))
+			->where($db->quoteName('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
 
@@ -120,9 +119,9 @@ class LanguagesModel extends BaseInstallationModel
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->qn(array('update_id', 'name', 'element', 'version')))
-				->from($db->qn('#__updates'))
-				->order($db->qn('name'));
+			$query->select($db->quoteName(array('update_id', 'name', 'element', 'version')))
+				->from($db->quoteName('#__updates'))
+				->order($db->quoteName('name'));
 
 			$db->setQuery($query);
 			$list = $db->loadObjectList();
@@ -145,7 +144,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   array  $lids  List of the update_id value of the languages to install.
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean  True if successful
 	 */
 	public function install($lids)
 	{
@@ -166,8 +165,8 @@ class LanguagesModel extends BaseInstallationModel
 			if (!$remote_manifest)
 			{
 				// Could not find the url, the information in the update server may be corrupt.
-				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
 				Factory::getApplication()->enqueueMessage($message, 'warning');
 
@@ -180,8 +179,8 @@ class LanguagesModel extends BaseInstallationModel
 			if (!$package_url)
 			{
 				// Could not find the URL, maybe the URL is wrong in the update server, or there is no internet access.
-				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
 				Factory::getApplication()->enqueueMessage($message, 'warning');
 
@@ -195,8 +194,8 @@ class LanguagesModel extends BaseInstallationModel
 			if (!$installer->install($package['dir']))
 			{
 				// There was an error installing the package.
-				$message = \JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message .= ' ' . \JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
 				Factory::getApplication()->enqueueMessage($message, 'warning');
 
@@ -241,7 +240,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
 	 *
-	 * @return  string|bool
+	 * @return  string|boolean
 	 *
 	 * @since   3.1
 	 */
@@ -267,7 +266,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   string  $url  URL of the package.
 	 *
-	 * @return  array|bool Package details or false on failure.
+	 * @return  array|boolean  Package details or false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -279,7 +278,7 @@ class LanguagesModel extends BaseInstallationModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
 
 			return false;
 		}
@@ -388,12 +387,12 @@ class LanguagesModel extends BaseInstallationModel
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->qn(array('element', 'name')))
-			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' . $db->q('language'))
-			->where($db->qn('state') . ' = 0')
-			->where($db->qn('enabled') . ' = 1')
-			->where($db->qn('client_id') . ' = ' . (int) $client_id);
+		$query->select($db->quoteName(array('element', 'name')))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
+			->where($db->quoteName('state') . ' = 0')
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
 
 		$db->setQuery($query);
 
@@ -573,10 +572,10 @@ class LanguagesModel extends BaseInstallationModel
 
 		$query
 			->clear()
-			->update($db->qn('#__extensions'))
-			->set($db->qn('enabled') . ' = 1')
-			->where($db->qn('name') . ' = ' . $db->q($pluginName))
-			->where($db->qn('type') . ' = ' . $db->q('plugin'));
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('name') . ' = ' . $db->quote($pluginName))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 		$db->setQuery($query);
 
@@ -602,10 +601,10 @@ class LanguagesModel extends BaseInstallationModel
 				. '}';
 			$query
 				->clear()
-				->update($db->qn('#__extensions'))
-				->set($db->qn('params') . ' = ' . $db->q($params))
-				->where($db->qn('name') . ' = ' . $db->q('plg_system_languagefilter'))
-				->where($db->qn('type') . ' = ' . $db->q('plugin'));
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 			$db->setQuery($query);
 
@@ -691,8 +690,8 @@ class LanguagesModel extends BaseInstallationModel
 
 		// Add Module in Module menus.
 		$query->clear()
-			->insert($db->qn('#__modules_menu'))
-			->columns(array($db->qn('moduleid'), $db->qn('menuid')))
+			->insert($db->quoteName('#__modules_menu'))
+			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 			->values($moduleId . ', 0');
 		$db->setQuery($query);
 
@@ -896,7 +895,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  Table|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -968,7 +967,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  Table|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1112,12 +1111,12 @@ class LanguagesModel extends BaseInstallationModel
 		// Add Module in Module menus.
 		$query
 			->clear()
-			->update($db->qn('#__modules'))
-			->set($db->qn('published') . ' = 0')
-			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
-			->where($db->qn('language') . ' = ' . $db->q('*'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'))
-			->where($db->qn('position') . ' = ' . $db->q('sidebar-right'));
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 0')
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
+			->where($db->quoteName('client_id') . ' = 0')
+			->where($db->quoteName('position') . ' = ' . $db->quote('sidebar-right'));
 		$db->setQuery($query);
 
 		try
@@ -1149,9 +1148,9 @@ class LanguagesModel extends BaseInstallationModel
 
 		$query
 			->clear()
-			->update($db->qn('#__modules'))
-			->set($db->qn('published') . ' = 1')
-			->where($db->qn('module') . ' = ' . $db->q($moduleName));
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 1')
+			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName));
 		$db->setQuery($query);
 
 		try
@@ -1171,7 +1170,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  Table|boolean Category Object. False otherwise.
+	 * @return  Table|boolean  Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1232,9 +1231,9 @@ class LanguagesModel extends BaseInstallationModel
 	 * Create an article in a specific language.
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
-	 * @param   int        $categoryId    The id of the category where we want to add the article.
+	 * @param   integer    $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  Table|boolean Article Object. False otherwise.
+	 * @return  Table|boolean  Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1301,7 +1300,7 @@ class LanguagesModel extends BaseInstallationModel
 		$newId = $article->get('id');
 
 		$query = $db->getQuery(true)
-			->insert($db->qn('#__content_frontpage'))
+			->insert($db->quoteName('#__content_frontpage'))
 			->values($newId . ', 0');
 
 		$db->setQuery($query);
@@ -1322,9 +1321,9 @@ class LanguagesModel extends BaseInstallationModel
 	 * Add Blog Menu Item.
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
-	 * @param   int        $categoryId    The id of the category displayed by the blog.
+	 * @param   integer    $categoryId    The id of the category displayed by the blog.
 	 *
-	 * @return  Table|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1438,7 +1437,7 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Retrieve the admin user id.
 	 *
-	 * @return  int|bool One Administrator ID.
+	 * @return  integer|boolean  One Administrator ID.
 	 *
 	 * @since   3.2
 	 */
@@ -1456,23 +1455,23 @@ class LanguagesModel extends BaseInstallationModel
 		// Select the admin user ID
 		$query
 			->clear()
-			->select($db->qn('u') . '.' . $db->qn('id'))
-			->from($db->qn('#__users', 'u'))
+			->select($db->quoteName('u') . '.' . $db->quoteName('id'))
+			->from($db->quoteName('#__users', 'u'))
 			->join(
 				'LEFT',
-				$db->qn('#__user_usergroup_map', 'map')
-				. ' ON ' . $db->qn('map') . '.' . $db->qn('user_id')
-				. ' = ' . $db->qn('u') . '.' . $db->qn('id')
+				$db->quoteName('#__user_usergroup_map', 'map')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('user_id')
+				. ' = ' . $db->quoteName('u') . '.' . $db->quoteName('id')
 			)
 			->join(
 				'LEFT',
-				$db->qn('#__usergroups', 'g')
-				. ' ON ' . $db->qn('map') . '.' . $db->qn('group_id')
-				. ' = ' . $db->qn('g') . '.' . $db->qn('id')
+				$db->quoteName('#__usergroups', 'g')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('group_id')
+				. ' = ' . $db->quoteName('g') . '.' . $db->quoteName('id')
 			)
 			->where(
-				$db->qn('g') . '.' . $db->qn('title')
-				. ' = ' . $db->q('Super Users')
+				$db->quoteName('g') . '.' . $db->quoteName('title')
+				. ' = ' . $db->quote('Super Users')
 			);
 
 		$db->setQuery($query);

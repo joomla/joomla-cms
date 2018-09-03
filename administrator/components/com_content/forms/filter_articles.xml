@@ -10,11 +10,24 @@
 		/>
 
 		<field
-			name="published"
-			type="status"
+			name="state"
+			type="workflowstage"
+			label="COM_CONTENT_STATES"
 			onchange="this.form.submit();"
+			activeonly="true"
 			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="">COM_CONTENT_SELECT_STATE</option>
+		</field>
+
+		<field
+			name="condition"
+			type="workflowcondition"
+			label="COM_WORKFLOW_CONDITION"
+			description="COM_WORKFLOW_CONDITION_DESC"
+			onchange="this.form.submit();"
+			extension="com_content"
+			>
+			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
 		</field>
 
 		<field
@@ -73,8 +86,7 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
-			</field>
-		<input type="hidden" name="form_submited" value="1"/>
+		</field>
 	</fields>
 
 	<fields name="list">

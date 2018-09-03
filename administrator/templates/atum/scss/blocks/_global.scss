@@ -50,3 +50,8 @@ textarea {
     outline: auto 2px $focus-highlight-color;
   }
 }
+// Break up text in cells to prevent overflow
+.break-word {
+  word-break: break-all;
+  word-wrap: break-word;
+}

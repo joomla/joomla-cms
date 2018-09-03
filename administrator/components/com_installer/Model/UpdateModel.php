@@ -6,11 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
-
-jimport('joomla.updater.update');
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -558,8 +557,6 @@ class UpdateModel extends ListModel
 	 */
 	protected function preparePreUpdate($update, $table)
 	{
-		jimport('joomla.filesystem.file');
-
 		switch ($table->type)
 		{
 			// Components could have a helper which adds additional data

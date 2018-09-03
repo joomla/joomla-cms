@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -26,9 +27,6 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
-
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
 
 /**
  * Joomla! update overview Model
@@ -204,7 +202,6 @@ class UpdateModel extends BaseDatabaseModel
 		$this->updateInformation['hasUpdate'] = $updateObject->version != \JVERSION;
 
 		// Fetch the full update details from the update details URL.
-		jimport('joomla.updater.update');
 		$update = new Update;
 		$update->loadFromXML($updateObject->detailsurl);
 
@@ -358,8 +355,6 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	protected function downloadPackage($url, $target)
 	{
-		\JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-
 		try
 		{
 			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), Log::INFO, 'Update');
@@ -368,8 +363,6 @@ class UpdateModel extends BaseDatabaseModel
 		{
 			// Informational log only
 		}
-
-		jimport('joomla.filesystem.file');
 
 		// Make sure the target does not exist.
 		File::delete($target);
@@ -937,8 +930,6 @@ ENDDATA;
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		jimport('joomla.filesystem.file');
-
 		if (version_compare(\JVERSION, '3.4.0', 'ge'))
 		{
 			$result = File::upload($tmp_src, $tmp_dest, false, true);
@@ -1006,8 +997,6 @@ ENDDATA;
 	{
 		$file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-		\JLoader::import('joomla.filesystem.file');
-
 		if (empty($file) || !File::exists($file))
 		{
 			return false;
@@ -1029,8 +1018,6 @@ ENDDATA;
 			Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null),
 			Factory::getApplication()->getUserState('com_joomlaupdate.file', null),
 		);
-
-		\JLoader::import('joomla.filesystem.file');
 
 		foreach ($files as $file)
 		{
@@ -1284,24 +1271,24 @@ ENDDATA;
 		$query = $db->getQuery(true);
 
 		$query->select(
-			$db->qn('ex.name') . ', ' .
-			$db->qn('ex.extension_id') . ', ' .
-			$db->qn('ex.manifest_cache') . ', ' .
-			$db->qn('ex.type') . ', ' .
-			$db->qn('ex.folder') . ', ' .
-			$db->qn('ex.element') . ', ' .
-			$db->qn('ex.client_id') . ', ' .
-			$db->qn('si.location')
+			$db->quoteName('ex.name') . ', ' .
+			$db->quoteName('ex.extension_id') . ', ' .
+			$db->quoteName('ex.manifest_cache') . ', ' .
+			$db->quoteName('ex.type') . ', ' .
+			$db->quoteName('ex.folder') . ', ' .
+			$db->quoteName('ex.element') . ', ' .
+			$db->quoteName('ex.client_id') . ', ' .
+			$db->quoteName('si.location')
 		)->from(
-			$db->qn('#__extensions', 'ex')
+			$db->quoteName('#__extensions', 'ex')
 		)->leftJoin(
-			$db->qn('#__update_sites_extensions', 'se') .
-			' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
+			$db->quoteName('#__update_sites_extensions', 'se') .
+			' ON ' . $db->quoteName('se.extension_id') . ' = ' . $db->quoteName('ex.extension_id')
 		)->leftJoin(
-			$db->qn('#__update_sites', 'si') .
-			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
+			$db->quoteName('#__update_sites', 'si') .
+			' ON ' . $db->quoteName('si.update_site_id') . ' = ' . $db->quoteName('se.update_site_id')
 		)->where(
-			$db->qn('ex.package_id') . ' = 0'
+			$db->quoteName('ex.package_id') . ' = 0'
 		);
 
 		$db->setQuery($query);
@@ -1391,13 +1378,13 @@ ENDDATA;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('us.location'))
-			->from($db->qn('#__update_sites', 'us'))
+		$query->select($db->quoteName('us.location'))
+			->from($db->quoteName('#__update_sites', 'us'))
 			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+				$db->quoteName('#__update_sites_extensions', 'e')
+				. ' ON ' . $db->quoteName('e.update_site_id') . ' = ' . $db->quoteName('us.update_site_id')
 			)
-			->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
+			->where($db->quoteName('e.extension_id') . ' = ' . (int) $extensionID);
 
 		$db->setQuery($query);
 

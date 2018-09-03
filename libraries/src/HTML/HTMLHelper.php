@@ -10,15 +10,15 @@ namespace Joomla\CMS\HTML;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for all HTML drawing classes
@@ -842,7 +842,7 @@ abstract class HTMLHelper
 			$file,
 			$options['relative'] ?? true,
 			$options['detectBrowser'] ?? false,
-			$options['detectDebug'] ?? false
+			$options['detectDebug'] ?? true
 		);
 
 		if (count($includes) === 0)
@@ -1179,6 +1179,8 @@ abstract class HTMLHelper
 		$hint         = $attribs['placeholder'] ?? '';
 		$class        = $attribs['class'] ?? '';
 		$onchange     = $attribs['onChange'] ?? '';
+		$minYear      = $attribs['minYear'] ?? null;
+		$maxYear      = $attribs['maxYear'] ?? null;
 
 		$showTime     = ($showTime) ? "1" : "0";
 		$todayBtn     = ($todayBtn) ? "1" : "0";
@@ -1223,6 +1225,8 @@ abstract class HTMLHelper
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
 			'onchange'     => $onchange,
+			'minYear'      => $minYear,
+			'maxYear'      => $maxYear,
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);

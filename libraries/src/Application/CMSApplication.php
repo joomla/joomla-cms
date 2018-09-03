@@ -17,24 +17,23 @@ use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Router;
-use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! CMS Application class
@@ -84,14 +83,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  4.0
 	 */
 	protected $messageQueue = array();
-
-	/**
-	 * The session metadata manager
-	 *
-	 * @var    MetadataManager
-	 * @since  3.8.6
-	 */
-	protected $metadataManager = null;
 
 	/**
 	 * The name of the application.
@@ -148,8 +139,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		parent::__construct($input, $config, $client);
 
-		$this->metadataManager = new MetadataManager($this, Factory::getDbo());
-
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
@@ -182,7 +171,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$this->metadataManager->createRecordIfNonExisting(Factory::getSession(), Factory::getUser());
+		$metadataManager = new MetadataManager($this, Factory::getDbo());
+		$metadataManager->createRecordIfNonExisting(Factory::getSession(), Factory::getUser());
 	}
 
 	/**

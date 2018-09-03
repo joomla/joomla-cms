@@ -10,8 +10,8 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 
 /**
  * Utitlity class for associations in multilang

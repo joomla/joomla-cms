@@ -10,18 +10,18 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Prototype admin model.
@@ -105,6 +105,7 @@ abstract class AdminModel extends FormModel
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag',
+		'workflowstage_id' => 'batchWorkflowStage',
 	);
 
 	/**
@@ -1024,7 +1025,7 @@ abstract class AdminModel extends FormModel
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
-				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				if ($table->hasField('checked_out') && $table->checked_out && ($table->checked_out != $user->id))
 				{
 					Log::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), Log::WARNING, 'jerror');
 
@@ -1254,26 +1255,26 @@ abstract class AdminModel extends FormModel
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select($db->qn('key'))
-				->from($db->qn('#__associations'))
-				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->qn('id') . ' = ' . (int) $table->$key);
+				->select($db->quoteName('key'))
+				->from($db->quoteName('#__associations'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
+				->where($db->quoteName('id') . ' = ' . (int) $table->$key);
 			$db->setQuery($query);
 			$old_key = $db->loadResult();
 
 			// Deleting old associations for the associated items
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__associations'))
-				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext));
+				->delete($db->quoteName('#__associations'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
 
 			if ($associations)
 			{
-				$query->where('(' . $db->qn('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->qn('key') . ' = ' . $db->q($old_key) . ')');
+				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
 			}
 			else
 			{
-				$query->where($db->qn('key') . ' = ' . $db->q($old_key));
+				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
 			}
 
 			$db->setQuery($query);
@@ -1346,11 +1347,6 @@ abstract class AdminModel extends FormModel
 			elseif ($this->table->$orderingField != $order[$i])
 			{
 				$this->table->$orderingField = $order[$i];
-
-				if ($this->type)
-				{
-					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-				}
 
 				if (!$this->table->store())
 				{

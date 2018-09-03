@@ -10,9 +10,9 @@ namespace Joomla\CMS\Client;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Utility\BufferStreamHandler;
-use Joomla\CMS\Language\Text;
 
 /** Error Codes:
  * - 30 : Unable to connect to host

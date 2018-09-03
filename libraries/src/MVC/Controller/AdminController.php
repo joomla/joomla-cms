@@ -10,13 +10,14 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a Joomla Administrator Controller
@@ -83,6 +84,9 @@ class AdminController extends BaseController
 		$this->registerTask('report', 'publish');
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
+
+		// Transition
+		$this->registerTask('runTransition', 'runTransition');
 
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
@@ -164,14 +168,14 @@ class AdminController extends BaseController
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   \JModelLegacy  $model  The data model object.
-	 * @param   integer        $id     The validated data.
+	 * @param   BaseDatabaseModel  $model  The data model object.
+	 * @param   integer            $id     The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postDeleteHook(\JModelLegacy $model, $id = null)
+	protected function postDeleteHook(BaseDatabaseModel $model, $id = null)
 	{
 	}
 
@@ -181,7 +185,7 @@ class AdminController extends BaseController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+     * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   1.6
 	 */
@@ -251,7 +255,7 @@ class AdminController extends BaseController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				if ($ntext !== null)
+				if (count($cid))
 				{
 					$this->setMessage(Text::plural($ntext, count($cid)));
 				}
@@ -412,5 +416,50 @@ class AdminController extends BaseController
 
 		// Close the application
 		$this->app->close();
+	}
+
+	/**
+	 * Method to run Transition by id of item.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function runTransition()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+
+		if (!count($pks))
+		{
+			return false;
+		}
+
+		$pk = (int) $pks[0];
+
+		$transitionId = $this->input->post->get('transition_' . $pk, -1, 'int');
+
+		// Get the model
+		$model = $this->getModel();
+		$return = $model->runTransition($pk, $transitionId);
+
+		if ($return === false)
+		{
+			// Transition execution failed.
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
+			return false;
+		}
+		else
+		{
+			// Reorder succeeded.
+			$message = \JText::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+			return true;
+		}
+
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 }
