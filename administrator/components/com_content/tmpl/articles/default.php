@@ -238,7 +238,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<?php endif; ?>
 									</div>
 								</td>
-								<th scope="row" class="has-context">
+								<td scope="row" class="has-context">
 									<div class="break-word">
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
@@ -257,7 +257,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 												<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 											</div>
 									</div>
-								</th>
+								</td>
 								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
