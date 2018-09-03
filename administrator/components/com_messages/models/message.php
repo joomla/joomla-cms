@@ -358,9 +358,11 @@ class MessagesModelMessage extends JModelAdmin
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
-			$sitename = JFactory::getApplication()->get('sitename');
+			$app      = JFactory::getApplication();
+			$linkMode = $app->get('force_ssl', 0) >= 1 ? 1 : -1;
+			$sitename = $app->get('sitename');
 			$fromName = $fromUser->get('name');
-			$siteURL  = JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
+			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, true, $linkMode);
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
