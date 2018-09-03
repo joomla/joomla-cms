@@ -89,7 +89,7 @@ class AddUserCommand extends AbstractCommand
 
 		if (in_array("error", $this->userGroups))
 		{
-			$symfonyStyle->error("One of chosen groups doesn't exist (" . $this->userGroups[1] . ")");
+			$symfonyStyle->error("'" . $this->userGroups[1] . "' user group doesn't exit!");
 
 			return 1;
 		}

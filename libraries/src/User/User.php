@@ -762,7 +762,7 @@ class User extends CMSObject
 			// @todo this should only be a temporary solution. Need to find how can add super user on CLI without pass access rights check this way.
 			$isCli = false;
 
-			if (\JFactory::getApplication()->isCli())
+			if (Factory::getApplication()->isCli())
 			{
 				$isCli = true;
 			}
