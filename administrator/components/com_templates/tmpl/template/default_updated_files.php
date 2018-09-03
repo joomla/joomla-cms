@@ -61,7 +61,7 @@ $input = Factory::getApplication()->input;
 									<?php echo $created_date > 0 ? HTMLHelper::_('date', $created_date, Text::_('DATE_FORMAT_FILTER_DATETIME')) : '-'; ?>
 								</td>
 								<td>
-									<?php if ($value->modified_date === '0000-00-00 00:00:00') : ?>
+									<?php if ($value->modified_date === Factory::getDbo()->getNullDate()) : ?>
 										<span class="badge badge-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
 									<?php else : ?>
 										<?php $modified_date = $value->modified_date; ?>
