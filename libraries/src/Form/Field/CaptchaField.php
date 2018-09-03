@@ -116,6 +116,7 @@ class CaptchaField extends FormField
 		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
 			$this->hidden = true;
+			return false;
 		}
 		else
 		{
