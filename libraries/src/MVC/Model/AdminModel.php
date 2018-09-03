@@ -1559,7 +1559,7 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function editAssociations($data)
 	{

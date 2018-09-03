@@ -49,7 +49,7 @@ window.showAssociationMessage = function()
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	Joomla.injectAssociations = function(result, callbackFunctionPrefix) 
 	{
@@ -98,7 +98,7 @@ window.showAssociationMessage = function()
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	Joomla.propagateAssociation = function(fieldPrefix, callbackFunctionPrefix) 
 	{

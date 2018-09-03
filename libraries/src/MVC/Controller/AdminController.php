@@ -113,7 +113,7 @@ class AdminController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -187,7 +187,7 @@ class AdminController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -264,7 +264,7 @@ class AdminController extends BaseController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = $this->getTask() === 'orderup' ? -1 : 1;
@@ -300,7 +300,7 @@ class AdminController extends BaseController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -344,7 +344,7 @@ class AdminController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 

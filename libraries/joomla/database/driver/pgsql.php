@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * PostgreSQL PDO Database Driver
  *
  * @link   https://secure.php.net/manual/en/ref.pdo-mysql.php
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 {
@@ -21,7 +21,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 * The database driver name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $name = 'pgsql';
 
@@ -32,7 +32,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $nameQuote = '"';
 
@@ -41,7 +41,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $nullDate = '1970-01-01 00:00:00';
 
@@ -49,7 +49,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 * The minimum supported database version.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected static $dbMinimum = '8.3.18';
 
@@ -57,7 +57,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 * Operator used for concatenation
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $concat_operator = '||';
 
@@ -66,7 +66,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since	__DEPLOY_VERSION__
+	 * @since	3.9.0
 	 */
 	public function __construct($options)
 	{
@@ -86,7 +86,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function connect()
@@ -109,7 +109,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  boolean	true
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function dropTable($tableName, $ifExists = true)
@@ -124,7 +124,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function getCollation()
@@ -140,7 +140,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  mixed  The collation in use by the database connection (string) or boolean false if not supported.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function getConnectionCollation()
@@ -160,7 +160,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  string  An empty string because this function is not supported by PostgreSQL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function getTableCreate($tables)
@@ -176,7 +176,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
@@ -272,7 +272,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  array  An array of the column specification for the table.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function getTableKeys($table)
@@ -309,7 +309,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function getTableList()
@@ -333,7 +333,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  array  An array of sequences specification for the table.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function getTableSequences($table)
@@ -381,7 +381,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  JDatabaseDriverPgsql  Returns this object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function lockTable($tableName)
@@ -402,7 +402,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  JDatabaseDriverPgsql  Returns this object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
@@ -480,7 +480,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  string  The quoted string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function sqlValue($columns, $field_name, $field_value)
 	{
@@ -538,7 +538,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
@@ -565,7 +565,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
@@ -599,7 +599,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
@@ -634,7 +634,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  boolean    True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function insertObject($table, &$object, $key = null)
@@ -713,7 +713,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function isSupported()
 	{
@@ -725,7 +725,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  array  The database's table list.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function showTables()
 	{
@@ -748,7 +748,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  integer  The position of $substring in $string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getStringPositionSql($substring, $string)
 	{
@@ -763,7 +763,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  float  The random generated number
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getRandom()
 	{
@@ -780,7 +780,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getAlterDbCharacterSet($dbName)
 	{
@@ -795,7 +795,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  string	The query that creates database, owned by $options['user']
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getCreateDbQuery($options, $utf)
 	{
@@ -817,7 +817,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
@@ -889,7 +889,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  JDatabaseDriverPgsql  Returns this object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function unlockTables()
@@ -909,7 +909,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \RuntimeException
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)

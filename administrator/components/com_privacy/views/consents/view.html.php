@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Consents view class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyViewConsents extends JViewLegacy
 {
@@ -20,7 +20,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 * The active search tools filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 * @note   Must be public to be accessed from the search tools layout
 	 */
 	public $activeFilters;
@@ -29,7 +29,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 * Form instance containing the search tools filter form
 	 *
 	 * @var    JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 * @note   Must be public to be accessed from the search tools layout
 	 */
 	public $filterForm;
@@ -38,7 +38,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 * The items to display
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $items;
 
@@ -46,7 +46,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var    JPagination
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $pagination;
 
@@ -54,7 +54,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 * The HTML markup for the sidebar
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $sidebar;
 
@@ -62,7 +62,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 * The state information
 	 *
 	 * @var    JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $state;
 
@@ -74,7 +74,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  Exception
 	 */
 	public function display($tpl = null)
@@ -104,11 +104,36 @@ class PrivacyViewConsents extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CONSENTS'), 'lock');
+
+		$bar = JToolbar::getInstance('toolbar');
+
+		// Add a button to invalidate a consent
+		$bar->appendButton(
+			'Confirm',
+			'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_CONFIRM_MSG',
+			'trash',
+			'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE',
+			'consents.invalidate',
+			true
+		);
+
+		// If the filter is restricted to a specific subject, show the "Invalidate all" button
+		if ($this->state->get('filter.subject') != '')
+		{
+			$bar->appendButton(
+				'Confirm',
+				'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL_CONFIRM_MSG',
+				'cancel',
+				'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL',
+				'consents.invalidateAll',
+				false
+			);
+		}
 
 		JToolbarHelper::preferences('com_privacy');
 

@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Consents management model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelConsents extends JModelList
 {
@@ -21,7 +23,7 @@ class PrivacyModelConsents extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct($config = array())
 	{
@@ -31,6 +33,7 @@ class PrivacyModelConsents extends JModelList
 				'id', 'a.id', 'a.user_id',
 				'created', 'a.created',
 				'username', 'u.username',
+				'state', 'a.state'
 			);
 		}
 
@@ -42,7 +45,7 @@ class PrivacyModelConsents extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getListQuery()
 	{
@@ -78,6 +81,13 @@ class PrivacyModelConsents extends JModelList
 			}
 		}
 
+		$state = $this->getState('filter.state');
+
+		if ($state != '')
+		{
+			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
+		}
+
 		// Handle the list ordering.
 		$ordering  = $this->getState('list.ordering');
 		$direction = $this->getState('list.direction');
@@ -101,7 +111,7 @@ class PrivacyModelConsents extends JModelList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -121,7 +131,7 @@ class PrivacyModelConsents extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -131,10 +141,84 @@ class PrivacyModelConsents extends JModelList
 			$this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search')
 		);
 
+		$this->setState(
+			'filter.subject',
+			$this->getUserStateFromRequest($this->context . '.filter.subject', 'filter_subject')
+		);
+
+		$this->setState(
+			'filter.state',
+			$this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state')
+		);
+
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_privacy'));
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to invalidate specific consents.
+	 *
+	 * @param   array  $pks  The ids of the consents to invalidate.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function invalidate($pks)
+	{
+		// Sanitize the ids.
+		$pks = (array) $pks;
+		$pks = ArrayHelper::toInteger($pks);
+
+		try
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__privacy_consents'))
+				->set($db->quoteName('state') . ' = -1')
+				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')')
+				->where($db->quoteName('state') . ' = 1');
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to invalidate a group of specific consents.
+	 *
+	 * @param   array  $subject  The subject of the consents to invalidate.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function invalidateAll($subject)
+	{
+		try
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__privacy_consents'))
+				->set($db->quoteName('state') . ' = -1')
+				->where($db->quoteName('subject') . ' = ' . $db->quote($subject))
+				->where($db->quoteName('state') . ' = 1');
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
 	}
 }
