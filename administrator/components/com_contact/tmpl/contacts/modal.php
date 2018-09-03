@@ -130,7 +130,7 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td align="text-center">
+						<td class="text-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
