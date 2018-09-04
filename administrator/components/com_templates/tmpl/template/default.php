@@ -139,8 +139,8 @@ if ($this->type == 'font')
 					<div class="col-md-12" id="diff-main">
 						<h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
 						<div class="diff-pane">
-							<div class="diffview" style="display:none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
-							<div class="diffview" style="display:none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div class="diffview d-none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div class="diffview d-none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
 							<div id="diff"></div>
 						</div>
 					</div>

@@ -178,7 +178,7 @@ class TemplateModel extends FormModel
 			$query->where('state = 0');
 		}
 
-		$query->order($db->quoteName('a.modified_date') . 'DESC');
+		$query->order($db->quoteName('a.modified_date') . ' DESC');
 
 		// Reset the query.
 		$db->setQuery($query);
@@ -225,7 +225,7 @@ class TemplateModel extends FormModel
 		// Get list of all templates
 		$templates = $this->getTemplateList();
 
-		// Intialize the array variable to store core file list.
+		// Initialize the array variable to store core file list.
 		$this->coreFileList = array();
 
 		$app = Factory::getApplication();
@@ -467,9 +467,9 @@ class TemplateModel extends FormModel
 	 */
 	public function getCoreFile($file, $client_id)
 	{
-		$app           = Factory::getApplication();
-		$filePath      = Path::clean($file);
-		$explodeArray  = explode(DIRECTORY_SEPARATOR, $filePath);
+		$app          = Factory::getApplication();
+		$filePath     = Path::clean($file);
+		$explodeArray = explode(DIRECTORY_SEPARATOR, $filePath);
 
 		// Only allow html/ folder
 		if ($explodeArray['1'] !== 'html')
