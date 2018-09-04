@@ -415,7 +415,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		if ($db->getServerType() === 'mysql')
+		if ($this->params->get('query_profiles') && $db->getServerType() === 'mysql')
 		{
 			try
 			{
@@ -450,7 +450,7 @@ class PlgSystemDebug extends CMSPlugin
 			}
 		}
 
-		if (in_array($db->getServerType(), ['mysql', 'postgresql'], true))
+		if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true))
 		{
 			$log = $this->queryMonitor->getLog();
 

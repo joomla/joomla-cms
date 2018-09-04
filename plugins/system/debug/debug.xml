@@ -108,11 +108,23 @@
 				</field>
 
 				<field
-					name="query_types"
+					name="query_profiles"
 					type="radio"
-					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
+					label="PLG_DEBUG_FIELD_QUERY_PROFILES_LABEL"
 					class="switcher"
-					default="1"
+					default="0"
+					showon="queries:1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="query_explains"
+					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_EXPLAINS_LABEL"
+					class="switcher"
+					default="0"
 					showon="queries:1"
 					>
 					<option value="0">JHIDE</option>
@@ -267,17 +279,6 @@
 					name="log-everything"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-					class="switcher"
-					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="log-executed-sql"
-					type="radio"
-					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
 					class="switcher"
 					default="0"
 					>
