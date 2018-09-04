@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Dashboard model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelDashboard extends JModelLegacy
 {
@@ -21,7 +21,7 @@ class PrivacyModelDashboard extends JModelLegacy
 	 *
 	 * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getPrivacyPolicyInfo()
 	{
@@ -31,7 +31,7 @@ class PrivacyModelDashboard extends JModelLegacy
 		);
 
 		/*
-		 * Prior to __DEPLOY_VERSION__ it was common for a plugin such as the User - Profile plugin to define a privacy policy or
+		 * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
 		 * terms of service article, therefore we will also import the user plugin group to process this event.
 		 */
 		JPluginHelper::importPlugin('privacy');
@@ -47,7 +47,7 @@ class PrivacyModelDashboard extends JModelLegacy
 	 *
 	 * @return  array  Array containing site privacy requests
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getRequestCounts()
 	{
@@ -74,7 +74,7 @@ class PrivacyModelDashboard extends JModelLegacy
 	 *
 	 * @return  array  Array containing a status of whether a menu is published for the request form and its current link
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getRequestFormPublished()
 	{

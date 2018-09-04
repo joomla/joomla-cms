@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request confirmation model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelConfirm extends JModelAdmin
 {
@@ -23,7 +23,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  mixed  Exception | JException | boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function confirmRequest($data)
 	{
@@ -161,7 +161,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -192,7 +192,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
@@ -207,7 +207,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState()
 	{

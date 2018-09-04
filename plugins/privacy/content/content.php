@@ -17,7 +17,7 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Privacy plugin managing Joomla user content data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyContent extends PrivacyPlugin
 {
@@ -25,7 +25,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -33,7 +33,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * Affects constructor behaviour. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -41,7 +41,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * Contents array
 	 *
 	 * @var    Array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $contents = array();
 
@@ -57,7 +57,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -84,7 +84,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createContentDomain(JUser $user)
 	{
@@ -114,7 +114,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createContentCustomFieldsDomain($content)
 	{

@@ -57,7 +57,7 @@ class FormattedtextLogger extends Logger
 	 * NOTE: Deferred logs may never be written if the application encounters a fatal error.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $defer = false;
 
@@ -65,7 +65,7 @@ class FormattedtextLogger extends Logger
 	 * If deferring, entries will be stored here prior to writing.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $deferredEntries = array();
 
@@ -121,7 +121,7 @@ class FormattedtextLogger extends Logger
 	/**
 	 * If deferred, write all pending logs.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function __destruct()
 	{
@@ -184,7 +184,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  String
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected function formatLine(LogEntry $entry)
 	{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request management controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyControllerRequest extends JControllerForm
 {
@@ -24,7 +24,7 @@ class PrivacyControllerRequest extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function complete($key = null, $urlVar = null)
 	{
@@ -131,7 +131,7 @@ class PrivacyControllerRequest extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function emailexport()
 	{
@@ -175,7 +175,7 @@ class PrivacyControllerRequest extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function invalidate($key = null, $urlVar = null)
 	{
@@ -282,7 +282,7 @@ class PrivacyControllerRequest extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function remove()
 	{
@@ -332,7 +332,7 @@ class PrivacyControllerRequest extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function postSaveHook(\JModelLegacy $model, $validData = array())
 	{
@@ -371,7 +371,7 @@ class PrivacyControllerRequest extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function canTransition($item, $newStatus)
 	{
