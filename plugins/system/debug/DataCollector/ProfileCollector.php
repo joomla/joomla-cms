@@ -249,8 +249,10 @@ class ProfileCollector extends AbstractDataCollector
 
 		foreach ($marks as $mark)
 		{
+			$mem = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
+			$label = $mark->label . " ($mem)";
 			$end = $start + $mark->time / 1000;
-			$this->addMeasure($mark->label, $start, $end);
+			$this->addMeasure($label, $start, $end);
 			$start = $end;
 		}
 
