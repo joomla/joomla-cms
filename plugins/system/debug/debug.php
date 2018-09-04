@@ -39,14 +39,6 @@ use Joomla\Database\Event\ConnectionEvent;
 class PlgSystemDebug extends CMSPlugin
 {
 	/**
-	 * xdebug.file_link_format from the php.ini.
-	 *
-	 * @var    string
-	 * @since  1.7
-	 */
-	protected $linkFormat = '';
-
-	/**
 	 * True if debug lang is on.
 	 *
 	 * @var    boolean
@@ -162,8 +154,6 @@ class PlgSystemDebug extends CMSPlugin
 
 		// @todo Remove when a standard autoloader is available.
 		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
-
-		$this->linkFormat = ini_get('xdebug.file_link_format');
 
 		// Attach our query monitor to the database driver
 		$this->queryMonitor = new DebugMonitor(JDEBUG);
