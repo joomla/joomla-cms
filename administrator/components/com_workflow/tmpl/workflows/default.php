@@ -19,6 +19,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.tooltip');
+HTMLHelper::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -34,7 +35,7 @@ if (strpos($listOrder, 'modified') !== false)
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=workflows.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 
@@ -71,28 +72,17 @@ $userId = $user->id;
 								<th scope="col"  style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down">
+								<th class="nowrap hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
-								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo Text::_('COM_WORKFLOW_STAGES'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center nowrap hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
-									<span class="fa fa-circle-o text-warning hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?></span>
-								</th>
-								<th scope="col" style="width:3%" class="nowrap text-center hidden-sm-down">
-									<span class="fa fa-arrows-h text-info hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>"></span>	
-									<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?></span>
-								</th>
-								<th scope="col" style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_DATE_' . strtoupper($orderingColumn), 'w.' . $orderingColumn, $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
+									<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_AUTHOR', 'w.created_by', $listDirn, $listOrder); ?>
+									<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
@@ -145,13 +135,12 @@ $userId = $user->id;
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<?php echo $editIcon; ?><?php echo $item->title; ?>
 										</a>
+										<div class="small"><?php echo $item->description; ?></div>
 									<?php else: ?>
 										<?php echo $item->title; ?>
+										<div class="small"><?php echo $item->description; ?></div>
 									<?php endif; ?>
 								</th>
-								<td class="text-center">
-									<a href="<?php echo $states; ?>"><?php echo Text::_('COM_WORKFLOW_MANAGE'); ?></a>
-								</td>
 								<td class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
@@ -162,15 +151,6 @@ $userId = $user->id;
 								<td class="text-center btns hidden-sm-down">
 									<a class="badge <?php echo ($item->count_transitions > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_transitions; ?></a>
-								</td>
-								<td class="text-center">
-									<?php
-									$date = $item->{$orderingColumn};
-									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
-									?>
-								</td>
-								<td class="text-center">
-									<?php echo empty($item->name) ? Text::_('COM_WORKFLOW_NA') : $item->name; ?>
 								</td>
 								<td class="text-right">
 									<?php echo $item->id; ?>

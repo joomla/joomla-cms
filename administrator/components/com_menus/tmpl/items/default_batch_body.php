@@ -27,8 +27,8 @@ endif;
 <div class="container">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
-    <div class="row">
-        <div class="form-group col-md-6">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo HTMLHelper::_('batch.language'); ?>
 			</div>
@@ -40,13 +40,13 @@ endif;
 		</div>
 	</div>
 	<?php endif; ?>
-    <div class="row">
+	<div class="row">
 		<?php if ($published >= 0) : ?>
-			<div id="batch-choose-action" class="combo control-group">
-				<label id="batch-choose-action-lbl" class="control-label" for="batch-menu-id">
-					<?php echo Text::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
-				</label>
+			<div class="form-group col-md-6">
 				<div class="controls">
+					<label id="batch-choose-action-lbl" for="batch-menu-id">
+						<?php echo Text::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
+					</label>
 					<select class="custom-select" name="batch[menu_id]" id="batch-menu-id">
 						<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<?php
@@ -59,10 +59,11 @@ endif;
 						?>
 					</select>
 				</div>
-			</div>
-			<div id="batch-copy-move" class="control-group radio">
-				<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-				<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+
+				<div id="batch-copy-move" class="control-group radio">
+					<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+					<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+				</div>
 			</div>
 		<?php endif; ?>
 

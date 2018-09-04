@@ -10,8 +10,6 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
-
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;

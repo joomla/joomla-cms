@@ -18,7 +18,6 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 HTMLHelper::_('behavior.tabstate');
 ?>
-
 <div class="row">
 	<?php // Begin Content ?>
 	<div class="col-md-12">
