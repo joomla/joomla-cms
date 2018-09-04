@@ -2219,6 +2219,18 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 SELECT setval('#__action_log_config_id_seq', 18, false);
 
 --
+-- Table structure for table `#__action_logs_users`
+--
+
+CREATE TABLE "#__action_logs_users" (
+  "user_id" serial NOT NULL,
+  "notify" serial NOT NULL,
+  CONSTRAINT "#__action_logs_user_idx_user_id" UNIQUE ("user_id")
+);
+
+CREATE INDEX "#__action_logs_users_idx_notify" ON "#__action_logs_users" ("notify");
+
+--
 -- Table structure for table `#__viewlevels`
 --
 

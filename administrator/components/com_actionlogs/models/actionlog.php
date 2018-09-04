@@ -100,9 +100,14 @@ class ActionlogsModelActionlog extends JModelLegacy
 		$params       = ComponentHelper::getParams('com_actionlogs');
 		$showIpColumn = (bool) $params->get('ip_logging', 0);
 
+		$subQuery = $db->getQuery(true)
+			->select($db->quoteName('user_id'))
+			->from($db->quoteName('#__action_logs_users'))
+			->where($db->quoteName('notify') . ' = 1');
+
 		$query->select($db->quoteName(array('email', 'params')))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('params') . ' LIKE ' . $db->quote('%"logs_notification_option":1%'));
+			->where($db->quoteName('id') . ' IN (' . $subQuery ')');
 
 		$db->setQuery($query);
 
@@ -122,7 +127,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 		foreach ($users as $user)
 		{
 			$userParams = json_decode($user->params, true);
-			$extensions = $userParams['logs_notification_extensions'];
+			$extensions = $userParams['actionlogsNotifyExtensions'];
 
 			if (in_array(strtok($context, '.'), $extensions))
 			{

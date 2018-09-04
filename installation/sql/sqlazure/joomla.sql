@@ -3185,6 +3185,25 @@ SELECT 19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_
 SET IDENTITY_INSERT [#__action_log_config]  OFF;
 
 --
+-- Table structure for table `#__action_logs_users`
+--
+
+CREATE TABLE "#__action_logs_users" (
+  "user_id" int NOT NULL DEFAULT 0,
+  "notify" tinyint NOT NULL DEFAULT 0,
+ CONSTRAINT "#__action_logs_users$idx_user_id" UNIQUE CLUSTERED
+(
+  "user_id" ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX "idx_notify" ON "#__action_logs_users"
+(
+  "notify" ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+
+--
 -- Table structure for table `#__viewlevels`
 --
 
