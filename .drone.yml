@@ -30,7 +30,7 @@ pipeline:
     image: rips/rips-cli
     secrets:  [rips_username, rips_password]
     when:
-      branch: staging
+      branch: master
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
       - export RIPS_USERNAME=$RIPS_USERNAME
