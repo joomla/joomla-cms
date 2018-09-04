@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Privacy Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyController extends JControllerLegacy
 {
@@ -24,7 +24,7 @@ class PrivacyController extends JControllerLegacy
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{

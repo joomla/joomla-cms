@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request view class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyViewRequest extends JViewLegacy
 {
@@ -20,7 +20,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 * The action logs for the item
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $actionlogs;
 
@@ -28,7 +28,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 * The form object
 	 *
 	 * @var    JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $form;
 
@@ -36,7 +36,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 * The item record
 	 *
 	 * @var    JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $item;
 
@@ -44,7 +44,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 * The state information
 	 *
 	 * @var    JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $state;
 
@@ -56,7 +56,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  Exception
 	 */
 	public function display($tpl = null)
@@ -101,7 +101,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function addToolbar()
 	{

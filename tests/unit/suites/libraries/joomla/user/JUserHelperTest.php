@@ -332,7 +332,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::hashPassword
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @requires  PHP 7.2
 	 */
 	public function testHashPasswordArgon2i()
@@ -355,7 +355,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::hashPassword
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @requires  PHP 7.3
 	 */
 	public function testHashPasswordArgon2id()

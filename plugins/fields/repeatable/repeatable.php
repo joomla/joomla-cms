@@ -16,7 +16,7 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 /**
  * Repeatable plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgFieldsRepeatable extends FieldsPlugin
 {
@@ -29,7 +29,7 @@ class PlgFieldsRepeatable extends FieldsPlugin
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
@@ -83,7 +83,7 @@ class PlgFieldsRepeatable extends FieldsPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{

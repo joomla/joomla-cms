@@ -461,8 +461,7 @@ class ContentModelArticles extends JModelList
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL ' .
-					$relativeDate . ' DAY)'
+					$dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
@@ -731,7 +730,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function countItemsByMonth()
 	{

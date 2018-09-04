@@ -14,7 +14,7 @@ JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Export model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelExport extends JModelLegacy
 {
@@ -25,7 +25,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  PrivacyExportDomain[]|boolean  A SimpleXMLElement object for a successful export or boolean false on an error
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function collectDataForExportRequest($id = null)
 	{
@@ -100,7 +100,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function emailDataExport($id = null)
 	{
@@ -256,7 +256,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
@@ -271,7 +271,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logExport(PrivacyTableRequest $request)
 	{
@@ -300,7 +300,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logExportEmailed(PrivacyTableRequest $request)
 	{
@@ -327,7 +327,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState()
 	{

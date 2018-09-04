@@ -28,7 +28,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	public function update()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
@@ -76,7 +76,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 */
 	public function find()
 	{
-		(JSession::checkToken() or JSession::checkToken('get')) or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		// Get the caching duration.
 		$component     = JComponentHelper::getComponent('com_installer');
@@ -113,7 +113,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	public function purge()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel('update');
 		$model->purge();
@@ -142,7 +142,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo JText::_('JINVALID_TOKEN');
+			echo JText::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
 

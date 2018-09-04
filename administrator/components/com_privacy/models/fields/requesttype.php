@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Form Field to load a list of request types
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyFormFieldRequesttype extends JFormFieldPredefinedList
 {
@@ -22,7 +22,7 @@ class PrivacyFormFieldRequesttype extends JFormFieldPredefinedList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $type = 'RequestType';
 
@@ -30,7 +30,7 @@ class PrivacyFormFieldRequesttype extends JFormFieldPredefinedList
 	 * Available types
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $predefinedOptions = array(
 		'export' => 'COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_EXPORT',
