@@ -124,6 +124,32 @@
                         })
                     }
 
+                    var tableExplain
+
+                    if (stmt.explain && !$.isEmptyObject(stmt.explain)) {
+                        var btnExplain = $('<span title="Explain" />')
+                            .text('Explain')
+                            .addClass(csscls('eye'))
+                            .css('cursor', 'pointer')
+                            .on('click', function () {
+                                if (tableExplain.is(':visible')) {
+                                    tableExplain.hide()
+                                    btnExplain.addClass(csscls('eye'))
+                                    btnExplain.removeClass(csscls('eye-dash'))
+                                } else {
+                                    tableExplain.show()
+                                    btnExplain.addClass(csscls('eye-dash'))
+                                    btnExplain.removeClass(csscls('eye'))
+                                }
+                            })
+                            .appendTo(li)
+
+                        tableExplain = $('<table><thead>'
+                            + '<tr><th colspan="10">Explain</th></tr>'
+                            + '<tr><th>Id</th><th>Select Type</th><th>Table</th><th>Type</th><th>Possible Keys</th><th>Key</th><th>Key Len</th><th>Ref</th><th>Rows</th><th>Extra</th></tr>'
+                            + '</thead></table>').addClass(csscls('callstack'))
+                    }
+
                     var tableStack
 
                     if (stmt.callstack && !$.isEmptyObject(stmt.callstack)) {
@@ -149,7 +175,7 @@
 
                     if (typeof(stmt.caller) != 'undefined' && stmt.caller) {
                         var caller = stmt.caller.replace(self.root_path, '')
-                        if (caller && self.xdebug_link) {
+                        if (self.xdebug_link) {
                             var parts = stmt.caller.split(':')
                             $('<a />')
                                 .text(caller)
@@ -188,13 +214,26 @@
                         }
                     }
 
+                    if (tableExplain) {
+                        tableExplain.appendTo(li)
+                        for (i in stmt.explain) {
+                            var entry = stmt.explain[i]
+                            tableExplain.append('<tr>'
+                                + '<td>' + entry.id + '</td><td>' + entry.select_type + '</td><td>' + entry.table + '</td>'
+                                + '<td>' + entry.type + '</td><td>' + entry.possible_keys + '</td><td>' + entry.key + '</td>'
+                                + '<td>' + entry.key_len + '</td><td>' + entry.ref + '</td><td>' + entry.rows + '</td>'
+                                + '<td>' + entry.Extra + '</td>'
+                                + '</tr>')
+                        }
+                    }
+
                     li.attr('dupeindex', 'dupe-0')
                 }
             })
             this.$list.$el.appendTo(this.$el)
 
             this.bindAttr('data', function (data) {
-                // the PDO collector maybe is empty
+                // the collector maybe is empty
                 if (data.length <= 0) {
                     return false
                 }

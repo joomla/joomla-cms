@@ -106,21 +106,15 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 		$statements = $this->getStatements();
 
 		return [
-			'data'  => [
-				'statements' => $statements,
-				'nb_statements' => \count($statements),
+			'data'       => [
+				'statements'               => $statements,
+				'nb_statements'            => \count($statements),
 				'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($this->accumulatedDuration),
-				'memory_usage_str' => $this->getDataFormatter()->formatBytes($this->accumulatedMemory),
-				'xdebug_link' => $this->getXdebugLinkTemplate(),
-				'root_path' => JPATH_ROOT
+				'memory_usage_str'         => $this->getDataFormatter()->formatBytes($this->accumulatedMemory),
+				'xdebug_link'              => $this->getXdebugLinkTemplate(),
+				'root_path'                => JPATH_ROOT
 			],
-			'count' => \count($this->queryMonitor->getLog()),
-			'prefix' => $database->getPrefix(),
-			'serverType' => $database->getServerType(),
-			'timings' => $this->queryMonitor->getTimings(),
-			'stacks' => $this->queryMonitor->getCallStacks(),
-			'profiles' => $this->profiles,
-			'explains' => $this->explains,
+			'count'      => \count($this->queryMonitor->getLog()),
 		];
 	}
 
@@ -148,7 +142,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	{
 		return [
 			'queries'       => [
-				'icon' => 'database',
+				'icon'    => 'database',
 				'widget'  => 'PhpDebugBar.Widgets.SQLQueriesWidget',
 				'map'     => $this->name . '.data',
 				'default' => '[]',
@@ -170,8 +164,8 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	public function getAssets(): array
 	{
 		return array(
-			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.css',
-			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.js'
+			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
+			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js'
 		);
 	}
 
@@ -184,33 +178,33 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	private function getStatements(): array
 	{
-		$statements = [];
-		$log = $this->queryMonitor->getLog();
-		$timings = $this->queryMonitor->getTimings();
-		$memoryLogs = $this->queryMonitor->getMemoryLogs();
-		$stacks = $this->queryMonitor->getCallStacks();
+		$statements    = [];
+		$log           = $this->queryMonitor->getLog();
+		$timings       = $this->queryMonitor->getTimings();
+		$memoryLogs    = $this->queryMonitor->getMemoryLogs();
+		$stacks        = $this->queryMonitor->getCallStacks();
 		$collectStacks = $this->params->get('query_traces');
 
 		foreach ($log as $id => $item)
 		{
-			$queryTime = 0;
+			$queryTime   = 0;
 			$queryMemory = 0;
 
 			if ($timings && isset($timings[$id * 2 + 1]))
 			{
 				// Compute the query time.
-				$queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]);
+				$queryTime                 = ($timings[$id * 2 + 1] - $timings[$id * 2]);
 				$this->accumulatedDuration += $queryTime;
 			}
 
 			if ($memoryLogs && isset($memoryLogs[$id * 2 + 1]))
 			{
 				// Compute the query memory usage.
-				$queryMemory = ($memoryLogs[$id * 2 + 1] - $memoryLogs[$id * 2]);
+				$queryMemory             = ($memoryLogs[$id * 2 + 1] - $memoryLogs[$id * 2]);
 				$this->accumulatedMemory += $queryMemory;
 			}
 
-			$trace = [];
+			$trace          = [];
 			$callerLocation = '';
 
 			if (isset($stacks[$id]))
@@ -220,10 +214,10 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				foreach ($stacks[$id] as $i => $stack)
 				{
 					$class = $stack['class'] ?? '';
-					$file = $stack['file'] ?? '';
-					$line = $stack['line'] ?? '';
+					$file  = $stack['file'] ?? '';
+					$line  = $stack['line'] ?? '';
 
-					$caller = $this->formatCallerInfo($stack);
+					$caller   = $this->formatCallerInfo($stack);
 					$location = $file && $line ? "$file:$line" : 'same';
 
 					$isCaller = 0;
@@ -231,18 +225,12 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 					if (\Joomla\Database\DatabaseDriver::class === $class && false === strpos($file, 'DatabaseDriver.php'))
 					{
 						$callerLocation = $location;
-						$isCaller = 1;
+						$isCaller       = 1;
 					}
 
 					if ($collectStacks)
 					{
-						$trace[] = [
-							\count($stacks[$id]) - $cnt,
-							$isCaller,
-							$caller,
-							$file,
-							$line,
-						];
+						$trace[] = [\count($stacks[$id]) - $cnt, $isCaller, $caller, $file, $line];
 					}
 
 					$cnt++;
@@ -250,11 +238,13 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 			}
 
 			$statements[] = [
-				'sql' => $item,
+				'sql'          => $item,
 				'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
-				'memory_str' => $this->getDataFormatter()->formatBytes($queryMemory),
-				'caller' => $callerLocation,
-				'callstack' => $trace,
+				'memory_str'   => $this->getDataFormatter()->formatBytes($queryMemory),
+				'caller'       => $callerLocation,
+				'callstack'    => $trace,
+				'explain'      => $this->explains[$id] ?? [],
+				'profile'      => $this->profiles[$id] ?? [],
 			];
 		}
 
