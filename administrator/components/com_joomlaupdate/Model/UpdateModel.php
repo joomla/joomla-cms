@@ -409,7 +409,7 @@ class UpdateModel extends BaseDatabaseModel
 		$app = Factory::getApplication();
 		$app->setUserState('com_joomlaupdate.password', $password);
 
-		// Trigger event before joomla.
+		// Trigger event before joomla update.
 		$app->triggerEvent('onJoomlaBeforeUpdate');
 
 		// Do we have to use FTP?
