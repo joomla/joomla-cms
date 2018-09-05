@@ -39,24 +39,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table" id="styleList">
 						<thead>
 							<tr>
-								<td style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="text-center">
 									&#160;
 								</td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap text-center">
+								<th scope="col" style="width:12%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($clientId === 0) : ?>
-									<th scope="col" style="width:12%" class="nowrap d-none d-md-table-cell">
+									<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 										<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 									</th>
 								<?php endif; ?>
 								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
