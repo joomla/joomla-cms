@@ -54,16 +54,16 @@ if ($saveOrder)
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -113,16 +113,16 @@ if ($saveOrder)
 									<?php echo $item->name; ?>
 							<?php endif; ?>
 						</th>
-						<td class="nowrap small d-none d-md-table-cell text-center">
+						<td class="nowrap small d-none d-md-table-cell">
 							<?php echo $this->escape($item->folder); ?>
 						</td>
-						<td class="nowrap small d-none d-md-table-cell text-center">
+						<td class="nowrap small d-none d-md-table-cell">
 							<?php echo $this->escape($item->element); ?>
 						</td>
-						<td class="small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="d-none d-md-table-cell text-center">
+						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->extension_id; ?>
 						</td>
 					</tr>
