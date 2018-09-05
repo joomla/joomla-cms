@@ -2,6 +2,7 @@ table.phpdebugbar-widgets-languageStrings {
     margin-left: 5px;
     margin-top: 5px;
     width: 100%;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     line-height: 1.3em;
 }
 

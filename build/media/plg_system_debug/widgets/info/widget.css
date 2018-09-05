@@ -1,10 +1,9 @@
 table.phpdebugbar-widgets-info {
     margin-left: 5px;
     margin-top: 5px;
-}
-
-table.phpdebugbar-widgets-info {
-    width: 50%;
+    width: 75%;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    line-height: 1.3em;
 }
 
 table.phpdebugbar-widgets-info td {
