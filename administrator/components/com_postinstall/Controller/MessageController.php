@@ -32,7 +32,7 @@ class MessageController extends BaseController
 	 */
 	public function reset()
 	{
-		/** @var Messages $model */
+		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
 		$eid = (int) $model->getState('eid', '700');
@@ -115,5 +115,27 @@ class MessageController extends BaseController
 		}
 
 		$this->setRedirect('index.php?option=com_postinstall');
+	}
+
+	/**
+	 * Hides all post-installation messages of the specified extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hideAll()
+	{
+		/** @var MessagesModel $model */
+		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$eid = (int) $model->getState('eid', '700', 'int');
+
+		if (empty($eid))
+		{
+			$eid = 700;
+		}
+
+		$model->hideMessages($eid);
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
 	}
 }

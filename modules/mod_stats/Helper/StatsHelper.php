@@ -95,7 +95,6 @@ class StatsHelper
 			$query->clear()
 				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
 				->from($db->quoteName('#__content', 'c'))
-
 				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
 				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
 				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))

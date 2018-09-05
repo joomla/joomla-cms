@@ -73,8 +73,6 @@
 
       if (this.task) {
         Joomla.submitbutton(this.task, this.form, this.formValidation);
-      } else {
-        throw new Error('"task" attribute must be preset to perform an action.');
       }
 
       return true;
