@@ -11,12 +11,12 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Workflows controller
@@ -26,20 +26,38 @@ use Joomla\CMS\Session\Session;
 class WorkflowsController extends AdminController
 {
 	/**
+	 * The extension for which the categories apply.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $extension;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException when no extension is set
 	 */
-	public function __construct(array $config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
+
+		// If extension is not set try to get it from input or throw an exception
+		if (empty($this->extension))
+		{
+			$this->extension = $this->input->getCmd('extension');
+
+			if (empty($this->extension))
+			{
+				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
+			}
+		}
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
 
@@ -83,7 +101,7 @@ class WorkflowsController extends AdminController
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&extension=' . $this->input->getCmd("extension"), false
+					. '&extension=' . $this->extension, false
 				)
 			);
 
@@ -129,7 +147,7 @@ class WorkflowsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd("extension"), false
+				. '&extension=' . $this->extension, false
 			)
 		);
 	}
@@ -147,7 +165,7 @@ class WorkflowsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd("extension"), false
+				. '&extension=' . $this->extension, false
 			)
 		);
 	}
