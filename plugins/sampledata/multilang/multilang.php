@@ -382,7 +382,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6, $siteLang->language);
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6);
 
 			return $response;
 		}
@@ -983,8 +983,6 @@ class PlgSampledataMultilang extends CMSPlugin
 
 	/**
 	 * Method to create a workflow for a specific language.
-	 *
-	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
 	 * @return  JTable|boolean  Workflow Object. False otherwise.
 	 *
