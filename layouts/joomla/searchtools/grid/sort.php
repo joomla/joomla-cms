@@ -21,7 +21,7 @@ $id = '';
 
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
-	$sort = ($data->direction === "asc" ? "ascending" : "descending");
+	$sort = $data->direction === "asc" ? "ascending" : "descending";
 	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : '';
 	$selected = " selected";
 	$id = "id=\"sorted\"";
