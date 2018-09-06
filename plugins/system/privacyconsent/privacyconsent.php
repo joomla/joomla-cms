@@ -588,7 +588,6 @@ class PlgSystemPrivacyconsent extends JPlugin
 					return false;
 				}
 
-				return true;
 			}
 			catch (phpmailerException $exception)
 			{
