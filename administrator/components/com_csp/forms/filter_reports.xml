@@ -22,6 +22,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			default="a.id ASC"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"

@@ -78,6 +78,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			default="id ASC"
 			onchange="this.form.submit();"
 			>
