@@ -69,7 +69,7 @@
 		<field
 			name="level"
 			type="integer"
-			laabel="JOPTION_SELECT_MAX_LEVELS"
+			label="JOPTION_SELECT_MAX_LEVELS"
 			first="1"
 			last="10"
 			step="1"
