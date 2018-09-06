@@ -54,6 +54,7 @@ class UsersModel extends ListModel
 				'range',
 				'lastvisitrange',
 				'state',
+				'access', 'a.access', 'access_level',
 			);
 		}
 
@@ -101,6 +102,9 @@ class UsersModel extends ListModel
 
 		$this->setState('filter.excluded', $excluded);
 
+		$access = $app->input->getInt('access');
+		$this->setState('filter.access', $access);
+
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
@@ -130,6 +134,7 @@ class UsersModel extends ListModel
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . $this->getState('filter.range');
+		$id .= ':' . $this->getState('filter.access');
 
 		return parent::getStoreId($id);
 	}
@@ -300,6 +305,10 @@ class UsersModel extends ListModel
 			}
 		}
 
+		// Join over the asset groups.
+		$query->select($db->quoteName('ag.title') . ' AS access_level')
+			->leftJoin('#__viewlevels AS ag ON ag.id = a.access');
+
 		// Filter the items over the group id if set.
 		$groupId = $this->getState('filter.group_id');
 		$groups  = $this->getState('filter.groups');
@@ -325,7 +334,8 @@ class UsersModel extends ListModel
 							'a.resetCount',
 							'a.otpKey',
 							'a.otep',
-							'a.requireReset'
+							'a.requireReset',
+							'a.access'
 						)
 					)
 				);

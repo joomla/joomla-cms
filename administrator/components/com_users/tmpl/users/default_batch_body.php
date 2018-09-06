@@ -39,6 +39,9 @@ $resetOptions = array(
                     <?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
                 </select>
 			</div>
+			<div class="form-group col-md-6">
+				<?php echo HTMLHelper::_('batch.access'); ?>
+			</div>
 		</div>
         <div class="form-group">
             <label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>

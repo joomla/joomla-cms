@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_USERS_LIST_VIEW_DEFAULT_TITLE" option="COM_USERS_LIST_VIEW_DEFAULT_OPTION">
+		<message>
+			<![CDATA[COM_USERS_LIST_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field
+				name="id"
+				type="usergrouplist"
+				label="COM_USERS_GROUP_LABEL"
+				>
+			</field>
+		</fieldset>
+	</fields>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+		<fieldset name="basic" label="COM_USERS_GROUP_LABEL">
+			<field
+				name="show_group_title"
+				type="list"
+				label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
+				useglobal="true"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>
+

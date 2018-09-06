@@ -60,6 +60,9 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								<th scope="col" style="width:12%" class="nowrap text-center">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<?php echo Text::_('JGRID_HEADING_ACCESS'); ?>
+								</th>
 								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
@@ -145,6 +148,9 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php else : ?>
 										<?php echo nl2br($item->group_names); ?>
 									<?php endif; ?>
+								</td>
+								<td class="small d-none d-md-table-cell text-center">
+									<?php echo $this->escape($item->access_level); ?>
 								</td>
 								<td class="d-none d-lg-table-cell break-word text-center">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
