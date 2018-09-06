@@ -48,7 +48,7 @@ ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
 --
 -- Step 2.2: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
 -- except #__finder_xxx tables, those will have utf8mb4_general_ci collation.
--- Note: The database driver for mysql will change utf8mb4 to utf8 if utf8mb4 is not supported     
+-- Note: The database driver for mysql will change utf8mb4 to utf8 if utf8mb4 is not supported
 --
 
 ALTER TABLE `#__assets` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -108,6 +108,7 @@ ALTER TABLE `#__redirect_links` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4
 ALTER TABLE `#__schemas` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__session` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__tags` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__template_overrides` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__template_styles` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_base` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_content` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -200,6 +201,7 @@ ALTER TABLE `#__redirect_links` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_un
 ALTER TABLE `#__schemas` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__session` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__tags` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__template_overrides` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__template_styles` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_base` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_content` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
