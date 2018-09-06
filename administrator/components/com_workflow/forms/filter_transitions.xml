@@ -65,8 +65,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_WORKFLOW_LIST_LIMIT"
-			description="COM_WORKFLOW_LIST_LIMIT_DESC"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>
