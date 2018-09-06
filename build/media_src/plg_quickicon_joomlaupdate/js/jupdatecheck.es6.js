@@ -34,7 +34,9 @@
             if (updateInfo.version !== options.version) {
               const messages = {
                 message: [
-                  `${Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-pill badge-danger">${updateInfoList.length}</span>`)}<button class="btn btn-primary" onclick="document.location='${options.url}'">${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON')}</button>`,
+                  `${Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-danger">${updateInfoList.length}</span>`)}`
+                  + `<button class="btn btn-primary" onclick="document.location='${options.url}'">`
+                  + `${Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON')}</button>`,
                 ],
                 error: ['info'],
               };
