@@ -21,7 +21,8 @@
 
 		<field
 			name="branch"
-			type="COM_FINDER_MAPS_SELECT_BRANCH"
+			type="branches"
+			label="COM_FINDER_MAPS_SELECT_BRANCH"
 			default="0"
 			onchange="this.form.submit();"
 		/>

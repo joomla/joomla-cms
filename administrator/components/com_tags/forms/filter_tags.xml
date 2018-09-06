@@ -55,7 +55,7 @@
 	</fields>
 	<fields name="list">
 		<field
-            name="fullordering"
+        	name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
