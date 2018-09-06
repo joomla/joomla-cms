@@ -115,7 +115,8 @@ class ArticleModel extends ItemModel
 					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
 
 				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
+						'c.language AS category_language')
 					->innerJoin('#__categories AS c on c.id = a.catid')
 					->where('c.published > 0');
 
@@ -130,7 +131,8 @@ class ArticleModel extends ItemModel
 				}
 
 				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route,' .
+						'parent.alias as parent_alias, parent.language as parent_language')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 				// Join on voting table
