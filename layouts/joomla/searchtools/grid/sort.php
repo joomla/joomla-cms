@@ -21,10 +21,10 @@ $id = '';
 
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
-	$sort = $data->direction === "asc" ? "ascending" : "descending";
+	$sort = $data->direction === 'asc' ? 'ascending' : 'descending';
 	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : '';
-	$selected = " selected";
-	$id = "id=\"sorted\"";
+	$selected = ' selected';
+	$id = 'id="sorted"';
 endif;
 ?>
 <button type="button" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
