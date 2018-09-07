@@ -22,7 +22,7 @@
 		<field 
 			name="password2" 
 			type="password"
-			label="JGLOBAL_PASSWORD"
+			label="COM_ADMIN_USER_FIELD_PASSWORD_LABEL"
 			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
 			autocomplete="off"
 			class="validate-password"
