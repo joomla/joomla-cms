@@ -404,6 +404,9 @@ class UpdateModel extends ListModel
 	 */
 	private function install($update)
 	{
+		// Load overrides plugin.
+		PluginHelper::importPlugin('installer');
+
 		$app = Factory::getApplication();
 
 		if (!isset($update->get('downloadurl')->_data))
