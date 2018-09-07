@@ -324,7 +324,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$workflowStage = (string) $this->getState('filter.state');
+		$workflowStage = (string) $this->getState('filter.stage');
 
 		if (is_numeric($workflowStage))
 		{
