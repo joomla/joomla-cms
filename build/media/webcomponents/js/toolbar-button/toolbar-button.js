@@ -32,8 +32,8 @@
 
     connectedCallback() {
       // Check whether we have a form
-      const formSelector = this.form || '#adminForm';
-      this.formElement = document.querySelector(formSelector);
+      const formSelector = this.form || 'adminForm';
+      this.formElement = document.getElementById(formSelector);
 
       if (this.listSelection) {
         if (!this.formElement) {
@@ -73,8 +73,6 @@
 
       if (this.task) {
         Joomla.submitbutton(this.task, this.form, this.formValidation);
-      } else {
-        throw new Error('"task" attribute must be preset to perform an action.');
       }
 
       return true;

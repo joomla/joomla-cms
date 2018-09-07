@@ -24,6 +24,7 @@
 			required="true"
 			sql_select="id as value, title as from_stage_id"
 			sql_from="#__workflow_stages"
+			translate="true"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -34,6 +35,7 @@
 			required="true"
 			sql_select="id as value, title as to_stage_id"
 			sql_from="#__workflow_stages"
+			translate="true"
 		/>
 		<field
 			name="description"
@@ -45,12 +47,16 @@
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
-			type="status"
+			type="list"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
+			class="custom-select-color-state"
 			default="1"
-			filter="-2,0,1"
-		/>
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">

@@ -212,6 +212,7 @@
 				name="tag_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				labelclass="control-label"
 				useglobal="true"
 				extension="com_tags"

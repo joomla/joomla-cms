@@ -21,12 +21,20 @@ use Joomla\Utilities\ArrayHelper;
  * @method self buttonClass(string $value)
  * @method self attributes(array $value)
  * @method self onclick(array $value)
+ * @method self listCheck(bool $value)
+ * @method self listCheckMessage(string $value)
+ * @method self form(string $value)
+ * @method self formValidation(bool $value)
  * @method string  getText()
  * @method string  getTask()
  * @method string  getIcon()
  * @method string  getButtonClass()
  * @method array   getAttributes()
  * @method string  getOnclick()
+ * @method bool    getListCheck()
+ * @method string  getListCheckMessage()
+ * @method string  getForm()
+ * @method bool    getFormValidation()
  *
  * @since  4.0.0
  */
@@ -502,7 +510,11 @@ abstract class ToolbarButton
 			'icon',
 			'attributes',
 			'onclick',
-			'buttonClass' => 'button_class'
+			'buttonClass' => 'button_class',
+			'listCheck',
+			'listCheckMessage',
+			'form',
+			'formValidation'
 		];
 	}
 }

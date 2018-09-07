@@ -13,10 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
  * View class for a list of template styles.
@@ -80,6 +81,15 @@ class HtmlView extends BaseHtmlView
 	public $preview;
 
 	/**
+	 * The state of installer override plugin.
+	 *
+	 * @var  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pluginState;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -98,6 +108,7 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
 		$this->file          = base64_encode('home');
+		$this->pluginState   = PluginHelper::isEnabled('installer', 'override');
 
 		TemplatesHelper::addSubmenu('templates');
 

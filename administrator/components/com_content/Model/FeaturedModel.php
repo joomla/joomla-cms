@@ -158,7 +158,7 @@ class FeaturedModel extends ArticlesModel
 		}
 
 		// Filter by workflows stages
-		$workflowStage = (string) $this->getState('filter.state');
+		$workflowStage = (string) $this->getState('filter.stage');
 
 		if (is_numeric($workflowStage))
 		{
