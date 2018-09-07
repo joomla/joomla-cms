@@ -162,15 +162,6 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
-							$hasTransitions = count($transitions) > 0;
-
-							$default = [
-								JHtml::_('select.option', '', $this->escape(Text::_($item->stage_title))),
-								JHtml::_('select.option', '-1', '--------', ['disable' => true])
-							];
-
-							$transitions = array_merge($default, $transitions);
-
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 								<td class="order nowrap text-center d-none d-md-table-cell">
@@ -200,42 +191,26 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<div class="btn-group tbody-icon mr-1">
 										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 										<?php
-											switch ($item->stage_condition) :
-												case ContentComponent::CONDITION_TRASHED:
-													$icon = 'trash';
-													break;
-												case ContentComponent::CONDITION_UNPUBLISHED:
-													$icon = 'unpublish';
-													break;
-												case ContentComponent::CONDITION_ARCHIVED:
-													$icon = 'archive';
-													break;
-												default:
-													$icon = 'publish';
-											endswitch;
+
+											$options = [
+												'transitions' => $transitions,
+												'stage' => Text::_($item->stage_title),
+												'id' => (int) $item->id
+											];
+
+											echo (new PublishedButton)
+													->removeState(0)
+													->removeState(1)
+													->removeState(2)
+													->removeState(-2)
+													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JPUBLISHED'])
+													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JUNPUBLISHED'])
+													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JARCHIVED'])
+													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JTRASHED'])
+													->setLayout('joomla.button.transition-button')
+													->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
 										?>
-										<?php if ($hasTransitions) : ?>
-											<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
-												<span class="icon-<?php echo $icon; ?>"></span>
-											</a>
-										<?php else : ?>
-											<span class="icon-<?php echo $icon; ?>"></span>
-										<?php endif; ?>
 										</div>
-										<div class="mr-auto"><?php echo $this->escape(Text::_($item->stage_title)); ?></div>
-										<?php if ($hasTransitions) : ?>
-										<div class="d-none">
-											<?php
-												$attribs = [
-													'id'	=> 'transition-select_' . (int) $item->id,
-													'list.attr' => [
-														'class'		=> 'custom-select custom-select-sm form-control form-control-sm',
-														'onchange'		=> "Joomla.listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
-													];
-												echo JHtml::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
-											?>
-										</div>
-										<?php endif; ?>
 									</div>
 								</td>
 								<th scope="row" class="has-context">
