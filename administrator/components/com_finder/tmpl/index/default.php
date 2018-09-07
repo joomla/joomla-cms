@@ -48,7 +48,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%" class="text-center d-none d-md-table-cell text-center">
+							<th scope="col" style="width:15%" class="d-none d-md-table-cell text-center">
 								<?php echo JText::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
 							<th scope="col" style="width:30%" class="d-none d-md-table-cell">
