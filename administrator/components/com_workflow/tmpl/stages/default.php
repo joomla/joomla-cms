@@ -126,7 +126,7 @@ if ($saveOrder)
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php else: ?>
 											<?php echo $this->escape(Text::_($item->title)); ?>
-              				<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
+											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
 									<td class="text-center">
