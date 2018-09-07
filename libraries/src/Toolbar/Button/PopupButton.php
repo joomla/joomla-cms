@@ -153,6 +153,7 @@ class PopupButton extends ToolbarButton
 			$html[] = '</div>';
 
 			// We have to move the modal, otherwise we get problems with the backdrop
+			// TODO: There should be a better workaround than this
 			Factory::getDocument()->addScriptDeclaration(
 				<<<JS
 window.addEventListener('DOMContentLoaded', function() {
