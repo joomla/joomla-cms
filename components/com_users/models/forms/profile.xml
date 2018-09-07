@@ -29,12 +29,12 @@
 			size="30"
 			validate="username"
 		/>
-
+ 
 		<field
 			name="password1"
 			type="password"
 			label="COM_USERS_PROFILE_PASSWORD1_LABEL"
-			description="COM_USERS_DESIRED_PASSWORD"
+			description="COM_USERS_PROFILE_PASSWORD1_DESC"
 			autocomplete="off"
 			class="validate-password"
 			filter="raw"
