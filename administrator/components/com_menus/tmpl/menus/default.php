@@ -54,29 +54,29 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 					<table class="table" id="menuList">
 						<thead>
 							<tr>
-								<td style="width:1%">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="text-center">
 									<span class="icon-unpublish" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="text-center">
 									<span class="icon-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%">
 									<span class="icon-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -134,7 +134,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											<?php echo $item->count_trashed; ?></span>
 									<?php endif; ?>
 								</td>
-								<td class="text-center">
+								<td>
 									<?php if (isset($this->modules[$item->menutype])) : ?>
 										<div class="dropdown">
 											<a href="#" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -213,7 +213,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>
