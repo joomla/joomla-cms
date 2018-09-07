@@ -210,7 +210,7 @@
 		<option value="*">JALL</option>
 	</field>
 
-	<field 
+	<field
 		name="version_note"
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"

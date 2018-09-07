@@ -15,5 +15,5 @@ window.JoomlaCalLocale = {
 	minYear : 1900,
 	maxYear : 2100,
 	exit: "প্রস্থান",
-	save: "সংরক্ষণ"
+	clear: "সংরক্ষণ"
 };
