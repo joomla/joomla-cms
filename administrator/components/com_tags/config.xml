@@ -37,8 +37,8 @@
 			showon="save_history:1"
 		/>
 
-		<field 
-			name="show_tag_title" 
+		<field
+			name="show_tag_title"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 			description="COM_TAGS_SHOW_TAG_TITLE_DESC"
@@ -49,8 +49,8 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
-			name="tag_list_show_tag_image" 
+		<field
+			name="tag_list_show_tag_image"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 			description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
@@ -61,9 +61,9 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
-			name="tag_list_show_tag_description" 
-			type="radio" 
+		<field
+			name="tag_list_show_tag_description"
+			type="radio"
 			label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 			description="COM_TAGS_SHOW_TAG_DESCRIPTION_DESC"
 			class="btn-group btn-group-yesno"
@@ -73,14 +73,14 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
-			name="tag_list_image" 
+		<field
+			name="tag_list_image"
 			type="media"
 			label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 			description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 		/>
-	
-		<field 
+
+		<field
 			name="tag_list_orderby"
 			type="list"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
@@ -94,9 +94,9 @@
 			<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
-		<field 
-			name="tag_list_orderby_direction" 
-			type="radio" 
+		<field
+			name="tag_list_orderby_direction"
+			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			description="JGLOBAL_ORDER_DIRECTION_DESC"
 			class="btn-group btn-group-yesno"
@@ -106,19 +106,19 @@
 			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 		</field>
 
-		<field 
-			name="show_headings" 
+		<field
+			name="show_headings"
 			type="radio"
 			label="COM_TAGS_TAG_LIST_SHOW_HEADINGS_LABEL"
 			description="COM_TAGS_TAG_LIST_SHOW_HEADINGS_DESC"
 			class="btn-group btn-group-yesno"
-			default="1"			
+			default="1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
+		<field
 			name="tag_list_show_date"
 			type="list"
 			label="COM_TAGS_TAG_LIST_SHOW_DATE_DESC"
@@ -131,9 +131,9 @@
 			<option value="published">JPUBLISHED</option>
 		</field>
 
-		<field 
-			name="tag_list_show_item_image" 
-			type="radio" 
+		<field
+			name="tag_list_show_item_image"
+			type="radio"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			description="COM_TAGS_SHOW_ITEM_IMAGE_DESC"
 			class="btn-group btn-group-yesno"
@@ -142,9 +142,9 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-		
-		<field 
-			name="tag_list_show_item_description" 
+
+		<field
+			name="tag_list_show_item_description"
 			type="radio"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
@@ -153,7 +153,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-		
+
 		<field
 			name="tag_list_item_maximum_characters"
 			type="number"
@@ -164,7 +164,7 @@
 		/>
 
 	</fieldset>
-	
+
 	<fieldset
 		name="tagselection"
 		label="COM_TAGS_CONFIG_SELECTION_SETTINGS_LABEL"
@@ -181,9 +181,9 @@
 			default="3"
 		/>
 
-		<field 
-			name="return_any_or_all" 
-			type="radio" 
+		<field
+			name="return_any_or_all"
+			type="radio"
 			label="COM_TAGS_SEARCH_TYPE_LABEL"
 			description="COM_TAGS_SEARCH_TYPE_DESC"
 			class="btn-group btn-group-yesno"
@@ -192,10 +192,10 @@
 			<option value="1">COM_TAGS_ANY</option>
 			<option value="0">COM_TAGS_ALL</option>
 		</field>
-		
-		<field 
-			name="include_children" 
-			type="radio" 
+
+		<field
+			name="include_children"
+			type="radio"
 			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 			description="COM_TAGS_INCLUDE_CHILDREN_DESC"
 			class="btn-group btn-group-yesno"
@@ -204,7 +204,7 @@
 			<option value="1">COM_TAGS_INCLUDE</option>
 			<option value="0">COM_TAGS_EXCLUDE</option>
 		</field>
-		
+
 		<field
 			name="maximum"
 			type="number"
@@ -213,8 +213,8 @@
 			default="200"
 			filter="integer"
 		/>
-		
-		<field 
+
+		<field
 			name="tag_list_language_filter"
 			type="contentlanguage"
 			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
@@ -224,8 +224,8 @@
 			<option value="all">JALL</option>
 			<option value="current_language">JCURRENT</option>
 		</field>
-		
-	</fieldset>	
+
+	</fieldset>
 
 	<fieldset
 		name="alltags"
@@ -233,7 +233,7 @@
 		description="COM_TAGS_CONFIG_ALL_TAGS_SETTINGS_DESC">
 
 		<field
-			name="tags_layout" 
+			name="tags_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_LABEL"
 			description="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_DESC"
@@ -242,7 +242,7 @@
 			view="tags"
 		/>
 
-		<field 
+		<field
 			name="all_tags_orderby"
 			type="list"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
@@ -256,8 +256,8 @@
 			<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
-		<field 
-			name="all_tags_orderby_direction" 
+		<field
+			name="all_tags_orderby_direction"
 			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			description="JGLOBAL_ORDER_DIRECTION_DESC"
@@ -268,9 +268,9 @@
 			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 		</field>
 
-		<field 
-			name="all_tags_show_tag_image" 
-			type="radio" 
+		<field
+			name="all_tags_show_tag_image"
+			type="radio"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			description="COM_TAGS_SHOW_ITEM_IMAGE_DESC"
 			class="btn-group btn-group-yesno"
@@ -280,9 +280,9 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
-			name="all_tags_show_tag_descripion" 
-			type="radio" 
+		<field
+			name="all_tags_show_tag_descripion"
+			type="radio"
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_SHOW_ITEM_DESCRIPTION_DESC"
 			class="btn-group btn-group-yesno"
@@ -291,7 +291,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-		
+
 		<field
 			name="all_tags_tag_maximum_characters"
 			type="number"
@@ -300,10 +300,10 @@
 			filter="integer"
 			showon="all_tags_show_tag_descripion:1"
 		/>
-		
-		<field 
-			name="all_tags_show_tag_hits" 
-			type="radio" 
+
+		<field
+			name="all_tags_show_tag_hits"
+			type="radio"
 			label="JGLOBAL_HITS"
 			description="COM_TAGS_FIELD_CONFIG_HITS_DESC"
 			class="btn-group btn-group-yesno"
@@ -319,7 +319,7 @@
 		name="shared"
 		label="COM_TAGS_CONFIG_SHARED_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_SHARED_SETTINGS_DESC">
-		
+
 		<field
 			name="filter_field"
 			type="radio"
@@ -332,8 +332,8 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
-			name="show_pagination_limit" 
+		<field
+			name="show_pagination_limit"
 			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC"
@@ -343,9 +343,9 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-		
-		<field 
-			name="show_pagination" 
+
+		<field
+			name="show_pagination"
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC"
@@ -368,17 +368,17 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-		
+
 	</fieldset>
-	
+
 	<fieldset
 		name="data_entry"
 		label="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_DESC">
-		
-		<field 
-			name="tag_field_ajax_mode" 
-			type="radio" 
+
+		<field
+			name="tag_field_ajax_mode"
+			type="radio"
 			label="COM_TAGS_TAG_FIELD_MODE_LABEL"
 			description="COM_TAGS_TAG_FIELD_MODE_DESC"
 			class="btn-group btn-group-yesno"
@@ -389,8 +389,8 @@
 		</field>
 
 	</fieldset>
-	
-	<fieldset 
+
+	<fieldset
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_TAGS_CONFIG_INTEGRATION_SETTINGS_DESC"
