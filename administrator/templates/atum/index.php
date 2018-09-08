@@ -34,6 +34,7 @@ $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 // Add JavaScript
 HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load the dependencies CSS files
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
@@ -52,6 +53,8 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
+
+$this->addScriptDeclaration('cssVars();')
 
 ?>
 <!DOCTYPE html>
