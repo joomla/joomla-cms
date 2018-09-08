@@ -44,28 +44,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo Text::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th scope="col" style="width:40%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:40%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 								</th>
 							</tr>

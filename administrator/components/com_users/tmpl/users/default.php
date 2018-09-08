@@ -42,34 +42,34 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 					<table class="table" id="userList">
 						<thead>
 							<tr>
-								<td style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap">
+								<th scope="col" style="width:10%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap text-center">
+								<th scope="col" style="width:5%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap">
+								<th scope="col" style="width:12%">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell">
+								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell">
+								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell">
+								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
