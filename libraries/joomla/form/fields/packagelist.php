@@ -84,10 +84,10 @@ class JFormFieldPackagelist extends JFormFieldList
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('a.extension_id, a.name')
-					->from('#__extensions AS a')
-					->where('a.type = ' . $db->quote('package'))
-					->order('a.name');
+			->select($db->quoteName(array('extension_id', 'name')))
+			->from('#__extensions AS a')
+			->where('a.type = ' . $db->quote('package'))
+			->order('a.name');
 
 		if (!empty($this->extensiontype))
 		{
