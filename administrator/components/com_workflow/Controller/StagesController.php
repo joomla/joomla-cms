@@ -26,7 +26,7 @@ use Joomla\Utilities\ArrayHelper;
 class StagesController extends AdminController
 {
 	/**
-	 * The workflow in where the stage belons to
+	 * The workflow in where the stage belongs to
 	 *
 	 * @var    integer
 	 * @since  __DEPLOY_VERSION__
