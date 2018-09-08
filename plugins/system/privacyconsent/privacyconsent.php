@@ -515,7 +515,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			->from($db->quoteName('#__privacy_consents', 'r'))
 			->leftJoin($db->quoteName('#__users', 'u') . ' ON u.id = r.user_id')
 			->where($db->quoteName('remind') . ' = 0');
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'));
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
