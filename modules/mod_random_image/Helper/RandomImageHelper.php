@@ -45,38 +45,15 @@ class RandomImageHelper
 		$image  = $images[$random];
 		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
-		if ($width === '')
-		{
-			$width = 100;
+		if ($width){
+			$height = $size[1] / $size[0] * $width;
+		} elseif ($height) {
+			$width = $size[0] / $size[1] * $height;
 		}
 
-		if ($size[0] < $width)
-		{
-			$width = $size[0];
-		}
-
-		$coeff = $size[0] / $size[1];
-
-		if ($height === '')
-		{
-			$height = (int) ($width / $coeff);
-		}
-		else
-		{
-			$newheight = min($height, (int) ($width / $coeff));
-
-			if ($newheight < $height)
-			{
-				$height = $newheight;
-			}
-			else
-			{
-				$width = $height * $coeff;
-			}
-		}
-
-		$image->width  = $width;
-		$image->height = $height;
+		$image->width  = (int) $width;
+		$image->height = (int) $height;
+		
 		$image->folder = str_replace('\\', '/', $image->folder);
 
 		return $image;
