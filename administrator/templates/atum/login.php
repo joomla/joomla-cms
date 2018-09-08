@@ -41,6 +41,10 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Template params
+$loginLogo = $this->params->get('loginLogo', '');
+
+
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
@@ -74,7 +78,7 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 				<?php // Begin Content ?>
 				<div id="element-box" class="login-box">
 					<div class="login-box-header">
-						<h1 class="text-center m-0"><?php echo $sitename; ?></h1>
+						<h1 class="text-center m-0"><?php echo $loginLogo ? '<img src="' . JURI::root() . '/' . $loginLogo . '" class="img-responsive">' : $sitename; ?></h1>
 					</div>
 					<div class="login-box-body">
 						<jdoc:include type="message" />

@@ -44,4 +44,17 @@
 		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>
 		<language tag="en-GB">en-GB/en-GB.tpl_atum.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+
+				<field	name="loginLogo"
+						class="img-fluid"
+						type="media"
+				 		default=""
+						label="TPL_ATUM_LOGINLOGO_LABEL"
+						description="TPL_ATUM_LOGINLOGO_DESC"/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
