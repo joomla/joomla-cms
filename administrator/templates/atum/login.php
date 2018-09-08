@@ -80,7 +80,7 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 					<div class="login-box-header text-center">
 						<h1 class="m-0"><?php echo $sitename; ?></h1>
 						<?php if ($loginLogo) : ?>
-						<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="<?php echo $sitename; ?>">
+						<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
 						<?php endif; ?>
 					</div>
 					<div class="login-box-body">
