@@ -24,7 +24,7 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
+JLoader::registerNamespace('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
 
 // Include the component HTML helpers.
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');

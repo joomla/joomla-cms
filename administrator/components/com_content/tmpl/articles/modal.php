@@ -24,7 +24,7 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
+JLoader::registerNamespace('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));

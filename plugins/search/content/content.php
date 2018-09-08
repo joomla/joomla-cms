@@ -61,7 +61,7 @@ class PlgSearchContent extends CMSPlugin
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$tag        = Factory::getLanguage()->getTag();
 
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+		JLoader::registerNamespace('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
 
 		$searchText = $text;
