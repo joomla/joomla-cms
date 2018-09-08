@@ -200,7 +200,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 		$data = (array) $data;
 
 		// Make workflows translateable
-		Factory::getLanguage()->load('com_workflow');
+		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
 		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
 
