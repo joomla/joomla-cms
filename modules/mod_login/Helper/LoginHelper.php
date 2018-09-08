@@ -33,10 +33,8 @@ class LoginHelper
 	 */
 	public static function getReturnUrl($params, $type)
 	{
-		$item = Factory::getApplication()->getMenu()->getItem($params->get($type));
-
-		// Stay on the same page
-		$url = Uri::getInstance()->toString();
+		$app  = Factory::getApplication();
+		$item = $app->getMenu()->getItem($params->get($type));
 
 		if ($item)
 		{
@@ -47,10 +45,14 @@ class LoginHelper
 				$lang = '&lang=' . $item->language;
 			}
 
-			$url = 'index.php?Itemid=' . $item->id . $lang;
+			return base64_encode('index.php?Itemid=' . $item->id . $lang);
 		}
 
-		return base64_encode($url);
+		// Stay on the same page
+		$uri = new Uri('index.php');
+		$uri->setQuery($app->getRouter()->getVars());
+
+		return base64_encode($uri->toString());
 	}
 
 	/**

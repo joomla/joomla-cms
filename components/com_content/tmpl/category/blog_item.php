@@ -72,11 +72,11 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		if ($params->get('access-view')) :
 			$link = Route::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 		else :
-			$menu = Factory::getApplication()->getMenu();
-			$active = $menu->getActive();
-			$itemId = $active->id;
-			$link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-			$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
+			$link = new Uri(Route::_('index.php?option=com_users&view=login', false));
+			$uri = new Uri(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
+			$router = Factory::getApplication()->getRouter();
+			$router->buildComponentPreprocess($router, $uri);
+			$link->setVar('return', base64_encode($uri->toString()));
 		endif; ?>
 
 		<?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>

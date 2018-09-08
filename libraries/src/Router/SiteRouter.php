@@ -344,9 +344,13 @@ class SiteRouter extends Router
 		{
 			$item = $this->menu->getItem($uri->getVar('Itemid'));
 		}
-		else
+		elseif (!$uri->getVar('option'))
 		{
 			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+		}
+		else
+		{
+			$item = null;
 		}
 
 		if ($item && $item->type === 'alias')

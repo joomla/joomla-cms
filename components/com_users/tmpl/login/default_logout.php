@@ -39,7 +39,7 @@ use Joomla\CMS\Language\Text;
 		</div>
 	<?php endif; ?>
 
-	<form action="<?php echo Route::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="com-users-logout__form form-horizontal well">
+	<form action="<?php echo Route::_('index.php?option=com_users&view=login'); ?>" method="post" class="com-users-logout__form form-horizontal well">
 		<div class="com-users-logout__submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary">
@@ -48,6 +48,7 @@ use Joomla\CMS\Language\Text;
 				</button>
 			</div>
 		</div>
+		<input type="hidden" name="task" value="user.logout">
 		<?php if ($this->params->get('logout_redirect_url')) : ?>
 			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return'))); ?>">
 		<?php else : ?>

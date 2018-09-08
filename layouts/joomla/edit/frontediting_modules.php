@@ -22,7 +22,11 @@ $mod          = $displayData['module'];
 $position     = $displayData['position'];
 $menusEditing = $displayData['menusediting'];
 $parameters   = ComponentHelper::getParams('com_modules');
-$redirectUri  = '&return=' . urlencode(base64_encode(Uri::getInstance()->toString()));
+
+$uri = new Uri('index.php');
+$uri->setQuery(Factory::getApplication()->getRouter()->getVars());
+
+$redirectUri  = '&return=' . urlencode(base64_encode($uri->toString()));
 $target       = '_blank';
 $itemid       = Factory::getApplication()->input->get('Itemid', '0', 'int');
 

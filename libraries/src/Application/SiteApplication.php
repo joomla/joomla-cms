@@ -96,8 +96,11 @@ final class SiteApplication extends CMSApplication
 		{
 			if ($user->get('id') == 0)
 			{
+				$uri = new Uri('index.php');
+				$uri->setQuery($this->getRouter()->getVars());
+
 				// Set the data
-				$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+				$this->setUserState('users.login.form.data', array('return' => $uri->toString()));
 
 				$url = Route::_('index.php?option=com_users&view=login', false);
 
@@ -737,7 +740,10 @@ final class SiteApplication extends CMSApplication
 
 				if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline'))
 				{
-					$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+					$uri = new Uri('index.php');
+					$uri->setQuery($this->getRouter()->getVars());
+
+					$this->setUserState('users.login.form.data', array('return' => $uri->toString()));
 					$this->set('themeFile', 'offline.php');
 					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}

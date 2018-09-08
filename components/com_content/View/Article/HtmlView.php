@@ -197,10 +197,13 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($this->user->get('guest'))
 			{
-				$return = base64_encode(Uri::getInstance());
-				$login_url_with_return = Route::_('index.php?option=com_users&return=' . $return);
+				$uri = new Uri('index.php');
+				$uri->setQuery($app->getRouter()->getVars());
+
+				$login_url_with_return = new Uri(Route::_('index.php?option=com_users&view=login', false));
+				$login_url_with_return->setVar('return', base64_encode($uri->toString()));
 				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
-				$app->redirect($login_url_with_return, 403);
+				$app->redirect($login_url_with_return->toString(), 403);
 			}
 			else
 			{

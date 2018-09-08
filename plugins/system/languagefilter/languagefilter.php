@@ -628,20 +628,14 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		$menu = $this->app->getMenu();
-
 		if ($this->app->isClient('site'))
 		{
 			if ($this->params->get('automatic_change', 1))
 			{
-				$assoc = Associations::isEnabled();
 				$lang_code = $user['language'];
 
 				// If no language is specified for this user, we set it to the site default language
-				if (empty($lang_code))
-				{
-					$lang_code = $this->default_lang;
-				}
+				$lang_code = $lang_code ?? $this->default_lang;
 
 				// The language has been deleted/disabled or the related content language does not exist/has been unpublished
 				// or the related home page does not exist/has been unpublished
@@ -652,85 +646,83 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$lang_code = $this->current_lang;
 				}
 
-				// Try to get association from the current active menu item
-				$active = $menu->getActive();
+				if ($lang_code === $this->current_lang)
+				{
+					// The current page language is equal to user language
+					return;
+				}
+
+				$menu = $this->app->getMenu();
+
+				$loginMenuItem = $menu->getActive();
 
 				$foundAssociation = false;
 
 				/**
 				 * Looking for associations.
 				 * If the login menu item form contains an internal URL redirection,
-				 * This will override the automatic change to the user preferred site language.
+				 * this will override the automatic change to the user preferred site language.
 				 * In that case we use the redirect as defined in the menu item.
-				 *  Otherwise we redirect, when available, to the user preferred site language.
+				 * Otherwise we redirect, when available, to the user preferred site language.
 				 */
-				if ($active && !$active->params['login_redirect_url'])
+				if (!$loginMenuItem || !$loginMenuItem->params['login_redirect_url'])
 				{
-					if ($assoc)
+					$return = $this->app->getUserState('users.login.form.return');
+
+					if ($return)
 					{
-						$associations = MenusHelper::getAssociations($active->id);
+						// Retrieves the Itemid from a login form
+						$uri = new Uri($this->app->getUserState('users.login.form.return'));
+
+						$Itemid = $uri->getVar('Itemid');
 					}
 
-					// Retrieves the Itemid from a login form.
-					$uri = new Uri($this->app->getUserState('users.login.form.return'));
-
-					if ($uri->getVar('Itemid'))
+					if ($Itemid)
 					{
-						// The login form contains a menu item redirection. Try to get associations from that menu item.
-						// If any association set to the user preferred site language, redirect to that page.
-						if ($assoc)
+						if (Associations::isEnabled())
 						{
-							$associations = MenusHelper::getAssociations($uri->getVar('Itemid'));
+							// The login form contains a menu item redirection. Try to get associations from that menu item.
+							$assocs = MenusHelper::getAssociations($Itemid);
+
+							// If any association set to the user preferred site language, redirect to that page.
+							if (isset($assocs[$lang_code]) && $menu->getItem($assocs[$lang_code]))
+							{
+								$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $assocs[$lang_code]);
+								$foundAssociation = true;
+							}
 						}
 
-						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
+						// If there is no association
+						if (!$foundAssociation)
 						{
-							$associationItemid = $associations[$lang_code];
-							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
-							$foundAssociation = true;
+							$returnItem = $menu->getItem($Itemid);
+
+							// If the return URL points to the homepage
+							if ($returnItem && $returnItem->home)
+							{
+								// We are on a Home page, we redirect to the user preferred site language Home page.
+								$item = $menu->getDefault($lang_code);
+
+								if ($item && $item->language !== $returnItem->language && $item->language !== '*')
+								{
+									$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
+									$foundAssociation = true;
+								}
+							}
+						}
+
+						if ($foundAssociation)
+						{
+							// Change language.
+							$this->current_lang = $lang_code;
+
+							// Create a cookie.
+							$this->setLanguageCookie($lang_code);
+
+							// Change the language code.
+							Factory::getLanguage()->setLanguage($lang_code);
 						}
 					}
-					elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
-					{
-						/**
-						 * The login form does not contain a menu item redirection.
-						 * The active menu item has associations.
-						 * We redirect to the user preferred site language associated page.
-						 */
-						$associationItemid = $associations[$lang_code];
-						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
-						$foundAssociation = true;
-					}
-					elseif ($active->home)
-					{
-						// We are on a Home page, we redirect to the user preferred site language Home page.
-						$item = $menu->getDefault($lang_code);
-
-						if ($item && $item->language !== $active->language && $item->language !== '*')
-						{
-							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
-							$foundAssociation = true;
-						}
-					}
-				}
-
-				if ($foundAssociation && $lang_code !== $this->current_lang)
-				{
-					// Change language.
-					$this->current_lang = $lang_code;
-
-					// Create a cookie.
-					$this->setLanguageCookie($lang_code);
-
-					// Change the language code.
-					Factory::getLanguage()->setLanguage($lang_code);
-				}
-			}
-			else
-			{
-				if ($this->app->getUserState('users.login.form.return'))
-				{
-					$this->app->setUserState('users.login.form.return', Route::_($this->app->getUserState('users.login.form.return'), false));
 				}
 			}
 		}

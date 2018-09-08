@@ -176,9 +176,11 @@ if (!empty($this->items))
 				<?php else : ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
-					$itemId = Factory::getApplication()->getMenu()->getActive()->id;
-					$link   = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
+					$link = new Uri(Route::_('index.php?option=com_users&view=login', false));
+					$uri = new Uri(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language));
+					$router = Factory::getApplication()->getRouter();
+					$router->buildComponentPreprocess($router, $uri);
+					$link->setVar('return', base64_encode($uri->toString()));
 					?>
 					<a href="<?php echo $link; ?>" class="register">
 						<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>

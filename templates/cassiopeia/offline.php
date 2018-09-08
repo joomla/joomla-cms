@@ -116,7 +116,7 @@ else
 			</div>
 			<div class="login">
 				<jdoc:include type="message" />
-				<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
+				<form action="<?php echo Route::_('index.php?option=com_users&view=login', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
 						<input name="username" class="form-control" id="username" type="text" title="<?php echo Text::_('JGLOBAL_USERNAME'); ?>">
@@ -131,9 +131,10 @@ else
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
 
-						<input type="hidden" name="option" value="com_users">
 						<input type="hidden" name="task" value="user.login">
-						<input type="hidden" name="return" value="<?php echo base64_encode(Uri::base()); ?>">
+						<?php $uri = new Uri('index.php'); ?>
+						<?php $uri->setQuery($app->getRouter()->getVars()); ?>
+						<input type="hidden" name="return" value="<?php echo base64_encode($uri->tostring()); ?>">
 						<?php echo HTMLHelper::_('form.token'); ?>
 					</fieldset>
 				</form>

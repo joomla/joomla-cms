@@ -167,20 +167,15 @@ class MenuRules implements RulesInterface
 			}
 		}
 
-		// Check if the active menuitem matches the requested language
-		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
+		// If there is no view in the query then use the active item id
+		if (!isset($query['view']))
 		{
-			$query['Itemid'] = $active->id;
-			return;
-		}
-
-		// If not found, return language specific home link
-		$default = $this->router->menu->getDefault($language);
-
-		if (!empty($default->id))
-		{
-			$query['Itemid'] = $default->id;
+			// Check if the active menuitem matches the requested language
+			if ($active !== null && $active->component === 'com_' . $this->router->getName()
+				&& ($language === '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
+			{
+				$query['Itemid'] = $active->id;
+			}
 		}
 	}
 

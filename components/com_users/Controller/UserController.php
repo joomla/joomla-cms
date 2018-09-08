@@ -101,7 +101,13 @@ class UserController extends BaseController
 		// Set the return URL if empty.
 		if (empty($data['return']))
 		{
-			$data['return'] = 'index.php?option=com_users&view=profile';
+			$uri = new Uri('index.php?option=com_users&view=profile');
+			$router = Factory::getApplication()->getRouter();
+
+			// Add Itemid to link
+			$router->buildComponentPreprocess($router, $uri);
+
+			$data['return'] = $uri->toString();
 		}
 
 		// Set the return URL in the user state to allow modification by plugins

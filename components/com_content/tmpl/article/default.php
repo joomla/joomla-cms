@@ -141,11 +141,11 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php echo HTMLHelper::_('content.prepare', $this->item->introtext); ?>
 	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
-	<?php $menu = Factory::getApplication()->getMenu(); ?>
-	<?php $active = $menu->getActive(); ?>
-	<?php $itemId = $active->id; ?>
-	<?php $link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
-	<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
+	<?php $link = new Uri(Route::_('index.php?option=com_users&view=login', false)); ?>
+	<?php $uri = new Uri(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>
+	<?php $router = Factory::getApplication()->getRouter(); ?>
+	<?php $router->buildComponentPreprocess($router, $uri); ?>
+	<?php $link->setVar('return', base64_encode($uri->toString())); ?>
 	<p class="com-content-article__readmore readmore">
 		<a href="<?php echo $link; ?>" class="register">
 		<?php $attribs = json_decode($this->item->attribs); ?>
