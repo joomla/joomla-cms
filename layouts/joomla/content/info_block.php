@@ -30,7 +30,7 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 			<?php echo $this->sublayout('author', $displayData); ?>
 		<?php endif; ?>
 
-		<?php if ($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
+		<?php if ($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_id)) : ?>
 			<?php echo $this->sublayout('parent_category', $displayData); ?>
 		<?php endif; ?>
 

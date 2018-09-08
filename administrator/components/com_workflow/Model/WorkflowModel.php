@@ -13,9 +13,10 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\String\StringHelper;
 
 /**
  * Model class for workflow
@@ -104,21 +105,64 @@ class WorkflowModel extends AdminModel
 
 		$result = parent::save($data);
 
-		// Create a default stage
+		// Create default stages/transitions
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
-			$stage = $this->getTable('Stage');
+			$workflow_id = (int) $this->getState($this->getName() . '.id');
 
-			$newstage = new \stdClass;
+			$stages = [
+				[
+					'title' => 'JUNPUBLISHED',
+					'condition' => Workflow::CONDITION_UNPUBLISHED,
+					'transition' => 'Unpublish'
+				],
+				[
+					'title' => 'JPUBLISHED',
+					'condition' => Workflow::CONDITION_PUBLISHED,
+					'default' => 1,
+					'transition' => 'Publish'
+				],
+				[
+					'title' => 'JTRASHED',
+					'condition' => Workflow::CONDITION_TRASHED,
+					'transition' => 'Trash'
+				],
+				[
+					'title' => 'JARCHIVED',
+					'condition' => Workflow::CONDITION_ARCHIVED,
+					'transition' => 'Archive'
+				]
+			];
 
-			$newstage->workflow_id = (int) $this->getState($this->getName() . '.id');
-			$newstage->title = Text::_('COM_WORKFLOW_PUBLISHED');
-			$newstage->description = '';
-			$newstage->published = 1;
-			$newstage->condition = 1;
-			$newstage->default = 1;
+			$table = $this->getTable('Stage');
+			$transition = $this->getTable('Transition');
 
-			$stage->save($newstage);
+			foreach ($stages as $stage)
+			{
+				$table->reset();
+
+				$table->id = 0;
+				$table->title = $stage['title'];
+				$table->workflow_id = $workflow_id;
+				$table->condition = $stage['condition'];
+				$table->published = 1;
+				$table->default = (int) !empty($stage['default']);
+				$table->description = '';
+
+				$table->store();
+
+				$transition->reset();
+
+				$transition->id = 0;
+				$transition->title = $stage['transition'];
+				$transition->description = '';
+				$transition->workflow_id = $workflow_id;
+				$transition->published = 1;
+				$transition->from_stage_id = -1;
+				$transition->to_stage_id = (int) $table->id;
+
+				$transition->store();
+			}
 		}
 
 		return $result;
