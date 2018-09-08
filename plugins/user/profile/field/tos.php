@@ -78,7 +78,7 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 		if ($tosarticle)
 		{
-			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+			JLoader::registerNamespace('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
 			$attribs          = array();
 			$attribs['class'] = 'modal';

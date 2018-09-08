@@ -327,7 +327,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+		JLoader::registerNamespace('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return true;
 	}

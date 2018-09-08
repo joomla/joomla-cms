@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+JLoader::registerNamespace('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 $cacheid = md5($module->id);
 
