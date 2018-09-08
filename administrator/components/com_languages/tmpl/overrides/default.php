@@ -64,7 +64,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
