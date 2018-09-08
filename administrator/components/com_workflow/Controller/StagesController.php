@@ -52,7 +52,7 @@ class StagesController extends AdminController
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException when no extension or workflow id is set
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct(array $config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -217,8 +217,7 @@ class StagesController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. $extensionURL . '&workflow_id=' . $this->workflowId, false
+				. '&extension=' . $this->extension . '&workflow_id=' . $this->workflowId, false
 			)
 		);
 	}
