@@ -27,10 +27,11 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $saveOrder  = $listOrder == 'a.ordering';
 
-if ($saveOrder)
+
+if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-	HTMLHelper::_('sortablelist.sortable', 'levelList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	$saveOrderingUrl = 'index.php?option=com_users&view=levels.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+	HTMLHelper::_('draggablelist.draggable');
 }
 
 ?>
@@ -66,7 +67,7 @@ if ($saveOrder)
 								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
 							$ordering  = ($listOrder == 'a.ordering');

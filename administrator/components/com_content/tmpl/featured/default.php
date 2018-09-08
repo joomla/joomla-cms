@@ -45,10 +45,11 @@ else
 	$orderingColumn = 'created';
 }
 
-if ($saveOrder)
+
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	HTMLHelper::_('draggablelist.draggable');
 }
 
 $js = <<<JS
@@ -131,7 +132,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
