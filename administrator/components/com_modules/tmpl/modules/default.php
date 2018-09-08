@@ -119,9 +119,9 @@ if ($saveOrder && !empty($this->items))
 								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn btn-xs btn-secondary hasTooltip" title="<?php echo Text::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+								<span class="tbody-icon hasTooltip" title="<?php echo Text::sprintf('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED', $this->escape($item->name)); ?>">
 									<span class="icon-ban-circle" aria-hidden="true"></span>
-								</button>
+								</span>
 							<?php endif; ?>
 							</div>
 						</td>

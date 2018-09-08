@@ -3,7 +3,7 @@
 --
 
 CREATE TABLE IF NOT EXISTS "#__csp" (
-  "id" int(11) NOT NULL AUTO_INCREMENT,
+  "id" serial NOT NULL,
   "document_uri" varchar(500) NOT NULL DEFAULT '',
   "blocked_uri" varchar(500) NOT NULL DEFAULT '',
   "directive" varchar(500) NOT NULL DEFAULT '',

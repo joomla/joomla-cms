@@ -214,7 +214,12 @@
           return isValid;
         }
 
-        this.handleResponse(false, element);
+        if (element.attr('required') || element.hasClass('required')) {
+          this.handleResponse(false, element, 'empty');
+          return false;
+        }
+
+        this.handleResponse(true, element);
         return false;
       }
 
