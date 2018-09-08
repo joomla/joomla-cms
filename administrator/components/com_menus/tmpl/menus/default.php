@@ -91,20 +91,15 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<th scope="row">
-									<?php if ($canManageItems) : ?>
-										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
-									<?php else : ?>
+									<?php if ($canEdit): ?>
+                                       						<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+                                            					<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
+                                  					 <?php else: ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 									<div class="small">
 										<?php echo Text::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
-										<?php if ($canEdit) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->description); ?>">
-											<?php echo $this->escape($item->menutype); ?></a>
-										<?php else : ?>
-											<?php echo $this->escape($item->menutype); ?>
-										<?php endif; ?>
+										<?php echo $this->escape($item->menutype); ?>
 									</div>
 								</th>
 								<td class="text-center btns">
