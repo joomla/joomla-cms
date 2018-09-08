@@ -10,10 +10,12 @@ namespace Joomla\CMS\Encrypt;
 
 defined('JPATH_PLATFORM') or die;
 
+use \Joomla\CMS\Encrypt\RandValInterface;
+
 /**
  * Generates cryptographically-secure random values.
  */
-class Randval implements Randvalinterface
+class Randval implements RandValInterface
 {
 	/**
 	 *
