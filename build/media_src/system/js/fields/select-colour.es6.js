@@ -27,7 +27,7 @@
       // Add class on page load
       if (value === 1) {
         colourSelect.classList.add('custom-select-success');
-      } else if (value === 0) {
+      } else if (value === 0 || value === -2) {
         colourSelect.classList.add('custom-select-danger');
       }
 
