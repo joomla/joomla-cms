@@ -27,6 +27,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Joomla! update overview Model
@@ -389,7 +390,8 @@ class UpdateModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Create restoration file.
+	 * Create restoration file and trigger onJoomlaBeforeUpdate event, which find the updated core files
+	 * which have changed during the update, where there are override for.
 	 *
 	 * @param   string  $basename  Optional base path to the file.
 	 *
@@ -399,10 +401,16 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function createRestorationFile($basename = null)
 	{
+		// Load overrides plugin.
+		PluginHelper::importPlugin('installer');
+
 		// Get a password
 		$password = UserHelper::genRandomPassword(32);
 		$app = Factory::getApplication();
 		$app->setUserState('com_joomlaupdate.password', $password);
+
+		// Trigger event before joomla update.
+		$app->triggerEvent('onJoomlaBeforeUpdate');
 
 		// Do we have to use FTP?
 		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
@@ -826,7 +834,8 @@ ENDDATA;
 	}
 
 	/**
-	 * Removes the extracted package file.
+	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event, which find the updated core files
+	 * which have changed during the update, where there are override for.
 	 *
 	 * @return  void
 	 *
@@ -834,11 +843,19 @@ ENDDATA;
 	 */
 	public function cleanUp()
 	{
+		// Load overrides plugin.
+		PluginHelper::importPlugin('installer');
+
+		$app = Factory::getApplication();
+
+		// Trigger event after joomla update.
+		$app->triggerEvent('onJoomlaAfterUpdate');
+
 		// Remove the update package.
 		$config = Factory::getConfig();
 		$tempdir = $config->get('tmp_path');
 
-		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$file = $app->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir . '/' . $file;
 
 		if (!@unlink($target))
@@ -1271,24 +1288,24 @@ ENDDATA;
 		$query = $db->getQuery(true);
 
 		$query->select(
-			$db->qn('ex.name') . ', ' .
-			$db->qn('ex.extension_id') . ', ' .
-			$db->qn('ex.manifest_cache') . ', ' .
-			$db->qn('ex.type') . ', ' .
-			$db->qn('ex.folder') . ', ' .
-			$db->qn('ex.element') . ', ' .
-			$db->qn('ex.client_id') . ', ' .
-			$db->qn('si.location')
+			$db->quoteName('ex.name') . ', ' .
+			$db->quoteName('ex.extension_id') . ', ' .
+			$db->quoteName('ex.manifest_cache') . ', ' .
+			$db->quoteName('ex.type') . ', ' .
+			$db->quoteName('ex.folder') . ', ' .
+			$db->quoteName('ex.element') . ', ' .
+			$db->quoteName('ex.client_id') . ', ' .
+			$db->quoteName('si.location')
 		)->from(
-			$db->qn('#__extensions', 'ex')
+			$db->quoteName('#__extensions', 'ex')
 		)->leftJoin(
-			$db->qn('#__update_sites_extensions', 'se') .
-			' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
+			$db->quoteName('#__update_sites_extensions', 'se') .
+			' ON ' . $db->quoteName('se.extension_id') . ' = ' . $db->quoteName('ex.extension_id')
 		)->leftJoin(
-			$db->qn('#__update_sites', 'si') .
-			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
+			$db->quoteName('#__update_sites', 'si') .
+			' ON ' . $db->quoteName('si.update_site_id') . ' = ' . $db->quoteName('se.update_site_id')
 		)->where(
-			$db->qn('ex.package_id') . ' = 0'
+			$db->quoteName('ex.package_id') . ' = 0'
 		);
 
 		$db->setQuery($query);
@@ -1378,13 +1395,13 @@ ENDDATA;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('us.location'))
-			->from($db->qn('#__update_sites', 'us'))
+		$query->select($db->quoteName('us.location'))
+			->from($db->quoteName('#__update_sites', 'us'))
 			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+				$db->quoteName('#__update_sites_extensions', 'e')
+				. ' ON ' . $db->quoteName('e.update_site_id') . ' = ' . $db->quoteName('us.update_site_id')
 			)
-			->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
+			->where($db->quoteName('e.extension_id') . ' = ' . (int) $extensionID);
 
 		$db->setQuery($query);
 

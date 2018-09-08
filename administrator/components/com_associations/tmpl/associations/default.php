@@ -71,7 +71,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -133,7 +133,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
 							<?php endif; ?>
-							<td class="d-none d-md-table-cell text-center">
+							<td class="d-none d-md-table-cell">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>
