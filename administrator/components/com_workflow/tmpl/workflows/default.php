@@ -93,7 +93,7 @@ $userId = $user->id;
 						<?php foreach ($this->workflows as $i => $item):
 							$states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);
 							$transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
-							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id);
+							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id . '&extension=' . $extension);
 
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
 							// @TODO set proper checkin fields
