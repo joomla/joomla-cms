@@ -9,7 +9,7 @@ CREATE TABLE "#__privacy_consents" (
   "id" serial NOT NULL,
   "user_id" bigint DEFAULT 0 NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "subjext" varchar(255) DEFAULT '' NOT NULL,
+  "subject" varchar(255) DEFAULT '' NOT NULL,
   "body" text NOT NULL,
   "remind" smallint DEFAULT 0 NOT NULL,
   "token" varchar(100) DEFAULT '' NOT NULL,
