@@ -52,8 +52,7 @@
 						class="img-fluid"
 						type="media"
 				 		default=""
-						label="TPL_ATUM_LOGINLOGO_LABEL"
-						description="TPL_ATUM_LOGINLOGO_DESC"/>
+						label="TPL_ATUM_LOGINLOGO_LABEL" />
 			</fieldset>
 		</fields>
 	</config>
