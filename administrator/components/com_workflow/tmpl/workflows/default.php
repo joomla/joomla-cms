@@ -63,28 +63,28 @@ $userId = $user->id;
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<td style="width:1%" class="nowrap text-center hidden-sm-down">
+								<td style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col"  style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col"  style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap hidden-sm-down">
+								<th class="hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center nowrap hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-right hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -102,7 +102,7 @@ $userId = $user->id;
 							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="0">
-								<td class="order nowrap text-center hidden-sm-down">
+								<td class="order text-center hidden-sm-down">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -121,7 +121,7 @@ $userId = $user->id;
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php endif; ?>
 								</td>
-								<td class="order nowrap text-center hidden-sm-down">
+								<td class="order text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
