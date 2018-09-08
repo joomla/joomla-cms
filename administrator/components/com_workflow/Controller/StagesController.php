@@ -88,7 +88,7 @@ class StagesController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -173,7 +173,7 @@ class StagesController extends AdminController
 	 */
 	public function checkin()
 	{
-		parent::checkin();
+		$result = parent::checkin();
 
 		$this->setRedirect(
 			Route::_(
@@ -182,6 +182,8 @@ class StagesController extends AdminController
 				. '&workflow_id=' . $this->workflowId, false
 			)
 		);
+
+		return $result;
 	}
 
 	/**
