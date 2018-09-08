@@ -196,7 +196,7 @@ class InstallerHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('extension_id, name')
+			->select($db->quoteName(array('extension_id', 'name')))
 			->from('#__extensions')
 			->where('type = ' . $db->quote('package'))
 			->order('name');
