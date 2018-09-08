@@ -1038,7 +1038,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   3.0
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
