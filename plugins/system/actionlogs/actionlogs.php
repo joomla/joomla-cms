@@ -287,12 +287,15 @@ class PlgSystemActionLogs extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isNew, $success, $msg)
 	{
-		if ($isNew || empty($user['id']))
+		if (!$success)
 		{
-			return;
+			return false;
 		}
 
-		$exists = false;
+		// Clear access rights in case user groups were changes.
+		$userObject = JFactory::getUser($user['id']);
+		$userObject->clearAccessRights();
+		$authorised = $userObject->authorise('core.admin');
 
 		$query = $this->db->getQuery(true)
 			->select('COUNT(*)')
@@ -301,7 +304,7 @@ class PlgSystemActionLogs extends JPlugin
 
 		try
 		{
-			$exists = $this->db->setQuery($query)->loadResult();
+			$exists = (bool) $this->db->setQuery($query)->loadResult();
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
@@ -309,30 +312,27 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		// If preferences don't exist, insert.
-		if (!$exists)
+		if (!$exists && $authorised && isset($user['actionlogsNotify']))
 		{
 			$query = $this->db->getQuery(true)
 				->insert($this->db->quoteName('#__action_logs_users'))
 				->columns($this->db->quoteName(array('user_id', 'notify')))
 				->values((int) $user['id'] . ',' . (int) $user['actionlogsNotify']);
 		}
-		else
+		elseif ($exists && !$authorised)
 		{
 			// Remove preferences if user is not authorised.
-			if (!JUser::getInstance($user['id'])->authorise('core.admin'))
-			{
-				$query = $this->db->getQuery(true)
-					->delete($this->db->quoteName('#__action_logs_users'))
-					->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
-			}
-			else
-			{
-				// Update preferences.
-				$query = $this->db->getQuery(true)
-					->update($this->db->quoteName('#__action_logs_users'))
-					->set($this->db->quoteName('notify') . ' = ' . (int) $user['actionlogsNotify'])
-					->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
-			}
+			$query = $this->db->getQuery(true)
+				->delete($this->db->quoteName('#__action_logs_users'))
+				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
+		}
+		elseif ($exists && $authorised && isset($user['actionlogsNotify']))
+		{
+			// Update preferences.
+			$query = $this->db->getQuery(true)
+				->update($this->db->quoteName('#__action_logs_users'))
+				->set($this->db->quoteName('notify') . ' = ' . (int) $user['actionlogsNotify'])
+				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
 		}
 
 		try
