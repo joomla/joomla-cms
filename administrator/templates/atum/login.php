@@ -77,8 +77,11 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 				</noscript>
 				<?php // Begin Content ?>
 				<div id="element-box" class="login-box">
-					<div class="login-box-header">
-						<h1 class="text-center m-0"><?php echo $loginLogo ? '<img src="' . JURI::root() . '/' . $loginLogo . '" class="img-responsive">' : $sitename; ?></h1>
+					<div class="login-box-header text-center">
+						<h1 class="m-0"><?php echo $sitename; ?></h1>
+						<?php if ($loginLogo) : ?>
+						<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="<?php echo $sitename; ?>">
+						<?php endif; ?>
 					</div>
 					<div class="login-box-body">
 						<jdoc:include type="message" />
