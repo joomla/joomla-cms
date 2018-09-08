@@ -7623,7 +7623,7 @@ textarea.noResize {
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
 }
-.field-media-input {
+input.field-media-input {
 	width: auto;
 }
 .header {
