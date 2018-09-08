@@ -78,7 +78,7 @@ class InstallerHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT type')
+			->select('DISTINCT ' . $db->quoteName('type'))
 			->from('#__extensions');
 		$db->setQuery($query);
 		$types = $db->loadColumn();
@@ -104,7 +104,7 @@ class InstallerHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT folder')
+			->select('DISTINCT ' . $db->quoteName('folder'))
 			->from('#__extensions')
 			->where('folder != ' . $db->quote(''))
 			->order('folder');
