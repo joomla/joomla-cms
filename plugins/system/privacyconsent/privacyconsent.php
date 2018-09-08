@@ -615,7 +615,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(array('id', 'user_id')))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $query->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('state') . ' = 1');
 		$db->setQuery($query);
