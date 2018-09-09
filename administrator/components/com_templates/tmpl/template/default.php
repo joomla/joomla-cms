@@ -9,19 +9,32 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 // Include the component HTML helpers.
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE');
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE');
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF');
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF');
+
+HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));
+
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
+HTMLHelper::_('behavior.multiselect', 'updateForm');
+
 
 $input = Factory::getApplication()->input;
 
@@ -56,7 +69,7 @@ if ($this->type == 'font')
 <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'editor')); ?>
 <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-6" id="conditional-section">
 		<?php if($this->type == 'file') : ?>
 			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
@@ -70,6 +83,14 @@ if ($this->type == 'font')
 			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 		<?php endif; ?>
 	</div>
+	<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
+		<div class="col-md-6 text-right">
+			<div id="toggle-buttons">
+				<?php echo $this->form->getInput('show_core'); ?>
+				<?php echo $this->form->getInput('show_diff'); ?>
+			</div>
+		</div>
+	<?php endif; ?>
 </div>
 <div class="row">
 	<div id="treeholder" class="col-md-3 tree-holder">
@@ -90,15 +111,41 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'file') : ?>
-			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-				<div class="editor-border">
-					<?php echo $this->form->getInput('source'); ?>
+			<div class="row">
+				<div class="col-md-12" id="override-pane">
+					<?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
+					<?php if ($overrideCheck['1'] === 'html') : ?>
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
+					<?php endif; ?>
+					<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+						<div class="editor-border">
+							<?php echo $this->form->getInput('source'); ?>
+						</div>
+						<input type="hidden" name="task" value="" />
+						<?php echo HTMLHelper::_('form.token'); ?>
+						<?php echo $this->form->getInput('extension_id'); ?>
+						<?php echo $this->form->getInput('filename'); ?>
+					</form>
 				</div>
-				<input type="hidden" name="task" value="" />
-				<?php echo HTMLHelper::_('form.token'); ?>
-				<?php echo $this->form->getInput('extension_id'); ?>
-				<?php echo $this->form->getInput('filename'); ?>
-			</form>
+				<?php if (!empty($this->source->coreFile)) : ?>
+					<?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
+					<?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
+					<div class="col-md-6" id="core-pane">
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
+						<div class="editor-border">
+							<?php echo $this->form->getInput('core'); ?>
+						</div>
+					</div>
+					<div class="col-md-12" id="diff-main">
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
+						<div class="diff-pane">
+							<div class="diffview d-none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div class="diffview d-none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div id="diff"></div>
+						</div>
+					</div>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 		<?php if ($this->type == 'archive') : ?>
 			<legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
@@ -268,7 +315,15 @@ if ($this->type == 'font')
 
 <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
+
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+<?php if ($this->pluginState) : ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'files', Text::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
+	<?php echo $this->loadTemplate('updated_files'); ?>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
+<?php endif; ?>
+
 <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 <?php // Collapse Modal

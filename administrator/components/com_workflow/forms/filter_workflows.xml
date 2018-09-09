@@ -10,8 +10,6 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
-			description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
 			onchange="this.form.submit();"
 			filter="-2,0,1"
 			>
