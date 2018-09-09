@@ -53,14 +53,13 @@ interface WorkflowServiceInterface
 	public static function getConditions($extension): array;
 
 	/**
-	 * Returns the table for the count items functions for the given section.
+	 * Returns a table name for the state association
 	 *
-	 * @param   array   $stage_ids  The stage ids to test for
-	 * @param   string  $section    The section
+	 * @param   string  $section  An optional section to differ different areas in the component
 	 *
-	 * @return  bool
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function canDeleteStages(array $stage_ids, string $section = '') : bool;
+	public function getWorkflowTableBySection(string $section = null) : string;
 }

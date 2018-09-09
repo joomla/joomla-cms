@@ -44,7 +44,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * The save event.
 	 *
 	 * @param   string   $context  The context
-	 * @param   object   $item     The item
+	 * @param   object   $table    The item
 	 * @param   boolean  $isNew    Is new item
 	 * @param   array    $data     The validated data
 	 *
@@ -52,12 +52,28 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentBeforeSave($context, $item, $isNew, $data)
+	public function onContentBeforeSave($context, $table, $isNew, $data)
 	{
 		// Check we are handling the frontend edit form.
-		if (!in_array($context, ['com_content.form', 'com_content.article']) || $isNew)
+		if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew)
 		{
 			return true;
+		}
+
+		$item = clone $table;
+
+		$item->load($table->id);
+
+		if ($item->published != -2 && $data['published'] == -2)
+		{
+			switch ($context)
+			{
+				case 'com_workflow.workflow':
+					return $this->_canDeleteWorkflow($item->id);
+
+				case 'com_workflow.stage':
+					return $this->_canDeleteStage($item->id);
+			}
 		}
 	}
 
@@ -161,11 +177,11 @@ class PlgContentJoomla extends CMSPlugin
 			case 'com_categories.category':
 				return $this->_canDeleteCategories($data);
 
-			case 'com_workflow.stage':
-				return $this->_canDeleteWorkflow($data->id, $context);
+			case 'com_workflow.workflow':
+				return $this->_canDeleteWorkflow($data->id);
 
 			case 'com_workflow.stage':
-				return $this->_canDeleteStage($data->id, $context);
+				return $this->_canDeleteStage($data->id);
 		}
 	}
 
@@ -201,7 +217,7 @@ class PlgContentJoomla extends CMSPlugin
 			}
 		}
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -332,12 +348,12 @@ class PlgContentJoomla extends CMSPlugin
 
 		$stage_ids = ArrayHelper::getColumn($stages, 'id');
 
-		$result = $component->canDeleteStages($stage_ids, $section);
+		$result = $this->_countItemsInStage($stage_ids, $table->extension);
 
 		// Return false if db error
-		if (!$result)
+		if ($result > 0)
 		{
-			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'));
+			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_WORKFLOW_IS_ASSIGNED'));
 		}
 
 		return true;
@@ -382,13 +398,6 @@ class PlgContentJoomla extends CMSPlugin
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		$section = '';
-
-		if (!empty($parts[1]))
-		{
-			$section = $parts[1];
-		}
-
 		// No core interface => we're ok
 		if (!$component instanceof WorkflowServiceInterface)
 		{
@@ -397,12 +406,12 @@ class PlgContentJoomla extends CMSPlugin
 
 		$stage_ids = [$table->id];
 
-		$result = $component->canDeleteStages($stage_ids, $section);
+		$result = $this->_countItemsInStage($stage_ids, $workflow->extension);
 
 		// Return false if db error
-		if (!$result)
+		if ($result > 0)
 		{
-			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'));
+			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_STAGE_IS_ASSIGNED'));
 		}
 
 		return true;
@@ -441,6 +450,65 @@ class PlgContentJoomla extends CMSPlugin
 		}
 
 		return $count;
+	}
+
+
+
+	/**
+	 * Get count of items in assigned to a stage
+	 *
+	 * @param   array   $stage_ids  The stage ids to test for
+	 * @param   string  $extension  The extension of the workflow
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function _countItemsInStage(array $stage_ids, string $extension) : bool
+	{
+		$db = $this->db;
+
+		$parts = explode('.', $extension);
+
+		$stage_ids = ArrayHelper::toInteger($stage_ids);
+		$stage_ids = array_filter($stage_ids);
+
+		$section = '';
+
+		if (!empty($parts[1]))
+		{
+			$section = $parts[1];
+		}
+
+		$component = Factory::getApplication()->bootComponent($parts[0]);
+
+		$table = $component->getWorkflowTableBySection($section);
+
+		if (empty($stage_ids) || !$table)
+		{
+			return true;
+		}
+
+		$query = $db->getQuery(true);
+
+		$query	->select('COUNT(' . $db->quoteName('b.id') . ')')
+				->from($query->quoteName('#__workflow_associations', 'wa'))
+				->from($query->quoteName('#__workflow_stages', 's'))
+				->from($db->quoteName($table, 'b'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
+				->whereIn($db->quoteName('s.id'), $stage_ids);
+
+		try
+		{
+			return (int) $db->setQuery($query)->loadResult();
+		}
+		catch (Exception $ex)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return false;
 	}
 
 	/**

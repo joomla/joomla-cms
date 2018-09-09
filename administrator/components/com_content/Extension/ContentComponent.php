@@ -186,7 +186,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getWorkflowTableBySection(string $section = null)
+	public function getWorkflowTableBySection(string $section = null) : string
 	{
 		return '#__content';
 	}
