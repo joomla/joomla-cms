@@ -274,7 +274,7 @@ class PluginsModelPlugins extends JModelList
 		if ($packageId != '')
 		{
 			$query->select((int) $packageId . ' AS search_package_id')
-			      ->where('package_id = ' . (int) $packageId);
+			      ->where($db->quoteName('package_id') . ' = ' . (int) $packageId);
 		}
 
 		// Filter by search in name or id.
