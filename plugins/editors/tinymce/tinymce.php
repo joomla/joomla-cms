@@ -266,7 +266,7 @@ class PlgEditorTinymce extends JPlugin
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		// List the skins
-		if($side == 'skin_admin')
+		if ($side == 'skin_admin')
 		{
 			$skindirs = glob(JPATH_ROOT . '../media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 		}
