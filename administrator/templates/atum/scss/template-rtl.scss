@@ -38,9 +38,6 @@ body {
 }
 
 .dropdown-menu-right {
-  right: auto;
-  left: 0;
-
   &::after {
     right: auto;
     left: .9rem;
