@@ -24,7 +24,6 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 HTMLHelper::_('behavior.multiselect');
 
 
-$app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $extension = $this->escape($this->state->get('filter.extension'));
