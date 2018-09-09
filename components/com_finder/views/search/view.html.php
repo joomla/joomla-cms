@@ -93,6 +93,9 @@ class FinderViewSearch extends JViewLegacy
 		$pagination = $this->get('Pagination');
 		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

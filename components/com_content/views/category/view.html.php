@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -71,15 +73,19 @@ class ContentViewCategory extends JViewCategory
 	{
 		parent::commonCategoryDisplay();
 
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
+
 		// Prepare the data
 		// Get the metrics for the structural page layout.
 		$params     = $this->params;
 		$numLeading = $params->def('num_leading_articles', 1);
 		$numIntro   = $params->def('num_intro_articles', 4);
 		$numLinks   = $params->def('num_links', 4);
-		$this->vote = JPluginHelper::isEnabled('content', 'vote');
+		$this->vote = PluginHelper::isEnabled('content', 'vote');
 
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -96,8 +102,6 @@ class ContentViewCategory extends JViewCategory
 
 			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new stdClass;
-
-			$dispatcher = JEventDispatcher::getInstance();
 
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
@@ -118,29 +122,6 @@ class ContentViewCategory extends JViewCategory
 
 			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
-		}
-
-		// Check for layout override only if this is not the active menu item
-		// If it is the active menu item, then the view and category id will match
-		$app     = JFactory::getApplication();
-		$active  = $app->getMenu()->getActive();
-		$menus   = $app->getMenu();
-		$pathway = $app->getPathway();
-		$title   = null;
-
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
-		{
-			// Get the layout from the merged category params
-			if ($layout = $this->category->params->get('category_layout'))
-			{
-				$this->setLayout($layout);
-			}
-		}
-		// At this point, we are in a menu item, so we don't override the layout
-		elseif (isset($active->query['layout']))
-		{
-			// We need to set the layout from the query in case this is an alternative menu item (with an alternative layout)
-			$this->setLayout($active->query['layout']);
 		}
 
 		// For blog layouts, preprocess the breakdown of leading, intro and linked articles.
@@ -182,16 +163,17 @@ class ContentViewCategory extends JViewCategory
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$app    = Factory::getApplication();
+		$active = $app->getMenu()->getActive();
 
-		if ($menu
-			&& $menu->component == 'com_content'
-			&& isset($menu->query['view'], $menu->query['id'])
-			&& $menu->query['view'] == 'category'
-			&& $menu->query['id'] == $this->category->id)
+		if ($active
+			&& $active->component == 'com_content'
+			&& isset($active->query['view'], $active->query['id'])
+			&& $active->query['view'] == 'category'
+			&& $active->query['id'] == $this->category->id)
 		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-			$title = $this->params->get('page_title', $menu->title);
+			$this->params->def('page_heading', $this->params->get('page_title', $active->title));
+			$title = $this->params->get('page_title', $active->title);
 		}
 		else
 		{
@@ -199,8 +181,6 @@ class ContentViewCategory extends JViewCategory
 			$title = $this->category->title;
 			$this->params->set('page_title', $title);
 		}
-
-		$id = (int) @$menu->query['id'];
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))

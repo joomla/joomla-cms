@@ -237,6 +237,8 @@ class Editor extends \JObject
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use JHtml::script
 	 */
 	public function initialise()
 	{
