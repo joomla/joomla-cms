@@ -7623,6 +7623,9 @@ textarea.noResize {
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
 }
+input.field-media-input {
+	width: auto;
+}
 .header {
 	background-color: #1a3867;
 	border-top: 1px solid rgba(255,255,255,0.2);
