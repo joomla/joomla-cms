@@ -54,25 +54,25 @@ if ($saveOrder)
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<td style="width:1%" class="nowrap text-center hidden-sm-down">
+								<td style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap hidden-sm-down">
+								<th scope="col" style="width:10%" class="hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STAGE', 't.from_stage', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STAGE', 't.to_stage', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-right hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-right hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -86,7 +86,7 @@ if ($saveOrder)
 								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin;								?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td class="order nowrap text-center hidden-sm-down">
+									<td class="order text-center hidden-sm-down">
 										<?php
 										$iconClass = '';
 										if (!$canChange)
@@ -104,7 +104,7 @@ if ($saveOrder)
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 										<?php endif; ?>									</td>
-									<td class="order nowrap text-center hidden-sm-down">
+									<td class="order text-center hidden-sm-down">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">

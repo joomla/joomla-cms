@@ -121,7 +121,8 @@ class HtmlView extends BaseHtmlView
 
 		if (!empty($this->stages))
 		{
-			$workflow = new Workflow(['extension' => 'com_content']);
+			$extension = Factory::getApplication()->input->getCmd('extension');
+			$workflow  = new Workflow(['extension' => $extension]);
 
 			foreach ($this->stages as $i => $item)
 			{
