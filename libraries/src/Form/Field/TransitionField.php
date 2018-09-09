@@ -12,9 +12,9 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
@@ -43,6 +43,13 @@ class TransitionField extends ListField
 	protected $extension;
 
 	/**
+	 * The workflow stage to use.
+	 *
+	 * @var   integer
+	 */
+	protected $workflowStage;
+
+	/**
 	 * Method to setup the extension
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
@@ -61,7 +68,24 @@ class TransitionField extends ListField
 
 		if ($result)
 		{
-			$this->extension = $element['extension'] ?? 'com_content';
+			$input = Factory::getApplication()->input;
+
+			if (strlen($element['extension']))
+			{
+				$this->extension = (string) $element['extension'];
+			}
+			else
+			{
+				$this->extension = $input->getCmd('extension');
+			}
+			if (strlen($element['workflow_stage']))
+			{
+				$this->workflowStage = (int) $element['workflow_stage'];
+			}
+			else
+			{
+				$this->workflowStage = $input->getInt('id');
+			}
 		}
 
 		return $result;
@@ -81,8 +105,8 @@ class TransitionField extends ListField
 
 		// Initialise variable.
 		$db = Factory::getDbo();
-		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-		$workflowStage = $this->element['workflow_stage'] ? (int) $this->element['workflow_stage'] : (int) $jinput->getInt('id', 0);
+		$extension = $this->extension;
+		$workflowStage = $this->workflowStage;
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
@@ -123,7 +147,7 @@ class TransitionField extends ListField
 			{
 				$conditionName = $workflow->getConditionName($item->condition);
 
-				$item->text .= ' [' . \JText::_($conditionName) . ']';
+				$item->text .= ' [' . Text::_($conditionName) . ']';
 			}
 		}
 

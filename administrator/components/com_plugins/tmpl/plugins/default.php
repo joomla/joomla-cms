@@ -42,28 +42,28 @@ if ($saveOrder)
 			<table class="table" id="pluginList">
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<td style="width:1%" class="nowrap text-center">
+						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -76,7 +76,7 @@ if ($saveOrder)
 					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder; ?>">
-						<td class="order nowrap text-center d-none d-md-table-cell">
+						<td class="order text-center d-none d-md-table-cell">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -113,16 +113,16 @@ if ($saveOrder)
 									<?php echo $item->name; ?>
 							<?php endif; ?>
 						</th>
-						<td class="nowrap small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->folder); ?>
 						</td>
-						<td class="nowrap small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->element); ?>
 						</td>
-						<td class="small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="d-none d-md-table-cell text-center">
+						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->extension_id; ?>
 						</td>
 					</tr>

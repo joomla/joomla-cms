@@ -41,6 +41,27 @@ class PlgContentJoomla extends CMSPlugin
 	protected $db;
 
 	/**
+	 * The save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   object   $item     The item
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentBeforeSave($context, $item, $isNew, $data)
+	{
+		// Check we are handling the frontend edit form.
+		if (!in_array($context, ['com_content.form', 'com_content.article']) || $isNew)
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * Example after save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
