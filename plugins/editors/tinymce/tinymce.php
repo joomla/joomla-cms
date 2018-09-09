@@ -261,12 +261,19 @@ class PlgEditorTinymce extends JPlugin
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
-		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
-
 		// Set the selected skin
 		$skin = 'lightgray';
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
+
+		// List the skins
+		if($side == 'skin_admin')
+		{
+			$skindirs = glob(JPATH_ROOT . '../media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		}
+		else
+		{
+			$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		}
 
 		if ((int) $levelParams->get($side, 0) < count($skindirs))
 		{
