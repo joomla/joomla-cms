@@ -576,7 +576,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 					->update($db->quoteName('#__privacy_consents'))
 					->set($db->quoteName('remind') . ' = 1 ')
 					->set($db->quoteName('token') . ' = ' . $db->quote($hashedToken))
-					->where($db->quoteName('id') . ' = ' . $db->quote($user->id));
+					->where($db->quoteName('id') . ' = ' . (int) $user->id);
 				$db->setQuery($query);
 
 				try
@@ -646,7 +646,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
 				->set('state = 0')
-				->where($db->quoteName('id') . ' = ' . $user->id);
+				->where($db->quoteName('id') . ' = ' . (int) $user->id);
 			$db->setQuery($query);
 
 			try
