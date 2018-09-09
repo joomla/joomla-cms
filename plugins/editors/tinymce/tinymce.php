@@ -261,17 +261,9 @@ class PlgEditorTinymce extends JPlugin
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
-		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
-
-		// Set the selected skin
-		$skin = 'lightgray';
+		// Get the selected skin
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
-
-		if ((int) $levelParams->get($side, 0) < count($skindirs))
-		{
-			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
-		}
+		$skin = $levelParams->get($side, '');
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
@@ -1306,18 +1298,9 @@ class PlgEditorTinymce extends JPlugin
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
 
-		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
-
-
-		// Set the selected skin
-		$skin = 'lightgray';
+		// Get the selected skin
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
-
-		if ((int) $this->params->get($side, 0) < count($skindirs))
-		{
-			$skin = basename($skindirs[(int) $this->params->get($side, 0)]);
-		}
+		$skin = $this->params->get($side, '');
 
 		$langMode        = $this->params->get('lang_mode', 0);
 		$langPrefix      = $this->params->get('lang_code', 'en');

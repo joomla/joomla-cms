@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.form.helper');
 
-JFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('folderlist');
 
 /**
  * Generates the list of options for available skins.
@@ -20,32 +20,35 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends JFormFieldList
+class JFormFieldSkins extends JFormFieldFolderList
 {
 	protected $type = 'skins';
 
 	/**
-	 * Method to get the skins options.
+	 * Method to attach a JForm object to the field.
 	 *
-	 * @return  array  The skins option objects.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
 	 *
-	 * @since   3.4
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   3.7.0
 	 */
-	public function getOptions()
+	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$options = array();
+		$return = parent::setup($element, $value, $group);
 
-		$directories = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		// Get the path in which to search for skin options.
+		$this->directory   = JPATH_ROOT . '/media/editors/tinymce/skins';
+		$this->recursive   = false;
+		$this->hideNone = true;
+		$this->hideDefault = true;
 
-		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
-		{
-			$dir = basename($directories[$i]);
-			$options[] = JHtml::_('select.option', $i, $dir);
-		}
-
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return $return;
 	}
 
 	/**
