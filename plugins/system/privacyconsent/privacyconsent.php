@@ -515,7 +515,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			->from($db->quoteName('#__privacy_consents', 'r'))
 			->leftJoin($db->quoteName('#__users', 'u') . ' ON u.id = r.user_id')
 			->where($db->quoteName('remind') . ' = 0');
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'));
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
@@ -576,7 +576,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 					->update($db->quoteName('#__privacy_consents'))
 					->set($db->quoteName('remind') . ' = 1 ')
 					->set($db->quoteName('token') . ' = ' . $db->quote($hashedToken))
-					->where($db->quoteName('id') . ' = ' . $db->quote($user->id));
+					->where($db->quoteName('id') . ' = ' . (int) $user->id);
 				$db->setQuery($query);
 
 				try
@@ -613,7 +613,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(array('id', 'user_id')))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $query->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('state') . ' = 1');
 		$db->setQuery($query);
@@ -644,7 +644,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
 				->set('state = 0')
-				->where($db->quoteName('id') . ' = ' . $user->id);
+				->where($db->quoteName('id') . ' = ' . (int) $user->id);
 			$db->setQuery($query);
 
 			try
