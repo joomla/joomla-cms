@@ -2,6 +2,11 @@ build: false
 platform:
   - x64
 clone_folder: C:\projects\joomla-cms
+
+branches:
+  except:
+    - /l10n_*/
+
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
