@@ -41,31 +41,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<table class="table">
 							<thead>
 							<tr>
-								<td style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap text-center">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap text-center">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
-								<th scope="col" class="nowrap center">
+								<th scope="col">
 									<?php echo Text::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th scope="col" style="width:40%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:40%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 								</th>
 							</tr>
@@ -78,7 +78,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								$current_version = $manifest->version ?? Text::_('JLIB_UNKNOWN');
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td>
+									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
 									</td>
 									<th scope="row">
@@ -94,16 +94,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="center">
 										<?php echo $item->type_translated; ?>
 									</td>
-									<td class="d-none d-md-table-cell text-center">
+									<td class="d-none d-md-table-cell">
 										<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
 									</td>
 									<td>
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
-									<td class="d-none d-md-table-cell text-center">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->folder_translated; ?>
 									</td>
-									<td class="d-none d-md-table-cell text-center">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->install_type; ?>
 									</td>
 									<td class="d-none d-md-table-cell">

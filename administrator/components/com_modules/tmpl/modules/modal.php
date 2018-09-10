@@ -42,28 +42,28 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 		<table class="table" id="moduleList">
 			<thead>
 				<tr>
-					<th scope="col" style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
 					<th scope="col" class="title">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:1%" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
