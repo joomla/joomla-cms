@@ -1011,9 +1011,9 @@ class Language
 	protected function getCallerInfo()
 	{
 		// Try to determine the source if none was provided
-		if (!function_exists('debug_backtrace'))
+		if (!\function_exists('debug_backtrace'))
 		{
-			return;
+			return [];
 		}
 
 		$backtrace = debug_backtrace();
@@ -1027,8 +1027,8 @@ class Language
 			$step = current($backtrace);
 			$class = @ $step['class'];
 
-			// We're looking for something outside of language.php
-			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'JText')
+			// We're looking for something outside of Language.php
+			if ($class !== __CLASS__ && $class !== Text::class)
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;
