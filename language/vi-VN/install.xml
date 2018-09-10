@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="Ngôn ngữ" method="">
+	<name>Vietnamese-VN</name>
+	<tag>vi-VN</tag>
+	<version/>
+	<creationDate/>
+	<author>Vietnamese Translation Team Translation Team</author>
+	<authorEmail>info@joomlaviet.info</authorEmail>
+	<authorUrl>http://joomlaviet.info</authorUrl>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>Vietnamese language pack for Joomla! 3.2</description>
+	<files>
+		<folder/>
+		<filename file="">index.html</filename>
+	</files>
+	<params/>
+</extension>
