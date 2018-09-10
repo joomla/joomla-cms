@@ -416,6 +416,13 @@ INSERT INTO "#__contentitem_tag_map" ("type_alias", "core_content_id", "content_
 ('com_content.article', 2, 71, 3, '2013-10-15 14:58:28', 1),
 ('com_content.article', 2, 71, 4, '2013-10-15 14:58:28', 1);
 
+
+--
+-- Creating Associations for existing content
+--
+INSERT INTO "#__workflow_associations" ("item_id", "stage_id", "extension")
+SELECT "id", CASE WHEN "state" = -2 THEN 3 WHEN "state" = 0 THEN 1 WHEN "state" = 2 THEN 4 ELSE 2 END, 'com_content' FROM "#__content";
+
 --
 -- Dumping data for table `#__menu`
 --
@@ -581,7 +588,6 @@ INSERT INTO "#__modules" ("id", "title", "note", "content", "ordering", "positio
 (9, 'Quick Icons', '', '', 1, 'icon', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
 (10, 'Logged-in Users', '', '', 4, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
 (12, 'Admin Menu', '', '', 1, 'menu', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(13, 'Admin Submenu', '', '', 1, 'submenu', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_submenu', 3, 1, '', 1, '*'),
 (14, 'User Status', '', '', 2, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
 (15, 'Title', '', '', 1, 'title', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
 (16, 'Login Form', '', '', 2, 'sidebar-right', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_login', 1, 1, '{"pretext":"","posttext":"","login":"","logout":"","greeting":"1","profilelink":"0","name":"0","usetext":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"card-title","style":"Cassiopeia-cardGrey"}', 0, '*'),
@@ -676,7 +682,6 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (9, 0),
 (10, 0),
 (12, 0),
-(13, 0),
 (14, 0),
 (15, 0),
 (16, 0),
