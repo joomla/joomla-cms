@@ -147,12 +147,14 @@ abstract class JDatabaseQuery
 	/**
 	 * @var    JDatabaseQueryElement  The union element.
 	 * @since  12.1
+	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $union = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The unionAll element.
 	 * @since  13.1
+	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $unionAll = null;
 
@@ -1497,8 +1499,11 @@ abstract class JDatabaseQuery
 	 * Usage (the $query base query MUST be a select query):
 	 * $query->union('SELECT name FROM  #__foo')
 	 * $query->union('SELECT name FROM  #__foo', true)
-	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 * $query->union($query2)->union($query3)
+	 *
+	 * The $query attribute as an array is deprecated and will not be supported in 4.0.
+	 *
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 * $query->union(array($query2, $query3))
 	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
@@ -1523,6 +1528,11 @@ abstract class JDatabaseQuery
 		{
 			$glue = ')' . PHP_EOL . 'UNION (';
 			$name = 'UNION ()';
+		}
+
+		if (is_array($query))
+		{
+			JLog::add('Query attribute as an array is deprecated.', JLog::WARNING, 'deprecated');
 		}
 
 		// Get the JDatabaseQueryElement if it does not exist
@@ -1553,6 +1563,7 @@ abstract class JDatabaseQuery
 	 * @see     union
 	 *
 	 * @since   12.1
+	 * @deprecated  4.0  Use union() instead.
 	 */
 	public function unionDistinct($query, $glue = '')
 	{
@@ -1756,7 +1767,7 @@ abstract class JDatabaseQuery
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 * Note: Not all drivers support all units.
 	 *
-	 * @param   mixed   $date      The date to add to. May be date or datetime
+	 * @param   string  $date      The db quoted string representation of the date to add to. May be date or datetime
 	 * @param   string  $interval  The string representation of the appropriate number of units
 	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
@@ -1767,7 +1778,7 @@ abstract class JDatabaseQuery
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return trim("DATE_ADD('" . $date . "', INTERVAL " . $interval . ' ' . $datePart . ')');
+		return 'DATE_ADD(' . $date . ', INTERVAL ' . $interval . ' ' . $datePart . ')';
 	}
 
 	/**
@@ -1776,6 +1787,9 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->union('SELECT name FROM  #__foo')
+	 *
+	 * The $query attribute as an array is deprecated and will not be supported in 4.0.
+	 *
 	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
@@ -1792,6 +1806,11 @@ abstract class JDatabaseQuery
 	{
 		$glue = ')' . PHP_EOL . 'UNION ALL (';
 		$name = 'UNION ALL ()';
+
+		if (is_array($query))
+		{
+			JLog::add('Query attribute as an array is deprecated.', JLog::WARNING, 'deprecated');
+		}
 
 		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->unionAll))

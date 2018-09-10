@@ -83,7 +83,7 @@ class LanguagesModelInstalled extends JModelList
 				'author',
 				'authorEmail',
 				'extension_id',
-				'cliend_id',
+				'client_id',
 			);
 		}
 

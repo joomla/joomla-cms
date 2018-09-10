@@ -625,7 +625,14 @@ abstract class FormField
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
-		$this->value = $value;
+		if ($element['multiple'] && is_string($value) && is_array(json_decode($value, true)))
+		{
+			$this->value = (array) json_decode($value);
+		}
+		else 
+		{
+			$this->value = $value;
+		}
 
 		// Lets detect miscellaneous data attribute. For eg, data-*
 		foreach ($this->element->attributes() as $key => $value)

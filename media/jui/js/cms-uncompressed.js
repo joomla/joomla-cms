@@ -4,9 +4,7 @@
  */
 
 // Only define the Joomla namespace if not defined.
-if (typeof(Joomla) === 'undefined') {
-	var Joomla = {};
-}
+Joomla = window.Joomla || {};
 
 !(function(document, Joomla) {
 	"use strict";
@@ -139,11 +137,21 @@ if (typeof(Joomla) === 'undefined') {
 				}
 			}
 
-			// If conditions are satisfied show the target field(s), else hide
-			if (animate) {
+			// If conditions are satisfied show the target field(s), else hide.
+			// Note that animations don't work on list options other than in Chrome.
+			if (animate && !target.is('option')) {
 				(showfield) ? target.slideDown() : target.slideUp();
 			} else {
 				target.toggle(showfield);
+				if (target.is('option')) {
+					target.attr('disabled', showfield ? false : true);
+					// If chosen active for the target select list then update it
+					var parent = target.parent();
+					if ($('#' + parent.attr('id') + '_chzn').length) {
+						parent.trigger("liszt:updated");
+						parent.trigger("chosen:updated");
+					}
+				}
 			}
 		}
 
@@ -161,7 +169,7 @@ if (typeof(Joomla) === 'undefined') {
 				// Use anonymous function to capture arguments
 				(function() {
 					var $target = $($showonFields[is]), jsondata = $target.data('showon') || [],
-						field, $fields                           = $();
+						field, $fields = $();
 
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {

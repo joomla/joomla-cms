@@ -30,7 +30,7 @@
 					hide_none="true"
 					recursive="true"
 				/>
-	
+
 				<field
 					name="preview"
 					type="list"
@@ -43,7 +43,7 @@
 					<option value="true">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_INLINE</option>
 					<option value="false">JNO</option>
 				</field>
-	
+
 				<field
 					name="image_class"
 					type="textarea"

@@ -1582,7 +1582,13 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
 			{
-				$query->where('(' . $this->_db->quoteName($checkedOutField) . ' = 0 OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId . ')');
+				$query->where(
+					'('
+						. $this->_db->quoteName($checkedOutField) . ' = 0'
+						. ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
+						. ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
+					. ')'
+				);
 				$checkin = true;
 			}
 			else

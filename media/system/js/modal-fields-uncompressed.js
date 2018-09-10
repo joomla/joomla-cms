@@ -54,6 +54,10 @@
 			{
 				jQuery('#' + fieldPrefix + '_clear').removeClass('hidden');
 			}
+			if (document.getElementById(fieldPrefix + '_propagate'))
+			{
+				jQuery('#' + fieldPrefix + '_propagate').removeClass('hidden');
+			}
 		}
 		else
 		{
@@ -75,6 +79,10 @@
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
 				jQuery('#' + fieldPrefix + '_clear').addClass('hidden');
+			}
+			if (document.getElementById(fieldPrefix + '_propagate'))
+			{
+				jQuery('#' + fieldPrefix + '_propagate').addClass('hidden');
 			}
 		}
 

@@ -8,7 +8,7 @@
 	$.subformRepeatable = function(container, options){
 		this.$container = $(container);
 
-		// check if alredy exist
+		// check if already exist
 		if(this.$container.data("subformRepeatable")){
 			return self;
 		}
@@ -144,14 +144,13 @@
 
 	// fix names ind id`s for field that in $row
 	$.subformRepeatable.prototype.fixUniqueAttributes = function($row, count){
-		this.lastRowNum++;
 		var group = $row.attr('data-group'),// current group name
 			basename = $row.attr('data-base-name'), // group base name, without count
 			count    = count || 0,
-			countnew = Math.max(this.lastRowNum, count + 1),
-    		groupnew = basename + countnew; // new group name
+			countnew = Math.max(this.lastRowNum, count),
+			groupnew = basename + countnew; // new group name
 
-		this.lastRowNum = countnew;
+		this.lastRowNum = countnew + 1;
 		$row.attr('data-group', groupnew);
 
 		// Fix inputs that have a "name" attribute
@@ -237,11 +236,6 @@
 		// bootstrap based Media field
 		if($.fn.fieldMedia){
 			$row.find('.field-media-wrapper').fieldMedia();
-		}
-
-		// bootstrap tooltips
-		if($.fn.tooltip){
-			$row.find('.hasTooltip').tooltip({html: true, container: "body"});
 		}
 
 		// bootstrap based User field

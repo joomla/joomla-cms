@@ -153,7 +153,7 @@ abstract class MailHelper
 		}
 
 		// Check the domain
-		$domain_array = explode('.', rtrim($domain, '.'));
+		$domain_array = explode('.', $domain);
 		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 
 		foreach ($domain_array as $domain)

@@ -8,7 +8,7 @@
 				label="INSTL_DATABASE_TYPE_LABEL"
 				id="db_type"
 				class="inputbox"
-				supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
+				supported="mysql,mysqli,pgsql,pdomysql,postgresql,sqlsrv,sqlazure"
 				required="true"
 				default="mysqli"
 				filter="string"
