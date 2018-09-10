@@ -27,10 +27,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table">
 				<thead>
 					<tr>
-						<th class="nowrap">
+						<th>
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap">
+						<th>
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
@@ -38,10 +38,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
 						</th>
 						<?php endforeach; ?>
-						<th style="width:6%" class="nowrap text-center">
+						<th style="width:6%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:3%" class="nowrap text-center">
+						<th style="width:3%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -52,7 +52,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<td>
 								<?php echo $this->escape($item->title); ?>
 							</td>
-							<td class="nowrap">
+							<td>
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
 							</td>
 							<?php foreach ($this->actions as $action) : ?>
@@ -77,11 +77,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<span class="<?php echo $class; ?>"></span>
 							</td>
 							<?php endforeach; ?>
-							<td class="text-center">
+							<td>
 								<?php echo (int) $item->lft; ?>
 								- <?php echo (int) $item->rgt; ?>
 							</td>
-							<td class="text-center">
+							<td>
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>
