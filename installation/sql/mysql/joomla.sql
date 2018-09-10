@@ -83,7 +83,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (53, 18, 86, 87, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 88, 89, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 8, 20, 37, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
+(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
 (57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
 (58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
 (59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
@@ -625,7 +625,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (438, 0, 'plg_quickicon_extensionupdate', 'plugin', 'extensionupdate', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (439, 0, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"clean"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (440, 0, 'plg_system_highlight', 'plugin', 'highlight', 'system', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 7, 0, ''),
-(441, 0, 'plg_content_finder', 'plugin', 'finder', 'content', 0, 0, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(441, 0, 'plg_content_finder', 'plugin', 'finder', 'content', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (442, 0, 'plg_finder_categories', 'plugin', 'categories', 'finder', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 1, 0, ''),
 (443, 0, 'plg_finder_contacts', 'plugin', 'contacts', 'finder', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 2, 0, ''),
 (444, 0, 'plg_finder_content', 'plugin', 'content', 'finder', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 3, 0, ''),
@@ -1988,7 +1988,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
