@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Russian</name>
+	<version/>
+	<creationDate/>
+	<author>Russian Translation Team</author>
+	<authorEmail>smart@joomlaportal.ru</authorEmail>
+	<authorUrl>www.joomlaportal.ru</authorUrl>
+	<copyright/>
+	<license/>
+	<description><![CDATA[Пакет русского языка (сайт) для Joomla! 3.7.0]]></description>
+	<metadata>
+		<name>Russian</name>
+		<nativeName>Русский (Russia)</nativeName>
+		<tag>ru-RU</tag>
+		<rtl>0</rtl>
+		<locale>ru-RU.utf8, ru-RU.UTF-8, ru_RU.utf8, ru-RU.UTF-8, ru-RU, ru_RU, ru, russian, russian-ru</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>
