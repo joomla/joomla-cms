@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>German (DE)</name>
+	<version/>
+	<creationDate/>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2008 - 2018 J!German. All rights reserved.</copyright>
+	<license/>
+	<description><![CDATA[de-LU administrator language]]></description>
+	<metadata>
+		<name>German (DE)</name>
+		<nativeName>Luxembourgish (de-LU)</nativeName>
+		<tag>de-DE</tag>
+		<rtl>0</rtl>
+		<locale>de_DE.utf8, de_DE.UTF-8, de_DE, deu_DE, german, german-de, de, deu, germany</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>
