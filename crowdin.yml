@@ -1,0 +1,7 @@
+files:
+  - source: /language/en-GB/
+    translation: /language/%locale%/%original_file_name%
+  - source: /administrator/language/en-GB/
+    translation: /administrator/language/%locale%/%original_file_name%
+  - source: /installation/language/en-GB/
+    translation: /installation/language/%locale%/%original_file_name%
