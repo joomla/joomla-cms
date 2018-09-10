@@ -1,4 +1,4 @@
-export_languages: en-GB
+export_languages: ["en-GB"]
 files:
   # Administrator
   # Components
