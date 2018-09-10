@@ -53,13 +53,13 @@ class LanguagesModelOverrides extends JModelList
 		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in order to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		// Delete the override.ini file if empty.
-		if (file_exists($filename) && empty($strings))
+		if (file_exists($fileName) && $strings === array())
 		{
-			JFile::delete($filename);
+			JFile::delete($fileName);
 		}
 
 		// Filter the loaded strings according to the search box.
@@ -183,49 +183,6 @@ class LanguagesModelOverrides extends JModelList
 	}
 
 	/**
-	 * Method to get all found languages of frontend and backend.
-	 *
-	 * The resulting array has entries of the following style:
-	 * <Language Tag>0|1 => <Language Name> - <Client Name>
-	 *
-	 * @return  array  Sorted associative array of languages.
-	 *
-	 * @since   2.5
-	 */
-	public function getLanguages()
-	{
-		// Try to load the data from internal storage.
-		if (!empty($this->cache['languages']))
-		{
-			return $this->cache['languages'];
-		}
-
-		// Get all languages of frontend and backend.
-		$languages       = array();
-		$site_languages  = JLanguageHelper::getKnownLanguages(JPATH_SITE);
-		$admin_languages = JLanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
-
-		// Create a single array of them.
-		foreach ($site_languages as $tag => $language)
-		{
-			$languages[$tag . '0'] = JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JSITE'));
-		}
-
-		foreach ($admin_languages as $tag => $language)
-		{
-			$languages[$tag . '1'] = JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JADMINISTRATOR'));
-		}
-
-		// Sort it by language tag and by client after that.
-		ksort($languages);
-
-		// Add the languages to the internal cache.
-		$this->cache['languages'] = $languages;
-
-		return $this->cache['languages'];
-	}
-
-	/**
 	 * Method to delete one or more overrides.
 	 *
 	 * @param   array  $cids  Array of keys to delete.
@@ -245,14 +202,13 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		jimport('joomla.filesystem.file');
-		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$filterclient = JFactory::getApplication()->getUserState('com_languages.overrides.filter.client');
 		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		// Unset strings that shall be deleted
 		foreach ($cids as $key)
@@ -264,7 +220,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Write override.ini file with the strings.
-		if (JLanguageHelper::saveToIniFile($filename, $strings) === false)
+		if (JLanguageHelper::saveToIniFile($fileName, $strings) === false)
 		{
 			return false;
 		}
