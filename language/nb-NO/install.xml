@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="språk" method="">
+	<name>Norwegian Bokmal (nb-NO)</name>
+	<tag>nb-NO</tag>
+	<version/>
+	<creationDate>August 2018</creationDate>
+	<author>Norsk Joomla!</author>
+	<authorEmail>nobody@norskjoomla.no</authorEmail>
+	<authorUrl>www.norskjoomla.no</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>Norwegian bokmål site language for Joomla! 3.x</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>
