@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Macedonian (mk-MK)</name>
+	<version/>
+	<creationDate/>
+	<author>Macedonian Translation Team</author>
+	<authorEmail>info@joomla.mk</authorEmail>
+	<authorUrl>joomla.mk</authorUrl>
+	<copyright/>
+	<license/>
+	<description><![CDATA[Macedonian administrator language pack for Joomla!]]></description>
+	<metadata>
+		<name>Macedonian (mk-MK)</name>
+		<nativeName>Macedonian (Macedonia)</nativeName>
+		<tag>mk-MK</tag>
+		<rtl>0</rtl>
+		<locale>mk_MK.utf8, mk_MK.UTF-8, mk_MK, macedonia, macedonian, Мacedonia, Мacedonian</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar/>
+	</metadata>
+	<params/>
+</metafile>
