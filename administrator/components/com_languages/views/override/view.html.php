@@ -59,7 +59,7 @@ class LanguagesViewOverride extends JViewLegacy
 
 		$languageClient = $app->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client');
 
-		if ($languageClient == NULL)
+		if ($languageClient == null)
 		{
 			$app->enqueueMessage(JText::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
 
