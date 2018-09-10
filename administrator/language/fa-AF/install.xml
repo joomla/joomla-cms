@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="زبان" method="">
+	<name>فارسی (prs-AF)</name>
+	<tag>prs-AF</tag>
+	<version/>
+	<creationDate/>
+	<author>JoomlaPersian Translation Team</author>
+	<authorEmail>dari@joomlapersian.com</authorEmail>
+	<authorUrl>http://www.joomlapersian.com</authorUrl>
+	<copyright>کپی رایت (C) ۲۰۰۵-۲۰۱۸ Open Source Matters. حقوق مادی و معنوی اثر محفوظ است.</copyright>
+	<license/>
+	<description>زبان مدیریت prs-AF</description>
+	<files>
+		<folder/>
+		<filename file="">prs-AF.com_ajax.ini</filename>
+	</files>
+	<params/>
+</extension>
