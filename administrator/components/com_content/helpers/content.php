@@ -91,7 +91,7 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  $items  The banner category objects
+	 * @param   stdClass[]  $items  The category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -101,41 +101,54 @@ class ContentHelper extends JHelperContent
 	{
 		$db = JFactory::getDbo();
 
+		$state_column = 'state';
+		$related_tbl  = 'content';
+
+		// Index category objects by their ID
+		$records = array();
+
+		foreach ($items as $item)
+		{
+			$records[(int) $item->id] = $item;
+		}
+
+		// Get relation counts for all category objects with single query
+		$query = $db->getQuery(true)
+			->select('catid, ' . $state_column . ' AS state, count(*) AS count')
+			->from($db->qn('#__' . $related_tbl))
+			->where('catid IN (' . implode(',', array_keys($records)) . ')')
+			->group('catid, state');
+		$relationsAll = $db->setQuery($query)->loadObjectList();
+
+		// Category records without related data need a zero counter value (above query does not return a value in such a case)
 		foreach ($items as $item)
 		{
 			$item->count_trashed = 0;
 			$item->count_archived = 0;
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
-				->from($db->qn('#__content'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-			$articles = $db->loadObjectList();
+		}
 
-			foreach ($articles as $article)
+		// Loop through the DB data overwritting the above zeros with the found count
+		foreach ($relationsAll as $relation)
+		{
+			$id = (int) $relation->catid;
+
+			if ($relation->state == 1)
 			{
-				if ($article->state == 1)
-				{
-					$item->count_published = $article->count;
-				}
-
-				if ($article->state == 0)
-				{
-					$item->count_unpublished = $article->count;
-				}
-
-				if ($article->state == 2)
-				{
-					$item->count_archived = $article->count;
-				}
-
-				if ($article->state == -2)
-				{
-					$item->count_trashed = $article->count;
-				}
+				$records[$id]->count_published = $relation->count;
+			}
+			elseif ($relation->state == 0)
+			{
+				$records[$id]->count_unpublished = $relation->count;
+			}
+			elseif ($relation->state == 2)
+			{
+				$records[$id]->count_archived = $relation->count;
+			}
+			elseif ($relation->state == -2)
+			{
+				$records[$id]->count_trashed = $relation->count;
 			}
 		}
 
