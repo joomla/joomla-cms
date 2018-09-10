@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="языка" method="">
+	<name>Russian</name>
+	<tag>ru-RU</tag>
+	<version/>
+	<creationDate/>
+	<author>Russian Translation Team</author>
+	<authorEmail>smart@joomlaportal.ru</authorEmail>
+	<authorUrl>www.joomlaportal.ru</authorUrl>
+	<copyright/>
+	<license/>
+	<description>Пакет русского языка (сайт) для Joomla! 3.7.0</description>
+	<files>
+		<folder/>
+		<filename file="">index.html</filename>
+	</files>
+	<params/>
+</extension>
