@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="dil" method="">
+	<name>Azerbaijani (Azerbaijan) (az-AZ)</name>
+	<tag>az-AZ</tag>
+	<version/>
+	<creationDate/>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>az-AZ administrator language</description>
+	<files>
+		<folder/>
+		<filename file="">az-AZ.com_ajax.ini</filename>
+	</files>
+	<params/>
+</extension>
