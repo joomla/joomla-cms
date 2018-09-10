@@ -132,12 +132,13 @@ class TransitionsModel extends ListModel
 
 		$select = $db->quoteName(
 			array(
-				't.id',
-				't.title',
-				't.from_stage_id',
-				't.to_stage_id',
-				't.published',
-				't.ordering',
+			't.id',
+			't.title',
+			't.from_stage_id',
+			't.to_stage_id',
+			't.published',
+			't.ordering',
+			't.description',
 			)
 		);
 
