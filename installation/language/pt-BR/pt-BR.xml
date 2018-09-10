@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Português do Brasil (pt-BR)</name>
+	<version/>
+	<creationDate/>
+	<author>Equipe de Tradução Português Brasileiro</author>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<files>
+		<filename>pt-BR.ini</filename>
+	</files>
+	<metadata>
+		<name>Português do Brasil (pt-BR)</name>
+		<nativeName>Português do Brasil (pt-BR)</nativeName>
+		<tag>pt-BR</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>
