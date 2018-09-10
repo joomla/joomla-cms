@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Welsh (cy-GB)</name>
+	<version/>
+	<creationDate/>
+	<author>Welsh Translation Team:joomla.cymru</author>
+	<authorEmail>cyfieithu@joomla.cymru</authorEmail>
+	<authorUrl>www.joomla.cymru</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Joomla.cymru and Open Source Matters, Inc. All rights reserved.</copyright>
+	<license/>
+	<description><![CDATA[cy-GB site language]]></description>
+	<metadata>
+		<name>Welsh (cy-GB)</name>
+		<nativeName>Cymraeg</nativeName>
+		<tag>cy-GB</tag>
+		<rtl>0</rtl>
+		<locale>cy_GB.utf8, cy_GB.UTF-8, cy_GB, cy, welsh, welsh-uk, uk, gbr, britain, wales, great britain, uk, united kingdom, united-kingdom</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>
