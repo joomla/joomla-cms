@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="jezik" method="">
+	<name/>
+	<tag>bs-BA</tag>
+	<version/>
+	<creationDate/>
+	<author>Joomla! BA Translation Team</author>
+	<authorEmail>dantes.delic@joomla.ba</authorEmail>
+	<authorUrl>www.joomla.ba</authorUrl>
+	<copyright/>
+	<license/>
+	<description>Bosnian Joomla! language pack for site (frontend)</description>
+	<files>
+		<folder/>
+		<filename file=""/>
+	</files>
+	<params/>
+</extension>
