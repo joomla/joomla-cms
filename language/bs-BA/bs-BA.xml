@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name/>
+	<version/>
+	<creationDate/>
+	<author>Joomla! BA Translation Team</author>
+	<authorEmail>dantes.delic@joomla.ba</authorEmail>
+	<authorUrl>www.joomla.ba</authorUrl>
+	<copyright/>
+	<license/>
+	<description><![CDATA[Bosnian Joomla! language pack for site (frontend)]]></description>
+	<metadata>
+		<name/>
+		<nativeName>Bosanski (BA)</nativeName>
+		<tag>bs-BA</tag>
+		<rtl>0</rtl>
+		<locale>bs_BA, bih_BiH, bh, bih, bosnian, bosanski, Bosnian, Bosanski, bs_BA.utf8</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar/>
+	</metadata>
+	<params/>
+</metafile>
