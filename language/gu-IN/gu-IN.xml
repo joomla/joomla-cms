@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name/>
+	<version/>
+	<creationDate/>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright/>
+	<license/>
+	<description><![CDATA[gu-IN site language]]></description>
+	<metadata>
+		<name/>
+		<nativeName>Gujarati (India) (gu-IN)</nativeName>
+		<tag>gu-IN</tag>
+		<rtl/>
+		<locale/>
+		<firstDay/>
+		<weekEnd>0,6</weekEnd>
+		<calendar/>
+	</metadata>
+	<params/>
+</metafile>
