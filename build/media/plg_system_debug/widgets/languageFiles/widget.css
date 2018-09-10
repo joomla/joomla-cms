@@ -1,0 +1,15 @@
+table.phpdebugbar-widgets-languageFiles {
+    margin-left: 5px;
+    margin-top: 5px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    line-height: 1.3em;
+}
+
+table.phpdebugbar-widgets-languageFiles tr {
+    border-bottom: 1px solid silver;
+}
+
+table.phpdebugbar-widgets-languageFiles th {
+    font-weight: bold;
+    padding: 5px;
+}
