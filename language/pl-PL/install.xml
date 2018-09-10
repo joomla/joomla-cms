@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="Język" method="">
+	<name>Polish (PL)</name>
+	<tag>pl-PL</tag>
+	<version/>
+	<creationDate/>
+	<author>Polskie Centrum Joomla!</author>
+	<authorEmail>zwiastun@joomla.pl</authorEmail>
+	<authorUrl>http://www.joomla.pl</authorUrl>
+	<copyright/>
+	<license/>
+	<description>Język witryny Joomla 3.6.3 - http://www.joomla.pl</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>
