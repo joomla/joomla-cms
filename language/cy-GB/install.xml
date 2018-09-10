@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="" method="">
+	<name>Welsh (cy-GB)</name>
+	<tag>cy-GB</tag>
+	<version/>
+	<creationDate/>
+	<author>Welsh Translation Team:joomla.cymru</author>
+	<authorEmail>cyfieithu@joomla.cymru</authorEmail>
+	<authorUrl>www.joomla.cymru</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Joomla.cymru and Open Source Matters, Inc. All rights reserved.</copyright>
+	<license/>
+	<description>cy-GB site language</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>
