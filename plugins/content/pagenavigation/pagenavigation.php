@@ -147,7 +147,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
 				->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
-				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
 				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
 				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'));
 
