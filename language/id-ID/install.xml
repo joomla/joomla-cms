@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="bahasa" method="">
+	<name>Bahasa Indonesia</name>
+	<tag>id-ID</tag>
+	<version/>
+	<creationDate/>
+	<author>Joomla! Indonesia</author>
+	<authorEmail>admin@id-joomla.com</authorEmail>
+	<authorUrl>www.id-joomla.com</authorUrl>
+	<copyright/>
+	<license/>
+	<description>Bahasa situs id-ID</description>
+	<files>
+		<folder/>
+		<filename file=""/>
+	</files>
+	<params/>
+</extension>
