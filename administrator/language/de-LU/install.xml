@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="Sprachen" method="">
+	<name>German (DE)</name>
+	<tag>de-DE</tag>
+	<version/>
+	<creationDate/>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2008 - 2018 J!German. All rights reserved.</copyright>
+	<license/>
+	<description>de-LU administrator language</description>
+	<files>
+		<folder/>
+		<filename file="">de-DE.xml</filename>
+	</files>
+	<params/>
+</extension>
