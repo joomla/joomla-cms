@@ -10,9 +10,6 @@ namespace Joomla\CMS\Workflow;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Trait for component workflow service.
  *
