@@ -182,8 +182,8 @@ class SiteRouter extends Router
 			}
 		}
 
-		// Add basepath to the uri
-		$uri->setPath(\JUri::base(true) . '/' . $route);
+		// Add frontend basepath to the uri
+		$uri->setPath(\JUri::root(true) . '/' . $route);
 
 		return $uri;
 	}
@@ -597,7 +597,9 @@ class SiteRouter extends Router
 			// Process the pagination support
 			if ($this->_mode == JROUTER_MODE_SEF)
 			{
-				if ($start = $uri->getVar('start'))
+				$start = $uri->getVar('start');
+
+				if ($start !== null)
 				{
 					$uri->delVar('start');
 					$vars['limitstart'] = $start;
@@ -678,7 +680,9 @@ class SiteRouter extends Router
 
 			if ($this->_mode == JROUTER_MODE_SEF && $route)
 			{
-				if ($limitstart = $uri->getVar('limitstart'))
+				$limitstart = $uri->getVar('limitstart');
+
+				if ($limitstart !== null)
 				{
 					$uri->setVar('start', (int) $limitstart);
 					$uri->delVar('limitstart');

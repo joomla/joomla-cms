@@ -43,18 +43,7 @@ class SearchViewSearch extends JViewLegacy
 		$searchWord = $state->get('keyword');
 		$params     = $app->getParams();
 
-		$menus = $app->getMenu();
-		$menu  = $menus->getActive();
-
-		// Because the application sets a default page title, we need to get it right from the menu item itself
-		if (is_object($menu))
-		{
-			if (!$menu->params->get('page_title'))
-			{
-				$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
-			}
-		}
-		else
+		if (!$app->getMenu()->getActive())
 		{
 			$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
 		}
@@ -137,6 +126,9 @@ class SearchViewSearch extends JViewLegacy
 			$results    = $this->get('data');
 			$total      = $this->get('total');
 			$pagination = $this->get('pagination');
+
+			// Flag indicates to not add limitstart=0 to URL
+			$pagination->hideEmptyLimitstart = true;
 
 			if ($state->get('match') === 'exact')
 			{

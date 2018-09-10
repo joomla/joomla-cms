@@ -19,7 +19,7 @@ TRUNCATE TABLE [#__viewlevels];
 SET IDENTITY_INSERT "#__assets" ON;
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 1, 437, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 1, 441, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 2, 3, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 4, 11, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 12, 13, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -182,7 +182,9 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (177, 1, 433, 434, 1, 'com_postinstall', 'com_postinstall', '{}'),
 (178, 93, 144, 145, 7, 'com_content.article.71', 'Similar Tags', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (179, 1, 435, 436, 1, '#__ucm_content.3', '#__ucm_content.3', '{}'),
-(180, 93, 146, 147, 7, 'com_content.article.72', 'Popular Tags', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}');
+(180, 93, 146, 147, 7, 'com_content.article.72', 'Popular Tags', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
+(181, 1, 437, 438, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
+(182, 1, 439, 440, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}');
 
 SET IDENTITY_INSERT "#__assets" OFF;
 
@@ -531,7 +533,7 @@ INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link
 (462, 'fruitshop', 'Add a recipe', 'add-a-recipe', '', 'add-a-recipe', 'index.php?option=com_content&view=form&layout=edit', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 4, '', 7, '{"enable_category":"0","catid":"14","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 131, 132, 0, '*', 0),
 (463, 'fruitshop', 'Recipes', 'recipes', '', 'recipes', 'index.php?option=com_content&view=category&id=76', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 7, '{"show_category_title":"1","show_description":"1","show_description_image":"","maxLevel":"0","show_empty_categories":"0","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","page_subheading":"","show_pagination_limit":"","filter_field":"","show_headings":"","list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","orderby_pri":"","orderby_sec":"","order_date":"","show_pagination":"","show_pagination_results":"","display_num":"10","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 133, 134, 0, '*', 0),
 (464, 'top', 'Home', 'home', '', 'home', 'index.php?Itemid=', 'alias', 1, 1, 1, 0, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"aliasoptions":"435","menu-anchor_title":"","menu-anchor_css":"","menu_image":""}', 89, 90, 0, '*', 0),
-(466, 'frontendviews', 'Smart Search', 'smart-search', '', 'smart-search', 'index.php?option=com_finder&view=search&q=&f=', 'component', 1, 1, 1, 27, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"show_date_filters":"","show_advanced":"","expand_advanced":"","show_description":"","description_length":255,"show_url":"","show_pagination_limit":"","show_pagination":"","show_pagination_results":"","allow_empty_query":"0","search_order":"","show_feed":"0","show_feed_text":"0","show_feed_link":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 187, 188, 0, '*', 0),
+(466, 'frontendviews', 'Smart Search', 'smart-search', '', 'smart-search', 'index.php?option=com_finder&view=search&q=&f=', 'component', 1, 1, 1, 27, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"show_date_filters":"","show_advanced":"","expand_advanced":"","show_description":"","description_length":255,"show_url":"","show_pagination_limit":"","show_pagination":"","show_pagination_results":"","allow_empty_query":"0","search_order":"","show_feed_link":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 187, 188, 0, '*', 0),
 (467, 'modules', 'Smart Search', 'smart-search-module', '', 'smart-search-module', 'index.php?option=com_content&view=article&id=70', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","urls_position":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 217, 218, 0, '*', 0),
 (468, 'top', 'Parks ', '2012-07-19-17-38-59', '', '2012-07-19-17-38-59', 'index.php?Itemid=', 'alias', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"aliasoptions":"243","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1}', 239, 240, 0, '*', 0),
 (469, 'top', 'Fruit Shop', '2012-07-19-17-39-29', '', '2012-07-19-17-39-29', 'index.php?Itemid=', 'alias', 1, 1, 1, 0, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"aliasoptions":"429","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1}', 241, 242, 0, '*', 0),
@@ -641,7 +643,8 @@ INSERT INTO "#__modules" ("id", "title", "note", "content", "ordering", "positio
 (93, 'Popular Tags', '', '', 1, '', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_tags_popular', 1, 1, '{"maximum":"5","timeframe":"alltime","order_value":"count","order_direction":"1","display_count":0,"no_results_text":"0","minsize":1,"maxsize":2,"layout":"_:default","moduleclass_sfx":"","owncache":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (94, 'Similar Tags', '', '', 1, '', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_tags_similar', 1, 1, '{"maximum":"5","matchtype":"any","layout":"_:default","moduleclass_sfx":"","owncache":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (95, 'Syndicate Feeds', '', '', 1, 'position-8', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_syndicate', 1, 1, '{"display_text":1,"text":"Feed Entries","format":"rss","layout":"_:default","moduleclass_sfx":"","cache":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
-(97, 'Similar Tags 2', '', '', 1, 'position-8', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_tags_similar', 1, 1, '{"maximum":"5","matchtype":"any","layout":"_:default","moduleclass_sfx":"","owncache":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*');
+(97, 'Similar Tags 2', '', '', 1, 'position-8', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_tags_similar', 1, 1, '{"maximum":"5","matchtype":"any","layout":"_:default","moduleclass_sfx":"","owncache":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
+(98, 'Latest Actions', '', '', 0, 'cpanel', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_latestactions', 6, 1, '{}', 1, '*');
 
 SET IDENTITY_INSERT "#__modules" OFF;
 
@@ -829,7 +832,8 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (93, 0),
 (94, 0),
 (95, 0),
-(97, 0);
+(97, 0),
+(98, 0);
 
 --
 -- Dumping data for table `#__newsfeeds`
@@ -916,4 +920,4 @@ INSERT INTO "#__ucm_content" ("core_content_id", "core_type_alias", "core_title"
 
 SET IDENTITY_INSERT "#__ucm_content" OFF;
 
-UPDATE "#__extensions" SET "params"='{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"13","sendpassword":"1","useractivation":"1","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":"","save_history":"1","history_limit":5}' WHERE extension_id=25;
+UPDATE "#__extensions" SET "params"='{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"13","sendpassword":"0","useractivation":"1","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":"","save_history":"1","history_limit":5}' WHERE extension_id=25;

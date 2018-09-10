@@ -116,13 +116,13 @@ class PlgContentFields extends JPlugin
 			// $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID and optional the layout
 			$explode = explode(',', $match[2]);
 			$id      = (int) $explode[0];
-			$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
 			$output  = '';
 
 			if ($match[1] == 'field' && $id)
 			{
 				if (isset($fieldsById[$id]))
 				{
+					$layout = !empty($explode[1]) ? trim($explode[1]) : $fieldsById[$id]->params->get('layout', 'render');
 					$output = FieldsHelper::render(
 						$context,
 						'field.' . $layout,
@@ -148,6 +148,7 @@ class PlgContentFields extends JPlugin
 
 				if ($renderFields)
 				{
+					$layout = !empty($explode[1]) ? trim($explode[1]) : 'render';
 					$output = FieldsHelper::render(
 						$context,
 						'fields.' . $layout,

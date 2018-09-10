@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Input;
 
-use Joomla\CMS\Filter\InputFilter;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Input JSON Class

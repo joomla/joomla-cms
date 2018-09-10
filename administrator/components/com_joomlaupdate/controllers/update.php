@@ -25,7 +25,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function download()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -44,11 +44,28 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$this->_applyCredentials();
 
 		/** @var JoomlaupdateModelDefault $model */
-		$model = $this->getModel('Default');
-		$file = $model->download();
-
-		$message = null;
+		$model       = $this->getModel('Default');
+		$result      = $model->download();
+		$file        = $result['basename'];
+		$message     = null;
 		$messageType = null;
+
+		// The validation was not successful for now just a warning.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($result['check'] === false)
+		{
+			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+			$messageType = 'warning';
+
+			try
+			{
+				JLog::add($message, JLog::INFO, 'Update');
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+		}
 
 		if ($file)
 		{
@@ -84,7 +101,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function install()
 	{
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('get');
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -217,7 +234,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function purge()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Purge updates
 		/** @var JoomlaupdateModelDefault $model */
@@ -238,7 +255,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function upload()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		JFactory::getUser()->authorise('core.admin') or jexit(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
@@ -273,7 +290,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function captive()
 	{
 		// Check for request forgeries
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('get');
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		if (!JFactory::getUser()->authorise('core.admin'))
@@ -307,7 +324,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function confirm()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		if (!JFactory::getUser()->authorise('core.admin'))
@@ -437,7 +454,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function finaliseconfirm()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Did a non Super User try do this?
 		if (!JFactory::getUser()->authorise('core.admin'))

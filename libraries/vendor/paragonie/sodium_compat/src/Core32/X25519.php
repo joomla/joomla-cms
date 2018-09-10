@@ -18,6 +18,9 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $g
      * @param int $b
      * @return void
+     * @throws SodiumException
+     * @throws TypeError
+     * @psalm-suppress MixedMethodCall
      */
     public static function fe_cswap(
         ParagonIE_Sodium_Core32_Curve25519_Fe $f,
@@ -45,15 +48,25 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
         $g8 = (int) $g[8]->toInt();
         $g9 = (int) $g[9]->toInt();
         $b = -$b;
+        /** @var int $x0 */
         $x0 = ($f0 ^ $g0) & $b;
+        /** @var int $x1 */
         $x1 = ($f1 ^ $g1) & $b;
+        /** @var int $x2 */
         $x2 = ($f2 ^ $g2) & $b;
+        /** @var int $x3 */
         $x3 = ($f3 ^ $g3) & $b;
+        /** @var int $x4 */
         $x4 = ($f4 ^ $g4) & $b;
+        /** @var int $x5 */
         $x5 = ($f5 ^ $g5) & $b;
+        /** @var int $x6 */
         $x6 = ($f6 ^ $g6) & $b;
+        /** @var int $x7 */
         $x7 = ($f7 ^ $g7) & $b;
+        /** @var int $x8 */
         $x8 = ($f8 ^ $g8) & $b;
+        /** @var int $x9 */
         $x9 = ($f9 ^ $g9) & $b;
         $f[0] = ParagonIE_Sodium_Core32_Int32::fromInt($f0 ^ $x0);
         $f[1] = ParagonIE_Sodium_Core32_Int32::fromInt($f1 ^ $x1);
@@ -82,100 +95,73 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
      *
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $f
      * @return ParagonIE_Sodium_Core32_Curve25519_Fe
+     * @throws SodiumException
+     * @throws TypeError
+     * @psalm-suppress MixedAssignment
+     * @psalm-suppress MixedMethodCall
      */
     public static function fe_mul121666(ParagonIE_Sodium_Core32_Curve25519_Fe $f)
     {
-        /** @var ParagonIE_Sodium_Core32_Int32[] $h */
-        $h = array(
-            $f[0]->mulInt(121666),
-            $f[1]->mulInt(121666),
-            $f[2]->mulInt(121666),
-            $f[3]->mulInt(121666),
-            $f[4]->mulInt(121666),
-            $f[5]->mulInt(121666),
-            $f[6]->mulInt(121666),
-            $f[7]->mulInt(121666),
-            $f[8]->mulInt(121666),
-            $f[9]->mulInt(121666),
-        );
+        /** @var array<int, ParagonIE_Sodium_Core32_Int32> $h */
+        $h = array();
+        for ($i = 0; $i < 10; ++$i) {
+            $h[$i] = $f[$i]->toInt64()->mulInt(121666, 17);
+        }
 
         /** @var ParagonIE_Sodium_Core32_Int32 $carry9 */
         $carry9 = $h[9]->addInt(1 << 24)->shiftRight(25);
-        $h[0] = $carry9->mulInt(19);
-        $h[9] = $h[9]->subInt32($carry9->shiftLeft(25));
+        $h[0] = $h[0]->addInt64($carry9->mulInt(19, 5));
+        $h[9] = $h[9]->subInt64($carry9->shiftLeft(25));
 
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry1 */
         $carry1 = $h[1]->addInt(1 << 24)->shiftRight(25);
-        $h[2] = $h[2]->addInt32($carry1);
-        $h[1] = $h[1]->subInt32($carry1->shiftLeft(25));
+        $h[2] = $h[2]->addInt64($carry1);
+        $h[1] = $h[1]->subInt64($carry1->shiftLeft(25));
 
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry3 */
         $carry3 = $h[3]->addInt(1 << 24)->shiftRight(25);
-        $h[4] = $h[4]->addInt32($carry3);
-        $h[3] = $h[3]->subInt32($carry3->shiftLeft(25));
+        $h[4] = $h[4]->addInt64($carry3);
+        $h[3] = $h[3]->subInt64($carry3->shiftLeft(25));
 
-        $carry5 = $h[3]->addInt(1 << 24)->shiftRight(25);
-        $h[6] = $h[6]->addInt32($carry5);
-        $h[5] = $h[5]->subInt32($carry5->shiftLeft(25));
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry5 */
+        $carry5 = $h[5]->addInt(1 << 24)->shiftRight(25);
+        $h[6] = $h[6]->addInt64($carry5);
+        $h[5] = $h[5]->subInt64($carry5->shiftLeft(25));
 
-        $carry7 = $h[3]->addInt(1 << 24)->shiftRight(25);
-        $h[8] = $h[8]->addInt32($carry7);
-        $h[7] = $h[7]->subInt32($carry7->shiftLeft(25));
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry7 */
+        $carry7 = $h[7]->addInt(1 << 24)->shiftRight(25);
+        $h[8] = $h[8]->addInt64($carry7);
+        $h[7] = $h[7]->subInt64($carry7->shiftLeft(25));
 
-        /*
-        $carry9 = ($h[9] + (1 << 24)) >> 25;
-        $h[0] += self::mul($carry9, 19);
-        $h[9] -= $carry9 << 25;
-        $carry1 = ($h[1] + (1 << 24)) >> 25;
-        $h[2] += $carry1;
-        $h[1] -= $carry1 << 25;
-        $carry3 = ($h[3] + (1 << 24)) >> 25;
-        $h[4] += $carry3;
-        $h[3] -= $carry3 << 25;
-        $carry5 = ($h[5] + (1 << 24)) >> 25;
-        $h[6] += $carry5;
-        $h[5] -= $carry5 << 25;
-        $carry7 = ($h[7] + (1 << 24)) >> 25;
-        $h[8] += $carry7;
-        $h[7] -= $carry7 << 25;
-        */
-
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry0 */
         $carry0 = $h[0]->addInt(1 << 25)->shiftRight(26);
-        $h[1] = $h[1]->addInt32($carry0);
-        $h[0] = $h[0]->subInt32($carry0->shiftLeft(26));
+        $h[1] = $h[1]->addInt64($carry0);
+        $h[0] = $h[0]->subInt64($carry0->shiftLeft(26));
 
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry2 */
         $carry2 = $h[2]->addInt(1 << 25)->shiftRight(26);
-        $h[3] = $h[3]->addInt32($carry2);
-        $h[2] = $h[2]->subInt32($carry2->shiftLeft(26));
+        $h[3] = $h[3]->addInt64($carry2);
+        $h[2] = $h[2]->subInt64($carry2->shiftLeft(26));
 
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry4 */
         $carry4 = $h[4]->addInt(1 << 25)->shiftRight(26);
-        $h[5] = $h[5]->addInt32($carry4);
-        $h[4] = $h[4]->subInt32($carry4->shiftLeft(26));
+        $h[5] = $h[5]->addInt64($carry4);
+        $h[4] = $h[4]->subInt64($carry4->shiftLeft(26));
 
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry6 */
         $carry6 = $h[6]->addInt(1 << 25)->shiftRight(26);
-        $h[7] = $h[7]->addInt32($carry6);
-        $h[6] = $h[6]->subInt32($carry6->shiftLeft(26));
+        $h[7] = $h[7]->addInt64($carry6);
+        $h[6] = $h[6]->subInt64($carry6->shiftLeft(26));
 
+        /** @var ParagonIE_Sodium_Core32_Int32 $carry8 */
         $carry8 = $h[8]->addInt(1 << 25)->shiftRight(26);
-        $h[9] = $h[9]->addInt32($carry8);
-        $h[8] = $h[8]->subInt32($carry8->shiftLeft(26));
+        $h[9] = $h[9]->addInt64($carry8);
+        $h[8] = $h[8]->subInt64($carry8->shiftLeft(26));
 
-        /*
-        $carry0 = ($h[0] + (1 << 25)) >> 26;
-        $h[1] += $carry0;
-        $h[0] -= $carry0 << 26;
-        $carry2 = ($h[2] + (1 << 25)) >> 26;
-        $h[3] += $carry2;
-        $h[2] -= $carry2 << 26;
-        $carry4 = ($h[4] + (1 << 25)) >> 26;
-        $h[5] += $carry4;
-        $h[4] -= $carry4 << 26;
-        $carry6 = ($h[6] + (1 << 25)) >> 26;
-        $h[7] += $carry6;
-        $h[6] -= $carry6 << 26;
-        $carry8 = ($h[8] + (1 << 25)) >> 26;
-        $h[9] += $carry8;
-        $h[8] -= $carry8 << 26;
-        */
-
+        for ($i = 0; $i < 10; ++$i) {
+            $h[$i] = $h[$i]->toInt32();
+        }
+        /** @var array<int, ParagonIE_Sodium_Core32_Int32> $h */
         return ParagonIE_Sodium_Core32_Curve25519_Fe::fromArray($h);
     }
 
@@ -187,6 +173,8 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
      * @param string $n
      * @param string $p
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_scalarmult_curve25519_ref10($n, $p)
     {
@@ -213,11 +201,13 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
         $z3 = self::fe_1();
 
         # swap = 0;
+        /** @var int $swap */
         $swap = 0;
 
         # for (pos = 254;pos >= 0;--pos) {
         for ($pos = 254; $pos >= 0; --$pos) {
             # b = e[pos / 8] >> (pos & 7);
+            /** @var int $b */
             $b = self::chrToInt(
                     $e[(int) floor($pos / 8)]
                 ) >> ($pos & 7);
@@ -230,6 +220,7 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
             # fe_cswap(z2,z3,swap);
             self::fe_cswap($z2, $z3, $swap);
             # swap = b;
+            /** @var int $swap */
             $swap = $b;
             # fe_sub(tmp0,x3,z3);
             $tmp0 = self::fe_sub($x3, $z3);
@@ -297,7 +288,7 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
         # fe_mul(x2,x2,z2);
         $x2 = self::fe_mul($x2, $z2);
         # fe_tobytes(q,x2);
-        return self::fe_tobytes($x2);
+        return (string) self::fe_tobytes($x2);
     }
 
     /**
@@ -306,6 +297,8 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsY
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsZ
      * @return ParagonIE_Sodium_Core32_Curve25519_Fe
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function edwards_to_montgomery(
         ParagonIE_Sodium_Core32_Curve25519_Fe $edwardsY,
@@ -322,6 +315,7 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
      *
      * @param string $n
      * @return string
+     * @throws SodiumException
      * @throws TypeError
      */
     public static function crypto_scalarmult_curve25519_ref10_base($n)

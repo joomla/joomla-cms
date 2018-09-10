@@ -144,10 +144,10 @@ class Menu extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$db = \JFactory::getDbo();
+		$db = $this->getDbo();
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $db));
 
 		$originalAlias = trim($this->alias);
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
@@ -227,7 +227,7 @@ class Menu extends Nested
 			// The alias already exists. Enqueue an error message.
 			if ($error)
 			{
-				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $this->getDbo()));
+				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
 				$menuTypeTable->load(array('menutype' => $table->menutype));
 				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
 

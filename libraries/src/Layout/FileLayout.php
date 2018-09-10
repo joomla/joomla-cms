@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Layout;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for rendering a display layout

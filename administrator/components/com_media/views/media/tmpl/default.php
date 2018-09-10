@@ -77,7 +77,7 @@ if ($lang->isRtl())
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="cb1" id="cb1" value="0" />
-			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->escape($this->state->folder); ?>" />
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')) : ?>
@@ -94,7 +94,7 @@ if ($lang->isRtl())
 								<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
 							</p>
 					</fieldset>
-					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->escape($this->state->folder); ?>" />
 					<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media'); ?>
 				</div>
 			</form>
@@ -104,7 +104,7 @@ if ($lang->isRtl())
 					<div class="path">
 						<input type="text" id="folderpath" readonly="readonly" class="update-folder" />
 						<input required type="text" id="foldername" name="foldername" />
-						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
+						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->escape($this->state->folder); ?>" />
 						<button type="submit" class="btn"><span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
 					<?php echo JHtml::_('form.token'); ?>
@@ -115,7 +115,7 @@ if ($lang->isRtl())
 		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" method="post">
 			<div id="folderview">
 				<div class="view">
-					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
+					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->escape($this->state->folder); ?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 				</div>
 				<?php echo JHtml::_('form.token'); ?>
 			</div>

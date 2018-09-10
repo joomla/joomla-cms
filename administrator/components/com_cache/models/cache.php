@@ -54,7 +54,7 @@ class CacheModelCache extends JModelList
 				'group',
 				'count',
 				'size',
-				'cliend_id',
+				'client_id',
 			);
 		}
 

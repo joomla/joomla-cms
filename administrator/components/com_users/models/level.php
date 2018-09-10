@@ -9,12 +9,20 @@
 
 defined('_JEXEC') or die;
 
+
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * User view level model.
  *
  * @since  1.6
  */
-class UsersModelLevel extends JModelAdmin
+class UsersModelLevel extends AdminModel
 {
 	/**
 	 * @var	array	A list of the access levels in use.
@@ -216,5 +224,66 @@ class UsersModelLevel extends JModelAdmin
 		$data['title'] = JFilterInput::getInstance()->clean($data['title'], 'TRIM');
 
 		return parent::save($data);
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   \JForm  $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     \JFormRule
+	 * @see     \JFilterInput
+	 * @since   3.8.8
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
+
+		// Non Super user should not be able to change the access levels of super user groups
+		if (!$isSuperAdmin)
+		{
+			if (!isset($data['rules']) || !is_array($data['rules']))
+			{
+				$data['rules'] = array();
+			}
+
+			$groups = array_values(UserGroupsHelper::getInstance()->getAll());
+
+			$rules = array();
+
+			if (!empty($data['id']))
+			{
+				$table = $this->getTable();
+
+				$table->load($data['id']);
+
+				$rules = json_decode($table->rules);
+			}
+
+			$rules = ArrayHelper::toInteger($rules);
+
+			for ($i = 0, $n = count($groups); $i < $n; ++$i)
+			{
+				if (Access::checkGroup((int) $groups[$i]->id, 'core.admin'))
+				{
+					if (in_array($groups[$i]->id, $rules) && !in_array($groups[$i]->id, $data['rules']))
+					{
+						$data['rules'][] = (int) $groups[$i]->id;
+					}
+					elseif (!in_array($groups[$i]->id, $rules) && in_array($groups[$i]->id, $data['rules']))
+					{
+						$this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+
+						return false;
+					}
+				}
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 }

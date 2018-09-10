@@ -245,7 +245,9 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		// SQLite does not support microseconds as a separate unit. Convert the interval to seconds
 		if (strcasecmp($datePart, 'microseconds') == 0)
 		{
-			$interval = .001 * $interval;
+			// Force the dot as a decimal point
+			$interval = str_replace(',', '.', .001 * $interval);
+
 			$datePart = 'seconds';
 		}
 
