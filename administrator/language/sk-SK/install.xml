@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="jazyka" method="">
+	<name>Slovak (sk-SK)</name>
+	<tag>sk-SK</tag>
+	<version/>
+	<creationDate>August 2018</creationDate>
+	<author>Slovak translation team : Peter Michnica</author>
+	<authorEmail>petov@mail.com</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. Všetky práva vyhradené.</copyright>
+	<license/>
+	<description>Jazykový balíček sk-SK pre administráciu</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>
