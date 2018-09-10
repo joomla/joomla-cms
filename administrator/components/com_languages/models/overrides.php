@@ -147,9 +147,8 @@ class LanguagesModelOverrides extends JModelList
 	 */
 	protected function populateState($ordering = 'key', $direction = 'asc')
 	{
-		// We call populate state first so that we can then set the filter.client and filter.language properties
-		// in afterwards
-		// TODO: In Joomla 4 move the custom filters into a separate context to com_languages.overrides.filter
+		
+		// We call populate state first so that we can then set the filter.client and filter.language properties in afterwards
 		parent::populateState($ordering, $direction);
 
 		$app = JFactory::getApplication();
@@ -170,6 +169,7 @@ class LanguagesModelOverrides extends JModelList
 		$this->setState('filter.language', $language);
 
 		// Add filters to the session because they won't be stored there by 'getUserStateFromRequest' if they aren't in the current request.
+		// TODO: In Joomla 4 move the custom filters into a separate context to com_languages.overrides.filter
 		$app->setUserState('com_languages.overrides.filter.client', $client);
 		$app->setUserState('com_languages.overrides.filter.language', $language);
 	}
