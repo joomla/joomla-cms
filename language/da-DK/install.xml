@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="sprog" method="">
+	<name>Danish (da-DK)</name>
+	<tag>da-DK</tag>
+	<version/>
+	<creationDate>August 2018</creationDate>
+	<author>Danish Translation Team (Transl.: Mikael Winther, Ronny Buelund, Ole Bang Ottosen)</author>
+	<authorEmail>dansk@danskjoomla.dk</authorEmail>
+	<authorUrl>http://www.danskjoomla.dk</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>Danish language pack for Joomla! 3.3</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>
