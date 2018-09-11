@@ -6,7 +6,7 @@ files:
       en-GB.:
     update_option: update_as_unapproved
   - source: /administrator/language/en-GB/en-GB.localise.php
-    dest: /administrator/language/%locale%/en-GB.localise.txt
+    dest: /administrator/language/en-GB/en-GB.localise.txt
     type: txt
     translation: /administrator/language/%locale%/%locale%.localise.php
     update_option: update_as_unapproved
