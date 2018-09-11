@@ -263,7 +263,7 @@ class AwareModel extends AdminModel
 	/**
 	 * Sets the prefix to use when loading tables or forms
 	 *
-	 * @param   string  $prefix   the prefix to use when loading tables or forms
+	 * @param   string  $prefix  The prefix to use when loading tables or forms
 	 * 
 	 * @return  void
 	 *
