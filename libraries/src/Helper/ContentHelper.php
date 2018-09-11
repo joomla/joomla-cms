@@ -59,9 +59,9 @@ class ContentHelper
 		// Allow custom state / condition values and custom column names to support custom components
 		$counter_names = isset($config->counter_names) ? $config->counter_names : array(
 			'-2' => 'count_trashed',
-			'2'  => 'count_archived',
 			'0'  => 'count_unpublished',
 			'1'  => 'count_published',
+			'2'  => 'count_archived',
 		);
 
 		// Index category objects by their ID
