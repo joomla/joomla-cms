@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name/>
+	<version/>
+	<creationDate/>
+	<author>JOOMLA.JP</author>
+	<authorEmail>project@joomla.jp</authorEmail>
+	<authorUrl>www.joomla.jp</authorUrl>
+	<copyright/>
+	<license/>
+	<description><![CDATA[Joomla! 管理画面用日本語ファイルです。]]></description>
+	<metadata>
+		<name/>
+		<nativeName>Japanese 日本語 (Japan)</nativeName>
+		<tag>ja-JP</tag>
+		<rtl>0</rtl>
+		<locale>ja-JP.utf8, ja-JP.UTF-8, ja_JP, jpn, ja, Japanese_Japan.UTF8, japanese, jp, JP, JA</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar/>
+	</metadata>
+	<params/>
+</metafile>

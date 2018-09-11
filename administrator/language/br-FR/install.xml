@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="" method="">
+	<name>Breton (bz-FR)</name>
+	<tag>bz-FR</tag>
+	<version/>
+	<creationDate/>
+	<author>Jug Breizh</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>bz-FR administrator language</description>
+	<files>
+		<folder/>
+		<filename file=""/>
+	</files>
+	<params/>
+</extension>

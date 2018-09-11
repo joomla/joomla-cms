@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="ランゲージ" method="">
+	<name/>
+	<tag>ja-JP</tag>
+	<version/>
+	<creationDate/>
+	<author>JOOMLA.JP</author>
+	<authorEmail>project@joomla.jp</authorEmail>
+	<authorUrl>www.joomla.jp</authorUrl>
+	<copyright/>
+	<license/>
+	<description>Joomla! サイト用日本語ファイルです。</description>
+	<files>
+		<folder/>
+		<filename file=""/>
+	</files>
+	<params/>
+</extension>

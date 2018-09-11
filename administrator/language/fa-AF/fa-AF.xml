@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>فارسی (prs-AF)</name>
+	<version/>
+	<creationDate/>
+	<author>JoomlaPersian Translation Team</author>
+	<authorEmail>dari@joomlapersian.com</authorEmail>
+	<authorUrl>http://www.joomlapersian.com</authorUrl>
+	<copyright>کپی رایت (C) ۲۰۰۵-۲۰۱۸ Open Source Matters. حقوق مادی و معنوی اثر محفوظ است.</copyright>
+	<license/>
+	<description><![CDATA[زبان مدیریت prs-AF]]></description>
+	<metadata>
+		<name>فارسی (prs-AF)</name>
+		<nativeName>دری (فارسی دری)</nativeName>
+		<tag>prs-AF</tag>
+		<rtl>1</rtl>
+		<locale>prs-AF.utf8, prs-AF.UTF-8, prs_AF.utf8, prs_AF.UTF-8, fa_AF.utf8, fa_AF.UTF-8, fa_AF, prs_AF, fa-AF.utf8, fa-AF.UTF-8, fa-AF, prs-AF, fa, prs, af, dari</locale>
+		<firstDay>1</firstDay>
+		<weekEnd>5</weekEnd>
+		<calendar>jalali</calendar>
+	</metadata>
+	<params/>
+</metafile>

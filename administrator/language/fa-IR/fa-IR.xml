@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name/>
+	<version/>
+	<creationDate/>
+	<author>Persian Translation Team, Joomlafarsi.com</author>
+	<authorEmail>info@joomlafarsi.com</authorEmail>
+	<authorUrl>www.joomlafarsi.com</authorUrl>
+	<copyright/>
+	<license/>
+	<description><![CDATA[Persian administrator language pack for Joomla 3.4.5]]></description>
+	<metadata>
+		<name/>
+		<nativeName>Persian (پارسی)</nativeName>
+		<tag>fa-IR</tag>
+		<rtl/>
+		<locale>fa_IR.utf8, fa_IR.UTF-8, fa_IR, Persian_IR, Persian, fa_IR, far_fa, fa, iran, ir, farsi_ir</locale>
+		<firstDay/>
+		<weekEnd>0,6</weekEnd>
+		<calendar/>
+	</metadata>
+	<params/>
+</metafile>

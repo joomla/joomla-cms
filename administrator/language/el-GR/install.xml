@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="Η γλώσσα" method="">
+	<name>Greek</name>
+	<tag>el-GR</tag>
+	<version/>
+	<creationDate/>
+	<author>Greek translation team : joomla.gr</author>
+	<authorEmail>contact@joomla.gr</authorEmail>
+	<authorUrl>http://www.joomla.gr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 joomla. gr και Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>greek administrator language pack for Joomla! 3.8.10</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>

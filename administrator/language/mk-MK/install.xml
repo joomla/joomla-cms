@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="Јазик" method="">
+	<name>Macedonian (mk-MK)</name>
+	<tag>mk-MK</tag>
+	<version/>
+	<creationDate/>
+	<author>Macedonian Translation Team</author>
+	<authorEmail>info@joomla.mk</authorEmail>
+	<authorUrl>joomla.mk</authorUrl>
+	<copyright/>
+	<license/>
+	<description>Macedonian administrator language pack for Joomla!</description>
+	<files>
+		<folder/>
+		<filename file=""/>
+	</files>
+	<params/>
+</extension>

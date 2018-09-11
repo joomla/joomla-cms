@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Croatian (hr-HR)</name>
+	<version/>
+	<creationDate/>
+	<author>Croatian Translation Team</author>
+	<authorEmail>prijevod@joomla.hr</authorEmail>
+	<authorUrl>http://www.joomla.hr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters &amp; joomla.hr. All rights reserved.</copyright>
+	<license/>
+	<description><![CDATA[hr-HR jezik sitea]]></description>
+	<metadata>
+		<name>Croatian (hr-HR)</name>
+		<nativeName>Croatian (Hrvatski)</nativeName>
+		<tag>hr-HR</tag>
+		<rtl>0</rtl>
+		<locale>hr_HR, hrv_HRV, hr, hrv, croatian, hrvatski, Croatian, Hrvatski, hr_HR.utf8</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>

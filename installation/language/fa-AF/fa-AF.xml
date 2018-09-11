@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>دری (فارسی دری)</name>
+	<version/>
+	<creationDate/>
+	<author>JoomlaPersian Translation Team</author>
+	<copyright>کپی رایت (C) ۲۰۰۵-۲۰۱۸ Open Source Matters. حقوق مادی و معنوی اثر محفوظ است.</copyright>
+	<license/>
+	<files>
+		<filename>prs-AF.ini</filename>
+	</files>
+	<metadata>
+		<name>فارسی (prs-AF)</name>
+		<nativeName>دری (فارسی دری)</nativeName>
+		<tag>prs-AF</tag>
+		<rtl>1</rtl>
+	</metadata>
+	<params/>
+</metafile>

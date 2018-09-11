@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="மொழி" method="">
+	<name>Tamil (INDIA)</name>
+	<tag>ta-LK</tag>
+	<version/>
+	<creationDate/>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>ta-LK administrator language</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="idioma" method="">
+	<name>Português do Brasil (pt-BR)</name>
+	<tag>pt-BR</tag>
+	<version/>
+	<creationDate/>
+	<author>Equipe de Tradução Português Brasileiro</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>pt-BR site language</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>

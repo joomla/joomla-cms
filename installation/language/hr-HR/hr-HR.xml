@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Croatian (Hrvatski)</name>
+	<version/>
+	<creationDate/>
+	<author>Croatian Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters &amp; joomla.hr. All rights reserved.</copyright>
+	<license/>
+	<files>
+		<filename>hr-HR.ini</filename>
+	</files>
+	<metadata>
+		<name>Croatian (hr-HR)</name>
+		<nativeName>Croatian (Hrvatski)</nativeName>
+		<tag>hr-HR</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

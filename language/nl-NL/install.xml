@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="taal" method="">
+	<name>Nederlands (nl-NL)</name>
+	<tag>nl-NL</tag>
+	<version/>
+	<creationDate/>
+	<author>Dutch Translation Team</author>
+	<authorEmail>taal@joomlacommunity.nl</authorEmail>
+	<authorUrl>http://joomlacode.org/gf/project/nederlands/</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Dutch Translation Team en Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description>Nederlands taalbestand Joomla! 3.8 (site)</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>

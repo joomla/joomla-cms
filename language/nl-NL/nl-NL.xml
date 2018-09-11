@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Nederlands (nl-NL)</name>
+	<version/>
+	<creationDate/>
+	<author>Dutch Translation Team</author>
+	<authorEmail>taal@joomlacommunity.nl</authorEmail>
+	<authorUrl>http://joomlacode.org/gf/project/nederlands/</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Dutch Translation Team en Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description><![CDATA[Nederlands taalbestand Joomla! 3.8 (site)]]></description>
+	<metadata>
+		<name>Nederlands (nl-NL)</name>
+		<nativeName>Nederlands nl-NL</nativeName>
+		<tag>nl-NL</tag>
+		<rtl>0</rtl>
+		<locale>nl_NL.utf-8, nl_NL.utf8, nl_NL.UTF-8,nl_NL, nl_NL.UTF-8@euro, nld_NLD, dutch, dutch-nl, nl, netherlands, nl_NL@euro, nl_NL.ISO8859-1, dut-NL, dut_BE, dutch-be, belgium</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>
