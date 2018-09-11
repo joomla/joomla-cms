@@ -45,8 +45,8 @@ class ContentHelper
 	/**
 	 * Adds Count relations for Category and Tag Managers
 	 *
-	 * @param   stdClass[]  $items      The category or tag objects
-	 * @param   stdClass    $config     Configuration object allowing to use a custom relations table
+	 * @param   stdClass[]  &$items  The category or tag objects
+	 * @param   stdClass    $config  Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
@@ -75,7 +75,7 @@ class ContentHelper
 		// The relation query does not return a value for cases without relations of a particular state / condition, set zero as default
 		foreach ($items as $item)
 		{
-			foreach($counter_names as $n)
+			foreach ($counter_names as $n)
 			{
 				$item->{$n} = 0;
 			}

@@ -590,8 +590,8 @@ class FieldsHelper
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items     The fieldgroup objects
-	 * @param   stdClass    $config     Configuration object allowing to use a custom relations table
+	 * @param   stdClass[]  &$items  The fieldgroup objects
+	 * @param   stdClass    $config  Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
