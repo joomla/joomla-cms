@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="nyelv" method="">
+	<name>Hungarian (hu-HU)</name>
+	<tag>hu-HU</tag>
+	<version/>
+	<creationDate>2018 augusztus</creationDate>
+	<author>Joomla! Hungary</author>
+	<authorEmail>szerk@joomlacms.hu</authorEmail>
+	<authorUrl>joomlacms.hu</authorUrl>
+	<copyright>Minden jog fenntartva (C) 2005-2018 Open Source Matters.</copyright>
+	<license/>
+	<description>hu-HU site language</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>

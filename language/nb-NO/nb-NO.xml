@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Norwegian Bokmal (nb-NO)</name>
+	<version/>
+	<creationDate>August 2018</creationDate>
+	<author>Norsk Joomla!</author>
+	<authorEmail>nobody@norskjoomla.no</authorEmail>
+	<authorUrl>www.norskjoomla.no</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license/>
+	<description><![CDATA[Norwegian bokmål site language for Joomla! 3.x]]></description>
+	<metadata>
+		<name>Norwegian Bokmal (nb-NO)</name>
+		<nativeName>Norsk bokmål (Norge)</nativeName>
+		<tag>nb-NO</tag>
+		<rtl>0</rtl>
+		<locale>no_NO.utf-8, nb_NO.utf-8, no_NO.UTF-8, nb_NO.UTF-8, nb_NO.utf8, no_NO.utf8, no, nb, nob-NO, no_NO, nb_NO, Norwegian_Bokmal, nor, norwegian, bokmal, bokmål</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>

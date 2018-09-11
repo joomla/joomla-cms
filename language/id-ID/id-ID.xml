@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Bahasa Indonesia</name>
+	<version/>
+	<creationDate/>
+	<author>Joomla! Indonesia</author>
+	<authorEmail>admin@id-joomla.com</authorEmail>
+	<authorUrl>www.id-joomla.com</authorUrl>
+	<copyright/>
+	<license/>
+	<description><![CDATA[Bahasa situs id-ID]]></description>
+	<metadata>
+		<name>Bahasa Indonesia</name>
+		<nativeName>Bahasa Indonesia</nativeName>
+		<tag>id-ID</tag>
+		<rtl>0</rtl>
+		<locale>id_ID.utf8, id_ID.UTF-8, id_ID, id, indonesia</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>

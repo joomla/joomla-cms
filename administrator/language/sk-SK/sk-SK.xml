@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="" client="">
+	<name>Slovak (sk-SK)</name>
+	<version/>
+	<creationDate>August 2018</creationDate>
+	<author>Slovak translation team : Peter Michnica</author>
+	<authorEmail>petov@mail.com</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. Všetky práva vyhradené.</copyright>
+	<license/>
+	<description><![CDATA[Jazykový balíček sk-SK pre administráciu]]></description>
+	<metadata>
+		<name>Slovak (sk-SK)</name>
+		<nativeName>Slovak (Slovenčina)</nativeName>
+		<tag>sk-SK</tag>
+		<rtl>0</rtl>
+		<locale>sk_SK.utf8, sk_SK.UTF-8, sk_SK, svk_SK, sk, slovak, svk, slovencina, slovakia, slovak republic, slovenska republika</locale>
+		<firstDay>0</firstDay>
+		<weekEnd>0,6</weekEnd>
+		<calendar>gregorian</calendar>
+	</metadata>
+	<params/>
+</metafile>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="lingvo" method="">
+	<name>Esperanto (eo-XX)</name>
+	<tag>eo-XX</tag>
+	<version/>
+	<creationDate/>
+	<author>EsperantoSverige, Svedio</author>
+	<authorEmail>tradukoj@esperantosverige.se</authorEmail>
+	<authorUrl>esperantosverige.se</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. Ĉiuj rajtoj rezervitaj.</copyright>
+	<license/>
+	<description>eo-XX lingvo fronte</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>

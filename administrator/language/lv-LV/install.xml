@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="" client="" type="tulkojums" method="">
+	<name>Latvian (lv-LV)</name>
+	<tag>lv-LV</tag>
+	<version/>
+	<creationDate>2018. gada augusts</creationDate>
+	<author>Latvian Joomla translation team</author>
+	<authorEmail>lemings@inbox.lv</authorEmail>
+	<authorUrl>latvian site language pack for Joomla</authorUrl>
+	<copyright>Copyright (C) 2005 - 2018 un Open Source Matters. Visas tiesības aizsargātas.</copyright>
+	<license/>
+	<description>latvian admin language pack for Joomla</description>
+	<files>
+		<folder/>
+		<filename file="">install.xml</filename>
+	</files>
+	<params/>
+</extension>
