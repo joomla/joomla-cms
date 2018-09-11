@@ -15,6 +15,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
@@ -132,12 +133,13 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function validateOptions($options)
 	{
-		$config = $this->getApplication()->getConfig();
+		$config = $this->getInitialConfigurationOptions();
 
 		$configs = $config->toArray();
 
+		$valid = true;
 		array_walk(
-			$options, function ($value, $key) use ($configs) {
+			$options, function ($value, $key) use ($configs, &$valid) {
 				if (!array_key_exists($key, $configs))
 				{
 					$this->getApplication()
@@ -145,11 +147,13 @@ class SetConfigurationCommand extends AbstractCommand
 							"Can't find option *$key* in configuration list",
 							'error'
 						);
+
+					$valid = false;
 				}
 			}
 		);
 
-		return $options;
+		return $valid;
 	}
 
 	/**
@@ -169,16 +173,16 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$options = $this->retrieveOptionsFromInput($options);
 
-		$options = $this->validateOptions($options);
+		$valid = $this->validateOptions($options);
 
 
-		if (!$options)
+		if (!$valid)
 		{
 			return self::CONFIG_VALIDATION_FAILED;
 		}
 
+		$initialOptions = $this->getInitialConfigurationOptions()->toArray();
 
-		$initialOptions = $this->getApplication()->getConfig()->toArray();
 		$combinedOptions = array_merge($initialOptions, $options);
 
 		$db = $this->checkDb($combinedOptions);
@@ -231,6 +235,18 @@ class SetConfigurationCommand extends AbstractCommand
 		return $this->cliInput->getArgument('options');
 	}
 
+	/**
+	 * Returns Default configuration Object
+	 *
+	 * @return Registry
+	 *
+	 * @since 4.0
+	 */
+	public function getInitialConfigurationOptions(): Registry
+	{
+		return (new Registry(new \JConfig));
+	}
+
 
 	/**
 	 * Save the configuration file
@@ -243,7 +259,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function saveConfiguration($options)
 	{
-		$config = $this->getApplication()->getConfig();
+		$config = $this->getInitialConfigurationOptions();
 
 		foreach ($options as $key => $value)
 		{
