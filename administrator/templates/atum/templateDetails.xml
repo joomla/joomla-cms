@@ -46,13 +46,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="description">
-
-				<field
-					name="loginPageSettings"
-					type="spacer"
-					label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL"
-				/>
+			<fieldset name="advanced" label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL">
 
 				<field
 					name="showSitename"
