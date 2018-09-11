@@ -106,62 +106,6 @@ class MailTemplate
 	}
 
 	/**
-	 * Render and send the mail
-	 * 
-	 * @return  boolean  True on success
-	 * @since   4.0.0
-	 */
-	public function send()
-	{
-		$db = \JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('*')
-			->from('#__mail_templates')
-			->where('mail_id = '.$db->quote($this->mail_id))
-			->where('language IN (\'\','.$db->quote($this->language) . ')')
-			->order('language DESC');
-		$db->setQuery($query);
-		$mail = $db->loadObject();
-
-		$keys = array_keys($this->data);
-		foreach($keys as &$key) {
-			$key = '{'.strtoupper($key).'}';
-		}
-		$mail->subject = str_replace($keys, array_values($this->data), Text::_($mail->subject));
-		$mail->body = str_replace($keys, array_values($this->data), Text::_($mail->body));
-		
-		$this->mailer->IsHTML(true);
-		$this->mailer->setBody($mail->body);
-		$this->mailer->setSubject($mail->subject);
-
-		foreach ($this->recipients as $recipient)
-		{
-			/**switch ($recipient->type)
-			{
-				case 0:**/
-					$this->mailer->addAddress($recipient->mail, $recipient->name);
-					/**break;
-				
-			}**/
-		}
-
-		$attachments = (array) json_decode($mail->attachments);
-
-		foreach ($attachments as $attachment)
-		{
-			$this->mailer->addAttachment($attachment->file, $attachment->name);
-		}
-
-		if(count($this->attachments)) {
-			foreach($this->attachments as $attachment) {
-				$this->mailer->AddStringAttachment($attachment->file, $attachment->name);
-			}
-		}
-
-		return $this->mailer->Send();
-	}
-
-	/**
 	 * Adds recipients for this mail
 	 * 
 	 * @param   string  $mail  Mail address of the recipient
@@ -189,5 +133,81 @@ class MailTemplate
 	public function addTemplateData($data)
 	{
 		$this->data = array_merge($this->data, $data);
+	}
+
+	/**
+	 * Render and send the mail
+	 * 
+	 * @return  boolean  True on success
+	 * @since   4.0.0
+	 */
+	public function send()
+	{
+		$db = Factory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from('#__mail_templates')
+			->where('mail_id = '.$db->quote($this->mail_id))
+			->where('language IN (\'\','.$db->quote($this->language) . ')')
+			->order('language DESC');
+		$db->setQuery($query);
+		$mail = $db->loadObject();
+
+		Factory::getApplication()->triggerEvent('onMailBeforeRendering', array($this->mail_id, &$this));
+
+		$keys = array_keys($this->data);
+
+		foreach ($keys as &$key)
+		{
+			$key = '{'.strtoupper($key).'}';
+		}
+
+		$mail->subject = str_replace($keys, array_values($this->data), Text::_($mail->subject));
+		$this->mailer->setSubject($mail->subject);
+
+		if ($mail->htmlbody != '')
+		{
+			$this->mailer->IsHTML(true);
+			$mail->htmlbody = str_replace($keys, array_values($this->data), Text::_($mail->htmlbody));
+			$this->mailer->setBody($mail->htmlbody);
+		}
+		else
+		{
+			$mail->body = str_replace($keys, array_values($this->data), Text::_($mail->body));
+			$this->mailer->setBody($mail->body);
+		}
+
+		foreach ($this->recipients as $recipient)
+		{
+			switch ($recipient->type)
+			{
+				case 'cc':
+					$this->mailer->addcc($recipient->mail, $recipient->name);
+					break;
+				case 'bcc':
+					$this->mailer->addBcc($recipient->mail, $recipient->name);
+					break;
+				case 'to':
+				default:
+					$this->mailer->addAddress($recipient->mail, $recipient->name);
+			}
+		}
+
+		$attachments = (array) json_decode($mail->attachments);
+		$attachments = array_merge($attachments, $this->attachments);
+
+		foreach ($attachments as $attachment)
+		{
+			if (is_file($attachment->file))
+			{
+				$this->mailer->addAttachment($attachment->file, $attachment->name);
+			}
+			else
+			{
+				$this->mailer->AddStringAttachment($attachment->file, $attachment->name);
+			}
+		}
+
+		return $this->mailer->Send();
 	}
 }
