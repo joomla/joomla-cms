@@ -251,7 +251,7 @@ class CoreInstallCommand extends AbstractCommand
 
 		$this->progressBar->finish();
 
-		return INSTALLATION_UNSUCCESSFUL;
+		return self::INSTALLATION_UNSUCCESSFUL;
 	}
 
 
