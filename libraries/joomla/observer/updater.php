@@ -20,7 +20,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 * Holds the key aliases for observers.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $aliases = array();
 

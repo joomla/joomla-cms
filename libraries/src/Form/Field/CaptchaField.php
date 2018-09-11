@@ -116,6 +116,8 @@ class CaptchaField extends FormField
 		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
 			$this->hidden = true;
+
+			return false;
 		}
 		else
 		{
@@ -147,6 +149,7 @@ class CaptchaField extends FormField
 		{
 			$this->_captcha = null;
 			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 
