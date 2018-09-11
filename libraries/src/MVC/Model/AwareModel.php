@@ -63,13 +63,11 @@ class AwareModel extends AdminModel
 	 * Have the parent save the base Form and afterwards
 	 * save the subforms by ourselves.
 	 *
-	 * @param   array    $data  The form data.
+	 * @param   array  $data  The form data.
 	 * 
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * {@inheritdoc}
-	 * @see \Joomla\CMS\MVC\Model\AdminModel::save()
-	 *
+	 * @since   3.9
 	 */
 	public function save (array $data)
 	{
@@ -82,7 +80,7 @@ class AwareModel extends AdminModel
 	/**
 	 * Retreive a certain subTable
 	 *
-	 * @param   string  $name   The name of the subtable to retrieve
+	 * @param   string  $name  The name of the subtable to retrieve
 	 * 
 	 * @return  Table
 	 *
@@ -96,7 +94,7 @@ class AwareModel extends AdminModel
 	/**
 	 * Retreive a certain subModel
 	 *
-	 * @param   string  $name   The name of the submodel to retrieve
+	 * @param   string  $name  The name of the submodel to retrieve
 	 * 
 	 * @return  AdminModel
 	 *
@@ -110,7 +108,7 @@ class AwareModel extends AdminModel
 	/**
 	 * Retrieve a certain subForm
 	 *
-	 * @param   string  $name   The name of the subForm to retrieve
+	 * @param   string  $name  The name of the subForm to retrieve
 	 * 
 	 * @return  Form
 	 *
@@ -165,7 +163,7 @@ class AwareModel extends AdminModel
 	 * traverse the available subtables to see which parts of the given $data to
 	 * store in which $table
 	 *
-	 * @param   array    $data  The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
@@ -265,7 +263,7 @@ class AwareModel extends AdminModel
 	/**
 	 * Sets the prefix to use when loading tables or forms
 	 *
-	 * @param   string  $prefix
+	 * @param   string  $prefix   the prefix to use when loading tables or forms
 	 * 
 	 * @return  void
 	 *
