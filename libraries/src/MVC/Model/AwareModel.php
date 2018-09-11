@@ -19,44 +19,38 @@ use Joomla\CMS\Form\Form;
 class AwareModel extends AdminModel
 {
 	/**
-	 *
 	 * An array of Joomla! Form objects
 	 * Joomla\CMS\Form\Form
 	 *
-	 * @var array($pluralName)
-	 *
+	 * @var    array($pluralName)
+	 * @since  3.9
 	 */
-	
 	private $subforms = null;
 	
 	/**
-	 *
 	 * An array of Joomla! table objects
 	 * Joomla\CMS\Table\Table
 	 *
-	 * @var array($pluralName)
-	 *
+	 * @var    array($pluralName)
+	 * @since  3.9
 	 */
-	
 	private $subtables = null;
 	
-	/**
-	 *
+	/*
 	 * An array of Joomla! models of the type AdminModel
 	 * Joomla\CMS\MVC\Model\AdminModel
 	 *
-	 * @var array($pluralName)
-	 *
+	 * @var    array($pluralName)
+	 * @since  3.9
 	 */
-	
 	private $submodels = null;
 	
 	/**
+	 * The prefix to use when loading submodels.
 	 *
-	 * @var string The prefix to use when loading submodels.
-	 *
+	 * @var    string  
+	 * @since  3.9
 	 */
-	
 	private $prefix = null;
 	
 	/**
