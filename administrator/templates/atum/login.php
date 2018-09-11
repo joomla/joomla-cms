@@ -45,7 +45,6 @@ $sitename = $app->get('sitename');
 $showSitename = $this->params->get('showSitename', '1');
 $loginLogo = $this->params->get('loginLogo', '');
 
-
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss

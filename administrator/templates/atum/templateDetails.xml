@@ -46,21 +46,21 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="advanced">
+			<fieldset name="description">
 
 				<field
-						name="loginPageSettings"
-						type="spacer"
-						label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL"
+					name="loginPageSettings"
+					type="spacer"
+					label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL"
 				/>
 
 				<field
-						name="showSitename"
-						type="radio"
-						label="TPL_ATUM_SHOWSITENAME_LABEL"
-						class="btn-group btn-group-yesno"
-						default="1"
-						filter="integer"
+					name="showSitename"
+					type="radio"
+					label="TPL_ATUM_SHOWSITENAME_LABEL"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
