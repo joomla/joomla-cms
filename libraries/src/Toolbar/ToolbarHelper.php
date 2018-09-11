@@ -86,13 +86,12 @@ abstract class ToolbarHelper
 	 * @param   string  $iconOver    The image to display when moused over.
 	 * @param   string  $alt         The alt text for the icon image.
 	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
-	 * @param   string  $formId      The id of action form.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $formId = null)
+	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
@@ -100,7 +99,7 @@ abstract class ToolbarHelper
 		$icon = preg_replace('#\.[^.]*$#', '', $icon);
 
 		// Add a standard button.
-		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect, $formId);
+		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
 	}
 
 	/**

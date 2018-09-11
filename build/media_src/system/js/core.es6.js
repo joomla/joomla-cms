@@ -161,12 +161,8 @@ Joomla.Modal = {
    * @returns {void}
    */
   Joomla.submitbutton = (task, formSelector, validate) => {
-    let form = document.querySelector(formSelector || 'form.form-validate');
+    const form = document.querySelector(formSelector || 'form.form-validate');
     let newValidate = validate;
-
-    if (typeof formSelector === 'string' && form === null) {
-      form = document.querySelector(`#${formSelector}`);
-    }
 
     if (form) {
       if (newValidate === undefined || newValidate === null) {
@@ -600,8 +596,6 @@ Joomla.Modal = {
     let newForm = form;
     if (typeof newForm === 'undefined') {
       newForm = document.getElementById('adminForm');
-    } else if (typeof form === 'string') {
-      newForm = document.getElementById(form);
     }
 
     newForm.boxchecked.value = isitchecked
@@ -649,8 +643,6 @@ Joomla.Modal = {
     let newForm = form;
     if (typeof newForm === 'undefined') {
       newForm = document.getElementById('adminForm');
-    } else if (typeof form === 'string') {
-      newForm = document.getElementById(form);
     }
 
     newForm.filter_order.value = order;
@@ -663,19 +655,12 @@ Joomla.Modal = {
    *
    * @param  {string}  id    The id
    * @param  {string}  task  The task
-   * @param  {string}  form  The optional form
    *
    * @return {boolean}
    */
-  Joomla.listItemTask = (id, task, form = null) => {
-    let newForm = form;
-    if (form !== null) {
-      newForm = document.getElementById(form);
-    } else {
-      newForm = document.adminForm;
-    }
-
-    const cb = newForm[id];
+  Joomla.listItemTask = (id, task) => {
+    const form = document.adminForm;
+    const cb = form[id];
     let i = 0;
     let cbx;
 
@@ -686,7 +671,7 @@ Joomla.Modal = {
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      cbx = newForm[`cb${i}`];
+      cbx = form[`cb${i}`];
 
       if (!cbx) {
         break;
@@ -698,8 +683,8 @@ Joomla.Modal = {
     }
 
     cb.checked = true;
-    newForm.boxchecked.value = 1;
-    Joomla.submitform(task, newForm);
+    form.boxchecked.value = 1;
+    Joomla.submitform(task);
 
     return false;
   };

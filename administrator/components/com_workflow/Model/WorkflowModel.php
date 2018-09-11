@@ -13,10 +13,9 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Model class for workflow
@@ -40,7 +39,7 @@ class WorkflowModel extends AdminModel
 
 		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
-		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
 	}
@@ -80,12 +79,13 @@ class WorkflowModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$app               = Factory::getApplication();
-		$input             = $app->input;
-		$context           = $this->option . '.' . $this->name;
-		$extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
-		$data['extension'] = !empty($data['extension']) ? $data['extension'] : $extension;
-		$data['asset_id']  = 0;
+		$user					= Factory::getUser();
+		$app					= Factory::getApplication();
+		$input                  = $app->input;
+		$context				= $this->option . '.' . $this->name;
+		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$data['extension']		= $extension;
+		$data['asset_id']		= 0;
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -104,64 +104,21 @@ class WorkflowModel extends AdminModel
 
 		$result = parent::save($data);
 
-		// Create default stages/transitions
+		// Create a default stage
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
-			$workflow_id = (int) $this->getState($this->getName() . '.id');
+			$stage = $this->getTable('Stage');
 
-			$stages = [
-				[
-					'title' => 'JUNPUBLISHED',
-					'condition' => Workflow::CONDITION_UNPUBLISHED,
-					'transition' => 'Unpublish'
-				],
-				[
-					'title' => 'JPUBLISHED',
-					'condition' => Workflow::CONDITION_PUBLISHED,
-					'default' => 1,
-					'transition' => 'Publish'
-				],
-				[
-					'title' => 'JTRASHED',
-					'condition' => Workflow::CONDITION_TRASHED,
-					'transition' => 'Trash'
-				],
-				[
-					'title' => 'JARCHIVED',
-					'condition' => Workflow::CONDITION_ARCHIVED,
-					'transition' => 'Archive'
-				]
-			];
+			$newstage = new \stdClass;
 
-			$table = $this->getTable('Stage');
-			$transition = $this->getTable('Transition');
+			$newstage->workflow_id = (int) $this->getState($this->getName() . '.id');
+			$newstage->title = Text::_('COM_WORKFLOW_PUBLISHED');
+			$newstage->description = '';
+			$newstage->published = 1;
+			$newstage->condition = 1;
+			$newstage->default = 1;
 
-			foreach ($stages as $stage)
-			{
-				$table->reset();
-
-				$table->id = 0;
-				$table->title = $stage['title'];
-				$table->workflow_id = $workflow_id;
-				$table->condition = $stage['condition'];
-				$table->published = 1;
-				$table->default = (int) !empty($stage['default']);
-				$table->description = '';
-
-				$table->store();
-
-				$transition->reset();
-
-				$transition->id = 0;
-				$transition->title = $stage['transition'];
-				$transition->description = '';
-				$transition->workflow_id = $workflow_id;
-				$transition->published = 1;
-				$transition->from_stage_id = -1;
-				$transition->to_stage_id = (int) $table->id;
-
-				$transition->store();
-			}
+			$stage->save($newstage);
 		}
 
 		return $result;
@@ -261,7 +218,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		$extension = Factory::getApplication()->input->get('extension');
+		$extension = Factory::getApplication()->input->get('extension', 'com_content');
 
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $extension);

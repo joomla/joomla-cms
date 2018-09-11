@@ -45,22 +45,22 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th scope="col">
+					<th scope="col" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%">
+					<th scope="col" style="width:25%" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="text-center">
+					<th scope="col" style="width:1%" class="nowrap text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="text-center">
+					<th scope="col" style="width:1%" class="nowrap text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%">
+					<th scope="col" style="width:25%" class="nowrap">
 						<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 					</th>
-					<th scope="col" style="width:1%">
+					<th scope="col" style="width:1%" class="nowrap">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

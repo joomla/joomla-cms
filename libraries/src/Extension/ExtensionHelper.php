@@ -197,7 +197,6 @@ class ExtensionHelper
 
 		// Core plugin extensions - installer
 		array('plugin', 'folderinstaller', 'installer', 0),
-		array('plugin', 'override', 'installer', 0),
 		array('plugin', 'packageinstaller', 'installer', 0),
 		array('plugin', 'urlinstaller', 'installer', 0),
 		array('plugin', 'webinstaller', 'installer', 0),
@@ -210,7 +209,6 @@ class ExtensionHelper
 		// Core plugin extensions - quickicon
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
-		array('plugin', 'overridecheck', 'quickicon', 0),
 		array('plugin', 'phpversioncheck', 'quickicon', 0),
 
 		// Core plugin extensions - sample data

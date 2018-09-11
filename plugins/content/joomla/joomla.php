@@ -247,7 +247,7 @@ class PlgContentJoomla extends CMSPlugin
 		if (isset($tableInfo[$extension]))
 		{
 			// See if this category has any content items
-			$count = $this->_countItemsFromState($extension, $pk, $tableInfo[$extension]['table_name']);
+			$count = $this->_countItemsFromState($extension, $pk, $tableInfo[$extension]);
 
 			// Return false if db error
 			if ($count === false)

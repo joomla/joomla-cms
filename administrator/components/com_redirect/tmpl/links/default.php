@@ -60,31 +60,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table">
 				<thead>
 					<tr>
-						<td style="width:1%" class="text-center">
+						<td style="width:1%" class="text-center nowrap">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" style="width:1%" class="text-center">
+						<th scope="col" style="width:1%" class="text-center nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" class="title">
+						<th scope="col" class="nowrap title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col">
+						<th scope="col" class="nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_REDIRECT_HEADING_NEW_URL', 'a.new_url', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" class="d-none d-md-table-cell">
+						<th scope="col" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_REDIRECT_HEADING_REFERRER', 'a.referer', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_REDIRECT_HEADING_STATUS_CODE', 'a.header', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

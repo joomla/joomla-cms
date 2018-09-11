@@ -57,22 +57,22 @@ if (!empty($editor))
 			<table class="table table-sm">
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center">
+						<th scope="col" style="width:1%" class="text-center nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" class="title">
+						<th scope="col" class="nowrap title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%">
+						<th scope="col" style="width:10%" class="nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%">
+						<th scope="col" style="width:1%" class="nowrap">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -130,7 +130,7 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td>
+						<td class="text-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

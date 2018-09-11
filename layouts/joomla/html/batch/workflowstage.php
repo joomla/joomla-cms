@@ -28,10 +28,7 @@ use Joomla\CMS\Language\Text;
 $attr = array(
 	'id'        => 'batch-workflowstage-id',
 	'group.label' => 'text',
-	'group.items' => null,
-	'list.attr' => [
-		'class' => 'custom-select'
-	]
+	'group.items' => null
 );
 
 $groups = HTMLHelper::_('workflowstage.existing', array('title' => Text::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_NOCHANGE')));

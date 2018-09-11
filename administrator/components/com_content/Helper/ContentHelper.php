@@ -199,9 +199,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$data = (array) $data;
 
-		// Make workflows translateable
-		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
-
 		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
 
 		$query = $db->getQuery(true);
@@ -213,7 +210,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$defaulttitle = $db->setQuery($query)->loadResult();
 
-		$option = Text::_('COM_WORKFLOW_INHERIT_WORKFLOW_NEW');
+		$option = Text::_('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW_NEW');
 
 		if (!empty($data['id']))
 		{
@@ -224,7 +221,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			// Remove the current category, because we search vor inherit from parent
 			array_shift($categories);
 
-			$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($defaulttitle));
+			$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $defaulttitle);
 
 			if (!empty($categories))
 			{
@@ -254,7 +251,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 						if (!is_null($title))
 						{
-							$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($title));
+							$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $title);
 
 							break;
 						}
@@ -267,7 +264,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$field->addOption($option, ['value' => 'inherit']);
 
-		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaulttitle)), ['value' => 'use_default']);
+		$field->addOption(Text::sprintf('COM_CONTENT_WORKFLOW_DEFAULT_WORKFLOW', $defaulttitle), ['value' => 'use_default']);
 
 		$field->addOption('- ' . Text::_('COM_CONTENT_WORKFLOWS') . ' -', ['disabled' => 'true']);
 	}

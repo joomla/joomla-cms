@@ -27,7 +27,6 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Joomla! update overview Model
@@ -390,8 +389,7 @@ class UpdateModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Create restoration file and trigger onJoomlaBeforeUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Create restoration file.
 	 *
 	 * @param   string  $basename  Optional base path to the file.
 	 *
@@ -401,16 +399,10 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function createRestorationFile($basename = null)
 	{
-		// Load overrides plugin.
-		PluginHelper::importPlugin('installer');
-
 		// Get a password
 		$password = UserHelper::genRandomPassword(32);
 		$app = Factory::getApplication();
 		$app->setUserState('com_joomlaupdate.password', $password);
-
-		// Trigger event before joomla update.
-		$app->triggerEvent('onJoomlaBeforeUpdate');
 
 		// Do we have to use FTP?
 		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
@@ -834,8 +826,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Removes the extracted package file.
 	 *
 	 * @return  void
 	 *
@@ -843,19 +834,11 @@ ENDDATA;
 	 */
 	public function cleanUp()
 	{
-		// Load overrides plugin.
-		PluginHelper::importPlugin('installer');
-
-		$app = Factory::getApplication();
-
-		// Trigger event after joomla update.
-		$app->triggerEvent('onJoomlaAfterUpdate');
-
 		// Remove the update package.
 		$config = Factory::getConfig();
 		$tempdir = $config->get('tmp_path');
 
-		$file = $app->getUserState('com_joomlaupdate.file', null);
+		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir . '/' . $file;
 
 		if (!@unlink($target))

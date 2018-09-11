@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * The stage controller
@@ -26,10 +25,10 @@ class StageController extends FormController
 	/**
 	 * The workflow in where the stage belons to
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $workflowId;
+	protected $workflowID;
 
 	/**
 	 * The extension
@@ -47,33 +46,21 @@ class StageController extends FormController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \InvalidArgumentException when no extension or workflow id is set
+	 * @since  __DEPLOY_VERSION__
+	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// If workflow id is not set try to get it from input or throw an exception
-		if (empty($this->workflowId))
+		if (empty($this->workflowID))
 		{
-			$this->workflowId = $this->input->getInt('workflow_id');
-
-			if (empty($this->workflowId))
-			{
-				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_WORKFLOW_ID_NOT_SET'));
-			}
+			$this->workflowID = $this->input->get('workflow_id');
 		}
 
-		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
-
-			if (empty($this->extension))
-			{
-				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
-			}
+			$this->extension = $this->input->get('extension');
 		}
 	}
 
@@ -140,7 +127,7 @@ class StageController extends FormController
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
 
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
 
 		return $append;
 	}
@@ -155,7 +142,7 @@ class StageController extends FormController
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
 
 		return $append;
 	}

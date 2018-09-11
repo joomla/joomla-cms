@@ -352,17 +352,15 @@ class Language
 		{
 			if ($this->debug)
 			{
-				$info = [];
-				$info['trace'] = $this->getTrace();
-				$info['key'] = $key;
-				$info['string'] = $string;
+				$caller = $this->getCallerInfo();
+				$caller['string'] = $string;
 
 				if (!array_key_exists($key, $this->orphans))
 				{
 					$this->orphans[$key] = array();
 				}
 
-				$this->orphans[$key][] = $info;
+				$this->orphans[$key][] = $caller;
 
 				$string = '??' . $string . '??';
 			}
@@ -987,18 +985,6 @@ class Language
 		}
 
 		return $default;
-	}
-
-	/**
-	 * Get a back trace.
-	 *
-	 * @return array
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected function getTrace()
-	{
-		return \function_exists('debug_backtrace') ?  debug_backtrace() : [];
 	}
 
 	/**

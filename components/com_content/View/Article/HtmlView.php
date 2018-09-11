@@ -107,12 +107,14 @@ class HtmlView extends BaseHtmlView
 		$item->tagLayout = new FileLayout('joomla.content.tags');
 
 		// Add router helpers.
-		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+		$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+		$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// No link for ROOT category
 		if ($item->parent_alias === 'root')
 		{
-			$item->parent_id = null;
+			$item->parent_slug = null;
 		}
 
 		// TODO: Change based on shownoauth
@@ -300,7 +302,7 @@ class HtmlView extends BaseHtmlView
 
 			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id, $category->language));
+				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 

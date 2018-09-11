@@ -32,8 +32,8 @@
 
     connectedCallback() {
       // Check whether we have a form
-      const formSelector = this.form || 'adminForm';
-      this.formElement = document.getElementById(formSelector);
+      const formSelector = this.form || '#adminForm';
+      this.formElement = document.querySelector(formSelector);
 
       if (this.listSelection) {
         if (!this.formElement) {

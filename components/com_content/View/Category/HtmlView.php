@@ -95,12 +95,15 @@ class HtmlView extends CategoryView
 		{
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
+			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
 			// No link for ROOT category
 			if ($item->parent_alias === 'root')
 			{
-				$item->parent_id = null;
+				$item->parent_slug = null;
 			}
 
+			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new \stdClass;
 
 			// Old plugins: Ensure that text property is available
@@ -287,7 +290,7 @@ class HtmlView extends CategoryView
 
 			while (($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id, $category->language));
+				$path[] = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 
