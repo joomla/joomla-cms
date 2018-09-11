@@ -282,7 +282,7 @@ class PlgSystemActionLogs extends JPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -313,26 +313,31 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		// If preferences don't exist, insert.
-		if (!$exists && $authorised && isset($user['actionlogsNotify']))
+		if (!$exists && $authorised && isset($user['actionlogs']))
 		{
 			$query = $this->db->getQuery(true)
 				->insert($this->db->quoteName('#__action_logs_users'))
-				->columns($this->db->quoteName(array('user_id', 'notify')))
-				->values((int) $user['id'] . ',' . (int) $user['actionlogsNotify']);
+				->columns($this->db->quoteName(array('user_id', 'notify', 'extensions')))
+				->values(array((int) $user['id'], (int) $user['actionlogs']['actionlogsNotify'], $user['actionlogs']['actionlogsExtensions']));
+		}
+		elseif ($exists && $authorised && isset($user['actionlogs']))
+		{
+			// Update preferences.
+			$query = $this->db->getQuery(true)
+				->update($this->db->quoteName('#__action_logs_users'))
+				->set(
+					array(
+						$this->db->quoteName('notify') . ' = ' . (int) $user['actionlogs']['actionlogsNotify'],
+						$this->db->quoteName('extensions') . ' = ' . $user['actionlogs']['actionlogsExtensions'],
+					)
+				);
+				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
 		}
 		elseif ($exists && !$authorised)
 		{
 			// Remove preferences if user is not authorised.
 			$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__action_logs_users'))
-				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
-		}
-		elseif ($exists && $authorised && isset($user['actionlogsNotify']))
-		{
-			// Update preferences.
-			$query = $this->db->getQuery(true)
-				->update($this->db->quoteName('#__action_logs_users'))
-				->set($this->db->quoteName('notify') . ' = ' . (int) $user['actionlogsNotify'])
 				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
 		}
 

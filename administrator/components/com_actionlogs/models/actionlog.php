@@ -100,13 +100,14 @@ class ActionlogsModelActionlog extends JModelLegacy
 		$params       = ComponentHelper::getParams('com_actionlogs');
 		$showIpColumn = (bool) $params->get('ip_logging', 0);
 
-		$subQuery = $db->getQuery(true)
-			->select($db->quoteName('user_id'))
-			->from($db->quoteName('#__action_logs_users'))
-			->where($db->quoteName('notify') . ' = 1');
-
-		$query->select($db->quoteName(array('email', 'params')))
-			->from($db->quoteName('#__users'))
+		$query
+			->select($db->quoteName(array('u.email', 'l.params')))
+			->from($db->quoteName('#__users', 'u'))
+			->join(
+				'INNER',
+				$db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
+				. $db->quoteName('l.user_id') . = $db->quoteName('u.id') . ')'
+			)
 			->where($db->quoteName('id') . ' IN (' . $subQuery . ')');
 
 		$db->setQuery($query);

@@ -1,6 +1,7 @@
 CREATE TABLE "#__action_logs_users" (
   "user_id" int NOT NULL,
   "notify" tinyint NOT NULL,
+  "extensions" nvarchar(max) NOT NULL,
  CONSTRAINT "PK_#__action_logs_users_user_id" PRIMARY KEY NONCLUSTERED
 (
   "user_id" ASC

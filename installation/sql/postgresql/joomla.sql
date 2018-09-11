@@ -2225,6 +2225,7 @@ SELECT setval('#__action_log_config_id_seq', 18, false);
 CREATE TABLE "#__action_logs_users" (
   "user_id" integer NOT NULL,
   "notify" integer NOT NULL,
+  "extensions" text NOT NULL,
   PRIMARY KEY ("user_id")
 );
 
