@@ -16,10 +16,10 @@ use Joomla\CMS\Form\Form;
 /**
  * Extends AdminModel to be aware of subforms
  *
- *  @since 3.9
+ * @since  3.9
  *
  */
-class AmberModelAdmin extends AdminModel
+class AwareModel extends AdminModel
 {
 
 	/**
@@ -63,7 +63,8 @@ class AmberModelAdmin extends AdminModel
 	 * Have the parent save the base Form and afterwards
 	 * save the subforms by ourselves.
 	 *
-	 * @param   array  $data  The form data.
+	 * @param   array    $data  The form data.
+	 * 
 	 * @return  boolean  True on success, False on error.
 	 *
 	 * {@inheritdoc}
@@ -81,9 +82,11 @@ class AmberModelAdmin extends AdminModel
 	/**
 	 * Retreive a certain subTable
 	 *
-	 * @param   string  $name
+	 * @param   string  $name   The name of the subtable to retrieve
+	 * 
 	 * @return  Table
 	 *
+	 * @since   3.9
 	 */
 	public function getSubTable (string $name)
 	{
@@ -93,9 +96,11 @@ class AmberModelAdmin extends AdminModel
 	/**
 	 * Retreive a certain subModel
 	 *
-	 * @param   string  $name
+	 * @param   string  $name   The name of the submodel to retrieve
+	 * 
 	 * @return  AdminModel
 	 *
+	 * @since   3.9
 	 */
 	public function getSubModel (string $name)
 	{
@@ -105,9 +110,11 @@ class AmberModelAdmin extends AdminModel
 	/**
 	 * Retrieve a certain subForm
 	 *
-	 * @param   string  $name
+	 * @param   string  $name   The name of the subForm to retrieve
+	 * 
 	 * @return  Form
 	 *
+	 * @since   3.9
 	 */
 	public function getSubForm (string $name)
 	{
@@ -124,6 +131,7 @@ class AmberModelAdmin extends AdminModel
 	 *
 	 * @return  void
 	 *
+	 * @since   3.9
 	 */
 	private function checkForDeletions (array $data)
 	{
@@ -157,10 +165,11 @@ class AmberModelAdmin extends AdminModel
 	 * traverse the available subtables to see which parts of the given $data to
 	 * store in which $table
 	 *
-	 * @param   array  $data  The form data.
+	 * @param   array    $data  The form data.
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
+	 * @since   3.9
 	 */
 	private function saveSubForms (array $data)
 	{
@@ -187,7 +196,9 @@ class AmberModelAdmin extends AdminModel
 	/**
 	 * Retrieve an array with all submodels in this object
 	 *
-	 * @return  array($pluralName)
+	 * @return  array  An array of Joomla models
+	 * 
+	 * @since   3.9
 	 */
 	private function getSubModels ()
 	{
@@ -203,6 +214,7 @@ class AmberModelAdmin extends AdminModel
 	 *
 	 * @return  void
 	 *
+	 * @since   3.9
 	 */
 
 	private function loadSubForms ()
@@ -231,10 +243,11 @@ class AmberModelAdmin extends AdminModel
 
 	/**
 	 * Retrieve the prefix to use when loading forms or tables
-	 * Guessing one if none has been seet.
+	 * Guessing one if none has been set.
 	 *
 	 * @return  string
 	 *
+	 * @since   3.9
 	 */
 	private function getPrefix ()
 	{
@@ -253,8 +266,10 @@ class AmberModelAdmin extends AdminModel
 	 * Sets the prefix to use when loading tables or forms
 	 *
 	 * @param   string  $prefix
+	 * 
 	 * @return  void
 	 *
+	 * @since   3.9
 	 */
 	public function setPrefix (string $prefix)
 	{
@@ -264,8 +279,9 @@ class AmberModelAdmin extends AdminModel
 	/**
 	 * Retrieves a certain subform
 	 *
-	 * @return Form[$pluralname]
-	 *
+	 * @return  Form
+	 * 
+	 * @since   3.9
 	 */
 	public function getSubForms ()
 	{
@@ -281,6 +297,7 @@ class AmberModelAdmin extends AdminModel
 	 *
 	 * @return  void
 	 *
+	 * @since   3.9
 	 */
 	private function loadSubTables ()
 	{
@@ -303,6 +320,7 @@ class AmberModelAdmin extends AdminModel
 	 *
 	 * @return  array($pluralName)
 	 *
+	 * @since   3.9
 	 */
 	protected function getSubTables ()
 	{
@@ -322,9 +340,9 @@ class AmberModelAdmin extends AdminModel
 	 * @param   boolean  $clear    Optional argument to force load a new form.
 	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  \JForm|boolean  \JForm object on success, false on error.
+	 * @return  Form|boolean  Form object on success, false on error.
 	 *
-	 * @see     \JForm
+	 * @see     \Joomla\CMS\Form\Form
 	 * @since   1.6
 	 */
 	public function loadForm ($name, $source = null, $options = array(), $clear = false, $xpath = false)
@@ -360,17 +378,13 @@ class AmberModelAdmin extends AdminModel
 	}
 
 	/**
-	 * Method to get a form object.
+	 * Abstract method for getting the form from the model.
 	 *
-	 * @param   string   $name     The name of the form.
-	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array    $options  Optional array of options for the form creation.
-	 * @param   boolean  $clear    Optional argument to force load a new form.
-	 * @param   string   $xpath    An optional xpath to search for the fields.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  \JForm object on success, false on error.
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
-	 * @see     \JForm
 	 * @since   1.6
 	 */
 	public function getForm ($data = array(), $loadData = true)
