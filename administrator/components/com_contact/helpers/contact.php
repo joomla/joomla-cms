@@ -57,127 +57,50 @@ class ContactHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  $items  The contact category objects
+	 * @param   stdClass[]  &$items     The category objects
+	 * @param   stdClass    $config     Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.5
 	 */
-	public static function countItems(&$items)
+	public static function countItems(&$items, $config = null)
 	{
-		$db = JFactory::getDbo();
+		$config = $config ?: (object) array(
+			'related_tbl'   => 'contact_details',
+			'state_col'     => 'published',
+			'group_col'     => 'catid',
+			'relation_type' => 'category_or_group',
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
-				->from($db->qn('#__contact_details'))
-				->where('catid = ' . (int) $item->id)
-				->group('published');
-			$db->setQuery($query);
-			$contacts = $db->loadObjectList();
-
-			foreach ($contacts as $contact)
-			{
-				if ($contact->state == 1)
-				{
-					$item->count_published = $contact->count;
-				}
-
-				if ($contact->state == 0)
-				{
-					$item->count_unpublished = $contact->count;
-				}
-
-				if ($contact->state == 2)
-				{
-					$item->count_archived = $contact->count;
-				}
-
-				if ($contact->state == -2)
-				{
-					$item->count_trashed = $contact->count;
-				}
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  $items      The banner tag objects
+	 * @param   stdClass[]  &$items     The tag objects
 	 * @param   string      $extension  The name of the active view.
+	 * @param   stdClass    $config     Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.6
 	 */
-	public static function countTagItems(&$items, $extension)
+	public static function countTagItems(&$items, $extension, $config = null)
 	{
-		$db = JFactory::getDbo();
-		$parts     = explode('.', $extension);
-		$section   = null;
+		$parts   = explode('.', $extension);
+		$section = count($parts) > 1 ? $parts[1] : null;
 
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
+		$config = $config ?: (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'contact_details'),
+			'state_col'     => 'published',
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
 
-		$join = $db->qn('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
-
-		if ($section === 'category')
-		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
-		}
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published as state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $join)
-				->group('published');
-
-			$db->setQuery($query);
-			$contacts = $db->loadObjectList();
-
-			foreach ($contacts as $contact)
-			{
-				if ($contact->state == 1)
-				{
-					$item->count_published = $contact->count;
-				}
-
-				if ($contact->state == 0)
-				{
-					$item->count_unpublished = $contact->count;
-				}
-
-				if ($contact->state == 2)
-				{
-					$item->count_archived = $contact->count;
-				}
-
-				if ($contact->state == -2)
-				{
-					$item->count_trashed = $contact->count;
-				}
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 
 	/**

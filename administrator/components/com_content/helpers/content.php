@@ -91,141 +91,50 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  $items  The category objects
+	 * @param   stdClass[]  &$items     The category objects
+	 * @param   stdClass    $config     Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.5
 	 */
-	public static function countItems(&$items)
+	public static function countItems(&$items, $config = null)
 	{
-		$db = JFactory::getDbo();
+		$config = $config ?: (object) array(
+			'related_tbl'   => 'content',
+			'state_col'     => 'state',
+			'group_col'     => 'catid',
+			'relation_type' => 'category_or_group',
+		);
 
-		$state_column = 'state';
-		$related_tbl  = 'content';
-
-		// Index category objects by their ID
-		$records = array();
-
-		foreach ($items as $item)
-		{
-			$records[(int) $item->id] = $item;
-		}
-
-		// Get relation counts for all category objects with single query
-		$query = $db->getQuery(true)
-			->select('catid, ' . $state_column . ' AS state, count(*) AS count')
-			->from($db->qn('#__' . $related_tbl))
-			->where('catid IN (' . implode(',', array_keys($records)) . ')')
-			->group('catid, state');
-		$relationsAll = $db->setQuery($query)->loadObjectList();
-
-		// Category records without related data need a zero counter value (above query does not return a value in such a case)
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-		}
-
-		// Loop through the DB data overwritting the above zeros with the found count
-		foreach ($relationsAll as $relation)
-		{
-			$id = (int) $relation->catid;
-
-			if ($relation->state == 1)
-			{
-				$records[$id]->count_published = $relation->count;
-			}
-			elseif ($relation->state == 0)
-			{
-				$records[$id]->count_unpublished = $relation->count;
-			}
-			elseif ($relation->state == 2)
-			{
-				$records[$id]->count_archived = $relation->count;
-			}
-			elseif ($relation->state == -2)
-			{
-				$records[$id]->count_trashed = $relation->count;
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  $items      The content objects
+	 * @param   stdClass[]  &$items     The tag objects
 	 * @param   string      $extension  The name of the active view.
+	 * @param   stdClass    $config     Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.6
 	 */
-	public static function countTagItems(&$items, $extension)
+	public static function countTagItems(&$items, $extension, $config = null)
 	{
-		$db = JFactory::getDbo();
-		$parts     = explode('.', $extension);
-		$section   = null;
+		$parts   = explode('.', $extension);
+		$section = count($parts) > 1 ? $parts[1] : null;
 
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
+		$config = $config ?: (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
+			'state_col'     => ($section === 'category' ? 'published' : 'state'),
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
 
-		$join  = $db->qn('#__content') . ' AS c ON ct.content_item_id=c.id';
-		$state = 'state';
-
-		if ($section === 'category')
-		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
-			$state = 'published as state';
-		}
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select($state . ', count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $join)
-				->group('state');
-			$db->setQuery($query);
-			$contents = $db->loadObjectList();
-
-			foreach ($contents as $content)
-			{
-				if ($content->state == 1)
-				{
-					$item->count_published = $content->count;
-				}
-
-				if ($content->state == 0)
-				{
-					$item->count_unpublished = $content->count;
-				}
-
-				if ($content->state == 2)
-				{
-					$item->count_archived = $content->count;
-				}
-
-				if ($content->state == -2)
-				{
-					$item->count_trashed = $content->count;
-				}
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 
 	/**
