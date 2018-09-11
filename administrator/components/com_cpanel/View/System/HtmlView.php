@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 		// System
 		if ($user->authorise('core.admin'))
 		{
-			$links['MOD_MENU_SYSTEM'] = [
+			$links['COM_CPANEL_SYSTEM_SETUP'] = [
 				// System configuration
 				'com_config' => static::arrayBuilder(
 					'MOD_MENU_CONFIGURATION',
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 				),
 			];
 
-			$headerIcons['MOD_MENU_SYSTEM'] = 'cog';
+			$headerIcons['COM_CPANEL_SYSTEM_SETUP'] = 'cog';
 
 			static::$notEmpty = true;
 		}
