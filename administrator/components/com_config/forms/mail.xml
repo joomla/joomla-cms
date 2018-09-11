@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="mail_id"
+			type="hidden"
+		/>
+
+		<field
+			name="language"
+			type="hidden"
+		/>
+
+		<field
+			name="subject"
+			type="text" 
+			label="Subject"
+			class="input-xxlarge"
+			size="40"
+			required="true"
+		/>
+
+		<field
+			name="subject_switcher"
+			type="radio"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="body"
+			type="editor"
+			editor="none"
+			buttons="false"
+			class="inputbox"
+			filter="JComponentHelper::filterText"
+			label="Body"
+		/>
+
+		<field
+			name="body_switcher"
+			type="radio"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="htmlbody"
+			type="editor"
+			buttons="false"
+			class="inputbox"
+			filter="JComponentHelper::filterText"
+			label="Body"
+		/>
+
+		<field
+			name="htmlbody_switcher"
+			type="radio"
+			class="switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="attachments"
+			type="text"
+			label="Attachments"
+		/>
+
+		<field
+			name="params"
+			type="text"
+			label="Params"
+		/>
+	</fieldset>
+</form>

@@ -104,7 +104,7 @@ class Mail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (Factory::getConfig()->get('mailonline', 1))
+		if (Factory::getApplication()->get('mailonline', 1))
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{

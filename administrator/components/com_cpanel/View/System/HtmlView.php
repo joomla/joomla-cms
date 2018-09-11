@@ -63,6 +63,11 @@ class HtmlView extends BaseHtmlView
 					'index.php?option=com_config',
 					'cog'
 				),
+				'com_config_mails' => static::arrayBuilder(
+					'MOD_MENU_CONFIGURATION_MAILS',
+					'index.php?option=com_config&view=mails',
+					'envelope'
+				),
 			];
 
 			$headerIcons['MOD_MENU_SYSTEM'] = 'cog';
