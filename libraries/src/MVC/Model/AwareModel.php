@@ -6,12 +6,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access to this file
+namespace Joomla\CMS\MVC\Model;
+
 defined('_JEXEC') or die('Restricted access');
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use JFormFieldSubform;
 
 /**
  * Extends AdminModel to be aware of subforms
@@ -64,12 +65,12 @@ class AwareModel extends AdminModel
 	 * save the subforms by ourselves.
 	 *
 	 * @param   array  $data  The form data.
-	 * 
+	 *
 	 * @return  boolean  True on success, False on error.
 	 *
 	 * @since   3.9
 	 */
-	public function save (array $data)
+	public function save ($data)
 	{
 		$result = parent::save($data);
 		$this->saveSubForms($data);
@@ -81,7 +82,7 @@ class AwareModel extends AdminModel
 	 * Retreive a certain subTable
 	 *
 	 * @param   string  $name  The name of the subtable to retrieve
-	 * 
+	 *
 	 * @return  Table
 	 *
 	 * @since   3.9
@@ -95,7 +96,7 @@ class AwareModel extends AdminModel
 	 * Retreive a certain subModel
 	 *
 	 * @param   string  $name  The name of the submodel to retrieve
-	 * 
+	 *
 	 * @return  AdminModel
 	 *
 	 * @since   3.9
@@ -109,7 +110,7 @@ class AwareModel extends AdminModel
 	 * Retrieve a certain subForm
 	 *
 	 * @param   string  $name  The name of the subForm to retrieve
-	 * 
+	 *
 	 * @return  Form
 	 *
 	 * @since   3.9
@@ -195,7 +196,7 @@ class AwareModel extends AdminModel
 	 * Retrieve an array with all submodels in this object
 	 *
 	 * @return  array  An array of Joomla models
-	 * 
+	 *
 	 * @since   3.9
 	 */
 	private function getSubModels ()
@@ -223,9 +224,9 @@ class AwareModel extends AdminModel
 			$this->subforms = array();
 			foreach ($form->getFieldset() as &$formfield)
 			{
-				if ($formfield instanceof JFormFieldSubform)
+			if ($formfield instanceof JFormFieldSubform)
 				{
-					$xmlElement = new SimpleXMLElement($formfield->__get('formsource'), null, $data_is_url = true);
+					$xmlElement = new \SimpleXMLElement($formfield->__get('formsource'), null, $data_is_url = true);
 					$name = (string) $xmlElement->fieldgroup->attributes()->name;
 
 					$newform = new Form($name);
@@ -264,7 +265,7 @@ class AwareModel extends AdminModel
 	 * Sets the prefix to use when loading tables or forms
 	 *
 	 * @param   string  $prefix  The prefix to use when loading tables or forms
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.9
@@ -278,7 +279,7 @@ class AwareModel extends AdminModel
 	 * Retrieves a certain subform
 	 *
 	 * @return  Form
-	 * 
+	 *
 	 * @since   3.9
 	 */
 	public function getSubForms ()
