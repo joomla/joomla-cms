@@ -33,25 +33,25 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 				<table class="table">
 					<thead>
 						<tr>
-							<td style="width:1%" class="text-center nowrap">
+							<td style="width:1%" class="text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" style="width:1%" class="text-center nowrap">
+							<th scope="col" style="width:1%" class="text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" class="nowrap">
+							<th scope="col">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
-								<th scope="col" style="width:1%" class="nowrap text-center">
+								<th scope="col" style="width:1%" class="text-center">
 									<?php echo JText::_('COM_FINDER_HEADING_CHILDREN'); ?>
 								</th>
 							<?php endif; ?>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="text-center">
 								<span class="icon-publish" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="text-center">
 								<span class="icon-unpublish" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
@@ -64,7 +64,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 
 							<td class="text-center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td class="text-center nowrap">
+							<td class="text-center">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
 							</td>
 							<th scope="row">
