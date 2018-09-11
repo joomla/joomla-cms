@@ -14,13 +14,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
 /**
- *
  * Extends AdminModel to be aware of subforms
  *
- * @since 3.9
+ *  @since 3.9
  *
  */
-class AwareModel extends AdminModel
+class AmberModelAdmin extends AdminModel
 {
 
 	/**
@@ -61,6 +60,11 @@ class AwareModel extends AdminModel
 	private $prefix = null;
 
 	/**
+	 * Have the parent save the base Form and afterwards
+	 * save the subforms by ourselves.
+	 *
+	 * @param   array  $data  The form data.
+	 * @return  boolean  True on success, False on error.
 	 *
 	 * {@inheritdoc}
 	 * @see \Joomla\CMS\MVC\Model\AdminModel::save()
@@ -75,9 +79,10 @@ class AwareModel extends AdminModel
 	}
 
 	/**
+	 * Retreive a certain subTable
 	 *
-	 * @param string $name
-	 * @return Table[$pluralname]
+	 * @param   string  $name
+	 * @return  Table
 	 *
 	 */
 	public function getSubTable (string $name)
@@ -86,21 +91,22 @@ class AwareModel extends AdminModel
 	}
 
 	/**
+	 * Retreive a certain subModel
 	 *
-	 * @param string $name
-	 * @return AdminModel[$pluralname]
+	 * @param   string  $name
+	 * @return  AdminModel
 	 *
 	 */
 	public function getSubModel (string $name)
-
 	{
 		return $this->getSubModels()[$name];
 	}
 
 	/**
+	 * Retrieve a certain subForm
 	 *
-	 * @param string $name
-	 * @return Form[$pluralname]
+	 * @param   string  $name
+	 * @return  Form
 	 *
 	 */
 	public function getSubForm (string $name)
@@ -108,14 +114,15 @@ class AwareModel extends AdminModel
 		return $this->getSubForms()[$name];
 	}
 
+
+
 	/**
+	 * Compare the posted form with the previously served form so see if anything
+	 * has been deleted by the user in the meantime
 	 *
-	 * iterates through the items that have originally been saved in the
-	 * subform; to find $items the user wants deleted, and then actually
-	 * delete them.
+	 * @param   array  $data  The form data.
 	 *
-	 * @param array $data
-	 *        	$return void
+	 * @return  void
 	 *
 	 */
 	private function checkForDeletions (array $data)
@@ -134,7 +141,9 @@ class AwareModel extends AdminModel
 				foreach ($data[$name] as $newItem)
 				{
 					if ($newItem[$key] == $oldItem->$key)
+					{
 						$stillExists = true;
+					}
 				}
 				if (! $stillExists)
 				{
@@ -147,6 +156,11 @@ class AwareModel extends AdminModel
 	/**
 	 * traverse the available subtables to see which parts of the given $data to
 	 * store in which $table
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
 	 */
 	private function saveSubForms (array $data)
 	{
@@ -168,12 +182,28 @@ class AwareModel extends AdminModel
 		}
 	}
 
+
+
+	/**
+	 * Retrieve an array with all submodels in this object
+	 *
+	 * @return  array($pluralName)
+	 */
 	private function getSubModels ()
 	{
 		if ($this->submodels == null and $this->subforms == null)
+		{
 			$this->loadSubForms();
+		}
 		return $this->submodels;
 	}
+
+	/**
+	 * Loads all the subforms in this form object
+	 *
+	 * @return  void
+	 *
+	 */
 
 	private function loadSubForms ()
 	{
@@ -193,17 +223,24 @@ class AwareModel extends AdminModel
 					$this->subforms[$name] = $newform;
 
 					$modelname = $prefix . 'Model' . ucfirst($name);
-					$this->submodels[$name] = new $modelname();
+					$this->submodels[$name] = new $modelname;
 				}
 			}
 		}
 	}
 
+	/**
+	 * Retrieve the prefix to use when loading forms or tables
+	 * Guessing one if none has been seet.
+	 *
+	 * @return  string
+	 *
+	 */
 	private function getPrefix ()
 	{
 		if ($this->prefix == null)
 		{
-			// todo: make this more sensable; like asking the controller or
+			// TODO: Make this more sensable; like asking the controller or
 			// the form. For now letś guess
 			$thing = Factory::getApplication()->scope;
 			$thing = str_replace('com_', '', $thing);
@@ -213,8 +250,10 @@ class AwareModel extends AdminModel
 	}
 
 	/**
+	 * Sets the prefix to use when loading tables or forms
 	 *
-	 * @param string $prefix
+	 * @param   string  $prefix
+	 * @return  void
 	 *
 	 */
 	public function setPrefix (string $prefix)
@@ -223,6 +262,7 @@ class AwareModel extends AdminModel
 	}
 
 	/**
+	 * Retrieves a certain subform
 	 *
 	 * @return Form[$pluralname]
 	 *
@@ -230,10 +270,18 @@ class AwareModel extends AdminModel
 	public function getSubForms ()
 	{
 		if ($this->subforms == null)
+		{
 			$this->loadSubForms();
+		}
 		return $this->subforms;
 	}
 
+	/**
+	 * Loads the subtables into the object
+	 *
+	 * @return  void
+	 *
+	 */
 	private function loadSubTables ()
 	{
 		$this->subtables = array();
@@ -244,24 +292,40 @@ class AwareModel extends AdminModel
 			$controllerclass = ucfirst($prefix) . 'Controller' . ucfirst($pluralname);
 			$filename = JPATH_COMPONENT_ADMINISTRATOR . '/controllers/' . $pluralname . '.php';
 			require_once $filename;
-			$controller = new $controllerclass();
+			$controller = new $controllerclass;
 			$singularname = $controller->getModel()->get('name');
 			$this->subtables[$pluralname] = $controller->getModel()->getTable($singularname);
 		}
 	}
 
+	/**
+	 * Retreives an array with all the subforms in this form
+	 *
+	 * @return  array($pluralName)
+	 *
+	 */
 	protected function getSubTables ()
 	{
 		if ($this->subtables == null)
+		{
 			$this->loadSubTables();
+		}
 		return $this->subtables;
 	}
 
 	/**
+	 * Method to get a form object.
 	 *
-	 * {@inheritdoc}
-	 * @see \Joomla\CMS\MVC\Model\FormModel::loadForm()
+	 * @param   string   $name     The name of the form.
+	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
+	 * @param   array    $options  Optional array of options for the form creation.
+	 * @param   boolean  $clear    Optional argument to force load a new form.
+	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
+	 * @return  \JForm|boolean  \JForm object on success, false on error.
+	 *
+	 * @see     \JForm
+	 * @since   1.6
 	 */
 	public function loadForm ($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
@@ -282,9 +346,10 @@ class AwareModel extends AdminModel
 			{
 				$index = $name . $i;
 				$value[$index] = $item;
-				$i = $i + 1;
+				$i ++;
 			}
-			$data->set($name, $value); // Push $items into the $form
+			// Push $items into the $form
+			$data->set($name, $value);
 
 			// Also remember which $items have been delivered , to recognise
 			// if the user wants to delete any later on
@@ -295,10 +360,18 @@ class AwareModel extends AdminModel
 	}
 
 	/**
+	 * Method to get a form object.
 	 *
-	 * {@inheritdoc}
-	 * @see \Joomla\CMS\MVC\Model\FormModel::getForm()
+	 * @param   string   $name     The name of the form.
+	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
+	 * @param   array    $options  Optional array of options for the form creation.
+	 * @param   boolean  $clear    Optional argument to force load a new form.
+	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
+	 * @return  \JForm|boolean  \JForm object on success, false on error.
+	 *
+	 * @see     \JForm
+	 * @since   1.6
 	 */
 	public function getForm ($data = array(), $loadData = true)
 	{
