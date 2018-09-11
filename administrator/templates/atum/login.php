@@ -42,6 +42,7 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
 // Template params
+$showSitename = $this->params->get('showSitename', '1');
 $loginLogo = $this->params->get('loginLogo', '');
 
 
@@ -76,14 +77,24 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 					</div>
 				</noscript>
 				<?php // Begin Content ?>
+				<h1 class="m-3 h4 text-light"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 				<div id="element-box" class="login-box">
-					<div class="login-box-header text-center">
-						<h1 class="m-0"><?php echo $sitename; ?></h1>
+
+					<?php if ($showSitename || $loginLogo) : ?>
+
+					<div class="p-4 bg-white text-center">
+						<?php if ($showSitename) : ?>
+							<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
+						<?php endif; ?>
 						<?php if ($loginLogo) : ?>
-						<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
+							<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
 						<?php endif; ?>
 					</div>
-					<div class="login-box-body">
+
+					<?php endif; ?>
+
+
+					<div class="p-4">
 						<jdoc:include type="message" />
 						<jdoc:include type="component" />
 					</div>
