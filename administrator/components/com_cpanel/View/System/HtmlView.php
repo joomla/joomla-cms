@@ -301,6 +301,30 @@ class HtmlView extends BaseHtmlView
 			static::$notEmpty = true;
 		}
 
+		if ($user->authorise('core.manage', 'com_modules'))
+		{
+			$new = [
+				'com_modules' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_MODULES',
+					'index.php?option=com_modules',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
 		if ($user->authorise('core.manage', 'com_plugins'))
 		{
 			$new = [
