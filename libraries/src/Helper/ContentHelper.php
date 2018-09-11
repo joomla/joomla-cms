@@ -50,7 +50,7 @@ class ContentHelper
 	 *
 	 * @return  stdClass[]
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function countRelations(&$items, $config)
 	{
