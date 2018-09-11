@@ -26,7 +26,9 @@ class AwareModel extends AdminModel
 	 * @var array($pluralName)
 	 *
 	 */
+	
 	private $subforms = null;
+	
 	/**
 	 *
 	 * An array of Joomla! table objects
@@ -35,7 +37,9 @@ class AwareModel extends AdminModel
 	 * @var array($pluralName)
 	 *
 	 */
+	
 	private $subtables = null;
+	
 	/**
 	 *
 	 * An array of Joomla! models of the type AdminModel
@@ -44,13 +48,17 @@ class AwareModel extends AdminModel
 	 * @var array($pluralName)
 	 *
 	 */
+	
 	private $submodels = null;
+	
 	/**
 	 *
 	 * @var string The prefix to use when loading submodels.
 	 *
 	 */
+	
 	private $prefix = null;
+	
 	/**
 	 * Have the parent save the base Form and afterwards
 	 * save the subforms by ourselves.
@@ -336,8 +344,10 @@ class AwareModel extends AdminModel
 				$value[$index] = $item;
 				$i ++;
 			}
+			
 			// Push $items into the $form
 			$data->set($name, $value);
+			
 			// Also remember which $items have been delivered , to recognise
 			// if the user wants to delete any later on
 			$statename = $formHash . '_' . $name;
