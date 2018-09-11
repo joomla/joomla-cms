@@ -56,7 +56,6 @@ class RandomImageHelper
 
 		$image->width  = (int) $width;
 		$image->height = (int) $height;
-		
 		$image->folder = str_replace('\\', '/', $image->folder);
 
 		return $image;
