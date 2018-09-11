@@ -113,7 +113,7 @@ class PlgSystemActionLogs extends JPlugin
 			$data = (object) $data;
 		}
 
-		if (!empty($data->id) && !JUser::getInstance($data->id)->authorise('core.admin'))
+		if (empty($data->id) || !JUser::getInstance($data->id)->authorise('core.admin'))
 		{
 			return true;
 		}
