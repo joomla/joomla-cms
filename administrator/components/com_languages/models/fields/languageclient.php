@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Client Language List field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldLanguageclient extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldLanguageclient extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected $type = 'Languageclient';
 
@@ -30,7 +30,7 @@ class JFormFieldLanguageclient extends JFormFieldList
 	 * Cached form field options.
 	 *
 	 * @var		array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected $cache = array();
 
@@ -39,7 +39,7 @@ class JFormFieldLanguageclient extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getOptions()
 	{
