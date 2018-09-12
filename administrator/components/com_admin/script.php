@@ -1972,7 +1972,10 @@ class JoomlaInstallerScript
 			/*
 			 * Joomla! 3.8.0 thru 3.9.0
 			 */
+			'/administrator/components/com_users/controllers/profile.json.php',
 			'/administrator/includes/toolbar.php',
+			'/components/com_users/controllers/profile_base_json.php',
+			'/components/com_users/controllers/profile.json.php',
 			'/libraries/joomla/filesystem/file.php',
 			'/libraries/joomla/filesystem/folder.php',
 			'/libraries/joomla/filesystem/helper.php',
@@ -1986,6 +1989,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper/folder.php',
 			'/libraries/joomla/filesystem/wrapper/path.php',
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
+			'/media/system/js/helpsite.js',
 			'/plugins/captcha/recaptcha/recaptchalib.php',
 
 			/*
