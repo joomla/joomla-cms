@@ -50,3 +50,4 @@ files:
     dest: /pkg_en-GB.xml
     translation: /pkg_%locale%.xml
     update_option: update_as_unapproved
+    content_segmentation: 0
