@@ -43,3 +43,10 @@ files:
     translation: /installation/language/%locale%/%locale%.xml
     update_option: update_as_unapproved
     content_segmentation: 0
+  - source: /media/system/js/fields/calendar-locales/en.js
+    translation: /media/system/js/fields/calendar-locales/%locale%.js
+    update_option: update_as_unapproved
+  - source: /administrator/manifests/packages/pkg_en-GB.xml
+    dest: /pkg_en-GB.xml
+    translation: /pkg_%locale%.xml
+    update_option: update_as_unapproved
