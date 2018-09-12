@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Skipto plugin to add accessible keyboard navigation to the administrator template .
+ * Skipto plugin to add accessible keyboard navigation to the administrator template.
  *
  * @since  __DEPLOY_VERSION__
  */
