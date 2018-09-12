@@ -58,6 +58,18 @@
 				</field>
 
 				<field
+					name="img_intro_full"
+					type="list"
+					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_DESC"
+					default="none"
+					>
+					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option> 
+					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
+					<option value="none">JNO</option>
+				</field>
+
+				<field
 					name="item_title"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"

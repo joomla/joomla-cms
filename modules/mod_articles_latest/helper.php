@@ -73,6 +73,10 @@ abstract class ModArticlesLatestHelper
 				$model->setState('filter.author_id.include', false);
 				break;
 
+			case 'created_by' :
+				$model->setState('filter.author_id', $params->get('author', array()));
+				break;
+
 			case '0' :
 				break;
 

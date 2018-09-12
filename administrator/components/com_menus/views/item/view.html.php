@@ -140,6 +140,11 @@ class MenusViewItem extends JViewLegacy
 			JToolbarHelper::save2copy('item.save2copy');
 		}
 
+		if (!$isNew && JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
+		{
+			JToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+		}
+
 		if ($isNew)
 		{
 			JToolbarHelper::cancel('item.cancel');

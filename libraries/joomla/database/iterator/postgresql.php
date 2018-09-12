@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database iterator.
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseIteratorPostgresql extends JDatabaseIterator
 {

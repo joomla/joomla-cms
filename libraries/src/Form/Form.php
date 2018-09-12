@@ -322,7 +322,7 @@ class Form
 	 *
 	 * @param   string  $set  The optional name of the fieldset.
 	 *
-	 * @return  array  The array of JFormField objects in the fieldset.
+	 * @return  \JFormField[]  The array of JFormField objects in the fieldset.
 	 *
 	 * @since   11.1
 	 */
@@ -497,7 +497,7 @@ class Form
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  array    The array of JFormField objects in the field group.
+	 * @return  \JFormField[]  The array of JFormField objects in the field group.
 	 *
 	 * @since   11.1
 	 */

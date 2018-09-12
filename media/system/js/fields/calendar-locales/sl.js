@@ -15,5 +15,5 @@ window.JoomlaCalLocale = {
 	minYear : 1900,
 	maxYear : 2100,
 	exit: "Zapri",
-	save: "Počisti"
+	clear: "Počisti"
 };

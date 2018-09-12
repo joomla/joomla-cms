@@ -150,7 +150,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			'installed' => JVERSION,
 			'latest'    => null,
 			'object'    => null,
-			'hasUpdate' => false
+			'hasUpdate' => false,
 		);
 
 		// Fetch the update information from the database.
@@ -270,9 +270,10 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Find the path to the temp directory and the local package.
-		$config  = JFactory::getConfig();
-		$tempdir = $config->get('tmp_path');
-		$target  = $tempdir . '/' . $basename;
+		$config   = JFactory::getConfig();
+		$tempdir  = $config->get('tmp_path');
+		$target   = $tempdir . '/' . $basename;
+		$response = array();
 
 		// Do we have a cached file?
 		$exists = JFile::exists($target);
@@ -289,7 +290,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				$mirror++;
 			}
 
-			return $download;
+			$response['basename'] = $download;
 		}
 		else
 		{
@@ -307,12 +308,52 @@ class JoomlaupdateModelDefault extends JModelLegacy
 					$mirror++;
 				}
 
-				return $download;
+				$response['basename'] = $download;
 			}
 
 			// Yes, it's there, skip downloading.
-			return $basename;
+			$response['basename'] = $basename;
 		}
+
+		$response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
+
+		return $response;
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string   $packagefile   Location of the package to be installed
+	 * @param   JUpdate  $updateObject  The Update Object
+	 *
+	 * @return  boolean  False in case the validation did not work; true in any other case.
+	 * 
+	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
+	 *          does not depend on an up-to-date InstallerHelper at the update time
+	 *
+	 * @since   3.9.0
+	 */
+	private function isChecksumValid($packagefile, $updateObject)
+	{
+		$hashes = array('sha256', 'sha384', 'sha512');
+
+		foreach ($hashes as $hash)
+		{
+			if ($updateObject->get($hash, false))
+			{
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					// Return false in case the hash did not match
+					return false;
+				}
+			}
+		}
+
+		// Well nothing was provided or all worked
+		return true;
 	}
 
 	/**

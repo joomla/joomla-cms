@@ -49,21 +49,24 @@ if (!empty($this->items))
 		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
-		<?php if ($this->params->get('filter_field') !== 'tag') :?>
 		<div class="filter-search">
+			<?php if ($this->params->get('filter_field') === 'tag') :?>
+			<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
+			</select>
+			<?php elseif ($this->params->get('filter_field') === 'month') : ?>
+			<select name="filter-search" id="filter-search" onchange="document.adminForm.submit();">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_MONTH'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
+			</select>
+			<?php else : ?>		
 			<label class="filter-search-lbl element-invisible" for="filter-search">
 				<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
 			</label>
 			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL'); ?>" />
+			<?php endif; ?>
 		</div>
-		<?php else :?>
-		<div class="filter-search">
-			<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
-				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
-			</select>
-		</div>
-		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_pagination_limit')) : ?>

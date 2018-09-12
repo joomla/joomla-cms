@@ -427,7 +427,8 @@ class FinderIndexerHelper
 	 *
 	 * @return  string  The path for the content item.
 	 *
-	 * @since   2.5
+	 * @since       2.5
+	 * @deprecated  4.0
 	 */
 	public static function getContentPath($url)
 	{

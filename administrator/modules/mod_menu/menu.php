@@ -314,7 +314,8 @@ class JAdminCssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
-			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				continue;
 			}

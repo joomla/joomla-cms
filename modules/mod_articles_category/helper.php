@@ -46,9 +46,7 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('list.start', 0);
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
-
-		// This module does not use tags data
-		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
+		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -437,12 +435,13 @@ abstract class ModArticlesCategoryHelper
 	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
 	 * @param   string  $month_year_format           date format to use
+	 * @param   string  $field                       date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $type = 'year', $article_grouping_direction = 'ksort', $month_year_format = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -461,7 +460,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = StringHelper::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -473,7 +472,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = StringHelper::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->$field, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{
@@ -499,6 +498,51 @@ abstract class ModArticlesCategoryHelper
 
 				unset($grouped[$group]);
 			}
+		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Groups items by tags
+	 *
+	 * @param   array   $list       list of items
+	 * @param   string  $direction  ordering direction
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public static function groupByTags($list, $direction = 'ksort')
+	{
+		$grouped  = array();
+		$untagged = array();
+
+		if (!$list)
+		{
+			return $grouped;
+		}
+
+		foreach ($list as $item)
+		{
+			if ($item->tags->itemTags)
+			{
+				foreach ($item->tags->itemTags as $tag)
+				{
+					$grouped[$tag->title][] = $item;
+				}
+			}
+			else
+			{
+				$untagged[] = $item;
+			}
+		}
+
+		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
 		}
 
 		return $grouped;

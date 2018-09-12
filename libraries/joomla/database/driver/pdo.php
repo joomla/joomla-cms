@@ -511,6 +511,20 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	}
 
 	/**
+	 * Get the version of the database connector.
+	 *
+	 * @return  string  The database connector version.
+	 *
+	 * @since   3.9.0
+	 */
+	public function getVersion()
+	{
+		$this->connect();
+
+		return $this->getOption(PDO::ATTR_SERVER_VERSION);
+	}
+
+	/**
 	 * Sets an attribute on the PDO database handle.
 	 *
 	 * Usage: $db->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);

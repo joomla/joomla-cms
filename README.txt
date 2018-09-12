@@ -1,7 +1,7 @@
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 3.8 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_3.8_version_history
+	* Joomla! 3.9 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_3.9_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/staging
 
 2- What is Joomla?
