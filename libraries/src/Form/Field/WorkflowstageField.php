@@ -11,7 +11,9 @@ namespace Joomla\CMS\Form\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Workflow Stages field.
@@ -34,7 +36,7 @@ class WorkflowstageField extends GroupedlistField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $extension = 'com_content';
+	protected $extension = '';
 
 	/**
 	 * Show only the stages which has an item attached
@@ -59,13 +61,17 @@ class WorkflowstageField extends GroupedlistField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		$success = parent::setup($element, $value, $group);
+		$result = parent::setup($element, $value, $group);
 
-		if ($success)
+		if ($result)
 		{
 			if (strlen($element['extension']))
 			{
-				$this->extension =  (string) $element['extension'];
+				$this->extension = (string) $element['extension'];
+			}
+			else
+			{
+				$this->extension = Factory::getApplication()->input->getCmd('extension');
 			}
 
 			if ((string) $element['activeonly'] == '1' || (string) $element['activeonly'] == 'true')
@@ -74,7 +80,7 @@ class WorkflowstageField extends GroupedlistField
 			}
 		}
 
-		return $success;
+		return $result;
 	}
 
 	/**
@@ -117,14 +123,14 @@ class WorkflowstageField extends GroupedlistField
 		foreach ($stages as $stage)
 		{
 			// Using workflow ID to differentiate workflows having same title
-			$workflowStageKey = $stage->workflow_title . ' (' . $stage->workflow_id . ')';
+			$workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
 			if (!array_key_exists($workflowStageKey, $workflowStages))
 			{
 				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, $stage->workflow_stage_title);
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
 		}
 
 		// Merge any additional options in the XML definition.

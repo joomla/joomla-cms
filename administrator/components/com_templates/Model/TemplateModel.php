@@ -13,15 +13,16 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
+use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 
 /**
  * Template model class.
@@ -70,6 +71,303 @@ class TemplateModel extends FormModel
 	}
 
 	/**
+	 * Method to store file information.
+	 *
+	 * @param   string    $path      The base path.
+	 * @param   string    $name      The file name.
+	 * @param   stdClass  $template  The std class object of template.
+	 *
+	 * @return  object  StdClass object.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function storeFileInfo($path, $name, $template)
+	{
+		$temp = new \stdClass;
+		$temp->id = base64_encode($path . $name);
+		$temp->client = $template->client_id;
+		$temp->template = $template->element;
+		$temp->extension_id = $template->extension_id;
+
+		if ($coreFile = $this->getCoreFile($path . $name, $template->client_id))
+		{
+			$temp->coreFile = md5_file($coreFile);
+		}
+		else
+		{
+			$temp->coreFile = null;
+		}
+
+		return $temp;
+	}
+
+	/**
+	 * Method to get all template list.
+	 *
+	 * @return  object  stdClass object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTemplateList()
+	{
+		// Get a db connection.
+		$db = Factory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		// Select the required fields from the table
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.extension_id, a.name, a.element, a.client_id'
+			)
+		);
+
+		$query->from($db->quoteName('#__extensions', 'a'))
+			->where($db->quoteName('a.enabled') . ' = 1')
+			->where($db->quoteName('a.type') . ' = ' . $db->quote('template'));
+
+		// Reset the query.
+		$db->setQuery($query);
+
+		// Load the results as a list of stdClass objects.
+		$results = $db->loadObjectList();
+
+		return $results;
+	}
+
+	/**
+	 * Method to get all updated file list.
+	 *
+	 * @param   boolean  $state    The optional parameter if you want unchecked list.
+	 * @param   boolean  $all      The optional parameter if you want all list.
+	 * @param   boolean  $cleanup  The optional parameter if you want to clean record which is no more required.
+	 *
+	 * @return  object  stdClass object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getUpdatedList($state = false, $all = false, $cleanup = false)
+	{
+		// Get a db connection.
+		$db = Factory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		// Select the required fields from the table
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.template, a.hash_id, a.extension_id, a.state, a.action, a.client_id, a.created_date, a.modified_date'
+			)
+		);
+
+		$template = $this->getTemplate();
+
+		$query->from($db->quoteName('#__template_overrides', 'a'));
+
+		if (!$all)
+		{
+			$query->where('extension_id = ' . $db->quote($template->extension_id));
+		}
+
+		if ($state)
+		{
+			$query->where('state = 0');
+		}
+
+		$query->order($db->quoteName('a.modified_date') . ' DESC');
+
+		// Reset the query.
+		$db->setQuery($query);
+
+		// Load the results as a list of stdClass objects.
+		$pks = $db->loadObjectList();
+
+		if ($state)
+		{
+			return $pks;
+		}
+
+		$results = array();
+
+		foreach ($pks as $pk)
+		{
+			$client = ApplicationHelper::getClientInfo($pk->client_id);
+			$path = Path::clean($client->path . '/templates/' . $pk->template . base64_decode($pk->hash_id));
+
+			if (file_exists($path))
+			{
+				$results[] = $pk;
+			}
+			elseif ($cleanup)
+			{
+				$cleanupIds = array();
+				$cleanupIds[] = $pk->hash_id;
+				$this->publish($cleanupIds, -3, $pk->extension_id);
+			}
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Method to get a list of all the core files of override files.
+	 *
+	 * @return  array  A array of all core files.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCoreList()
+	{
+		// Get list of all templates
+		$templates = $this->getTemplateList();
+
+		// Initialize the array variable to store core file list.
+		$this->coreFileList = array();
+
+		$app = Factory::getApplication();
+
+		foreach ($templates as $template)
+		{
+			$client  = ApplicationHelper::getClientInfo($template->client_id);
+			$element = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$path    = Path::clean($element . 'html/');
+
+			if (is_dir($path))
+			{
+				$this->prepareCoreFiles($path, $element, $template);
+			}
+			else
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
+
+				return false;
+			}
+		}
+
+		// Sort list of stdClass array.
+		usort(
+			$this->coreFileList,
+			function ($a, $b)
+			{
+				return strcmp($a->id, $b->id);
+			}
+		);
+
+		return $this->coreFileList;
+	}
+
+	/**
+	 * Prepare core files.
+	 *
+	 * @param   string    $dir       The path of the directory to scan.
+	 * @param   string    $element   The path of the template element.
+	 * @param   stdClass  $template  The stdClass object of template.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function prepareCoreFiles($dir, $element, $template)
+	{
+		$dirFiles = scandir($dir);
+
+		foreach ($dirFiles as $key => $value)
+		{
+			if (in_array($value, array('.', '..', 'node_modules')))
+			{
+				continue;
+			}
+
+			if (is_dir($dir . $value))
+			{
+				$relativePath = str_replace($element, '', $dir . $value);
+				$this->prepareCoreFiles($dir . $value . '/', $element, $template);
+			}
+			else
+			{
+				$ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
+				$allowedFormat = $this->checkFormat($ext);
+
+				if ($allowedFormat === true)
+				{
+					$relativePath = str_replace($element, '', $dir);
+					$info = $this->storeFileInfo('/' . $relativePath, $value, $template);
+
+					if ($info)
+					{
+						$this->coreFileList[] = $info;
+					}
+				}
+			}
+		}
+
+		return;
+	}
+
+	/**
+	 * Method to update status of list.
+	 *
+	 * @param   array    $ids    The base path.
+	 * @param   array    $value  The file name.
+	 * @param   integer  $exid   The template extension id.
+	 *
+	 * @return  integer  Number of files changed.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish($ids, $value, $exid)
+	{
+		$db = Factory::getDbo();
+
+		foreach ($ids as $id)
+		{
+			if ($value === -3)
+			{
+				$deleteQuery = $db->getQuery(true)
+					->delete($db->quoteName('#__template_overrides'))
+					->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
+					->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+
+				try
+				{
+					// Set the query using our newly populated query object and execute it.
+					$db->setQuery($deleteQuery);
+					$result = $db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					return $e;
+				}
+			}
+			elseif ($value === 1 || $value === 0)
+			{
+				$updateQuery = $db->getQuery(true)
+					->update($db->quoteName('#__template_overrides'))
+					->set($db->quoteName('state') . ' = ' . $db->quote($value))
+					->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
+					->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+
+				try
+				{
+					// Set the query using our newly populated query object and execute it.
+					$db->setQuery($updateQuery);
+					$result = $db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					return $e;
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to get a list of all the files to edit in a template.
 	 *
 	 * @return  array  A nested array of relevant files.
@@ -107,6 +405,9 @@ class TemplateModel extends FormModel
 
 				return false;
 			}
+
+			// Clean up override history
+			$this->getUpdatedList(false, true, true);
 		}
 
 		return $result;
@@ -152,6 +453,148 @@ class TemplateModel extends FormModel
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to get the core file of override file
+	 *
+	 * @param   string   $file       Override file
+	 * @param   integer  $client_id  Client Id
+	 *
+	 * @return  string  $corefile The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCoreFile($file, $client_id)
+	{
+		$app          = Factory::getApplication();
+		$filePath     = Path::clean($file);
+		$explodeArray = explode(DIRECTORY_SEPARATOR, $filePath);
+
+		// Only allow html/ folder
+		if ($explodeArray['1'] !== 'html')
+		{
+			return false;
+		}
+
+		$fileName = basename($filePath);
+		$type     = $explodeArray['2'];
+		$client   = ApplicationHelper::getClientInfo($client_id);
+
+		$componentPath = Path::clean($client->path . '/components/');
+		$modulePath    = Path::clean($client->path . '/modules/');
+		$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
+
+		// For modules
+		if (stristr($type, 'mod_') !== false)
+		{
+			$folder   = $explodeArray['2'];
+			$htmlPath = Path::clean($modulePath . $folder . '/tmpl/');
+			$fileName = $this->getSafeName($fileName);
+			$coreFile = Path::find($htmlPath, $fileName);
+
+			return $coreFile;
+		}
+		elseif (stristr($type, 'com_') !== false)
+		{
+			// For components
+			$folder    = $explodeArray['2'];
+			$subFolder = $explodeArray['3'];
+			$fileName  = $this->getSafeName($fileName);
+
+			// The new scheme, if a view has a tmpl folder
+			$newHtmlPath = Path::clean($componentPath . $folder . '/tmpl/' . $subFolder . '/');
+
+			if (!$coreFile = Path::find($newHtmlPath, $fileName))
+			{
+				// The old scheme, the views are directly in the component/tmpl folder
+				$oldHtmlPath = Path::clean($componentPath . $folder . '/views/' . $subFolder . '/tmpl/');
+				$coreFile    = Path::find($oldHtmlPath, $fileName);
+
+				return $coreFile;
+			}
+
+			return $coreFile;
+		}
+		elseif (stristr($type, 'layouts') !== false)
+		{
+			// For Jlayouts
+			$subtype = $explodeArray['3'];
+
+			if (stristr($subtype, 'com_'))
+			{
+				$folder    = $explodeArray['3'];
+				$subFolder = array_slice($explodeArray, 4, -1);
+				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
+				$htmlPath  = Path::clean($componentPath . $folder . '/layouts/' . $subFolder);
+				$fileName  = $this->getSafeName($fileName);
+				$coreFile  = Path::find($htmlPath, $fileName);
+
+				return $coreFile;
+			}
+			elseif (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins'))
+			{
+				$subFolder = array_slice($explodeArray, 3, -1);
+				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
+				$htmlPath  = Path::clean($layoutPath . $subFolder);
+				$fileName  = $this->getSafeName($fileName);
+				$coreFile  = Path::find($htmlPath, $fileName);
+
+				return $coreFile;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Creates a safe file name for the given name.
+	 *
+	 * @param   string  $name  The filename
+	 *
+	 * @return  string $fileName  The filtered name without Date
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getSafeName($name)
+	{
+		if (preg_match('/[0-9]/', $name))
+		{
+			// Get the extension
+			$extension = File::getExt($name);
+
+			// Remove ( Date ) from file
+			$explodeArray = explode('-', $name);
+			$size = count($explodeArray);
+			$date = $explodeArray[$size - 2] . '-' . str_replace('.' . $extension, '', $explodeArray[$size - 1]);
+
+			if ($this->validateDate($date))
+			{
+				$nameWithoutExtension = implode('-', array_slice($explodeArray, 0, -2));
+
+				// Filtered name
+				$name = $nameWithoutExtension . '.' . $extension;
+			}
+		}
+
+		return $name;
+	}
+
+	/**
+	 * Validate Date in file name.
+	 *
+	 * @param   string  $date  Date to validate.
+	 *
+	 * @return boolean Return true if date is valid and false if not.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function validateDate($date)
+	{
+		$format = 'Ymd-His';
+		$valid  = Date::createFromFormat($format, $date);
+
+		return $valid && $valid->format($format) === $date;
 	}
 
 	/**
@@ -457,8 +900,15 @@ class TemplateModel extends FormModel
 			if (file_exists($filePath))
 			{
 				$item->extension_id = $this->getState('extension.id');
-				$item->filename = $fileName;
+				$item->filename = Path::clean($fileName);
 				$item->source = file_get_contents($filePath);
+				$item->filePath = Path::clean($filePath);
+
+				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
+				{
+					$item->coreFile = $coreFile;
+					$item->core = file_get_contents($coreFile);
+				}
 			}
 			else
 			{

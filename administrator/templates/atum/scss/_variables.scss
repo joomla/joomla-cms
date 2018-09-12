@@ -21,7 +21,7 @@ $red:                              #c52827;
 $yellow:                           #b35900;
 $green:                            #2f7d32;
 $teal:                             #20c997;
-$cyan:                             #17a2b8;
+$cyan:                             #108193;
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -55,18 +55,7 @@ $header-height:                    55px;
 // Toolbar
 $atum-toolbar-line-height:         2.3rem;
 
-// Menu Toggle
-$atum-button-width:                30px;
-$atum-button-height:               $header-height;
-$atum-bar-thickness:               3px;
-$atum-button-pad:                  5px;
-$atum-button-bar-space:            3px;
-$atum-button-transistion-duration: .3s;
-
 // Sidebar
-$atum-sidebar-bg:                  $atum-template-color-dark;
-$atum-sidebar-item-title:          .9rem;
-$atum-sidebar-hover:               #59daff;
 $atum-sidebar-active:              #59afff;
 $atum-level-1-bg:                  rgba($black, .65);
 $atum-level-2-bg:                  rgba($black, .05);
@@ -159,12 +148,8 @@ $custom-select-bg:                 $white-offset;
 $zindex-modal:                     1080;
 $modal-header-height:              46px;
 
-// Badges
-$badge-default-bg:                 #5e7082;
-
 // Quickicons
 $quickicon-bg:                     $white;
-$quickicon-text-color:             $gray-100;
 $quickicon-box-shadow:             $atum-box-shadow;
 $quickicon-box-shadow-hover:       0 0 8px 0 rgba($black, .3);
 $quickicon-box-shadow-success:     0 0 3px 0 theme-color("success");

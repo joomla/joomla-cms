@@ -11,14 +11,16 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Installer\Administrator\Model\InstallModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Installer\Administrator\Model\InstallModel;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template style controller class.
@@ -44,6 +46,9 @@ class TemplateController extends BaseController
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
+		$this->registerTask('unpublish', 'publish');
+		$this->registerTask('publish',   'publish');
+		$this->registerTask('deleteOverrideHistory', 'publish');
 	}
 
 	/**
@@ -70,6 +75,64 @@ class TemplateController extends BaseController
 		$app  = Factory::getApplication();
 		$file = base64_encode('home');
 		$id   = $this->input->get('id');
+		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$this->setRedirect(Route::_($url, false));
+	}
+
+	/**
+	 * Marked as Checked/Unchecked of override history.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish()
+	{
+		// Check for request forgeries.
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		$app  = Factory::getApplication();
+		$file = $this->input->get('file');
+		$id   = $this->input->get('id');
+
+		$ids    = $this->input->get('cid', array(), 'array');
+		$values = array('publish' => 1, 'unpublish' => 0, 'deleteOverrideHistory' => -3);
+		$task   = $this->getTask();
+		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+
+		if (empty($ids))
+		{
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_NO_FILE_SELECTED'), 'warning');
+		}
+		else
+		{
+			/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+			$model = $this->getModel();
+
+			// Change the state of the records.
+			if (!$model->publish($ids, $value, $id))
+			{
+				$this->setMessage(implode('<br>', $model->getErrors()), 'warning');
+			}
+			else
+			{
+				if ($value === 1)
+				{
+					$ntext = 'COM_TEMPLATES_N_OVERRIDE_CHECKED';
+				}
+				elseif ($value === 0)
+				{
+					$ntext = 'COM_TEMPLATES_N_OVERRIDE_UNCHECKED';
+				}
+				elseif ($value === -3)
+				{
+					$ntext = 'COM_TEMPLATES_N_OVERRIDE_DELETED';
+				}
+
+				$this->setMessage(Text::plural($ntext, count($ids)));
+			}
+		}
+
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 		$this->setRedirect(Route::_($url, false));
 	}
@@ -737,5 +800,44 @@ class TemplateController extends BaseController
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}
+	}
+
+	/**
+	 * Fetch and report updates in \JSON format, for AJAX requests
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function ajax()
+	{
+		$app = $this->app;
+
+		if (!Session::checkToken('get'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo Text::_('JINVALID_TOKEN');
+			$app->close();
+		}
+
+		// Checks status of installer override plugin.
+		if (!PluginHelper::isEnabled('installer', 'override'))
+		{
+			$error = array('installerOverride' => 'disabled');
+
+			echo json_encode($error);
+
+			$app->close();
+		}
+
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		$model = $this->getModel();
+
+		$result = $model->getUpdatedList(true, true);
+
+		echo json_encode($result);
+
+		$app->close();
 	}
 }
