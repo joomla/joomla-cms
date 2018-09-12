@@ -11,17 +11,16 @@ namespace Joomla\Component\Config\Administrator\View\Mails;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
 
 /**
  * View for the mails configuration
  *
- * @since  4.0.0
+ * @since   DEPLOY_VERSION
  */
 class HtmlView extends BaseHtmlView
 {
@@ -68,7 +67,13 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   DEPLOY_VERSION
 	 */
 	public function display($tpl = null)
 	{
@@ -109,7 +114,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 * 
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function addToolbar()
 	{

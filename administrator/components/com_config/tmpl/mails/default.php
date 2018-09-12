@@ -9,21 +9,17 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_weblinks.category');
-$saveOrder	= $listOrder == 'a.ordering';
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_config&view=mails'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -39,19 +35,19 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<table class="table" id="mailList">
 						<thead>
 							<tr>
-								<th scope="col" style="min-width:100px" class="nowrap">
+								<th scope="col" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONFIG_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%"  class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:15%"  class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_CONFIG_HEADING_LANUAGES'); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_CONFIG_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -61,13 +57,13 @@ $saveOrder	= $listOrder == 'a.ordering';
 							list($component, $sub_id) = explode('.', $item->mail_id, 2);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td scope="row">
+								<td>
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 								</td>
-								<td scope="row">
+								<td>
 									<?php echo Text::_($component); ?>
 								</td>
-								<td scope="row">
+								<td>
 									<?php foreach ($this->languages as $language) : ?>
 										<?php $exists = in_array($language->lang_code, $item->languages); ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_config&task=mail.edit&mail_id=' . $item->mail_id . '&language=' . $language->lang_code); ?>"
@@ -80,10 +76,10 @@ $saveOrder	= $listOrder == 'a.ordering';
 										</a>
 									<?php endforeach; ?>
 								</td>
-								<td scope="row">
+								<td>
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>
-								<td scope="row">
+								<td>
 									<?php echo $item->mail_id; ?>
 								</td>
 							</tr>

@@ -10,10 +10,10 @@
 // no direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 HTMLHelper::_('behavior.formvalidator');
@@ -25,7 +25,7 @@ list($component, $sub_id) = explode('.', $this->master->mail_id, 2);
 
 $doc = Factory::getDocument();
 $doc->addScriptDeclaration('
-jQuery(document).ready(function() {
+document.addEventListener(\'DOMContentLoaded\', () => {
 	var templateData = ' . json_encode($this->templateData) . ';
 	document.querySelectorAll(\'#item-form joomla-field-switcher\').forEach(function (el) {
 		el.addEventListener(\'joomla.switcher.on\', function() {

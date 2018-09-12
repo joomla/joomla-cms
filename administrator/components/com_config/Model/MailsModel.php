@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 /**
  * Methods supporting a list of mail records.
  *
- * @since  4.0.0
+ * @since  DEPLOY_VERSION
  */
 class MailsModel extends ListModel
 {
@@ -27,11 +27,12 @@ class MailsModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * 
-	 * @since   4.0.0
+	 * @since   DEPLOY_VERSION
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'mailkey', 'a.mailkey',
@@ -45,13 +46,21 @@ class MailsModel extends ListModel
 		parent::__construct($config);
 	}
 
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since   4.0.0
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -66,6 +75,13 @@ class MailsModel extends ListModel
 		parent::populateState('a.mailkey', 'asc');
 	}
 
+	/**
+	 * Get a list of mail templates
+	 * 
+	 * @return  array
+	 * 
+	 * @since   DEPLOY_VERSION
+	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
@@ -86,19 +102,20 @@ class MailsModel extends ListModel
 
 		return $items;
 	}
+
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  QueryInterface
 	 * 
-	 * @since   4.0.0
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$user	= Factory::getUser();
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -107,11 +124,18 @@ class MailsModel extends ListModel
 				'a.*'
 			)
 		);
-		$query->from($db->quoteName('#__mail_templates').' AS a')->group('a.mail_id');
+		$query->from($db->quoteName('#__mail_templates') . ' AS a')->group('a.mail_id');
 
 		return $query;
 	}
 
+	/**
+	 * Get a list of the current content languages
+	 * 
+	 * @return  array
+	 * 
+	 * @since   DEPLOY_VERSION
+	 */
 	public function getLanguages()
 	{
 		return LanguageHelper::getContentLanguages(array(0,1));

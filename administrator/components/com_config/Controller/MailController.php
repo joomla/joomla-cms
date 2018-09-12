@@ -11,29 +11,27 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * The mail controller
  *
- * @since  4.0.0
+ * @since  DEPLOY_VERSION
  */
 class MailController extends FormController
 {
 	/**
-	 * Method override to check if you can add a new record.
+	 * Method to check if you can add a new record.
 	 *
 	 * @param   array  $data  An array of input data.
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -41,13 +39,14 @@ class MailController extends FormController
 	}
 
 	/**
-	 * Method to check if you can add a new record.
+	 * Method to check if you can edit a record.
 	 *
 	 * @param   array   $data  An array of input data.
 	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
-	 * @since   1.6
+	 * 
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -63,7 +62,7 @@ class MailController extends FormController
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   1.6
+	 * @since   DEPLOY_VERSION
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
@@ -116,7 +115,7 @@ class MailController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   1.6
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -135,7 +134,7 @@ class MailController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   DEPLOY_VERSION
 	 */
 	public function save($key = null, $urlVar = null)
 	{

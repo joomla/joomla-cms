@@ -12,15 +12,15 @@ namespace Joomla\Component\Config\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Item Model for a Mail template.
  *
- * @since   4.0.0
+ * @since  DEPLOY_VERSION
  */
 class MailModel extends AdminModel
 {
@@ -28,7 +28,7 @@ class MailModel extends AdminModel
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  DEPLOY_VERSION
 	 */
 	protected $text_prefix = 'COM_CONFIG';
 
@@ -36,7 +36,7 @@ class MailModel extends AdminModel
 	 * The type alias for this content type (for example, 'com_content.article').
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  DEPLOY_VERSION
 	 */
 	public $typeAlias = 'com_config.mail';
 
@@ -46,7 +46,8 @@ class MailModel extends AdminModel
 	 * @param   object  $record  A record object.
 	 * 
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since   4.0.0
+	 * 
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function canDelete($record)
 	{
@@ -59,7 +60,8 @@ class MailModel extends AdminModel
 	 * @param   object  $record  A record object.
 	 * 
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since   4.0.0
+	 * 
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function canEditState($record)
 	{
@@ -73,7 +75,8 @@ class MailModel extends AdminModel
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 * 
 	 * @return  JForm  A JForm object on success, false on failure
-	 * @since   4.0.0
+	 * 
+	 * @since   DEPLOY_VERSION
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -98,7 +101,7 @@ class MailModel extends AdminModel
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   4.0.0
+	 * @since   DEPLOY_VERSION
 	 */
 	public function getItem($pk = null)
 	{
@@ -150,7 +153,7 @@ class MailModel extends AdminModel
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   4.0.0
+	 * @since   DEPLOY_VERSION
 	 */
 	public function getMaster($pk = null)
 	{
@@ -188,14 +191,16 @@ class MailModel extends AdminModel
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
-	 * @since   4.0.0
+	 * 
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = Factory::getApplication()->getUserState('com_adminmails.edit.adminmail.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
 
@@ -207,7 +212,7 @@ class MailModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function populateState()
 	{

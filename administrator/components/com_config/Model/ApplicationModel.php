@@ -984,7 +984,12 @@ class ApplicationModel extends FormModel
 
 		// Prepare email and send try to send it
 		$mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
-		$mailer->addTemplateData(array('sitename' => $app->get('sitename'), 'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))));
+		$mailer->addTemplateData(
+			array(
+				'sitename' => $app->get('sitename'),
+				'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))
+			)
+		);
 		$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
 
 		if ($mailer->send() === true)

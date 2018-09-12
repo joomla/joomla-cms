@@ -20,12 +20,12 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View to edit a mail.
  *
- * @since  4.0.0
+ * @since  DEPLOY_VERSION
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
 	 * @var  Joomla\CMS\Form\Form
 	 */
@@ -46,14 +46,20 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   DEPLOY_VERSION
 	 */
 	public function display($tpl = null)
 	{
-		$this->state	= $this->get('State');
-		$this->item		= $this->get('Item');
-		$this->master	= $this->get('Master');
-		$this->form		= $this->get('Form');
+		$this->state = $this->get('State');
+		$this->item = $this->get('Item');
+		$this->master = $this->get('Master');
+		$this->form = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -92,7 +98,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 * 
+	 * @since   DEPLOY_VERSION
 	 */
 	protected function addToolbar()
 	{

@@ -147,8 +147,8 @@ class MailTemplate
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from('#__mail_templates')
-			->where('mail_id = '.$db->quote($this->mail_id))
-			->where('language IN (\'\','.$db->quote($this->language) . ')')
+			->where('mail_id = ' . $db->quote($this->mail_id))
+			->where('language IN (\'\',' . $db->quote($this->language) . ')')
 			->order('language DESC');
 		$db->setQuery($query);
 		$mail = $db->loadObject();
@@ -159,7 +159,7 @@ class MailTemplate
 
 		foreach ($keys as &$key)
 		{
-			$key = '{'.strtoupper($key).'}';
+			$key = '{' . strtoupper($key) . '}';
 		}
 
 		$mail->subject = str_replace($keys, array_values($this->data), Text::_($mail->subject));
@@ -193,8 +193,7 @@ class MailTemplate
 			}
 		}
 
-		$attachments = (array) json_decode($mail->attachments);
-		$attachments = array_merge($attachments, $this->attachments);
+		$attachments = array_merge((array) json_decode($mail->attachments), $this->attachments);
 
 		foreach ($attachments as $attachment)
 		{
