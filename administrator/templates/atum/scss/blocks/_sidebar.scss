@@ -240,7 +240,7 @@
     left: 100% !important;
     height: auto;
     padding: 2px 0;
-    background-color: darken($atum-template-color, 6%);
+    background-color: var(--sidebar-bg);
     box-shadow: 0 0 8px rgba($black, .2);
 
     > li > a {
