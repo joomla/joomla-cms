@@ -29,7 +29,7 @@
 			size="30"
 			validate="username"
 		/>
- 
+
 		<field
 			name="password1"
 			type="password"
