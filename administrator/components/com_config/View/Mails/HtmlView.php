@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View for the mails configuration
  *
- * @since   DEPLOY_VERSION
+ * @since  DEPLOY_VERSION
  */
 class HtmlView extends BaseHtmlView
 {

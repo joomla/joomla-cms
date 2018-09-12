@@ -95,6 +95,8 @@ class MailTemplate
 	 * @param   string  $name  Filename of the attachment
 	 * @param   string  $file  Either a filepath or filecontent
 	 * 
+	 * @return  void
+	 * 
 	 * @since   4.0.0
 	 */
 	public function addAttachment($name, $file)
@@ -112,6 +114,8 @@ class MailTemplate
 	 * @param   string  $name  Name of the recipient
 	 * @param   string  $type  How should the recipient receive the mail? ('to', 'cc', 'bcc')
 	 * 
+	 * @return  void
+	 * 
 	 * @since   4.0.0
 	 */
 	public function addRecipient($mail, $name, $type = 'to')
@@ -128,6 +132,8 @@ class MailTemplate
 	 * 
 	 * @param   array  $data  Associative array of strings to replace
 	 * 
+	 * @return  void
+	 * 
 	 * @since   4.0.0
 	 */
 	public function addTemplateData($data)
@@ -139,6 +145,7 @@ class MailTemplate
 	 * Render and send the mail
 	 * 
 	 * @return  boolean  True on success
+	 * 
 	 * @since   4.0.0
 	 */
 	public function send()
