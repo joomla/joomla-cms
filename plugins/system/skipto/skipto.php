@@ -60,6 +60,6 @@ class PlgSystemSkipto extends CMSPlugin
 
 			HTMLHelper::_('script', 'plg_system_skipto/skipto.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 			HTMLHelper::_('stylesheet', 'plg_system_skipto/skipto.css', array('version' => 'auto', 'relative' => true));
- 		}
+		}
 	}
 }
