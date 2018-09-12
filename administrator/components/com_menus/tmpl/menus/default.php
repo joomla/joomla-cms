@@ -54,7 +54,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 					<table class="table" id="menuList">
 						<thead>
 							<tr>
-								<td style="width:1%">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">
