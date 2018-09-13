@@ -1058,9 +1058,8 @@ class ModulesModelModule extends JModelAdmin
 		$query->clear()
 			->select('extension_id')
 			->from('#__extensions AS e')
-			->join('LEFT', '#__modules AS m ON e.element = m.module')
-			->where('m.id = ' . (int) $table->id)
-			->where('e.client_id = ' . (int) $table->client_id);
+			->join('LEFT', '#__modules AS m ON e.client_id = ' . (int) $table->client_id . ' AND e.element = m.module')
+			->where('m.id = ' . (int) $table->id);
 		$db->setQuery($query);
 
 		try
