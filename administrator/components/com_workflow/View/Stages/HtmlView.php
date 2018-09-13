@@ -121,7 +121,8 @@ class HtmlView extends BaseHtmlView
 
 		if (!empty($this->stages))
 		{
-			$workflow = new Workflow(['extension' => 'com_content']);
+			$extension = Factory::getApplication()->input->getCmd('extension');
+			$workflow  = new Workflow(['extension' => $extension]);
 
 			foreach ($this->stages as $i => $item)
 			{
@@ -145,7 +146,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
-		$workflow = !empty($this->state->get('active_workflow', '')) ? $this->state->get('active_workflow', '') . ': ' : '';
+		$workflow = !empty($this->state->get('active_workflow', '')) ? Text::_($this->state->get('active_workflow', '')) . ': ' : '';
 
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', $this->escape($workflow)), 'address contact');
 

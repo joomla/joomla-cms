@@ -40,7 +40,7 @@ class LegacyComponentDispatcher implements DispatcherInterface
 	 */
 	public function __construct(CMSApplication $app)
 	{
-		$this->app   = $app;
+		$this->app = $app;
 	}
 
 	/**
