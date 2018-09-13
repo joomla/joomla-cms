@@ -318,7 +318,6 @@ class InstallModel extends BaseDatabaseModel
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		jimport('joomla.filesystem.file');
 		File::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
@@ -392,7 +391,6 @@ class InstallModel extends BaseDatabaseModel
 		// Handle updater XML file case:
 		if (preg_match('/\.xml\s*$/', $url))
 		{
-			jimport('joomla.updater.update');
 			$update = new Update;
 			$update->loadFromXml($url);
 			$package_url = trim($update->get('downloadurl', false)->_data);

@@ -553,9 +553,6 @@ class ApplicationModel extends FormModel
 	 */
 	private function writeConfigFile(Registry $config)
 	{
-		jimport('joomla.filesystem.path');
-		jimport('joomla.filesystem.file');
-
 		// Set the configuration file path.
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 

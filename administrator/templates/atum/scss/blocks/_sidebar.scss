@@ -16,7 +16,7 @@
   flex-direction: column;
   width: $sidebar-width;
   max-height: 100vh;
-  background-color: $atum-template-color-dark;
+  background-color: var(--primary-dark);
   box-shadow: $atum-box-shadow;
   transition: all .3s ease;
 
@@ -42,7 +42,7 @@
     }
 
     &::-webkit-scrollbar-track {
-      background: $atum-template-color-dark;
+      background: var(--primary-dark);
       box-shadow: inset 0 0 6px rgba(0, 0, 0, .5);
     }
 
@@ -63,12 +63,12 @@
 .main-nav {
   width: $sidebar-width;
   list-style: none;
-  background-color: $atum-template-color-dark;
+  background-color: var(--primary-dark);
   opacity: 1;
 
   // Parent items
   > li {
-    background-color: $atum-template-color-dark;
+    background-color: var(--primary-dark);
     border-bottom: 1px solid rgba($black, .15);
 
     &:first-of-type {
@@ -177,7 +177,7 @@
       box-shadow: none;
 
       &:hover {
-        background-color: $atum-template-color;
+        background-color: var(--primary);
         box-shadow: inset 2px 0 2px rgba($black, .1);
       }
     }
@@ -240,7 +240,7 @@
     left: 100% !important;
     height: auto;
     padding: 2px 0;
-    background-color: darken($atum-template-color, 6%);
+    background-color: var(--sidebar-bg);
     box-shadow: 0 0 8px rgba($black, .2);
 
     > li > a {

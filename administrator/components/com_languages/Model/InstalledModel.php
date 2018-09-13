@@ -426,7 +426,6 @@ class InstalledModel extends ListModel
 		if (is_null($this->folders))
 		{
 			$path = $this->getPath();
-			jimport('joomla.filesystem.folder');
 			$this->folders = Folder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
 		}
 

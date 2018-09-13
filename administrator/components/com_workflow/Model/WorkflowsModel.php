@@ -40,7 +40,8 @@ class WorkflowsModel extends ListModel
 				'created_by', 'w.created_by',
 				'created', 'w.created',
 				'ordering', 'w.ordering',
-				'modified', 'w.modified'
+				'modified', 'w.modified',
+				'description', 'w.description'
 			);
 		}
 
@@ -66,7 +67,7 @@ class WorkflowsModel extends ListModel
 	protected function populateState($ordering = 'w.ordering', $direction = 'asc')
 	{
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.', $extension);
@@ -195,6 +196,7 @@ class WorkflowsModel extends ListModel
 				'w.ordering',
 				'w.default',
 				'w.created_by',
+				'w.description',
 				'u.name'
 			)
 		);
@@ -208,15 +210,6 @@ class WorkflowsModel extends ListModel
 		if ($extension = $this->getState('filter.extension'))
 		{
 			$query->where($db->quoteName('extension') . ' = ' . $db->quote($db->escape($extension)));
-		}
-
-		// Filter by author
-		$authorId = $this->getState('filter.created_by');
-
-		if (is_numeric($authorId))
-		{
-			$type = $this->getState('filter.created_by.include', true) ? '= ' : '<>';
-			$query->where($db->quoteName('w.created_by') . $type . (int) $authorId);
 		}
 
 		$status = (string) $this->getState('filter.published');

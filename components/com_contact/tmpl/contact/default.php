@@ -81,9 +81,9 @@ $tparams = $this->item->params;
 			<?php $accordionStarted = true; ?>
 			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
 			<?php $tabSetStarted = true; ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 		<?php endif; ?>
@@ -114,7 +114,7 @@ $tparams = $this->item->params;
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -130,11 +130,11 @@ $tparams = $this->item->params;
 		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php if (!$tabSetStarted)
 			{
-				echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-form'));
+				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-form'));
 				$tabSetStarted = true;
 			}
 			?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
 		<?php endif; ?>
@@ -144,7 +144,7 @@ $tparams = $this->item->params;
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -156,7 +156,7 @@ $tparams = $this->item->params;
 			<?php endif; ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php if (!$tabSetStarted) : ?>
-				<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-links')); ?>
+				<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-links')); ?>
 				<?php $tabSetStarted = true; ?>
 			<?php endif; ?>
 		<?php endif; ?>
@@ -175,11 +175,11 @@ $tparams = $this->item->params;
 		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php if (!$tabSetStarted)
 			{
-				echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-articles'));
+				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-articles'));
 				$tabSetStarted = true;
 			}
 			?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
 		<?php endif; ?>
@@ -189,7 +189,7 @@ $tparams = $this->item->params;
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -205,11 +205,11 @@ $tparams = $this->item->params;
 		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php if (!$tabSetStarted)
 			{
-				echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-profile'));
+				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-profile'));
 				$tabSetStarted = true;
 			}
 			?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
 		<?php endif; ?>
@@ -219,7 +219,7 @@ $tparams = $this->item->params;
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -239,11 +239,11 @@ $tparams = $this->item->params;
 		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php if (!$tabSetStarted)
 			{
-				echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-misc'));
+				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-misc'));
 				$tabSetStarted = true;
 			}
 			?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
 		<?php endif; ?>
@@ -266,14 +266,14 @@ $tparams = $this->item->params;
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($accordionStarted) : ?>
 		<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
 	<?php elseif ($tabSetStarted) : ?>
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 
 	<?php echo $this->item->event->afterDisplayContent; ?>

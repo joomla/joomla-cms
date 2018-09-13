@@ -43,14 +43,14 @@ $app = Factory::getApplication();
 					<?php // Show installation tabs at the start ?>
 					<?php $firstTab = $app->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
 					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
-					<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
+					<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
-						<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
+						<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
 						<fieldset class="uploadform">
 							<?php echo $tab['content']; ?>
 						</fieldset>
-						<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+						<?php echo HTMLHelper::_('uitab.endTab'); ?>
 					<?php endforeach; ?>
 					<?php // Show installation tabs at the end ?>
 					<?php $lastTab = $app->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
@@ -60,16 +60,16 @@ $app = Factory::getApplication();
 					<?php endif; ?>
 
 					<?php if ($this->ftp) : ?>
-						<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'ftp', Text::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
+						<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'ftp', Text::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
-						<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+						<?php echo HTMLHelper::_('uitab.endTab'); ?>
 					<?php endif; ?>
 
 					<input type="hidden" name="installtype" value="">
 					<input type="hidden" name="task" value="install.install">
 					<?php echo HTMLHelper::_('form.token'); ?>
 
-					<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+					<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 				</div>
 			</div>
 		</div>

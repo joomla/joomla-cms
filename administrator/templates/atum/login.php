@@ -21,6 +21,7 @@ $lang = Factory::getLanguage();
 
 // Add JavaScript Frameworks
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
@@ -49,6 +50,8 @@ $this->setMetaData('theme-color', '#1c3d5c');
 // Set page title
 $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 
+$this->addScriptDeclaration('cssVars();')
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -59,8 +62,8 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<?php // Container ?>
-	<div class="login-bg-grad"></div>
-	<div class="d-flex justify-content-center align-items-center h-100">
+	<main class="d-flex justify-content-center align-items-center h-100">
+		<div class="login-bg-grad"></div>
 		<div class="login">
 			<div class="login-logo">
 				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg" alt="">
@@ -88,8 +91,7 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 				<span class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</div>
 		</div>
-	</div>
-
+	</main>
 	<jdoc:include type="modules" name="debug" style="none" />
 
 	<jdoc:include type="scripts" />

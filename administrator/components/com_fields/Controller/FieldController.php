@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
@@ -57,7 +58,7 @@ class FieldController extends FormController
 		parent::__construct($config, $factory, $app, $input);
 
 		$this->internalContext = Factory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
-		$parts = \FieldsHelper::extract($this->internalContext);
+		$parts = FieldsHelper::extract($this->internalContext);
 		$this->component = $parts ? $parts[0] : null;
 	}
 

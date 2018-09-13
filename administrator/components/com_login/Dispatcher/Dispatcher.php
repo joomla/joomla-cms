@@ -11,12 +11,14 @@ namespace Joomla\Component\Login\Administrator\Dispatcher;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
 /**
- * Dispatcher class for com_login
+ * ComponentDispatcher class for com_login
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Dispatch a controller task.

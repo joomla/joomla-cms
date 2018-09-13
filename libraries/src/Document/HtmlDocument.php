@@ -19,8 +19,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 
-jimport('joomla.utilities.utility');
-
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
  *

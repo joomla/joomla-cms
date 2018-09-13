@@ -123,7 +123,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 			}
 			else
 			{
-				if (StringHelper::strpos($orgurlRel, $exclude->term))
+				if (StringHelper::strpos($orgurlRel, $exclude->term) !== false)
 				{
 					$skipUrl = true;
 					break;
@@ -251,6 +251,11 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 		{
 			if ((bool) $this->params->get('collect_urls', true))
 			{
+				if (!$params->get('includeUrl', 1))
+				{
+					$url = $urlRel;
+				}
+
 				$data = (object) array(
 					'id' => 0,
 					'old_url' => $url,

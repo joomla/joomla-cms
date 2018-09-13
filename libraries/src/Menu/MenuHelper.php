@@ -98,8 +98,6 @@ class MenuHelper
 
 			if (is_dir($tpl))
 			{
-				jimport('joomla.filesystem.folder');
-
 				$files = Folder::files($tpl, '\.xml$');
 
 				foreach ($files as $file)

@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -152,7 +153,7 @@ if (!empty($this->items))
 		<?php endif; ?>
 		<tbody>
 		<?php foreach ($this->items as $i => $article) : ?>
-			<?php if ($this->items[$i]->state_condition == 2) : ?>
+			<?php if ($this->items[$i]->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else : ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
@@ -197,7 +198,7 @@ if (!empty($this->items))
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
-				<?php if ($article->state_condition == 2) : ?>
+				<?php if ($article->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 					<span class="list-published label label-warning">
 						<?php echo JText::_('JUNPUBLISHED'); ?>
 					</span>
