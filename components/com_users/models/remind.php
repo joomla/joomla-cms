@@ -159,6 +159,7 @@ class UsersModelRemind extends JModelForm
 
 		// Get the user object.
 		$userObject = JUser::getInstance($user->id);
+
 		// Trigger the onUserAftersave event for log the action
 		if (!$userObject->save(true))
 		{
