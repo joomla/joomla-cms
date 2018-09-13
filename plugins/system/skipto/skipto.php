@@ -44,7 +44,7 @@ class PlgSystemSkipto extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterInitialise()
+	public function onBeforeCompileHead()
 	{
 		// Get the document object.
 		$document = Factory::getDocument();
