@@ -638,6 +638,12 @@ class PlgActionlogJoomla extends JPlugin
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTERED';
 			$action             = 'register';
+
+			if ($this->app->input->get('view') === 'reset')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET';
+				$action             = 'reset';
+			}	
 		}
 		elseif ($isnew)
 		{
