@@ -58,43 +58,43 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 						<thead>
 						<tr>
 							<?php if ($menuType) : ?>
-								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 							<?php endif; ?>
-							<td style="width:1%" class="nowrap text-center">
+							<td style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="title">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th scope="col" style="width:10%" class="text-center nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if ($assoc) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if (($this->state->get('filter.client_id') == 0) && (Multilanguage::isEnabled())) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -140,7 +140,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							    item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
 							    level="<?php echo $item->level; ?>">
 								<?php if ($menuType) : ?>
-									<td class="order nowrap text-center d-none d-md-table-cell">
+									<td class="order text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 
@@ -205,7 +205,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 											<?php echo $this->escape($item->item_type); ?></span>
 									</div>
 								</th>
-								<td class="small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 								</td>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
@@ -234,7 +234,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									</td>
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
 								<?php endif; ?>
@@ -250,7 +250,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

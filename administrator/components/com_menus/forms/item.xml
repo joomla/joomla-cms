@@ -15,7 +15,6 @@
 			name="title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
-			class="input-xxlarge"
 			size="40"
 			required="true"
 		/>
@@ -41,7 +40,6 @@
 			type="link"
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			readonly="true"
-			class="input-xxlarge"
 			size="50"
 		/>
 
@@ -60,7 +58,6 @@
 			name="type"
 			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
-			class="input-medium"
 			required="true"
 			size="40"
 		/>

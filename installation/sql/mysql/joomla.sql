@@ -83,7 +83,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (53, 18, 86, 87, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 88, 89, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 8, 20, 37, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
+(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
 (57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
 (58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
 (59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
@@ -512,8 +512,8 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
 --
 
 INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`, `namespace`) VALUES
-(1, 0, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Mailto'),
-(2, 0, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Wrapper'),
+(1, 0, 'com_mailto', 'component', 'com_mailto', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Mailto'),
+(2, 0, 'com_wrapper', 'component', 'com_wrapper', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Wrapper'),
 (3, 0, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Admin'),
 (4, 0, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":10}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Banners'),
 (5, 0, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Cache'),
@@ -1988,7 +1988,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`

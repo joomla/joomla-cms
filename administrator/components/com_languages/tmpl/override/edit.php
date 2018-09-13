@@ -26,7 +26,7 @@ HTMLHelper::_('stylesheet', 'com_languages/overrider.css', array('version' => 'a
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">

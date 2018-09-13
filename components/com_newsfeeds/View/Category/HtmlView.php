@@ -82,7 +82,7 @@ class HtmlView extends CategoryView
 
 			while (($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
+				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

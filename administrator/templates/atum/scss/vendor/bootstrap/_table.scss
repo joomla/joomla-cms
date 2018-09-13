@@ -3,10 +3,12 @@
 .table {
 
   thead {
-    th {
+    th,
+    td {
       white-space: nowrap;
       font-weight: normal;
       color: $gray-800;
+      border-bottom: 2px solid $gray-300;
     }
     td {
       padding: 0;

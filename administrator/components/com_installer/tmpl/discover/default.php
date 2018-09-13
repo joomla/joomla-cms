@@ -41,16 +41,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table">
 						<thead>
 							<tr>
-								<td style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
@@ -62,10 +62,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

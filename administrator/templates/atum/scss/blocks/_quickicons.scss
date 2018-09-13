@@ -9,7 +9,7 @@
     height: 120px;
     margin-right: 15px;
     margin-bottom: 15px;
-    color: $atum-template-color-dark;
+    color: var(--primary-dark);
     text-align: center;
     background: $quickicon-bg;
     box-shadow: $quickicon-box-shadow;
@@ -40,12 +40,12 @@
     }
 
     &.danger {
-      color: theme-color("danger");
+      color: var(--danger);
       box-shadow: $quickicon-box-shadow-danger;
     }
 
     &.success {
-      color: theme-color("success");
+      color: var(--success);
       box-shadow: $quickicon-box-shadow-success;
     }
   }

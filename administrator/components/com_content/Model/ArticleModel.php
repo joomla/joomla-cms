@@ -12,19 +12,14 @@ namespace Joomla\Component\Content\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Model\Form;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -32,6 +27,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\CMS\Form\Form;
 
 /**
  * Item Model for an Article.
@@ -495,7 +491,7 @@ class ArticleModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -641,7 +637,7 @@ class ArticleModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -1003,7 +999,7 @@ class ArticleModel extends AdminModel
 				}
 			}
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -1034,7 +1030,7 @@ class ArticleModel extends AdminModel
 	/**
 	 * Allows preprocessing of the \JForm object.
 	 *
-	 * @param   \JForm  $form   The form object
+	 * @param   Form    $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
 	 * @param   string  $group  The plugin group to be executed
 	 *

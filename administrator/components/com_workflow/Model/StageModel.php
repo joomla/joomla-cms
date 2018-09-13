@@ -38,7 +38,7 @@ class StageModel extends AdminModel
 
 		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
-		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
 		$this->setState('filter.extension', $extension);
 	}
@@ -125,7 +125,7 @@ class StageModel extends AdminModel
 		}
 
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', null, 'cmd');
 
 		$parts = explode('.', $extension);
 
@@ -154,7 +154,7 @@ class StageModel extends AdminModel
 	{
 		$user = Factory::getUser();
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
 
 		// Check for existing workflow.
 		if (!empty($record->id))
@@ -306,7 +306,7 @@ class StageModel extends AdminModel
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
 
 		// Default item existence checks.
 		if ($value != 1)

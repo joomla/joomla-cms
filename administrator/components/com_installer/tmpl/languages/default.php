@@ -35,16 +35,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<thead>
 							<tr>
 								<td style="width:5%"></td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center">
+								<th scope="col" style="width:10%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%" class="text-center">
+								<th scope="col" style="width:15%" class="text-right">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
-								<th scope="col" style="width:35%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:35%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>
@@ -70,7 +70,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="text-center">
 									<?php echo $language->code; ?>
 								</td>
-								<td class="text-center">
+								<td class="text-right">
 									    <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 										<?php // Display a Note if language pack version is not equal to Joomla version ?>
 										<?php if (substr($language->version, 0, 3) != $minorVersion || substr($language->version, 0, 5) != $currentShortVersion) : ?>

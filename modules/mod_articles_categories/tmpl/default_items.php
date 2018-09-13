@@ -22,7 +22,7 @@ $id     = $input->getInt('id');
 foreach ($list as $item) : ?>
 	<li<?php if ($id == $item->id && $view == 'category' && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
 		<h<?php echo $params->get('item_heading') + $levelup; ?>>
-		<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
+		<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 		<?php echo $item->title; ?>
 			<?php if ($params->get('numitems')) : ?>
 				(<?php echo $item->numitems; ?>)

@@ -32,16 +32,16 @@ $filters = $data['view']->filterForm->getGroup('filter');
 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
-		<label for="filter_search" class="sr-only">
-			<?php if (isset($filters['filter_search']->label)) : ?>
-				<?php echo Text::_($filters['filter_search']->label); ?>
-			<?php else : ?>
-				<?php echo Text::_('JSEARCH_FILTER'); ?>
-			<?php endif; ?>
-		</label>
 		<div class="btn-toolbar">
 			<div class="btn-group mr-2">
 				<div class="input-group">
+					<label for="filter_search" class="sr-only">
+						<?php if (isset($filters['filter_search']->label)) : ?>
+							<?php echo Text::_($filters['filter_search']->label); ?>
+						<?php else : ?>
+							<?php echo Text::_('JSEARCH_FILTER'); ?>
+						<?php endif; ?>
+					</label>
 					<?php echo $filters['filter_search']->input; ?>
 					<span class="input-group-append">
 						<button type="submit" class="btn btn-primary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"  aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">

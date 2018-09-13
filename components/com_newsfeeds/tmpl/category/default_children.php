@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
 			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
 				<li>
 					<span class="item-title">
-						<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($child->id)); ?>">
+						<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 							<?php echo $this->escape($child->title); ?>
 						</a>
 					</span>

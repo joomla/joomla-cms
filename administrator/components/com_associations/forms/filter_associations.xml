@@ -96,7 +96,6 @@
 			name="limit"
 			type="limitbox"
 			default="25"
-			class="input-mini"
 			onchange="this.form.submit();"
 		/>
 	</fields>

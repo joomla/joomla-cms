@@ -12,7 +12,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('script', 'com_content/admin-articles-default-batch-footer.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_content/admin-articles-default-batch-footer.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <a class="btn btn-secondary" type="button" data-dismiss="modal">
 	<?php echo Text::_('JCANCEL'); ?>

@@ -60,7 +60,7 @@ $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 HTMLHelper::_('webcomponent',
 	'system/webcomponents/joomla-field-switcher.min.js',
-	['relative' => true, 'version' => 'auto']
+	['version' => 'auto', 'relative' => true]
 );
 
 // Set the type of switcher

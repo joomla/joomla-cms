@@ -10,6 +10,10 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
+
+$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
+
 
 /**
  * @var  string  $id
@@ -33,13 +37,13 @@ extract($displayData, EXTR_OVERWRITE);
 
 		<?php if ($toggleSplit ?? true): ?>
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle dropdown-toggle-split"
-				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
 		<?php endif; ?>
 
 		<?php if (trim($dropdownItems) !== ''): ?>
-			<div class="dropdown-menu dropdown-menu-right">
+			<div class="dropdown-menu <?php echo $direction; ?>">
 				<?php echo $dropdownItems; ?>
 			</div>
 		<?php endif; ?>

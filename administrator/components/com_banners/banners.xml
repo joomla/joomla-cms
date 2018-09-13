@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.1" method="upgrade">
+<extension type="component" version="4.0" method="upgrade">
 	<name>com_banners</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
@@ -7,10 +7,9 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>4.0.0</version>
 	<description>COM_BANNERS_XML_DESCRIPTION</description>
 	<namespace>Joomla\Component\Banners</namespace>
-
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -21,15 +20,19 @@
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
-
 	<files folder="site">
-		<filename>dispatcher.php</filename>
 		<filename>router.php</filename>
 		<folder>Controller</folder>
 		<folder>Helper</folder>
 		<folder>helpers</folder>
 		<folder>Model</folder>
 	</files>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_banners.ini</language>
+	</languages>
+	<media destination="com_banners" folder="media">
+		<folder>js</folder>
+	</media>
 	<administration>
 		<menu img="class:banners">com_banners</menu>
 		<submenu>
@@ -72,17 +75,21 @@
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
-			<filename>banners.php</filename>
+			<filename>banners.xml</filename>
 			<filename>config.xml</filename>
-			<filename>dispatcher.php</filename>
 			<folder>Controller</folder>
+			<folder>Extension</folder>
+			<folder>Field</folder>
+			<folder>forms</folder>
 			<folder>Helper</folder>
 			<folder>helpers</folder>
 			<folder>Model</folder>
-			<folder>models</folder>
+			<folder>Service</folder>
+			<folder>services</folder>
+			<folder>sql</folder>
 			<folder>Table</folder>
+			<folder>tmpl</folder>
 			<folder>View</folder>
-			<folder>views</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_banners.ini</language>

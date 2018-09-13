@@ -24,10 +24,10 @@ $input = Factory::getApplication()->input;
 				<table class="table">
 					<thead>
 						<tr>
-							<td style="width:5%" class="nowrap text-center">
+							<td style="width:5%" class="text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" style="width:7%" class="nowrap">
+							<th scope="col" style="width:7%">
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
 							</th>
 							<th scope="col" style="width:30%">

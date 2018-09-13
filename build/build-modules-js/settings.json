@@ -273,6 +273,15 @@
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
+      },
+      "css-vars-ponyfill": {
+        "name": "css-vars-ponyfill",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/css-vars-ponyfill.js": "js/css-vars-ponyfill.js",
+          "dist/css-vars-ponyfill.min.js": "js/css-vars-ponyfill.min.js",
+          "dist/css-vars-ponyfill.min.js.map": "js/css-vars-ponyfill.min.js.map"
+        }
       }
     },
     "errorPages": {

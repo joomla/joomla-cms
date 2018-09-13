@@ -40,7 +40,7 @@ class WorkflowModel extends AdminModel
 
 		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
-		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
 		$this->setState('filter.extension', $extension);
 	}
@@ -80,13 +80,12 @@ class WorkflowModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$user					= Factory::getUser();
-		$app					= Factory::getApplication();
-		$input                  = $app->input;
-		$context				= $this->option . '.' . $this->name;
-		$extension				= $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
-		$data['extension']		= $extension;
-		$data['asset_id']		= 0;
+		$app               = Factory::getApplication();
+		$input             = $app->input;
+		$context           = $this->option . '.' . $this->name;
+		$extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
+		$data['extension'] = !empty($data['extension']) ? $data['extension'] : $extension;
+		$data['asset_id']  = 0;
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -262,7 +261,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		$extension = Factory::getApplication()->input->get('extension', 'com_content');
+		$extension = Factory::getApplication()->input->get('extension');
 
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $extension);

@@ -37,22 +37,22 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				<table class="table">
 					<thead>
 						<tr>
-							<td style="width:1%" class="nowrap text-center">
+							<td style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" class="nowrap">
+							<th scope="col">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:20%" class="nowrap d-none d-md-table-cell">
+							<th scope="col" style="width:20%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_USER', 'u.name', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+							<th scope="col" style="width:1%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

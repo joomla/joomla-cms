@@ -41,19 +41,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-sm">
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" class="nowrap title">
+						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

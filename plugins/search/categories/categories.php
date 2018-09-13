@@ -154,14 +154,14 @@ class PlgSearchCategories extends CMSPlugin
 
 		$query->select('a.title, a.description AS text, a.created_time AS created')
 			->select($db->quote('2') . ' AS browsernav')
-			->select('a.id AS catid')
+			->select('a.id AS catid, a.language AS category_language')
 			->select($case_when)
 			->from($db->quoteName('#__categories', 'a'))
 			->where(
 				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = '
 				. $db->quote('com_content') . 'AND a.access IN (' . $groups . ')'
 			)
-			->group('a.id, a.title, a.description, a.alias, a.created_time')
+			->group('a.id, a.title, a.description, a.alias, a.created_time, a.language')
 			->order($order);
 
 		if ($app->isClient('site') && Multilanguage::isEnabled())
@@ -189,7 +189,7 @@ class PlgSearchCategories extends CMSPlugin
 			{
 				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
-					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);
+					$row->href = ContentHelperRoute::getCategoryRoute($row->slug, $row->category_language);
 					$row->section = Text::_('JCATEGORY');
 
 					$return[] = $row;

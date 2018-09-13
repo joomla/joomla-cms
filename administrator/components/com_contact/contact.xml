@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.1" method="upgrade">
+<extension type="component" version="4.0" method="upgrade">
 	<name>com_contact</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
@@ -7,10 +7,9 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>4.0.0</version>
 	<description>COM_CONTACT_XML_DESCRIPTION</description>
 	<namespace>Joomla\Component\Contact</namespace>
-
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -21,20 +20,25 @@
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
-
 	<files folder="site">
-		<filename>contact.php</filename>
-		<filename>controller.php</filename>
-		<filename>metadata.xml</filename>
+		<filename>dispatcher.php</filename>
 		<filename>router.php</filename>
+		<folder>Controller</folder>
+		<folder>forms</folder>
+		<folder>Helper</folder>
 		<folder>helpers</folder>
-		<folder>models</folder>
-		<folder>views</folder>
+		<folder>layouts</folder>
+		<folder>Model</folder>
+		<folder>Rule</folder>
+		<folder>tmpl</folder>
+		<folder>View</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_contact.ini</language>
 	</languages>
-
+	<media destination="com_contact" folder="media">
+		<folder>js</folder>
+	</media>
 	<administration>
 		<menu img="class:contact">COM_CONTACT</menu>
 		<submenu>
@@ -50,14 +54,18 @@
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>contact.php</filename>
-			<filename>controller.php</filename>
-			<folder>controllers</folder>
-			<folder>elements</folder>
+			<filename>content.xml</filename>
+			<filename>dispatcher.php</filename>
+			<folder>Controller</folder>
+			<folder>Field</folder>
+			<folder>forms</folder>
+			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>models</folder>
-			<folder>tables</folder>
-			<folder>views</folder>
+			<folder>Model</folder>
+			<folder>sql</folder>
+			<folder>Table</folder>
+			<folder>tmpl</folder>
+			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_contact.ini</language>

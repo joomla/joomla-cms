@@ -66,7 +66,7 @@ class StagesModel extends ListModel
 		$app = Factory::getApplication();
 
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
 		if ($workflowID)
 		{
@@ -136,7 +136,8 @@ class StagesModel extends ListModel
 				's.ordering',
 				's.condition',
 				's.default',
-				's.published'
+				's.published',
+				's.description'
 			)
 		);
 

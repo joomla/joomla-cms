@@ -44,7 +44,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge"
 			size="40"
 			required="true"
 		/>
@@ -212,7 +211,6 @@
 				type="text"
 				label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
 				description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
-				class="input-xxlarge"
 				size="40"
 			/>
 
@@ -221,7 +219,6 @@
 				type="textarea"
 				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 				description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
-				class="input-xxlarge"
 				size="40"
 			/>
 
@@ -230,7 +227,6 @@
 				type="textarea"
 				label="COM_FIELDS_FIELD_CLASS_LABEL"
 				description="COM_FIELDS_FIELD_CLASS_DESC"
-				class="input-xxlarge"
 				size="40"
 			/>
 

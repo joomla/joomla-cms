@@ -16,6 +16,7 @@
 				value_field="title"
 				required="true"
 				default="use_default"
+				translate="true"
 			/>
 		</fieldset>
 	</fields>

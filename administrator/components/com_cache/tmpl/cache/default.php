@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -30,16 +30,16 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 				<table class="table">
 					<thead>
 						<tr>
-							<td style="width:1%" class="nowrap text-center">
+							<td style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" class="title nowrap">
+							<th scope="col" class="title">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap text-center">
+							<th scope="col" style="width:10%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="nowrap text-right">
+							<th scope="col" style="width:10%" class="text-right">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
