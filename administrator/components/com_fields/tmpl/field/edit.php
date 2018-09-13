@@ -27,7 +27,7 @@ $input = $app->input;
 
 $this->useCoreUI = true;
 
-HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

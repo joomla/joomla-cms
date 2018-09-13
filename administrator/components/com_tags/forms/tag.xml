@@ -62,7 +62,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		class="input-xxlarge"
 		size="40"
 		required="true"
 	/>
