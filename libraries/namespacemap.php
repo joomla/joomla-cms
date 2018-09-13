@@ -62,8 +62,7 @@ class JNamespacePsr4Map
 	 */
 	public function create()
 	{
-		$extensions = $this->getNamespaces('components');
-		$extensions = array_merge($extensions, $this->getNamespaces('administrator/components'));
+		$extensions = $this->getNamespaces('administrator/components');
 		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
 		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
 
