@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 123, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 121, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -48,25 +48,25 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (15, 1, 51, 52, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 53, 56, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
 (17, 1, 57, 58, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 59, 92, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
-(19, 1, 93, 96, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(20, 1, 97, 98, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
-(21, 1, 99, 100, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
-(22, 1, 101, 102, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(23, 1, 103, 104, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
-(24, 1, 105, 108, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
-(26, 1, 109, 110, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(18, 1, 59, 90, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(19, 1, 91, 94, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(20, 1, 95, 96, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
+(21, 1, 97, 98, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
+(22, 1, 99, 100, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 101, 102, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(24, 1, 103, 106, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
+(26, 1, 107, 108, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
-(30, 19, 94, 95, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
-(32, 24, 106, 107, 2, 'com_users.category.7', 'Uncategorised', '{}'),
-(33, 1, 111, 112, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(34, 1, 113, 114, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
-(35, 1, 115, 116, 1, 'com_tags', 'com_tags', '{}'),
-(36, 1, 117, 118, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
-(37, 1, 119, 120, 1, 'com_ajax', 'com_ajax', '{}'),
-(38, 1, 121, 122, 1, 'com_postinstall', 'com_postinstall', '{}'),
+(30, 19, 92, 93, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
+(32, 24, 104, 105, 2, 'com_users.category.7', 'Uncategorised', '{}'),
+(33, 1, 109, 110, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 1, 111, 112, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
+(35, 1, 113, 114, 1, 'com_tags', 'com_tags', '{}'),
+(36, 1, 115, 116, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(37, 1, 117, 118, 1, 'com_ajax', 'com_ajax', '{}'),
+(38, 1, 119, 120, 1, 'com_postinstall', 'com_postinstall', '{}'),
 (39, 18, 60, 61, 2, 'com_modules.module.1', 'Main Menu', '{}'),
 (40, 18, 62, 63, 2, 'com_modules.module.2', 'Login', '{}'),
 (41, 18, 64, 65, 2, 'com_modules.module.3', 'Popular Articles', '{}'),
@@ -75,16 +75,15 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (44, 18, 70, 71, 2, 'com_modules.module.9', 'Quick Icons', '{}'),
 (45, 18, 72, 73, 2, 'com_modules.module.10', 'Logged-in Users', '{}'),
 (46, 18, 74, 75, 2, 'com_modules.module.12', 'Admin Menu', '{}'),
-(47, 18, 76, 77, 2, 'com_modules.module.13', 'Admin Submenu', '{}'),
-(48, 18, 78, 79, 2, 'com_modules.module.14', 'User Status', '{}'),
-(49, 18, 80, 81, 2, 'com_modules.module.15', 'Title', '{}'),
-(50, 18, 82, 83, 2, 'com_modules.module.16', 'Login Form', '{}'),
-(51, 18, 84, 85, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
-(52, 18, 86, 87, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
-(53, 18, 88, 89, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
+(48, 18, 76, 77, 2, 'com_modules.module.14', 'User Status', '{}'),
+(49, 18, 78, 79, 2, 'com_modules.module.15', 'Title', '{}'),
+(50, 18, 80, 81, 2, 'com_modules.module.16', 'Login Form', '{}'),
+(51, 18, 82, 83, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
+(52, 18, 84, 85, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
+(53, 18, 86, 87, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
-(55, 18, 90, 91, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 8, 20, 37, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
+(55, 18, 88, 89, 2, 'com_modules.module.87', 'Sample Data', '{}'),
+(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
 (57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
 (58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
 (59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
@@ -512,8 +511,8 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
 --
 
 INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
-(1, 0, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(2, 0, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(1, 0, 'com_mailto', 'component', 'com_mailto', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(2, 0, 'com_wrapper', 'component', 'com_wrapper', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (3, 0, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (4, 0, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":10}', 0, '0000-00-00 00:00:00', 0, 0),
 (5, 0, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -673,7 +672,8 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (487, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '0000-00-00 00:00:00', 0, 0),
 (488, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (489, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(490, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(490, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 4, 0),
+(491, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -1322,7 +1322,6 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (9, 44, 'Quick Icons', '', '', 1, 'icon', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
 (10, 45, 'Logged-in Users', '', '', 2, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
 (12, 46, 'Admin Menu', '', '', 1, 'menu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(13, 47, 'Admin Submenu', '', '', 1, 'submenu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 3, 1, '', 1, '*'),
 (14, 48, 'User Status', '', '', 2, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
 (15, 49, 'Title', '', '', 1, 'title', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
 (16, 50, 'Login Form', '', '', 7, 'sidebar-right', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
@@ -1358,7 +1357,6 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (9, 0),
 (10, 0),
 (12, 0),
-(13, 0),
 (14, 0),
 (15, 0),
 (16, 0),
@@ -1568,6 +1566,27 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
 
 INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`) VALUES
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '0000-00-00 00:00:00', '', '', 0, '*', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__template_overrides`
+--
+
+CREATE TABLE IF NOT EXISTS `#__template_overrides` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `template` varchar(50) NOT NULL DEFAULT '',
+  `hash_id` varchar(255) NOT NULL DEFAULT '',
+  `extension_id` int(11) DEFAULT 0,
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `action` varchar(50) NOT NULL DEFAULT '',
+  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `idx_template` (`template`),
+  KEY `idx_extension_id` (`extension_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1967,7 +1986,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
@@ -2009,10 +2028,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 --
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 1, 'Unpublished', '', 0, 0),
-(2, 58, 2, 1, 1, 'Published', '', 1, 1),
-(3, 59, 3, 1, 1, 'Trashed', '', -2, 0),
-(4, 60, 4, 1, 1, 'Archived', '', 2, 0);
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', '0', 0),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', '1', 1),
+(3, 59, 3, 1, 1, 'JTRASHED', '', '-2', 0),
+(4, 60, 4, 1, 1, 'JARCHIVED', '', '2', 0);
 
 --
 -- Table structure for table `#__workflow_transitions`
