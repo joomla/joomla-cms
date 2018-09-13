@@ -26,9 +26,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "actionlogs.exportLogs")
 		{
 			Joomla.submitform(task, document.getElementById("exportForm"));
-
-			document.exportForm.cids.value = "";
-
+			
 			return;
 		}
 
