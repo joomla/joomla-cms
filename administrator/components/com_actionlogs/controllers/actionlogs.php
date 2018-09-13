@@ -68,8 +68,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 
 		if ($task == 'exportSelectedLogs')
 		{
-			// Get selected logs
-			$cids = $this->input->post->getString('cids');
+			// Get selected logs			
 			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
 		}
 		else
