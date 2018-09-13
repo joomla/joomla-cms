@@ -21,6 +21,7 @@ $lang = Factory::getLanguage();
 
 // Add JavaScript Frameworks
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
@@ -48,6 +49,8 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 // Set page title
 $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
+
+$this->addScriptDeclaration('cssVars();')
 
 ?>
 <!DOCTYPE html>

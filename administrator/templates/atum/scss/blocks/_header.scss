@@ -17,7 +17,7 @@
     margin: 0 5px;
     font-size: 1.2rem;
     line-height: $header-height;
-    color: $atum-template-color-dark;
+    color: var(--primary-dark);
 
     [class^='icon-'] {
       margin-right: 10px;
@@ -32,7 +32,7 @@
     .fa {
       width: $header-height + 2px;
       font-size: 1.2rem;
-      color: $atum-template-color-dark;
+      color: var(--primary-dark);
       vertical-align: middle;
       transition: all .2s ease-in-out;
     }
@@ -65,7 +65,7 @@
 
   .dropdown-item {
     @include hover-focus {
-      color: $atum-template-color-dark;
+      color: var(--primary-dark);
     }
   }
 
@@ -84,7 +84,7 @@
       padding-top: 0;
 
       &::after {
-        color: $atum-container-main-bg;
+        color: var(--main-bg);
       }
     }
   }
@@ -93,7 +93,7 @@
     padding-top: .5rem;
     padding-bottom: .5rem;
     color: $white;
-    background-color: $atum-template-color-dark;
+    background-color: var(--primary-dark);
     box-shadow: $atum-box-shadow;
   }
 
@@ -105,7 +105,7 @@
     margin-right: .9rem;
     margin-bottom: 0;
     font-size: $h5-font-size;
-    color: $atum-template-color-dark;
+    color: var(--primary-dark);
   }
 }
 

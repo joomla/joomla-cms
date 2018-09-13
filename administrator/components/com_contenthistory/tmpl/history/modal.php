@@ -77,16 +77,16 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<th scope="col" style="width:15%">
 						<?php echo Text::_('JDATE'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap">
+					<th scope="col" style="width:10%">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap text-right">
+					<th scope="col" style="width:10%" class="text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>

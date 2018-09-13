@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "modified_by" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
-  
-CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id"); 
+
+CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id");
 CREATE INDEX "#__workflows_idx_title" ON "#__workflows" ("title");
 CREATE INDEX "#__workflows_idx_extension" ON "#__workflows" ("extension");
 CREATE INDEX "#__workflows_idx_default" ON "#__workflows" ("default");
@@ -28,7 +28,7 @@ CREATE INDEX "#__workflows_idx_modified" ON "#__workflows" ("modified");
 CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
-(1, 0, 1, 'Joomla! Default', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
 
 --
 -- Table structure for table "#__workflow_associations"
