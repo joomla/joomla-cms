@@ -74,7 +74,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 			return 1;
 		}
 
-		$symfonyStyle->success("change password successfully!");
+		$symfonyStyle->success("set password successfully!");
 		$symfonyStyle->table(['user', 'password'],  [array($oldUserObj->username, $this->password)]);
 
 		return 0;
