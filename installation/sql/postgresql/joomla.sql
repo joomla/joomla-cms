@@ -87,7 +87,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (53, 18, 86, 87, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 88, 89, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 8, 20, 37, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
+(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
 (57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
 (58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
 (59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
@@ -522,8 +522,8 @@ CREATE INDEX "#__extensions_extension" ON "#__extensions" ("type", "element", "f
 COMMENT ON COLUMN "#__extensions"."package_id" IS 'Parent package ID for extensions installed as a package.';
 
 INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state", "namespace") VALUES
-(1, 0, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
-(2, 0, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(1, 0, 'com_mailto', 'component', 'com_mailto', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(2, 0, 'com_wrapper', 'component', 'com_wrapper', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (3, 0, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (4, 0, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":10}', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (5, 0, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -1952,7 +1952,7 @@ INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 (6, 'Super Users', 4, '[8]');
 
 SELECT setval('#__viewlevels_id_seq', 7, false);
-								    
+
 --
 -- Table structure for table "#__workflows"
 --
@@ -1972,8 +1972,8 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "modified_by" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
-  
-CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id"); 
+
+CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id");
 CREATE INDEX "#__workflows_idx_title" ON "#__workflows" ("title");
 CREATE INDEX "#__workflows_idx_extension" ON "#__workflows" ("extension");
 CREATE INDEX "#__workflows_idx_default" ON "#__workflows" ("default");
@@ -1983,7 +1983,7 @@ CREATE INDEX "#__workflows_idx_modified" ON "#__workflows" ("modified");
 CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
 
 SELECT setval('#__workflows_id_seq', 2, false);
 
@@ -2036,7 +2036,7 @@ INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "
 (4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0);
 
 SELECT setval('#__workflow_stages_id_seq', 5, false);
-								    
+
 --
 -- Table structure for table "#__workflow_transitions"
 --

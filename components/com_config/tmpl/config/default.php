@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 // Load tooltips behavior
 HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('script', 'com_config/config-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_config/config-default.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate"  data-cancel-task="config.cancel.component">

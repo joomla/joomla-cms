@@ -116,10 +116,12 @@ if ($saveOrder)
 										<?php if ($canEdit) : ?>
 											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
-												<?php echo $editIcon; ?><?php echo $item->title; ?>
+												<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>
 											</a>
+											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php else: ?>
-											<?php echo $item->title; ?>
+											<?php echo $this->escape(Text::_($item->title)); ?>
+											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
 									<td class="text-center">

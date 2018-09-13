@@ -30,7 +30,7 @@ HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
 
 // @TODO delete this when custom elements modal is merged
-HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
