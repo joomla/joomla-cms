@@ -109,7 +109,8 @@ class AddUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		$symfonyStyle->success(array('User: ' . $this->user,  'Password: ' . $this->password));
+		$symfonyStyle->success("create user successfully!");
+		$symfonyStyle->table(['user', 'password'],  [array($this->user, $this->password)]);
 
 		return 0;
 	}

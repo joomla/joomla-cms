@@ -12,6 +12,7 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -73,7 +74,8 @@ class ChangeUserPasswordCommand extends AbstractCommand
 			return 1;
 		}
 
-		$symfonyStyle->success(array('User: ' . $this->username,  'Password: ' . $this->password));
+		$symfonyStyle->success("change password successfully!");
+		$symfonyStyle->table(['user', 'password'],  [array($oldUserObj->username, $this->password)]);
 
 		return 0;
 	}
