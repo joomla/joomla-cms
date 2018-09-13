@@ -26,27 +26,27 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "actionlogs.exportLogs")
 		{
 			Joomla.submitform(task, document.getElementById("exportForm"));
-			
+
 			document.exportForm.cids.value = "";
-			
+
 			return;
 		}
-		
+
 		if (task == "actionlogs.exportSelectedLogs")
 		{
 			// Get id of selected action logs item and pass it to export form hidden input
 			var cids = [];
-			
+
 			jQuery("input[name=\'cid[]\']:checked").each(function() {
 					cids.push(jQuery(this).val());
 			});
-			
+
 			document.exportForm.cids.value = cids.join(",");
 			Joomla.submitform(task, document.getElementById("exportForm"));
-			
+
 			return;
 		}
-		
+
 		Joomla.submitform(task);
 	};
 ');
@@ -133,7 +133,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	</div>
 </form>
 <form action="<?php echo JRoute::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="exportForm" id="exportForm">
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="cids" value="" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="cids" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
