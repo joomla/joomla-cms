@@ -2067,6 +2067,6 @@ class PlgSystemDebug extends JPlugin
 		$head[] = "\n";
 
 		// Write new file.
-		JFile::write($file, $current);
+		JFile::write($file, implode("\n", $head) . $current);
 	}
 }
