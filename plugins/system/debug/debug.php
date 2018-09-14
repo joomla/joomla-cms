@@ -2060,7 +2060,7 @@ class PlgSystemDebug extends JPlugin
 			JFile::delete($file);
 		}
 
-		$head[] = '#';
+		$head   = ['#'];
 		$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
 		$head[] = '#Software: ' . \JPlatform::getLongVersion();
