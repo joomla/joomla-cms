@@ -266,6 +266,8 @@ class ArticleModel extends AdminModel
 
 		PluginHelper::importPlugin('system');
 
+		$workflow = new Workflow(['extension' => 'com_content']);
+
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
@@ -311,6 +313,11 @@ class ArticleModel extends AdminModel
 			// Set the new category ID
 			$this->table->catid = $categoryId;
 
+			$wf = $this->getWorkflowByCategory($categoryId);
+
+			// B/C
+			$this->table->state = (int) $wf->condition;
+
 			// Check the row.
 			if (!$this->table->check())
 			{
@@ -326,6 +333,8 @@ class ArticleModel extends AdminModel
 
 				return false;
 			}
+
+			$workflow->createAssociation($this->table->id, $wf->stage_id);
 
 			// Run event for moved article
 			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
@@ -677,10 +686,22 @@ class ArticleModel extends AdminModel
 	 */
 	public function save($data)
 	{
+		$table  = $this->getTable();
 		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
 		$db     = $this->getDbo();
 		$user	= Factory::getUser();
+
+		$key = $table->getKeyName();
+		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+		$isNew = true;
+
+		// Load the row if saving an existing record.
+		if ($pk > 0)
+		{
+			$table->load($pk);
+			$isNew = false;
+		}
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -774,8 +795,8 @@ class ArticleModel extends AdminModel
 		$workflowId = 0;
 		$stageId = 0;
 
-		// Set status depending on category
-		if (empty($data['id']))
+		// Set stage depending on category, but only when new article or category change
+		if (empty($data[$key]) || (!$isNew && $table->catid != $data['catid']))
 		{
 			$workflow = $this->getWorkflowByCategory($data['catid']);
 
@@ -813,10 +834,13 @@ class ArticleModel extends AdminModel
 			$query = $db->getQuery(true);
 
 			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
+					->from($db->quoteName('#__workflows', 'w'))
 					->from($db->quoteName('#__workflow_stages', 'ws'))
 					->from($db->quoteName('#__workflow_transitions', 'wt'))
+					->where($db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'))
 					->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
 					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
+					->where($db->quoteName('w.published') . ' = 1')
 					->where($db->quoteName('ws.published') . ' = 1')
 					->where($db->quoteName('wt.published') . ' = 1');
 
@@ -830,7 +854,6 @@ class ArticleModel extends AdminModel
 			}
 
 			$data['state'] = (int) $stage->condition;
-
 		}
 
 		// Automatic handling of alias for empty fields
@@ -891,20 +914,20 @@ class ArticleModel extends AdminModel
 
 					$table->load((int) $this->getState($this->getName() . '.id'));
 
-					$workflow = $this->getWorkflowByCategory($table->catid);
+					$wf = $this->getWorkflowByCategory($table->catid);
 
-					if (empty($workflow->id))
+					if (empty($wf->id))
 					{
 						$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
 
 						return false;
 					}
 
-					$stageId = (int) $workflow->stage_id;
-					$workflowId = (int) $workflow->id;
+					$stageId = (int) $wf->stage_id;
+					$workflowId = (int) $wf->id;
 
 					// B/C state
-					$table->state = $workflow->condition;
+					$table->state = $wf->condition;
 
 					$table->store();
 				}

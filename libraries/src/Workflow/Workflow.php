@@ -228,6 +228,15 @@ class Workflow
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
+			// Avoid having more than one association
+			$query->delete($db->quoteName('#__workflow_associations'))
+					->where($db->quoteName('item_id') . ' = ' . (int) $pk)
+					->where($db->quoteName('extension') . ' = ' . $db->quote($this->extension));
+
+			$db->setQuery($query)->execute();
+
+			$query = $db->getQuery(true);
+
 			$query->insert($db->quoteName('#__workflow_associations'))
 				->columns($db->quoteName(array('item_id', 'stage_id', 'extension')))
 				->values((int) $pk . ', ' . (int) $state . ', ' . $db->quote($this->extension));
