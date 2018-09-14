@@ -261,14 +261,13 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$menuType      = $this->state->get('filter.menutype');
-		$menutypeId    = (int) $this->state->get('menutypeid');
-		$menuTypeTitle = $this->get('State')->get('menutypetitle');
-		$published     = $this->state->get('filter.published');
-		$protected     = $menuType == 'main';
+		$menutypeId = (int) $this->state->get('menutypeid');
 
 		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
 		$user  = JFactory::getUser();
+
+		// Get the menu title
+		$menuTypeTitle = $this->get('State')->get('menutypetitle');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
@@ -286,6 +285,8 @@ class MenusViewItems extends JViewLegacy
 		{
 			JToolbarHelper::addNew('item.add');
 		}
+
+		$protected = $this->state->get('filter.menutype') == 'main';
 
 		if ($canDo->get('core.edit') && !$protected)
 		{
@@ -314,8 +315,7 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ((!$protected && strlen($menuType) && $menuType != '*' && $published != - 2)
-			&& $user->authorise('core.create', 'com_menus')
+		if (!$protected && $user->authorise('core.create', 'com_menus')
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
@@ -323,12 +323,12 @@ class MenusViewItems extends JViewLegacy
 
 			// Instantiate a new JLayoutFile instance and render the batch button
 			$layout = new JLayoutFile('joomla.toolbar.batch');
-			$dhtml  = $layout->render(array('title' => $title));
 
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if (!$protected && $published == -2 && $canDo->get('core.delete'))
+		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
