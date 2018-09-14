@@ -268,6 +268,8 @@ class ArticleModel extends AdminModel
 
 		$workflow = new Workflow(['extension' => 'com_content']);
 
+		$wf_new = $this->getWorkflowByCategory($categoryId);
+
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
@@ -296,6 +298,8 @@ class ArticleModel extends AdminModel
 				}
 			}
 
+			$wf_old = $this->getWorkflowByCategory($this->table->catid);
+
 			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 
 			$fieldsData = array();
@@ -312,8 +316,6 @@ class ArticleModel extends AdminModel
 
 			// Set the new category ID
 			$this->table->catid = $categoryId;
-
-			$wf = $this->getWorkflowByCategory($categoryId);
 
 			// B/C
 			$this->table->state = (int) $wf->condition;
@@ -334,7 +336,10 @@ class ArticleModel extends AdminModel
 				return false;
 			}
 
-			$workflow->createAssociation($this->table->id, $wf->stage_id);
+			if ($wf_old->id != $wf_new->id)
+			{
+				$workflow->createAssociation($this->table->id, $wf->stage_id);
+			}
 
 			// Run event for moved article
 			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
@@ -696,6 +701,8 @@ class ArticleModel extends AdminModel
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
+		$changeWorkflow = false;
+
 		// Load the row if saving an existing record.
 		if ($pk > 0)
 		{
@@ -795,8 +802,17 @@ class ArticleModel extends AdminModel
 		$workflowId = 0;
 		$stageId = 0;
 
+		// If the category is changed, check if the workflow has to change, too
+		if (!$isNew && $table->catid != $data['catid'])
+		{
+			$wf1 = $this->getWorkflowByCategory($data['catid']);
+			$wf2 = $this->getWorkflowByCategory($table->catid);
+
+			$changeWorkflow = $wf1->id != $wf2->id;
+		}
+
 		// Set stage depending on category, but only when new article or category change
-		if (empty($data[$key]) || (!$isNew && $table->catid != $data['catid']))
+		if (empty($data[$key]) || $changeWorkflow)
 		{
 			$workflow = $this->getWorkflowByCategory($data['catid']);
 
@@ -1208,13 +1224,13 @@ class ArticleModel extends AdminModel
 
 				continue;
 			}
-			elseif ($workflow_id == 'use_default')
+			elseif ($workflow_id == 'use_default' || !(int) $workflow_id)
 			{
 				$workflow_id = 0;
 
 				break;
 			}
-			elseif ($workflow_id > 0)
+			else
 			{
 				break;
 			}
