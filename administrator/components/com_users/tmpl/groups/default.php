@@ -51,10 +51,10 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($debugGroups) : ?>
-									<th style="width:10%" class="text-center">
+									<th scope="col" style="width:10%" class="text-center">
 										<?php echo Text::_('COM_USERS_DEBUG_GROUP'); ?>
 									</th>
-								<?php endif;?>
+								<?php endif; ?>
 								<th scope="col" style="width:10%" class="text-center">
 									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>

@@ -49,10 +49,10 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($debugUsers) : ?>
-									<th sclass="text-center">
+									<th scope="col" class="text-center">
 										<?php echo Text::_('COM_USERS_DEBUG_USER'); ?>
 									</th>
-								<?php endif;?>
+								<?php endif; ?>
 								<th scope="col" style="width:10%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
