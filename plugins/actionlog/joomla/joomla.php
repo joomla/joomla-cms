@@ -626,6 +626,7 @@ class PlgActionlogJoomla extends JPlugin
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$context = $this->app->input->get('option');
+		$task    = $this->app->input->get->getCmd('task');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -640,14 +641,21 @@ class PlgActionlogJoomla extends JPlugin
 			$action             = 'register';
 
 			// Reset request
-			if ($this->app->input->get('view') === 'reset')
+			if ($task === 'reset.request')
 			{
-				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET';
-				$action             = 'reset';
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST';
+				$action             = 'resetrequest';
+			}
+
+			// Reset complete
+			if ($task === 'reset.complete')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
+				$action             = 'resetcomplete';
 			}
 
 			// Remind request
-			if ($this->app->input->get('view') === 'remind')
+			if ($task === 'remind.remind')
 			{
 				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REMIND';
 				$action             = 'remind';
