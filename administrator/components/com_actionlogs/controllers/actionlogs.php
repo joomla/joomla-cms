@@ -64,8 +64,15 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		// Get selected logs
-		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
+		$task = $this->getTask();
+
+		$pks = array();
+
+		if ($task == 'exportSelectedLogs')
+		{
+			// Get selected logs			
+			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
+		}
 
 		// Get the logs data
 		$data = $this->getModel()->getLogsData($pks);
