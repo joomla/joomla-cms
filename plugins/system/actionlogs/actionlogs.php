@@ -163,6 +163,11 @@ class PlgSystemActionLogs extends JPlugin
 			return false;
 		}
 
+		if (!$values)
+		{
+			return true;
+		}
+
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
 
