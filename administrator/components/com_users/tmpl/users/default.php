@@ -48,6 +48,11 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($debugUsers) : ?>
+									<th sclass="text-center">
+										<?php echo Text::_('COM_USERS_DEBUG_USER'); ?>
+									</th>
+								<?php endif;?>
 								<th scope="col" style="width:10%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
@@ -117,16 +122,20 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php if ($item->requireReset == '1') : ?>
 										<span class="badge badge-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
-									<?php if ($debugUsers) : ?>
-										<div class="small"><a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<?php echo Text::_('COM_USERS_DEBUG_USER'); ?></a></div>
-									<?php endif; ?>
 								</th>
+								<?php if ($debugUsers) : ?>
+									<td class="text-center btns">
+										<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
+											<span class="fa fa-list" aria-hidden="true"></span>
+											<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_USER'); ?></span>
+										</a>
+									</td>
+								<?php endif; ?>
 								<td class="break-word">
 									<?php echo $this->escape($item->username); ?>
 								</td>
 								<td class="text-center">
-                                    <?php $self = $loggeduser->id == $item->id; ?>
+									<?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
