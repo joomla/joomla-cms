@@ -199,6 +199,18 @@ class Categories
 	}
 
 	/**
+	 * Returns the extension of the category.
+	 *
+	 * @return   string  The extension
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getExtension()
+	{
+		return $this->_extension;
+	}
+
+	/**
 	 * Load method
 	 *
 	 * @param   integer  $id  Id of category to load
