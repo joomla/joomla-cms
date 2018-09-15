@@ -50,9 +50,9 @@
 
 				<field
 					name="showSitename"
-					type="switcher"
+					type="radio"
 					label="TPL_ATUM_SITENAME_LABEL"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -63,7 +63,7 @@
 				<field
 					name="loginLogo"
 					type="media"
-					label="TPL_ATUM_LOGINLOGO_LABEL"
+					label="TPL_ATUM_LOGIN_LOGO_LABEL"
 				 />
 
 			</fieldset>
