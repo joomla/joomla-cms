@@ -261,7 +261,7 @@ class PlgSystemActionLogs extends JPlugin
 
 		if ($daysToDeleteAfter > 0)
 		{
-			$conditions = array($db->quoteName('log_date') . ' < ' . $query->dateAdd($now, -1 * $daysToDeleteAfter , ' DAY'));
+			$conditions = array($db->quoteName('log_date') . ' < ' . $query->dateAdd($now, -1 * $daysToDeleteAfter, ' DAY'));
 
 			$query->clear()
 				->delete($db->quoteName('#__action_logs'))->where($conditions);
@@ -415,13 +415,13 @@ class PlgSystemActionLogs extends JPlugin
 
 		foreach ($clearGroups as $group)
 		{
-			foreach ($cacheClients as $client_id)
+			foreach ($cacheClients as $clientId)
 			{
 				try
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
+						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					);
 

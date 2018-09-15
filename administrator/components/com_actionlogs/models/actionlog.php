@@ -128,12 +128,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 		{
 			$extensions = json_decode($user->extensions, true);
 
-			if (!$extensions)
-			{
-				continue;
-			}
-
-			if (in_array(strtok($context, '.'), $extensions))
+			if ($extensions && in_array(strtok($context, '.'), $extensions))
 			{
 				$recipients[] = $user->email;
 			}
