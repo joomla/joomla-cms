@@ -50,6 +50,11 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($debugGroups) : ?>
+									<th style="width:10%" class="text-center">
+										<?php echo Text::_('COM_USERS_DEBUG_GROUP'); ?>
+									</th>
+								<?php endif;?>
 								<th scope="col" style="width:10%" class="text-center">
 									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
@@ -89,11 +94,15 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<?php if ($debugGroups) : ?>
-										<div class="small"><a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
-										<?php echo Text::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
-									<?php endif; ?>
 								</th>
+								<?php if ($debugGroups) : ?>
+									<td class="text-center btns">
+										<a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
+											<span class="fa fa-list" aria-hidden="true"></span>
+											<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_GROUP'); ?></span>
+										</a>
+									</td>
+								<?php endif; ?>
 								<td class="text-center btns">
 									<a class="badge <?php echo $item->count_enabled > 0 ? 'badge-success' : 'badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 										<?php echo $item->count_enabled; ?></a>
