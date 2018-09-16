@@ -71,8 +71,20 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     line-height: $input-line-height;
     background-image: var(--white);
 
-    .li.search-choice {
-      background-image: none;
+    li.search-choice {
+      padding: 5px 25px 5px 10px;
+      color: var(--white);
+      background: var(--primary);
+      border: 0;
+      @if $enable-rounded {
+        border-radius: $custom-select-border-radius;
+      } @else {
+        border-radius: 0;
+      }
+
+      .search-choice-close {
+        top: 6px;
+      }
     }
   }
 }
