@@ -287,6 +287,17 @@
           "dist/css-vars-ponyfill.min.js": "js/css-vars-ponyfill.min.js",
           "dist/css-vars-ponyfill.min.js.map": "js/css-vars-ponyfill.min.js.map"
         }
+      },
+      "chosen-js": {
+        "name": "chosen",
+        "js": {
+          "chosen.jquery.js": "js/chosen.jquery.js"
+        },
+        "css": {
+          "chosen.css": "css/chosen.css",
+          "chosen-sprite.png": "css/chosen-sprite.png",
+          "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
+        }
       }
     },
     "errorPages": {

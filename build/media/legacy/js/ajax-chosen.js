@@ -34,7 +34,7 @@
     select = this;
     chosenXhr = null;
     options = $.extend({}, defaultOptions, $(select).data(), settings);
-    this.chosen(chosenOptions ? chosenOptions : {});
+    this.jchosen(chosenOptions ? chosenOptions : {});
     return this.each(function() {
       return $(this).next('.chzn-container').find(".search-field > input, .chzn-search > input").bind('keyup', function() {
         var field, msg, success, untrimmed_val, val;
@@ -117,8 +117,8 @@
           if (nbItems) {
             select.trigger("liszt:updated");
           } else {
-            select.data().chosen.no_results_clear();
-            select.data().chosen.no_results(field.val());
+            select.data().jchosen.no_results_clear();
+            select.data().jchosen.no_results(field.val());
           }
           if (success != null) {
             success(data);

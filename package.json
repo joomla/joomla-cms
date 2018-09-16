@@ -27,6 +27,7 @@
     "@webcomponents/webcomponentsjs": "2.1.2",
     "awesomplete": "LeaVerou/awesomplete",
     "bootstrap": "4.1.3",
+    "chosen-js": "1.6.2",
     "codemirror": "5.35.0",
     "cropperjs": "1.2.2",
     "css-vars-ponyfill": "^1.9.0",
