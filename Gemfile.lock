@@ -11,15 +11,15 @@ GEM
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    scss_lint (0.56.0)
+    scss_lint (0.57.0)
       rake (>= 0.9, < 13)
-      sass (~> 3.5.3)
+      sass (~> 3.5.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  scss_lint (~> 0.56.0)
+  scss_lint (~> 0.57.0)
 
 BUNDLED WITH
-   1.16.2
+   1.16.4
