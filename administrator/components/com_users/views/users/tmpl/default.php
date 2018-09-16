@@ -45,6 +45,11 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($debugUsers) : ?>
+							<th width="5%" class="nowrap">									
+								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?>
+							</th>
+						<?php endif; ?>
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 						</th>
@@ -114,11 +119,15 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							<?php if ($item->requireReset == '1') : ?>
 								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 							<?php endif; ?>
-							<?php if ($debugUsers) : ?>
-								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
-							<?php endif; ?>
 						</td>
+						<?php if ($debugUsers) : ?>
+							<td class="center">		
+								<a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
+									<span class="icon-list hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_DEBUG_USER'); ?>"></span>
+									<span class="element-invisible"><?php echo JText::_('COM_USERS_DEBUG_USERS_DESC'); ?></span>
+								</a>
+							</td>
+						<?php endif; ?>
 						<td class="break-word">
 							<?php echo $this->escape($item->username); ?>
 						</td>
