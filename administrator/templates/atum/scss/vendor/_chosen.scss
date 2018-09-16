@@ -43,7 +43,7 @@
   }
 
   .chzn-drop {
-    background: $white-offset;
+    background: var(--white-offset);
     border: $custom-select-border-width solid $custom-select-border-color;
   }
 

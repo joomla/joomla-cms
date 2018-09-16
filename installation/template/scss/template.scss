@@ -189,7 +189,7 @@ body {
 // Form
 
 .form-control {
-  background-color: $white-offset;
+  background-color: var(--white-offset);
 
   &.input-full {
     max-width: 100%;
