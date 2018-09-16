@@ -5,6 +5,7 @@ scss_files:
 exclude:
   - "build/media/system/scss/_icomoon.scss"
   - "media/vendor/*.scss"
+  - "administrator/components/com_media/node_modules/*.scss"
   - "node_modules/*.scss"
   - "scss/_normalize.scss"
   - "templates/cassiopeia/scss/blocks/_css-grid.scss"
