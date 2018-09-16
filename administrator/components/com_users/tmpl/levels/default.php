@@ -67,7 +67,7 @@ if ($saveOrder && !empty($this->items))
 								</th>
 							</tr>
 						</thead>
-						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
+						<tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
 							$ordering  = ($listOrder == 'a.ordering');
