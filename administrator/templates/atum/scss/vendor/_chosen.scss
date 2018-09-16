@@ -72,7 +72,9 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     background-image: var(--white);
 
     li.search-choice {
-      padding: 5px 25px 5px 10px;
+      $chosen-multi-close-width: 20px;
+
+      padding: 5px (13 + $chosen-multi-close-width) 5px 10px;
       color: var(--white);
       background: var(--primary);
       border: 0;
@@ -84,7 +86,20 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
       }
 
       .search-choice-close {
-        top: 6px;
+        top: 0;
+        right: 0;
+        background: var(--primary-dark);
+        width: $chosen-multi-close-width;
+        height: 100%;
+
+        &::before {
+          position:absolute;
+          top: 6px;
+          right: (($chosen-multi-close-width / 4) + 1);
+          content: "\00d7";
+          color: var(--white);
+          font-size: $font-size-base;
+        }
       }
     }
   }
