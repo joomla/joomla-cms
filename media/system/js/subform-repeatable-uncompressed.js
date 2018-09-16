@@ -29,7 +29,7 @@
 		this.$containerRows = this.options.rowsContainer ? this.$container.find(this.options.rowsContainer) : this.$container;
 
 		// last row number, help to avoid the name duplications
-        this.lastRowNum = this.$containerRows.find(this.options.repeatableElement).length;
+		this.lastRowNum = this.$containerRows.find(this.options.repeatableElement).length;
 
 		// To avoid scope issues,
 		var self = this;
@@ -145,13 +145,13 @@
 	// fix names and id`s for fields in $row
 	$.subformRepeatable.prototype.fixUniqueAttributes = function(
 		$row, // the jQuery object to do fixes in
-		count, // existing count of rows
-		group, // current group name, e.g. 'optionsX'
-		basename // group base name, without count, e.g. 'options'
+		_count, // existing count of rows
+		_group, // current group name, e.g. 'optionsX'
+		_basename // group base name, without count, e.g. 'options'
 	) {
-		var group = (typeof group === 'undefined' ? $row.attr('data-group') : group),
-			basename = (typeof basename === 'undefined' ? $row.attr('data-base-name') : basename),
-			count    = (typeof count === 'undefined' ? 0 : count),
+		var group = (typeof _group === 'undefined' ? $row.attr('data-group') : _group),
+			basename = (typeof _basename === 'undefined' ? $row.attr('data-base-name') : _basename),
+			count    = (typeof _count === 'undefined' ? 0 : _count),
 			countnew = Math.max(this.lastRowNum, count),
 			groupnew = basename + countnew;
 
@@ -217,10 +217,10 @@
 		 */
 		var nestedTemplates = $row.find(this.options.rowTemplateSelector);
 		// If we found it, iterate over the found ones (might be more than one!)
-		for (var i = 0; i < nestedTemplates.length; i++) {
+		for (var j = 0; j < nestedTemplates.length; j++) {
 			// Get the nested templates content (as DocumentFragment) and cast it
 			// to a jQuery object
-			var nestedTemplate = $($(nestedTemplates[i]).prop('content'));
+			var nestedTemplate = $($(nestedTemplates[j]).prop('content'));
 			// Fix the attributes for this nested template.
 			this.fixUniqueAttributes(nestedTemplate, count, group, basename);
 		}

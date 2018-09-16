@@ -86,8 +86,11 @@ else
 							<th style="width:8%;">
 								<?php if (!empty($buttons['add'])) : ?>
 									<div class="btn-group">
-										<a class="btn btn-mini button btn-success group-add-<?php echo $unique_subform_id; ?>">
-											<span class="icon-plus"></span>
+										<a
+											class="btn btn-mini button btn-success group-add-<?php echo $unique_subform_id; ?>"
+											aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"
+										>
+											<span class="icon-plus" aria-hidden="true"></span>
 										</a>
 									</div>
 								<?php endif; ?>
