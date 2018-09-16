@@ -52,6 +52,7 @@ $colors: (
   white-offset: #fefefe,
   sidebar-child-bg: #0f2131,
   focus: #39f,
+  table-border: $gray-300,
 );
 
 // Global
@@ -93,6 +94,8 @@ $body-color:                       var(--dark);
 // Tables
 $table-bg:                         transparent;
 $table-bg-accent:                  rgba(0, 0, 0, .03);
+$table-border-color:               var(--table-border);
+$table-cell-padding:               8px 12px;
 
 // Buttons + Forms
 $btn-border-radius:                0;
