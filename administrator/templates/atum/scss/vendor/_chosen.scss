@@ -3,14 +3,14 @@
 $chosen-select-padding-y: $custom-select-padding-y + .21;
 
 .chzn-container.chzn-container-single {
-    max-width: $input-max-width;
+  max-width: $input-max-width;
+  font-size: $font-size-base;
 
   .chzn-single {
     display: inline-block;
     $select-border-width: ($custom-select-border-width * 2);
     height: #{$input-height};
     padding: $chosen-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $chosen-select-padding-y $custom-select-padding-x;
-    font-size: $font-size-base;
     line-height: 1.5;
     color: $custom-select-color;
     vertical-align: middle;
@@ -49,7 +49,6 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
   }
 
   .chzn-drop {
-    font-size: $font-size-base;
     background: var(--white-offset);
     border: $custom-select-border-width solid $custom-select-border-color;
   }
@@ -61,6 +60,20 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
   &.chzn-container-active .chzn-single {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+  }
+}
+
+.chzn-container.chzn-container-multi {
+  .chzn-choices {
+    max-width: $input-max-width;
+    min-height: #{$input-height};
+    font-size: $font-size-base;
+    line-height: $input-line-height;
+    background-image: var(--white);
+
+    .li.search-choice {
+      background-image: none;
+    }
   }
 }
 
