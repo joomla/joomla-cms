@@ -75,7 +75,7 @@
     "karma-requirejs": "latest",
     "karma-verbose-reporter": "latest",
     "lodash.debounce": "^4.0.8",
-    "node-sass": "^4.9.2",
+    "node-sass": "^4.9.3",
     "path": "^0.12.7",
     "postcss": "^6.0.23",
     "recursive-copy": "latest",
