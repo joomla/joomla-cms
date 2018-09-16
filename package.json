@@ -67,7 +67,7 @@
     "jasmine-core": "latest",
     "jasmine-jquery": "latest",
     "joomla-javascript-tests": "joomla/test-javascript#4.0-dev",
-    "karma": "^2.0.5",
+    "karma": "^3.0.0",
     "karma-coverage": "latest",
     "karma-firefox-launcher": "latest",
     "karma-jasmine": "latest",
