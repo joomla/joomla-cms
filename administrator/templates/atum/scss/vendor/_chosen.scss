@@ -88,14 +88,14 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
       .search-choice-close {
         top: 0;
         right: 0;
-        background: var(--primary-dark);
+        background: rgba(0,0,0,0.2);
         width: $chosen-multi-close-width;
         height: 100%;
 
         &::before {
           position:absolute;
           top: 6px;
-          right: (($chosen-multi-close-width / 4) + 1);
+          right: ($chosen-multi-close-width / 4);
           content: "\00d7";
           color: var(--white);
           font-size: $font-size-base;
