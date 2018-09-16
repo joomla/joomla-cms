@@ -3,10 +3,10 @@
 $chosen-select-padding-y: $custom-select-padding-y + .21;
 
 .chzn-container.chzn-container-single {
+    max-width: $input-max-width;
 
   .chzn-single {
     display: inline-block;
-    max-width: 100%;
     $select-border-width: ($custom-select-border-width * 2);
     height: #{$input-height};
     padding: $chosen-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $chosen-select-padding-y $custom-select-padding-x;

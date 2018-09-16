@@ -1,7 +1,7 @@
 // Form
 
 .form-control {
-  max-width: 240px;
+  max-width: $input-max-width;
   background-color: var(--white-offset);
 }
 
@@ -46,7 +46,7 @@
 }
 
 .custom-select {
-  max-width: 240px;
+  max-width: $input-max-width;
 }
 
 .spacer hr {
