@@ -1,16 +1,16 @@
 // Chosen
 
-$chosen-select-padding-y: $custom-select-padding-y + 0.21;
+$chosen-select-padding-y: $custom-select-padding-y + .21;
 
 .chzn-container.chzn-container-single {
 
   .chzn-single {
-    font-size: $font-size-base;
     display: inline-block;
     max-width: 100%;
     $select-border-width: ($custom-select-border-width * 2);
     height: #{$input-height};
     padding: $chosen-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $chosen-select-padding-y $custom-select-padding-x;
+    font-size: $font-size-base;
     line-height: 1.5;
     color: $custom-select-color;
     vertical-align: middle;
@@ -23,8 +23,7 @@ $chosen-select-padding-y: $custom-select-padding-y + 0.21;
     -webkit-appearance: none;
     @if $enable-rounded {
       border-radius: $custom-select-border-radius;
-    }
-    @else {
+    } @else {
       border-radius: 0;
     }
 
@@ -56,7 +55,7 @@ $chosen-select-padding-y: $custom-select-padding-y + 0.21;
   }
 
   .chzn-results li {
-    line-height: calc(#{$font-size-base} + 0.3rem);
+    line-height: calc(#{$font-size-base} + .3rem);
   }
 
   &.chzn-container-active .chzn-single {
