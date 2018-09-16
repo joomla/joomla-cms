@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View to edit a mail.
  *
- * @since  DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Item Model for a Mail template.
  *
- * @since  DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class MailModel extends AdminModel
 {
@@ -28,7 +28,7 @@ class MailModel extends AdminModel
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  DEPLOY_VERSION
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_CONFIG';
 
@@ -36,7 +36,7 @@ class MailModel extends AdminModel
 	 * The type alias for this content type (for example, 'com_content.article').
 	 *
 	 * @var    string
-	 * @since  DEPLOY_VERSION
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $typeAlias = 'com_config.mail';
 
@@ -47,7 +47,7 @@ class MailModel extends AdminModel
 	 * 
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function canDelete($record)
 	{
@@ -61,7 +61,7 @@ class MailModel extends AdminModel
 	 * 
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function canEditState($record)
 	{
@@ -76,12 +76,12 @@ class MailModel extends AdminModel
 	 * 
 	 * @return  JForm  A JForm object on success, false on failure
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Initialise variables.
-		$app	= Factory::getApplication();
+		$app = Factory::getApplication();
 
 		// Get the form.
 		$form = $this->loadForm('com_config.mail', 'mail', array('control' => 'jform', 'load_data' => $loadData));
@@ -101,7 +101,7 @@ class MailModel extends AdminModel
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItem($pk = null)
 	{
@@ -153,7 +153,7 @@ class MailModel extends AdminModel
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getMaster($pk = null)
 	{
@@ -192,7 +192,7 @@ class MailModel extends AdminModel
 	 *
 	 * @return  mixed  The data for the form.
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
@@ -212,7 +212,7 @@ class MailModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState()
 	{

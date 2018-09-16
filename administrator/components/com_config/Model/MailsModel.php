@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 /**
  * Methods supporting a list of mail records.
  *
- * @since  DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class MailsModel extends ListModel
 {
@@ -27,7 +27,7 @@ class MailsModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{
@@ -60,7 +60,7 @@ class MailsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -80,7 +80,7 @@ class MailsModel extends ListModel
 	 * 
 	 * @return  array
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -108,7 +108,7 @@ class MailsModel extends ListModel
 	 *
 	 * @return  QueryInterface
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
@@ -134,7 +134,7 @@ class MailsModel extends ListModel
 	 * 
 	 * @return  array
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getLanguages()
 	{

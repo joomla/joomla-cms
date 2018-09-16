@@ -20,7 +20,7 @@ use Joomla\CMS\Session\Session;
 /**
  * The mail controller
  *
- * @since  DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class MailController extends FormController
 {
@@ -31,9 +31,9 @@ class MailController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function allowAdd($data = array())
+	protected function allowAdd($data = [])
 	{
 		return false;
 	}
@@ -46,7 +46,7 @@ class MailController extends FormController
 	 *
 	 * @return  boolean
 	 * 
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -62,7 +62,7 @@ class MailController extends FormController
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
@@ -115,7 +115,7 @@ class MailController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -134,7 +134,7 @@ class MailController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -223,11 +223,6 @@ class MailController extends FormController
 			);
 
 			return false;
-		}
-
-		if (!isset($validData['tags']))
-		{
-			$validData['tags'] = array();
 		}
 
 		// Attempt to save the data.

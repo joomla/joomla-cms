@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 /**
  * Email Templating Class
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class MailTemplate
 {
@@ -25,7 +25,7 @@ class MailTemplate
 	 * Mailer object to send the actual mail.
 	 *
 	 * @var    Joomla\CMS\Mail\Mail
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $mailer;
 
@@ -33,7 +33,7 @@ class MailTemplate
 	 * Identifier of the mail template.
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $mail_id;
 
@@ -47,21 +47,21 @@ class MailTemplate
 	/**
 	 *
 	 * @var    string[]
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $data = array();
 
 	/**
 	 *
 	 * @var    string[]
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $attachments = array();
 
 	/**
 	 *
 	 * @var    string[]
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $recipients = array();
 
@@ -72,7 +72,7 @@ class MailTemplate
 	 * @param   string  $language  Language of the template to use.
 	 * @param   Mail    $mailer    Mail object to send the mail with.
 	 * 
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($mail_id, $language, Mail $mailer = null)
 	{
@@ -97,7 +97,7 @@ class MailTemplate
 	 * 
 	 * @return  void
 	 * 
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addAttachment($name, $file)
 	{
@@ -116,7 +116,7 @@ class MailTemplate
 	 * 
 	 * @return  void
 	 * 
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addRecipient($mail, $name, $type = 'to')
 	{
@@ -134,7 +134,7 @@ class MailTemplate
 	 * 
 	 * @return  void
 	 * 
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addTemplateData($data)
 	{
@@ -146,7 +146,7 @@ class MailTemplate
 	 * 
 	 * @return  boolean  True on success
 	 * 
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function send()
 	{
