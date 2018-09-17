@@ -603,7 +603,7 @@ class PlgSystemDebug extends CMSPlugin
 	}
 
 	/**
-	 * Setup the storage method where debug information will be store (or not).
+	 * Setup the way debug information will be stored (or not).
 	 *
 	 * @return $this
 	 *
