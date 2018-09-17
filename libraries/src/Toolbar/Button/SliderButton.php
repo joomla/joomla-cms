@@ -51,7 +51,8 @@ class SliderButton extends ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['doTask'] = 'Joomla.setcollapse(\'' . $this->_getCommand($this->getUrl()) . '\', \'' . $this->getName() . '\', \'' . $this->getHeight() . '\');';;
+		$options['doTask'] = 'Joomla.setcollapse(\'' . $this->_getCommand($this->getUrl()) . '\', \'' .
+			$this->getName() . '\', \'' . $this->getHeight() . '\');';
 
 		parent::prepareOptions($options);
 	}
