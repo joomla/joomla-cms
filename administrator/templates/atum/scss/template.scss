@@ -88,7 +88,7 @@
 }
 
 .row-selected {
-  background-color: $table-row-selected;
+  background-color: var(--row-selected);
 }
 
 // Chosen (TEMPORARY)

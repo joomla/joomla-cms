@@ -1,14 +1,16 @@
 // Chosen
 
+$chosen-select-padding-y: $custom-select-padding-y + .21;
+
 .chzn-container.chzn-container-single {
+  max-width: $input-max-width;
+  font-size: $font-size-base;
 
   .chzn-single {
     display: inline-block;
-    max-width: 100%;
-    $select-border-width: ($border-width * 2);
-    height: calc(#{$input-height} - #{$select-border-width});
-    padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
-    padding-right: $custom-select-padding-x \9;
+    $select-border-width: ($custom-select-border-width * 2);
+    height: #{$input-height};
+    padding: $chosen-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $chosen-select-padding-y $custom-select-padding-x;
     line-height: 1.5;
     color: $custom-select-color;
     vertical-align: middle;
@@ -19,7 +21,11 @@
     box-shadow: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-    @include border-radius($custom-select-border-radius);
+    @if $enable-rounded {
+      border-radius: $custom-select-border-radius;
+    } @else {
+      border-radius: 0;
+    }
 
     abbr {
       top: 10px;
@@ -43,13 +49,59 @@
   }
 
   .chzn-drop {
-    background: $white-offset;
+    background: var(--white-offset);
     border: $custom-select-border-width solid $custom-select-border-color;
+  }
+
+  .chzn-results li {
+    line-height: calc(#{$font-size-base} + .3rem);
   }
 
   &.chzn-container-active .chzn-single {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+  }
+}
+
+.chzn-container.chzn-container-multi {
+  .chzn-choices {
+    max-width: $input-max-width;
+    min-height: #{$input-height};
+    font-size: $font-size-base;
+    line-height: $input-line-height;
+    background-image: var(--white);
+
+    li.search-choice {
+      $chosen-multi-close-width: 20px;
+
+      padding: 5px (13 + $chosen-multi-close-width) 5px 10px;
+      color: var(--white);
+      background: var(--primary);
+      border: 0;
+      box-shadow: $atum-box-shadow;
+      @if $enable-rounded {
+        border-radius: $custom-select-border-radius;
+      } @else {
+        border-radius: 0;
+      }
+
+      .search-choice-close {
+        top: 0;
+        right: 0;
+        background: rgba(0,0,0,0.2);
+        width: $chosen-multi-close-width;
+        height: 100%;
+
+        &::before {
+          position:absolute;
+          top: 6px;
+          right: ($chosen-multi-close-width / 4);
+          content: "\00d7";
+          color: var(--white);
+          font-size: $font-size-base;
+        }
+      }
+    }
   }
 }
 

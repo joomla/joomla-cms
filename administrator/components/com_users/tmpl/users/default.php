@@ -23,7 +23,6 @@ HTMLHelper::_('behavior.tabstate');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = Factory::getUser();
-$debugUsers = $this->state->get('params')->get('debugUsers', 1);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -47,6 +46,9 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								</td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col" class="text-center">
+									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" style="width:10%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
@@ -117,16 +119,18 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php if ($item->requireReset == '1') : ?>
 										<span class="badge badge-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
-									<?php if ($debugUsers) : ?>
-										<div class="small"><a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<?php echo Text::_('COM_USERS_DEBUG_USER'); ?></a></div>
-									<?php endif; ?>
 								</th>
+								<td class="text-center btns">
+									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
+										<span class="fa fa-list" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
+									</a>
+								</td>
 								<td class="break-word">
 									<?php echo $this->escape($item->username); ?>
 								</td>
 								<td class="text-center">
-                                    <?php $self = $loggeduser->id == $item->id; ?>
+									<?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
