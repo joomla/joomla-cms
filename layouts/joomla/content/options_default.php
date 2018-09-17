@@ -21,9 +21,9 @@ use Joomla\CMS\Form\FormHelper;
 	<?php endif; ?>
 	<?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
 	<?php foreach ($fieldsnames as $fieldname) : ?>
-    	<?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
-        	<?php $datashowon = ''; ?>
-        	<?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
+		<?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
+			<?php $datashowon = ''; ?>
+			<?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
 			<?php echo $field->renderField(); ?>
 		<?php endforeach; ?>
 	<?php endforeach; ?>
