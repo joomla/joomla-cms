@@ -51,6 +51,7 @@ $input = Factory::getApplication()->input;
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
@@ -139,7 +140,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 									<?php echo $this->form->getLabel('position'); ?>
 								</div>
 								<div class="controls">
-									<?php echo $this->loadTemplate('positions'); ?>
+									<?php echo $this->form->getInput('position');//$this->loadTemplate('positions'); ?>
 								</div>
 							</div>
 						</fieldset>
