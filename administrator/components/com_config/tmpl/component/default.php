@@ -72,24 +72,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 								$dataShowOn = '';
 								$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
 							?>
-							<?php if ($field->showon) : ?>
-								<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
-								<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
-							<?php endif; ?>
-							<?php if ($field->hidden) : ?>
-								<?php echo $field->input; ?>
-							<?php else : ?>
-								<div class="control-group<?php echo $groupClass; ?>"<?php echo $dataShowOn; ?>>
-									<?php if ($name != 'permissions') : ?>
-										<div class="control-label">
-											<?php echo $field->label; ?>
-										</div>
-									<?php endif; ?>
-									<div class="<?php if ($name != 'permissions') : ?>controls<?php endif; ?>">
-										<?php echo $field->input; ?>
-									</div>
-								</div>
-							<?php endif; ?>
+							<?php echo $field->renderField(); ?>
 						<?php endforeach; ?>
 					</div>
 				<?php endforeach; ?>
