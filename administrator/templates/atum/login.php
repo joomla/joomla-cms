@@ -2,6 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
+ *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -60,47 +61,47 @@ $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 	<jdoc:include type="styles"/>
 </head>
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
-<?php // Container ?>
-<main class="d-flex justify-content-center align-items-center h-100">
-	<div class="login-bg-grad"></div>
-	<div class="login">
-		<div class="login-logo">
-			<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg"
-				 alt="">
-		</div>
-		<div id="content">
-			<noscript>
-				<div class="alert alert-danger" role="alert">
-					<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-				</div>
-			</noscript>
-			<h1 class="m-3 h4 text-light"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
-			<div id="element-box" class="login-box">
-				<?php if ($showSitename || $loginLogo) : ?>
-					<div class="p-4 bg-white text-center">
-						<?php if ($showSitename) : ?>
-							<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
-						<?php endif; ?>
-						<?php if ($loginLogo) : ?>
-							<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
-						<?php endif; ?>
+	<?php // Container ?>
+	<main class="d-flex justify-content-center align-items-center h-100">
+		<div class="login-bg-grad"></div>
+		<div class="login">
+			<div class="login-logo">
+				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg"
+					 alt="">
+			</div>
+			<div id="content">
+				<noscript>
+					<div class="alert alert-danger" role="alert">
+						<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 					</div>
-				<?php endif; ?>
-				<div class="p-4">
-					<jdoc:include type="message"/>
-					<jdoc:include type="component"/>
+				</noscript>
+				<h1 class="m-3 h4 text-light"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
+				<div id="element-box" class="login-box">
+					<?php if ($showSitename || $loginLogo) : ?>
+						<div class="p-4 bg-white text-center">
+							<?php if ($showSitename) : ?>
+								<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
+							<?php endif; ?>
+							<?php if ($loginLogo) : ?>
+								<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
+					<div class="p-4">
+						<jdoc:include type="message"/>
+						<jdoc:include type="component"/>
+					</div>
 				</div>
 			</div>
+			<div class="mt-4 d-none d-md-flex justify-content-between">
+				<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span
+							class="fa fa-external-link mr-1"
+							aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a> <span
+						class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
+			</div>
 		</div>
-		<div class="mt-4 d-none d-md-flex justify-content-between">
-			<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span
-						class="fa fa-external-link mr-1"
-						aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a> <span
-					class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
-		</div>
-	</div>
-</main>
-<jdoc:include type="modules" name="debug" style="none"/>
-<jdoc:include type="scripts"/>
+	</main>
+	<jdoc:include type="modules" name="debug" style="none"/>
+	<jdoc:include type="scripts"/>
 </body>
 </html>
