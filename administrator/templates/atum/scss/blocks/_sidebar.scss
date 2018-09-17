@@ -47,7 +47,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #fff;
+      background-color: var(--white);
       border-radius: 2px;
       box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
     }
@@ -130,7 +130,7 @@
       display: block;
       width: $sidebar-width;
       padding: 0;
-      background-color: $atum-sidebar-child-bg;
+      background-color: var(--sidebar-child-bg);
       opacity: 0;
       transition: left .2s ease, opacity .2s ease;
       transition-delay: 0;
@@ -265,7 +265,7 @@
     left: 0;
     width: 3px;
     content: "";
-    background-color: $atum-sidebar-active;
+    background-color: var(--sidebar-active);
   }
 }
 
