@@ -40,7 +40,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<td class="text-center" style="width:1%">
 											<?php echo HTMLHelper::_('grid.checkall'); ?>
 										</td>
-										<th scope="col" class="nowrap">
+										<th scope="col">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirection, $listOrder); ?>
 										</th>
 										<th scope="col" style="width:10%">
@@ -67,7 +67,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="nowrap d-none d-md-table-cell" style="width:1%">
+										<th scope="col" class="d-none d-md-table-cell" style="width:1%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 										</th>
 									</tr>

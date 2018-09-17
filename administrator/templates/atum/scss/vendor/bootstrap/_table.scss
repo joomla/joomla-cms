@@ -3,10 +3,11 @@
 .table {
 
   thead {
-    th {
-      white-space: nowrap;
+    th,
+    td {
       font-weight: normal;
       color: $gray-800;
+      white-space: nowrap;
     }
     td {
       padding: 0;
@@ -18,7 +19,7 @@
   }
 
   tbody {
-    background-color: $white;
+    background-color: var(--white);
   }
 
   th,
@@ -29,10 +30,6 @@
       margin-bottom: 0;
     }
 
-  }
-
-  th {
-    padding: 8px 12px;
   }
 
   td {

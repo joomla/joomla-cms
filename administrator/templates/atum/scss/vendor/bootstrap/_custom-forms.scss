@@ -5,23 +5,23 @@
   &.custom-select-color-state {
 
     &.custom-select-success {
-      color: $white-offset;
+      color: var(--white-offset);
       background-color: theme-color("success");
 
       option {
         color: $custom-select-color;
-        background-color: $white-offset;
+        background-color: var(--white-offset);
       }
 
 	}
 
     &.custom-select-danger {
-      color: $white-offset;
+      color: var(--white-offset);
       background-color: theme-color("danger");
 
       option {
         color: $custom-select-color;
-        background-color: $white-offset;
+        background-color: var(--white-offset);
       }
 
 	}

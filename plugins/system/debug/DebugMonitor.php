@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Plugin\System\Debug;
 
 use Joomla\Database\QueryMonitorInterface;
+
+defined('_JEXEC') or die;
 
 /**
  * Query monitor for the debug plugin
@@ -24,7 +26,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	protected $callStacks = [];
+	private $callStacks = [];
 
 	/**
 	 * Flag if this monitor is collecting profile data
@@ -49,6 +51,14 @@ final class DebugMonitor implements QueryMonitorInterface
 	 * @since  4.0.0
 	 */
 	private $timings = [];
+
+	/**
+	 * The log of executed SQL statements memory usage (start and stop memory_get_usage) by the database driver.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $memoryLogs = [];
 
 	/**
 	 * Monitor constructor
@@ -77,6 +87,7 @@ final class DebugMonitor implements QueryMonitorInterface
 		{
 			$this->log[]     = $sql;
 			$this->timings[] = microtime(true);
+			$this->memoryLogs[] = memory_get_usage();
 		}
 	}
 
@@ -92,6 +103,7 @@ final class DebugMonitor implements QueryMonitorInterface
 		if ($this->enabled)
 		{
 			$this->timings[]    = microtime(true);
+			$this->memoryLogs[] = memory_get_usage();
 			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		}
 	}
@@ -130,5 +142,17 @@ final class DebugMonitor implements QueryMonitorInterface
 	public function getTimings()
 	{
 		return $this->timings;
+	}
+
+	/**
+	 * Get the logged memory logs.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMemoryLogs(): array
+	{
+		return $this->memoryLogs;
 	}
 }

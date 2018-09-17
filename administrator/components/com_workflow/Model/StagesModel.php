@@ -136,7 +136,8 @@ class StagesModel extends ListModel
 				's.ordering',
 				's.condition',
 				's.default',
-				's.published'
+				's.published',
+				's.description'
 			)
 		);
 
