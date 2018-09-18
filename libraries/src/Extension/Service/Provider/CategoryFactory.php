@@ -19,7 +19,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CategoriesFactory implements ServiceProviderInterface
+class CategoryFactory implements ServiceProviderInterface
 {
 	/**
 	 * The namespace to create the categories from.

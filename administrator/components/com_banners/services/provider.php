@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\CategoriesFactory;
+use Joomla\CMS\Extension\Service\Provider\CategoryFactory;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\HTML\Registry;
@@ -39,7 +39,7 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new CategoriesFactory('\\Joomla\\Component\\Banners'));
+		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Banners'));
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Banners'));
 		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Banners'));
 
