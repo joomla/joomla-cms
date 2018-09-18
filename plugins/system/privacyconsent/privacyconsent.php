@@ -213,7 +213,6 @@ class PlgSystemPrivacyconsent extends JPlugin
 				// Do nothing if the save fails
 			}
 
-			JLoader::register('ActionlogsModelActionlog', JPATH_ADMINISTRATOR . '/components/com_actionlogs/models/actionlog.php');
 			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 			$message = array(
@@ -225,6 +224,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 				'username'    => $data['username'],
 				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			);
+
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
 			/* @var ActionlogsModelActionlog $model */
 			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
