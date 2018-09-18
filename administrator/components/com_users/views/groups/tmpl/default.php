@@ -122,7 +122,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 						</td>
 						<?php if ($debugGroups) : ?>
-							<td class="center btns" >
+							<td class="center btns">
 								<a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 									<span class="icon-list hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_DEBUG_GROUPS_DESC'); ?>"></span>
 									<span class="element-invisible"><?php echo JText::_('COM_USERS_DEBUG_GROUPS_DESC'); ?></span>
