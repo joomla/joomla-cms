@@ -46,9 +46,6 @@
         JoomlaChosen.prototype.result_select = function (evt) {
             var group, option, value;
 
-            console.log(this.result_highlight);
-            console.log(this.is_multiple);
-            console.log(this.allow_custom_value);
             if (!this.result_highlight && (!this.is_multiple) && this.allow_custom_value) {
                 value = this.search_field.val();
                 group = this.add_unique_custom_group();
