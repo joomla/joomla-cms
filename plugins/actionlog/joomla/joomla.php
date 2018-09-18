@@ -366,6 +366,12 @@ class PlgActionlogJoomla extends JPlugin
 		$language      = JFactory::getLanguage();
 		$user          = JFactory::getUser();
 		$manifest      = $installer->get('manifest');
+
+		if ($manifest === null)
+		{
+			return;
+		}
+
 		$extensionType = $manifest->attributes()->type;
 
 		// If the extension type has it own language key, use it, otherwise, use default language key
@@ -423,6 +429,12 @@ class PlgActionlogJoomla extends JPlugin
 		$language      = JFactory::getLanguage();
 		$user          = JFactory::getUser();
 		$manifest      = $installer->get('manifest');
+
+		if ($manifest === null)
+		{
+			return;
+		}
+
 		$extensionType = $manifest->attributes()->type;
 
 		// If the extension type has it own language key, use it, otherwise, use default language key
@@ -473,6 +485,12 @@ class PlgActionlogJoomla extends JPlugin
 		$language      = JFactory::getLanguage();
 		$user          = JFactory::getUser();
 		$manifest      = $installer->get('manifest');
+
+		if ($manifest === null)
+		{
+			return;
+		}
+
 		$extensionType = $manifest->attributes()->type;
 
 		// If the extension type has it own language key, use it, otherwise, use default language key
