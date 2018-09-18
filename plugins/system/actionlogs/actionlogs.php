@@ -364,7 +364,7 @@ class PlgSystemActionLogs extends JPlugin
 	}
 
 	/**
-	 * Remove all sessions for the user name
+	 * Removes user preferences
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
