@@ -13,7 +13,6 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 /**
  * Modules Position field.
@@ -65,27 +64,4 @@ class ModulesPositionField extends \Joomla\CMS\Form\Field\TextField
 
 		return $this->getRenderer($this->layout)->render($data);
 	}
-
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.4.2
-	 * /
-	public function getOptions()
-	{
-		if ($this->options === null)
-		{
-			$clientId = Factory::getApplication()->input->get('client_id', 0, 'int');
-			$options  = ModulesHelper::getPositions($clientId);
-
-			$positions = HTMLHelper::_('modules.positions', $clientId, 1, $this->value);
-
-
-			$this->options = $positions; //array_merge(parent::getOptions(), $options);
-		}
-
-		return $this->options;
-	}//*/
 }

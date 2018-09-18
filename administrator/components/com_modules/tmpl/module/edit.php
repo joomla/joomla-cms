@@ -140,7 +140,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 									<?php echo $this->form->getLabel('position'); ?>
 								</div>
 								<div class="controls">
-									<?php echo $this->form->getInput('position');//$this->loadTemplate('positions'); ?>
+									<?php echo $this->form->getInput('position'); ?>
 								</div>
 							</div>
 						</fieldset>

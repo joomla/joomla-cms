@@ -107,6 +107,10 @@ abstract class ModulesHelper
 			{
 				$options[] = HTMLHelper::_('select.option', 'none', Text::_('COM_MODULES_NONE'));
 			}
+			elseif (!$position)
+			{
+				$options[] = HTMLHelper::_('select.option', '', Text::_('COM_MODULES_NONE'));
+			}
 			else
 			{
 				$options[] = HTMLHelper::_('select.option', $position, $position);

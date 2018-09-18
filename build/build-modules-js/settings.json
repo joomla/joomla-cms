@@ -10,6 +10,7 @@
       "field-switcher",
       "field-send-test-mail",
       "field-module-order",
+      "field-module-editposition",
       "field-permissions",
       "field-simple-color",
       "field-send-test-mail",
@@ -45,6 +46,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-module-order": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-module-editposition": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },

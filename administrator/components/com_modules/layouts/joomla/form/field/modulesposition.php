@@ -48,61 +48,25 @@ extract($displayData);
  * @var   array    $positions       Array of the positions
  */
 
-$attributes = array(
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($description) ? 'title="' . $description . '"' : '',
+$selectAttr = array(
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
-	!empty($maxLength) ? $maxLength : '',
 	$required ? 'required' : '',
 	$autofocus ? ' autofocus' : '',
-	$spellcheck ? '' : 'spellcheck="false"',
-	!empty($inputmode) ? $inputmode : '',
-	!empty($pattern) ? 'pattern="' . $pattern . '"' : '',
-	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
-	'data-positions="' . htmlspecialchars(json_encode($positions), ENT_COMPAT, 'UTF-8') . '"',
 );
 
 HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
-
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-module-editposition.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
+<joomla-field-module-editposition class="<?php echo $class; ?>"><?php
+	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
+	'id'          => $id,
+	'list.select' => $value,
+	'list.attr'   => implode(' ', $selectAttr),
+));
+?></joomla-field-module-editposition>
 
-	<input
-		type="text" autocomplete="off"
-		name="<?php echo $name; ?>"
-		id="<?php echo $id; ?>"
-		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-		<?php echo $dirname; ?>
-		<?php echo implode(' ', $attributes); ?>>
-
-<?php /*if ($positions) :
-	echo HTMLHelper::_('select.groupedlist', $positions, '', array(
-		'id'          => $id . '_list',
-		'list.select' => $value,
-	));
-endif;*/ ?>
-
-<script>
-window.addEventListener('load', function() {
-  var positionEl = document.getElementById('jform_position'),
-		positions = JSON.parse(positionEl.dataset.positions),
-  		options = {
-          paste: false,
-          editItems: true,
-          removeItemButton: true,
-          maxItemCount: 1
-		};
-  var positionChoice = new Choices(positionEl, options);
-
-  positionChoice.ajax(function(callback) {
-  	console.log(callback);
-  });
-  console.log(positionChoice);
-  console.log(positions);
-});
-</script>
