@@ -88,7 +88,10 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 */
 	private function createContentDomain(JUser $user)
 	{
-		$domain = $this->createDomain('user content', 'Joomla! user content data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_CONTENT_DOMAIN_LABEL'),
+			JText::_('PLG_PRIVACY_CONTENT_DOMAIN_DESC')
+		);
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -118,7 +121,10 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 */
 	private function createContentCustomFieldsDomain($content)
 	{
-		$domain = $this->createDomain('content custom fields', 'Joomla! content custom fields data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_CONTENT_DOMAIN_CUSTOMFIELDS_LABEL'),
+			JText::_('PLG_PRIVACY_CONTENT_DOMAIN_CUSTOMFIELDS_DESC')
+		);
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_content.article', $content);
