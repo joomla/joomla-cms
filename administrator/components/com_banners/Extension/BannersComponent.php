@@ -11,7 +11,7 @@ namespace Joomla\Component\Banners\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
@@ -24,7 +24,7 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoriesServiceInterface
+class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoryServiceInterface
 {
 	use CategoryServiceTrait;
 	use HTMLRegistryAwareTrait;

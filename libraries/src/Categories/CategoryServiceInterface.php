@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  4.0.0
  */
-interface CategoriesServiceInterface
+interface CategoryServiceInterface
 {
 	/**
 	 * Returns the category service.

@@ -11,7 +11,7 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
@@ -29,7 +29,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
  *
  * @since  4.0.0
  */
-class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface
+class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface
 {
 	use CategoryServiceTrait;
 

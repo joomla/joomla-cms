@@ -157,7 +157,7 @@ class Categories implements CategoryInterface
 
 			$component = Factory::getApplication()->bootComponent($parts[0]);
 
-			if ($component instanceof CategoriesServiceInterface)
+			if ($component instanceof CategoryServiceInterface)
 			{
 				$categories = $component->getCategory($options, count($parts) > 1 ? $parts[1] : '');
 			}
