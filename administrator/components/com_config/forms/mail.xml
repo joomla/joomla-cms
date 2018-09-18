@@ -14,7 +14,7 @@
 		<field
 			name="subject"
 			type="text" 
-			label="Subject"
+			label="COM_CONFIG_FIELD_SUBJECT_LABEL"
 			class="input-xxlarge"
 			size="40"
 			required="true"
@@ -33,11 +33,11 @@
 		<field
 			name="body"
 			type="editor"
+			label="COM_CONFIG_FIELD_BODY_LABEL"
 			editor="none"
 			buttons="false"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
-			label="Body"
 		/>
 
 		<field
@@ -53,10 +53,10 @@
 		<field
 			name="htmlbody"
 			type="editor"
+			label="COM_CONFIG_FIELD_HTMLBODY_LABEL"
 			buttons="false"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
-			label="Body"
 		/>
 
 		<field
@@ -68,17 +68,5 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
-		<field
-			name="attachments"
-			type="text"
-			label="Attachments"
-		/>
-
-		<field
-			name="params"
-			type="text"
-			label="Params"
-		/>
 	</fieldset>
 </form>

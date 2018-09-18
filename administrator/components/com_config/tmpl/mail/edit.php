@@ -84,13 +84,6 @@ document.addEventListener(\'DOMContentLoaded\', () => {
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-md-12">
-			<?php echo $this->form->renderField('attachments'); ?>
-			<?php //echo $this->form->renderField('params'); ?>
-		</div>
-	</div>
-
 	<?php echo $this->form->renderField('mail_id'); ?>
 	<?php echo $this->form->renderField('language'); ?>
 	<input type="hidden" name="task" value="">

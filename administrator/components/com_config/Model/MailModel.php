@@ -240,6 +240,9 @@ class MailModel extends AdminModel
 				$isNew = false;
 			}
 
+			// Load the default row
+			$table->load(array('mail_id' => $mail_id, 'language' => ''));
+
 			// Bind the data.
 			if (!$table->bind($data))
 			{
@@ -293,6 +296,20 @@ class MailModel extends AdminModel
 		$this->setState($this->getName() . '.new', $isNew);
 
 		return true;
+	}
+
+	/**
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param   Table  $table  A reference to a \JTable object.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function prepareTable($table)
+	{
+		$table->params = '';
 	}
 
 	/**

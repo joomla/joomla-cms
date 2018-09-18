@@ -35,7 +35,6 @@ class MailController extends FormController
 	 * @param   MVCFactoryInterface   $factory      The factory.
 	 * @param   CMSApplication        $app          The JApplication for the dispatcher
 	 * @param   \JInput               $input        Input
-	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
