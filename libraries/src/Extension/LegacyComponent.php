@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceTrait;
+use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
@@ -31,7 +31,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
  */
 class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface
 {
-	use CategoriesServiceTrait;
+	use CategoryServiceTrait;
 
 	/**
 	 * @var string

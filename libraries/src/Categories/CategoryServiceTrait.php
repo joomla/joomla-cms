@@ -18,7 +18,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  4.0.0
  */
-trait CategoriesServiceTrait
+trait CategoryServiceTrait
 {
 	/**
 	 * The categories factory
