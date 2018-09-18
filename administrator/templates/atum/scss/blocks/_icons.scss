@@ -34,18 +34,18 @@
     font-size: 1rem;
     line-height: 22px;
     color: #ccc;
-    border: 2px solid #ccc;
+    border: 2px solid var(--border);
     border-radius: 50%;
   }
 
   .icon-publish {
-    color: theme-color("success");
-    border-color: theme-color("success");
+    color: var(--success);
+    border-color: var(--success);
   }
 
   .icon-featured {
-    color: theme-color("primary");
-    border-color: theme-color("primary");
+    color: var(--primary);
+    border-color: var(--primary);
   }
 
   .icon-archive {

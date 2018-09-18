@@ -23,7 +23,6 @@ HTMLHelper::_('behavior.tabstate');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = Factory::getUser();
-$debugUsers = $this->state->get('params')->get('debugUsers', 1);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -42,34 +41,37 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 					<table class="table" id="userList">
 						<thead>
 							<tr>
-								<td style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap text-center">
+								<th scope="col" class="text-center">
+									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
+								</th>
+								<th scope="col" style="width:10%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap text-center">
+								<th scope="col" style="width:5%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap text-center">
+								<th scope="col" style="width:12%">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
+								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
+								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
+								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -117,16 +119,18 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									<?php if ($item->requireReset == '1') : ?>
 										<span class="badge badge-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
-									<?php if ($debugUsers) : ?>
-										<div class="small"><a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<?php echo Text::_('COM_USERS_DEBUG_USER'); ?></a></div>
-									<?php endif; ?>
 								</th>
-								<td class="break-word text-center">
+								<td class="text-center btns">
+									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
+										<span class="fa fa-list" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
+									</a>
+								</td>
+								<td class="break-word">
 									<?php echo $this->escape($item->username); ?>
 								</td>
 								<td class="text-center">
-                                    <?php $self = $loggeduser->id == $item->id; ?>
+									<?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
@@ -139,27 +143,27 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 									echo HTMLHelper::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
-								<td class="text-center">
+								<td>
 									<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 										<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 									<?php else : ?>
 										<?php echo nl2br($item->group_names); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell break-word text-center">
+								<td class="d-none d-lg-table-cell break-word">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
 								</td>
-								<td class="d-none d-lg-table-cell text-center">
+								<td class="d-none d-lg-table-cell">
 									<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
 										<?php echo HTMLHelper::_('date', $item->lastvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
 									<?php else : ?>
 										<?php echo Text::_('JNEVER'); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell text-center">
+								<td class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('date', $item->registerDate, Text::_('DATE_FORMAT_LC6')); ?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

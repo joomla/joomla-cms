@@ -38,7 +38,7 @@ class TransitionModel extends AdminModel
 
 		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
-		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
 		$this->setState('filter.extension', $extension);
 	}
@@ -60,7 +60,7 @@ class TransitionModel extends AdminModel
 		}
 
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', null, 'cmd');
 
 		return Factory::getUser()->authorise('core.delete', $extension . '.transition.' . (int) $record->id);
 	}
@@ -78,7 +78,7 @@ class TransitionModel extends AdminModel
 	{
 		$user = Factory::getUser();
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', null, 'cmd');
 
 		// Check for existing workflow.
 		if (!empty($record->id))

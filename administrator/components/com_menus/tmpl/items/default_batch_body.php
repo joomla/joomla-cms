@@ -20,7 +20,7 @@ $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
 $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
 if ($clientId == 1) :
-	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['relative' => true, 'version' => 'auto']);
+	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['version' => 'auto', 'relative' => true]);
 endif;
 
 ?>
