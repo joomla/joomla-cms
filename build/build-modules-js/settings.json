@@ -13,6 +13,7 @@
       "field-permissions",
       "field-simple-color",
       "field-send-test-mail",
+      "field-subform",
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
@@ -48,6 +49,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-hidden-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-subform": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
@@ -191,7 +196,7 @@
           "dist/js/joomla-alert-es5.js": "js/joomla-alert-es5.js",
           "dist/js/joomla-alert-es5.min.js": "js/joomla-alert-es5.min.js",
           "dist/js/joomla-tab.js": "js/joomla-tab.js",
-          "dist/js/joomla-tab.min.js": "js/joomla-tab.js",
+          "dist/js/joomla-tab.min.js": "js/joomla-tab.min.js",
           "dist/js/joomla-tab-es5.js": "js/joomla-tab-es5.js",
           "dist/js/joomla-tab-es5.min.js": "js/joomla-tab-es5.min.js"
         },
@@ -273,6 +278,15 @@
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
+      },
+      "css-vars-ponyfill": {
+        "name": "css-vars-ponyfill",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/css-vars-ponyfill.js": "js/css-vars-ponyfill.js",
+          "dist/css-vars-ponyfill.min.js": "js/css-vars-ponyfill.min.js",
+          "dist/css-vars-ponyfill.min.js.map": "js/css-vars-ponyfill.min.js.map"
+        }
       }
     },
     "errorPages": {

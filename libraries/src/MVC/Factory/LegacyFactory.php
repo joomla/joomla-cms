@@ -92,7 +92,6 @@ class LegacyFactory implements MVCFactoryInterface
 
 		if (!class_exists($viewClass))
 		{
-			jimport('joomla.filesystem.path');
 			$path = Path::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
 
 			if (!$path)

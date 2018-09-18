@@ -29,16 +29,6 @@
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 				/>
-
-				<field
-					name="state"
-					type="workflowstage"
-					multiple="true"
-					size="5"
-					label="MOD_ARTICLES_ARCHIVE_CHOOSE_STATE"
-					default="4"
-				>
-				</field>
 			</fieldset>
 
 			<fieldset name="advanced">
@@ -46,6 +36,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
 				/>
 
 				<field

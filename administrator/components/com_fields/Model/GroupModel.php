@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Group Model
@@ -211,7 +212,7 @@ class GroupModel extends AdminModel
 	{
 		parent::preprocessForm($form, $data, $group);
 
-		$parts = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts = FieldsHelper::extract($this->state->get('filter.context'));
 
 		// Extract the component name
 		$component = $parts[0];

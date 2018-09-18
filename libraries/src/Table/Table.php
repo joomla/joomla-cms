@@ -275,8 +275,6 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			jimport('joomla.filesystem.path');
-
 			$paths = self::addIncludePath();
 			$pathIndex = 0;
 

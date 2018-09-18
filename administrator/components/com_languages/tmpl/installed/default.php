@@ -40,19 +40,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<td style="width:1%">
 								&#160;
 							</td>
-							<th scope="col" style="width:15%" class="nowrap">
+							<th scope="col" style="width:15%">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:15%" class="d-none d-sm-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" class="nowrap text-center">
+							<th scope="col" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="nowrap text-center">
+							<th scope="col" style="width:5%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="nowrap text-center">
+							<th scope="col" style="width:5%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
@@ -64,7 +64,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+							<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

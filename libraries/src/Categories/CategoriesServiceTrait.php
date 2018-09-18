@@ -100,7 +100,7 @@ trait CategoriesServiceTrait
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('state, count(*) AS count')
-				->from($db->qn($sectionTable))
+				->from($db->quoteName($sectionTable))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
@@ -158,12 +158,12 @@ trait CategoriesServiceTrait
 		}
 
 		$db    = Factory::getDbo();
-		$join  = $db->qn($sectionTable) . ' AS c ON ct.content_item_id=c.id';
+		$join  = $db->quoteName($sectionTable) . ' AS c ON ct.content_item_id=c.id';
 		$state = $this->getStateColumnForSection($section);
 
 		if ($section === 'category')
 		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$join = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
 			$state = 'published as state';
 		}
 
@@ -175,9 +175,9 @@ trait CategoriesServiceTrait
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
+				->where('ct.type_alias =' . $db->quote($extension))
 				->join('LEFT', $join)
 				->group('state');
 			$db->setQuery($query);

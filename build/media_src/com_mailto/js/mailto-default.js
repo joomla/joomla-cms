@@ -5,7 +5,7 @@
 ((window, document, Joomla) => {
   'use strict';
 
-  if (!Joomla || typeof Joomla.JText !== 'function') {
+  if (!Joomla || typeof Joomla.JText._ !== 'function') {
     throw new Error('core.js was not properly initialised');
   }
 

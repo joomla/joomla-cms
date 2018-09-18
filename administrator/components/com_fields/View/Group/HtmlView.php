@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Group View
@@ -73,7 +74,7 @@ class HtmlView extends BaseHtmlView
 		$this->state = $this->get('State');
 
 		$component = '';
-		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{
@@ -105,7 +106,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$component = '';
-		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{

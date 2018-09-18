@@ -103,11 +103,7 @@ class HtmlView extends BaseHtmlView
 		FinderHelper::addSubmenu('searches');
 
 		// Check if plugin is enabled
-		if ($this->enabled)
-		{
-			$app->enqueueMessage(\JText::_('COM_FINDER_LOGGING_ENABLED'), 'notice');
-		}
-		else
+		if (!$this->enabled)
 		{
 			$app->enqueueMessage(\JText::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
 		}

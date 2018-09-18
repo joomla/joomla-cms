@@ -10,7 +10,7 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
@@ -122,14 +122,14 @@ class ErrorDocument extends HtmlDocument
 			$status = 500;
 		}
 
-		$errorReporting = Factory::getConfig()->get('error_reporting');
+		$errorReporting = CmsFactory::getConfig()->get('error_reporting');
 
 		if ($errorReporting === "development" || $errorReporting === "maximum")
 		{
 			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
 		}
 
-		Factory::getApplication()->setHeader('status', $status);
+		CmsFactory::getApplication()->setHeader('status', $status);
 
 		// Set variables
 		$this->debug = $params['debug'] ?? false;

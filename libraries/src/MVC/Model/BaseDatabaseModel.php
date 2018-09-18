@@ -122,8 +122,6 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if (!empty($path))
 		{
-			jimport('joomla.filesystem.path');
-
 			foreach ((array) $path as $includePath)
 			{
 				if (!in_array($includePath, $paths[$prefix]))
@@ -197,7 +195,6 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if (!class_exists($modelClass))
 		{
-			jimport('joomla.filesystem.path');
 			$path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)

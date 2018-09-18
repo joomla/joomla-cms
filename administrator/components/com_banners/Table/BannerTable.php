@@ -192,14 +192,16 @@ class BannerTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
+		$db = $this->getDbo();
+
 		if (empty($this->id))
 		{
 			$purchaseType = $this->purchase_type;
 
 			if ($purchaseType < 0 && $this->cid)
 			{
-				/** @var Client $client */
-				$client = Table::getInstance('Client', __NAMESPACE__ . '\\');
+				/** @var ClientTable $client */
+				$client = Table::getInstance('Client', __NAMESPACE__ . '\\', array('dbo' => $db));
 				$client->load($this->cid);
 				$purchaseType = $client->purchase_type;
 			}
@@ -238,8 +240,8 @@ class BannerTable extends Table
 		else
 		{
 			// Get the old row
-			/** @var Banner $oldrow */
-			$oldrow = Table::getInstance('BannerTable', __NAMESPACE__ . '\\');
+			/** @var BannerTable $oldrow */
+			$oldrow = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
 
 			if (!$oldrow->load($this->id) && $oldrow->getError())
 			{
@@ -247,8 +249,8 @@ class BannerTable extends Table
 			}
 
 			// Verify that the alias is unique
-			/** @var Banner $table */
-			$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\');
+			/** @var BannerTable $table */
+			$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
 
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 			{
@@ -310,8 +312,8 @@ class BannerTable extends Table
 		}
 
 		// Get an instance of the table
-		/** @var Banner $table */
-		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\');
+		/** @var BannerTable $table */
+		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
 
 		// For all keys
 		foreach ($pks as $pk)

@@ -31,7 +31,7 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
-					default="0"
+					default="1"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -42,7 +42,7 @@
 					type="radio"
 					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
-					default="0"
+					default="1"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

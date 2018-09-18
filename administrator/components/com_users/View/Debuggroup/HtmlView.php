@@ -94,8 +94,6 @@ class HtmlView extends BaseHtmlView
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		\JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
-
 		$this->actions       = $this->get('DebugActions');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');

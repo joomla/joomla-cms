@@ -22,6 +22,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Groups View
@@ -99,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		// Display a warning if the fields system plugin is disabled
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
-			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FieldsHelper::getFieldsPluginId());
 			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
@@ -112,7 +113,7 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->removeField('language', 'filter');
 		}
 
-		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
 		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
@@ -129,7 +130,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$groupId   = $this->state->get('filter.group_id');
 		$component = '';
-		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{

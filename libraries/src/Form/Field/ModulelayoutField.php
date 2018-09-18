@@ -19,8 +19,6 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-\JLoader::import('joomla.filesystem.folder');
-
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.
  *
