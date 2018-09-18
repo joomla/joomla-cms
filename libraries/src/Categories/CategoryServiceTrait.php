@@ -27,7 +27,7 @@ trait CategoryServiceTrait
 	 *
 	 * @since  4.0.0
 	 */
-	private $categoriesFactory;
+	private $categoryFactory;
 
 	/**
 	 * Returns the category service.
@@ -42,21 +42,21 @@ trait CategoryServiceTrait
 	 */
 	public function getCategory(array $options = [], $section = ''): CategoryInterface
 	{
-		return $this->categoriesFactory->createCategory($options, $section);
+		return $this->categoryFactory->createCategory($options, $section);
 	}
 
 	/**
-	 * Sets the internal categories factory.
+	 * Sets the internal category factory.
 	 *
-	 * @param   CategoryFactoryInterface  $categoriesFactory  The categories factory
+	 * @param   CategoryFactoryInterface  $categoryFactory  The categories factory
 	 *
 	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function setCategoriesFactory(CategoryFactoryInterface $categoriesFactory)
+	public function setCategoryFactory(CategoryFactoryInterface $categoryFactory)
 	{
-		$this->categoriesFactory = $categoriesFactory;
+		$this->categoryFactory = $categoryFactory;
 	}
 
 	/**

@@ -55,7 +55,7 @@ return new class implements ServiceProviderInterface
 
 				$component->setRegistry($container->get(Registry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
-				$component->setCategoriesFactory($container->get(CategoryFactoryInterface::class));
+				$component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
 				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 
 				return $component;
