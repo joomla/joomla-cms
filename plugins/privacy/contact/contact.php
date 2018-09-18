@@ -90,7 +90,10 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 */
 	private function createContactDomain(PrivacyTableRequest $request, JUser $user = null)
 	{
-		$domain = $this->createDomain('user contact', 'Joomla! user contact data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_CONTACT_DOMAIN_LABEL'),
+			JText::_('PLG_PRIVACY_CONTACT_DOMAIN_DESC')
+		);
 
 		if ($user)
 		{
@@ -131,7 +134,10 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 */
 	private function createContactCustomFieldsDomain($contact)
 	{
-		$domain = $this->createDomain('contact custom fields', 'Joomla! contact custom fields data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_CONTACT_DOMAIN_CUSTOMFIELDS_LABEL'),
+			JText::_('PLG_PRIVACY_CONTACT_DOMAIN_CUSTOMFIELDS_DESC')
+		);
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_contact.contact', $contact);
