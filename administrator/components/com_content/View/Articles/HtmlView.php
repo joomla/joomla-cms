@@ -172,7 +172,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.execute.transition'))
 		{
 			$toolbar->dropdownButton('group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -183,14 +183,42 @@ class HtmlView extends BaseHtmlView
 				->configure(
 				function (Toolbar $childBar)
 				{
-					$childBar->standardButton('featured')
-						->text('JFEATURE')
-						->task('articles.featured')
-						->listCheck(true);
-					$childBar->standardButton('unfeatured')
-						->text('JUNFEATURE')
-						->task('articles.unfeatured')
-						->listCheck(true);
+					$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+
+					if ($canDo->get('core.execute.transition'))
+					{
+						$childBar->standardButton('publish')
+							->text('JTOOLBAR_PUBLISH')
+							->task('articles.publish')
+							->listCheck(true);
+						$childBar->standardButton('unpublish')
+							->text('JTOOLBAR_UNPUBLISH')
+							->task('articles.unpublish')
+							->listCheck(true);
+					}
+
+					if ($canDo->get('core.edit.state'))
+					{
+						$childBar->standardButton('featured')
+							->text('JFEATURE')
+							->task('articles.featured')
+							->listCheck(true);
+						$childBar->standardButton('unfeatured')
+							->text('JUNFEATURE')
+							->task('articles.unfeatured')
+							->listCheck(true);
+					}
+					if ($canDo->get('core.execute.transition'))
+					{
+						$childBar->standardButton('archive')
+							->text('JTOOLBAR_ARCHIVE')
+							->task('articles.archive')
+							->listCheck(true);
+						$childBar->standardButton('trash')
+							->text('JTOOLBAR_TRASH')
+							->task('articles.trash')
+							->listCheck(true);
+					}
 				}
 			);
 			$toolbar->checkin('articles.checkin')->listCheck(true);
