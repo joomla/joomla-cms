@@ -208,6 +208,94 @@ class MailModel extends AdminModel
 	}
 
 	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($data)
+	{
+		$table      = $this->getTable();
+		$context    = $this->option . '.' . $this->name;
+
+		$key = $table->getKeyName();
+		$mail_id = (!empty($data['mail_id'])) ? $data['mail_id'] : $this->getState($this->getName() . '.mail_id');
+		$language = (!empty($data['language'])) ? $data['language'] : $this->getState($this->getName() . '.language');
+		$isNew = true;
+
+		// Include the plugins for the save events.
+		\JPluginHelper::importPlugin($this->events_map['save']);
+
+		// Allow an exception to be thrown.
+		try
+		{
+			// Load the row if saving an existing record.
+			$table->load(array('mail_id' => $mail_id, 'language' => $language));
+
+			if ($table->subject)
+			{
+				$isNew = false;
+			}
+
+			// Bind the data.
+			if (!$table->bind($data))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Prepare the row for saving
+			$this->prepareTable($table);
+
+			// Check the data.
+			if (!$table->check())
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Trigger the before save event.
+			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+
+			if (in_array(false, $result, true))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Store the data.
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Clean the cache.
+			$this->cleanCache();
+
+			// Trigger the after save event.
+			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		$this->setState($this->getName() . '.new', $isNew);
+
+		return true;
+	}
+
+	/**
 	 * Stock method to auto-populate the model state.
 	 *
 	 * @return  void

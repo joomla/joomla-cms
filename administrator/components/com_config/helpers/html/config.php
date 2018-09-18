@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Mailtags HTML helper class.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 abstract class JHtmlConfig
 {
@@ -24,10 +26,13 @@ abstract class JHtmlConfig
 	 *
 	 * @return  string  List of tags that can be inserted into a field.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function mailtags($mail, $fieldname)
 	{
+		$app = Factory::getApplication();
+		Factory::getApplication()->triggerEvent('onMailBeforeTagsRendering', array($mail->mail_id, &$mail));
+
 		if (!isset($mail->params['tags']) || !count($mail->params['tags']))
 		{
 			return '';

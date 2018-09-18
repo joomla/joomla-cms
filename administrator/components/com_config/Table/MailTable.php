@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Mail Table class.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class MailTable extends Table
 {
@@ -26,7 +26,7 @@ class MailTable extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database connector object
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
