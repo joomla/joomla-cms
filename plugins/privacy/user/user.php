@@ -179,7 +179,10 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createNotesDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user notes', 'Joomla! user notes data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_USER_DOMAIN_NOTES_LABEL'),
+			JText::_('PLG_PRIVACY_USER_DOMAIN_NOTES_DESC')
+		);
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -213,7 +216,10 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createProfileDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user profile', 'Joomla! user profile data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_USER_DOMAIN_PROFILE_LABEL'),
+			JText::_('PLG_PRIVACY_USER_DOMAIN_PROFILE_DESC')
+		);
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -242,7 +248,10 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createUserDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('users', 'Joomla! users table data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_USER_DOMAIN_LABEL'),
+			JText::_('PLG_PRIVACY_USER_DOMAIN_DESC')
+		);
 		$domain->addItem($this->createItemForUserTable($user));
 
 		return $domain;
@@ -284,7 +293,10 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createUserCustomFieldsDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user custom fields', 'Joomla! user custom fields data');
+		$domain = $this->createDomain(
+			JText::_('PLG_PRIVACY_USER_DOMAIN_CUSTOMFIELDS_LABEL'),
+			JText::_('PLG_PRIVACY_USER_DOMAIN_CUSTOMFIELDS_DESC')
+		);
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_users.user', $user);
