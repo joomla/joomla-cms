@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CategoriesFactory implements CategoriesFactoryInterface
+class CategoryFactory implements CategoryFactoryInterface
 {
 	/**
 	 * The namespace to create the categories from.

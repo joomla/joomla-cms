@@ -10,7 +10,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Categories\CategoriesFactoryInterface;
+use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -54,10 +54,10 @@ class CategoriesFactory implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->set(
-			CategoriesFactoryInterface::class,
+			CategoryFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Categories\CategoriesFactory($this->namespace);
+				return new \Joomla\CMS\Categories\CategoryFactory($this->namespace);
 			}
 		);
 	}

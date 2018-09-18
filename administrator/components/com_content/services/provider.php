@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
-use Joomla\CMS\Categories\CategoriesFactoryInterface;
+use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\CategoriesFactory;
@@ -55,7 +55,7 @@ return new class implements ServiceProviderInterface
 
 				$component->setRegistry($container->get(Registry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
-				$component->setCategoriesFactory($container->get(CategoriesFactoryInterface::class));
+				$component->setCategoriesFactory($container->get(CategoryFactoryInterface::class));
 				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 
 				return $component;

@@ -23,7 +23,7 @@ trait CategoryServiceTrait
 	/**
 	 * The categories factory
 	 *
-	 * @var  CategoriesFactoryInterface
+	 * @var  CategoryFactoryInterface
 	 *
 	 * @since  4.0.0
 	 */
@@ -48,13 +48,13 @@ trait CategoryServiceTrait
 	/**
 	 * Sets the internal categories factory.
 	 *
-	 * @param   CategoriesFactoryInterface  $categoriesFactory  The categories factory
+	 * @param   CategoryFactoryInterface  $categoriesFactory  The categories factory
 	 *
 	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function setCategoriesFactory(CategoriesFactoryInterface $categoriesFactory)
+	public function setCategoriesFactory(CategoryFactoryInterface $categoriesFactory)
 	{
 		$this->categoriesFactory = $categoriesFactory;
 	}

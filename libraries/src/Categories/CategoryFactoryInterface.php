@@ -11,11 +11,11 @@ namespace Joomla\CMS\Categories;
 defined('_JEXEC') or die;
 
 /**
- * Categories factory interface
+ * Category factory interface
  *
  * @since  __DEPLOY_VERSION__
  */
-interface CategoriesFactoryInterface
+interface CategoryFactoryInterface
 {
 	/**
 	 * Creates a category.
