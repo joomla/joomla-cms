@@ -120,7 +120,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 *
 	 * @param   string  $code  Answer provided by user. Not needed for the Recaptcha implementation
 	 *
-	 * @return  True if the answer is correct, false otherwise
+	 * @return  boolean  True if the answer is correct, false otherwise
 	 *
 	 * @since   3.9.0
 	 * @throws  \RuntimeException
@@ -178,7 +178,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 * @param   string  $remoteip    The remote IP of the visitor.
 	 * @param   string  $response    The response received from Google.
 	 *
-	 * @return boolean True if response is good | False if response is bad.
+	 * @return  boolean  True if response is good | False if response is bad.
 	 *
 	 * @since   3.9.0
 	 * @throws  \RuntimeException
