@@ -168,6 +168,7 @@ class PlgSystemActionLogs extends JPlugin
 			return true;
 		}
 
+		$data->actionlogs                       = new StdClass;
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
 
