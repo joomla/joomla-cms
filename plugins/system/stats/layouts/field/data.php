@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'plg_system_stats/stats.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'plg_system_stats/stats.js', ['version' => 'auto', 'relative' => true]);
 
 extract($displayData);
 

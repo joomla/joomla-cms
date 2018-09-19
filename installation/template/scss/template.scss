@@ -157,6 +157,7 @@ body {
 }
 
 .alert-text {
+  width: 75%;
   padding: 10px 20px;
 }
 
@@ -188,7 +189,7 @@ body {
 // Form
 
 .form-control {
-  background-color: $white-offset;
+  background-color: var(--white-offset);
 
   &.input-full {
     max-width: 100%;
@@ -270,6 +271,7 @@ legend {
 // Block display for the validation message
 .form-control-feedback {
   display: block;
+  color: $red;
 }
 
 // Language Table

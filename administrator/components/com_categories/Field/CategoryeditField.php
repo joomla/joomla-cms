@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
@@ -357,7 +358,7 @@ class CategoryeditField extends \JFormFieldList
 		{
 			$customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
 
-			$class[] = 'chzn-custom-value';
+			$class[] = 'chosen-custom-value';
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
 					. 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
 					. 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';

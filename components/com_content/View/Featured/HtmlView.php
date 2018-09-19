@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
@@ -139,14 +140,12 @@ class HtmlView extends BaseHtmlView
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
 		{
-			$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// No link for ROOT category
 			if ($item->parent_alias === 'root')
 			{
-				$item->parent_slug = null;
+				$item->parent_id = null;
 			}
 
 			$item->event = new \stdClass;

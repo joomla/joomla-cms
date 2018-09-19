@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -425,7 +426,6 @@ class InstalledModel extends ListModel
 		if (is_null($this->folders))
 		{
 			$path = $this->getPath();
-			jimport('joomla.filesystem.folder');
 			$this->folders = Folder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
 		}
 

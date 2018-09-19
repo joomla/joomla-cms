@@ -10,10 +10,10 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model class for handling lists of items.

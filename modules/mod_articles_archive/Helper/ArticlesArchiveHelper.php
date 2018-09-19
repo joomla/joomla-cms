@@ -12,9 +12,11 @@ namespace Joomla\Module\ArticlesArchive\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Helper for mod_articles_archive
@@ -39,14 +41,17 @@ class ArticlesArchiveHelper
 
 		// Get database
 		$db    = Factory::getDbo();
+
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
-			->from('#__content')
-			->where('state = 2')
-			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
-			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
+			->from($db->quoteName('#__content', 'c'))
+			->innerJoin($db->quoteName('#__workflow_associations', 'wa') . ' ON wa.item_id = c.id')
+			->innerJoin($db->quoteName('#__workflow_stages', 'ws') . ' ON wa.stage_id = ws.id')
+			->where($db->quoteName('ws.condition') . ' = ' . (int) ContentComponent::CONDITION_ARCHIVED)
+			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
+			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
 
 		// Filter by language
 		if ($app->getLanguageFilter())
@@ -64,7 +69,7 @@ class ArticlesArchiveHelper
 		{
 			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-			return array();
+			return [];
 		}
 
 		$menu   = $app->getMenu();

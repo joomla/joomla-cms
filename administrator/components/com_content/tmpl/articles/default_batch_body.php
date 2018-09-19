@@ -9,8 +9,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
+
+$user = \Joomla\CMS\Factory::getUser();
 ?>
 
 <div class="container">
@@ -39,5 +42,14 @@ $published = $this->state->get('filter.published');
 				<?php echo HTMLHelper::_('batch.tag'); ?>
 			</div>
 		</div>
+		<?php if ($user->authorise('core.admin', 'com_content')) : ?>
+        <div class="form-group col-md-6">
+            <div class="controls">
+				<?php
+				$displayData = ['extension' => 'com_content'];
+				echo LayoutHelper::render('joomla.html.batch.workflowstage', $displayData); ?>
+            </div>
+        </div>
+		<?php endif; ?>
 	</div>
 </div>

@@ -24,7 +24,7 @@ extract($displayData);
 if (!empty($options['showonEnabled']))
 {
 	HTMLHelper::_('jquery.framework');
-	HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];

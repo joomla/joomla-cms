@@ -10,10 +10,10 @@ namespace Joomla\CMS\Session\Storage;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
-use Joomla\CMS\Factory;
 
 /**
  * Service provider for the application's session dependency

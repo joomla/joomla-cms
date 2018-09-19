@@ -83,8 +83,6 @@ class ModulesModel extends FormModel
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang     = Factory::getLanguage();
 		$module   = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;

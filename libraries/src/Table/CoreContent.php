@@ -11,12 +11,12 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Core content table
@@ -384,7 +384,7 @@ class CoreContent extends Table
 		// Determine if there is checkin support for the table.
 		$checkin = false;
 
-		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
+		if ($this->hasField('core_checked_out_user_id') && $this->hasField('core_checked_out_time'))
 		{
 			$checkin = true;
 			$query->where(

@@ -5,11 +5,10 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
-
-jimport('joomla.updater.update');
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -66,13 +65,19 @@ class LanguagesModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('us.location'))
-			->from($db->qn('#__extensions', 'e'))
-			->where($db->qn('e.type') . ' = ' . $db->q('package'))
-			->where($db->qn('e.element') . ' = ' . $db->q('pkg_en-GB'))
-			->where($db->qn('e.client_id') . ' = 0')
-			->join('LEFT', $db->qn('#__update_sites_extensions', 'use') . ' ON ' . $db->qn('use.extension_id') . ' = ' . $db->qn('e.extension_id'))
-			->join('LEFT', $db->qn('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'));
+			->select($db->quoteName('us.location'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->where($db->quoteName('e.type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('e.element') . ' = ' . $db->quote('pkg_en-GB'))
+			->where($db->quoteName('e.client_id') . ' = 0')
+			->join(
+				'LEFT', $db->quoteName('#__update_sites_extensions', 'use')
+				. ' ON ' . $db->quoteName('use.extension_id') . ' = ' . $db->quoteName('e.extension_id')
+			)
+			->join(
+				'LEFT', $db->quoteName('#__update_sites', 'us')
+				. ' ON ' . $db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
+			);
 
 		return $db->setQuery($query)->loadResult();
 	}
