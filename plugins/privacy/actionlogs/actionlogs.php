@@ -57,6 +57,8 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 
 		$lang = JFactory::getLanguage();
 
+		$langSiteDefault = JComponentHelper::getParams('com_languages')->get('site');
+
 		$receiver = JUser::getInstance($user->id);
 
 		/*
@@ -68,7 +70,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 
 		if (!$langCode)
 		{
-			$langCode = $receiver->getParam('language', JComponentHelper::getParams('com_languages')->get('site'));
+			$langCode = $receiver->getParam('language', $langSiteDefault);
 		}
 
 		$lang = JLanguage::getInstance($langCode, $lang->getDebug());
