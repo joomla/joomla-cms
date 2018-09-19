@@ -103,7 +103,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 
 		// Ensure the right language files have been loaded
 		$lang->load('plg_privacy_contact', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('plg_privacy_contact', JPATH_SITE . '/plugins/privacy/contact', null, false, true);
+			|| $lang->load('plg_privacy_contact', JPATH_PLUGINS . '/privacy/contact', null, false, true);
 
 		$this->lang = $lang;
 
