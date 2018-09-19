@@ -22,6 +22,7 @@
 
       // Init Choices
       this.choicesInstance = new Choices(this.select, {
+        //removeItemButton: true,
         searchFloor: 1,
         searchResultLimit: 10,
         shouldSort: false,

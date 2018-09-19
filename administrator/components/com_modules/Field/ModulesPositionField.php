@@ -12,6 +12,7 @@ namespace Joomla\Component\Modules\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  3.4.2
  */
-class ModulesPositionField extends \Joomla\CMS\Form\Field\TextField
+class ModulesPositionField extends FormField
 {
 	/**
 	 * The form field type.
