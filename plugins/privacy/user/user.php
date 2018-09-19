@@ -39,6 +39,14 @@ class PlgPrivacyUser extends PrivacyPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * The language to load.
+	 *
+	 * @var    string
+	 * @since  3.9.0
+	 */
+	protected $lang = null;
+
+	/**
 	 * Performs validation to determine if the data associated with a remove information request can be processed
 	 *
 	 * This event will not allow a super user account to be removed
@@ -91,6 +99,39 @@ class PlgPrivacyUser extends PrivacyPlugin
 		{
 			return array();
 		}
+
+		$lang = JFactory::getLanguage();
+
+		$langSiteDefault = JComponentHelper::getParams('com_languages')->get('site');
+
+		if ($user)
+		{
+			$receiver = JUser::getInstance($user->id);
+
+			/*
+			 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
+			 * falling back to the site language, falling back to the site default language.
+			 */
+
+			$langCode = $receiver->getParam('admin_language', '');
+
+			if (!$langCode)
+			{
+				$langCode = $receiver->getParam('language', $langSiteDefault);
+			}
+
+			$lang = JLanguage::getInstance($langCode, $lang->getDebug());
+		}
+		else
+		{
+			$lang = JLanguage::getInstance($langSiteDefault, $lang->getDebug());
+		}
+
+		// Ensure the right language files have been loaded
+		$lang->load('plg_privacy_user', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_privacy_user', JPATH_SITE . '/plugins/privacy/user', null, false, true);
+
+		$this->lang = $lang;
 
 		/** @var JTableUser $userTable */
 		$userTable = JUser::getTable();
@@ -180,8 +221,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 	private function createNotesDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain(
-			JText::_('PLG_PRIVACY_USER_DOMAIN_NOTES_LABEL'),
-			JText::_('PLG_PRIVACY_USER_DOMAIN_NOTES_DESC')
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_NOTES_LABEL'),
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_NOTES_DESC')
 		);
 
 		$query = $this->db->getQuery(true)
@@ -217,8 +258,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 	private function createProfileDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain(
-			JText::_('PLG_PRIVACY_USER_DOMAIN_PROFILE_LABEL'),
-			JText::_('PLG_PRIVACY_USER_DOMAIN_PROFILE_DESC')
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_PROFILE_LABEL'),
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_PROFILE_DESC')
 		);
 
 		$query = $this->db->getQuery(true)
@@ -249,8 +290,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 	private function createUserDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain(
-			JText::_('PLG_PRIVACY_USER_DOMAIN_LABEL'),
-			JText::_('PLG_PRIVACY_USER_DOMAIN_DESC')
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_LABEL'),
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_DESC')
 		);
 		$domain->addItem($this->createItemForUserTable($user));
 
@@ -294,8 +335,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 	private function createUserCustomFieldsDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain(
-			JText::_('PLG_PRIVACY_USER_DOMAIN_CUSTOMFIELDS_LABEL'),
-			JText::_('PLG_PRIVACY_USER_DOMAIN_CUSTOMFIELDS_DESC')
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_CUSTOMFIELDS_LABEL'),
+			$this->lang->_('PLG_PRIVACY_USER_DOMAIN_CUSTOMFIELDS_DESC')
 		);
 
 		// Get item's fields, also preparing their value property for manual display
