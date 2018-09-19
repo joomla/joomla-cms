@@ -46,6 +46,14 @@ class PlgPrivacyContact extends PrivacyPlugin
 	protected $contacts = array();
 
 	/**
+	 * The language to load.
+	 *
+	 * @var    string
+	 * @since  3.9.0
+	 */
+	protected $lang;
+
+	/**
 	 * Processes an export request for Joomla core user contact data
 	 *
 	 * This event will collect data for the contact core tables:
@@ -65,6 +73,39 @@ class PlgPrivacyContact extends PrivacyPlugin
 		{
 			return array();
 		}
+
+		$lang = JFactory::getLanguage();
+
+		$langSiteDefault = JComponentHelper::getParams('com_languages')->get('site');
+
+		if ($user)
+		{
+			$receiver = JUser::getInstance($user->id);
+
+			/*
+			 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
+			 * falling back to the site language, falling back to the site default language.
+			 */
+
+			$langCode = $receiver->getParam('admin_language', '');
+
+			if (!$langCode)
+			{
+				$langCode = $receiver->getParam('language', $langSiteDefault);
+			}
+
+			$lang = JLanguage::getInstance($langCode, $lang->getDebug());
+		}
+		else
+		{
+			$lang = JLanguage::getInstance($langSiteDefault, $lang->getDebug());
+		}
+
+		// Ensure the right language files have been loaded
+		$lang->load('plg_privacy_contact', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_privacy_contact', JPATH_PLUGINS . '/privacy/contact', null, false, true);
+
+		$this->lang = $lang;
 
 		$domains   = array();
 		$domains[] = $this->createContactDomain($request, $user);
@@ -90,7 +131,10 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 */
 	private function createContactDomain(PrivacyTableRequest $request, JUser $user = null)
 	{
-		$domain = $this->createDomain('user contact', 'Joomla! user contact data');
+		$domain = $this->createDomain(
+			$this->lang->_('PLG_PRIVACY_CONTACT_DOMAIN_LABEL'),
+			$this->lang->_('PLG_PRIVACY_CONTACT_DOMAIN_DESC')
+		);
 
 		if ($user)
 		{
@@ -131,7 +175,10 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 */
 	private function createContactCustomFieldsDomain($contact)
 	{
-		$domain = $this->createDomain('contact custom fields', 'Joomla! contact custom fields data');
+		$domain = $this->createDomain(
+			$this->lang->_('PLG_PRIVACY_CONTACT_DOMAIN_CUSTOMFIELDS_LABEL'),
+			$this->lang->_('PLG_PRIVACY_CONTACT_DOMAIN_CUSTOMFIELDS_DESC')
+		);
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_contact.contact', $contact);

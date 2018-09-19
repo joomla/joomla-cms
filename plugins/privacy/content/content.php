@@ -46,6 +46,14 @@ class PlgPrivacyContent extends PrivacyPlugin
 	protected $contents = array();
 
 	/**
+	 * The language to load.
+	 *
+	 * @var    string
+	 * @since  3.9.0
+	 */
+	protected $lang;
+
+	/**
 	 * Processes an export request for Joomla core user content data
 	 *
 	 * This event will collect data for the content core table
@@ -65,6 +73,32 @@ class PlgPrivacyContent extends PrivacyPlugin
 		{
 			return array();
 		}
+
+		$lang = JFactory::getLanguage();
+
+		$langSiteDefault = JComponentHelper::getParams('com_languages')->get('site');
+
+		$receiver = JUser::getInstance($user->id);
+
+		/*
+		 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
+		 * falling back to the site language, falling back to the site default language.
+		 */
+
+		$langCode = $receiver->getParam('admin_language', '');
+
+		if (!$langCode)
+		{
+			$langCode = $receiver->getParam('language', $langSiteDefault);
+		}
+
+		$lang = JLanguage::getInstance($langCode, $lang->getDebug());
+
+		// Ensure the right language files have been loaded
+		$lang->load('plg_privacy_content', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_privacy_content', JPATH_PLUGINS . '/privacy/content', null, false, true);
+
+		$this->lang = $lang;
 
 		$domains   = array();
 		$domains[] = $this->createContentDomain($user);
@@ -88,7 +122,10 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 */
 	private function createContentDomain(JUser $user)
 	{
-		$domain = $this->createDomain('user content', 'Joomla! user content data');
+		$domain = $this->createDomain(
+			$this->lang->_('PLG_PRIVACY_CONTENT_DOMAIN_LABEL'),
+			$this->lang->_('PLG_PRIVACY_CONTENT_DOMAIN_DESC')
+		);
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -118,7 +155,10 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 */
 	private function createContentCustomFieldsDomain($content)
 	{
-		$domain = $this->createDomain('content custom fields', 'Joomla! content custom fields data');
+		$domain = $this->createDomain(
+			$this->lang->_('PLG_PRIVACY_CONTENT_DOMAIN_CUSTOMFIELDS_LABEL'),
+			$this->lang->_('PLG_PRIVACY_CONTENT_DOMAIN_CUSTOMFIELDS_DESC')
+		);
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_content.article', $content);

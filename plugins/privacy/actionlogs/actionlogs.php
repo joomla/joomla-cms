@@ -55,7 +55,34 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$domain = $this->createDomain('actionlog', 'Logged actions of the user');
+		$lang = JFactory::getLanguage();
+
+		$langSiteDefault = JComponentHelper::getParams('com_languages')->get('site');
+
+		$receiver = JUser::getInstance($user->id);
+
+		/*
+		 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
+		 * falling back to the site language, falling back to the site default language.
+		 */
+
+		$langCode = $receiver->getParam('admin_language', '');
+
+		if (!$langCode)
+		{
+			$langCode = $receiver->getParam('language', $langSiteDefault);
+		}
+
+		$lang = JLanguage::getInstance($langCode, $lang->getDebug());
+
+		// Ensure the right language files have been loaded.
+		$lang->load('plg_privacy_actionlogs', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_privacy_actionlogs', JPATH_PLUGINS . '/privacy/actionlogs', null, false, true);
+
+		$domain = $this->createDomain(
+			$lang->_('PLG_PRIVACY_ACTIONLOGS_DOMAIN_LABEL'),
+			$lang->_('PLG_PRIVACY_ACTIONLOGS_DOMAIN_DESC')
+		);
 
 		$query = $this->db->getQuery(true)
 			->select('a.*, u.name')
@@ -83,3 +110,4 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 		return array($domain);
 	}
 }
+
