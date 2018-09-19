@@ -44,7 +44,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * @var    string
 	 * @since  3.9.0
 	 */
-	protected $lang = null;
+	protected $lang;
 
 	/**
 	 * Performs validation to determine if the data associated with a remove information request can be processed
