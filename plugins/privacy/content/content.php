@@ -96,7 +96,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 
 		// Ensure the right language files have been loaded
 		$lang->load('plg_privacy_content', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('plg_privacy_content', JPATH_SITE . '/plugins/privacy/content', null, false, true);
+			|| $lang->load('plg_privacy_content', JPATH_PLUGINS . '/privacy/content', null, false, true);
 
 		$this->lang = $lang;
 
