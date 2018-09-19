@@ -358,7 +358,7 @@ class CategoryeditField extends \JFormFieldList
 		{
 			$customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
 
-			$class[] = 'chzn-custom-value';
+			$class[] = 'chosen-custom-value';
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
 					. 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
 					. 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
