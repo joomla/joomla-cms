@@ -30,9 +30,9 @@ if ($context == 'com_content.categories')
 
 $rating = (int) $row->rating;
 
-// Look for images in template if available
-$starImageOn  = HTMLHelper::_('image', 'system/rating_star.png', Text::_('PLG_VOTE_STAR_ACTIVE'), null, true);
-$starImageOff = HTMLHelper::_('image', 'system/rating_star_blank.png', Text::_('PLG_VOTE_STAR_INACTIVE'), null, true);
+// Define on/off star icons
+$starImageOn  = '<span class="fa fa-star" aria-hidden="true"></span>';
+$starImageOff = '<span class="fa fa-star-o" aria-hidden="true"></span>';
 
 $img = '';
 for ($i = 0; $i < $rating; $i++)
