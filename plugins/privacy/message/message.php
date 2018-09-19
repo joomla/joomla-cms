@@ -73,9 +73,31 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 */
 	private function createMessageDomain(JUser $user)
 	{
+		$lang = JFactory::getLanguage();
+
+		$receiver = JUser::getInstance($user->id);
+
+		/*
+		 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
+		 * falling back to the site language, falling back to the site default language.
+		 */
+
+		$langCode = $receiver->getParam('admin_language', '');
+
+		if (!$langCode)
+		{
+			$langCode = $receiver->getParam('language', JComponentHelper::getParams('com_languages')->get('site'));
+		}
+
+		$lang = JLanguage::getInstance($langCode, $lang->getDebug());
+
+		// Ensure the right language files have been loaded.
+		$lang->load('plg_privacy_message', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_privacy_message', JPATH_SITE . '/plugins/privacy/message', null, false, true);
+
 		$domain = $this->createDomain(
-			JText::_('PLG_PRIVACY_MESSAGE_DOMAIN_LABEL'),
-			JText::_('PLG_PRIVACY_MESSAGE_DOMAIN_DESC')
+			$lang->_('PLG_PRIVACY_MESSAGE_DOMAIN_LABEL'),
+			$lang->_('PLG_PRIVACY_MESSAGE_DOMAIN_DESC')
 		);
 
 		$query = $this->db->getQuery(true)
@@ -95,3 +117,4 @@ class PlgPrivacyMessage extends PrivacyPlugin
 		return $domain;
 	}
 }
+
