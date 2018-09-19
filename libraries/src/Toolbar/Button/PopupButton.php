@@ -151,6 +151,17 @@ class PopupButton extends ToolbarButton
 			$html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
 
 			$html[] = '</div>';
+
+			// We have to move the modal, otherwise we get problems with the backdrop
+			// TODO: There should be a better workaround than this
+			Factory::getDocument()->addScriptDeclaration(
+				<<<JS
+window.addEventListener('DOMContentLoaded', function() {
+	document.body.appendChild(document.getElementById('{$options['selector']}'));
+});
+JS
+			);
+
 		}
 
 		// If an $onClose event is passed, add it to the modal JS object

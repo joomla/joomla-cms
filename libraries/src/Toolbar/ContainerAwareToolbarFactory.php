@@ -10,12 +10,12 @@ namespace Joomla\CMS\Toolbar;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Default factory for creating toolbar objects
@@ -47,8 +47,6 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 			$dirs = $toolbar->getButtonPath();
 
 			$file = InputFilter::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
-
-			jimport('joomla.filesystem.path');
 
 			if ($buttonFile = Path::find($dirs, $file))
 			{

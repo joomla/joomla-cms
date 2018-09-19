@@ -160,7 +160,7 @@ class Uri extends \Joomla\Uri\Uri
 			{
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
-				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+				if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 				{
 					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 

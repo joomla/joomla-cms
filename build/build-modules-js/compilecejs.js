@@ -65,7 +65,7 @@ const compile = (options) => {
         } else {
           // Auto prefixing
           // eslint-disable-next-line no-console
-          console.log(`'Prefixing for: ${options.settings.browsers}`);
+          console.log(`Prefixing for: ${options.settings.browsers}`);
 
           const cleaner = postcss(
             [

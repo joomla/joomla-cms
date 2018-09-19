@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
 \JLoader::import('joomla.base.adapter');
 
 /**
@@ -374,10 +372,10 @@ class Updater extends \JAdapter
 			$subQuery = $db->getQuery(true)
 				->select('update_site_id')
 				->from('#__update_sites')
-				->where($db->qn('last_check_timestamp') . ' IS NULL', 'OR')
-				->where($db->qn('last_check_timestamp') . ' <= ' . $db->q($timestamp), 'OR');
+				->where($db->quoteName('last_check_timestamp') . ' IS NULL', 'OR')
+				->where($db->quoteName('last_check_timestamp') . ' <= ' . $db->quote($timestamp), 'OR');
 
-			$query->where($db->qn('update_site_id') . ' IN (' . $subQuery . ')');
+			$query->where($db->quoteName('update_site_id') . ' IN (' . $subQuery . ')');
 		}
 
 		$retVal = $db->setQuery($query)->loadColumn(0);

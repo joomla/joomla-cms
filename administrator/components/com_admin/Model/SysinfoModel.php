@@ -313,9 +313,9 @@ class SysInfoModel extends BaseDatabaseModel
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => phpversion(),
+			'phpversion'            => PHP_VERSION,
 			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => php_sapi_name(),
+			'sapi_name'             => PHP_SAPI,
 			'version'               => (new Version)->getLongVersion(),
 			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
@@ -440,7 +440,7 @@ class SysInfoModel extends BaseDatabaseModel
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__extensions'));
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 
 		try

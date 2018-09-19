@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
-use Joomla\String\StringHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Session\Session;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! Cache base object

@@ -11,10 +11,10 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 
 /**
  * Module table
@@ -198,6 +198,12 @@ class Module extends Table
 		if (!$this->publish_down)
 		{
 			$this->publish_down = $this->_db->getNullDate();
+		}
+
+		if (!$this->ordering)
+		{
+			$query = $this->_db->getQuery(true);
+			$this->ordering = $this->getNextOrder($query->quoteName('position') . ' = ' . $query->quote($this->position));
 		}
 
 		return parent::store($updateNulls);

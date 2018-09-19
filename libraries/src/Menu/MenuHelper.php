@@ -9,9 +9,9 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\Registry\Registry;
 
 /**
  * Menu Helper utility
@@ -98,8 +98,6 @@ class MenuHelper
 
 			if (is_dir($tpl))
 			{
-				jimport('joomla.filesystem.folder');
-
 				$files = Folder::files($tpl, '\.xml$');
 
 				foreach ($files as $file)

@@ -21,6 +21,10 @@ const cleanVendors = () => {
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
+
+  // And here some assets from a PHP package
+  // @todo Move it the 'right way' (tm)
+  fsExtra.copySync(Path.join(rootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(rootPath, 'media/vendor/debugbar'));
 };
 
 // Copies all the files from a directory
@@ -211,6 +215,18 @@ const copyFiles = (options) => {
         const dest = Path.join(mediaVendorPath, vendorName);
         fsExtra.copySync(`${Path.join(rootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`, `${dest}/${options.settings.vendors[packageName].licenseFilename}`);
       }
+    }
+
+    // Joomla's hack to expose the chosen base classes so we can extend it ourselves (it was better than the
+    // many hacks we had before. But I'm still ashamed of myself.
+    if (packageName === 'chosen-js') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const chosenPath = `${dest}/${options.settings.vendors[packageName].js['chosen.jquery.js']}`;
+      let ChosenJs = fs.readFileSync(chosenPath, { encoding: 'UTF-8' });
+      ChosenJs = ChosenJs.replace('}).call(this);', '  document.AbstractChosen = AbstractChosen;\n' +
+          '  document.Chosen = Chosen;\n' +
+          '}).call(this);');
+      fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
     registry.vendors[vendorName] = registryItem;

@@ -57,6 +57,11 @@
     }
 
     onRowClick(event) {
+      // Do not interfere with links or buttons
+      if (event.target.tagName && (event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'button')) {
+        return;
+      }
+
       if (!this.boxes.length) {
         return;
       }
@@ -77,7 +82,7 @@
 
           this.boxes[currentCheckBox].checked = !this.boxes[currentCheckBox].checked;
           isChecked = this.boxes[currentCheckBox].checked;
-          Joomla.isChecked(this.boxes[currentCheckBox].checked);
+          Joomla.isChecked(this.boxes[currentCheckBox].checked, this.tableEl.id);
         }
 
         this.changeBg(this.rows[currentCheckBox - 1], isChecked);
