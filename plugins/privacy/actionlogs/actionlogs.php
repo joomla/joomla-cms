@@ -77,7 +77,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 
 		// Ensure the right language files have been loaded.
 		$lang->load('plg_privacy_actionlogs', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('plg_privacy_actionlogs', JPATH_SITE . '/plugins/privacy/actionlogs', null, false, true);
+			|| $lang->load('plg_privacy_actionlogs', JPATH_PLUGINS . '/privacy/actionlogs', null, false, true);
 
 		$domain = $this->createDomain(
 			$lang->_('PLG_PRIVACY_ACTIONLOGS_DOMAIN_LABEL'),
