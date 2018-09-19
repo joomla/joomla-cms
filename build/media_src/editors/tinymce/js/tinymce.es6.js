@@ -82,22 +82,15 @@
         buttonValues.push(tmp);
       });
 
-      options.setup = (editor) => {
-        editor.addButton('jxtdbuttons', {
-          type: 'menubutton',
-          text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
-          icon: 'none icon-joomla',
-          menu: buttonValues,
-        });
-      };
-
-      // @todo remove next 2 lines once the issue
-      // https://github.com/tinymce/tinymce/issues/4502
-      // is fixed
-
-      if (typeof window.InstallTrigger !== 'undefined') {
-        delete options.external_plugins;
-        delete options.plugins;
+      if (buttonValues.length) {
+        options.setup = (editor) => {
+          editor.addButton('jxtdbuttons', {
+            type: 'menubutton',
+            text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
+            icon: 'none icon-joomla',
+            menu: buttonValues,
+          });
+        };
       }
 
       // Create a new instance

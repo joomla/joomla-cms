@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-/* @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
+/** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
 <div id="installer-view" data-page-name="remove">
 
@@ -96,7 +96,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<?php endif; ?>
 				<?php echo HTMLHelper::_('form.token'); ?>
 
-				<div class="form-group">
+				<div class="form-group j-install-last-step">
 					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
 					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>

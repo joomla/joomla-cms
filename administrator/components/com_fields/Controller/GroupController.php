@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -13,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
@@ -58,7 +60,7 @@ class GroupController extends FormController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$parts = \FieldsHelper::extract($this->input->getCmd('context'));
+		$parts = FieldsHelper::extract($this->input->getCmd('context'));
 
 		if ($parts)
 		{

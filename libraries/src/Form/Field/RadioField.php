@@ -62,6 +62,8 @@ class RadioField extends \JFormFieldList
 		// The layout for Switcher
 		if (!$element['layout'] && strpos(trim($this->class), 'switcher') === 0)
 		{
+
+			$this->skipLabelFor = true;
 			$this->layout = 'joomla.form.field.radio.switcher';
 		}
 

@@ -14,7 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 /** @var JDocumentHtml $this */
 
 // Add Stylesheets
-HTMLHelper::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
+// Load the template CSS file
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
 
 // Add scripts

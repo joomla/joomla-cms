@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\Field\ListField;
 
-jimport('joomla.form.helper');
-
-
 /**
  * Generates the list of options for available skins.
  *

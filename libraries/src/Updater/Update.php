@@ -13,11 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 
 /**
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for

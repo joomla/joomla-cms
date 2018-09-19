@@ -20,7 +20,7 @@ HTMLHelper::_('behavior.core');
 Text::script('JGLOBAL_EXPAND_CATEGORIES');
 Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
-HTMLHelper::_('script', 'com_contact/categories-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_contact/categories-default.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
 <div class="com-contact-categories categories-list">

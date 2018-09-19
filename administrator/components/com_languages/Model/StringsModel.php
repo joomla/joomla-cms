@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -63,8 +64,6 @@ class StringsModel extends BaseDatabaseModel
 		$files = array();
 
 		// Parse common language directory.
-		jimport('joomla.filesystem.folder');
-
 		if (is_dir($path))
 		{
 			$files = Folder::files($path, $language . '.*ini$', false, true);

@@ -11,14 +11,14 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 
 /**
  * Module installer
@@ -140,7 +140,6 @@ class ModuleAdapter extends InstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
-				$extension->set('namespace', $manifest_details['namespace']);
 				$results[] = clone $extension;
 			}
 		}
@@ -159,7 +158,6 @@ class ModuleAdapter extends InstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
-				$extension->set('namespace', $manifest_details['namespace']);
 				$results[] = clone $extension;
 			}
 		}
@@ -434,7 +432,6 @@ class ModuleAdapter extends InstallerAdapter
 		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->namespace = $manifest_details['namespace'];
 
 		if ($this->parent->extension->store())
 		{

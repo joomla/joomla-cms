@@ -32,7 +32,7 @@ $groups = $user->getAuthorisedViewLevels();
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
-					<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
+					<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 
 					<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
@@ -40,7 +40,7 @@ $groups = $user->getAuthorisedViewLevels();
 					<?php endif; ?>
 				</h3>
 				<?php else : ?>
-				<h3 class="page-header item-title"><a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
+				<h3 class="page-header item-title"><a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
