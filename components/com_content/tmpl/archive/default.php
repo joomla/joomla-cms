@@ -43,6 +43,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 	</div>
 	<br>
 	</fieldset>
+
+	<?php echo $this->loadTemplate('items'); ?>
 </form>
-<?php echo $this->loadTemplate('items'); ?>
 </div>
