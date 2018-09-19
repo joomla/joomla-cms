@@ -342,8 +342,8 @@ class ActionlogsModelActionlogs extends JModelList
 		{
 			/* @var JFormFieldList $field */
 			$field = $form->getField('fullordering', 'list');
-			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_ASC', array('value' => 'a.ip_address ASC')));
-			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_DESC', array('value' => 'a.ip_address DESC')));
+			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
+			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
 		}
 
 		return $form;
