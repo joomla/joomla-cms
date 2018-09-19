@@ -50,10 +50,10 @@ html[dir=rtl] .js-stools .js-stools-container-list {
 	float: left;
 	text-align: left;
 }
-.js-stools .chzn-container {
+.js-stools .chosen-container {
 	text-align: left;
 }
-html[dir=rtl] .js-stools .chzn-container {
+html[dir=rtl] .js-stools .chosen-container {
 	text-align: right;
 }
 .js-stools .js-stools-container-filters-visible {
