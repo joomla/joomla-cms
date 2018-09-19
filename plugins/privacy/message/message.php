@@ -95,7 +95,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 
 		// Ensure the right language files have been loaded.
 		$lang->load('plg_privacy_message', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('plg_privacy_message', JPATH_SITE . '/plugins/privacy/message', null, false, true);
+			|| $lang->load('plg_privacy_message', JPATH_PLUGINS . '/privacy/message', null, false, true);
 
 		$domain = $this->createDomain(
 			$lang->_('PLG_PRIVACY_MESSAGE_DOMAIN_LABEL'),
