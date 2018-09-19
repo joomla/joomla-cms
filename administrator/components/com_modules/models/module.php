@@ -1056,10 +1056,14 @@ class ModulesModelModule extends JModelAdmin
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query->clear()
-			->select('extension_id')
-			->from('#__extensions AS e')
-			->join('LEFT', '#__modules AS m ON e.element = m.module')
-			->where('m.id = ' . (int) $table->id);
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
+				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+			)
+			->where($db->quoteName('m.id') . ' = ' . (int) $table->id);
 		$db->setQuery($query);
 
 		try
