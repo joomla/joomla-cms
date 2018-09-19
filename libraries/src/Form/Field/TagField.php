@@ -12,20 +12,16 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * List of Tags field.
  *
  * @since  3.1
  */
-class TagField extends \JFormFieldList
+class TagField extends ListField
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -52,6 +48,14 @@ class TagField extends \JFormFieldList
 	protected $comParams = null;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layout = 'joomla.form.field.tag';
+
+	/**
 	 * Constructor
 	 *
 	 * @since  3.1
@@ -73,16 +77,26 @@ class TagField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		// AJAX mode requires ajax-chosen
-		if (!$this->isNested())
-		{
-			// Get the field id
-			$id    = $this->element['id'] ?? null;
-			$cssId = '#' . $this->getId($id, $this->element['name']);
+		$data = $this->getLayoutData();
 
-			// Load the ajax-chosen customised field
-			HTMLHelper::_('tag.ajaxfield', $cssId, $this->allowCustom());
-		}
+		$data['options']       = $this->getOptions();
+		$data['isNested']      = $this->isNested();
+		$data['allowCustom']   = $this->allowCustom();
+		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
+
+		// AJAX mode requires ajax-chosen
+//		$data['cssId'] = '';
+//		if (!$this->isNested())
+//		{
+//			// Get the field id
+//			$id    = $this->element['id'] ?? null;
+//			$cssId = '#' . $this->getId($id, $this->element['name']);
+//
+//			$data['cssId'] = $cssId;
+//
+//			// Load the ajax-chosen customised field
+//			//HTMLHelper::_('tag.ajaxfield', $cssId, $this->allowCustom());
+//		}
 
 		if (!is_array($this->value) && !empty($this->value))
 		{
@@ -103,9 +117,11 @@ class TagField extends \JFormFieldList
 			{
 				$this->value = explode(',', $this->value);
 			}
+
+			$data['value'] = $this->value;
 		}
 
-		return parent::getInput();
+		return $this->getRenderer($this->layout)->render($data);
 	}
 
 	/**
@@ -266,6 +282,6 @@ class TagField extends \JFormFieldList
 			return false;
 		}
 
-		return true;
+		return Factory::getUser()->authorise('core.create', 'com_tags');
 	}
 }
