@@ -122,7 +122,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		// Ensure the right language files have been loaded
 		$lang->load('plg_privacy_user', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('plg_privacy_user', JPATH_SITE . '/plugins/privacy/user', null, false, true);
+			|| $lang->load('plg_privacy_user', JPATH_PLUGINS . '/privacy/user', null, false, true);
 
 		$this->lang = $lang;
 
