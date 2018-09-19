@@ -242,7 +242,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createUserDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user', 'joomla_user_data');
+		$domain = $this->createDomain('users', 'joomla_users_data');
 		$domain->addItem($this->createItemForUserTable($user));
 
 		return $domain;
