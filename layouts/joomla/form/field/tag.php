@@ -80,6 +80,7 @@ if (!$isNested)
 	$attr2 .= ' term-key="like"';
 	$attr2 .= ' min-term-length="' . $minTermLength .'"';
 	$attr2 .= $allowCustom ? ' allow-custom' : '';
+	$attr2 .= $allowCustom ? ' new-item-prefix="#new#"' : '';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
