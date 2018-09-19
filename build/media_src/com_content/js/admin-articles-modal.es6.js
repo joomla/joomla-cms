@@ -27,7 +27,11 @@
 
     const tag = `<a ${hreflang} href="${link}">${title}</a>`;
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-    // @TODO Close the modal
+
+    if (window.parent.Joomla.Modal) {
+      window.parent.Joomla.Modal.getCurrent().close();
+    }
+
     return true;
   };
 
@@ -48,6 +52,10 @@
         } else {
           // Used in com_menus
           window.parent[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
+        }
+
+        if (window.parent.Joomla.Modal) {
+          window.parent.Joomla.Modal.getCurrent().close();
         }
       });
     }

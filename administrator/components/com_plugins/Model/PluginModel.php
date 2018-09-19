@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -247,8 +248,6 @@ class PluginModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
 		$lang    = Factory::getLanguage();

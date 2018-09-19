@@ -16,7 +16,6 @@
 			name="name"
 			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>
@@ -384,6 +383,7 @@
 				name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				extension="com_newsfeeds"
 				view="newsfeed"
 				useglobal="true"

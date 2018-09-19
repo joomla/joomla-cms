@@ -310,7 +310,7 @@
             });
 
             // Update Chosen
-            $accessSelects.trigger('liszt:updated');
+            $accessSelects.trigger('chosen:updated');
         }
     });
 }(jQuery));

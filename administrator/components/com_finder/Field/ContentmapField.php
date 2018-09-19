@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_PLATFORM') or die;
@@ -53,7 +54,7 @@ class ContentmapField extends GroupedlistField
 		$levelQuery2->select('b.title AS branch_title, 2 as level')
 			->select($db->quoteName('a.id'))
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->qn('a.parent_id') . ' = ' . $db->qn('b.id'))
+			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->quoteName('a.parent_id') . ' = ' . $db->quoteName('b.id'))
 			->where($db->quoteName('a.parent_id') . ' NOT IN (0, 1)');
 
 		$levelQuery->union($levelQuery2);
@@ -64,7 +65,7 @@ class ContentmapField extends GroupedlistField
 			->select($db->quoteName('a.id', 'value'))
 			->select($db->quoteName('d.level'))
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->join('LEFT', '(' . $levelQuery . ') AS d ON ' . $db->qn('d.id') . ' = ' . $db->qn('a.id'))
+			->join('LEFT', '(' . $levelQuery . ') AS d ON ' . $db->quoteName('d.id') . ' = ' . $db->quoteName('a.id'))
 			->where($db->quoteName('a.parent_id') . ' <> 0')
 			->order('d.branch_title ASC, d.level ASC, a.title ASC');
 

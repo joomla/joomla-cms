@@ -1,12 +1,64 @@
 // Switcher
 
-@import "../functions";
-@import "../mixins";
-@import "../variables";
+//
+// Functions
+//
+
+// Retrieve color Sass maps
+@function color($key: "blue") {
+  @return map-get($colors, $key);
+}
+
+@function theme-color($key: "primary") {
+  @return map-get($theme-colors, $key);
+}
+
+@function gray($key: "100") {
+  @return map-get($grays, $key);
+}
+
+// Request a theme color level
+@function theme-color-level($color-name: "primary", $level: 0) {
+  $color: theme-color($color-name);
+  $color-base: if($level > 0, $black, $white);
+  $level: abs($level);
+
+  @return mix($color-base, $color, $level * $theme-color-interval);
+}
+
+
+//
+// Variables
+//
 
 $switcher-width:  62px;
 $switcher-height: 28px;
 $border-width:    1px;
+$border-radius:   0;
+
+$white:    #fff;
+$gray-600: #868e96;
+
+$blue:    #1e87f0;
+$red:     #f0506e;
+$yellow:  #faa05a;
+$green:   #2f7d32;
+
+$theme-colors: ();
+$theme-colors: map-merge((
+        primary: $blue,
+        secondary: $gray-600,
+        success: $green,
+        warning: $yellow,
+        danger: $red
+), $theme-colors);
+
+$theme-color-interval:        8%;
+
+
+//
+// Base styles
+//
 
 joomla-field-switcher {
   box-sizing: border-box;

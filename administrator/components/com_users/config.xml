@@ -231,35 +231,6 @@
 
 	</fieldset>
 
-	<fieldset
-		name="debug"
-		label="COM_USERS_DEBUG_LABEL"
-		description="COM_USERS_DEBUG_DESC">
-
-		<field
-			name="debugUsers"
-			type="radio"
-			label="COM_USERS_DEBUG_USERS_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="debugGroups"
-			type="radio"
-			label="COM_USERS_DEBUG_GROUPS_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-	</fieldset>
-
 	<fieldset name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"

@@ -97,8 +97,6 @@ class TemplatesModel extends FormModel
 
 		$template = Factory::getApplication()->getTemplate();
 
-		jimport('joomla.filesystem.path');
-
 		// Load the core and/or local language file(s).
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
