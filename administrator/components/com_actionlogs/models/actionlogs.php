@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of article records.
@@ -329,7 +329,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *
-	 * @since   3.2
+	 * @since  3.9.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
