@@ -51,7 +51,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * @var    string
 	 * @since  3.9.0
 	 */
-	protected $lang = null;
+	protected $lang;
 
 	/**
 	 * Processes an export request for Joomla core user content data
