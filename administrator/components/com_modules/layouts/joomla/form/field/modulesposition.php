@@ -48,21 +48,28 @@ extract($displayData);
  * @var   array    $positions       Array of the positions
  */
 
+$attributes = array(
+	'class="' . $class . '"',
+);
+
 $selectAttr = array(
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+	strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	$required ? 'required' : '',
 	$autofocus ? ' autofocus' : '',
 );
+
+Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-module-editposition.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
-<joomla-field-module-editposition class="<?php echo $class; ?>"><?php
+<joomla-field-module-editposition <?php echo implode(' ', $attributes); ?>><?php
 	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
 	'id'          => $id,
 	'list.select' => $value,
