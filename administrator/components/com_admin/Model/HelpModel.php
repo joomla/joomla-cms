@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -155,7 +156,6 @@ class HelpModel extends BaseDatabaseModel
 		}
 
 		// Get Help files
-		jimport('joomla.filesystem.folder');
 		$files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 		$this->toc = array();
 

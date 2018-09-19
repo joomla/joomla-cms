@@ -10,9 +10,8 @@ namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Joomla! Stream Interface

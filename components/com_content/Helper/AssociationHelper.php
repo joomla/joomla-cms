@@ -62,9 +62,9 @@ abstract class AssociationHelper extends \CategoryHelperAssociation
 
 						$db    = Factory::getDbo();
 						$query = $db->getQuery(true)
-							->select($db->qn('state'))
-							->from($db->qn('#__content'))
-							->where($db->qn('id') . ' = ' . (int) ($assocId))
+							->select($db->quoteName('state'))
+							->from($db->quoteName('#__content'))
+							->where($db->quoteName('id') . ' = ' . (int) ($assocId))
 							->where('access IN (' . $groups . ')');
 						$db->setQuery($query);
 

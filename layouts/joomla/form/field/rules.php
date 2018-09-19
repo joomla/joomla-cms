@@ -56,7 +56,7 @@ $document = Factory::getDocument();
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -95,7 +95,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
 
-							<th id="aclactionth<?php echo $group->value; ?>">
+							<th id="aclaction-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
 							</th>
 						</tr>
@@ -145,7 +145,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									</div>
 								</td>
 
-								<td headers="aclactionth<?php echo $group->value; ?>">
+								<td headers="aclaction-th<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
 									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?>
 									<?php $inheritedGroupRule 	= Access::checkGroup((int) $group->value, $action->name, $assetId);
@@ -228,7 +228,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</joomla-tab>
 </joomla-field-permissions>
 
-<joomla-alert type="warning">
+<div class="rule-notes">
 	<?php
 	if ($section === 'component' || !$section)
 	{
@@ -239,4 +239,4 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
 	}
 	?>
-</joomla-alert>
+</div>

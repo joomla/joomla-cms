@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
@@ -258,10 +259,10 @@ class UsersHelper
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('published as state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
+				->where('ct.type_alias =' . $db->quote($extension))
+				->join('LEFT', $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id')
 				->group('c.published');
 
 			$db->setQuery($query);

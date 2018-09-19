@@ -37,7 +37,7 @@ return new class implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Cache'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Cache<'));
+		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Cache'));
 
 		$container->set(
 			ComponentInterface::class,

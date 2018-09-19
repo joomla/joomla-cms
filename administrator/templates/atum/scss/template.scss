@@ -19,6 +19,7 @@
 @import "blocks/header";
 @import "blocks/icons";
 @import "blocks/iframe";
+@import "blocks/layout";
 @import "blocks/login";
 @import "blocks/modals";
 @import "blocks/quickicons";
@@ -61,13 +62,13 @@
 .container-main {
   position: relative;
   min-height: calc(100vh - #{$header-height});
-  background-color: $atum-container-main-bg;
+  background-color: var(--main-bg);
 }
 
 .list-view-main {
 
   .container-main {
-    background-color: $atum-container-main-bg;
+    background-color: var(--main-bg);
   }
 
 }
@@ -87,7 +88,7 @@
 }
 
 .row-selected {
-  background-color: $table-row-selected;
+  background-color: var(--row-selected);
 }
 
 // Chosen (TEMPORARY)

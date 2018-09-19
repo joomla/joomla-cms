@@ -11,14 +11,15 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
+use Joomla\Database\ParameterType;
 
 /**
  * Template installer
@@ -182,6 +183,10 @@ class TemplateAdapter extends InstallerAdapter
 	{
 		$db = $this->parent->getDbo();
 
+		$element     = $this->extension->element;
+		$clientId    = $this->extension->client_id;
+		$extensionId = $this->extension->extension_id;
+
 		// Set menu that assigned to the template back to default template
 		$subQuery = $db->getQuery(true)
 			->select('s.id')
@@ -200,15 +205,18 @@ class TemplateAdapter extends InstallerAdapter
 		// Remove the template's styles
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__template_styles'))
-			->where($db->quoteName('template') . ' = ' . $db->quote($this->extension->element))
-			->where($db->quoteName('client_id') . ' = ' . (int) $this->extension->client_id);
+			->where($db->quoteName('template') . ' = :template')
+			->where($db->quoteName('client_id') . ' = :client_id')
+			->bind(':template', $element)
+			->bind(':client_id', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -306,7 +314,9 @@ class TemplateAdapter extends InstallerAdapter
 			);
 
 			$values = array(
-				$db->quote($this->extension->element), $this->extension->client_id, $db->quote(0),
+				$db->quote($this->extension->element),
+				$this->extension->client_id,
+				$db->quote(0),
 				$db->quote(Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name))),
 				$db->quote($this->extension->params),
 			);
@@ -438,7 +448,8 @@ class TemplateAdapter extends InstallerAdapter
 			->select('COUNT(*)')
 			->from('#__template_styles')
 			->where('home = 1')
-			->where('template = ' . $db->quote($name));
+			->where('template = :template')
+			->bind(':template', $name);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)
