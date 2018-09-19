@@ -54,7 +54,7 @@ $cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
 $cacheparams               = new \stdClass;
 $cacheparams->cachemode    = 'id';
-$cacheparams->class        = 'Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper';
+$cacheparams->class        = ArticlesCategoryHelper::class;
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;

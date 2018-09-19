@@ -57,7 +57,7 @@ class MessagesModel extends BaseDatabaseModel
 					'version_introduced',
 					'enabled')
 			)
-		)->from($db->quoteName('#__postinstall_messages'))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+		)->from($db->quoteName('#__postinstall_messages'))->where($db->quoteName('postinstall_message_id') . ' = ' . $db->quote($id));
 
 		$db->setQuery($query);
 
@@ -79,7 +79,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__postinstall_messages'))
-			->set($db->qn('enabled') . ' = ' . $db->q(0))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+			->set($db->quoteName('enabled') . ' = ' . $db->quote(0))->where($db->quoteName('postinstall_message_id') . ' = ' . $db->quote($id));
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -119,11 +119,11 @@ class MessagesModel extends BaseDatabaseModel
 
 		// Add a forced extension filtering to the list
 		$eid = $this->getState('eid', 700);
-		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+		$query->where($db->quoteName('extension_id') . ' = ' . $db->quote($eid));
 
 		// Force filter only enabled messages
 		$published = $this->getState('published', 1);
-		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
+		$query->where($db->quoteName('enabled') . ' = ' . (int) $published);
 
 		$query->from($db->quoteName('#__postinstall_messages'));
 
@@ -152,8 +152,8 @@ class MessagesModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true)
 			->select(array('name', 'element', 'client_id'))
-			->from($db->qn('#__extensions'))
-			->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 
 		$db->setQuery($query, 0, 1);
 
@@ -193,9 +193,31 @@ class MessagesModel extends BaseDatabaseModel
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->update($db->qn('#__postinstall_messages'))
-			->set($db->qn('enabled') . ' = ' . $db->q(1))
-			->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
+		$db->setQuery($query);
+
+		return $db->execute();
+	}
+
+	/**
+	 * Hides all messages for an extension
+	 *
+	 * @param   integer  $eid  The extension ID whose messages we'll hide
+	 *
+	 * @return  mixed  False if we fail, a db cursor otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hideMessages($eid)
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 0')
+			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -228,8 +250,6 @@ class MessagesModel extends BaseDatabaseModel
 			// Filter out messages based on dynamically loaded programmatic conditions.
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
-				jimport('joomla.filesystem.file');
-
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->condition_file);
 
@@ -281,8 +301,8 @@ class MessagesModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true)
 			->select('extension_id')
-			->from($db->qn('#__postinstall_messages'))
-			->group(array($db->qn('extension_id')));
+			->from($db->quoteName('#__postinstall_messages'))
+			->group(array($db->quoteName('extension_id')));
 		$db->setQuery($query);
 		$extension_ids = $db->loadColumn();
 
@@ -516,10 +536,10 @@ class MessagesModel extends BaseDatabaseModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn($tableName))
-			->where($db->qn('extension_id') . ' = ' . $db->q($options['extension_id']))
-			->where($db->qn('type') . ' = ' . $db->q($options['type']))
-			->where($db->qn('title_key') . ' = ' . $db->q($options['title_key']));
+			->from($db->quoteName($tableName))
+			->where($db->quoteName('extension_id') . ' = ' . (int) $options['extension_id'])
+			->where($db->quoteName('type') . ' = ' . $db->quote($options['type']))
+			->where($db->quoteName('title_key') . ' = ' . $db->quote($options['title_key']));
 
 		$existingRow = $db->setQuery($query)->loadAssoc();
 
@@ -545,10 +565,10 @@ class MessagesModel extends BaseDatabaseModel
 
 			// Otherwise it's not the same row. Remove the old row before insert a new one.
 			$query = $db->getQuery(true)
-				->delete($db->qn($tableName))
-				->where($db->q('extension_id') . ' = ' . $db->q($options['extension_id']))
-				->where($db->q('type') . ' = ' . $db->q($options['type']))
-				->where($db->q('title_key') . ' = ' . $db->q($options['title_key']));
+				->delete($db->quoteName($tableName))
+				->where($db->quote('extension_id') . ' = ' . (int) $options['extension_id'])
+				->where($db->quote('type') . ' = ' . $db->quote($options['type']))
+				->where($db->quote('title_key') . ' = ' . $db->quote($options['title_key']));
 
 			$db->setQuery($query)->execute();
 		}

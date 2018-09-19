@@ -12,11 +12,11 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Router\Route;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
@@ -708,28 +708,10 @@ class Pagination
 	 * @return  string  HTML link
 	 *
 	 * @since   1.5
-	 * @note    As of 4.0 this method will proxy to `LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
 	 */
 	protected function _item_active(PaginationObject $item)
 	{
-		$title = '';
-		$class = '';
-
-		if (!is_numeric($item->text))
-		{
-			$title = ' title="' . $item->text . '"';
-			$class = 'hasTooltip ';
-		}
-
-		if ($this->app->isClient('administrator'))
-		{
-			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
-			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
-		}
-		else
-		{
-			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'page-link">' . $item->text . '</a>';
-		}
+		return LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true]);
 	}
 
 	/**
@@ -740,18 +722,10 @@ class Pagination
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @note    As of 4.0 this method will proxy to `LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
 	 */
 	protected function _item_inactive(PaginationObject $item)
 	{
-		if ($this->app->isClient('administrator'))
-		{
-			return '<span>' . $item->text . '</span>';
-		}
-		else
-		{
-			return '<span class="page-link">' . $item->text . '</span>';
-		}
+		return LayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false]);
 	}
 
 	/**

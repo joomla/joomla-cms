@@ -54,7 +54,6 @@
         name="path"
         type="uploaddirs"
         label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
-        class="input-xxlarge"
         showon="drag_drop:1"
     />
 
@@ -121,7 +120,6 @@
         type="text"
         label="PLG_TINY_FIELD_CUSTOM_CSS_LABEL"
         description="PLG_TINY_FIELD_CUSTOM_CSS_DESC"
-        class="input-xxlarge"
     />
 
     <field
@@ -161,7 +159,6 @@
         label="PLG_TINY_FIELD_PROHIBITED_LABEL"
         showon="use_config_textfilters:0"
         default="script,applet,iframe"
-        class="input-xxlarge"
     />
 
     <field
@@ -170,7 +167,6 @@
         label="PLG_TINY_FIELD_VALIDELEMENTS_LABEL"
         description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
         showon="use_config_textfilters:0"
-        class="input-xxlarge"
     />
 
     <field
@@ -178,7 +174,6 @@
         type="text"
         label="PLG_TINY_FIELD_ELEMENTS_LABEL"
         showon="use_config_textfilters:0"
-        class="input-xxlarge"
     />
 
     <!-- Extra plugins -->
@@ -264,13 +259,11 @@
         name="custom_plugin"
         type="text"
         label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
-        class="input-xxlarge"
     />
 
     <field
         name="custom_button"
         type="text"
         label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
-        class="input-xxlarge"
     />
 </form>

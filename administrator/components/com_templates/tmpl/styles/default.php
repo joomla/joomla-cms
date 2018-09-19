@@ -39,24 +39,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table" id="styleList">
 						<thead>
 							<tr>
-								<td style="width:1%" class="nowrap text-center">
+								<td style="width:1%" class="text-center">
 									&#160;
 								</td>
-								<th scope="col" class="nowrap">
+								<th scope="col">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="nowrap text-center">
+								<th scope="col" style="width:12%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($clientId === 0) : ?>
-									<th scope="col" style="width:12%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 										<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:12%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -110,7 +110,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<?php if ($clientId === 0) : ?>
-								<td class="small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell">
 									<?php if ($item->home == '1') : ?>
 										<?php echo Text::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
 									<?php elseif ($item->home != '0' && $item->home != '1') : ?>
@@ -122,14 +122,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<label for="cb<?php echo $i; ?>" class="small">
 										<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
 											<?php echo ucfirst($this->escape($item->template)); ?>
 										</a>
 									</label>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

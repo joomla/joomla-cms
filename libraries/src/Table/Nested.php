@@ -10,9 +10,9 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -486,7 +486,7 @@ class Nested extends Table
 			// Update the title and alias fields if they exist for the table.
 			$fields = $this->getFields();
 
-			if (property_exists($this, 'title') && $this->title !== null)
+			if ($this->hasField('title') && $this->title !== null)
 			{
 				$query->set('title = ' . $this->_db->quote($this->title));
 			}
@@ -506,7 +506,7 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published') && $recursiveUpdate)
+		if ($this->hasField('published') && $recursiveUpdate)
 		{
 			$this->recursiveUpdatePublishedColumn($node->$k);
 		}
@@ -901,7 +901,7 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published'))
+		if ($this->hasField('published'))
 		{
 			$this->recursiveUpdatePublishedColumn($this->$k);
 		}
@@ -972,7 +972,7 @@ class Nested extends Table
 		}
 
 		// Determine if there is checkout support for the table.
-		$checkoutSupport = (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'));
+		$checkoutSupport = ($this->hasField('checked_out') || $this->hasField('checked_out_time'));
 
 		// Iterate over the primary keys to execute the publish action if possible.
 		foreach ($pks as $pk)
@@ -1335,7 +1335,7 @@ class Nested extends Table
 			// If the table has an ordering field, use that for ordering.
 			$orderingField = $this->getColumnAlias('ordering');
 
-			if (property_exists($this, $orderingField))
+			if ($this->hasField($orderingField))
 			{
 				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
 			}

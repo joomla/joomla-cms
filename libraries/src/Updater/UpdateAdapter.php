@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
 
 \JLoader::import('joomla.base.adapterinstance');
 
@@ -151,9 +151,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-			->update($db->qn('#__update_sites'))
-			->set($db->qn('enabled') . ' = ' . $db->q($enabled ? 1 : 0))
-			->where($db->qn('update_site_id') . ' = ' . $db->q($update_site_id));
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('enabled') . ' = ' . $db->quote($enabled ? 1 : 0))
+			->where($db->quoteName('update_site_id') . ' = ' . $db->quote($update_site_id));
 		$db->setQuery($query);
 
 		try
@@ -184,9 +184,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' = ' . $db->q($updateSiteId));
+			->select($db->quoteName('name'))
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
 		$db->setQuery($query);
 
 		$name = '';
@@ -208,7 +208,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  bool|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  boolean|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
 	 *
 	 * @throws  \Exception
 	 */
