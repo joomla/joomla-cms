@@ -3,6 +3,27 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/**
+ * Fancy select field, which use Choices.js
+ *
+ * Example:
+ * <joomla-field-fancy-select ...attributes>
+ *   <select>...</select>
+ * </joomla-field-fancy-select>
+ *
+ * Possible attributes:
+ *
+ * allow-custom          Whether allow User to dynamically add a new value.
+ * new-item-prefix=""    Prefix for a dynamically added value.
+ *
+ * remote-search         Enable remote search.
+ * url=""                Url for remote search.
+ * term-key="term"       Variable key name for searched term, will be appended to Url.
+ *
+ * min-term-length="1"   The minimum length a search value should be before choices are searched.
+ * placeholder=""        The value of the inputs placeholder.
+ * search-placeholder="" The value of the search inputs placeholder.
+ */
 ;(function(customElements){
   "use strict";
 
