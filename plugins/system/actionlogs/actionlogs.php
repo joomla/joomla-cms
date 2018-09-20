@@ -321,27 +321,33 @@ class PlgSystemActionLogs extends JPlugin
 		// If preferences don't exist, insert.
 		if (!$exists && $authorised && isset($user['actionlogs']))
 		{
-			$values = array(
-				(int) $user['id'],
-				(int) $user['actionlogs']['actionlogsNotify'],
-				$this->db->quote(json_encode($user['actionlogs']['actionlogsExtensions'])),
-			);
+			$values  = array((int) $user['id'], (int) $user['actionlogs']['actionlogsNotify']);
+			$columns = array('user_id', 'notify');
+
+			if (isset($user['actionlogs']['actionlogsExtensions']))
+			{
+				$values[]  = $this->db->quote(json_encode($user['actionlogs']['actionlogsExtensions']));
+				$columns[] = 'extensions';
+			}
+
 			$query = $this->db->getQuery(true)
 				->insert($this->db->quoteName('#__action_logs_users'))
-				->columns($this->db->quoteName(array('user_id', 'notify', 'extensions')))
+				->columns($this->db->quoteName($columns))
 				->values(implode(',', $values));
 		}
 		elseif ($exists && $authorised && isset($user['actionlogs']))
 		{
 			// Update preferences.
+			$values = array($this->db->quoteName('notify') . ' = ' . (int) $user['actionlogs']['actionlogsNotify']);
+
+			if (isset($user['actionlogs']['actionlogsExtensions']))
+			{
+				$values[] = $this->db->quoteName('extensions') . ' = ' . $this->db->quote(json_encode($user['actionlogs']['actionlogsExtensions']));
+			}
+
 			$query = $this->db->getQuery(true)
 				->update($this->db->quoteName('#__action_logs_users'))
-				->set(
-					array(
-						$this->db->quoteName('notify') . ' = ' . (int) $user['actionlogs']['actionlogsNotify'],
-						$this->db->quoteName('extensions') . ' = ' . $this->db->quote(json_encode($user['actionlogs']['actionlogsExtensions'])),
-					)
-				)
+				->set($values)
 				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
 		}
 		elseif ($exists && !$authorised)
