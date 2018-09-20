@@ -174,54 +174,56 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state') || $canDo->get('core.execute.transition'))
 		{
-			$toolbar->dropdownButton('group')
+			$dropdown = $toolbar->dropdownButton('group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
 				->icon('fa fa-globe')
 				->buttonClass('btn btn-info')
-				->listCheck(true)
-				->configure(
-				function (Toolbar $childBar)
-				{
-					$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+				->listCheck(true);
 
-					if ($canDo->get('core.execute.transition'))
-					{
-						$childBar->standardButton('publish')
-							->text('JTOOLBAR_PUBLISH')
-							->task('articles.publish')
-							->listCheck(true);
-						$childBar->standardButton('unpublish')
-							->text('JTOOLBAR_UNPUBLISH')
-							->task('articles.unpublish')
-							->listCheck(true);
-					}
+			$childBar = $dropdown->getChildToolbar();
 
-					if ($canDo->get('core.edit.state'))
-					{
-						$childBar->standardButton('featured')
-							->text('JFEATURE')
-							->task('articles.featured')
-							->listCheck(true);
-						$childBar->standardButton('unfeatured')
-							->text('JUNFEATURE')
-							->task('articles.unfeatured')
-							->listCheck(true);
-					}
-					if ($canDo->get('core.execute.transition'))
-					{
-						$childBar->standardButton('archive')
-							->text('JTOOLBAR_ARCHIVE')
-							->task('articles.archive')
-							->listCheck(true);
-						$childBar->standardButton('trash')
-							->text('JTOOLBAR_TRASH')
-							->task('articles.trash')
-							->listCheck(true);
-					}
-				}
-			);
-			$toolbar->checkin('articles.checkin')->listCheck(true);
+
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->standardButton('publish')
+					->text('JTOOLBAR_PUBLISH')
+					->task('articles.publish')
+					->listCheck(true);
+				$childBar->standardButton('unpublish')
+					->text('JTOOLBAR_UNPUBLISH')
+					->task('articles.unpublish')
+					->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->standardButton('featured')
+					->text('JFEATURE')
+					->task('articles.featured')
+					->listCheck(true);
+				$childBar->standardButton('unfeatured')
+					->text('JUNFEATURE')
+					->task('articles.unfeatured')
+					->listCheck(true);
+			}
+
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->standardButton('archive')
+					->text('JTOOLBAR_ARCHIVE')
+					->task('articles.archive')
+					->listCheck(true);
+				$childBar->standardButton('trash')
+					->text('JTOOLBAR_TRASH')
+					->task('articles.trash')
+					->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
 		}
 
 		// Add a batch button
@@ -241,6 +243,10 @@ class HtmlView extends BaseHtmlView
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			$toolbar->trash('articles.trash')->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
