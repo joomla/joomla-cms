@@ -186,7 +186,8 @@ abstract class BaseDatabaseModel extends CMSObject
 	 *
 	 * @return  self|boolean   A \JModelLegacy instance or false on failure
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  5.0 Get the model through the MVCFactory instead
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{

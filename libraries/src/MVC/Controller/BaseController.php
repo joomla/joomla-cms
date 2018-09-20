@@ -245,10 +245,9 @@ class BaseController implements ControllerInterface
 	 *
 	 * @return  static
 	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 4.0
-	 * @throws  \Exception if the controller cannot be loaded.
+	 * @since       3.0
+	 * @deprecated  5.0 Get the controller through the MVCFactory instead
+	 * @throws      \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
