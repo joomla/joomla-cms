@@ -37,37 +37,37 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 							<table class="table">
 								<thead>
 									<tr>
-										<td class="nowrap" style="width:1%">
+										<td class="text-center" style="width:1%">
 											<?php echo HTMLHelper::_('grid.checkall'); ?>
 										</td>
-										<th scope="col" class="nowrap">
+										<th scope="col">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="text-center" style="width:10%">
+										<th scope="col" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="text-center" style="width:10%">
+										<th scope="col" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell text-right" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-center" style="width:10%">
+										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="nowrap d-none d-md-table-cell text-center" style="width:1%">
+										<th scope="col" class="d-none d-md-table-cell" style="width:1%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 										</th>
 									</tr>
@@ -78,7 +78,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<?php $manifest = json_decode($extension->manifest_cache); ?>
 
 										<tr>
-											<td>
+											<td class="text-center">
 												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
 											</td>
 											<th scope="row">
@@ -89,29 +89,29 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 													</span>
 												</label>
 											</th>
-											<td class="text-center">
+											<td>
 												<?php echo $extension->client_translated; ?>
 											</td>
-											<td class="text-center">
+											<td>
 												<?php echo $extension->type_translated; ?>
 											</td>
-											<td class="d-none d-md-table-cell text-center">
+											<td class="d-none d-md-table-cell">
 												<span class="badge badge-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?> hasPopover"
 													data-content="<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>"
 													data-original-title="<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>">
 													<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 												</span>
 											</td>
-											<td class="d-none d-md-table-cell text-center">
+											<td class="d-none d-md-table-cell text-right">
 												<?php echo $extension->version_id; ?>
 											</td>
-											<td class="d-none d-md-table-cell text-center">
+											<td class="d-none d-md-table-cell">
 												<?php echo $extension->version; ?>
 											</td>
-											<td class="d-none d-md-table-cell text-center">
+											<td class="d-none d-md-table-cell">
 												<?php echo $extension->folder_translated; ?>
 											</td>
-											<td class="d-none d-md-table-cell text-center">
+											<td class="d-none d-md-table-cell">
 												<?php echo $extension->extension_id; ?>
 											</td>
 										</tr>

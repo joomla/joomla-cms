@@ -56,7 +56,7 @@ $document = Factory::getDocument();
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -228,7 +228,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</joomla-tab>
 </joomla-field-permissions>
 
-<joomla-alert type="warning">
+<div class="rule-notes">
 	<?php
 	if ($section === 'component' || !$section)
 	{
@@ -239,4 +239,4 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
 	}
 	?>
-</joomla-alert>
+</div>

@@ -67,7 +67,7 @@ class TransitionsModel extends ListModel
 	{
 		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
 		if ($workflowID)
 		{
@@ -114,7 +114,7 @@ class TransitionsModel extends ListModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'workflow_id = ' . $this->getDbo()->q((int) $table->workflow_id);
+		return 'workflow_id = ' . $this->getDbo()->quote((int) $table->workflow_id);
 	}
 
 	/**
@@ -132,12 +132,13 @@ class TransitionsModel extends ListModel
 
 		$select = $db->quoteName(
 			array(
-				't.id',
-				't.title',
-				't.from_stage_id',
-				't.to_stage_id',
-				't.published',
-				't.ordering',
+			't.id',
+			't.title',
+			't.from_stage_id',
+			't.to_stage_id',
+			't.published',
+			't.ordering',
+			't.description',
 			)
 		);
 

@@ -57,14 +57,14 @@ ul.media-tree {
   position: relative;
   display: block;
   &::before {
-    content: '';
-    height: 1px;
-    width: 10px;
-    background-color: $sidebar-tree-line-color;
     position: absolute;
     top: ($sidebar-tree-line-height / 2);
     left: 15px;
+    width: 10px;
+    height: 1px;
     margin: auto;
+    content: "";
+    background-color: $sidebar-tree-line-color;
   }
   &::after {
     position: absolute;
@@ -92,10 +92,10 @@ ul.media-tree {
 .media-tree-item a {
   display: block;
   padding: 0 7px;
-  cursor: pointer;
   line-height: $sidebar-tree-line-height;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .media-tree-item.active > a {
@@ -123,8 +123,8 @@ ul.media-tree {
   overflow: hidden;
   font-size: .9em;
   text-overflow: ellipsis;
-  vertical-align: middle;
   white-space: nowrap;
+  vertical-align: middle;
 }
 
 .media-tree-item.active > a .item-name {

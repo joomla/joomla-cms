@@ -212,7 +212,7 @@
           self.checkFilter(i);
 
           if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('liszt:updated');
+            window.jQuery(i).trigger('chosen:updated');
           }
         });
       }
@@ -223,7 +223,7 @@
           self.checkFilter(i);
 
           if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('liszt:updated');
+            window.jQuery(i).trigger('chosen:updated');
           }
         });
 
@@ -231,7 +231,7 @@
         document.querySelector('#list_limit').value = self.options.defaultLimit;
 
         if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery('#list_limit').trigger('liszt:updated');
+          window.jQuery('#list_limit').trigger('chosen:updated');
         }
       }
 
@@ -389,7 +389,7 @@
         });
 
         if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(this.orderField).trigger('liszt:updated');
+          window.jQuery(this.orderField).trigger('chosen:updated');
         }
       }
 
@@ -429,7 +429,7 @@
         field.value = newValue;
         // Trigger the chosen update
         if (window.jQuery && window.jQuery.chosen) {
-          field.trigger('liszt:updated');
+          field.trigger('chosen:updated');
         }
       }
     }

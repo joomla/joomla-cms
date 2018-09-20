@@ -937,7 +937,7 @@ class ModuleModel extends AdminModel
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . Text::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 

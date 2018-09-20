@@ -4,9 +4,9 @@
 
   thead {
     th {
-      white-space: nowrap;
       font-weight: 400;
       color: $gray-800;
+      white-space: nowrap;
     }
     td {
       padding: 0;
@@ -18,7 +18,7 @@
   }
 
   tbody {
-    background-color: $white;
+    background-color: var(--white);
   }
 
   th,
@@ -29,10 +29,6 @@
       margin-bottom: 0;
     }
 
-  }
-
-  th {
-    padding: 8px 12px;
   }
 
   td {

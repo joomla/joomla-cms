@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-/* @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
+/** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
 <div id="installer-view" data-page-name="remove">
 

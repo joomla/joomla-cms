@@ -36,40 +36,40 @@ class ItemModel extends AdminModel
 	/**
 	 * The type alias for this content type.
 	 *
-	 * @var      string
-	 * @since    3.4
+	 * @var    string
+	 * @since  3.4
 	 */
 	public $typeAlias = 'com_menus.item';
 
 	/**
 	 * The context used for the associations table
 	 *
-	 * @var      string
-	 * @since    3.4.4
+	 * @var    string
+	 * @since  3.4.4
 	 */
 	protected $associationsContext = 'com_menus.item';
 
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var        string    The help screen key for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen key for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var        string    The help screen base URL for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen base URL for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpURL;
 
 	/**
-	 * @var        boolean    True to use local lookup for the help screen.
-	 * @since   1.6
+	 * @var    boolean  True to use local lookup for the help screen.
+	 * @since  1.6
 	 */
 	protected $helpLocal = false;
 
@@ -77,14 +77,14 @@ class ItemModel extends AdminModel
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
-	 * @var string
+	 * @var   string
 	 */
 	protected $batch_copymove = 'menu_id';
 
 	/**
 	 * Allowed batch commands
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
@@ -873,7 +873,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  \stdClass[]|bool  An array of all view levels (id, title).
+	 * @return  \stdClass[]|boolean  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */
@@ -911,7 +911,7 @@ class ItemModel extends AdminModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable|JTableNested  A database object.
+	 * @return  \Joomla\Cms\Table\Table|\Joomla\Cms\Table\Nested  A database object.
 	 *
 	 * @since   1.6
 	 */

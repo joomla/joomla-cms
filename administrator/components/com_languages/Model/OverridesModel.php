@@ -34,7 +34,7 @@ class OverridesModel extends ListModel
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 * @since   3.2
+	 * @since   2.5
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
@@ -125,9 +125,9 @@ class OverridesModel extends ListModel
 	/**
 	 * Method to get the total number of overrides.
 	 *
-	 * @return  int	The total number of overrides.
+	 * @return  integer  The total number of overrides.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function getTotal()
 	{
@@ -203,7 +203,7 @@ class OverridesModel extends ListModel
 	 *
 	 * @return  array  Sorted associative array of languages.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function getLanguages()
 	{
@@ -243,9 +243,9 @@ class OverridesModel extends ListModel
 	 *
 	 * @param   array  $cids  Array of keys to delete.
 	 *
-	 * @return  integer Number of successfully deleted overrides, boolean false if an error occurred.
+	 * @return  integer  Number of successfully deleted overrides, boolean false if an error occurred.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function delete($cids)
 	{
@@ -287,7 +287,7 @@ class OverridesModel extends ListModel
 	/**
 	 * Removes all of the cached strings from the table.
 	 *
-	 * @return  boolean result of operation
+	 * @return  boolean  result of operation
 	 *
 	 * @since   3.4.2
 	 */

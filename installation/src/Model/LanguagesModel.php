@@ -144,7 +144,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   array  $lids  List of the update_id value of the languages to install.
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean  True if successful
 	 */
 	public function install($lids)
 	{
@@ -240,7 +240,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
 	 *
-	 * @return  string|bool
+	 * @return  string|boolean
 	 *
 	 * @since   3.1
 	 */
@@ -266,7 +266,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   string  $url  URL of the package.
 	 *
-	 * @return  array|bool Package details or false on failure.
+	 * @return  array|boolean  Package details or false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -895,7 +895,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  Table|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -967,7 +967,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  Table|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1170,7 +1170,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  Table|boolean Category Object. False otherwise.
+	 * @return  Table|boolean  Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1231,9 +1231,9 @@ class LanguagesModel extends BaseInstallationModel
 	 * Create an article in a specific language.
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
-	 * @param   int        $categoryId    The id of the category where we want to add the article.
+	 * @param   integer    $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  Table|boolean Article Object. False otherwise.
+	 * @return  Table|boolean  Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1321,9 +1321,9 @@ class LanguagesModel extends BaseInstallationModel
 	 * Add Blog Menu Item.
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
-	 * @param   int        $categoryId    The id of the category displayed by the blog.
+	 * @param   integer    $categoryId    The id of the category displayed by the blog.
 	 *
-	 * @return  Table|boolean Menu Item Object. False otherwise.
+	 * @return  Table|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1437,7 +1437,7 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Retrieve the admin user id.
 	 *
-	 * @return  int|bool One Administrator ID.
+	 * @return  integer|boolean  One Administrator ID.
 	 *
 	 * @since   3.2
 	 */

@@ -440,7 +440,7 @@ class SysInfoModel extends BaseDatabaseModel
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__extensions'));
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 
 		try

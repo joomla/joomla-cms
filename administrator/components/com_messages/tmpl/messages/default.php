@@ -33,19 +33,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table">
 				<thead>
 					<tr>
-						<td style="width:1%" class="nowrap text-center">
+						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" class="title nowrap">
+						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_READ', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="nowrap">
+						<th scope="col" style="width:15%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:20%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:20%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
