@@ -84,20 +84,6 @@ class TagField extends ListField
 		$data['allowCustom']   = $this->allowCustom();
 		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
 
-		// AJAX mode requires ajax-chosen
-//		$data['cssId'] = '';
-//		if (!$this->isNested())
-//		{
-//			// Get the field id
-//			$id    = $this->element['id'] ?? null;
-//			$cssId = '#' . $this->getId($id, $this->element['name']);
-//
-//			$data['cssId'] = $cssId;
-//
-//			// Load the ajax-chosen customised field
-//			//HTMLHelper::_('tag.ajaxfield', $cssId, $this->allowCustom());
-//		}
-
 		if (!is_array($this->value) && !empty($this->value))
 		{
 			if ($this->value instanceof TagsHelper)

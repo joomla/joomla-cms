@@ -55,6 +55,10 @@ class ModulesPositionField extends FormField
 		$data['client']    = $clientId;
 		$data['positions'] = $positions;
 
-		return $this->getRenderer($this->layout)->render($data);
+		$renderer = $this->getRenderer($this->layout);
+		$renderer->setComponent('com_categories');
+		$renderer->setClient(1);
+
+		return $renderer->render($data);
 	}
 }

@@ -19,6 +19,7 @@
 			<folder>forms</folder>
 			<folder>Helper</folder>
 			<folder>helpers</folder>
+			<folder>layouts</folder>
 			<folder>Model</folder>
 			<folder>Table</folder>
 			<folder>tmpl</folder>

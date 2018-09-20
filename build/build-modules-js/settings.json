@@ -16,6 +16,7 @@
       "field-send-test-mail",
       "field-subform",
       "field-tag",
+      "field-categoryedit",
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
@@ -62,6 +63,9 @@
         "js": "media/system/webcomponents/js"
       },
       "field-tag": {
+        "js": "media/system/webcomponents/js"
+      },
+      "field-categoryedit": {
         "js": "media/system/webcomponents/js"
       }
     },
