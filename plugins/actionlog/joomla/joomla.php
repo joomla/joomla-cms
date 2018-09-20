@@ -953,7 +953,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * Method is called after user request to remind his username.
 	 *
-	 * @param   array    $user     Holds the user data.
+	 * @param   array  $user  Holds the user data.
 	 *
 	 * @return  void
 	 *
