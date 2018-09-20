@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Contact\Site\Service;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
@@ -16,7 +18,7 @@ use Joomla\CMS\Categories\Categories;
  *
  * @since  1.6
  */
-class ContactCategories extends Categories
+class Category extends Categories
 {
 	/**
 	 * Class constructor
@@ -27,8 +29,8 @@ class ContactCategories extends Categories
 	 */
 	public function __construct($options = array())
 	{
-		$options['table'] = '#__contact_details';
-		$options['extension'] = 'com_contact';
+		$options['table']      = '#__contact_details';
+		$options['extension']  = 'com_contact';
 		$options['statefield'] = 'published';
 
 		parent::__construct($options);

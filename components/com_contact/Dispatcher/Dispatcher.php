@@ -1,33 +1,26 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_contact
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Contact\Site\Dispatcher;
+
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Language\Text;
 
 /**
- * ComponentDispatcher class for com_content
+ * ComponentDispatcher class for com_contact
  *
  * @since  4.0.0
  */
-class ContactDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Contact';
-
 	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
 	 *
