@@ -6,18 +6,18 @@
 ;(function(customElements){
   "use strict";
 
-  class JoomlaFieldModuelEditposition extends HTMLElement {
+  class JoomlaFieldModuleEditposition extends HTMLElement {
 
     connectedCallback() {
       if (!window.Choices) {
-        throw new Error('JoomlaFieldModuelEditposition require Choices.js to work');
+        throw new Error('JoomlaFieldModuleEditposition require Choices.js to work');
       }
 
       // Get a <select> element
       this.select = this.querySelector('select');
 
       if (!this.select) {
-        throw new Error('JoomlaFieldModuelEditposition require <select> element to work');
+        throw new Error('JoomlaFieldModuleEditposition require <select> element to work');
       }
 
       // Init Choices
@@ -58,6 +58,6 @@
     }
   }
 
-  customElements.define('joomla-field-module-editposition', JoomlaFieldModuelEditposition);
+  customElements.define('joomla-field-module-editposition', JoomlaFieldModuleEditposition);
 
 })(customElements);

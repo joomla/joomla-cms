@@ -71,9 +71,10 @@ HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-module-editposi
 ?>
 <joomla-field-module-editposition <?php echo implode(' ', $attributes); ?>><?php
 	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
-	'id'          => $id,
-	'list.select' => $value,
-	'list.attr'   => implode(' ', $selectAttr),
-));
+			'id'          => $id,
+			'list.select' => $value,
+			'list.attr'   => implode(' ', $selectAttr),
+		)
+	);
 ?></joomla-field-module-editposition>
 
