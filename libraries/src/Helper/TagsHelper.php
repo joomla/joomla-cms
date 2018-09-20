@@ -10,6 +10,7 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
@@ -46,6 +47,26 @@ class TagsHelper extends CMSHelper
 	 * @since  3.1
 	 */
 	public $typeAlias = null;
+
+	/**
+	 * The database object to work with.
+	 *
+	 * @var    \JDatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db = null;
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param   \JDatabaseDriver  $db  Database driver to use with this instance.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(\JDatabaseDriver $db = null)
+	{
+		$this->db = $db ? $db : Factory::getDBO();
+	}
 
 	/**
 	 * Method to add tag rows to mapping table.
@@ -107,13 +128,14 @@ class TagsHelper extends CMSHelper
 	/**
 	 * Function that converts tags paths into paths of names
 	 *
-	 * @param   array  $tags  Array of tags
+	 * @param   array             $tags  Array of tags
+	 * @param   \JDatabaseDriver  $db    Optional database driver to use instead of default.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.1
 	 */
-	public static function convertPathsToNames($tags)
+	public static function convertPathsToNames($tags, \JDatabaseDriver $db = null)
 	{
 		// We will replace path aliases with tag names
 		if ($tags)
@@ -138,12 +160,12 @@ class TagsHelper extends CMSHelper
 				// Remove duplicates
 				$aliases = array_unique($aliases);
 
-				$db = \JFactory::getDbo();
+				$db = $db ?: Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select('alias, title')
 					->from('#__tags')
-					->where('alias IN (' . implode(',', array_map(array($db, 'quote'), $aliases)) . ')');
+					->where('alias IN (' . implode(',', $db->quote($aliases)) . ')');
 				$db->setQuery($query);
 
 				try
@@ -210,7 +232,7 @@ class TagsHelper extends CMSHelper
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable  = Table::getInstance('Tag', 'TagsTable');
 			$newTags   = array();
-			$canCreate = \JFactory::getUser()->authorise('core.create', 'com_tags');
+			$canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
 
 			foreach ($tags as $key => $tag)
 			{
@@ -413,10 +435,10 @@ class TagsHelper extends CMSHelper
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
 		// Initialize some variables.
-		$db = \JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('m.tag_id'))
-			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->where(
 				array(
 					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
@@ -425,7 +447,7 @@ class TagsHelper extends CMSHelper
 				)
 			);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query->where('t.access IN (' . $groups . ')');
@@ -448,7 +470,7 @@ class TagsHelper extends CMSHelper
 			$query->select($db->quoteName('t') . '.*');
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 
 		$db->setQuery($query);
 		$this->itemTags = $db->loadObjectList();
@@ -487,14 +509,14 @@ class TagsHelper extends CMSHelper
 		$ids = explode(',', $ids);
 		$ids = ArrayHelper::toInteger($ids);
 
-		$db = \JFactory::getDbo();
+		$db = $this->db;
 
 		// Load the tags.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('t.id'))
-			->from($db->quoteName('#__tags') . ' AS t ')
+			->from($db->quoteName('#__tags', 't'))
 			->join(
-				'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
+				'INNER', $db->quoteName('#__contentitem_tag_map', 'm')
 				. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
 				. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
 				. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . implode(',', $ids) . ')'
@@ -530,11 +552,11 @@ class TagsHelper extends CMSHelper
 		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
 	{
 		// Create a new query object.
-		$db = \JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
@@ -679,7 +701,7 @@ class TagsHelper extends CMSHelper
 		{
 			$tagIds = ArrayHelper::toInteger($tagIds);
 
-			$db = \JFactory::getDbo();
+			$db = $this->db;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
@@ -754,15 +776,16 @@ class TagsHelper extends CMSHelper
 	 *                                 Options are: rowList, assocList, and objectList
 	 * @param   array    $selectTypes  Optional array of type ids to limit the results to. Often from a request.
 	 * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
+	 * @param   \JDatabaseDriver  $db    Optional database driver to use instead of default.
 	 *
 	 * @return  array   Array of of types
 	 *
 	 * @since   3.1
 	 */
-	public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true)
+	public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true, \JDatabaseDriver $db = null)
 	{
 		// Initialize some variables.
-		$db = \JFactory::getDbo();
+		$db = $db ?: Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*');
 
@@ -772,7 +795,7 @@ class TagsHelper extends CMSHelper
 
 			if ($useAlias)
 			{
-				$selectTypes = array_map(array($db, 'quote'), $selectTypes);
+				$selectTypes = $db->quote($selectTypes);
 
 				$query->where($db->quoteName('type_alias') . ' IN (' . implode(',', $selectTypes) . ')');
 			}
@@ -909,14 +932,15 @@ class TagsHelper extends CMSHelper
 	 * Function to search tags
 	 *
 	 * @param   array  $filters  Filter to apply to the search
+	 * @param   \JDatabaseDriver  $db    Optional database driver to use instead of default.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.1
 	 */
-	public static function searchTags($filters = array())
+	public static function searchTags($filters = array(), \JDatabaseDriver $db = null)
 	{
-		$db = \JFactory::getDbo();
+		$db = $db ?: Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value')
 			->select('a.path AS text')
@@ -1002,7 +1026,7 @@ class TagsHelper extends CMSHelper
 	public function tagDeleteInstances($tag_id)
 	{
 		// Delete the old tag maps.
-		$db = \JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
@@ -1073,7 +1097,7 @@ class TagsHelper extends CMSHelper
 	{
 		$key = $table->getKeyName();
 		$id = $table->$key;
-		$db = \JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true)
 			->delete('#__contentitem_tag_map')
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias))
