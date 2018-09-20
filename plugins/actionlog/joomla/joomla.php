@@ -949,9 +949,9 @@ class PlgActionlogJoomla extends JPlugin
 	}
 
 	/**
-	 * On after Remind username requset
+	 * On after Remind username request
 	 *
-	 * Method is called after user request to remind his username.
+	 * Method is called after user request to remind their username.
 	 *
 	 * @param   array  $user  Holds the user data.
 	 *
