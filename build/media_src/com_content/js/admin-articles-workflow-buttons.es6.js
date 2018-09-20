@@ -22,6 +22,46 @@
             trashBool = false,
             countChecked = 0;
 
+		publishBtn.addEventListener('click', function(e)
+		{
+			if (this.classList.contains('disabled'))
+			{
+				e.stopPropagation();
+
+				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_PUBlISH')]});
+			}
+		});
+
+		unpublishBtn.addEventListener('click', function(e)
+		{
+			if (this.classList.contains('disabled'))
+			{
+				e.stopPropagation();
+
+				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_UNPUBlISH')]});
+			}
+		});
+
+		archiveBtn.addEventListener('click', function(e)
+		{
+			if (this.classList.contains('disabled'))
+			{
+				e.stopPropagation();
+
+				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_ARCHIVE')]});
+			}
+		});
+
+		trashBtn.addEventListener('click', function(e)
+		{
+			if (this.classList.contains('disabled'))
+			{
+				e.stopPropagation();
+
+				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_TRASH')]});
+			}
+		});
+
         // listen to click event to get selected rows
         articleList.addEventListener( "click", function ( ) {
             for ( let i = 0; i < artListRowLength; i += 1 ) {

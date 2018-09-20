@@ -147,6 +147,11 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		Text::script('COM_CONTENT_ERROR_CANNOT_PUBLISH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_TRASH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_ARCHIVE');
+
 		return parent::display($tpl);
 	}
 
