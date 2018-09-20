@@ -52,9 +52,6 @@ function admin_postinstall_eaccelerator_action()
 
 	$config = new Registry($data);
 
-	jimport('joomla.filesystem.path');
-	jimport('joomla.filesystem.file');
-
 	// Set the configuration file path.
 	$file = JPATH_CONFIGURATION . '/configuration.php';
 

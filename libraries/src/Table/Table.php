@@ -10,17 +10,17 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Abstract Table class
@@ -275,8 +275,6 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			jimport('joomla.filesystem.path');
-
 			$paths = self::addIncludePath();
 			$pathIndex = 0;
 

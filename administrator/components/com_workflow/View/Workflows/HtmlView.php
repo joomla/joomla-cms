@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::publishList('workflows.publish');
 			ToolbarHelper::unpublishList('workflows.unpublish');
-			ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_SET_HOME');
+			ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 
 		if ($canDo->get('core.admin'))

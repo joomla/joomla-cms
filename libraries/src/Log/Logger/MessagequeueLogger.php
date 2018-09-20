@@ -10,10 +10,10 @@ namespace Joomla\CMS\Log\Logger;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
-use Joomla\CMS\Factory;
 
 /**
  * Joomla MessageQueue logger class.

@@ -55,7 +55,7 @@ class StyleController extends FormController
 			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
-			$checkin = property_exists($table, 'checked_out');
+			$checkin = $table->hasField('checked_out');
 			$context = $this->option . '.edit.' . $this->context;
 
 			$item = $model->getItem($app->getTemplate(true)->id);

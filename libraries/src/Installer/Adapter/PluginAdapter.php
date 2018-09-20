@@ -11,14 +11,14 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Installer\InstallerAdapter;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Table\Update;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
 
 /**
  * Plugin installer

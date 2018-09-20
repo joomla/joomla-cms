@@ -11,8 +11,8 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\Input\Input;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\Input\Input;
 
 /**
  * Namesapce based implementation of the DispatcherFactoryInterface
@@ -76,7 +76,7 @@ class DispatcherFactory implements DispatcherFactoryInterface
 
 		if (!class_exists($className))
 		{
-			$className = '\\Joomla\\CMS\\Dispatcher\\Dispatcher';
+			$className = '\\Joomla\\CMS\\Dispatcher\\ComponentDispatcher';
 		}
 
 		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);

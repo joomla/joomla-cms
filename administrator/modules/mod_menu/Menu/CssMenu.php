@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
@@ -31,27 +32,27 @@ class CssMenu
 	/**
 	 * The Menu tree object
 	 *
-	 * @var   Tree
+	 * @var    Tree
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $tree;
 
 	/**
 	 * The module options
 	 *
-	 * @var   Registry
+	 * @var    Registry
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $params;
 
 	/**
 	 * The menu bar state
 	 *
-	 * @var   bool
+	 * @var    bool
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $enabled;
 
@@ -163,7 +164,7 @@ class CssMenu
 	 * @param   array     $items   The menu items array
 	 * @param   Registry  $params  Module options
 	 *
-	 * @return  bool  Whether to show recovery menu
+	 * @return  boolean  Whether to show recovery menu
 	 *
 	 * @since   3.8.0
 	 */

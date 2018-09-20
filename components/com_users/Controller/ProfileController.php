@@ -127,6 +127,14 @@ class ProfileController extends BaseController
 			throw new \Exception($model->getError(), 500);
 		}
 
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $requestData;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array('com_users.user', $objData, $form)
+		);
+		$requestData = (array) $objData;
+
 		// Validate the posted data.
 		$data = $model->validate($form, $requestData);
 
@@ -274,8 +282,6 @@ class ProfileController extends BaseController
 	 */
 	public function gethelpsites()
 	{
-		jimport('joomla.filesystem.file');
-
 		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{
 			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);

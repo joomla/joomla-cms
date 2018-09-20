@@ -182,7 +182,7 @@ class NewsfeedTable extends Table
 		}
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\');
+		$table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

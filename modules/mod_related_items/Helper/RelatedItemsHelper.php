@@ -126,7 +126,7 @@ abstract class RelatedItemsHelper
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-					->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state')
+					->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state')
 					->where('a.id != ' . (int) $id)
 					->where('ws.condition = 1')
 					->where('a.access IN (' . $groups . ')');

@@ -35,8 +35,6 @@ class ProfileController extends BaseController
 	 */
 	public function gethelpsites()
 	{
-		jimport('joomla.filesystem.file');
-
 		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{
 			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);

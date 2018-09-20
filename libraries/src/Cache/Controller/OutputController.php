@@ -11,7 +11,6 @@ namespace Joomla\CMS\Cache\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Log\Log;
 
 /**
  * Joomla Cache output type object

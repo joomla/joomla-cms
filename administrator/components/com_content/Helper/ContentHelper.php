@@ -63,15 +63,15 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$vName == 'workflows'
 			);
 
-			if ($vName == 'states' || $vName == 'transitions')
+			if ($vName == 'stages' || $vName == 'transitions')
 			{
 				$app        = Factory::getApplication();
 				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
 
 				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_STATES'),
-					'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
-					$vName == 'states`'
+					Text::_('COM_WORKFLOW_STAGES'),
+					'index.php?option=com_workflow&view=stages&workflow_id=' . $workflowID . "&extension=com_content",
+					$vName == 'stages`'
 				);
 
 				\JHtmlSidebar::addEntry(
@@ -95,217 +95,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$vName == 'fields.groups'
 			);
 		}
-	}
-
-	/**
-	 * Applies the content tag filters to arbitrary text as per settings for current user group
-	 *
-	 * @param   text  $text  The string to filter
-	 *
-	 * @return  string  The filtered string
-	 *
-	 * @deprecated  4.0  Use \JComponentHelper::filterText() instead.
-	 */
-	public static function filterText($text)
-	{
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated. Use JComponentHelper::filterText() instead', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return \JComponentHelper::filterText($text);
-	}
-
-	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   \stdClass[]  &$items  The banner category objects
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since   3.5
-	 */
-	public static function countItems(&$items)
-	{
-		$db = \JFactory::getDbo();
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query  = $db->getQuery(true);
-
-			$query	->select($db->quoteName('condition'))
-					->select('COUNT(*) AS ' . $db->quoteName('count'))
-					->from($db->quoteName('#__content', 'c'))
-					->from($db->quoteName('#__workflow_states', 's'))
-					->from($db->quoteName('#__workflow_associations', 'a'))
-					->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
-					->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.state_id'))
-					->where('catid = ' . (int) $item->id)
-					->where('a.extension = ' . $db->quote('com_content'))
-					->group($db->quoteName('condition'));
-
-			$articles = $db->setQuery($query)->loadObjectList();
-
-			foreach ($articles as $article)
-			{
-				if ($article->condition == Workflow::PUBLISHED)
-				{
-					$item->count_published = $article->count;
-				}
-
-				if ($article->condition == Workflow::UNPUBLISHED)
-				{
-					$item->count_unpublished = $article->count;
-				}
-
-				if ($article->condition == Workflow::TRASHED)
-				{
-					$item->count_trashed = $article->count;
-				}
-			}
-		}
-
-		return $items;
-	}
-
-	/**
-	 * Adds Count Items for Tag Manager.
-	 *
-	 * @param   \stdClass[]  &$items     The content objects
-	 * @param   string       $extension  The name of the active view.
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since   3.6
-	 */
-	public static function countTagItems(&$items, $extension)
-	{
-		$db      = \JFactory::getDbo();
-		$parts   = explode('.', $extension);
-		$section = null;
-
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
-
-		$join  = $db->quoteName('#__content') . ' AS c ON ct.content_item_id=c.id';
-		$state = 'state';
-
-		if ($section === 'category')
-		{
-			$join  = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
-			$state = 'published as state';
-		}
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-			$query                   = $db->getQuery(true);
-			$query->select($state . ', count(*) AS count')
-				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $join)
-				->group('state');
-			$db->setQuery($query);
-			$contents = $db->loadObjectList();
-
-			foreach ($contents as $content)
-			{
-				if ($content->state == 1)
-				{
-					$item->count_published = $content->count;
-				}
-
-				if ($content->state == 0)
-				{
-					$item->count_unpublished = $content->count;
-				}
-
-				if ($content->state == 2)
-				{
-					$item->count_archived = $content->count;
-				}
-
-				if ($content->state == -2)
-				{
-					$item->count_trashed = $content->count;
-				}
-			}
-		}
-
-		return $items;
-	}
-
-	/**
-	 * Returns a valid section for articles. If it is not valid then null
-	 * is returned.
-	 *
-	 * @param   string  $section  The section to get the mapping for
-	 *
-	 * @return  string|null  The new section
-	 *
-	 * @since   3.7.0
-	 */
-	public static function validateSection($section)
-	{
-		if (\JFactory::getApplication()->isClient('site'))
-		{
-			// On the front end we need to map some sections
-			switch ($section)
-			{
-				// Editing an article
-				case 'form':
-
-					// Category list view
-				case 'featured':
-				case 'category':
-					$section = 'article';
-			}
-		}
-
-		if ($section != 'article')
-		{
-			// We don't know other sections
-			return null;
-		}
-
-		return $section;
-	}
-
-	/**
-	 * Returns valid contexts
-	 *
-	 * @return  array
-	 *
-	 * @since   3.7.0
-	 */
-	public static function getContexts()
-	{
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
-
-		$contexts = array(
-			'com_content.article'    => Text::_('COM_CONTENT'),
-			'com_content.categories' => Text::_('JCATEGORY')
-		);
-
-		return $contexts;
 	}
 
 	/**
@@ -349,7 +138,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$transitions,
 				function ($var) use ($pk, $workflow_id)
 				{
-					return in_array($var['from_state_id'], [-1, $pk]) && $var['to_state_id'] != $pk && $workflow_id == $var['workflow_id'];
+					return in_array($var['from_stage_id'], [-1, $pk]) && $var['to_stage_id'] != $pk && $workflow_id == $var['workflow_id'];
 				}
 			)
 		);
@@ -410,6 +199,9 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$data = (array) $data;
 
+		// Make workflows translateable
+		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
 		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
 
 		$query = $db->getQuery(true);
@@ -421,7 +213,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$defaulttitle = $db->setQuery($query)->loadResult();
 
-		$option = Text::_('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW_NEW');
+		$option = Text::_('COM_WORKFLOW_INHERIT_WORKFLOW_NEW');
 
 		if (!empty($data['id']))
 		{
@@ -432,7 +224,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			// Remove the current category, because we search vor inherit from parent
 			array_shift($categories);
 
-			$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $defaulttitle);
+			$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($defaulttitle));
 
 			if (!empty($categories))
 			{
@@ -462,7 +254,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 						if (!is_null($title))
 						{
-							$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $title);
+							$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($title));
 
 							break;
 						}
@@ -475,7 +267,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$field->addOption($option, ['value' => 'inherit']);
 
-		$field->addOption(Text::sprintf('COM_CONTENT_WORKFLOW_DEFAULT_WORKFLOW', $defaulttitle), ['value' => 'use_default']);
+		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaulttitle)), ['value' => 'use_default']);
 
 		$field->addOption('- ' . Text::_('COM_CONTENT_WORKFLOWS') . ' -', ['disabled' => 'true']);
 	}

@@ -77,7 +77,7 @@ class WorkflowTable extends Table
 		try
 		{
 			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__workflow_states'))
+				->delete($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
 			$db->setQuery($query);
 			$db->execute();

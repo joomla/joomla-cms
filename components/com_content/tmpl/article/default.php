@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
@@ -59,7 +60,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
-		<?php if ($this->item->condition == 2) : ?>
+		<?php if ($this->item->condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
