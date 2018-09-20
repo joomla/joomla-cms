@@ -22,45 +22,45 @@
             trashBool = false,
             countChecked = 0;
 
-		publishBtn.addEventListener('click', function(e)
-		{
-			if (this.classList.contains('disabled'))
-			{
-				e.stopPropagation();
+        publishBtn.addEventListener('click', function(e)
+        {
+            if (this.classList.contains('disabled'))
+            {
+                e.stopPropagation();
 
-				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_PUBlISH')]});
-			}
-		});
+                Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_PUBlISH')]});
+            }
+        });
 
-		unpublishBtn.addEventListener('click', function(e)
-		{
-			if (this.classList.contains('disabled'))
-			{
-				e.stopPropagation();
+        unpublishBtn.addEventListener('click', function(e)
+        {
+            if (this.classList.contains('disabled'))
+            {
+                e.stopPropagation();
 
-				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_UNPUBlISH')]});
-			}
-		});
+                Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_UNPUBlISH')]});
+            }
+        });
 
-		archiveBtn.addEventListener('click', function(e)
-		{
-			if (this.classList.contains('disabled'))
-			{
-				e.stopPropagation();
+        archiveBtn.addEventListener('click', function(e)
+        {
+            if (this.classList.contains('disabled'))
+            {
+                e.stopPropagation();
 
-				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_ARCHIVE')]});
-			}
-		});
+                Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_ARCHIVE')]});
+            }
+        });
 
-		trashBtn.addEventListener('click', function(e)
-		{
-			if (this.classList.contains('disabled'))
-			{
-				e.stopPropagation();
+        trashBtn.addEventListener('click', function(e)
+        {
+            if (this.classList.contains('disabled'))
+            {
+                e.stopPropagation();
 
-				Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_TRASH')]});
-			}
-		});
+                Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_TRASH')]});
+            }
+        });
 
         // listen to click event to get selected rows
         articleList.addEventListener( "click", function ( ) {
@@ -97,8 +97,8 @@
 
         function setOrRemDisabled( btn, SetOrRem ) {
             ( SetOrRem === 'set' )
-                ? btn.setAttribute( 'disabled', true )
-                : btn.removeAttribute( 'disabled' );
+                ? btn.classList.add('disabled')
+                : btn.classList.remove('disabled');
         }
 
     } );
