@@ -140,6 +140,12 @@ function modChrome_outline($module, &$params, &$attribs)
 		$doc = JFactory::getDocument();
 
 		$doc->addStyleDeclaration('
+		.mod-preview {
+			background: rgba(100,100,100,.08);
+			box-shadow: 0 0 0 4px #f4f4f4, 0 0 0 5px rgba(100,100,100,.2);
+			border-radius: 1px;
+			margin: 8px 0;
+		}
 		.mod-preview-info {
 			padding: 4px 6px;
 			margin-bottom: 5px;
