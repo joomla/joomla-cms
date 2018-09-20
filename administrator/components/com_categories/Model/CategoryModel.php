@@ -12,7 +12,7 @@ namespace Joomla\Component\Categories\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -423,7 +423,7 @@ class CategoryModel extends AdminModel
 
 		$componentInterface = Factory::getApplication()->bootComponent($component);
 
-		if ($componentInterface instanceof CategoriesServiceInterface)
+		if ($componentInterface instanceof CategoryServiceInterface)
 		{
 			$componentInterface->prepareForm($form, $data);
 		}
@@ -1303,7 +1303,7 @@ class CategoryModel extends AdminModel
 
 		$componentObject = $this->bootComponent($component);
 
-		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
 			$assoc = true;
 

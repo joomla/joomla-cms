@@ -18,16 +18,16 @@ use Joomla\CMS\Form\Form;
  *
  * @since  4.0.0
  */
-trait CategoriesServiceTrait
+trait CategoryServiceTrait
 {
 	/**
-	 * An array of categories.
+	 * The categories factory
 	 *
-	 * @var  Categories[]
+	 * @var  CategoryFactoryInterface
 	 *
 	 * @since  4.0.0
 	 */
-	private $categories;
+	private $categoryFactory;
 
 	/**
 	 * Returns the category service.
@@ -35,40 +35,28 @@ trait CategoriesServiceTrait
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories
-	 *
-	 * @see Categories::setOptions()
+	 * @return  CategoryInterface
 	 *
 	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
-	public function getCategories(array $options = [], $section = ''): Categories
+	public function getCategory(array $options = [], $section = ''): CategoryInterface
 	{
-		if (!array_key_exists($section, $this->categories))
-		{
-			throw new SectionNotFoundException;
-		}
-
-		$categories = clone $this->categories[$section];
-		$categories->setOptions($options);
-
-		return $categories;
+		return $this->categoryFactory->createCategory($options, $section);
 	}
 
 	/**
-	 * An array of categories where the key is the name of the section.
-	 * If the component has no sections then the array must have at least
-	 * an empty key.
+	 * Sets the internal category factory.
 	 *
-	 * @param   array  $categories  The categories
+	 * @param   CategoryFactoryInterface  $categoryFactory  The categories factory
 	 *
 	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function setCategories(array $categories)
+	public function setCategoryFactory(CategoryFactoryInterface $categoryFactory)
 	{
-		$this->categories = $categories;
+		$this->categoryFactory = $categoryFactory;
 	}
 
 	/**
