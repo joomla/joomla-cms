@@ -10,13 +10,11 @@
       "field-switcher",
       "field-send-test-mail",
       "field-module-order",
-      "field-module-editposition",
       "field-permissions",
       "field-simple-color",
       "field-send-test-mail",
       "field-subform",
-      "field-tag",
-      "field-categoryedit",
+      "field-fancy-select",
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
@@ -51,9 +49,6 @@
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
-      "field-module-editposition": {
-        "js": "media/system/webcomponents/js"
-      },
       "field-hidden-mail": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
@@ -62,10 +57,7 @@
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
-      "field-tag": {
-        "js": "media/system/webcomponents/js"
-      },
-      "field-categoryedit": {
+      "field-fancy-select": {
         "js": "media/system/webcomponents/js"
       }
     },

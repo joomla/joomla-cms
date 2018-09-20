@@ -6,32 +6,33 @@
 ;(function(customElements){
   "use strict";
 
-  class JoomlaFieldCategoryEdit extends HTMLElement {
+  class JoomlaFieldFancySelect extends HTMLElement {
 
     // Attribute getters
-    get allowCustom()    { return this.hasAttribute('allow-custom'); }
-    get remoteSearch()   { return this.hasAttribute('remote-search'); }
-    get url()            { return this.getAttribute('url'); }
-    get termKey()        { return this.getAttribute('term-key') || 'term'; }
-    get minTermLength()  { return parseInt(this.getAttribute('min-term-length')) || 1; }
-    get newItemPrefix()  { return this.getAttribute('new-item-prefix') || ''; }
-    //get newGroupTitle()  { return this.getAttribute('new-item-group-title') || ''; }
-    get searchPlaceholder()    { return this.getAttribute('search-placeholder'); }
+    get allowCustom()       { return this.hasAttribute('allow-custom'); }
+    get remoteSearch()      { return this.hasAttribute('remote-search'); }
+    get url()               { return this.getAttribute('url'); }
+    get termKey()           { return this.getAttribute('term-key') || 'term'; }
+    get minTermLength()     { return parseInt(this.getAttribute('min-term-length')) || 1; }
+    get newItemPrefix()     { return this.getAttribute('new-item-prefix') || ''; }
+    get placeholder()       { return this.getAttribute('placeholder'); }
+    get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
 
     connectedCallback() {
       if (!window.Choices) {
-        throw new Error('JoomlaFieldCategoryEdit require Choices.js to work');
+        throw new Error('JoomlaFieldFancySelect require Choices.js to work');
       }
 
       // Get a <select> element
       this.select = this.querySelector('select');
 
       if (!this.select) {
-        throw new Error('JoomlaFieldCategoryEdit require <select> element to work');
+        throw new Error('JoomlaFieldFancySelect require <select> element to work');
       }
 
       // Init Choices
       this.choicesInstance = new Choices(this.select, {
+        placeholderValue: this.placeholder,
         searchPlaceholderValue: this.searchPlaceholder,
         removeItemButton: true,
         searchFloor: this.minTermLength,
@@ -141,6 +142,6 @@
     }
   }
 
-  customElements.define('joomla-field-categoryedit', JoomlaFieldCategoryEdit);
+  customElements.define('joomla-field-fancy-select', JoomlaFieldFancySelect);
 
 })(customElements);

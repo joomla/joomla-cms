@@ -47,31 +47,24 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  */
 
-// AJAX mode requires ajax-chosen
-//if (!$isNested)
-//{
-//	// Load the ajax-chosen customised field
-//	HTMLHelper::_('tag.ajaxfield', $cssId, $allowCustom);
-//}
-
 $html = array();
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
-// To avoid user's confusion, readonly="true" should emply disabled="true".
+// To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
 if ($readonly || $disabled)
 {
 	$attr .= ' disabled="disabled"';
 }
 
-$attr2 = '';
-
+$attr2  = '';
+$attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
+$attr2 .= ' placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
 
 if (!$isNested)
 {
@@ -114,14 +107,11 @@ else
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
-//Text::script('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
 
 HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-tag.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
 
-<joomla-field-tag <?php echo $attr2; ?>><?php
-	echo implode($html);
-?></joomla-field-tag>
+<joomla-field-fancy-select <?php echo $attr2; ?>><?php	echo implode($html); ?></joomla-field-fancy-select>

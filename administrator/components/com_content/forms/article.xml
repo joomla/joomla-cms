@@ -68,7 +68,6 @@
 			name="tags"
 			type="tag"
 			label="JTAG"
-			class="col-md-12"
 			multiple="true"
 		/>
 

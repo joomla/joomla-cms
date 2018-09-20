@@ -9,8 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -52,26 +52,25 @@ $classes = array();
 $attr    = '';
 $attr2   = '';
 
-
-$attr .= !empty($class) ? ' class="' . $class . '"' : '';
+// Initialize some field attributes.
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
-// To avoid user's confusion, readonly="true" should imply disabled="true".
+// To avoid user's confusion, readonly="true" should imply disabled="disabled".
 if ($readonly || $disabled)
 {
 	$attr .= ' disabled="disabled"';
 }
 
+$attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY')) . '" ';
 
 if ($allowCustom)
 {
 	$attr2 .= ' allow-custom';
-	//$attr2 .= ' new-item-group-title="' . $this->escape(Text::_('JGLOBAL_CUSTOM_CATEGORY')) . '"';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
@@ -119,11 +118,8 @@ Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-categoryedit.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
 
-<joomla-field-categoryedit <?php echo $attr2; ?>><?php
-	echo implode($html);
-?></joomla-field-categoryedit>
-
+<joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>

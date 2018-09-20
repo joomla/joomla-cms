@@ -56,7 +56,7 @@ class ModulesPositionField extends FormField
 		$data['positions'] = $positions;
 
 		$renderer = $this->getRenderer($this->layout);
-		$renderer->setComponent('com_categories');
+		$renderer->setComponent('com_modules');
 		$renderer->setClient(1);
 
 		return $renderer->render($data);

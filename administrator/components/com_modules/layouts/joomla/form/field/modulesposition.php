@@ -9,8 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -50,6 +50,8 @@ extract($displayData);
 
 $attributes = array(
 	'class="' . $class . '"',
+	' allow-custom',
+	' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" '
 );
 
 $selectAttr = array(
@@ -66,15 +68,15 @@ Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-module-editposition.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
-<joomla-field-module-editposition <?php echo implode(' ', $attributes); ?>><?php
+<joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
 	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
 			'id'          => $id,
 			'list.select' => $value,
 			'list.attr'   => implode(' ', $selectAttr),
 		)
 	);
-?></joomla-field-module-editposition>
+?></joomla-field-fancy-select>
 
