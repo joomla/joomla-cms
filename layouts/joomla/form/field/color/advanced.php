@@ -92,5 +92,5 @@ JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'aut
 		$keywords,
 		$direction,
 		$validate,
-    $dataAttribute;
+		$dataAttribute;
 ?>/>
