@@ -40,12 +40,14 @@
         noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
         itemSelectText: Joomla.Text._('JGLOBAL_SELECT_PRESS_TO_SELECT', 'Press to select'),
       });
+      this.choicesCache = {};
 
       // Handle typing of custom term
       if (this.allowCustom) {
         this.addEventListener('keydown', (event) => {
           if (this.choicesInstance.highlightPosition || event.keyCode !== 13
-            || event.target !== this.choicesInstance.input || !event.target.value) return;
+            || event.target !== this.choicesInstance.input
+            || !event.target.value || this.choicesCache[event.target.value]) return;
 
           event.preventDefault();
 
@@ -57,8 +59,12 @@
           this.choicesInstance.setChoices([{
             value: this.newItemPrefix + event.target.value,
             label: event.target.value,
-            selected: true
+            selected: true,
+            customProperties: {
+              value: event.target.value // Store real value, just in case
+            }
           }], 'value', 'label', false);
+          this.choicesCache[event.target.value] = event.target.value;
 
           event.target.value = null;
           this.choicesInstance.hideDropdown();
@@ -69,9 +75,19 @@
 
       // Handle remote search
       if (this.remoteSearch && this.url) {
-        // TODO: make it work
+        // Collect an existing values, to avoid duplications
+        let choiceItem;
+        for (let i = 0, l = this.choicesInstance.presetChoices.length; i < l; i++) {
+          choiceItem = this.choicesInstance.presetChoices[i];
+          this.choicesCache[choiceItem.value] = choiceItem.label;
+        }
+
+        const lookupDelay = 300;
+        let   lookupTimeout = null;
+        this.activeXHR = null;
         this.select.addEventListener('search', (event) => {
-          console.log(event.detail);
+          clearTimeout(lookupTimeout);
+          lookupTimeout = setTimeout(this.requestLookup.bind(this), lookupDelay);
         });
       }
     }
@@ -82,6 +98,47 @@
         this.choicesInstance.destroy();
         this.choicesInstance = null;
       }
+      if (this.activeXHR){
+        this.activeXHR.abort();
+        this.activeXHR = null;
+      }
+    }
+
+    requestLookup() {
+      let url = this.url;
+      url += (url.indexOf('?') === -1 ? '?' : '&');
+      url += encodeURIComponent(this.termKey) + '=' +  encodeURIComponent(this.choicesInstance.input.value);
+
+      // Stop previous request if any
+      if (this.activeXHR){
+        this.activeXHR.abort();
+      }
+
+      this.activeXHR = Joomla.request({
+        url: url,
+        onSuccess: (response, xhr) => {
+          this.activeXHR = null;
+          const items = response ? JSON.parse(response) : [];
+          if (!items.length) return;
+
+          // Remove duplications
+          let item;
+          for(let i = items.length - 1; i >= 0; i--) {
+            item = items[i];
+            if (this.choicesCache[item.value]) {
+              items.splice(i, 1);
+            }
+          }
+
+          // Add new options to field, assume that each item is object, eg {value: "foo", text: "bar"}
+          if (items.length) {
+            this.choicesInstance.setChoices(items, 'value', 'text', false);
+          }
+        },
+        onError: () => {
+          this.activeXHR = null;
+        }
+      });
     }
   }
 
