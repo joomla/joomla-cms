@@ -219,7 +219,30 @@ class ActionlogsHelper
 		$lang = JFactory::getLanguage();
 		$db   = JFactory::getDbo();
 
-		// Get all (both enabled and disabled) actionlog plugins
+		// Pairs of folder and a names array of plugins not in plugin folder actionlog.
+		$additionalPlugins = array(
+			'user' => array('terms')
+		);
+
+		$orWhere = array();
+
+		foreach ($additionalPlugins as $folder => $nameArray)
+		{
+			$collect = array();
+
+			$orWhere[$folder] = '(folder = ' . $db->quote($folder) . ' AND ';
+
+			foreach ($nameArray as $name)
+			{
+				$collect[] = 'element = '  . $db->quote($name);
+			}
+
+			$orWhere[$folder] .= ' (' . implode(' OR ', $collect) . '))';
+		}
+
+		$orWhere = implode(' OR ', $orWhere);
+
+		// Get all (both enabled and disabled) actionlog plugins and plugins in array $additionalPlugins.
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
@@ -238,10 +261,12 @@ class ActionlogsHelper
 				)
 			)
 			->from('#__extensions')
-			->where('type = ' . $db->quote('plugin'))
 			->where('folder = ' . $db->quote('actionlog'))
+			->orWhere($orWhere)
+			->andWhere('type = ' . $db->quote('plugin'))
 			->where('state IN (0,1)')
 			->order('ordering');
+
 		$db->setQuery($query);
 
 		try
