@@ -772,11 +772,11 @@ class TagsHelper extends CMSHelper
 	/**
 	 * Method to get a list of types with associated data.
 	 *
-	 * @param   string   $arrayType    Optionally specify that the returned list consist of objects, associative arrays, or arrays.
-	 *                                 Options are: rowList, assocList, and objectList
-	 * @param   array    $selectTypes  Optional array of type ids to limit the results to. Often from a request.
-	 * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
-	 * @param   \JDatabaseDriver  $db    Optional database driver to use instead of default.
+	 * @param   string            $arrayType    Optionally specify that the returned list consist of objects, associative arrays, or arrays.
+	 *                                          Options are: rowList, assocList, and objectList
+	 * @param   array             $selectTypes  Optional array of type ids to limit the results to. Often from a request.
+	 * @param   boolean           $useAlias     If true, the alias is used to match, if false the type_id is used.
+	 * @param   \JDatabaseDriver  $db           Optional database driver to use instead of default.
 	 *
 	 * @return  array   Array of of types
 	 *
@@ -931,8 +931,8 @@ class TagsHelper extends CMSHelper
 	/**
 	 * Function to search tags
 	 *
-	 * @param   array  $filters  Filter to apply to the search
-	 * @param   \JDatabaseDriver  $db    Optional database driver to use instead of default.
+	 * @param   array             $filters  Filter to apply to the search
+	 * @param   \JDatabaseDriver  $db       Optional database driver to use instead of default.
 	 *
 	 * @return  array
 	 *
