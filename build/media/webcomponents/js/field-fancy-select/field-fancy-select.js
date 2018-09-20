@@ -52,11 +52,11 @@
       // Handle typing of custom term
       if (this.allowCustom) {
         this.addEventListener('keydown', (event) => {
-          if (this.choicesInstance.highlightPosition || event.keyCode !== 13
-            || event.target !== this.choicesInstance.input
-            || !event.target.value || this.choicesCache[event.target.value]) return;
-
+          if (event.keyCode !== 13 || event.target !== this.choicesInstance.input) return;
           event.preventDefault();
+
+          if (this.choicesInstance.highlightPosition
+            || !event.target.value || this.choicesCache[event.target.value]) return;
 
           // Make sure nothing is highlighted
           const highlighted = this.choicesInstance.dropdown.querySelector('.' + this.choicesInstance.config.classNames.highlightedState);
