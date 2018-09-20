@@ -101,33 +101,18 @@ class Categories implements CategoryInterface
 	 */
 	public function __construct($options)
 	{
-		// Required options
 		$this->_extension  = $options['extension'];
 		$this->_table      = $options['table'];
 		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
 		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-		$this->_statefield = $options['statefield'] ?? 'state';
+		$this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
 
-		// Default some optional options
-		if (!isset($options['access']))
-		{
-			$this->_options['access'] = 'true';
-		}
+		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
+		$options['published']   = isset($options['published']) ? $options['published'] : 1;
+		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
+		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
-		if (!isset($options['published']))
-		{
-			$this->_options['published'] = 1;
-		}
-
-		if (!isset($options['countItems']))
-		{
-			$this->_options['countItems'] = 0;
-		}
-
-		if (!isset($options['currentlang']))
-		{
-			$this->_options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
-		}
+		$this->_options = $options;
 	}
 
 	/**
