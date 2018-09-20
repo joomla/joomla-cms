@@ -83,6 +83,8 @@ $assoc = Associations::isEnabled();
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
 	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
+
+HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
