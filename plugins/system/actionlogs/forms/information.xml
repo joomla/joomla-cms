@@ -5,10 +5,9 @@
 			<field
 				name="Information"
 				type="plugininfo"
-			        label="PLG_SYSTEM_ACTIONLOGS_INFO_LABEL"
+				label="PLG_SYSTEM_ACTIONLOGS_INFO_LABEL"
 				description="PLG_SYSTEM_ACTIONLOGS_INFO_DESC"
-			>
-			</field>
+			/>
 		</fieldset>
 	</fields>
 </form>
