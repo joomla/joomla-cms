@@ -10,17 +10,17 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
-JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
  * Newsfeeds Component Association Helper
  *
  * @since  3.0
  */
-abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
+abstract class NewsfeedsHelperAssociation extends CategoryAssociationHelper
 {
 	/**
 	 * Method to get the associations for a given item
