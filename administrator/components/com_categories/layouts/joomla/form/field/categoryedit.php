@@ -50,29 +50,15 @@ extract($displayData);
 $html    = array();
 $classes = array();
 $attr    = '';
+$attr2   = '';
 
-// Initialize some field attributes.
-$classes[] = !empty($class) ? $class : '';
 
-if ($allowCustom)
-{
-	$customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
-
-	$classes[] = 'chosen-custom-value';
-	$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-		. 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-		. 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
-}
-
-if ($classes)
-{
-	$attr .= 'class="' . implode(' ', $classes) . '"';
-}
-
+$attr .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
+$attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
 // To avoid user's confusion, readonly="true" should imply disabled="true".
 if ($readonly || $disabled)
@@ -80,8 +66,13 @@ if ($readonly || $disabled)
 	$attr .= ' disabled="disabled"';
 }
 
-// Initialize JavaScript field attributes.
-$attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+$attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY')) . '" ';
+
+if ($allowCustom)
+{
+	$attr2 .= ' allow-custom';
+	//$attr2 .= ' new-item-group-title="' . $this->escape(Text::_('JGLOBAL_CUSTOM_CATEGORY')) . '"';
+}
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
 if ($readonly)
@@ -125,7 +116,6 @@ else
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
-//Text::script('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
 
 HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
@@ -133,7 +123,7 @@ HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-categoryedit.mi
 
 ?>
 
-<joomla-field-categoryedit><?php
+<joomla-field-categoryedit <?php echo $attr2; ?>><?php
 	echo implode($html);
 ?></joomla-field-categoryedit>
 

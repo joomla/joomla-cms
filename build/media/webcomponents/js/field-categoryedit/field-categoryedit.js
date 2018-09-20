@@ -13,8 +13,10 @@
     get remoteSearch()   { return this.hasAttribute('remote-search'); }
     get url()            { return this.getAttribute('url'); }
     get termKey()        { return this.getAttribute('term-key') || 'term'; }
-    get minTermLength()  { return parseInt(this.getAttribute('min-term-length')) || 3; }
+    get minTermLength()  { return parseInt(this.getAttribute('min-term-length')) || 1; }
     get newItemPrefix()  { return this.getAttribute('new-item-prefix') || ''; }
+    //get newGroupTitle()  { return this.getAttribute('new-item-group-title') || ''; }
+    get searchPlaceholder()    { return this.getAttribute('search-placeholder'); }
 
     connectedCallback() {
       if (!window.Choices) {
@@ -30,6 +32,7 @@
 
       // Init Choices
       this.choicesInstance = new Choices(this.select, {
+        searchPlaceholderValue: this.searchPlaceholder,
         removeItemButton: true,
         searchFloor: this.minTermLength,
         searchResultLimit: 10,
@@ -38,8 +41,11 @@
           threshold: 0.3 // Strict search
         },
         noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
+        noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
         itemSelectText: Joomla.Text._('JGLOBAL_SELECT_PRESS_TO_SELECT', 'Press to select'),
       });
+
+      // Collect an existing values, to avoid duplications
       this.choicesCache = {};
 
       // Handle typing of custom term
@@ -55,7 +61,6 @@
           const highlighted = this.choicesInstance.dropdown.querySelector('.' + this.choicesInstance.config.classNames.highlightedState);
           if (highlighted) return;
 
-          // Add new option, and make it active
           this.choicesInstance.setChoices([{
             value: this.newItemPrefix + event.target.value,
             label: event.target.value,
@@ -64,6 +69,7 @@
               value: event.target.value // Store real value, just in case
             }
           }], 'value', 'label', false);
+
           this.choicesCache[event.target.value] = event.target.value;
 
           event.target.value = null;
@@ -75,13 +81,6 @@
 
       // Handle remote search
       if (this.remoteSearch && this.url) {
-        // Collect an existing values, to avoid duplications
-        let choiceItem;
-        for (let i = 0, l = this.choicesInstance.presetChoices.length; i < l; i++) {
-          choiceItem = this.choicesInstance.presetChoices[i];
-          this.choicesCache[choiceItem.value] = choiceItem.label;
-        }
-
         const lookupDelay = 300;
         let   lookupTimeout = null;
         this.activeXHR = null;
