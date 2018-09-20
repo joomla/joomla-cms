@@ -31,14 +31,6 @@ class ModulesPositionField extends FormField
 	protected $type = 'ModulesPosition';
 
 	/**
-	 * Cached options
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $options = null;
-
-	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
