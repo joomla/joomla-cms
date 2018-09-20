@@ -165,6 +165,8 @@ abstract class JHtmlTag
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  Without replacement
 	 */
 	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
