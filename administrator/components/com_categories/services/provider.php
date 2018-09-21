@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,22 +9,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Association\AssociationExtensionInterface;
-use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\CategoryFactory;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Categories\Administrator\Extension\CategoriesComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The content service provider.
+ * The categories service provider.
  *
  * @since  4.0.0
  */
@@ -41,22 +37,17 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
-
-		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Content'));
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Content'));
+		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Categories'));
+		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Categories'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new ContentComponent($container->get(DispatcherFactoryInterface::class));
+				$component = new CategoriesComponent($container->get(DispatcherFactoryInterface::class));
 
-				$component->setRegistry($container->get(Registry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
-				$component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
-				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
+				$component->setRegistry($container->get(Registry::class));
 
 				return $component;
 			}

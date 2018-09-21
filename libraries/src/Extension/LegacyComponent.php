@@ -11,9 +11,9 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceTrait;
+use Joomla\CMS\Categories\CategoryServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceTrait;
+use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyComponentDispatcher;
@@ -29,9 +29,9 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
  *
  * @since  4.0.0
  */
-class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface
+class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface
 {
-	use CategoriesServiceTrait;
+	use CategoryServiceTrait;
 
 	/**
 	 * @var string
@@ -92,14 +92,12 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories
-	 *
-	 * @see Categories::setOptions()
+	 * @return  CategoryInterface
 	 *
 	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
-	public function getCategories(array $options = [], $section = ''): Categories
+	public function getCategory(array $options = [], $section = ''): CategoryInterface
 	{
 		$classname = ucfirst($this->component) . ucfirst($section) . 'Categories';
 

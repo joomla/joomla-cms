@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  4.0.0
  */
-interface CategoriesServiceInterface
+interface CategoryServiceInterface
 {
 	/**
 	 * Returns the category service.
@@ -25,14 +25,12 @@ interface CategoriesServiceInterface
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories
-	 *
-	 * @see Categories::setOptions()
+	 * @return  CategoryInterface
 	 *
 	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
-	public function getCategories(array $options = [], $section = ''): Categories;
+	public function getCategory(array $options = [], $section = ''): CategoryInterface;
 
 	/**
 	 * Adds Count Items for Category Manager.
