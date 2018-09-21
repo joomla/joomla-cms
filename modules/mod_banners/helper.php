@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Environment\Browser;
+
 /**
  * Helper for mod_banners
  *
@@ -43,7 +45,7 @@ class ModBannersHelper
 
 		$banners = $model->getItems();
 
-		if ($banners)
+		if ($banners && !Browser::getInstance()->isRobot())
 		{
 			$model->impress();
 		}
