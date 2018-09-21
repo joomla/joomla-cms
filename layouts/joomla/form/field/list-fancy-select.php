@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -49,7 +50,6 @@ $html = array();
 $attr = '';
 
 // Initialize the field attributes.
-$attr .= !empty($class) ? ' class="custom-select ' . $class . '"' : ' class="custom-select"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
@@ -61,6 +61,10 @@ if ($readonly || $disabled)
 {
 	$attr .= ' disabled="disabled"';
 }
+
+$attr2  = '';
+$attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
+$attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
 if ($readonly)
@@ -91,4 +95,13 @@ else
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
-echo implode($html);
+Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
+
+HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
+
+?>
+
+<joomla-field-fancy-select <?php echo $attr2; ?>><?php	echo implode($html); ?></joomla-field-fancy-select>
