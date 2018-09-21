@@ -256,6 +256,14 @@ class BaseController implements ControllerInterface
 			return self::$instance;
 		}
 
+		@trigger_error(
+			sprintf(
+				'%1$s::getInstance() is deprecated. Load it through the MVC factory.',
+				self::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		$app   = Factory::getApplication();
 		$input = $app->input;
 

@@ -191,6 +191,14 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s::getInstance() is deprecated. Load it through the MVC factory.',
+				self::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$modelClass = $prefix . ucfirst($type);
 
