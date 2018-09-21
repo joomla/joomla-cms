@@ -10,8 +10,8 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -57,7 +57,8 @@ class TagsHelper extends CMSHelper
 	protected $db = null;
 
 	/**
-	 * Undocumented function
+	 * Constructor
+	 * Instance can be created using a specific database driver object.
 	 *
 	 * @param   \JDatabaseDriver  $db  Database driver to use with this instance.
 	 *
@@ -65,7 +66,7 @@ class TagsHelper extends CMSHelper
 	 */
 	public function __construct(\JDatabaseDriver $db = null)
 	{
-		$this->db = $db ? $db : Factory::getDBO();
+		$this->db = $db ?: Factory::getDBO();
 	}
 
 	/**
