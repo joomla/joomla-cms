@@ -162,13 +162,14 @@ class PlgUserTerms extends JPlugin
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 		$message = array(
-			'action'      => 'consent',
-			'id'          => $userId,
-			'title'       => $data['name'],
-			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
-			'userid'      => $userId,
-			'username'    => $data['username'],
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			'action'        => 'consent',
+			'id'            => $userId,
+			'title'         => $data['name'],
+			'itemlink'      => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			'userid'        => $userId,
+			'username'      => $data['username'],
+			'accountlink'   => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			'load_language' => 'plg_user_terms'
 		);
 
 		/* @var ActionlogsModelActionlog $model */
