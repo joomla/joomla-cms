@@ -48,7 +48,6 @@ extract($displayData);
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="custom-select ' . $class . '"' : ' class="custom-select"';
 $attr .= $disabled ? ' disabled' : '';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
@@ -56,4 +55,12 @@ $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
-echo HTMLHelper::_('access.level', $name, $value, $attr, $options, $id);
+$attr2  = '';
+$attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
+$attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
+
+?>
+
+<joomla-field-fancy-select <?php echo $attr2; ?>><?php
+	echo HTMLHelper::_('access.level', $name, $value, $attr, $options, $id);
+?></joomla-field-fancy-select>
