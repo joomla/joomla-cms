@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\LanguageHelper;
+
 /**
  * Supports a modal category picker.
  *
@@ -42,10 +44,13 @@ class JFormFieldModal_Category extends JFormField
 			$extension = (string) JFactory::getApplication()->input->get('extension', 'com_content');
 		}
 
-		$allowNew    = ((string) $this->element['new'] == 'true');
-		$allowEdit   = ((string) $this->element['edit'] == 'true');
-		$allowClear  = ((string) $this->element['clear'] != 'false');
-		$allowSelect = ((string) $this->element['select'] != 'false');
+		$allowNew       = ((string) $this->element['new'] == 'true');
+		$allowEdit      = ((string) $this->element['edit'] == 'true');
+		$allowClear     = ((string) $this->element['clear'] != 'false');
+		$allowSelect    = ((string) $this->element['select'] != 'false');
+		$allowPropagate = ((string) $this->element['propagate'] == 'true');
+
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		// Load language.
 		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
@@ -77,6 +82,8 @@ class JFormFieldModal_Category extends JFormField
 					window.processModalSelect('Category', '" . $this->id . "', id, title, '', object);
 				}
 				");
+
+				JText::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
 				$scriptSelect[$this->id] = true;
 			}
@@ -177,6 +184,23 @@ class JFormFieldModal_Category extends JFormField
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
 				. '</a>';
+		}
+
+		// Propagate category button
+		if ($allowPropagate && count($languages) > 2)
+		{
+			// Strip off language tag at the end
+			$tagLength = (int) strlen($this->element['language']);
+			$callbackFunctionStem = substr("jSelectCategory_" . $this->id, 0, -$tagLength);
+
+			$html .= '<a'
+			. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+			. ' id="' . $this->id . '_propagate"'
+			. ' href="#"'
+			. ' title="' . JHtml::tooltipText('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
+			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
+			. '<span class="icon-refresh" aria-hidden="true"></span>' . JText::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '</a>';
 		}
 
 		$html .= '</span>';

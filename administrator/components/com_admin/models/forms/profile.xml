@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset name="user_details">
-		<field 
-			name="name" 
+		<field
+			name="name"
 			type="text"
 			label="COM_ADMIN_USER_HEADING_NAME"
 			description="COM_ADMIN_USER_FIELD_NAME_DESC"
@@ -10,8 +10,8 @@
 			size="30"
 		/>
 
-		<field 
-			name="username" 
+		<field
+			name="username"
 			type="text"
 			label="COM_ADMIN_USER_FIELD_USERNAME_LABEL"
 			description="COM_ADMIN_USER_FIELD_USERNAME_DESC"
@@ -19,8 +19,8 @@
 			size="30"
 		/>
 
-		<field 
-			name="password2" 
+		<field
+			name="password2"
 			type="password"
 			label="JGLOBAL_PASSWORD"
 			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
@@ -33,8 +33,8 @@
 			validate="equals"
 		/>
 
-		<field 
-			name="password" 
+		<field
+			name="password"
 			type="password"
 			label="COM_ADMIN_USER_FIELD_PASSWORD2_LABEL"
 			description="COM_ADMIN_USER_FIELD_PASSWORD2_DESC"
@@ -45,8 +45,8 @@
 			validate="password"
 		/>
 
-		<field 
-			name="email" 
+		<field
+			name="email"
 			type="email"
 			label="JGLOBAL_EMAIL"
 			description="COM_ADMIN_USER_FIELD_EMAIL_DESC"
@@ -54,6 +54,7 @@
 			required="true"
 			size="30"
 			validate="email"
+			validDomains="com_users.domains"
 		/>
 
 		<field
@@ -100,8 +101,8 @@
 		<!--  Basic user account settings. -->
 		<fieldset name="settings" label="COM_ADMIN_USER_SETTINGS_FIELDSET_LABEL">
 
-			<field 
-				name="admin_style" 
+			<field
+				name="admin_style"
 				type="templatestyle"
 				label="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 				description="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_DESC"
@@ -111,8 +112,8 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="admin_language" 
+			<field
+				name="admin_language"
 				type="language"
 				label="COM_ADMIN_USER_FIELD_BACKEND_LANGUAGE_LABEL"
 				description="COM_ADMIN_USER_FIELD_BACKEND_LANGUAGE_DESC"
@@ -121,7 +122,7 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
+			<field
 				name="language"
 				type="language"
 				label="COM_ADMIN_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
@@ -131,9 +132,9 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="editor" 
-				type="plugins" 
+			<field
+				name="editor"
+				type="plugins"
 				label="COM_ADMIN_USER_FIELD_EDITOR_LABEL"
 				description="COM_ADMIN_USER_FIELD_EDITOR_DESC"
 				folder="editors"
@@ -142,8 +143,8 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="helpsite" 
+			<field
+				name="helpsite"
 				type="helpsite"
 				label="COM_ADMIN_USER_FIELD_HELPSITE_LABEL"
 				description="COM_ADMIN_USER_FIELD_HELPSITE_DESC"
@@ -151,8 +152,8 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="timezone" 
+			<field
+				name="timezone"
 				type="timezone"
 				label="COM_ADMIN_USER_FIELD_TIMEZONE_LABEL"
 				description="COM_ADMIN_USER_FIELD_TIMEZONE_DESC"

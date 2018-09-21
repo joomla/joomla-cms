@@ -30,7 +30,7 @@ class InstallationControllerFtp extends JControllerBase
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Get the setup model.
 		$model = new InstallationModelSetup;

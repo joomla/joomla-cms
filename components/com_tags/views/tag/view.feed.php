@@ -25,9 +25,26 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$document       = JFactory::getDocument();
-		$document->link = JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app       = JFactory::getApplication();
+		$document  = JFactory::getDocument();
+		$ids       = $app->input->get('id');
+		$i         = 0;
+		$tagIds    = '';
+		$filter    = new JFilterInput;
+
+		foreach ($ids as $id)
+		{
+			if ($i !== 0)
+			{
+				$tagIds .= '&';
+			}
+
+			$tagIds .= 'id[' . $i . ']=' . $filter->clean($id, 'INT');
+
+			$i++;
+		}
+
+		$document->link = JRoute::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');

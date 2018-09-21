@@ -149,7 +149,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.12
 	 */
 	public function testEscapeNonLocaleAware()
 	{

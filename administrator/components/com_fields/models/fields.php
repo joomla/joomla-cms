@@ -187,7 +187,13 @@ class FieldsModelFields extends JModelList
 			if ($parts)
 			{
 				// Get the category
-				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
+
+				// If there is no category for the component and section, so check the component only
+				if (!$cat)
+				{
+					$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				}
 
 				if ($cat)
 				{
