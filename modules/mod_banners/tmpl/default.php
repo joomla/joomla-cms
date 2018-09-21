@@ -38,7 +38,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 					<?php if ($target == 1) : ?>
 						<?php // Open in a new window ?>
 						<a
-							href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer"
+							href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer nofollow"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
@@ -50,7 +50,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 					<?php elseif ($target == 2) : ?>
 						<?php // Open in a popup window ?>
 						<a
-							href="<?php echo $link; ?>" onclick="window.open(this.href, '',
+							href="<?php echo $link; ?>" rel="nofollow" onclick="window.open(this.href, '',
 								'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550');
 								return false"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
@@ -64,7 +64,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 					<?php else : ?>
 						<?php // Open in parent window ?>
 						<a
-							href="<?php echo $link; ?>"
+							href="<?php echo $link; ?>" rel="nofollow"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
