@@ -139,7 +139,6 @@ class ActionlogsHelper
 	 */
 	public static function getHumanReadableLogMessage($log)
 	{
-		$message     = JText::_($log->message_language_key);
 		$messageData = json_decode($log->message, true);
 
 		// Special handling for translation extension name
@@ -154,6 +153,8 @@ class ActionlogsHelper
 		{
 			static::loadTranslationFiles($messageData['load_language']);
 		}
+
+		$message = JText::_($log->message_language_key);
 
 		$linkMode = JFactory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
 
