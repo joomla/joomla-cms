@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -176,7 +176,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testCanUpload($file, $expected)
 	{
-	    $canUpload = $this->object->canUpload($file);
+		$canUpload = $this->object->canUpload($file);
 		$this->assertEquals($canUpload, $expected);
 	}
 

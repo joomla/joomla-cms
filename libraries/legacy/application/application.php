@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -388,7 +388,7 @@ class JApplication extends BaseApplication
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
+			echo "<script>document.location.href=" . json_encode(str_replace("'", '&apos;', $url)) . ";</script>\n";
 		}
 		else
 		{
@@ -400,7 +400,7 @@ class JApplication extends BaseApplication
 			{
 				// MSIE type browser and/or server cause issues when URL contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script></head></html>';
+					. '<script>document.location.href=' . json_encode(str_replace("'", '&apos;', $url)) . ';</script></head></html>';
 			}
 			else
 			{
@@ -1004,7 +1004,7 @@ class JApplication extends BaseApplication
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+				->where($db->quoteName('time') . ' < ' . (int) ($time - $session->getExpire()));
 
 			$db->setQuery($query);
 			$db->execute();
@@ -1055,7 +1055,7 @@ class JApplication extends BaseApplication
 			{
 				$query->insert($db->quoteName('#__session'))
 					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
+					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . time());
 				$db->setQuery($query);
 			}
 			else
@@ -1067,7 +1067,7 @@ class JApplication extends BaseApplication
 					)
 					->values(
 						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
+						(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
 					);
 
 				$db->setQuery($query);

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -231,6 +231,17 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
 		$this->connect();
 
 		$result = mysqli_real_escape_string($this->getConnection(), $text);

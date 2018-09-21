@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 // Swift mode created by Michael Kaminsky https://github.com/mkaminsky11
 
@@ -138,8 +138,17 @@
   }
 
   function tokenComment(stream, state) {
-    stream.match(/^(?:[^*]|\*(?!\/))*/)
-    if (stream.match("*/")) state.tokenize.pop()
+    var ch
+    while (true) {
+      stream.match(/^[^/*]+/, true)
+      ch = stream.next()
+      if (!ch) break
+      if (ch === "/" && stream.eat("*")) {
+        state.tokenize.push(tokenComment)
+      } else if (ch === "*" && stream.eat("/")) {
+        state.tokenize.pop()
+      }
+    }
     return "comment"
   }
 

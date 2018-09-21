@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -223,6 +223,7 @@ class FormHelper
 					$paths[] = $path;
 				}
 			}
+
 			// Break off the end of the complex type.
 			$type = substr($type, $pos + 1);
 		}
@@ -415,6 +416,7 @@ class FormHelper
 		foreach ($new as $prefix)
 		{
 			$prefix = trim($prefix);
+
 			if (in_array($prefix, $prefixes))
 			{
 				continue;
@@ -480,8 +482,25 @@ class FormHelper
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
+			if (strpos($showOnPartBlocks[0], '.') !== false)
+			{
+				if ($formControl)
+				{
+					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+				}
+				else
+				{
+					$groupParts = explode('.', $showOnPartBlocks[0]);
+					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+				}
+			}
+			else
+			{
+				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+			}
+
 			$showOnData[] = array(
-				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'field'  => $field,
 				'values' => explode(',', $showOnPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,

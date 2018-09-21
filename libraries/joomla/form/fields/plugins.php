@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ class JFormFieldPlugins extends JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -57,7 +57,7 @@ class JFormFieldPlugins extends JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -126,6 +126,12 @@ class JFormFieldPlugins extends JFormFieldList
 				->where('enabled = 1')
 				->order('ordering, name');
 
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
+
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = JFactory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
@@ -156,5 +162,22 @@ class JFormFieldPlugins extends JFormFieldList
 		}
 
 		return array_merge($parentOptions, $options);
+	}
+
+	/**
+	 * Method to get input and also set field readonly.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   3.8.7
+	 */
+	protected function getInput()
+	{
+		if (count($this->options) === 1 && $this->options[0]->text === JText::_('JOPTION_DO_NOT_USE'))
+		{
+			$this->readonly = true;
+		}
+
+		return parent::getInput();
 	}
 }

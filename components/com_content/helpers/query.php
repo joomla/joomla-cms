@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,6 +115,7 @@ class ContentHelperQuery
 
 			case 'vote' :
 				$orderby = 'a.id DESC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count DESC ';
@@ -123,6 +124,7 @@ class ContentHelperQuery
 
 			case 'rvote' :
 				$orderby = 'a.id ASC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count ASC ';
@@ -131,6 +133,7 @@ class ContentHelperQuery
 
 			case 'rank' :
 				$orderby = 'a.id DESC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating DESC ';
@@ -139,6 +142,7 @@ class ContentHelperQuery
 
 			case 'rrank' :
 				$orderby = 'a.id ASC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating ASC ';
@@ -195,7 +199,7 @@ class ContentHelperQuery
 	 * @param   \Joomla\Registry\Registry  $params  An options object for the article.
 	 *
 	 * @return  array  A named array with "select" and "join" keys.
-	 * 
+	 *
 	 * @since   1.5
 	 */
 	public static function buildVotingQuery($params = null)

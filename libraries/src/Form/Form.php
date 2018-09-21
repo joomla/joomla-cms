@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -322,7 +322,7 @@ class Form
 	 *
 	 * @param   string  $set  The optional name of the fieldset.
 	 *
-	 * @return  array  The array of JFormField objects in the fieldset.
+	 * @return  \JFormField[]  The array of JFormField objects in the fieldset.
 	 *
 	 * @since   11.1
 	 */
@@ -497,7 +497,7 @@ class Form
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  array    The array of JFormField objects in the field group.
+	 * @return  \JFormField[]  The array of JFormField objects in the field group.
 	 *
 	 * @since   11.1
 	 */
@@ -2067,6 +2067,19 @@ class Form
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
+		if ($input)
+		{
+			$disabled = ((string) $element['disabled'] == 'true' || (string) $element['disabled'] == 'disabled');
+
+			$fieldExistsInRequestData = $input->exists((string) $element['name']) || $input->exists($group . '.' . (string) $element['name']);
+
+			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
+			if ($disabled && $fieldExistsInRequestData)
+			{
+				return new \RuntimeException(\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $element['name']));
+			}
+		}
+
 		if ($required)
 		{
 			// If the field is required and the value is empty return an error message.
@@ -2205,7 +2218,7 @@ class Form
 
 			if (empty($data))
 			{
-				throw new \InvalidArgumentException(sprintf('Form::getInstance(%s, *%s*)', $name, gettype($data)));
+				throw new \InvalidArgumentException(sprintf('%1$s(%2$s, *%3$s*)', __METHOD__, $name, gettype($data)));
 			}
 
 			// Instantiate the form.
@@ -2216,14 +2229,14 @@ class Form
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('JForm::getInstance could not load form');
+					throw new \RuntimeException(sprintf('%s() could not load form', __METHOD__));
 				}
 			}
 			else
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('JForm::getInstance could not load file');
+					throw new \RuntimeException(sprintf('%s() could not load file', __METHOD__));
 				}
 			}
 		}

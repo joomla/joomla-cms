@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,7 @@ class PluginsHelper
 	}
 
 	/**
-	 * Returns an array of standard published state filter options.
+	 * Returns a list of folders filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
 	 */
@@ -85,6 +85,34 @@ class PluginsHelper
 			->from('#__extensions')
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->order('folder');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns a list of elements filter options.
+	 *
+	 * @return  string    The HTML code for the select tag
+	 */
+	public static function elementOptions()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(element) AS value, element AS text')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->order('element');
 
 		$db->setQuery($query);
 

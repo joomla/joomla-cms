@@ -3,7 +3,7 @@
 	<name>plg_content_contact</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -18,6 +18,31 @@
 	</languages>
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="url"
+					type="list"
+					label="PLG_CONTENT_CONTACT_PARAM_URL_LABEL"
+					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
+					default="0"
+					>
+					<option value="url">PLG_CONTENT_CONTACT_PARAM_URL_URL</option>
+					<option value="webpage">PLG_CONTENT_CONTACT_PARAM_URL_WEBPAGE</option>
+					<option value="email">PLG_CONTENT_CONTACT_PARAM_URL_EMAIL</option>
+				</field>
+
+				<field
+					name="link_to_alias"
+					type="radio"
+					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
+					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 </extension>

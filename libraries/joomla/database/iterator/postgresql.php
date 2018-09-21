@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database iterator.
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseIteratorPostgresql extends JDatabaseIterator
 {

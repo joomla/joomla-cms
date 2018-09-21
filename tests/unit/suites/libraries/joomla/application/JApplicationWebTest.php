@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1270,7 +1270,7 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect('index.php');
 		$buffer = ob_get_clean();
 
-		$this->assertEquals("<script>document.location.href='{$base}{$url}';</script>\n", $buffer);
+		$this->assertEquals("<script>document.location.href=" . json_encode($base . $url) . ";</script>\n", $buffer);
 	}
 
 	/**
@@ -1299,7 +1299,7 @@ class JApplicationWebTest extends TestCase
 		$buffer = ob_get_clean();
 
 		$this->assertEquals(
-			'<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8" /><script>document.location.href=\'' . $url . '\';</script></head><body></body></html>',
+			'<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8" /><script>document.location.href=' . json_encode($url) . ';</script></head><body></body></html>',
 			trim($buffer)
 		);
 	}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,20 +29,23 @@ class Associations
 	 * @param   string   $pk          The name of the primary key in the given $table.
 	 * @param   string   $aliasField  If the table has an alias field set it here. Null to not use it
 	 * @param   string   $catField    If the table has a catid field set it here. Null to not use it
+	 * @param   array    $advClause   Additional advanced 'where' clause; use c as parent column key, c2 as associations column key
 	 *
-	 * @return  array                The associated items
+	 * @return  array  The associated items
 	 *
 	 * @since   3.1
 	 *
 	 * @throws  \Exception
 	 */
-	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
+	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
+		$advClause = array())
 	{
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
 
 		// Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-		$queryKey = implode('|', func_get_args());
+		$queryKey = md5(serialize(array_merge(array($extension, $tablename, $context, $id), $advClause)));
+
 		if (!isset($multilanguageAssociations[$queryKey]))
 		{
 			$multilanguageAssociations[$queryKey] = array();
@@ -90,9 +93,19 @@ class Associations
 			}
 
 			$query->where('c.' . $pk . ' = ' . (int) $id);
+
 			if ($tablename === '#__categories')
 			{
 				$query->where('c.extension = ' . $db->quote($extension));
+			}
+
+			// Advanced where clause
+			if (!empty($advClause))
+			{
+				foreach ($advClause as $clause)
+				{
+					$query->where($clause);
+				}
 			}
 
 			$db->setQuery($query);
