@@ -278,5 +278,4 @@ class ActionlogsHelper
 		// Load com_privacy too.
 		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true);
 	}
-
 }
