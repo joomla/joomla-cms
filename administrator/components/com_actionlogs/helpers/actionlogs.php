@@ -149,6 +149,12 @@ class ActionlogsHelper
 			$messageData['extension_name'] = JText::_($messageData['extension_name']);
 		}
 
+		// Load additional language file if provided. E.g. 'plg_user_terms'.
+		if (isset($messageData['load_language']))
+		{
+			static::loadTranslationFiles($messageData['load_language']);
+		}
+
 		$linkMode = JFactory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
 
 		foreach ($messageData as $key => $value)
