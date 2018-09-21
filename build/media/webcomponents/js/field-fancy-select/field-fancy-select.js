@@ -103,6 +103,11 @@
 
       // Handle remote search
       if (this.remoteSearch && this.url) {
+        // Cache existing
+        this.choicesInstance.presetChoices.forEach((choiceItem) => {
+          this.choicesCache[choiceItem.value] = choiceItem.label;
+        });
+
         const lookupDelay = 300;
         let   lookupTimeout = null;
         this.activeXHR = null;
