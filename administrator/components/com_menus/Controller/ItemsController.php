@@ -93,49 +93,6 @@ class ItemsController extends AdminController
 	}
 
 	/**
-	 * Save the manual order inputs from the menu items list view
-	 *
-	 * @return      void
-	 *
-	 * @see         \JControllerAdmin::saveorder()
-	 * @deprecated  4.0
-	 */
-	public function saveorder()
-	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get the arrays from the Request
-		$order = $this->input->post->get('order', null, 'array');
-		$originalOrder = explode(',', $this->input->getString('original_order_values'));
-
-		// Make sure something has changed
-		if (!($order === $originalOrder))
-		{
-			parent::saveorder();
-		}
-		else
-		{
-			// Nothing to reorder
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
-
-			return true;
-		}
-	}
-
-	/**
 	 * Method to set the home property for a list of items
 	 *
 	 * @return  void
