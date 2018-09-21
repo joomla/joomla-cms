@@ -13,7 +13,6 @@
 			name="title" 
 			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge input-large-text"
 			size="40"
 			maxlength="100"
 			required="true"

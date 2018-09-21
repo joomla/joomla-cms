@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Search component helper.
  *
- * @since  1.5
+ * @since       1.5
+ *
+ * @deprecated  5.0 Use \Joomla\Component\Search\Administrator\Helper\SearchHelper instead
  */
 class SearchHelper extends \Joomla\Component\Search\Administrator\Helper\SearchHelper
 {

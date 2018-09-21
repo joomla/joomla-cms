@@ -6,12 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\View\Override;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a language override
@@ -66,7 +70,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check whether the cache has to be refreshed.
-		$cached_time = \JFactory::getApplication()->getUserState(
+		$cached_time = Factory::getApplication()->getUserState(
 			'com_languages.overrides.cachedtime.' . $this->state->get('filter.client') . '.' . $this->state->get('filter.language'),
 			0
 		);
@@ -77,8 +81,8 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add strings for translations in \Javascript.
-		\JText::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
-		\JText::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
+		Text::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+		Text::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -93,11 +97,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = ContentHelper::getActions('com_languages');
 
-		\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
+		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
 
 		$toolbarButtons = [];
 
@@ -113,21 +117,21 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2new', 'override.save2new'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->key))
 		{
-			\JToolbarHelper::cancel('override.cancel');
+			ToolbarHelper::cancel('override.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
 	}
 }

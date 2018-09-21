@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.path');
-
 /**
  * Joomla Platform HTML View Class
  *

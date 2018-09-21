@@ -19,7 +19,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 HTMLHelper::_('behavior.core');
 
-HTMLHelper::_('script', 'com_tags/tags-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_tags/tags-default.js', ['version' => 'auto', 'relative' => true]);
 
 // Get the user object.
 $user = Factory::getUser();

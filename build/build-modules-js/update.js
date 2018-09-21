@@ -21,6 +21,10 @@ const cleanVendors = () => {
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
   fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
+
+  // And here some assets from a PHP package
+  // @todo Move it the 'right way' (tm)
+  fsExtra.copySync(Path.join(rootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(rootPath, 'media/vendor/debugbar'));
 };
 
 // Copies all the files from a directory
@@ -183,6 +187,11 @@ const copyFiles = (options) => {
       let tinyXml = fs.readFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
       tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
       fs.writeFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
+
+      // Remove that sourcemap...
+      let tinyWrongMap = fs.readFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
+      tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
+      fs.writeFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;
@@ -206,6 +215,18 @@ const copyFiles = (options) => {
         const dest = Path.join(mediaVendorPath, vendorName);
         fsExtra.copySync(`${Path.join(rootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`, `${dest}/${options.settings.vendors[packageName].licenseFilename}`);
       }
+    }
+
+    // Joomla's hack to expose the chosen base classes so we can extend it ourselves (it was better than the
+    // many hacks we had before. But I'm still ashamed of myself.
+    if (packageName === 'chosen-js') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const chosenPath = `${dest}/${options.settings.vendors[packageName].js['chosen.jquery.js']}`;
+      let ChosenJs = fs.readFileSync(chosenPath, { encoding: 'UTF-8' });
+      ChosenJs = ChosenJs.replace('}).call(this);', '  document.AbstractChosen = AbstractChosen;\n' +
+          '  document.Chosen = Chosen;\n' +
+          '}).call(this);');
+      fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
     registry.vendors[vendorName] = registryItem;
@@ -280,7 +301,7 @@ const uglifyLegacyFiles = () => {
 					// Create the minified file
 					fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
 				}
-				if (file.match(/.css/) && !file.match(/.min.css/) && !file.match(/.css.map/) && !file.toLowerCase().match(/license/)) {
+				if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
 					console.log(`Processing: ${file}`);
 					// Create the minified file
 					fs.writeFileSync(

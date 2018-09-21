@@ -9,6 +9,7 @@
 namespace Joomla\CMS\Toolbar;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
@@ -19,7 +20,6 @@ use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
 
 /**
  * Enhance Toolbar class to add more pre-defined methods.

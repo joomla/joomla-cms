@@ -16,7 +16,6 @@
 			name="name"
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		 />
@@ -760,6 +759,7 @@
 				name="contact_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				extension="com_contact"
 				view="contact"
 				useglobal="true"

@@ -47,6 +47,11 @@ textarea {
 
   &:focus,
   &:-moz-focusring {
-    outline: auto 2px $focus-highlight-color;
+    outline: auto 2px var(--focus);
   }
+}
+// Break up text in cells to prevent overflow
+.break-word {
+  word-break: break-all;
+  word-wrap: break-word;
 }

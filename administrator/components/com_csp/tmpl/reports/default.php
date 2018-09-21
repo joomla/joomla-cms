@@ -58,13 +58,13 @@ $saveOrder = $listOrder == 'a.id';
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="articleList">
+					<table class="table" id="articleList">
 						<thead>
 							<tr>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="nowrap text-center">
+								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -82,7 +82,7 @@ $saveOrder = $listOrder == 'a.id';
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -114,7 +114,7 @@ $saveOrder = $listOrder == 'a.id';
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, JText::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
-									<td class="text-center d-none d-md-table-cell text-center">
+									<td class="text-center d-none d-md-table-cell">
 										<?php echo $item->id; ?>
 									</td>
 								</tr>

@@ -72,7 +72,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

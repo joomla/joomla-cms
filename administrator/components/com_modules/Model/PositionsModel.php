@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -234,7 +235,7 @@ class PositionsModel extends ListModel
 	/**
 	 * Method to get the total number of items.
 	 *
-	 * @return  int	The total number of items.
+	 * @return  integer  The total number of items.
 	 *
 	 * @since   1.6
 	 */

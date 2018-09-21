@@ -10,9 +10,9 @@ namespace Joomla\CMS\Event;
 
 defined('JPATH_PLATFORM') or die;
 
+use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
-use BadMethodCallException;
 
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,

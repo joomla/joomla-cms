@@ -6,12 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -54,6 +55,11 @@ class CategoriesModel extends ListModel
 				'path', 'a.path',
 				'tag',
 			);
+		}
+
+		if (Associations::isEnabled())
+		{
+			$config['filter_fields'][] = 'association';
 		}
 
 		parent::__construct($config, $factory);
@@ -333,7 +339,7 @@ class CategoriesModel extends ListModel
 
 		$componentObject = $this->bootComponent($component);
 
-		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
 			$assoc = true;
 
@@ -391,7 +397,7 @@ class CategoriesModel extends ListModel
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if ($component instanceof CategoriesServiceInterface)
+		if ($component instanceof CategoryServiceInterface)
 		{
 			$component->countItems($items, $section);
 		}

@@ -55,12 +55,15 @@ $params = $this->params;
 					<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
 				</dt>
 
-				<?php if ($params->get('show_parent_category') && !empty($item->parent_slug)) : ?>
+				<?php if ($params->get('show_parent_category') && !empty($item->parent_id)) : ?>
 					<dd>
 						<div class="parent-category-name">
 							<?php $title = $this->escape($item->parent_title); ?>
-							<?php if ($params->get('link_parent_category') && !empty($item->parent_slug)) : ?>
-								<?php $url = '<a href="' . Route::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+							<?php if ($params->get('link_parent_category') && !empty($item->parent_id)) : ?>
+								<?php $url = '<a href="' . Route::_(
+									ContentHelperRoute::getCategoryRoute($item->parent_id, $item->parent_language)
+									)
+									. '" itemprop="genre">' . $title . '</a>'; ?>
 								<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 							<?php else : ?>
 								<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
@@ -72,8 +75,11 @@ $params = $this->params;
 					<dd>
 						<div class="category-name">
 							<?php $title = $this->escape($item->category_title); ?>
-							<?php if ($params->get('link_category') && $item->catslug) : ?>
-								<?php $url = '<a href="' . Route::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+							<?php if ($params->get('link_category') && $item->catid) : ?>
+								<?php $url = '<a href="' . Route::_(
+									ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language)
+									)
+									. '" itemprop="genre">' . $title . '</a>'; ?>
 								<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 							<?php else : ?>
 								<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
@@ -141,12 +147,15 @@ $params = $this->params;
 				<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
 				<?php if ($info == 1) : ?>
-					<?php if ($params->get('show_parent_category') && !empty($item->parent_slug)) : ?>
+					<?php if ($params->get('show_parent_category') && !empty($item->parent_id)) : ?>
 						<dd>
 							<div class="parent-category-name">
 								<?php $title = $this->escape($item->parent_title); ?>
-								<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
-									<?php $url = '<a href="' . Route::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+								<?php if ($params->get('link_parent_category') && $item->parent_id) : ?>
+									<?php $url = '<a href="' . Route::_(
+										ContentHelperRoute::getCategoryRoute($item->parent_id, $item->parent_language)
+										)
+										. '" itemprop="genre">' . $title . '</a>'; ?>
 									<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 								<?php else : ?>
 									<?php echo JText::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
@@ -158,8 +167,11 @@ $params = $this->params;
 						<dd>
 							<div class="category-name">
 								<?php $title = $this->escape($item->category_title); ?>
-								<?php if ($params->get('link_category') && $item->catslug) : ?>
-									<?php $url = '<a href="' . Route::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '" itemprop="genre">' . $title . '</a>'; ?>
+								<?php if ($params->get('link_category') && $item->catid) : ?>
+									<?php $url = '<a href="' . Route::_(
+										ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language)
+										)
+										. '" itemprop="genre">' . $title . '</a>'; ?>
 									<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 								<?php else : ?>
 									<?php echo JText::sprintf('COM_CONTENT_CATEGORY', '<span itemprop="genre">' . $title . '</span>'); ?>
@@ -223,6 +235,6 @@ $params = $this->params;
 		</p>
 	<?php endif; ?>
 	<div class="com-content-archive__pagination">
-		<?php echo $this->pagination->getPagesLinks(); ?>		
+		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 </div>

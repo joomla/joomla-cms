@@ -32,13 +32,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col" class="nowrap">
+					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap">
+					<th scope="col" style="width:15%">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="text-center">
 						<?php echo Text::_('COM_SEARCH_HEADING_RESULTS'); ?>
 					</th>
 				</tr>
