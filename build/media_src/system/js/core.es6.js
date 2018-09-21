@@ -471,7 +471,7 @@ Joomla.Modal = {
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
-        titleWrapper = document.createElement('h4');
+        titleWrapper = document.createElement('h1');
         titleWrapper.className = 'alert-heading';
         titleWrapper.innerHTML = Joomla.JText._(type) ? Joomla.JText._(type) : type;
         messagesBox.appendChild(titleWrapper);
