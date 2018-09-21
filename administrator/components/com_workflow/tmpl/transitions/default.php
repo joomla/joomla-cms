@@ -131,40 +131,40 @@ if ($saveOrder)
 										<?php else : ?>
 											<?php 
 											if ($item->from_condition == Workflow::CONDITION_ARCHIVED):
-												$icon = "icon-archive";
-												$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_ARCHIVED');
+												$icon = 'icon-archive';
+												$condition = TEXT::_('JARCHIVED');
 											elseif ($item->from_condition == Workflow::CONDITION_TRASHED):
-												$icon = "icon-trash";
-												$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_TRASHED');
+												$icon = 'icon-trash';
+												$condition = TEXT::_('JTRASHED');
 											elseif ($item->from_condition == Workflow::CONDITION_PUBLISHED):
-												$icon = "icon-publish";
-												$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_PUBLISHED');
+												$icon = 'icon-publish';
+												$condition = TEXT::_('JPUBLISHED');
 											elseif ($item->from_condition == Workflow::CONDITION_UNPUBLISHED):
-												$icon = "icon-unpublish";
-												$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_UNPUBLISHED');
+												$icon = 'icon-unpublish';
+												$condition = TEXT::_('JUNPUBLISHED');
 											endif; ?>
 											<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-											<span class="sr-only"><?php echo $sr_only_text; ?></span>
+											<span class="sr-only"><?php echo TEXT::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 											<?php echo ' ' . $this->escape(Text::_($item->from_stage)); ?>
 										<?php endif; ?>
 									</td>
 									<td class="nowrap">
 										<?php 
 										if ($item->to_condition == Workflow::CONDITION_ARCHIVED):
-											$icon = "icon-archive";
-											$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_ARCHIVED');
+											$icon = 'icon-archive';
+											$condition = TEXT::_('JARCHIVED');
 										elseif ($item->to_condition == Workflow::CONDITION_TRASHED):
-											$icon = "icon-trash";
-											$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_TRASHED');;
+											$icon = 'icon-trash';
+											$condition = TEXT::_('JTRASHED');
 										elseif ($item->to_condition == Workflow::CONDITION_PUBLISHED):
-											$icon = "icon-publish";
-											$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_PUBLISHED');
+											$icon = 'icon-publish';
+											$condition = TEXT::_('JPUBLISHED');
 										elseif ($item->to_condition == Workflow::CONDITION_UNPUBLISHED):
-											$icon = "icon-unpublish";
-											$sr_only_text = TEXT::_('COM_WORKFLOW_TRANSITIONS_CONDITION_UNPUBLISHED');
+											$icon = 'icon-unpublish';
+											$condition = TEXT::_('JUNPUBLISHED');
 										endif; ?>
 										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo $sr_only_text; ?></span>
+										<span class="sr-only"><?php echo TEXT::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 										<?php echo ' ' . $this->escape(Text::_($item->to_stage)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
