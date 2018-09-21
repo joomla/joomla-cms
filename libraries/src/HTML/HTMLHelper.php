@@ -664,35 +664,15 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
-	 * @see     Browser
-	 * @since   1.5
-	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
+	 * @see   Browser
+	 * @since 1.5
 	 */
 	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($attribs))
-		{
-			Log::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-
-			// Old parameters.
-			$attribs                  = $argList[1] ?? array();
-			$options['relative']      = $argList[2] ?? false;
-			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? false;
-			$options['detectDebug']   = $argList[5] ?? true;
-		}
-		else
-		{
-			$options['relative']      = $options['relative'] ?? false;
-			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
-			$options['detectDebug']   = $options['detectDebug'] ?? true;
-		}
+		$options['relative']      = $options['relative'] ?? false;
+		$options['pathOnly']      = $options['pathOnly'] ?? false;
+		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
+		$options['detectDebug']   = $options['detectDebug'] ?? true;
 
 		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -736,37 +716,16 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
-	 * @see     HTMLHelper::stylesheet()
-	 * @since   1.5
-	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
+	 * @see   HTMLHelper::stylesheet()
+	 * @since 1.5
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($options))
-		{
-			Log::add('The script method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old parameters.
-			$options['framework']     = $argList[1] ?? false;
-			$options['relative']      = $argList[2] ?? false;
-			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? false;
-			$options['detectDebug']   = $argList[5] ?? true;
-		}
-		else
-		{
-			$options['framework']     = $options['framework'] ?? false;
-			$options['relative']      = $options['relative'] ?? false;
-			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
-			$options['detectDebug']   = $options['detectDebug'] ?? true;
-		}
+		$options['framework']     = $options['framework'] ?? false;
+		$options['relative']      = $options['relative'] ?? false;
+		$options['pathOnly']      = $options['pathOnly'] ?? false;
+		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
+		$options['detectDebug']   = $options['detectDebug'] ?? true;
 
 		// Include MooTools framework
 		if ($options['framework'])
