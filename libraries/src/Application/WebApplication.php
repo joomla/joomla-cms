@@ -14,8 +14,11 @@ use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
@@ -23,9 +26,6 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla! Web application.
@@ -371,7 +371,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 			$uri = Uri::getInstance($this->get('uri.request'));
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
 				$path = dirname($_SERVER['PHP_SELF']);

@@ -37,7 +37,8 @@ const fixVendors = () => {
         if (files.length) {
           files.forEach(
             (file) => {
-              if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
+              if (file.match(/\.js/) && !file.match(/LICENSE\.md/)) {
+              console.log(`Processing: ${file}`);
                 // Write the file
                 fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
               }

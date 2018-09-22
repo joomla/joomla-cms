@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "#__finder_logging" (
   "searchterm" character varying(255) NOT NULL DEFAULT '',
   "md5sum" character varying(32) NOT NULL DEFAULT '',
-  "query" bytes NOT NULL,
+  "query" bytea NOT NULL,
   "hits" integer NOT NULL DEFAULT 1,
   "results" integer NOT NULL DEFAULT 0,
   PRIMARY KEY ("md5sum")

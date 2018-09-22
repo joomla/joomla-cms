@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -63,7 +64,7 @@ class LinksModel extends ListModel
 
 		$query = $db->getQuery(true);
 
-		$query->delete('#__redirect_links')->where($db->qn('published') . '= 0');
+		$query->delete('#__redirect_links')->where($db->quoteName('published') . '= 0');
 
 		$db->setQuery($query);
 

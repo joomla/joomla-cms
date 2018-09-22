@@ -10,15 +10,15 @@ namespace Joomla\CMS\Captcha;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Event;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Captcha base object
@@ -169,7 +169,7 @@ class Captcha implements DispatcherAwareInterface
 
 		$result = $this->getDispatcher()->dispatch('onInit', $event);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results192
+		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
 		return $result['result'][0];
 	}
 

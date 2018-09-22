@@ -9,11 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Access\Access;
-use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**

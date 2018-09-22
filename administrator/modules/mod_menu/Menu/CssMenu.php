@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
@@ -31,27 +32,27 @@ class CssMenu
 	/**
 	 * The Menu tree object
 	 *
-	 * @var   Tree
+	 * @var    Tree
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $tree;
 
 	/**
 	 * The module options
 	 *
-	 * @var   Registry
+	 * @var    Registry
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $params;
 
 	/**
 	 * The menu bar state
 	 *
-	 * @var   bool
+	 * @var    bool
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $enabled;
 
@@ -163,7 +164,7 @@ class CssMenu
 	 * @param   array     $items   The menu items array
 	 * @param   Registry  $params  Module options
 	 *
-	 * @return  bool  Whether to show recovery menu
+	 * @return  boolean  Whether to show recovery menu
 	 *
 	 * @since   3.8.0
 	 */
@@ -318,6 +319,25 @@ class CssMenu
 				}
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+			}
+			elseif ($item->element === 'com_workflow')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$workflow = null;
+
+				if (isset($query['extension']))
+				{
+					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+				}
+
+				if (!$workflow)
+				{
+					continue;
+				}
+
+				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
 			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
 			{

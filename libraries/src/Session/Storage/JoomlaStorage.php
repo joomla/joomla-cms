@@ -10,10 +10,10 @@ namespace Joomla\CMS\Session\Storage;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
-use Joomla\CMS\Factory;
 
 /**
  * Service provider for the application's session dependency
@@ -63,7 +63,7 @@ class JoomlaStorage extends NativeStorage
 			'use_trans_sid' => 0,
 		];
 
-		if (!headers_sent())
+		if (!headers_sent() && !$this->isActive())
 		{
 			session_cache_limiter('none');
 		}
@@ -229,7 +229,7 @@ class JoomlaStorage extends NativeStorage
 	 */
 	protected function setCookieParams()
 	{
-		if (headers_sent())
+		if (headers_sent() || $this->isActive())
 		{
 			return;
 		}

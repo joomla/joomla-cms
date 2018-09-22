@@ -49,19 +49,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table" id="categoryList">
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" class="nowrap">
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -104,8 +104,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th scope="row">
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
-									<?php echo $this->escape($item->title); ?>
-								</a>
+									<?php echo $this->escape($item->title); ?></a>
+                                <span class="small" title="<?php echo $this->escape($item->path); ?>">
+									<?php if (empty($item->note)) : ?>
+										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php else : ?>
+										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+									<?php endif; ?>
+								</span>
 							</th>
 							<td class="small d-none d-md-table-cell">
 								<?php echo $this->escape($item->access_level); ?>

@@ -60,22 +60,22 @@ if (!empty($editor))
 			<table class="table table-sm">
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center nowrap">
+						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="nowrap">
+						<th scope="col" style="width:15%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -86,7 +86,6 @@ if (!empty($editor))
 					-2 => 'icon-trash',
 					0  => 'icon-unpublish',
 					1  => 'icon-publish',
-					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -117,7 +116,7 @@ if (!empty($editor))
 						<th scope="row">
 							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'
 								. ' data-id="' . $item->id . '"'
-								. ' data-title="' . $this->escape(addslashes($item->title)) . '"'
+								. ' data-title="' . $this->escape($item->title) . '"'
 								. ' data-cat-id="' . $this->escape($item->catid) . '"'
 								. ' data-uri="' . $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)) . '"'
 								. ' data-language="' . $this->escape($lang) . '"';
@@ -135,10 +134,10 @@ if (!empty($editor))
 						<td class="small">
 							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="nowrap small d-none d-md-table-cell">
+						<td class="small d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="nowrap small d-none d-md-table-cell">
+						<td class="small d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

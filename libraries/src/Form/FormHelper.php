@@ -11,8 +11,6 @@ namespace Joomla\CMS\Form;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
-use Joomla\String\Inflector;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
@@ -316,36 +314,13 @@ class FormHelper
 	 */
 	protected static function addPath($entity, $new = null)
 	{
+		if (!isset(self::$paths[$entity]))
+		{
+			self::$paths[$entity] = [];
+		}
+
 		// Reference to an array with paths for current entity
 		$paths = &self::$paths[$entity];
-
-		// Add the default entity's search path if not set.
-		if (empty($paths))
-		{
-			// While we support limited number of entities (form, field and rule) we can do simple pluralisation
-			$entityPlural = $entity . 's';
-
-			// Relying on "simple" plurals is deprecated, use the properly inflected plural form
-			$paths[] = __DIR__ . '/' . $entityPlural;
-
-			$inflectedPlural = Inflector::getInstance()->toPlural($entity);
-
-			if ($entityPlural !== $inflectedPlural)
-			{
-				Log::add(
-					sprintf(
-						'File paths for form entity type validations should be properly inflected as of 5.0.'
-							. ' The folder for entity type "%1$s" should be renamed from "%2$s" to "%3$s".',
-						$entity,
-						$entityPlural,
-						$inflectedPlural
-					),
-					Log::WARNING,
-					'deprecated'
-				);
-				$paths[] = __DIR__ . '/' . $inflectedPlural;
-			}
-		}
 
 		// Force the new path(s) to an array.
 		settype($new, 'array');
