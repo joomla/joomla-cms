@@ -118,7 +118,7 @@ div.modal.fade.in {
 }
 .modal-body {
 	overflow-y: auto;
-	max-height: 400px;
+	display: contents;
 	padding: 15px;
 }
 .modal-form {
