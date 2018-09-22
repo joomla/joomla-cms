@@ -21,7 +21,6 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();

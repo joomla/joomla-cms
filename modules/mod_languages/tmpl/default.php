@@ -15,10 +15,6 @@ use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 'relative' => true));
 
-if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
-{
-	HTMLHelper::_('formbehavior.chosen');
-}
 ?>
 <div class="mod-languages">
 <?php if ($headerText) : ?>

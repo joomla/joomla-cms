@@ -31,7 +31,7 @@
 
 		<field
 			name="assigned_cat_ids"
-			type="category"
+			type="categoryedit"
 			label="JCATEGORY"
 			extension="com_content"
 			multiple="true"

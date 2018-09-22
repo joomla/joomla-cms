@@ -187,7 +187,6 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
 			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new FileLayout instance and render the batch button
