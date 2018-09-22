@@ -217,6 +217,18 @@ const copyFiles = (options) => {
       }
     }
 
+    // Joomla's hack to expose the chosen base classes so we can extend it ourselves (it was better than the
+    // many hacks we had before. But I'm still ashamed of myself.
+    if (packageName === 'chosen-js') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const chosenPath = `${dest}/${options.settings.vendors[packageName].js['chosen.jquery.js']}`;
+      let ChosenJs = fs.readFileSync(chosenPath, { encoding: 'UTF-8' });
+      ChosenJs = ChosenJs.replace('}).call(this);', '  document.AbstractChosen = AbstractChosen;\n' +
+          '  document.Chosen = Chosen;\n' +
+          '}).call(this);');
+      fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
+    }
+
     registry.vendors[vendorName] = registryItem;
 
     // eslint-disable-next-line no-console
