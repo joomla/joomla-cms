@@ -626,6 +626,7 @@ class PlgActionlogJoomla extends JPlugin
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$context = $this->app->input->get('option');
+		$task    = $this->app->input->get->getCmd('task');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -638,6 +639,20 @@ class PlgActionlogJoomla extends JPlugin
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTERED';
 			$action             = 'register';
+
+			// Reset request
+			if ($task === 'reset.request')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST';
+				$action             = 'resetrequest';
+			}
+
+			// Reset complete
+			if ($task === 'reset.complete')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
+				$action             = 'resetcomplete';
+			}
 		}
 		elseif ($isnew)
 		{
@@ -931,5 +946,39 @@ class PlgActionlogJoomla extends JPlugin
 	protected function checkLoggable($extension)
 	{
 		return in_array($extension, $this->loggableExtensions);
+	}
+
+	/**
+	 * On after Remind username request
+	 *
+	 * Method is called after user request to remind their username.
+	 *
+	 * @param   array  $user  Holds the user data.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onUserAfterRemind($user)
+	{
+		$context = $this->app->input->get('option');
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$message = array(
+			'action'      => 'remind',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->name,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->name,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_REMIND', $context, $user->id);
 	}
 }
