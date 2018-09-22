@@ -44,6 +44,5 @@ endif;
     <?php endif; ?>
     data-sort="<?php echo $sort; ?>">
     <span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-    <span class="sr-only"><?php echo Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN'); ?></span>
+    <span class="sr-only"><?php echo Text::_('JGLOBAL_SORT_BY') . " " . Text::_($data->title); ?></span>
 </button>
-
