@@ -55,7 +55,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$domain = $this->createDomain('actionlog', 'Logged actions of the user');
+		$domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
 
 		$query = $this->db->getQuery(true)
 			->select('a.*, u.name')

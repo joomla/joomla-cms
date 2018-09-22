@@ -162,6 +162,7 @@ $doNotPackage = array(
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
 	'karma.conf.js',
 	'phpunit.xml.dist',
 	'stubs.php',

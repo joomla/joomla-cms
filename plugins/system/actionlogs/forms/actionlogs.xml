@@ -22,6 +22,7 @@
 				description="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS_DESC"
 				multiple="true"
 				validate="options"
+				showon="actionlogsNotify:1"
 			/>
 		</fields>
 	</fieldset>

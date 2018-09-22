@@ -50,11 +50,11 @@ class MenusViewMenutypes extends JViewLegacy
 				$tmp[JText::_($item->title)] = $item;
 			}
 
-			ksort($tmp);
+			uksort($tmp, 'strcasecmp');
 			$sortedTypes[JText::_($name)] = $tmp;
 		}
 
-		ksort($sortedTypes);
+		uksort($sortedTypes, 'strcasecmp');
 
 		$this->types = $sortedTypes;
 
