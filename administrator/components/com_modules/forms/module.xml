@@ -88,7 +88,7 @@
 
 		<field
 			name="position"
-			type="ModulesPosition"
+			type="ModulesPositionedit"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			default=""
 			maxlength="50"

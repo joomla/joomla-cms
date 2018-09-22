@@ -12,15 +12,15 @@ namespace Joomla\Component\Modules\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormField;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 /**
  * Modules Position field.
  *
  * @since  3.4.2
  */
-class ModulesPositionField extends FormField
+class ModulesPositionField extends ListField
 {
 	/**
 	 * The form field type.
@@ -31,34 +31,17 @@ class ModulesPositionField extends FormField
 	protected $type = 'ModulesPosition';
 
 	/**
-	 * Name of the layout being used to render the field
+	 * Method to get the field options.
 	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @return  array  The field option objects.
+	 *
+	 * @since   3.4.2
 	 */
-	protected $layout = 'joomla.form.field.modulesposition';
-
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getInput()
+	public function getOptions()
 	{
-		$data = $this->getLayoutData();
+		$clientId = Factory::getApplication()->input->get('client_id', 0, 'int');
+		$options  = ModulesHelper::getPositions($clientId);
 
-		$clientId  = Factory::getApplication()->input->get('client_id', 0, 'int');
-		$positions = HTMLHelper::_('modules.positions', $clientId, 1, $this->value);
-
-		$data['client']    = $clientId;
-		$data['positions'] = $positions;
-
-		$renderer = $this->getRenderer($this->layout);
-		$renderer->setComponent('com_modules');
-		$renderer->setClient(1);
-
-		return $renderer->render($data);
+		return array_merge(parent::getOptions(), $options);
 	}
 }
