@@ -192,6 +192,11 @@ class TagsModelTags extends JModelList
 			// Add the subquery to the main query
 			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
 		}
+		// Filter on the level.
+		elseif ($level = $this->getState('filter.level'))
+		{
+			$query->where('a.level <= ' . (int) $level);
+		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
