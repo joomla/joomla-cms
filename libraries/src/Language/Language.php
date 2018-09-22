@@ -192,7 +192,7 @@ class Language
 		$this->metadata = LanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
-		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
+		$this->loadOverride();
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
@@ -787,6 +787,28 @@ class Language
 		$this->paths[$extension][$fileName] = $result;
 
 		return $result;
+	}
+
+	/**
+	 * Loads the override strings
+	 *
+	 * @return  void
+	 *
+	 * @since   __deploy_version__
+	 */
+	protected function loadOverride()
+	{
+		$override = array();
+
+		if ($this->lang !== $this->default)
+		{
+			$override = $this->parse(JPATH_BASE . '/language/overrides/' . $this->default . '.override.ini');
+		}
+
+		$this->override = array_merge(
+			$override,
+			$this->parse(JPATH_BASE . '/language/overrides/' . $this->lang . '.override.ini')
+		);
 	}
 
 	/**
