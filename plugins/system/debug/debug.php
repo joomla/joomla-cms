@@ -13,7 +13,6 @@ use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
-use DebugBar\Storage\FileStorage;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -30,6 +29,7 @@ use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
 use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
+use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
  * Joomla! Debug plugin.
@@ -160,8 +160,10 @@ class PlgSystemDebug extends CMSPlugin
 
 		$this->db->setMonitor($this->queryMonitor);
 
+		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getClientId();
+
 		$this->debugBar = new DebugBar;
-		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
+		$this->debugBar->setStorage(new FileStorage($storagePath));
 
 		$this->setupLogging();
 	}
