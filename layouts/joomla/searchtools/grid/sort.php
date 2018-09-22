@@ -27,6 +27,11 @@ if ($data->order === $data->selected) :
 	$id = 'id="sorted"';
 endif;
 ?>
+<?php if (!empty($data->title)) : ?>
+    <span>
+        <?php echo Text::_($data->title); ?>
+    </span>
+<?php endif; ?>
 <button type="button" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
     <?php echo $id; ?>
     data-order="<?php echo $data->order; ?>" 
@@ -41,8 +46,4 @@ endif;
     <span class="<?php echo $icon; ?>" aria-hidden="true"></span>
     <span class="sr-only"><?php echo Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN'); ?></span>
 </button>
-<?php if (!empty($data->title)) : ?>
-    <span>
-        <?php echo Text::_($data->title); ?>
-    </span>
-<?php endif; ?>
+
