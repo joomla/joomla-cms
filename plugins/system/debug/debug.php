@@ -225,35 +225,6 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		// Only render for HTML output.
-		if (Factory::getDocument()->getType() !== 'html')
-		{
-			return;
-		}
-
-		if ('com_content' === $this->app->input->get('option') && 'debug' === $this->app->input->get('view'))
-		{
-			// Com_content debug view - @since 4.0
-			return;
-		}
-
-		// Capture output.
-		$contents = ob_get_contents();
-
-		if ($contents)
-		{
-			ob_end_clean();
-		}
-
-		// No debug for Safari and Chrome redirection.
-		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-			&& strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false)
-		{
-			echo $contents;
-
-			return;
-		}
-
 		// Load language.
 		$this->loadLanguage();
 
@@ -306,6 +277,40 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
+		// Only render for HTML output.
+		if (Factory::getDocument()->getType() !== 'html')
+		{
+			$this->debugBar->stackData();
+			return;
+		}
+
+		if ('com_content' === $this->app->input->get('option') && 'debug' === $this->app->input->get('view'))
+		{
+			$this->debugBar->stackData();
+
+			// Com_content debug view - @since 4.0
+			return;
+		}
+
+		// Capture output.
+		$contents = ob_get_contents();
+
+		if ($contents)
+		{
+			ob_end_clean();
+		}
+
+		// No debug for Safari and Chrome redirection.
+		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
+			&& strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false)
+		{
+			$this->debugBar->stackData();
+
+			echo $contents;
+
+			return;
+		}
+
 		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
 
 		echo str_replace('</body>', $debugBarRenderer->render() . '</body>', $contents);
@@ -320,6 +325,18 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAjaxDebug()
 	{
+		// Do not render if debugging or language debug is not enabled.
+		if (!JDEBUG && !$this->debugLang)
+		{
+			return '';
+		}
+
+		// User has to be authorised to see the debug information.
+		if (!$this->isAuthorisedDisplayDebug())
+		{
+			return '';
+		}
+
 		switch ($this->app->input->get('action'))
 		{
 			case 'openhandler':
