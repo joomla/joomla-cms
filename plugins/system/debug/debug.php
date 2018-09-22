@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
@@ -274,6 +275,8 @@ class PlgSystemDebug extends CMSPlugin
 
 		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
 		$openHandlerUrl   = JUri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
+		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
+
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
@@ -332,7 +335,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// User has to be authorised to see the debug information.
-		if (!$this->isAuthorisedDisplayDebug())
+		if (!$this->isAuthorisedDisplayDebug() || !Session::checkToken('request'))
 		{
 			return '';
 		}
