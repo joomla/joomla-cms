@@ -18,6 +18,7 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Filesystem\Stream;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
@@ -508,6 +509,7 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
@@ -686,7 +688,7 @@ abstract class Factory
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
-		$lang = Language::getInstance($locale, $debug);
+		$lang = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
 		return $lang;
 	}

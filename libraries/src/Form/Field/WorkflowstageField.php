@@ -123,7 +123,7 @@ class WorkflowstageField extends GroupedlistField
 		foreach ($stages as $stage)
 		{
 			// Using workflow ID to differentiate workflows having same title
-			$workflowStageKey = $stage->workflow_title . ' (' . $stage->workflow_id . ')';
+			$workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
 			if (!array_key_exists($workflowStageKey, $workflowStages))
 			{
