@@ -171,12 +171,6 @@ class TagsModelTags extends JModelList
 			->join('LEFT', '#__viewlevels AS ug on ug.id = a.access');
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
-		{
-			$query->where('a.level <= ' . (int) $level);
-		}
-
-		// Filter on the level.
 		$parentId = $this->getState('filter.parent_id');
 
 		if (!empty($parentId))
