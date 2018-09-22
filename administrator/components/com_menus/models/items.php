@@ -368,7 +368,7 @@ class MenusModelItems extends JModelList
 
 			if ($level)
 			{
-				$subQuery->where('sub.level <= this.level + ' . $level);
+				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
 			}
 
 			// Add the subquery to the main query
