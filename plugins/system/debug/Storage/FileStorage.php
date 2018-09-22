@@ -21,8 +21,8 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	/**
 	 * Saves collected data
 	 *
-	 * @param   string  $id
-	 * @param   string  $data
+	 * @param   string  $id    The log id
+	 * @param   string  $data  The log data
 	 *
 	 * @return  void
 	 *
@@ -43,7 +43,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	/**
 	 * Returns collected data with the specified id
 	 *
-	 * @param   string   $id
+	 * @param   string   $id  The log id
 	 *
 	 * @return  array
 	 *
@@ -60,9 +60,9 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	/**
 	 * Returns a metadata about collected data
 	 *
-	 * @param   array    $filters
-	 * @param   integer  $max
-	 * @param   integer  $offset
+	 * @param   array    $filters  Filtering options
+	 * @param   integer  $max      The limit, items per page
+	 * @param   integer  $offset   The offset
 	 *
 	 * @return  array
 	 *
@@ -84,9 +84,12 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		}
 
 		// Sort the files, newest first
-		usort($files, function ($a, $b) {
-			return $a['time'] < $b['time'];
-		});
+		usort(
+			$files,
+			function ($a, $b) {
+				return $a['time'] < $b['time'];
+			}
+		);
 
 		// Load the metadata and filter the results.
 		$results = array();
@@ -118,9 +121,10 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		return array_slice($results, $offset, $max);
 	}
 
-
 	/**
-	 * @param  string $id
+	 * Get a full path to the file
+	 *
+	 * @param   string $id  The log id
 	 *
 	 * @return string
 	 *
@@ -128,6 +132,6 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	 */
 	public function makeFilename($id)
 	{
-		return $this->dirname . basename($id). '.php';
+		return $this->dirname . basename($id) . '.php';
 	}
 }
