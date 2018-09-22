@@ -7,20 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Categories\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Administrator category HTML
  *
  * @since  3.2
  */
-abstract class JHtmlCategoriesAdministrator
+class AdministratorService
 {
 	/**
 	 * Render the list of associated items
@@ -31,9 +34,9 @@ abstract class JHtmlCategoriesAdministrator
 	 * @return  string   The language HTML
 	 *
 	 * @since   3.2
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
-	public static function association($catid, $extension = 'com_content')
+	public function association($catid, $extension = 'com_content')
 	{
 		// Defaults
 		$html = '';
@@ -61,9 +64,9 @@ abstract class JHtmlCategoriesAdministrator
 			{
 				$items = $db->loadObjectList('id');
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500, $e);
+				throw new \Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
@@ -81,7 +84,7 @@ abstract class JHtmlCategoriesAdministrator
 
 			HTMLHelper::_('bootstrap.popover');
 
-			$html = \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.associations', $items);
+			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;

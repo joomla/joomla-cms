@@ -123,7 +123,7 @@ if ($saveOrder && !empty($this->items))
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
-								<?php endif; ?>	
+								<?php endif; ?>
 								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
@@ -242,7 +242,7 @@ if ($saveOrder && !empty($this->items))
 									<?php if ($this->assoc) : ?>
 										<td class="d-none d-md-table-cell">
 											<?php if ($item->association) : ?>
-												<?php echo HTMLHelper::_('CategoriesAdministrator.association', $item->id, $extension); ?>
+												<?php echo HTMLHelper::_('categoriesadministrator.association', $item->id, $extension); ?>
 											<?php endif; ?>
 										</td>
 									<?php endif; ?>
