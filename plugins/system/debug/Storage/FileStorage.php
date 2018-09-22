@@ -43,7 +43,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	/**
 	 * Returns collected data with the specified id
 	 *
-	 * @param   string   $id  The log id
+	 * @param   string  $id  The log id
 	 *
 	 * @return  array
 	 *
@@ -124,7 +124,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	/**
 	 * Get a full path to the file
 	 *
-	 * @param   string $id  The log id
+	 * @param   string  $id  The log id
 	 *
 	 * @return string
 	 *
