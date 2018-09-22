@@ -30,6 +30,7 @@ class TagsModelTags extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
+				'parent_id', 'a.parent_id',
 				'title', 'a.title',
 				'alias', 'a.alias',
 				'published', 'a.published',
@@ -68,6 +69,9 @@ class TagsModelTags extends JModelList
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '');
 		$this->setState('filter.level', $level);
+
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', '');
+		$this->setState('filter.parent_id', $level);
 
 		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '');
 		$this->setState('filter.access', $access);
@@ -116,6 +120,7 @@ class TagsModelTags extends JModelList
 		$id .= ':' . $this->getState('filter.extension');
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . $this->getState('filter.parent_id');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.language');
@@ -141,7 +146,7 @@ class TagsModelTags extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+				'a.id, a.parent_id, a.title, a.alias, a.note, a.published, a.access' .
 					', a.checked_out, a.checked_out_time, a.created_user_id' .
 					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 					', a.language'
@@ -169,6 +174,29 @@ class TagsModelTags extends JModelList
 		if ($level = $this->getState('filter.level'))
 		{
 			$query->where('a.level <= ' . (int) $level);
+		}
+
+		// Filter on the level.
+		$parentId = $this->getState('filter.parent_id');
+
+		if (!empty($parentId))
+		{
+			$level = $this->getState('filter.level');
+
+			// Create a subquery for the sub-items list
+			$subQuery = $db->getQuery(true)
+				->select('sub.id')
+				->from('#__tags as sub')
+				->join('INNER', '#__tags as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
+				->where('this.id = ' . (int) $parentId);
+
+			if ($level)
+			{
+				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
+			}
+
+			// Add the subquery to the main query
+			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
 		}
 
 		// Filter by access level.
