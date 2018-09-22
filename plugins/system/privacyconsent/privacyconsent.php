@@ -356,6 +356,37 @@ class PlgSystemPrivacyconsent extends JPlugin
 			return;
 		}
 
+		// Check if the article exists in database
+		$query = $this->db->getQuery(true);
+		$query->select('id')
+			->from('#__content')
+			->where('id = ' . (int) $articleId);
+		$this->db->setQuery($query);
+
+		$article = (int) $this->db->loadResult();
+
+		// Check if the article is published
+		if ($article)
+		{
+			$this->db->setQuery($query);
+			$query = $this->db->getQuery(true);
+			$query->select('state')
+				->from('#__content')
+				->where('id = ' . (int) $articleId);
+			$this->db->setQuery($query);
+
+			$article_published = (int) $this->db->loadResult();
+
+			if ($article_published == 1)
+			{
+				$policy['article_published'] = true;
+			}
+		}
+		else
+		{
+			return;
+		}
+
 		$policy['published'] = true;
 		$policy['editLink']  = JRoute::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
 	}
