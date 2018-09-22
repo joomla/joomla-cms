@@ -91,7 +91,7 @@ $activeRequests = 0;
 							<?php else : ?>
 							<span class="label label-warning">
 								<span class="icon-warning" aria-hidden="true"></span>
-								<?php echo JText::_('JUNPUBLISHED'); ?>
+								<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 							</span>
 							<?php endif; ?>
 						</div>
@@ -102,12 +102,12 @@ $activeRequests = 0;
 									<small><a href="<?php echo $this->privacyPolicyInfo['editLink']; ?>"><?php echo JText::_('COM_PRIVACY_EDIT_PRIVACY_POLICY'); ?></a></small>
 								<?php endif; ?>
 							<?php elseif ($this->privacyPolicyInfo['published'] && !$this->privacyPolicyInfo['article_published']) : ?>
-								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_PRIVACY_POLICY_EXISTS_UNPUBLISHED'); ?></div>
+								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_PRIVACY_POLICY_PUBLISHED'); ?></div>
 								<?php if ($this->privacyPolicyInfo['editLink'] !== '') : ?>
 									<small><a href="<?php echo $this->privacyPolicyInfo['editLink']; ?>"><?php echo JText::_('COM_PRIVACY_EDIT_PRIVACY_POLICY'); ?></a></small>
 								<?php endif; ?>
 							<?php else : ?>
-								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_PRIVACY_POLICY_UNPUBLISHED'); ?></div>
+								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_PRIVACY_POLICY_PUBLISHED'); ?></div>
 							<?php endif; ?>
 						</div>
 					</div>
@@ -126,7 +126,7 @@ $activeRequests = 0;
 							<?php else : ?>
 							<span class="label label-warning">
 								<span class="icon-warning" aria-hidden="true"></span>
-								<?php echo JText::_('JUNPUBLISHED'); ?>
+								<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 							</span>
 							<?php endif; ?>
 						</div>
@@ -137,12 +137,12 @@ $activeRequests = 0;
 									<small><a href="<?php echo $this->requestFormPublished['link']; ?>"><?php echo $this->requestFormPublished['link']; ?></a></small>
 								<?php endif; ?>
 							<?php elseif (!$this->requestFormPublished['published'] && $this->requestFormPublished['exists']) : ?>
-								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_REQUEST_FORM_MENU_ITEM_EXISTS_UNPUBLISHED'); ?></div>
+								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_REQUEST_FORM_MENU_ITEM_PUBLISHED'); ?></div>
 								<?php if ($this->requestFormPublished['link'] !== '') : ?>
 									<small><a href="<?php echo $this->requestFormPublished['link']; ?>"><?php echo $this->requestFormPublished['link']; ?></a></small>
 								<?php endif; ?>
 							<?php else : ?>
-								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_REQUEST_FORM_MENU_ITEM_UNPUBLISHED'); ?></div>
+								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_REQUEST_FORM_MENU_ITEM_PUBLISHED'); ?></div>
 							<?php endif; ?>
 						</div>
 					</div>

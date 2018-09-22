@@ -335,7 +335,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Event to specify whether a privacy policy has been published.
 	 *
-	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published" and "editLink"
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "article_edit".
 	 *
 	 * @return  void
 	 *
