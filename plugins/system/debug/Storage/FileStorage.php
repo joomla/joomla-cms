@@ -27,7 +27,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 			mkdir($this->dirname, 0777, true);
 		}
 
-		$dataStr = '<?php die(); ?>#x#' . json_encode($data);
+		$dataStr = '<?php die(); ?>#(^-^)#' . json_encode($data);
 
 		file_put_contents($this->makeFilename($id), $dataStr);
 	}
@@ -40,9 +40,55 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	public function get($id)
 	{
 		$dataStr = file_get_contents($this->makeFilename($id));
-		$dataStr = str_replace('<?php die("Access Denied"); ?>#x#', '', $dataStr);
+		$dataStr = str_replace('<?php die(); ?>#(^-^)#', '', $dataStr);
 
 		return json_decode($dataStr, true);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function find(array $filters = array(), $max = 20, $offset = 0)
+	{
+		//Loop through all .json files and remember the modified time and id.
+		$files = array();
+		foreach (new \DirectoryIterator($this->dirname) as $file) {
+			if ($file->getExtension() == 'php') {
+				$files[] = array(
+					'time' => $file->getMTime(),
+					'id' => $file->getBasename('.php')
+				);
+			}
+		}
+
+		//Sort the files, newest first
+		usort($files, function ($a, $b) {
+			return $a['time'] < $b['time'];
+		});
+
+		//Load the metadata and filter the results.
+		$results = array();
+		$i = 0;
+		foreach ($files as $file) {
+			//When filter is empty, skip loading the offset
+			if ($i++ < $offset && empty($filters)) {
+				$results[] = null;
+				continue;
+			}
+			$data = $this->get($file['id']);
+			$meta = $data['__meta'];
+			unset($data);
+			if ($this->filter($meta, $filters)) {
+				$results[] = $meta;
+			}
+			if (count($results) >= ($max + $offset)) {
+				break;
+			}
+		}
+
+		return array_slice($results, $offset, $max);
 	}
 
 

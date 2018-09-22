@@ -13,6 +13,7 @@ use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
+use DebugBar\OpenHandler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -117,6 +118,14 @@ class PlgSystemDebug extends CMSPlugin
 	private $queryMonitor;
 
 	/**
+	 * AJAX marker
+	 *
+	 * @var   bool
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $isAjax = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe.
@@ -165,6 +174,9 @@ class PlgSystemDebug extends CMSPlugin
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($storagePath));
 
+		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
+			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
+
 		$this->setupLogging();
 	}
 
@@ -202,7 +214,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang)
+		if (!JDEBUG && !$this->debugLang || $this->isAjax)
 		{
 			return;
 		}
@@ -290,12 +302,33 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
-
+		$openHandlerUrl   = JUri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
+		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
 		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
 
 		echo str_replace('</body>', $debugBarRenderer->render() . '</body>', $contents);
+	}
+
+	/**
+	 * AJAX handler
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function onAjaxDebug()
+	{
+		switch ($this->app->input->get('action'))
+		{
+			case 'openhandler':
+				$handler = new OpenHandler($this->debugBar);
+				return $handler->handle($this->app->input->request->getArray(), false, false);
+				break;
+			default:
+				return '';
+		}
 	}
 
 	/**
