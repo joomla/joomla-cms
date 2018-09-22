@@ -65,6 +65,11 @@
         noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
         noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
         itemSelectText: Joomla.Text._('JGLOBAL_SELECT_PRESS_TO_SELECT', 'Press to select'),
+
+        // Redefine some classes
+        classNames: {
+          button: 'choices__button_joomla' // It is need because an original styling use unavailable Icon.svg file
+        }
       });
 
       // Collect an existing values, to avoid duplications
