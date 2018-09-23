@@ -24,6 +24,7 @@ $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 HTMLHelper::_('stylesheet', 'com_languages/overrider.css', array('version' => 'auto', 'relative' => true));
 
 HTMLHelper::_('behavior.core');
+HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['version' => 'auto', 'relative' => true]);
 ?>

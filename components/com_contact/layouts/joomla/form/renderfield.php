@@ -23,6 +23,7 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
+	HTMLHelper::_('jquery.framework');
 	HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
 }
 

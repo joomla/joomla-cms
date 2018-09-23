@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Workflow\Workflow;
 
 HTMLHelper::_('behavior.tooltip');
 HTMLHelper::_('behavior.multiselect');
@@ -56,7 +57,7 @@ if ($saveOrder)
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<td style="width:1%" class="text-center hidden-sm-down">
@@ -65,7 +66,7 @@ if ($saveOrder)
 								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="hidden-sm-down">
+								<th scope="col" style="width:20%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
@@ -74,7 +75,7 @@ if ($saveOrder)
 								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STAGE', 'to_stage', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-right hidden-sm-down">
+								<th scope="col" style="width:3%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -88,7 +89,7 @@ if ($saveOrder)
 								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin;								?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td class="order text-center hidden-sm-down">
+									<td class="order text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 										if (!$canChange)
@@ -126,18 +127,50 @@ if ($saveOrder)
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
-									<td class="text-center">
-									<?php if ($item->from_stage_id < 0) : ?>
-										<?php echo Text::_('JALL'); ?>
-									<?php else : ?>
-										<?php echo $this->escape(Text::_($item->from_stage)); ?>
-									<?php endif; ?>
+									<td class="nowrap">
+										<?php if ($item->from_stage_id < 0) : ?>
+											<?php echo Text::_('JALL'); ?>
+										<?php else : ?>
+											<?php 
+											if ($item->from_condition == Workflow::CONDITION_ARCHIVED):
+												$icon = 'icon-archive';
+												$condition = TEXT::_('JARCHIVED');
+											elseif ($item->from_condition == Workflow::CONDITION_TRASHED):
+												$icon = 'icon-trash';
+												$condition = TEXT::_('JTRASHED');
+											elseif ($item->from_condition == Workflow::CONDITION_PUBLISHED):
+												$icon = 'icon-publish';
+												$condition = TEXT::_('JPUBLISHED');
+											elseif ($item->from_condition == Workflow::CONDITION_UNPUBLISHED):
+												$icon = 'icon-unpublish';
+												$condition = TEXT::_('JUNPUBLISHED');
+											endif; ?>
+											<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+											<span class="sr-only"><?php echo TEXT::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
+											<?php echo ' ' . $this->escape(Text::_($item->from_stage)); ?>
+										<?php endif; ?>
 									</td>
-									<td class="text-center">
-										<?php echo $this->escape(Text::_($item->to_stage)); ?>
+									<td class="nowrap">
+										<?php 
+										if ($item->to_condition == Workflow::CONDITION_ARCHIVED):
+											$icon = 'icon-archive';
+											$condition = TEXT::_('JARCHIVED');
+										elseif ($item->to_condition == Workflow::CONDITION_TRASHED):
+											$icon = 'icon-trash';
+											$condition = TEXT::_('JTRASHED');
+										elseif ($item->to_condition == Workflow::CONDITION_PUBLISHED):
+											$icon = 'icon-publish';
+											$condition = TEXT::_('JPUBLISHED');
+										elseif ($item->to_condition == Workflow::CONDITION_UNPUBLISHED):
+											$icon = 'icon-unpublish';
+											$condition = TEXT::_('JUNPUBLISHED');
+										endif; ?>
+										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo TEXT::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
+										<?php echo ' ' . $this->escape(Text::_($item->to_stage)); ?>
 									</td>
-									<td class="text-right">
-										<?php echo $item->id; ?>
+									<td class="d-none d-md-table-cell">
+										<?php echo (int) $item->id; ?>
 									</td>
 								</tr>
 							<?php endforeach ?>
@@ -154,3 +187,4 @@ if ($saveOrder)
 			</div>
 		</div>
 	</div>
+</form>

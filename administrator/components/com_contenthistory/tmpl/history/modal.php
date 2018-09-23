@@ -18,6 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('jquery.framework');
 
 $input          = Factory::getApplication()->input;
 $field          = $input->getCmd('field');
