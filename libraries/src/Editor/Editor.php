@@ -198,9 +198,7 @@ class Editor implements DispatcherAwareInterface
 		$args['author'] = $author;
 		$args['params'] = $params;
 
-		$return = call_user_func_array(array($this->_editor, 'onDisplay'), $args);
-
-		return $return;
+		return call_user_func_array(array($this->_editor, 'onDisplay'), $args);
 	}
 
 	/**
