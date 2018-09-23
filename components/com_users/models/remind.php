@@ -193,6 +193,9 @@ class UsersModelRemind extends JModelForm
 			return false;
 		}
 
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onUserAfterRemind', array($user));
+
 		return true;
 	}
 }
