@@ -70,10 +70,10 @@ if ($saveOrder)
 								<th scope="col" style="width:10%" class="hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_CONDITION', 's.condition', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-right hidden-sm-down">
+								<th scope="col" style="width:1%" class="hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 's.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -114,7 +114,7 @@ if ($saveOrder)
 											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
 										</div>
 									</td>
-									<td class="text-center hidden-sm-down">
+									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
 									</td>
 									<th scope="row">
@@ -129,11 +129,23 @@ if ($saveOrder)
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
-									<td class="text-center">
+									<td class="nowrap">
+										<?php 
+											if ($item->condition == 'JARCHIVED'):
+												$icon = 'icon-archive';
+											elseif ($item->condition == 'JTRASHED'):
+												$icon = 'icon-trash';
+											elseif ($item->condition == 'JPUBLISHED'):
+												$icon = 'icon-publish';
+											elseif ($item->condition == 'JUNPUBLISHED'):
+												$icon = 'icon-unpublish';
+											endif; 
+										?>
+										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 										<?php echo Text::_($item->condition); ?>
 									</td>
-									<td class="text-right">
-										<?php echo $item->id; ?>
+									<td class="d-none d-md-table-cell">
+										<?php echo (int) $item->id; ?>
 									</td>
 								</tr>
 							<?php endforeach ?>
