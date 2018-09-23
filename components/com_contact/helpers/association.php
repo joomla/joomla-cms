@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Factory;
 
 JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
-JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
  * Contact Component Association Helper
  *
  * @since  3.0
  */
-abstract class ContactHelperAssociation extends CategoryHelperAssociation
+abstract class ContactHelperAssociation extends CategoryAssociationHelper
 {
 	/**
 	 * Method to get the associations for a given item
