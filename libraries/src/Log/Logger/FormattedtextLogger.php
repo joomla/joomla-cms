@@ -229,13 +229,7 @@ class FormattedtextLogger extends Logger
 			$line = str_replace('{' . $field . '}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
 		}
 
-		// Write the new entry to the file.
-		$line .= "\n";
-
-		if (!\JFile::append($this->path, $line))
-		{
-			throw new \RuntimeException('Cannot write to log file.');
-		}
+		return $line;
 	}
 
 	/**

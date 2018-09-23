@@ -34,7 +34,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			</div>
 			<div class="span8">
 				<?php if(isset($item->link)) : ?>
-					<a class="btn btn-info js-revert" href ="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
+					<a class="btn btn-info btn-small js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
 				<?php else : ?>
 					<?php echo $item->data; ?>
 				<?php endif; ?>

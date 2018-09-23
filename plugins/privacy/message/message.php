@@ -73,7 +73,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 */
 	private function createMessageDomain(JUser $user)
 	{
-		$domain = $this->createDomain('user message', 'Joomla! user message data');
+		$domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
