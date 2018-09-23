@@ -32,16 +32,18 @@ $saveOrder = ($listOrder == 't.ordering');
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<?php if (!empty($this->sidebar)) : ?>
+            <div id="j-sidebar-container" class="col-md-2">
+				<?php echo $this->sidebar; ?>
+            </div>
+		<?php endif; ?>
+        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 					// Search tools bar
@@ -67,10 +69,10 @@ if ($saveOrder)
 								<th scope="col" style="width:20%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STAGE', 'from_stage', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STAGE', 'to_stage', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:3%" class="d-none d-md-table-cell">
