@@ -47,7 +47,7 @@ class ModBannersHelper
 
 		if ($banners)
 		{
-			if ($params->get(robots_views_doimpress, 1) == 1 || !Browser::getInstance()->isRobot())
+			if ($params->get('robots_views_doimpress', 1) == 1 || !Browser::getInstance()->isRobot())
 			{
 				$model->impress();
 			}
