@@ -28,13 +28,13 @@ $customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 // Build field
 $attr = array(
 	'id'        => 'batch-position-id',
-	'list.attr' => 'class="chzn-custom-value" '
+	'list.attr' => 'class="chosen-custom-value" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
 		. 'data-no_results_text="' . Text::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 		. 'data-placeholder="' . Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
-HTMLHelper::_('formbehavior.chosen', '.chzn-custom-value');
+HTMLHelper::_('formbehavior.chosen', '.chosen-custom-value');
 ?>
 
 <p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>

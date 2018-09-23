@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Categories\Administrator\Helper;
 
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+defined('_JEXEC') or die;
 
 /**
  * Category Component Association Helper
  *
  * @since  3.0
  */
-abstract class CategoryHelperAssociation
+abstract class CategoryAssociationHelper
 {
 	public static $category_association = true;
 

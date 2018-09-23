@@ -16,7 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('jquery.framework');
 HTMLHelper::_('behavior.multiselect');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));

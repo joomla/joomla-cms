@@ -164,7 +164,6 @@ class MenuField extends FormField
 		$modalId = 'Item_' . $this->id;
 
 		// Add the modal field script to the document head.
-		HTMLHelper::_('jquery.framework');
 		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
