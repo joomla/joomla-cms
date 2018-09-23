@@ -27,7 +27,6 @@ abstract class JHtmlJGrid
 	 * @param   integer       $i               The row index
 	 * @param   string        $task            The task to fire
 	 * @param   string|array  $prefix          An optional task prefix or an array of options
-	 * @param   string        $text            An optional text to display [unused - @deprecated 4.0]
 	 * @param   string        $active_title    An optional active tooltip to display if $enable is true
 	 * @param   string        $inactive_title  An optional inactive tooltip to display if $enable is true
 	 * @param   boolean       $tip             An optional setting for tooltip
@@ -42,7 +41,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @since   1.6
 	 */
-	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
+	public static function action($i, $task, $prefix = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
 		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null)
 	{
 		if (is_array($prefix))
