@@ -62,7 +62,6 @@
 			type="transition"
 			component="com_content"
 			label="COM_CONTENT_TRANSITION"
-			class="advancedSelect"
 		>
 		</field>
 
