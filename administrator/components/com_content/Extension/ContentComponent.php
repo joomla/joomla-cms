@@ -37,8 +37,7 @@ use Joomla\CMS\Factory;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface,
-	AssociationServiceInterface, WorkflowServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface, WorkflowServiceInterface
 {
 	use CategoryServiceTrait;
 	use AssociationServiceTrait;
