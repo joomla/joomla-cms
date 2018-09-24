@@ -76,15 +76,6 @@ class HtmlView extends BaseHtmlView
 	protected $params;
 
 	/**
-	 * Clone of the $item property
-	 *
-	 * @var         object
-	 * @since       4.0.0
-	 * @deprecated  4.0
-	 */
-	protected $newsfeed;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -196,15 +187,12 @@ class HtmlView extends BaseHtmlView
 		// Get the current menu item
 		$params = $app->getParams();
 
-		// Get the newsfeed
-		$newsfeed = $item;
-
 		$params->merge($item->params);
 
 		try
 		{
 			$feed = new FeedFactory;
-			$this->rssDoc = $feed->getFeed($newsfeed->link);
+			$this->rssDoc = $feed->getFeed($item->link);
 		}
 		catch (\InvalidArgumentException $e)
 		{
@@ -231,10 +219,9 @@ class HtmlView extends BaseHtmlView
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params = $params;
-		$this->newsfeed = $newsfeed;
-		$this->state = $state;
-		$this->item = $item;
-		$this->user = $user;
+		$this->state  = $state;
+		$this->item   = $item;
+		$this->user   = $user;
 
 		if (!empty($msg))
 		{
