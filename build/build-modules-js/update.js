@@ -88,7 +88,7 @@ const copyFiles = (options) => {
     version: options.version,
     description: options.description,
     license: options.license,
-    vendors: {},
+    assets: {},
   };
 
   if (!fsExtra.existsSync(mediaVendorPath)) {
@@ -229,18 +229,18 @@ const copyFiles = (options) => {
       fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
-    registry.vendors[vendorName] = registryItem;
+    registry.assets[vendorName] = registryItem;
 
     // eslint-disable-next-line no-console
     console.log(`${packageName} was updated.`);
   }
 
   // Write assets registry
-  // fs.writeFileSync(
-  // Path.join(mediaVendorPath, 'joomla.asset.json'),
-  // JSON.stringify(registry, null, 2),
-  // {encoding: 'UTF-8'}
-  // );
+  fs.writeFileSync(
+    Path.join(mediaVendorPath, 'joomla.asset.json'),
+    JSON.stringify(registry, null, 2),
+    {encoding: 'UTF-8'}
+  );
 };
 
 const recreateMediaFolder = () => {
