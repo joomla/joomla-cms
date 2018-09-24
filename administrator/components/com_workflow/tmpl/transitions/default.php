@@ -131,7 +131,7 @@ if ($saveOrder)
 										<?php if ($item->from_stage_id < 0): ?>
 											<?php echo Text::_('JALL'); ?>
 										<?php else : ?>
-											<?php 
+											<?php
 											if ($item->from_condition == Workflow::CONDITION_ARCHIVED):
 												$icon = 'icon-archive';
 												$condition = Text::_('JARCHIVED');
@@ -151,7 +151,7 @@ if ($saveOrder)
 										<?php endif; ?>
 									</td>
 									<td class="nowrap">
-										<?php 
+										<?php
 										if ($item->to_condition == Workflow::CONDITION_ARCHIVED):
 											$icon = 'icon-archive';
 											$condition = Text::_('JARCHIVED');
