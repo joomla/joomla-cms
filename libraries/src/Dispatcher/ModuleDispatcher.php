@@ -11,13 +11,13 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 /**
- * Base class for a default Joomla Module Dispatcher
+ * Base class for a Joomla Module Dispatcher
  *
  * Executes the single entry file of a module.
  *
  * @since  __DEPLOY_VERSION__
  */
-class DefaultModuleDispatcher extends AbstractModuleDispatcher
+class ModuleDispatcher extends AbstractModuleDispatcher
 {
 	/**
 	 * Dispatches the dispatcher.

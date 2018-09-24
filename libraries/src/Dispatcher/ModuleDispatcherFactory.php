@@ -65,7 +65,7 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
 
 		if (!class_exists($className))
 		{
-			$className = '\\Joomla\\CMS\\Dispatcher\\DefaultModuleDispatcher';
+			$className = '\\Joomla\\CMS\\Dispatcher\\ModuleDispatcher';
 		}
 
 		return new $className($application, $input ?: $application->input, $module);
