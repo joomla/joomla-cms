@@ -71,6 +71,12 @@
           "awesomplete.min.js.map": "js/awesomplete.min.js.map",
           "awesomplete.css.map": "css/awesomplete.css.map"
         },
+        "assetsInfo": [
+          {
+            "js": ["awesomplete.min.js"],
+            "css": ["awesomplete.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
