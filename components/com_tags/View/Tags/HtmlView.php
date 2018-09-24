@@ -41,15 +41,6 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * UNUSED PROPERTY
-	 *
-	 * @var         array|null
-	 * @since       3.1
-	 * @deprecated  4.0
-	 */
-	protected $item;
-
-	/**
 	 * The pagination object
 	 *
 	 * @var    \Joomla\CMS\Pagination\Pagination
