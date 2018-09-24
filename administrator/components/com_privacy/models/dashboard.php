@@ -98,9 +98,8 @@ class PrivacyModelDashboard extends JModelLegacy
 			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
 		$db->setQuery($query);
 
-		$menuitemId = (int) $db->loadObjectList();
-
-		if ($menuitemId > 0)
+		// Check if the menu item exists in database
+		if ($db->loadResult())
 		{
 			$status['exists'] = true;
 		}

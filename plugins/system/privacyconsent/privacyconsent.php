@@ -335,7 +335,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Event to specify whether a privacy policy has been published.
 	 *
-	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "article_edit".
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "article_published".
 	 *
 	 * @return  void
 	 *
@@ -358,7 +358,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 		// Check if the article exists in database and is published
 		$query = $this->db->getQuery(true);
-		$query->select('id, state AS state')
+		$query->select('id, state')
 			->from('#__content')
 			->where('id = ' . (int) $articleId);
 		$this->db->setQuery($query);
@@ -366,11 +366,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$article = $this->db->loadObject();
 
 		// Check if the article exists
-		if ($article)
-		{
-			$policy['published'] = true;
-		}
-		else
+		if (!$article)
 		{
 			return;
 		}
@@ -381,6 +377,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			$policy['article_published'] = true;
 		}
 
+		$policy['published'] = true;
 		$policy['editLink']  = JRoute::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
 	}
 

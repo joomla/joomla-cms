@@ -79,20 +79,20 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->privacyPolicyInfo['published'] && $this->privacyPolicyInfo['article_published']) : ?>
-							<span class="label label-success">
-								<span class="icon-checkbox" aria-hidden="true"></span>
-								<?php echo JText::_('JPUBLISHED'); ?>
-							</span>
+								<span class="label label-success">
+									<span class="icon-checkbox" aria-hidden="true"></span>
+									<?php echo JText::_('JPUBLISHED'); ?>
+								</span>
 							<?php elseif ($this->privacyPolicyInfo['published'] && !$this->privacyPolicyInfo['article_published']) : ?>
 								<span class="label label-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo JText::_('JUNPUBLISHED'); ?>
 								</span>
 							<?php else : ?>
-							<span class="label label-warning">
-								<span class="icon-warning" aria-hidden="true"></span>
-								<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
-							</span>
+								<span class="label label-warning">
+									<span class="icon-warning" aria-hidden="true"></span>
+									<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
+								</span>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
@@ -105,20 +105,20 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->requestFormPublished['published'] && $this->requestFormPublished['exists']) : ?>
-							<span class="label label-success">
-								<span class="icon-checkbox" aria-hidden="true"></span>
-								<?php echo JText::_('JPUBLISHED'); ?>
-							</span>
+								<span class="label label-success">
+									<span class="icon-checkbox" aria-hidden="true"></span>
+									<?php echo JText::_('JPUBLISHED'); ?>
+								</span>
 							<?php elseif (!$this->requestFormPublished['published'] && $this->requestFormPublished['exists']) : ?>
 								<span class="label label-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo JText::_('JUNPUBLISHED'); ?>
 								</span>
 							<?php else : ?>
-							<span class="label label-warning">
-								<span class="icon-warning" aria-hidden="true"></span>
-								<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
-							</span>
+								<span class="label label-warning">
+									<span class="icon-warning" aria-hidden="true"></span>
+									<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
+								</span>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
@@ -131,15 +131,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->numberOfUrgentRequests === 0) : ?>
-							<span class="label label-success">
-								<span class="icon-checkbox" aria-hidden="true"></span>
-								<?php echo JText::_('JNONE'); ?>
-							</span>
+								<span class="label label-success">
+									<span class="icon-checkbox" aria-hidden="true"></span>
+									<?php echo JText::_('JNONE'); ?>
+								</span>
 							<?php else : ?>
-							<span class="label label-important">
-								<span class="icon-warning" aria-hidden="true"></span>
-								<?php echo JText::_('WARNING'); ?>
-							</span>
+								<span class="label label-important">
+									<span class="icon-warning" aria-hidden="true"></span>
+									<?php echo JText::_('WARNING'); ?>
+								</span>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
@@ -153,15 +153,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->sendMailEnabled) : ?>
-							<span class="label label-success">
-								<span class="icon-checkbox" aria-hidden="true"></span>
-								<?php echo JText::_('JENABLED'); ?>
-							</span>
+								<span class="label label-success">
+									<span class="icon-checkbox" aria-hidden="true"></span>
+									<?php echo JText::_('JENABLED'); ?>
+								</span>
 							<?php else : ?>
-							<span class="label label-important">
-								<span class="icon-warning" aria-hidden="true"></span>
-								<?php echo JText::_('JDISABLED'); ?>
-							</span>
+								<span class="label label-important">
+									<span class="icon-warning" aria-hidden="true"></span>
+									<?php echo JText::_('JDISABLED'); ?>
+								</span>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
