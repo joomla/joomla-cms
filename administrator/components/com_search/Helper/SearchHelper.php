@@ -126,34 +126,6 @@ class SearchHelper
 	}
 
 	/**
-	 * Logs a search term.
-	 *
-	 * @param   string  $search_term  The term being searched.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.
-	 */
-	public static function logSearch($search_term)
-	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated. Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		\Joomla\CMS\Helper\SearchHelper::logSearch($search_term, 'com_search');
-	}
-
-	/**
 	 * Prepares results from search for display.
 	 *
 	 * @param   string  $text        The source string.
