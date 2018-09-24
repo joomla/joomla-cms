@@ -73,6 +73,7 @@
 			multiple="true"
 			hint="JOPTION_SELECT_TAG"
 			mode="nested"
+			custom="false"
 			onchange="this.form.submit();"
 		/>
 

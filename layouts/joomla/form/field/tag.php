@@ -45,6 +45,9 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
+ * @var   boolean  $allowCustom     Flag, to allow add custom values
+ * @var   boolean  $remoteSearch    Flag, to enable remote search
+ * @var   integer  $minTermLength   Minimum length of the term to start searching
  */
 
 $html = array();
@@ -66,14 +69,18 @@ $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
 
-if (!$isNested)
+if ($allowCustom)
+{
+	$attr2 .= $allowCustom ? ' allow-custom' : '';
+	$attr2 .= $allowCustom ? ' new-item-prefix="#new#"' : '';
+}
+
+if ($remoteSearch)
 {
 	$attr2 .= ' remote-search';
 	$attr2 .= ' url="' . Uri::root(true) . '/index.php?option=com_tags&task=tags.searchAjax"';
 	$attr2 .= ' term-key="like"';
 	$attr2 .= ' min-term-length="' . $minTermLength .'"';
-	$attr2 .= $allowCustom ? ' allow-custom' : '';
-	$attr2 .= $allowCustom ? ' new-item-prefix="#new#"' : '';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).

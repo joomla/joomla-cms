@@ -79,11 +79,6 @@ class TagField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		$data['options']       = $this->getOptions();
-		$data['isNested']      = $this->isNested();
-		$data['allowCustom']   = $this->allowCustom();
-		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
-
 		if (!is_array($this->value) && !empty($this->value))
 		{
 			if ($this->value instanceof TagsHelper)
@@ -107,6 +102,12 @@ class TagField extends ListField
 			$data['value'] = $this->value;
 		}
 
+		$data['remoteSearch']  = $this->isRemoteSearch();
+		$data['options']       = $this->getOptions();
+		$data['isNested']      = $this->isNested();
+		$data['allowCustom']   = $this->allowCustom();
+		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
+
 		return $this->getRenderer($this->layout)->render($data);
 	}
 
@@ -122,6 +123,12 @@ class TagField extends ListField
 		$published = $this->element['published']?: array(0, 1);
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
+
+		// Return only basic options, everything else will be searched via AJAX
+		if ($this->isRemoteSearch() && !$this->value)
+		{
+			return parent::getOptions();
+		}
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -155,6 +162,12 @@ class TagField extends ListField
 		}
 
 		$query->where($db->quoteName('a.lft') . ' > 0');
+
+		// Preload only active values, everything else will be searched via AJAX
+		if ($this->isRemoteSearch() && $this->value)
+		{
+			$query->where('a.id IN (' . implode(',', $this->value) . ')');
+		}
 
 		// Filter on the published state
 		if (is_numeric($published))
@@ -263,11 +276,28 @@ class TagField extends ListField
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && (string) $this->element['custom'] === 'deny')
+		if ($this->element['custom'] && in_array((string) $this->element['custom'], array('0', 'false', 'deny')))
 		{
 			return false;
 		}
 
 		return Factory::getUser()->authorise('core.create', 'com_tags');
+	}
+
+	/**
+	 * Check whether need to enable AJAX search
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isRemoteSearch()
+	{
+		if ($this->element['remote-search'])
+		{
+			return !in_array((string) $this->element['remote-search'], array('0', 'false', ''));
+		}
+
+		return $this->comParams->get('tag_field_ajax_mode', 1) == 1;
 	}
 }
