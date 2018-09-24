@@ -161,7 +161,8 @@ class PlgSystemDebug extends CMSPlugin
 		$this->db->setMonitor($this->queryMonitor);
 
 		$this->debugBar = new DebugBar;
-		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
+
+		$this->setupStorage();
 
 		$this->setupLogging();
 	}
@@ -596,6 +597,28 @@ class PlgSystemDebug extends CMSPlugin
 					$this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
 					break;
 			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Setup the way debug information will be stored (or not).
+	 *
+	 * @return $this
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function setupStorage(): self
+	{
+		switch ($this->params->get('storage_type'))
+		{
+			case 'none':
+				// No storage
+				break;
+			case 'file':
+				$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
+				break;
 		}
 
 		return $this;

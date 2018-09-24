@@ -41,6 +41,16 @@
 				/>
 
 				<field
+					name="storage_type"
+					type="list"
+					label="PLG_DEBUG_FIELD_STORAGE_LABEL"
+					default="none"
+					>
+					<option value="none">PLG_DEBUG_FIELD_STORAGE_NONE</option>
+					<option value="file">PLG_DEBUG_FIELD_STORAGE_FILE</option>
+				</field>
+
+				<field
 					name="memory"
 					type="radio"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
