@@ -30,8 +30,7 @@ use Joomla\CMS\Factory;
  * @since  __DEPLOY_VERSION__
  */
 class ContactComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface,
-	AssociationServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface
 {
 	use CategoryServiceTrait;
 	use AssociationServiceTrait;
