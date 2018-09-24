@@ -8810,13 +8810,10 @@ ul.treeselect ul.dropdown-menu li {
 .pagination-toolbar a {
 	line-height: 26px;
 }
-.pull-right > .dropdown-menu {
-	left: auto;
-	right: 0;
-}
+.pull-right > .dropdown-menu,
 .dropdown-left {
-	right: 0;
 	left: auto;
+	right: 0;
 }
 .nav-filters hr {
 	margin: 5px 0;
