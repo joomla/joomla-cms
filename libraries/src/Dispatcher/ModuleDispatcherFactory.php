@@ -44,15 +44,15 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
 	/**
 	 * Creates a dispatcher.
 	 *
-	 * @param   CMSApplicationInterface  $application  The application
 	 * @param   \stdClass                $module       The module
+	 * @param   CMSApplicationInterface  $application  The application
 	 * @param   Input                    $input        The input object, defaults to the one in the application
 	 *
 	 * @return  DispatcherInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function createDispatcher(CMSApplicationInterface $application, \stdClass $module, Input $input = null): DispatcherInterface
+	public function createDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
 		$name = 'Site';
 

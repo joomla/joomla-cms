@@ -184,7 +184,7 @@ abstract class ModuleHelper
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
 
-		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($app, $module);
+		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
 
 		// Check if we have a dispatcher
 		if ($dispatcher)

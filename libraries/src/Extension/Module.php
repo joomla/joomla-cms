@@ -47,16 +47,16 @@ class Module implements ModuleInterface
 	/**
 	 * Returns the dispatcher for the given application, module and input.
 	 *
-	 * @param   CMSApplicationInterface  $application  The application
 	 * @param   \stdClass                $module       The module
+	 * @param   CMSApplicationInterface  $application  The application
 	 * @param   Input                    $input        The input object, defaults to the one in the application
 	 *
 	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application, \stdClass $module, Input $input = null): DispatcherInterface
+	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
-		return $this->dispatcherFactory->createDispatcher($application, $module, $input);
+		return $this->dispatcherFactory->createDispatcher($module, $application, $input);
 	}
 }
