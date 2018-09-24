@@ -13,14 +13,12 @@ defined('_JEXEC') or die;
  * Config Component Controller
  *
  * @since       1.5
- * @deprecated  4.0
  */
 class ConfigController extends JControllerLegacy
 {
 	/**
 	 * @var    string  The default view.
 	 * @since  1.6
-	 * @deprecated  4.0
 	 */
 	protected $default_view = 'application';
 
@@ -33,7 +31,6 @@ class ConfigController extends JControllerLegacy
 	 * @return  ConfigController  This object to support chaining.
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
