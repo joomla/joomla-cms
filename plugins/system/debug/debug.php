@@ -287,14 +287,6 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		if ('com_content' === $this->app->input->get('option') && 'debug' === $this->app->input->get('view'))
-		{
-			$this->debugBar->stackData();
-
-			// Com_content debug view - @since 4.0
-			return;
-		}
-
 		// Capture output.
 		$contents = ob_get_contents();
 

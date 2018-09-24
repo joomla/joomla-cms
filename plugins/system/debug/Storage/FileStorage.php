@@ -68,10 +68,10 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function find(array $filters = array(), $max = 20, $offset = 0)
+	public function find(array $filters = [], $max = 20, $offset = 0)
 	{
 		// Loop through all .php files and remember the modified time and id.
-		$files = array();
+		$files = [];
 		foreach (new \DirectoryIterator($this->dirname) as $file)
 		{
 			if ($file->getExtension() == 'php')
@@ -92,7 +92,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		);
 
 		// Load the metadata and filter the results.
-		$results = array();
+		$results = [];
 		$i = 0;
 		foreach ($files as $file)
 		{
