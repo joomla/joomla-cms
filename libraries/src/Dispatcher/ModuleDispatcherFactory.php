@@ -68,6 +68,6 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
 			$className = '\\Joomla\\CMS\\Dispatcher\\ModuleDispatcher';
 		}
 
-		return new $className($application, $input ?: $application->input, $module);
+		return new $className($module, $application, $input ?: $application->input);
 	}
 }

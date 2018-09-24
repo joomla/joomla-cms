@@ -33,13 +33,13 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	/**
 	 * Constructor for Dispatcher
 	 *
+	 * @param   \stdClass                $module  The module
 	 * @param   CMSApplicationInterface  $app     The application instance
 	 * @param   Input                    $input   The input instance
-	 * @param   \stdClass                $module  The module
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplicationInterface $app, Input $input, \stdClass $module)
+	public function __construct(\stdClass $module, CMSApplicationInterface $app, Input $input)
 	{
 		parent::__construct($app, $input);
 
