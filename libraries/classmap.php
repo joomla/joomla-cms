@@ -290,7 +290,6 @@ JLoader::registerAlias('JSession',                          '\\Joomla\\CMS\\Sess
 
 JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '5.0');
 JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '5.0');
-JLoader::registerAlias('JUserWrapperHelper',                '\\Joomla\\CMS\\User\\UserWrapper', '4.0');
 
 JLoader::registerAlias('JForm',                             '\\Joomla\\CMS\\Form\\Form', '5.0');
 JLoader::registerAlias('JFormField',                        '\\Joomla\\CMS\\Form\\FormField', '5.0');
