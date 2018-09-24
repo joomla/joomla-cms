@@ -128,25 +128,25 @@ if ($saveOrder)
 										<?php endif; ?>
 									</th>
 									<td class="nowrap">
-										<?php if ($item->from_stage_id < 0) : ?>
+										<?php if ($item->from_stage_id < 0): ?>
 											<?php echo Text::_('JALL'); ?>
 										<?php else : ?>
 											<?php 
 											if ($item->from_condition == Workflow::CONDITION_ARCHIVED):
 												$icon = 'icon-archive';
-												$condition = TEXT::_('JARCHIVED');
+												$condition = Text::_('JARCHIVED');
 											elseif ($item->from_condition == Workflow::CONDITION_TRASHED):
 												$icon = 'icon-trash';
-												$condition = TEXT::_('JTRASHED');
+												$condition = Text::_('JTRASHED');
 											elseif ($item->from_condition == Workflow::CONDITION_PUBLISHED):
 												$icon = 'icon-publish';
-												$condition = TEXT::_('JPUBLISHED');
+												$condition = Text::_('JPUBLISHED');
 											elseif ($item->from_condition == Workflow::CONDITION_UNPUBLISHED):
 												$icon = 'icon-unpublish';
-												$condition = TEXT::_('JUNPUBLISHED');
+												$condition = Text::_('JUNPUBLISHED');
 											endif; ?>
 											<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-											<span class="sr-only"><?php echo TEXT::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
+											<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 											<?php echo ' ' . $this->escape(Text::_($item->from_stage)); ?>
 										<?php endif; ?>
 									</td>
@@ -154,19 +154,19 @@ if ($saveOrder)
 										<?php 
 										if ($item->to_condition == Workflow::CONDITION_ARCHIVED):
 											$icon = 'icon-archive';
-											$condition = TEXT::_('JARCHIVED');
+											$condition = Text::_('JARCHIVED');
 										elseif ($item->to_condition == Workflow::CONDITION_TRASHED):
 											$icon = 'icon-trash';
-											$condition = TEXT::_('JTRASHED');
+											$condition = Text::_('JTRASHED');
 										elseif ($item->to_condition == Workflow::CONDITION_PUBLISHED):
 											$icon = 'icon-publish';
-											$condition = TEXT::_('JPUBLISHED');
+											$condition = Text::_('JPUBLISHED');
 										elseif ($item->to_condition == Workflow::CONDITION_UNPUBLISHED):
 											$icon = 'icon-unpublish';
-											$condition = TEXT::_('JUNPUBLISHED');
+											$condition = Text::_('JUNPUBLISHED');
 										endif; ?>
 										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo TEXT::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
+										<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 										<?php echo ' ' . $this->escape(Text::_($item->to_stage)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
