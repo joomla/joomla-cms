@@ -51,6 +51,12 @@ class PlgContentPagebreak extends JPlugin
 			return;
 		}
 
+		// Simple performance check to determine whether bot should process further.
+		if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false)
+		{
+			return true;
+		}
+
 		$style = $this->params->get('style', 'pages');
 
 		// Expression to search for.
@@ -69,17 +75,6 @@ class PlgContentPagebreak extends JPlugin
 		if ($print)
 		{
 			$row->text = preg_replace($regex, '<br />', $row->text);
-
-			return true;
-		}
-
-		// Simple performance check to determine whether bot should process further.
-		if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false)
-		{
-			if ($page > 0)
-			{
-				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
-			}
 
 			return true;
 		}
