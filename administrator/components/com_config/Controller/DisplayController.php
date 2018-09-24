@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController as BaseController;
 /**
  * Controller for global configuration
  *
- * @since       1.5
+ * @since  1.5
  */
 class DisplayController extends BaseController
 {
