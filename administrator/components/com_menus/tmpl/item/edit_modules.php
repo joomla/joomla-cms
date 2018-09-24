@@ -23,9 +23,6 @@ foreach ($this->levels as $key => $value)
 
 Factory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
 HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
-
-// TODO: Re-remove the jQuery dependency in the admin-item-edit_modules.js file:
-HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'com_menus/admin-item-edit_modules.min.js', array('version' => 'auto', 'relative' => true));
 
 // Set up the bootstrap modal that will be used for all module editors
