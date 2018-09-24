@@ -33,7 +33,7 @@ class ModBannersHelper
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
 		$keywords = explode(',', $document->getMetaData('keywords'));
-		$config = ComponentHelper::getParams('com_banners');
+		$config   = ComponentHelper::getParams('com_banners');
 
 		$model = JModelLegacy::getInstance('Banners', 'BannersModel', array('ignore_request' => true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));
