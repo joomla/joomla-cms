@@ -121,7 +121,7 @@
         "licenseFilename": "LICENSE"
       },
       "choices.js": {
-        "name": "choices.js",
+        "name": "choicesjs",
         "js": {
           "assets/scripts/dist/choices.js": "js/choices.js",
           "assets/scripts/dist/choices.min.js": "js/choices.min.js"

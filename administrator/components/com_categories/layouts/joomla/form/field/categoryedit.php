@@ -116,8 +116,8 @@ else
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-HTMLHelper::_('stylesheet', 'vendor/choices.js/choices.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'vendor/choices.js/choices.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/choicesjs/choices.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
