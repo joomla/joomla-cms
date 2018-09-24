@@ -76,7 +76,7 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 
 		if (!class_exists($className))
 		{
-			$className = '\\Joomla\\CMS\\Dispatcher\\ComponentDispatcher';
+			$className = ComponentDispatcher::class;
 		}
 
 		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
