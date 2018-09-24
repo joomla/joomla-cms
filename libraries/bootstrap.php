@@ -77,8 +77,3 @@ if (!interface_exists('JsonSerializable'))
 
 // Register the PasswordHash library.
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
-// Create class name aliases for the legacy application classes.
-// @deprecated  4.0
-JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
-JLoader::registerAlias('JSite', 'JApplicationSite');
