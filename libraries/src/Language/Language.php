@@ -1293,29 +1293,6 @@ class Language
 	}
 
 	/**
-	 * Set the language attributes to the given language.
-	 *
-	 * Once called, the language still needs to be loaded using Language::load().
-	 *
-	 * @param   string  $lang  Language code.
-	 *
-	 * @return  string  Previous value.
-	 *
-	 * @since   11.1
-	 * @deprecated  4.0 (CMS) - Instantiate a new Language object instead
-	 */
-	public function setLanguage($lang)
-	{
-		Log::add(__METHOD__ . ' is deprecated. Instantiate a new Language object instead.', Log::WARNING, 'deprecated');
-
-		$previous = $this->lang;
-		$this->lang = $lang;
-		$this->metadata = LanguageHelper::getMetadata($this->lang);
-
-		return $previous;
-	}
-
-	/**
 	 * Get the language locale based on current language.
 	 *
 	 * @return  array  The locale according to the language.
