@@ -73,7 +73,7 @@
 			description="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_DESCRIPTION"
 			class="btn-group btn-group-yesno"
 			default="1"
-		>
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
