@@ -287,7 +287,7 @@ class TagField extends ListField
 	/**
 	 * Check whether need to enable AJAX search
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
