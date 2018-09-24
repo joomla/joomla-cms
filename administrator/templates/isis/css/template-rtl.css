@@ -8814,6 +8814,10 @@ ul.treeselect ul.dropdown-menu li {
 	left: auto;
 	right: 0;
 }
+.dropdown-left {
+	right: 0;
+	left: auto;
+}
 .nav-filters hr {
 	margin: 5px 0;
 }
