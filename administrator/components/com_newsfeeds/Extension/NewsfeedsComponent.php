@@ -1,32 +1,37 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_banners
+ * @subpackage  com_newsfeeds
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Banners\Administrator\Extension;
+namespace Joomla\Component\Newsfeeds\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Association\AssociationServiceTrait;
+use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\Component\Banners\Administrator\Service\Html\Banner;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\Component\Newsfeeds\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
 /**
- * Component class for com_banners
+ * Component class for com_newsfeeds
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
-class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoryServiceInterface
+class NewsfeedsComponent extends MVCComponent implements
+	BootableExtensionInterface, CategoryServiceInterface, AssociationServiceInterface
 {
 	use CategoryServiceTrait;
+	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;
 
 	/**
@@ -40,38 +45,10 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('banner', new Banner);
-	}
-
-	/**
-	 * Returns the table for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getTableNameForSection(string $section = null)
-	{
-		return '#__banners';
-	}
-
-	/**
-	 * Returns the state column for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getStateColumnForSection(string $section = null)
-	{
-		return 'published';
+		$this->getRegistry()->register('newsfeedsadministrator', new AdministratorService);
 	}
 }
