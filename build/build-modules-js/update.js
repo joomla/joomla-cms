@@ -190,15 +190,7 @@ const copyFiles = (options) => {
         if (!vendor[type]) return;
 
         const dest = Path.join(mediaVendorPath, vendorName);
-        const files = copyFilesTo(vendor[type], modulePathRoot, dest, type);
-
-        // // Add to registry, in format suported by JHtml
-        // if (type === 'js' || type === 'css') {
-        //   registryItem[type] = [];
-        //   files.forEach((filePath) => {
-        //     registryItem[type].push(`vendor/${vendorName}/${Path.basename(filePath)}`);
-        //   });
-        // }
+        copyFilesTo(vendor[type], modulePathRoot, dest, type);
       });
 
       // Copy the license if exists
@@ -208,23 +200,6 @@ const copyFiles = (options) => {
         const dest = Path.join(mediaVendorPath, vendorName);
         fsExtra.copySync(`${Path.join(rootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`, `${dest}/${options.settings.vendors[packageName].licenseFilename}`);
       }
-    }
-
-    // Add Assets to registry, if any
-    if (vendor.assetsInfo && vendor.assetsInfo.length) {
-      vendor.assetsInfo.forEach((assetInfo) => {
-
-        const registryItem = {
-          package: packageName,
-          name:    assetInfo.name || vendorName,
-          version: moduleOptions.version,
-          dependencies: assetInfo.dependencies || [],
-          js:  assetInfo.js || [],
-          css: assetInfo.css || [],
-        };
-
-        registry.assets[registryItem.name] = registryItem;
-      });
     }
 
     // Joomla's hack to expose the chosen base classes so we can extend it ourselves (it was better than the
@@ -237,6 +212,30 @@ const copyFiles = (options) => {
           '  document.Chosen = Chosen;\n' +
           '}).call(this);');
       fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
+    }
+
+    // Add provided Assets to a registry, if any
+    if (vendor.provideAssets && vendor.provideAssets.length) {
+      vendor.provideAssets.forEach((assetInfo) => {
+
+        const registryItem = {
+          package: packageName,
+          name:    assetInfo.name || vendorName,
+          version: moduleOptions.version,
+          dependencies: assetInfo.dependencies || [],
+          js:  [],
+          css: [],
+        };
+
+        assetInfo.js && assetInfo.js.length && assetInfo.js.forEach((assetJS) => {
+          registryItem.js.push(`vendor/${vendorName}/${assetJS}`);
+        });
+        assetInfo.css && assetInfo.css.length && assetInfo.css.forEach((assetCSS) => {
+          registryItem.css.push(`vendor/${vendorName}/${assetCSS}`);
+        });
+
+        registry.assets[registryItem.name] = registryItem;
+      });
     }
 
     // eslint-disable-next-line no-console
@@ -326,8 +325,8 @@ const copyAssets = (options) => {
   Promise.resolve()
     // Copy a fresh version of the files
     .then(cleanVendors())
-    //
-    // // Copy a fresh version of the files
+
+    // Copy a fresh version of the files
     .then(recreateMediaFolder())
 
     // Copy a fresh version of the files

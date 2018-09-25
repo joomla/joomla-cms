@@ -71,8 +71,9 @@
           "awesomplete.min.js.map": "js/awesomplete.min.js.map",
           "awesomplete.css.map": "css/awesomplete.css.map"
         },
-        "assetsInfo": [
+        "provideAssets": [
           {
+            "name": null,
             "js": ["awesomplete.min.js"],
             "css": ["awesomplete.css"]
           }
@@ -119,6 +120,13 @@
           "dist/cropper.css": "css/cropper.css",
           "dist/cropper.min.css": "css/cropper.min.css"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["cropper.min.js"],
+            "css": ["cropper.min.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -128,6 +136,12 @@
           "dist/diff.js": "js/diff.js",
           "dist/diff.min.js": "js/diff.min.js"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["diff.js"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -141,6 +155,13 @@
           "dist/dragula.css": "css/dragula.css",
           "dist/dragula.min.css": "css/dragula.min.css"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["dragula.min.js"],
+            "css": ["dragula.min.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "license"
       },
@@ -151,6 +172,12 @@
           "dist/focus-visible.min.js": "js/focus-visible.min.js",
           "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["focus-visible.min.js"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
       },
@@ -165,6 +192,12 @@
           "scss": "scss",
           "fonts": "fonts"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "css": ["font-awesome.min.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": ""
       },
@@ -177,8 +210,11 @@
         "filesExtra": {
           "dist/jquery.min.map": "js/jquery.min.map"
         },
-        "include": [
-          "jquery-migrate"
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery.min.js"]
+          }
         ],
         "dependencies": [],
         "licenseFilename": "LICENSE.txt"
@@ -189,6 +225,13 @@
           "dist/jquery-migrate.js": "js/jquery-migrate.js",
           "dist/jquery-migrate.min.js": "js/jquery-migrate.min.js"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery-migrate.min.js"],
+            "dependencies": ["jquery"]
+          }
+        ],
         "dependencies": [
           "jquery"
         ],
@@ -246,6 +289,12 @@
         "js": {
           "punycode.js": "js/punycode.js"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["punycode.js"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE-MIT.txt"
       },
@@ -261,6 +310,14 @@
         "filesExtra": {
           "jquery.minicolors.png": "css/jquery.minicolors.png"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery.minicolors.min.j"],
+            "css": ["jquery.minicolors.css"],
+            "dependencies": ["jquery"]
+          }
+        ],
         "dependencies": [
           "jquery"
         ],
@@ -303,7 +360,15 @@
           "chosen.css": "css/chosen.css",
           "chosen-sprite.png": "css/chosen-sprite.png",
           "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["chosen.jquery.js"],
+            "css": ["chosen.css"],
+            "dependencies": ["jquery"]
+          }
+        ]
       }
     },
     "errorPages": {
