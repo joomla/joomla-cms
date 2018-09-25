@@ -7,20 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Newsfeeds\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Associations;
-
-JTable::addIncludePath(__DIR__ . '/../tables');
+use Joomla\Component\Newsfeeds\Site\Helper\AssociationHelper;
 
 /**
  * Content associations helper.
  *
  * @since  3.7.0
  */
-class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
+class AssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -61,7 +62,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 	 */
 	public function getAssociationsForItem($id = 0, $view = null)
 	{
-		return \NewsfeedsAssociationsHelper::getAssociations($id, $view);
+		return AssociationHelper::getAssociations($id, $view);
 	}
 
 	/**
