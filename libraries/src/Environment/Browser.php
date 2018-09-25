@@ -78,6 +78,8 @@ class Browser
 	protected $robots = array(
 		// The most common ones.
 		'Googlebot',
+		'AdsBot-Google',
+		'Mediapartners-Google',
 		'msnbot',
 		'bingbot',
 		'BingPreview',
