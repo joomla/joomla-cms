@@ -999,13 +999,13 @@ abstract class FormField
 			'onchange'       => $this->onchange,
 			'onclick'        => $this->onclick,
 			'pattern'        => $this->pattern,
-			'validationtext' => $this->validationtext,
 			'readonly'       => $this->readonly,
 			'repeat'         => $this->repeat,
 			'required'       => (bool) $this->required,
 			'size'           => $this->size,
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
+			'validationtext' => Text::_($this->validationtext),
 			'value'          => $this->value,
 		);
 	}
