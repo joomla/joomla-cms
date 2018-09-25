@@ -8811,7 +8811,7 @@ ul.treeselect ul.dropdown-menu li {
 	line-height: 26px;
 }
 .pull-right > .dropdown-menu,
-.dropdown-left {
+.dropdown-reverse {
 	left: auto;
 	right: 0;
 }
