@@ -95,7 +95,10 @@ class Browser
 		'cfetch',
 		'ConveraCrawler',
 		'DuckDuckBot',
+		'Exabot',
 		'ExtractorPro',
+		'facebookexternalhit',
+		'facebot',
 		'FAST-WebCrawler',
 		'FDSE robot',
 		'fido',
@@ -127,6 +130,7 @@ class Browser
 		'ViolaBot',
 		'webbandit',
 		'www.almaden.ibm.com/cs/crawler',
+		'www.sogou.com/docs/help/webmasters.htm',
 		'yandex.com/bots',
 		'ZyBorg',
 	);
