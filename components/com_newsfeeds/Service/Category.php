@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Newsfeeds\Site\Service;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 
 /**
- * Content Component Category Tree
+ * Newsfeed Component Category Tree
  *
  * @since  1.6
  */
-class NewsfeedsCategories extends Categories
+class Category extends Categories
 {
 	/**
 	 * Constructor
