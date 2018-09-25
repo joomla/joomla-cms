@@ -2,21 +2,15 @@
 
 /* Subhead */
 .subhead {
+	position: sticky;
+	top: 30px;
 	background: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
-	margin-bottom: 10px;
-	min-height: 51px;
-}
-
-.subhead-collapse {
 	margin-bottom: 19px;
-}
-
-.subhead-collapse.collapse {
-	height: auto;
-	overflow: visible;
+	min-height: 51px;
+	z-index: 100;
 }
 
 .btn-toolbar {

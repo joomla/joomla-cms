@@ -265,16 +265,14 @@ if ($this->params->get('linkColor'))
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
 		<span class="icon-wrench"></span></a>
-	<div class="subhead-collapse collapse" id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
-		<div class="subhead">
-			<div class="container-fluid">
-				<div id="container-collapse" class="container-collapse"></div>
-				<div class="row-fluid">
-					<div class="span12">
-						<!-- target for skip to content link -->
-						<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?></a>
-						<jdoc:include type="modules" name="toolbar" style="no" />
-					</div>
+	<div class="subhead">
+		<div class="container-fluid">
+			<div id="container-collapse" class="container-collapse"></div>
+			<div class="row-fluid">
+				<div class="span12">
+					<!-- target for skip to content link -->
+					<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?></a>
+					<jdoc:include type="modules" name="toolbar" style="no" />
 				</div>
 			</div>
 		</div>
