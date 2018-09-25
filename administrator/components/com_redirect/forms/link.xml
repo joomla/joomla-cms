@@ -16,7 +16,6 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_OLD_URL_LABEL"
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
-			class="input-xxlarge"
 			size="50"
 			required="true" 
 		/>
@@ -26,7 +25,6 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
-			class="input-xxlarge"
 			size="50"
 			required="true" 
 		/>
@@ -98,7 +96,6 @@
 			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
 			default="301"
-			class="input-xlarge"
 		/>
 	</fieldset>
 </form>

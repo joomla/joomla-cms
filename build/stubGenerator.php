@@ -48,6 +48,8 @@ ini_set('display_errors', 1);
  */
 class StubGenerator extends CliApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Entry point for CLI script
 	 *
@@ -57,6 +59,8 @@ class StubGenerator extends CliApplication
 	 */
 	public function doExecute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		$file = "<?php\n";
 
 		// Loop the aliases to generate the stubs data
@@ -94,5 +98,22 @@ PHP;
 	}
 }
 
-// Instantiate the application and execute it
-CliApplication::getInstance('StubGenerator')->execute();
+JFactory::getContainer()->share(
+	'StubGenerator',
+	function (\Joomla\DI\Container $container)
+	{
+		return new \StubGenerator(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+
+$app = JFactory::getContainer()->get('StubGenerator');
+JFactory::$application = $app;
+$app->execute();

@@ -10,6 +10,7 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\String\StringHelper;
 
@@ -296,13 +297,14 @@ class Language
 	 *
 	 * @return  Language  The Language object.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the language factory instead
 	 */
 	public static function getInstance($lang, $debug = false)
 	{
 		if (!isset(self::$languages[$lang . $debug]))
 		{
-			self::$languages[$lang . $debug] = new static($lang, $debug);
+			self::$languages[$lang . $debug] = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
 		}
 
 		return self::$languages[$lang . $debug];
@@ -352,15 +354,17 @@ class Language
 		{
 			if ($this->debug)
 			{
-				$caller = $this->getCallerInfo();
-				$caller['string'] = $string;
+				$info = [];
+				$info['trace'] = $this->getTrace();
+				$info['key'] = $key;
+				$info['string'] = $string;
 
 				if (!array_key_exists($key, $this->orphans))
 				{
 					$this->orphans[$key] = array();
 				}
 
-				$this->orphans[$key][] = $caller;
+				$this->orphans[$key][] = $info;
 
 				$string = '??' . $string . '??';
 			}
@@ -985,6 +989,18 @@ class Language
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Get a back trace.
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getTrace()
+	{
+		return \function_exists('debug_backtrace') ?  debug_backtrace() : [];
 	}
 
 	/**

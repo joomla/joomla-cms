@@ -212,15 +212,6 @@ class User extends CMSObject
 	protected $_errorMsg = null;
 
 	/**
-	 * UserWrapper object
-	 *
-	 * @var    UserWrapper
-	 * @since  3.4
-	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
-	 */
-	protected $userHelper = null;
-
-	/**
 	 * @var    array  User instances container.
 	 * @since  11.3
 	 */
@@ -229,20 +220,12 @@ class User extends CMSObject
 	/**
 	 * Constructor activating the default information of the language
 	 *
-	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
+	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($identifier = 0, UserWrapper $userHelper = null)
+	public function __construct($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new UserWrapper;
-		}
-
-		$this->userHelper = $userHelper;
-
 		// Create the user parameters object
 		$this->_params = new Registry;
 
@@ -264,24 +247,18 @@ class User extends CMSObject
 	/**
 	 * Returns the global User object, only creating it if it doesn't already exist.
 	 *
-	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
+	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
 	 * @return  User  The User object.
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($identifier = 0, UserWrapper $userHelper = null)
+	public static function getInstance($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new UserWrapper;
-		}
-
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			if (!$id = $userHelper->getUserId($identifier))
+			if (!$id = UserHelper::getUserId($identifier))
 			{
 				// If the $identifier doesn't match with any id, just return an empty User.
 				return new static;
@@ -302,7 +279,7 @@ class User extends CMSObject
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new static($id, $userHelper);
+			self::$instances[$id] = new static($id);
 		}
 
 		return self::$instances[$id];
@@ -604,7 +581,7 @@ class User extends CMSObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password'] = $this->userHelper->genRandomPassword();
+				$array['password']  = UserHelper::genRandomPassword();
 				$array['password2'] = $array['password'];
 			}
 
@@ -619,7 +596,7 @@ class User extends CMSObject
 
 			$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
-			$array['password'] = $this->userHelper->hashPassword($array['password']);
+			$array['password'] = UserHelper::hashPassword($array['password']);
 
 			// Set the registration timestamp
 			$this->set('registerDate', Factory::getDate()->toSql());
@@ -648,14 +625,14 @@ class User extends CMSObject
 				$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
 				// Check if the user is reusing the current password if required to reset their password
-				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
+				if ($this->requireReset == 1 && UserHelper::verifyPassword($this->password_clear, $this->password))
 				{
 					$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
 
-				$array['password'] = $this->userHelper->hashPassword($array['password']);
+				$array['password'] = UserHelper::hashPassword($array['password']);
 
 				// Reset the change password flag
 				$array['requireReset'] = 0;
@@ -921,8 +898,7 @@ class User extends CMSObject
 	public function __wakeup()
 	{
 		// Initialise some variables
-		$this->userHelper = new UserWrapper;
-		$this->_params    = new Registry;
+		$this->_params = new Registry;
 
 		// Load the user if it exists
 		if (!empty($this->id) && $this->load($this->id))

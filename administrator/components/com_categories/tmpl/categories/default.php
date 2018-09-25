@@ -24,7 +24,6 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 HTMLHelper::_('behavior.multiselect');
 
 
-$app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $extension = $this->escape($this->state->get('filter.extension'));
@@ -55,12 +54,12 @@ if ($saveOrder && !empty($this->items))
 ?>
 <form action="<?php echo Route::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) { ?>
+		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<?php } ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<?php endif; ?>
+		<div class="<?php echo (!empty($this->sidebar)) ? 'col-md-10' : 'col-md-12'; ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
@@ -124,7 +123,7 @@ if ($saveOrder && !empty($this->items))
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
-								<?php endif; ?>	
+								<?php endif; ?>
 								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
@@ -243,7 +242,7 @@ if ($saveOrder && !empty($this->items))
 									<?php if ($this->assoc) : ?>
 										<td class="d-none d-md-table-cell">
 											<?php if ($item->association) : ?>
-												<?php echo HTMLHelper::_('CategoriesAdministrator.association', $item->id, $extension); ?>
+												<?php echo HTMLHelper::_('categoriesadministrator.association', $item->id, $extension); ?>
 											<?php endif; ?>
 										</td>
 									<?php endif; ?>
