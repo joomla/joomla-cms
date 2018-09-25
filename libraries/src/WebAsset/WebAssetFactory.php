@@ -10,6 +10,8 @@ namespace Joomla\CMS\WebAsset;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 
 /**
@@ -56,6 +58,15 @@ class WebAssetFactory
 	protected $assets = array();
 
 	/**
+	 * Weight of the most heavier and active asset
+	 *
+	 * @var float
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $lastItemWeight = 1;
+
+	/**
 	 * Class constructor
 	 *
 	 * @since  __DEPLOY_VERSION__
@@ -86,6 +97,50 @@ class WebAssetFactory
 		}
 
 		return false;
+	}
+
+	/**
+	 * Search for all active assets.
+	 *
+	 * @return  WebAssetItem[]  Array with active assets
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getActiveAssets()
+	{
+		$assets = array_filter(
+			$this->assets,
+			function($asset)
+			{
+				return $asset->isActive();
+			}
+		);
+
+		// Order them by weight and return
+		return $this->sortByWeight($assets);
+	}
+
+	/**
+	 * Search for assets with specific state.
+	 *
+	 * @param   int  $state  Asset state
+	 *
+	 * @return  WebAssetItem[]  Array with active assets
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAssetsByState($state = WebAssetItem::ASSET_STATE_ACTIVE)
+	{
+		$assets = array_filter(
+			$this->assets,
+			function($asset) use ($state)
+			{
+				return $asset->getState() === $state;
+			}
+		);
+
+		// Order them by weight and return
+		return $this->sortByWeight($assets);
 	}
 
 	/**
@@ -124,6 +179,231 @@ class WebAssetFactory
 	}
 
 	/**
+	 * Change the asset State
+	 *
+	 * @param   string    $name   Asset name
+	 * @param   integer   $state  New state
+	 *
+	 * @return  self
+	 *
+	 * @throws  \RuntimeException if asset with given name does not exists
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAssetState($name, $state = WebAssetItem::ASSET_STATE_ACTIVE)
+	{
+		$asset = $this->getAsset($name);
+
+		if (!$asset)
+		{
+			throw new \RuntimeException('Asset "' . $name . '" do not exists');
+		}
+
+		// Asset already has the requested state
+		if ($asset->getState() === $state)
+		{
+			return $this;
+		}
+
+		// Change state
+		$asset->setState($state);
+
+		// Update last weight, to keep an order of enabled items
+		if ($asset->isActive())
+		{
+			$this->lastItemWeight = $this->lastItemWeight + 1;
+			$asset->setWeight($this->lastItemWeight);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Activate the Asset item
+	 *
+	 * @param $name
+	 *
+	 * @return self
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function enableAsset($name)
+	{
+		return $this->setAssetState($name, WebAssetItem::ASSET_STATE_ACTIVE);
+	}
+
+	/**
+	 * Deactivate the Asset item
+	 *
+	 * @param $name
+	 *
+	 * @return self
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function disableAsset($name)
+	{
+		return $this->setAssetState($name, WebAssetItem::ASSET_STATE_INACTIVE);
+	}
+
+	/**
+	 * Attach an active assets to the Document
+	 *
+	 * @param   HtmlDocument  $doc  Document for attach StyleSheet/JavaScript
+	 *
+	 * @return  self
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function attach(HtmlDocument $doc)
+	{
+		//$app = Factory::getApplication();
+
+		// Resolve Dependency
+		$this->resolveDependency();
+
+		// Trigger the event
+		//$app->triggerEvent('onBeforeAttachWebAsset', array($this));
+
+		// Attach an active assets do the document
+		$assets = $this->getActiveAssets();
+
+		var_dump($assets);
+
+		return $this;
+	}
+
+	/**
+	 * Resolve Dependency for just added assets
+	 *
+	 * @return  self
+	 *
+	 * @throws  \RuntimeException When Dependency cannot be resolved
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function resolveDependency()
+	{
+		$assets = $this->getAssetsByState(WebAssetItem::ASSET_STATE_ACTIVE);
+
+		foreach ($assets as $asset)
+		{
+			$this->resolveItemDependency($asset);
+			$asset->setState(WebAssetItem::ASSET_STATE_RESOLVED);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Resolve Dependency for given asset
+	 *
+	 * @param   WebAssetItem  $asset  Asset instance
+	 *
+	 * @return  self
+	 *
+	 * @throws  \RuntimeException When Dependency cannot be resolved
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function resolveItemDependency(WebAssetItem $asset)
+	{
+		foreach ($this->getDependenciesForAsset($asset) as $depItem)
+		{
+			$oldState = $depItem->isActive();
+
+			// Make active
+			if (!$oldState)
+			{
+				$depItem->setState(WebAssetItem::ASSET_STATE_DEPENDANCY);
+			}
+
+			// Calculate weight, make it a bit lighter
+			$depWeight   = $depItem->getWeight();
+			$assetWeight = $asset->getWeight();
+
+			$depWeight = $depWeight === 0 ? $this->lastItemWeight : $depWeight;
+			$weight    = $depWeight > $assetWeight ? $assetWeight : $depWeight;
+			$weight    = $weight - 0.01;
+
+			$depItem->setWeight($weight);
+
+			// Prevent duplicated work if Dependency already was activated
+			if (!$oldState)
+			{
+				$this->resolveItemDependency($depItem);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Return dependancy for Asset as array of AssetItem objects
+	 *
+	 * @param   WebAssetItem  $asset  Asset instance
+	 *
+	 * @return  WebAssetItem[]
+	 *
+	 * @throws  \RuntimeException When Dependency cannot be found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getDependenciesForAsset(WebAssetItem $asset)
+	{
+		$assets = array();
+
+		foreach ($asset->getDependencies() as $depName)
+		{
+			$dep = $this->getAsset($depName);
+
+			if (!$dep)
+			{
+				throw new \RuntimeException('Cannot find Dependency "' . $depName . '" for Asset "' . $asset->getName() . '"');
+			}
+
+			$assets[$depName] = $dep;
+		}
+
+		return $assets;
+	}
+
+	/**
+	 * Sort assets by it`s weight
+	 *
+	 * @param   WebAssetItem[]  $assets  Linked array of assets
+	 * @param   bool            $ask     Order direction: true for ASC and false for DESC
+	 *
+	 * @return  WebAssetItem[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function sortByWeight(array $assets, $ask = true)
+	{
+		uasort(
+			$assets,
+			function($a, $b) use ($ask)
+			{
+				if ($a->getWeight() === $b->getWeight())
+				{
+					return 0;
+				}
+
+				if ($ask)
+				{
+					return $a->getWeight() > $b->getWeight() ? 1 : -1;
+				}
+				else
+				{
+					return $a->getWeight() > $b->getWeight() ? -1 : 1;
+				}
+			}
+		);
+
+		return $assets;
+	}
+
+	/**
 	 * Prepare new Asset instance.
 	 *
 	 * @param   string  $name         Asset name
@@ -135,37 +415,7 @@ class WebAssetFactory
 	 */
 	public function createAsset($name, array $data = array())
 	{
-		$asset = new WebAssetItem($name, $data);
-
-//		if (!empty($info['js']))
-//		{
-//			$asset->setJs((array) $info['js']);
-//		}
-//
-//		if (!empty($info['css']))
-//		{
-//			$asset->setCss((array) $info['css']);
-//		}
-//
-//		if (!empty($info['dependency']))
-//		{
-//			$asset->setDependency((array) $info['dependency']);
-//		}
-//
-//		if (array_key_exists('versionAttach', $info))
-//		{
-//			$asset->versionAttach($info['versionAttach']);
-//		}
-//
-//		if (!empty($info['attribute']) && is_array($info['attribute']))
-//		{
-//			foreach ($info['attribute'] as $file => $attributes)
-//			{
-//				$asset->setAttributes($file, $attributes);
-//			}
-//		}
-
-		return $asset;
+		return new WebAssetItem($name, $data);
 	}
 
 	/**
