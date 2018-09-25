@@ -10,7 +10,7 @@ namespace Joomla\CMS\WebAsset;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 
@@ -249,26 +249,36 @@ class WebAssetFactory
 	/**
 	 * Attach an active assets to the Document
 	 *
-	 * @param   HtmlDocument  $doc  Document for attach StyleSheet/JavaScript
+	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
 	 *
 	 * @return  self
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function attach(HtmlDocument $doc)
+	public function attach(Document $doc)
 	{
-		//$app = Factory::getApplication();
+		$app = Factory::getApplication();
 
 		// Resolve Dependency
 		$this->resolveDependency();
 
 		// Trigger the event
-		//$app->triggerEvent('onBeforeAttachWebAsset', array($this));
+		$app->triggerEvent('onBeforeAttachWebAssets', array($this, $doc));
 
-		// Attach an active assets do the document
 		$assets = $this->getActiveAssets();
 
-		var_dump($assets);
+		// Presave existing Scripts, and attach them after requested assets.
+		$jsBackup = $doc->_scripts;
+		$doc->_scripts = array();
+
+		// Attach an active assets do the document
+		foreach ($assets as $asset)
+		{
+			$asset->attach($doc);
+		}
+
+		// Merge with previously added scripts
+		$doc->_scripts = array_replace($doc->_scripts, $jsBackup);
 
 		return $this;
 	}

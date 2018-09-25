@@ -8,6 +8,9 @@
 
 namespace Joomla\CMS\WebAsset;
 
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -252,5 +255,127 @@ class WebAssetItem
 	public function getWeight()
 	{
 		return $this->weight;
+	}
+
+	/**
+	 * Attach active asset to the Document
+	 *
+	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
+	 *
+	 * @return  self
+	 *
+	 * @throws  \RuntimeException If try attach inactive asset
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function attach(Document $doc)
+	{
+		if (!$this->isActive())
+		{
+			throw new RuntimeException('Incative Asset cannot be attached');
+		}
+
+		return $this->attachCSS($doc)->attachJS($doc);
+	}
+
+	/**
+	 * Attach StyleSheet files to the document
+	 *
+	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function attachCSS(Document $doc)
+	{
+		foreach ($this->css as $path)
+		{
+			$file    = $path;
+			$version = false;
+
+			if (!$this->isPathExternal($path))
+			{
+				// Get the file path
+				$file = HTMLHelper::_('stylesheet', $path, [
+						'pathOnly' => true,
+						'relative' => !$this->isPathAbsolute($path)
+					]
+				);
+				$version = 'auto';
+			}
+
+			if ($file)
+			{
+				$doc->addStyleSheet($file, ['version' => $version]);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Attach JavaScript files to the document
+	 *
+	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function attachJS(Document $doc)
+	{
+		foreach ($this->js as $path)
+		{
+			$file    = $path;
+			$version = false;
+
+			if (!$this->isPathExternal($path))
+			{
+				// Get the file path
+				$file = HTMLHelper::_('script', $path, [
+						'pathOnly' => true,
+						'relative' => !$this->isPathAbsolute($path)
+					]
+				);
+				$version = 'auto';
+			}
+
+			if ($file)
+			{
+				$doc->addScript($file, ['version' => $version]);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Check if the Path is External
+	 *
+	 * @param   string  $path  Path to test
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function isPathExternal($path)
+	{
+		return strpos($path, 'http') === 0 || strpos($path, '//') === 0;
+	}
+
+	/**
+	 * Check if the Path is relative to /media folder or absolute
+	 *
+	 * @param   string  $path  Path to test
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function isPathAbsolute($path)
+	{
+		// We have a full path or not
+		return is_file(JPATH_ROOT . '/' . $path);
 	}
 }
