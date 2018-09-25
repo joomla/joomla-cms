@@ -8561,15 +8561,20 @@ td.nowrap.has-context {
 	width: 45%;
 }
 .subhead {
-	position: sticky;
-	top: 30px;
 	background: #F0F0F0;
 	border-bottom: 1px solid #dedede;
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
-	margin-bottom: 19px;
+	margin-bottom: 10px;
 	min-height: 51px;
+}
+.subhead-collapse {
+	margin-bottom: 18px;
 	z-index: 100;
+}
+.subhead-collapse.collapse {
+	height: auto;
+	overflow: visible;
 }
 .btn-toolbar {
 	margin-bottom: 5px;
@@ -8593,6 +8598,12 @@ td.nowrap.has-context {
 		margin-right: -20px;
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+}
+@media (min-width: 768px) {
+	.subhead-collapse {
+		position: sticky;
+		top: 30px;
 	}
 }
 .subhead h1 {
