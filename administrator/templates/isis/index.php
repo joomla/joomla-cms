@@ -116,11 +116,11 @@ if ($displayHeader || !$statusFixed)
 	$offset = 30;
 }
 
-$stickyBar = 0;
+$stickyBar = '';
 
 if ($stickyToolbar)
 {
-	$stickyBar = 'true';
+	$stickyBar = ' sticky';
 }
 
 // Template color
@@ -265,7 +265,7 @@ if ($this->params->get('linkColor'))
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
 		<span class="icon-wrench"></span></a>
-	<div class="subhead-collapse collapse">
+	<div class="subhead-collapse collapse<?php echo $stickyBar; ?>">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>

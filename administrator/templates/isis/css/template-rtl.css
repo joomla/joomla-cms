@@ -8601,7 +8601,7 @@ td.nowrap.has-context {
 	}
 }
 @media (min-width: 768px) {
-	.subhead-collapse {
+	.subhead-collapse.sticky {
 		position: static;
 		position: sticky;
 		top: 30px;
