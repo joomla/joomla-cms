@@ -359,7 +359,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		// Check if the article exists in database and is published
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(array('id', 'state')))
-			->from('#__content')
+			->from($this->db->quoteName('#__content'))
 			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
 		$this->db->setQuery($query);
 

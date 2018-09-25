@@ -93,7 +93,7 @@ class PrivacyModelDashboard extends JModelLegacy
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
-			->from('#__menu')
+			->from($db->quoteName('#__menu'))
 			->where($db->quoteName('client_id') . ' = 0')
 			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
 		$db->setQuery($query);
