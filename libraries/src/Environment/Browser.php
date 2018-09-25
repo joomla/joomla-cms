@@ -92,6 +92,7 @@ class Browser
 		'BecomeBot',
 		'cfetch',
 		'ConveraCrawler',
+		'DuckDuckBot',
 		'ExtractorPro',
 		'FAST-WebCrawler',
 		'FDSE robot',
