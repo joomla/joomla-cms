@@ -357,10 +357,10 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Check if the article exists in database and is published
-		$query = $this->db->getQuery(true);
-		$query->select('id, state')
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'state')))
 			->from('#__content')
-			->where('id = ' . (int) $articleId);
+			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
 		$this->db->setQuery($query);
 
 		$article = $this->db->loadObject();
@@ -374,7 +374,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		// Check if the article is published
 		if ($article->state == 1)
 		{
-			$policy['article_published'] = true;
+			$policy['articlePublished'] = true;
 		}
 
 		$policy['published'] = true;

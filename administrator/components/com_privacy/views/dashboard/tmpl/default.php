@@ -78,12 +78,12 @@ $activeRequests = 0;
 					</div>
 					<div class="row-fluid">
 						<div class="span3">
-							<?php if ($this->privacyPolicyInfo['published'] && $this->privacyPolicyInfo['article_published']) : ?>
+							<?php if ($this->privacyPolicyInfo['published'] && $this->privacyPolicyInfo['articlePublished']) : ?>
 								<span class="label label-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo JText::_('JPUBLISHED'); ?>
 								</span>
-							<?php elseif ($this->privacyPolicyInfo['published'] && !$this->privacyPolicyInfo['article_published']) : ?>
+							<?php elseif ($this->privacyPolicyInfo['published'] && !$this->privacyPolicyInfo['articlePublished']) : ?>
 								<span class="label label-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo JText::_('JUNPUBLISHED'); ?>

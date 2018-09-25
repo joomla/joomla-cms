@@ -27,7 +27,7 @@ class PrivacyModelDashboard extends JModelLegacy
 	{
 		$policy = array(
 			'published'         => false,
-			'article_published' => false,
+			'articlePublished'  => false,
 			'editLink'          => '',
 		);
 
@@ -92,7 +92,7 @@ class PrivacyModelDashboard extends JModelLegacy
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('id')
+			->select($db->quoteName('id'))
 			->from('#__menu')
 			->where($db->quoteName('client_id') . ' = 0')
 			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
