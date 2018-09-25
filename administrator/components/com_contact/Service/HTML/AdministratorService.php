@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Contact\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
@@ -17,14 +19,12 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
-
 /**
  * Contact HTML helper class.
  *
  * @since  1.6
  */
-abstract class JHtmlContact
+class AdministratorService
 {
 	/**
 	 * Get the associated language flags
@@ -35,7 +35,7 @@ abstract class JHtmlContact
 	 *
 	 * @throws  Exception
 	 */
-	public static function association($contactid)
+	public function association($contactid)
 	{
 		// Defaults
 		$html = '';
@@ -67,9 +67,9 @@ abstract class JHtmlContact
 			{
 				$items = $db->loadObjectList('id');
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500, $e);
+				throw new \Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
@@ -106,7 +106,7 @@ abstract class JHtmlContact
 	 *
 	 * @since   1.6
 	 */
-	public static function featured($value = 0, $i, $canChange = true)
+	public function featured($value = 0, $i, $canChange = true)
 	{
 
 		// Array of image, task, title, action
