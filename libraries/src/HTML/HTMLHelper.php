@@ -74,7 +74,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  array  Contains lowercase key, prefix, file, function.
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	protected static function extract($key)
 	{
@@ -201,7 +202,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  boolean  True if the function is callable
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function register($key, callable $function)
 	{
@@ -232,7 +234,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  boolean  True if a set key is unset
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function unregister($key)
 	{
@@ -360,31 +363,6 @@ abstract class HTMLHelper
 		}
 
 		return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
-	}
-
-	/**
-	 * Include version with MD5SUM file in path.
-	 *
-	 * @param   string  $path  Folder name to search into (images, css, js, ...).
-	 *
-	 * @return  string  Query string to add.
-	 *
-	 * @since   3.7.0
-	 *
-	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
-	 */
-	protected static function getMd5Version($path)
-	{
-		$md5 = dirname($path) . '/MD5SUM';
-
-		if (file_exists($md5))
-		{
-			Log::add('Usage of MD5SUM files is deprecated, use version instead.', Log::WARNING, 'deprecated');
-
-			return '?' . file_get_contents($md5);
-		}
-
-		return '';
 	}
 
 	/**
@@ -1199,7 +1177,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  array  An array with directory elements
 	 *
-	 * @since   1.5
+	 * @since       1.5
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function addIncludePath($path = '')
 	{
@@ -1226,67 +1205,6 @@ abstract class HTMLHelper
 		}
 
 		return static::$includePaths;
-	}
-
-	/**
-	 * Internal method to get a JavaScript object notation string from an array
-	 *
-	 * @param   array  $array  The array to convert to JavaScript object notation
-	 *
-	 * @return  string  JavaScript object notation representation of the array
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0 Use `json_encode()` or `Joomla\Registry\Registry::toString('json')` instead
-	 */
-	public static function getJSObject(array $array = array())
-	{
-		Log::add(
-			__METHOD__ . " is deprecated. Use json_encode() or \\Joomla\\Registry\\Registry::toString('json') instead.",
-			Log::WARNING,
-			'deprecated'
-		);
-
-		$elements = array();
-
-		foreach ($array as $k => $v)
-		{
-			// Don't encode either of these types
-			if ($v === null || is_resource($v))
-			{
-				continue;
-			}
-
-			// Safely encode as a Javascript string
-			$key = json_encode((string) $k);
-
-			if (is_bool($v))
-			{
-				$elements[] = $key . ': ' . ($v ? 'true' : 'false');
-			}
-			elseif (is_numeric($v))
-			{
-				$elements[] = $key . ': ' . ($v + 0);
-			}
-			elseif (is_string($v))
-			{
-				if (strpos($v, '\\') === 0)
-				{
-					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
-					$elements[] = $key . ': ' . substr($v, 1);
-				}
-				else
-				{
-					// The safest way to insert a string
-					$elements[] = $key . ': ' . json_encode((string) $v);
-				}
-			}
-			else
-			{
-				$elements[] = $key . ': ' . static::getJSObject(is_object($v) ? get_object_vars($v) : $v);
-			}
-		}
-
-		return '{' . implode(',', $elements) . '}';
 	}
 
 	/**
