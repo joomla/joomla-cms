@@ -79,6 +79,8 @@ class Browser
 		// The most common ones.
 		'Googlebot',
 		'msnbot',
+		'bingbot',
+		'BingPreview',
 		'Slurp',
 		'Yahoo',
 		// The rest alphabetically.
