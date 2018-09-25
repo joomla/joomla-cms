@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Newsfeeds\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
@@ -16,14 +18,12 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
-
 /**
  * Utility class for creating HTML Grids.
  *
  * @since  1.5
  */
-class JHtmlNewsfeed
+class AdministratorService
 {
 	/**
 	 * Get the associated language flags
@@ -32,9 +32,9 @@ class JHtmlNewsfeed
 	 *
 	 * @return  string  The language HTML
 	 *
-	 * @throws  Exception  Throws a 500 Exception on Database failure
+	 * @throws  \Exception  Throws a 500 Exception on Database failure
 	 */
-	public static function association($newsfeedid)
+	public function association($newsfeedid)
 	{
 		// Defaults
 		$html = '';
@@ -66,9 +66,9 @@ class JHtmlNewsfeed
 			{
 				$items = $db->loadObjectList('id');
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500);
+				throw new \Exception($e->getMessage(), 500);
 			}
 
 			if ($items)
