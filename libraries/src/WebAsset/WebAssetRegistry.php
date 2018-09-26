@@ -42,6 +42,45 @@ class WebAssetRegistry
 	/**
 	 * Files with Asset info. File path should be relative.
 	 *
+	 * @example of data file:
+	 *
+	 * {
+	 *		"title" : "Example",
+	 *		"name"  : "com_example",
+	 *		"author": "Joomla! CMS",
+	 *		"assets": [
+	 *			{
+	 *				"name": "library1",
+	 *				"version": "3.5.0",
+	 *				"js": [
+	 *					"com_example/library1.min.js"
+	 *				]
+	 *			},
+	 *			{
+	 *				"name": "library2",
+	 *				"version": "3.5.0",
+	 *				"js": [
+	 *					"com_example/library2.min.js"
+	 *				],
+	 *				"css": [
+	 *					"com_example/library2.css"
+	 *				],
+	 *				"dependency": [
+	 *					"core",
+	 *					"library1"
+	 *				],
+	 *				"attribute": {
+	 *					"com_example/library2.min.js": {
+	 *						"attrname": "attrvalue"
+	 *					},
+	 *					"com_example/library2.css": {
+	 *						"media": "all"
+	 *					}
+	 *				}
+	 *			},
+	 *		]
+	 *	}
+	 *
 	 * @var    array
 	 *
 	 * @since  __DEPLOY_VERSION__
