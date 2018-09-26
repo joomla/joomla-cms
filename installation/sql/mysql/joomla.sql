@@ -1800,10 +1800,12 @@ CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
 -- Dumping data for table `#__update_sites_extensions`
 --
 
-INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALUES
-(1, 700),
-(2, 802),
-(3, 28);
+INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`)
+SELECT 1, `extension_id` FROM `#__extensions` WHERE `name` = 'files_joomla';
+INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`)
+SELECT 2, `extension_id` FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
+INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`)
+SELECT 3, `extension_id` FROM `#__extensions` WHERE `name` = 'com_joomlaupdate';
 
 -- --------------------------------------------------------
 
