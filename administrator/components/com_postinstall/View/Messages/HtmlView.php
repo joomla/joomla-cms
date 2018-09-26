@@ -11,7 +11,6 @@ namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 use Joomla\CMS\Language\Text;
@@ -41,11 +40,12 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
-		$this->eid = (int) $model->getState('eid', ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, 'int');
+		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
 
 		if (empty($this->eid))
 		{
-			$this->eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+			$this->eid = $this->joomlaFilesExtensionId;
 		}
 
 		$this->toolbar();

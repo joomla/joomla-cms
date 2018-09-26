@@ -119,7 +119,7 @@ class MessagesModel extends BaseDatabaseModel
 		);
 
 		// Add a forced extension filtering to the list
-		$eid = $this->getState('eid', ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
+		$eid = $this->getState('eid', $this->getJoomlaFilesExtensionId());
 		$query->where($db->quoteName('extension_id') . ' = ' . $db->quote($eid));
 
 		// Force filter only enabled messages
@@ -579,5 +579,17 @@ class MessagesModel extends BaseDatabaseModel
 		$db->insertObject($tableName, $options);
 
 		return $this;
+	}
+
+	/**
+	 * Returns the library extension ID.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getJoomlaFilesExtensionId()
+	{
+		return ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 	}
 }
