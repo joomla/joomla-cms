@@ -85,7 +85,7 @@ class WebAssetRegistry
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $dataFiles = array();
+	protected $dataFiles = [];
 
 	/**
 	 * Registry of available Assets
@@ -94,7 +94,7 @@ class WebAssetRegistry
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $assets = array();
+	protected $assets = [];
 
 	/**
 	 * Weight of the most heavier and active asset
@@ -308,7 +308,7 @@ class WebAssetRegistry
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
-		$doc->_scripts = array();
+		$doc->_scripts = [];
 
 		// Attach an active assets do the document
 		foreach ($assets as $asset)
@@ -400,7 +400,7 @@ class WebAssetRegistry
 	 */
 	protected function getDependenciesForAsset(WebAssetItem $asset)
 	{
-		$assets = array();
+		$assets = [];
 
 		foreach ($asset->getDependencies() as $depName)
 		{
@@ -462,7 +462,7 @@ class WebAssetRegistry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createAsset($name, array $data = array())
+	public function createAsset($name, array $data = [])
 	{
 		return new WebAssetItem($name, $data);
 	}
@@ -570,9 +570,9 @@ class WebAssetRegistry
 		}
 
 		// Keep source info
-		$assetSource = $data;
-		$assetSource['dataFile'] = $path;
-		unset($assetSource['assets']);
+		$assetSource = [
+			'dataFile' => $path,
+		];
 
 		// Prepare WebAssetItem instances
 		foreach ($data['assets'] as $item)

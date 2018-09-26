@@ -105,7 +105,7 @@ class WebAssetItem
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $js = array();
+	protected $js = [];
 
 	/**
 	 * List of StyleSheet files, ant it's attributes
@@ -114,7 +114,7 @@ class WebAssetItem
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $css = array();
+	protected $css = [];
 
 	/**
 	 * Asset dependencies
@@ -122,7 +122,16 @@ class WebAssetItem
 	 * @var    string[]
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $dependencies = array();
+	protected $dependencies = [];
+
+	/**
+	 * Internal use, to keep track of resolved paths
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $resolvePaths = [];
 
 	/**
 	 * Class constructor
@@ -132,7 +141,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($name, array $data = array())
+	public function __construct($name, array $data = [])
 	{
 		$this->name        = strtolower($name); // No fancy Camels or Elephants
 		$this->version     = !empty($data['version'])     ? $data['version']     : null;
@@ -254,6 +263,60 @@ class WebAssetItem
 	}
 
 	/**
+	 * Get CSS files
+	 *
+	 * @param   boolean   $resolvePath  Whether need to search for real path
+	 *
+	 * @return array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCSSFiles($resolvePath = true)
+	{
+		$files = $this->css;
+
+		if ($resolvePath)
+		{
+			foreach ($files as $path => $attr)
+			{
+				$resolved = $this->resolvePath($path, 'stylesheet');
+
+				$files[$path]['__isExternal'] = $resolved['external'];
+				$files[$path]['__fullPath']   = $resolved['fullPath'];
+			}
+		}
+
+		return $files;
+	}
+
+	/**
+	 * Get JS files
+	 *
+	 * @param   boolean   $resolvePath  Whether need to search for real path
+	 *
+	 * @return array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getJSFiles($resolvePath = true)
+	{
+		$files = $this->js;
+
+		if ($resolvePath)
+		{
+			foreach ($files as $path => $attr)
+			{
+				$resolved = $this->resolvePath($path, 'script');
+
+				$files[$path]['__isExternal'] = $resolved['external'];
+				$files[$path]['__fullPath']   = $resolved['fullPath'];
+			}
+		}
+
+		return $files;
+	}
+
+	/**
 	 * Attach active asset to the Document
 	 *
 	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
@@ -285,24 +348,15 @@ class WebAssetItem
 	 */
 	protected function attachCSS(Document $doc)
 	{
-		foreach ($this->css as $path => $attr)
+		foreach ($this->getCSSFiles(true) as $path => $attr)
 		{
-			$file    = $path;
-			$version = false;
-
-			if (!$this->isPathExternal($path))
+			if ($attr['__fullPath'])
 			{
-				// Get the file path
-				$file = HTMLHelper::_('stylesheet', $path, [
-						'pathOnly' => true,
-						'relative' => !$this->isPathAbsolute($path)
-					]
-				);
-				$version = 'auto';
-			}
+				$file    = $attr['__fullPath'];
+				$version = $attr['__isExternal'] ? false : 'auto';
 
-			if ($file)
-			{
+				unset($attr['__fullPath'], $attr['__isExternal']);
+
 				$doc->addStyleSheet($file, ['version' => $version], $attr);
 			}
 		}
@@ -321,29 +375,63 @@ class WebAssetItem
 	 */
 	protected function attachJS(Document $doc)
 	{
-		foreach ($this->js as $path => $attr)
+		foreach ($this->getJSFiles() as $path => $attr)
 		{
-			$file    = $path;
-			$version = false;
-
-			if (!$this->isPathExternal($path))
+			if ($attr['__fullPath'])
 			{
-				// Get the file path
-				$file = HTMLHelper::_('script', $path, [
-						'pathOnly' => true,
-						'relative' => !$this->isPathAbsolute($path)
-					]
-				);
-				$version = 'auto';
-			}
+				$file    = $attr['__fullPath'];
+				$version = $attr['__isExternal'] ? false : 'auto';
 
-			if ($file)
-			{
+				unset($attr['__fullPath'], $attr['__isExternal']);
+
 				$doc->addScript($file, ['version' => $version], $attr);
 			}
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Resolve path
+	 *
+	 * @param  string   $path  The path to resolve
+	 * @param  string   $type  The resolver method
+	 *
+	 * @return array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function resolvePath($path, $type)
+	{
+		if (!empty($this->resolvePaths[$path]))
+		{
+			return $this->resolvePaths[$path];
+		}
+
+		if ($type !== 'script' && $type !== 'stylesheet')
+		{
+			throw new \UnexpectedValueException('Unexpected [type], expected "script" or "stylesheet"');
+		}
+
+		$file     = $path;
+		$external = $this->isPathExternal($path);
+
+		if (!$external)
+		{
+			// Get the file path
+			$file = HTMLHelper::_($type, $path, [
+					'pathOnly' => true,
+					'relative' => !$this->isPathAbsolute($path)
+				]
+			);
+		}
+
+		$this->resolvePaths[$path] = [
+			'external' => $external,
+			'fullPath' => $file ? $file : false,
+		];
+
+		return $this->resolvePaths[$path];
 	}
 
 	/**
