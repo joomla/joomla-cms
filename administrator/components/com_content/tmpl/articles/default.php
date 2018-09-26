@@ -122,7 +122,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="articleList">
-						<caption id="<?php echo Text::_('COM_CONTENT_ARTICLES_CAPTION'); ?>" aria-live="polite" class="sr-only">
+						<caption id="<?php echo Text::_('COM_CONTENT_ARTICLES_CAPTION'); ?>" class="sr-only">
 							<?php echo Text::_('COM_CONTENT_ARTICLES_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
 							<span id="captionUpdated"></span>
 						</caption>
