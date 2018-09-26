@@ -3,45 +3,48 @@
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
-					name="showtime"
-					type="radio"
-					label="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_LABEL"
-					description="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					filter="integer"
-			>
+                name="showtime"
+                type="radio"
+                label="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_LABEL"
+                description="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_DESC"
+                class="btn-group btn-group-yesno"
+                default="0"
+                filter="integer"
+			    >
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+
 			<field
-					name="format"
-					type="text"
-					label="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_LABEL"
-					description="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_DESC"
+                name="format"
+                type="text"
+                label="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_LABEL"
+                description="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_DESC"
 			/>
+
 			<field
-					name="translateFormat"
-					type="radio"
-					label="PLG_FIELDS_CALENDAR_PARAMS_TRANSLATEFORMAT_LABEL"
-					description="PLG_FIELDS_CALENDAR_PARAMS_TRANSLATEFORMAT_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					filter="integer"
-					showon="format!:"
-			>
+                name="translateFormat"
+                type="radio"
+                label="PLG_FIELDS_CALENDAR_PARAMS_TRANSLATEFORMAT_LABEL"
+                description="PLG_FIELDS_CALENDAR_PARAMS_TRANSLATEFORMAT_DESC"
+                class="btn-group btn-group-yesno"
+                default="1"
+                filter="integer"
+                showon="format!:"
+			    >
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+
 			<field
-					name="filter"
-					type="list"
-					label="PLG_FIELDS_CALENDAR_PARAMS_FILTER_LABEL"
-					description="PLG_FIELDS_CALENDAR_PARAMS_FILTER_DESC"
-					class="advancedSelect"
-					default="USER_UTC"
-					filter="string"
-			>
+                name="filter"
+                type="list"
+                label="PLG_FIELDS_CALENDAR_PARAMS_FILTER_LABEL"
+                description="PLG_FIELDS_CALENDAR_PARAMS_FILTER_DESC"
+                class="advancedSelect"
+                default="USER_UTC"
+                filter="string"
+			    >
 				<option value="">JNONE</option>
 				<option value="USER_UTC">PLG_FIELDS_CALENDAR_USER_UTC</option>
 				<option value="SERVER_UTC">PLG_FIELDS_CALENDAR_SERVER_UTC</option>
