@@ -68,6 +68,12 @@ class PlgContentFields extends JPlugin
 		{
 			$item->introtext = $this->prepare($item->introtext, $context, $item);
 		}
+
+		// Prepare the full text
+		if (isset($item->fulltext))
+		{
+			$item->fulltext = $this->prepare($item->fulltext, $context, $item);
+		}
 	}
 
 	/**
