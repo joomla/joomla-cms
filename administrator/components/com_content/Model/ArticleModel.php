@@ -441,9 +441,13 @@ class ArticleModel extends AdminModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
+		$input = Factory::getApplication()->input;
+
 		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
+
+		$itrans = $input->get('publish_transitions', [], 'array');
 
 		// Include the plugins for the change of state event.
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
@@ -478,7 +482,10 @@ class ArticleModel extends AdminModel
 		{
 			if ($user->authorise('core.execute.transition', 'com_content.transition.' . $transition->id))
 			{
-				$items[$transition->item_id] = $transition->id;
+				if (!isset($itrans[$transition->item_id]) || $itrans[$transition->item_id] == $transition->id)
+				{
+					$items[$transition->item_id] = $transition->id;
+				}
 			}
 		}
 
