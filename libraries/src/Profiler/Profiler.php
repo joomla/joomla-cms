@@ -137,35 +137,6 @@ class Profiler
 	}
 
 	/**
-	 * Get the current time.
-	 *
-	 * @return  float The current time
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
-	 */
-	public static function getmicrotime()
-	{
-		list ($usec, $sec) = explode(' ', microtime());
-
-		return (float) $usec + (float) $sec;
-	}
-
-	/**
-	 * Get information about current memory usage.
-	 *
-	 * @return  integer  The memory usage
-	 *
-	 * @link    PHP_MANUAL#memory_get_usage
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's native memory_get_usage()
-	 */
-	public function getMemory()
-	{
-		return memory_get_usage();
-	}
-
-	/**
 	 * Get all profiler marks.
 	 *
 	 * Returns an array of all marks created since the Profiler object
