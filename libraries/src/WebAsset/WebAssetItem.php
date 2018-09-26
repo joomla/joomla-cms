@@ -30,7 +30,7 @@ class WebAssetItem
 	const ASSET_STATE_INACTIVE = 0;
 
 	/**
-	 * Mark active asset. Just loaded, but WITHOUT dependency resolved
+	 * Mark active asset. Just enabled, but WITHOUT dependency resolved
 	 *
 	 * @var    integer
 	 *
@@ -39,7 +39,7 @@ class WebAssetItem
 	const ASSET_STATE_ACTIVE = 1;
 
 	/**
-	 * Mark active asset. Loaded WITH all dependency
+	 * Mark active asset. Enabled WITH all dependency
 	 *
 	 * @var    integer
 	 *
@@ -48,7 +48,7 @@ class WebAssetItem
 	const ASSET_STATE_RESOLVED = 2;
 
 	/**
-	 * Mark active asset that is loaded as Dependacy to another asset
+	 * Mark active asset that is enabled as dependency to another asset
 	 *
 	 * @var    integer
 	 *
@@ -99,17 +99,19 @@ class WebAssetItem
 	protected $assetSource;
 
 	/**
-	 * List of JavaScript files
+	 * List of JavaScript files, ant it's attributes.
+	 * The key is file path, the value is array of attributes.
 	 *
-	 * @var    string[]
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $js = array();
 
 	/**
-	 * List of StyleSheet files
+	 * List of StyleSheet files, ant it's attributes
+	 * The key is file path, the value is array of attributes.
 	 *
-	 * @var    string[]
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $css = array();
@@ -136,33 +138,27 @@ class WebAssetItem
 		$this->version     = !empty($data['version'])     ? $data['version']     : null;
 		$this->assetSource = !empty($data['assetSource']) ? $data['assetSource'] : null;
 
+		$attributes = empty($data['attribute']) ? [] : $data['attribute'];
+
+		// Check for Scripts and StyleSheets, and their attributes
 		if (!empty($data['js']))
 		{
-			$this->js = (array) $data['js'];
+			foreach ($data['js'] as $js) {
+				$this->js[$js] = empty($attributes[$js]) ? [] : $attributes[$js];
+			}
 		}
 
 		if (!empty($data['css']))
 		{
-			$this->css = (array) $data['css'];
+			foreach ($data['css'] as $css) {
+				$this->css[$css] = empty($attributes[$css]) ? [] : $attributes[$css];
+			}
 		}
 
 		if (!empty($data['dependencies']))
 		{
 			$this->dependencies = (array) $data['dependencies'];
 		}
-
-//		if (array_key_exists('versionAttach', $info))
-//		{
-//			$this->versionAttach($info['versionAttach']);
-//		}
-//
-//		if (!empty($info['attribute']) && is_array($info['attribute']))
-//		{
-//			foreach ($info['attribute'] as $file => $attributes)
-//			{
-//				$this->setAttributes($file, $attributes);
-//			}
-//		}
 	}
 
 	/**
@@ -272,7 +268,7 @@ class WebAssetItem
 	{
 		if (!$this->isActive())
 		{
-			throw new RuntimeException('Incative Asset cannot be attached');
+			throw new \RuntimeException('Incative Asset cannot be attached');
 		}
 
 		return $this->attachCSS($doc)->attachJS($doc);
@@ -289,7 +285,7 @@ class WebAssetItem
 	 */
 	protected function attachCSS(Document $doc)
 	{
-		foreach ($this->css as $path)
+		foreach ($this->css as $path => $attr)
 		{
 			$file    = $path;
 			$version = false;
@@ -307,7 +303,7 @@ class WebAssetItem
 
 			if ($file)
 			{
-				$doc->addStyleSheet($file, ['version' => $version]);
+				$doc->addStyleSheet($file, ['version' => $version], $attr);
 			}
 		}
 
@@ -325,7 +321,7 @@ class WebAssetItem
 	 */
 	protected function attachJS(Document $doc)
 	{
-		foreach ($this->js as $path)
+		foreach ($this->js as $path => $attr)
 		{
 			$file    = $path;
 			$version = false;
@@ -343,7 +339,7 @@ class WebAssetItem
 
 			if ($file)
 			{
-				$doc->addScript($file, ['version' => $version]);
+				$doc->addScript($file, ['version' => $version], $attr);
 			}
 		}
 

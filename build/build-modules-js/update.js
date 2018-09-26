@@ -225,13 +225,37 @@ const copyFiles = (options) => {
           dependencies: assetInfo.dependencies || [],
           js:  [],
           css: [],
+          attribute: {}
         };
 
+        // Update path for JS and CSS files
         assetInfo.js && assetInfo.js.length && assetInfo.js.forEach((assetJS) => {
-          registryItem.js.push(`vendor/${vendorName}/${assetJS}`);
+          let itemPath = assetJS;
+
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `vendor/${vendorName}/${itemPath}`;
+          }
+          registryItem.js.push(itemPath);
+
+          // Check if there any attribute to this file, then update the path
+          if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
+            registryItem.attribute[itemPath] = assetInfo.attribute[assetJS]
+          }
         });
         assetInfo.css && assetInfo.css.length && assetInfo.css.forEach((assetCSS) => {
-          registryItem.css.push(`vendor/${vendorName}/${assetCSS}`);
+          let itemPath = assetCSS;
+
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `vendor/${vendorName}/${itemPath}`;
+          }
+          registryItem.css.push(itemPath);
+
+          // Check if there any attribute to this file, then update the path
+          if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
+            registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS]
+          }
         });
 
         registry.assets[registryItem.name] = registryItem;

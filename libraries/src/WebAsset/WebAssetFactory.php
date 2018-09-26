@@ -267,7 +267,7 @@ class WebAssetFactory
 
 		$assets = $this->getActiveAssets();
 
-		// Presave existing Scripts, and attach them after requested assets.
+		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
 		$doc->_scripts = array();
 
