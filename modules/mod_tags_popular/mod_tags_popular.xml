@@ -67,6 +67,7 @@
 					>
 					<option value="title">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_TITLE</option>
 					<option value="count">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_COUNT</option>
+					<option value="lft">JGLOBAL_FIELD_FIELD_ORDERING_LABEL</option>
 					<option value="rand()">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_RANDOM</option>
 				</field>
 
