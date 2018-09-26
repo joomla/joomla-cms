@@ -14,6 +14,7 @@
 			type="workflowstage"
 			onchange="this.form.submit();"
 			activeonly="true"
+			extension="com_content"
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
@@ -126,7 +127,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

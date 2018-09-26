@@ -11,7 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -979,12 +979,12 @@ class FieldModel extends AdminModel
 			// Setting the context for the category field
 			$componentObject = $this->bootComponent($component);
 
-			if (!$componentObject instanceof CategoriesServiceInterface)
+			if (!$componentObject instanceof CategoryServiceInterface)
 			{
 				throw new SectionNotFoundException;
 			}
 
-			$cat = $componentObject->getCategories();
+			$cat = $componentObject->getCategory();
 
 			if ($cat->get('root')->hasChildren())
 			{
