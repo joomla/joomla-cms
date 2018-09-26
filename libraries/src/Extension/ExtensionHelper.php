@@ -300,7 +300,7 @@ class ExtensionHelper
 	/**
 	 * Returns an extension record for the given name.
 	 *
-	 * @param   string   $name  The extension name
+	 * @param   string  $name  The extension name
 	 *
 	 * @return  \stdClass  The object
 	 *
