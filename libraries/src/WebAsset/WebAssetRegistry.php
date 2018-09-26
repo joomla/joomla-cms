@@ -19,7 +19,7 @@ use Joomla\CMS\Filesystem\Path;
  *
  * @since  __DEPLOY_VERSION__
  */
-class WebAssetFactory
+class WebAssetRegistry
 {
 	/**
 	 * Mark the new data file
