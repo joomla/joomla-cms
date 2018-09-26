@@ -80,37 +80,6 @@ class CategoriesHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   string   $extension   The extension.
-	 * @param   integer  $categoryId  The category ID.
-	 *
-	 * @return  \JObject
-	 *
-	 * @since   1.6
-	 * @deprecated  3.2  Use ContentHelper::getActions() instead
-	 */
-	public static function getActions($extension, $categoryId = 0)
-	{
-		// Log usage of deprecated function
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return ContentHelper::getActions($extension, 'category', $categoryId);
-	}
-
-	/**
 	 * Gets a list of associations for a given item.
 	 *
 	 * @param   integer  $pk         Content item key.
