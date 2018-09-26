@@ -11,6 +11,7 @@ namespace Joomla\Component\Postinstall\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\CMS\Language\Text;
@@ -118,7 +119,7 @@ class MessagesModel extends BaseDatabaseModel
 		);
 
 		// Add a forced extension filtering to the list
-		$eid = $this->getState('eid', 700);
+		$eid = $this->getState('eid', ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
 		$query->where($db->quoteName('extension_id') . ' = ' . $db->quote($eid));
 
 		// Force filter only enabled messages

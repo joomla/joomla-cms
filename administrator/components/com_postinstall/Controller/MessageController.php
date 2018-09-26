@@ -11,6 +11,7 @@ namespace Joomla\Component\Postinstall\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
@@ -35,11 +36,11 @@ class MessageController extends BaseController
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
-		$eid = (int) $model->getState('eid', '700');
+		$eid = (int) $model->getState('eid', ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
 
 		if (empty($eid))
 		{
-			$eid = 700;
+			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 		}
 
 		$model->resetMessages($eid);
@@ -60,11 +61,11 @@ class MessageController extends BaseController
 
 		$id = $this->input->get('id');
 
-		$eid = (int) $model->getState('eid', '700');
+		$eid = (int) $model->getState('eid', ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
 
 		if (empty($eid))
 		{
-			$eid = 700;
+			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 		}
 
 		$model->setState('published', 0);
@@ -128,11 +129,11 @@ class MessageController extends BaseController
 	{
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = (int) $model->getState('eid', '700', 'int');
+		$eid = (int) $model->getState('eid', ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, 'int');
 
 		if (empty($eid))
 		{
-			$eid = 700;
+			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 		}
 
 		$model->hideMessages($eid);

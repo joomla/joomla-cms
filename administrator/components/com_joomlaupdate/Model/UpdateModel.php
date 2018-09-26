@@ -102,7 +102,7 @@ class UpdateModel extends BaseDatabaseModel
 				'INNER', $db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us')
 				. ' ON (' . 'us.update_site_id = map.update_site_id)'
 			)
-			->where('map.extension_id = ' . $db->quote(700));
+			->where('map.extension_id = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
 
@@ -116,7 +116,7 @@ class UpdateModel extends BaseDatabaseModel
 			// Remove cached updates.
 			$query->clear()
 				->delete($db->quoteName('#__updates'))
-				->where($db->quoteName('extension_id') . ' = ' . $db->quote('700'));
+				->where($db->quoteName('extension_id') . ' = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -153,11 +153,11 @@ class UpdateModel extends BaseDatabaseModel
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in Updater
-			$updater->findUpdates(700, $cache_timeout, Updater::STABILITY_STABLE, true);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, Updater::STABILITY_STABLE, true);
 		}
 		else
 		{
-			$updater->findUpdates(700, $cache_timeout, Updater::STABILITY_STABLE);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, Updater::STABILITY_STABLE);
 		}
 	}
 
@@ -188,7 +188,7 @@ class UpdateModel extends BaseDatabaseModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__updates'))
-			->where($db->quoteName('extension_id') . ' = ' . $db->quote(700));
+			->where($db->quoteName('extension_id') . ' = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
 
@@ -653,7 +653,7 @@ ENDDATA;
 		$installer->setOverwrite(true);
 
 		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
-		$installer->extension->load(700);
+		$installer->extension->load(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
 

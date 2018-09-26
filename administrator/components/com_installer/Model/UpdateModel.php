@@ -131,7 +131,7 @@ class UpdateModel extends ListModel
 		else
 		{
 			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
+				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		}
 
 		// Process search filter.
