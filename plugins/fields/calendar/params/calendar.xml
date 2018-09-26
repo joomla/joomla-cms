@@ -23,20 +23,6 @@
 			/>
 
 			<field
-                name="translateFormat"
-                type="radio"
-                label="PLG_FIELDS_CALENDAR_PARAMS_TRANSLATEFORMAT_LABEL"
-                description="PLG_FIELDS_CALENDAR_PARAMS_TRANSLATEFORMAT_DESC"
-                class="btn-group btn-group-yesno"
-                default="1"
-                filter="integer"
-                showon="format!:"
-			    >
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
                 name="filter"
                 type="list"
                 label="PLG_FIELDS_CALENDAR_PARAMS_FILTER_LABEL"
