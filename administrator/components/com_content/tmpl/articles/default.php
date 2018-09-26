@@ -73,6 +73,7 @@ $js = <<<JS
 })();
 
 // This script should be moved to searchtools.js
+// This updates the table caption to show what the table is sorted by
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
 		var sort = document.getElementById('sorted');
@@ -80,12 +81,13 @@ $js = <<<JS
 		if(sort.hasAttribute('data-caption')) {
 		// getAttribute() returns the value of a given attribute
 			var caption = sort.getAttribute('data-caption');
-			document.getElementById("captionUpdated").textContent += caption;
+			document.getElementById("captionTable").textContent += caption;
 		};
 	});
 })();
 
-// This script needs to bee converted to es6 fromm jquery
+// This script needs to be converted to es6 fromm jquery
+// this adds the aria-sort attribute on the TH
 jQuery(function ($) {
 	$('th').attr('aria-sort', function () {
 		return $(this).find('a').data('sort')
@@ -122,9 +124,8 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="articleList">
-						<caption id="<?php echo Text::_('COM_CONTENT_ARTICLES_CAPTION'); ?>" class="sr-only">
+						<caption id="captionTable" class="sr-only">
 							<?php echo Text::_('COM_CONTENT_ARTICLES_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
-							<span id="captionUpdated"></span>
 						</caption>
 						<thead>
 							<tr>

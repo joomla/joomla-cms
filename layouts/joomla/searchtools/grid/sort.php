@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 $data = $displayData;
 $icon = "icon-menu-2";
-$sort = "none";
+$sort = '';
 $caption = '';
 $selected = '';
 $id = '';
@@ -22,24 +22,28 @@ $id = '';
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
 	$sort = $data->direction === 'asc' ? 'ascending' : 'descending';
-	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : '';
+	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : Text::_('JGRID_HEADING_ID');
 	$selected = ' selected';
 	$id = 'id="sorted"';
 endif;
 ?>
-<?php if (!empty($data->title)) : ?>
-    <span>
-        <?php echo Text::_($data->title); ?>
-    </span>
-<?php endif; ?>
-<button type="button" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
+
+<a onclick="return false;" href="" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
     <?php echo $id; ?>
     data-order="<?php echo $data->order; ?>" 
-    data-direction="<?php echo strtoupper($data->direction); ?>" 
-    data-sort="<?php echo $sort; ?>">
+    data-direction="<?php echo strtoupper($data->direction); ?>"
+    data-caption="<?php echo $caption; ?>"
+    <?php if (!empty($sort)) : ?>
+        data-sort="<?php echo $sort; ?>
+    <?php endif; ?>">
+    <?php if (!empty($data->title)) : ?>
+        <span>
+            <?php echo Text::_($data->title); ?>
+        </span>
+    <?php endif; ?>
     <span class="<?php echo $icon; ?>" aria-hidden="true"></span>
     <span class="sr-only">
         <?php echo Text::_('JGLOBAL_SORT_BY'); ?>
         <?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
     </span>
-</button>
+</a>
