@@ -14,7 +14,7 @@
     const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
 
     Joomla.request({
-      url: `${options.ajaxUrl}&eid=700&cache_timeout=3600`,
+      url: options.ajaxUrl,
       method: 'GET',
       data: '',
       perform: true,

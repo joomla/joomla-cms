@@ -12,7 +12,7 @@
     if (Joomla.getOptions('js-extensions-update')) {
       const options = Joomla.getOptions('js-extensions-update');
       Joomla.request({
-        url: `${options.ajaxUrl}&eid=0&skip=700`,
+        url: options.ajaxUrl,
         method: 'GET',
         data: '',
         perform: true,
