@@ -53,7 +53,7 @@ class ContentModelArticle extends JModelItem
 
 		// If $pk is set then authorise on complete asset, else on component only
 		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
-		
+
 		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
 			$this->setState('filter.published', 1);
