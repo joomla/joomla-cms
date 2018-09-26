@@ -38,10 +38,12 @@ if ($saveOrder && !empty($this->items))
 ?>
 <form action="<?php echo Route::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<?php if (!empty($this->sidebar)) : ?>
+            <div id="j-sidebar-container" class="col-md-2">
+				<?php echo $this->sidebar; ?>
+            </div>
+		<?php endif; ?>
+        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
@@ -122,7 +124,7 @@ if ($saveOrder && !empty($this->items))
 								<td class="text-center">
 									<div class="btn-group">
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo HTMLHelper::_('contact.featured', $item->featured, $i, $canChange); ?>
+										<?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
 									</div>
 								</td>
 								<th scope="row" class="has-context">
@@ -157,7 +159,7 @@ if ($saveOrder && !empty($this->items))
 								<?php if ($assoc) : ?>
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->association) : ?>
-										<?php echo HTMLHelper::_('contact.association', $item->id); ?>
+										<?php echo HTMLHelper::_('contactadministrator.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
