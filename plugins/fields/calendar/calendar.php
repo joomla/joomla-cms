@@ -42,12 +42,12 @@ class PlgFieldsCalendar extends FieldsPlugin
 		$fieldNode->setAttribute('filter',  $field->fieldparams->get('filter', 'USER_UTC'));
 
 		// Set field to use translated formats
-		$translateFormat = 1;
+		$translateFormat = true;
 
 		// If user uses a custom format, we do not translate
 		if ($field->fieldparams->get('format', '') !== '')
 		{
-			$translateFormat = 0;
+			$translateFormat = false;
 		}
 
 		$fieldNode->setAttribute('translateformat', $translateFormat);
