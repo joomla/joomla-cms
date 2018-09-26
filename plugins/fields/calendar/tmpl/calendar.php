@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die;
 
 $value = $field->value;
@@ -21,6 +24,12 @@ if (is_array($value))
 	$value = implode(', ', $value);
 }
 
-$formatString =  $field->fieldparams->get('showtime', 0) ? 'DATE_FORMAT_LC5' : 'DATE_FORMAT_LC4';
+// Remove the %-sign as not used by PHP
+$formatString = str_ireplace('%', '', $field->fieldparams->get('format', ''));
 
-echo htmlentities(JHtml::_('date', $value, JText::_($formatString)));
+if ($formatString === '')
+{
+	$formatString = $field->fieldparams->get('showtime', 0) ? 'DATE_FORMAT_LC5' : 'DATE_FORMAT_LC4';
+}
+
+echo htmlentities(HTMLHelper::_('date', $value, Text::_($formatString)));
