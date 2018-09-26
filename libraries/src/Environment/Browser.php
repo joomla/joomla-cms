@@ -978,7 +978,7 @@ class Browser
 	{
 		foreach ($this->robots as $robot)
 		{
-			if (preg_match('/'.$robot.'/', $this->agent))
+			if (preg_match('/' . $robot . '/', $this->agent))
 			{
 				return true;
 			}
