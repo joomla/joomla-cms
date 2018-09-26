@@ -79,21 +79,6 @@ class Multilanguage
 	}
 
 	/**
-	 * Method to return a list of published site languages.
-	 *
-	 * @return  array of language extension objects.
-	 *
-	 * @since   3.5
-	 * @deprecated   3.7.0  Use LanguageHelper::getInstalledLanguages(0) instead.
-	 */
-	public static function getSiteLangs()
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use LanguageHelper::getInstalledLanguages(0) instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::getInstalledLanguages(0);
-	}
-
-	/**
 	 * Method to return a list of language home page menu items.
 	 *
 	 * @return  array of menu objects.
