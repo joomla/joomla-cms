@@ -121,7 +121,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		$dom->appendChild($ele);
-		return $dom->saveXML($ele);
+		return $dom->saveHTML($ele);
 	}
 
 	/**
