@@ -36,13 +36,10 @@ endif;
     <?php echo $id; ?>
     data-order="<?php echo $data->order; ?>" 
     data-direction="<?php echo strtoupper($data->direction); ?>" 
-    <?php if (!empty($data->title)) : ?>
-    data-name="<?php echo Text::_($data->title); ?>"   
-    <?php endif; ?>
-    <?php if (!empty($caption)) : ?>
-    data-caption="<?php echo $caption; ?>"
-    <?php endif; ?>
     data-sort="<?php echo $sort; ?>">
     <span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-    <span class="sr-only"><?php echo Text::_('JGLOBAL_SORT_BY') . " " . Text::_($data->title); ?></span>
+    <span class="sr-only">
+        <?php echo Text::_('JGLOBAL_SORT_BY'); ?>
+        <?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
+    </span>
 </button>
