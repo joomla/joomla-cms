@@ -108,14 +108,7 @@ function colorIsLight($color)
 	return $yiq >= 200;
 }
 
-// Pass some values to javascript
-$offset = 20;
-
-if ($displayHeader || !$statusFixed)
-{
-	$offset = 30;
-}
-
+// Sticky toolbar
 $stickyBar = '';
 
 if ($stickyToolbar)
