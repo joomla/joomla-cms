@@ -77,6 +77,13 @@ JS;
 // @todo move the script to a file
 Factory::getDocument()->addScriptDeclaration($js);
 
+$collection = new \stdClass;
+
+$collection->publish = [];
+$collection->unpublish = [];
+$collection->archive = [];
+$collection->trash = [];
+
 $assoc = Associations::isEnabled();
 
 // Configure featured button renderer.
@@ -165,14 +172,36 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
-							$conditions = array_unique(ArrayHelper::getColumn($transitions, 'stage_condition'));
+							$publish = 0;
+							$unpublish = 0;
+							$archive = 0;
+							$trash = 0;
+
+							foreach ($transitions as $transition) :
+								switch ($transition['stage_condition']) :
+									case ContentComponent::CONDITION_PUBLISHED:
+										++$publish;
+										break;
+									case ContentComponent::CONDITION_UNPUBLISHED:
+										++$unpublish;
+										break;
+									case ContentComponent::CONDITION_ARCHIVED:
+										++$archive;
+										break;
+									case ContentComponent::CONDITION_TRASHED:
+										++$trash;
+										break;
+								endswitch;
+							endforeach;
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
-								data-condition-publish="<?php echo (int) in_array(ContentComponent::CONDITION_PUBLISHED, $conditions); ?>"
-								data-condition-unpublish="<?php echo (int) in_array(ContentComponent::CONDITION_UNPUBLISHED, $conditions); ?>"
-								data-condition-archive="<?php echo (int) in_array(ContentComponent::CONDITION_ARCHIVED, $conditions); ?>"
-								data-condition-trash="<?php echo (int) in_array(ContentComponent::CONDITION_TRASHED, $conditions); ?>"
+								data-condition-publish="<?php echo (int) $publish > 0; ?>"
+								data-condition-unpublish="<?php echo (int) $unpublish > 0; ?>"
+								data-condition-archive="<?php echo (int) $archive > 0; ?>"
+								data-condition-trash="<?php echo (int) $trash > 0; ?>"
+								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
+								data-stage_id="<?php echo (int) $item->stage_id; ?>"
 							>
 								<td class="order text-center d-none d-md-table-cell">
 									<?php
@@ -325,6 +354,15 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>
+					<?php echo HTMLHelper::_(
+						'bootstrap.renderModal',
+						'stageModal',
+						array(
+							'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
+							'footer' => $this->loadTemplate('stage_footer'),
+						),
+						$this->loadTemplate('stage_body')
+					); ?>
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

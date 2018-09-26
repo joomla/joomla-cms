@@ -465,6 +465,7 @@ class ArticleModel extends AdminModel
 				->from($db->quoteName('#__workflow_associations', 'wa'))
 				->whereIn($db->quoteName('wt.from_stage_id'), [-1, $db->quoteName('wa.stage_id')])
 				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'))
 				->whereIn($db->quoteName('wa.item_id'), $pks)
 				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
 				->where($db->quoteName('ws.condition') . ' = ' . (int) $value);

@@ -147,6 +147,46 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		$transitions = [
+			'publish' => [],
+			'unpublish' => [],
+			'archive' => [],
+			'trash' => []
+		];
+
+		foreach ($this->transitions as $transition)
+		{
+			switch ($transition['stage_condition'])
+			{
+				case ContentComponent::CONDITION_PUBLISHED:
+					$transitions['publish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_UNPUBLISHED:
+					$transitions['unpublish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_ARCHIVED:
+					$transitions['archive'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_TRASHED:
+					$transitions['trash'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+			}
+		}
+
+		Factory::getDocument()->addScriptOptions('articles.transitions', $transitions);
+
+		$articles = [];
+
+		foreach ($this->items as $item)
+		{
+			$articles['article-' . (int) $item->id] = Text::sprintf('COM_CONTENT_STAGE_ARTICLE_TITLE', $this->escape($item->title), (int) $item->id);
+		}
+
+		Factory::getDocument()->addScriptOptions('articles.items', $articles);
+
 		Text::script('COM_CONTENT_ERROR_CANNOT_PUBLISH');
 		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
 		Text::script('COM_CONTENT_ERROR_CANNOT_TRASH');
