@@ -21,6 +21,7 @@
 				label="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS"
 				description="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS_DESC"
 				multiple="true"
+				showon="logs_notification_option:1"
 			/>
 		</fieldset>
 	</fields>
