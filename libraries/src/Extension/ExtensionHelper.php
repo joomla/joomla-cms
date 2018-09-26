@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Extension;
 
-use Joomla\CMS\Factory;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Extension Helper class.
