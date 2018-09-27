@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /** @var ActionlogsViewActionlogs $this */
 
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
