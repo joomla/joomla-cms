@@ -1,0 +1,50 @@
+{
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0+",
+  "assets": {
+    "core": {
+      "name": "core",
+      "js": [
+        "system/core.min.js"
+      ]
+    },
+    "keepalive": {
+      "name": "keepalive",
+      "dependencies": [
+        "core"
+      ],
+      "js": [
+        "system/keepalive.min.js"
+      ]
+    },
+    "multiselect": {
+      "name": "multiselect",
+      "dependencies": [
+        "core"
+      ],
+      "js": [
+        "system/multiselect.min.js"
+      ]
+    },
+    "searchtools": {
+      "name": "searchtools",
+      "dependencies": [
+        "core"
+      ],
+      "js": [
+        "system/searchtools.min.js"
+      ]
+    },
+    "showon": {
+      "name": "showon",
+      "dependencies": [
+        "core"
+      ],
+      "js": [
+        "system/showon.min.js"
+      ]
+    }
+  }
+}

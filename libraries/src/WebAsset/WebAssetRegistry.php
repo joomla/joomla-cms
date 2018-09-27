@@ -347,7 +347,7 @@ class WebAssetRegistry
 
 				unset($attr['__pathOrigin'], $attr['__isExternal']);
 
-				$doc->addScript($path, ['version' => $version], $attr);
+				$doc->addStyleSheet($path, ['version' => $version], $attr);
 			}
 
 			// Add Scripts of the asset
@@ -599,5 +599,27 @@ class WebAssetRegistry
 			$assetItem = $this->createAsset($item['name'], $item);
 			$this->addAsset($assetItem);
 		}
+	}
+
+	/**
+	 * Dump available assets to simple array, with some basic info
+	 *
+	 * @return  @array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function debugAssets()
+	{
+		$assets = $this->assets;
+		$result = [];
+
+		foreach ($assets as $asset) {
+			$result[$asset->getName()] = [
+				'deps'  => implode(', ', $asset->getDependencies()),
+				'state' => $asset->getState(),
+			];
+		}
+
+		return $result;
 	}
 }

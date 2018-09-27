@@ -370,7 +370,13 @@
           "dist/css-vars-ponyfill.js": "js/css-vars-ponyfill.js",
           "dist/css-vars-ponyfill.min.js": "js/css-vars-ponyfill.min.js",
           "dist/css-vars-ponyfill.min.js.map": "js/css-vars-ponyfill.min.js.map"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["css-vars-ponyfill.min.js"]
+          }
+        ]
       },
       "chosen-js": {
         "name": "chosen",
