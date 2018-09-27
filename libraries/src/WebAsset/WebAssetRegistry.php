@@ -22,7 +22,7 @@ use Joomla\CMS\Filesystem\Path;
 class WebAssetRegistry
 {
 	/**
-	 * Mark the new data file
+	 * Mark the new registry file
 	 *
 	 * @var integer
 	 *
@@ -31,13 +31,22 @@ class WebAssetRegistry
 	const DATAFILE_NEW = 1;
 
 	/**
-	 * Mark already parsed data file
+	 * Mark already parsed registry file
 	 *
 	 * @var integer
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	const DATAFILE_PARSED = 2;
+
+	/**
+	 * Mark a broken/not-existing registry file
+	 *
+	 * @var integer
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const DATAFILE_INVALID = -1;
 
 	/**
 	 * Files with Asset info. File path should be relative.
@@ -112,7 +121,22 @@ class WebAssetRegistry
 	 */
 	public function __construct()
 	{
-		$this->searchForDataFiles();
+		$app = Factory::getApplication();
+
+		// Core registry files
+		$this->addRegistryFile('media/vendor/joomla.asset.json');
+		$this->addRegistryFile('media/system/joomla.asset.json');
+
+		// Add for active component
+		$option = $app->input->get('option');
+		if ($option)
+		{
+			$this->addRegistryFile('media/' . $option . '/joomla.asset.json');
+		}
+
+		// Add for active template
+		$template = $app->getTemplate();
+		$this->addRegistryFile('templates/' . $template . '/joomla.asset.json');
 	}
 
 	/**
@@ -127,8 +151,8 @@ class WebAssetRegistry
 	 */
 	public function getAsset($name)
 	{
-		// Check if there any new data file was added
-		$this->parseDataFiles();
+		// Check if there any new file was added
+		$this->parseRegistryFiles();
 
 		if (!empty($this->assets[$name]))
 		{
@@ -156,7 +180,7 @@ class WebAssetRegistry
 		);
 
 		// Order them by weight and return
-		return $this->sortByWeight($assets);
+		return $assets ? $this->sortByWeight($assets) : [];
 	}
 
 	/**
@@ -179,7 +203,7 @@ class WebAssetRegistry
 		);
 
 		// Order them by weight and return
-		return $this->sortByWeight($assets);
+		return $assets ? $this->sortByWeight($assets) : [];
 	}
 
 	/**
@@ -421,31 +445,23 @@ class WebAssetRegistry
 	 * Sort assets by it`s weight
 	 *
 	 * @param   WebAssetItem[]  $assets  Linked array of assets
-	 * @param   bool            $ask     Order direction: true for ASC and false for DESC
 	 *
 	 * @return  WebAssetItem[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sortByWeight(array $assets, $ask = true)
+	protected function sortByWeight(array $assets)
 	{
 		uasort(
 			$assets,
-			function($a, $b) use ($ask)
+			function($a, $b)
 			{
 				if ($a->getWeight() === $b->getWeight())
 				{
 					return 0;
 				}
 
-				if ($ask)
-				{
-					return $a->getWeight() > $b->getWeight() ? 1 : -1;
-				}
-				else
-				{
-					return $a->getWeight() > $b->getWeight() ? -1 : 1;
-				}
+				return $a->getWeight() > $b->getWeight() ? 1 : -1;
 			}
 		);
 
@@ -476,52 +492,28 @@ class WebAssetRegistry
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function registerDataFile($path)
+	public function addRegistryFile($path)
 	{
 		$path = Path::clean($path);
 
-		if (is_file(JPATH_ROOT . '/' . $path) && !isset($this->dataFiles[$path]))
+		if (isset($this->dataFiles[$path]))
 		{
-			$this->dataFiles[$path] = static::DATAFILE_NEW;
+			return $this;
 		}
+
+		$this->dataFiles[$path] = is_file(JPATH_ROOT . '/' . $path) ? static::DATAFILE_NEW : static::DATAFILE_INVALID;
 
 		return $this;
 	}
 
 	/**
-	 * Search for joomla.asset.json files in the Media folder, and templates.
+	 * Parse registered files
 	 *
 	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function searchForDataFiles()
-	{
-		$files = array_merge(
-			glob(JPATH_ROOT . '/media/*/joomla.asset.json', GLOB_NOSORT), // Search extension assets, in /media
-			glob(JPATH_BASE . '/templates/*/joomla.asset.json', GLOB_NOSORT) // Search the template assets
-		);
-
-		if (empty($files))
-		{
-			return;
-		}
-
-		foreach ($files as $file)
-		{
-			$path = preg_replace('#^' . JPATH_ROOT . '/#', '', $file);
-			$this->registerDataFile($path);
-		}
-	}
-
-	/**
-	 * Parse registered data files
-	 *
-	 * @return  void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected function parseDataFiles()
+	protected function parseRegistryFiles()
 	{
 		// Filter new asset data files and parse each
 		$constantIsNew = static::DATAFILE_NEW;
@@ -535,7 +527,7 @@ class WebAssetRegistry
 
 		foreach (array_keys($files) as $path)
 		{
-			$this->parseDataFile($path);
+			$this->parseRegistryFile($path);
 
 			// Mark as parsed (not new)
 			$this->dataFiles[$path] = static::DATAFILE_PARSED;
@@ -543,7 +535,7 @@ class WebAssetRegistry
 	}
 
 	/**
-	 * Parse data file
+	 * Parse registry file
 	 *
 	 * @param   string  $path  Relative path to the data file
 	 *
@@ -553,7 +545,7 @@ class WebAssetRegistry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function parseDataFile($path)
+	protected function parseRegistryFile($path)
 	{
 		$data = file_get_contents(JPATH_ROOT . '/' . $path);
 		$data = $data ? json_decode($data, true) : null;
