@@ -125,9 +125,9 @@
         const checkedBox = articleListRows[i].querySelectorAll('input[type=checkbox]')[0];
 
         if (checkedBox.checked) {
-          let parentTr = checkedBox.closest('tr'),
-            stage = parseInt(parentTr.getAttribute('data-stage_id')),
-            workflow = parseInt(parentTr.getAttribute('data-workflow_id'));
+          const parentTr = checkedBox.closest('tr'),
+                stage = parseInt(parentTr.getAttribute('data-stage_id')),
+                workflow = parseInt(parentTr.getAttribute('data-workflow_id'));
 
           availableTrans[checkedBox.value] = [];
 
@@ -139,9 +139,11 @@
           if (transitions[workflow][-1] !== undefined) {
             let k = 0;
 
-            for (let j = 0; j < transitions[workflow][-1].length; ++j) {
+            for (let j = 0; j < transitions[workflow][-1].length; j += 1) {
               if (transitions[workflow][-1][j].to_stage_id !== stage) {
-                availableTrans[checkedBox.value][k++] = transitions[workflow][-1][j];
+                availableTrans[checkedBox.value][k] = transitions[workflow][-1][j];
+
+                k += 1;
               }
             }
           }
@@ -149,9 +151,11 @@
           if (transitions[workflow][stage] !== undefined) {
             let k = 0;
 
-            for (let j = 0; j < transitions[workflow][stage].length; ++j) {
-              if (transitions[workflow][stage][j].to_stage_id != stage) {
-                availableTrans[checkedBox.value][k++] = transitions[workflow][stage][j];
+            for (let j = 0; j < transitions[workflow][stage].length; j += 1) {
+              if (transitions[workflow][stage][j].to_stage_id !== stage) {
+                availableTrans[checkedBox.value][k] = transitions[workflow][stage][j];
+
+                k += 1;
               }
             }
           }
@@ -171,7 +175,7 @@
         const articles = Joomla.getOptions('articles.items');
         let html = '';
 
-        Object.keys(availableTrans).forEach(function (id) {
+        Object.keys(availableTrans).forEach((id) => {
 
           if (articles[`article-${id}`] !== undefined) {
 
@@ -179,13 +183,13 @@
             html += `<label for="">${articles[`article-${id}`]}</label>`;
             html += `<select class="custom-select" name="publish_transitions['${id}']">`;
 
-            Object.keys(availableTrans[id]).forEach(function (key) {
+            Object.keys(availableTrans[id]).forEach((key) => {
               html += `<option value="${availableTrans[id][key].value}">${availableTrans[id][key].text}</option>`;
             });
 
             html += '</select>';
             html += '</div>';
-            html += '</div>'
+            html += '</div>';
           }
         });
 
@@ -195,6 +199,5 @@
         jQuery(modal).modal();
       }
     }
-
   });
 })();
