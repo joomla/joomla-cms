@@ -367,7 +367,6 @@ JLoader::registerAlias('JFormFieldUserActive',              '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldUserGroupList',           '\\Joomla\\CMS\\Form\\Field\\UsergrouplistField', '5.0');
 JLoader::registerAlias('JFormFieldUserState',               '\\Joomla\\CMS\\Form\\Field\\UserstateField', '5.0');
 JLoader::registerAlias('JFormFieldUser',                    '\\Joomla\\CMS\\Form\\Field\\UserField', '5.0');
-JLoader::registerAlias('JFormFieldUsergroup',               '\\Joomla\\CMS\\Form\\Field\\UsergroupField', '5.0');
 JLoader::registerAlias('JFormRuleBoolean',                  '\\Joomla\\CMS\\Form\\Rule\\BooleanRule', '5.0');
 JLoader::registerAlias('JFormRuleCalendar',                 '\\Joomla\\CMS\\Form\\Rule\\CalendarRule', '5.0');
 JLoader::registerAlias('JFormRuleCaptcha',                  '\\Joomla\\CMS\\Form\\Rule\\CaptchaRule', '5.0');
