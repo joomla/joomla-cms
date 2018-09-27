@@ -11,12 +11,12 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -37,6 +37,7 @@ class MailController extends FormController
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -89,10 +90,7 @@ class MailController extends FormController
 	public function edit($key = null, $urlVar = null)
 	{
 		// Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
-		Factory::getApplication()->allowCache(false);
-
-		$model = $this->getModel();
-		$table = $model->getTable();
+		$this->app->allowCache(false);
 
 		$context = "$this->option.edit.$this->context";
 
@@ -117,7 +115,7 @@ class MailController extends FormController
 
 		// Check-out succeeded, push the new record id into the session.
 		$this->holdEditId($context, $mail_id . '.' . $language);
-		Factory::getApplication()->setUserState($context . '.data', null);
+		$this->app->setUserState($context . '.data', null);
 
 		$this->setRedirect(
 			Route::_(
@@ -132,8 +130,9 @@ class MailController extends FormController
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 * @param   string[]  $recordId  The primary key id for the item in the first element and the language of the
+	 *                               mail template in the second key.
+	 * @param   string    $urlVar    The name of the URL variable for the id.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
@@ -161,11 +160,10 @@ class MailController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app   = Factory::getApplication();
+		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel();
-		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
@@ -198,14 +196,14 @@ class MailController extends FormController
 
 		if (!$form)
 		{
-			$app->enqueueMessage($model->getError(), 'error');
+			$this->app->enqueueMessage($model->getError(), 'error');
 
 			return false;
 		}
 
 		// Send an object which can be modified through the plugin event
 		$objData = (object) $data;
-		$app->triggerEvent(
+		$this->app->triggerEvent(
 			'onContentNormaliseRequestData',
 			array($this->option . '.' . $this->context, $objData, $form)
 		);
@@ -225,16 +223,16 @@ class MailController extends FormController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $data);
+			$this->app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
@@ -251,7 +249,7 @@ class MailController extends FormController
 		if (!$model->save($validData))
 		{
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $validData);
+			$this->app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
@@ -266,10 +264,10 @@ class MailController extends FormController
 			return false;
 		}
 
-		$langKey = $this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+		$langKey = $this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
 		$prefix  = Factory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
-		$this->setMessage(Text::_($prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+		$this->setMessage(Text::_($prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -277,7 +275,7 @@ class MailController extends FormController
 			case 'apply':
 				// Set the record data in the session.
 				$this->holdEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
@@ -291,7 +289,7 @@ class MailController extends FormController
 			default:
 				// Clear the record id and data from the session.
 				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 
 				$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend();
