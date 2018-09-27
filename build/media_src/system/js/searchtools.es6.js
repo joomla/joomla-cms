@@ -462,7 +462,7 @@
   document.addEventListener('DOMContentLoaded', onBoot);
 })();
 
-(function() {
+(function () {
   document.addEventListener('DOMContentLoaded', function() {
     var sort = document.getElementById('sorted');
     if (sort.hasAttribute('data-caption')) {
