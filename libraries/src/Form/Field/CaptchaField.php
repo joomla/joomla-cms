@@ -96,10 +96,8 @@ class CaptchaField extends FormField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		$result = parent::setup($element, $value, $group);
-
-		$app = Factory::getApplication();
-
+		$result  = parent::setup($element, $value, $group);
+		$app     = Factory::getApplication();
 		$default = $app->get('captcha');
 
 		if ($app->isClient('site'))
@@ -107,28 +105,22 @@ class CaptchaField extends FormField
 			$default = $app->getParams()->get('captcha', $default);
 		}
 
-		$plugin = $this->element['plugin'] ?
-			(string) $this->element['plugin'] :
-			$default;
+		$this->plugin = $this->element['plugin'] ? (string) $this->element['plugin'] : $default;
 
-		$this->plugin = $plugin;
-
-		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
+		if (!$this->plugin)
 		{
 			$this->hidden = true;
 
 			return false;
 		}
-		else
-		{
-			// Force field to be required. There's no reason to have a captcha if it is not required.
-			// Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
-			$this->required = true;
 
-			if (strpos($this->class, 'required') === false)
-			{
-				$this->class .= ' required';
-			}
+		// Force field to be required. There's no reason to have a captcha if it is not required.
+		// Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
+		$this->required = true;
+
+		if (strpos($this->class, 'required') === false)
+		{
+			$this->class .= ' required';
 		}
 
 		$this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
@@ -137,7 +129,16 @@ class CaptchaField extends FormField
 		{
 			// Get an instance of the captcha class that we are using
 			$this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->_captcha = null;
 
+			return false;
+		}
+
+		try
+		{
 			/**
 			 * Give the captcha instance a possibility to react on the setup-process,
 			 * e.g. by altering the XML structure of the field, for example hiding the label
@@ -165,7 +166,7 @@ class CaptchaField extends FormField
 	 */
 	protected function getInput()
 	{
-		if ($this->hidden || $this->_captcha == null)
+		if ($this->hidden || $this->_captcha === null)
 		{
 			return '';
 		}
@@ -178,6 +179,7 @@ class CaptchaField extends FormField
 		{
 			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
+
 		return '';
 	}
 }

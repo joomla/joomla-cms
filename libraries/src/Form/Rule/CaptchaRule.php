@@ -39,18 +39,17 @@ class CaptchaRule extends FormRule
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		$app    = \JFactory::getApplication();
-		$plugin = $app->get('captcha');
+		$app       = \JFactory::getApplication();
+		$plugin    = $app->get('captcha');
+		$namespace = $element['namespace'] ?: $form->getName();
 
 		if ($app->isClient('site'))
 		{
 			$plugin = $app->getParams()->get('captcha', $plugin);
 		}
 
-		$namespace = $element['namespace'] ?: $form->getName();
-
-		// Use 0 for none
-		if ($plugin === 0 || $plugin === '0')
+		// Captcha plugin not set.
+		if (!$plugin)
 		{
 			return true;
 		}
@@ -58,12 +57,22 @@ class CaptchaRule extends FormRule
 		try
 		{
 			$captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
+		}
+		catch (\RuntimeException $e)
+		{
+			// Captcha plugin not available.
+			return true;
+		}
+
+		try
+		{
 			return $captcha->checkAnswer($value);
 		}
 		catch (\RuntimeException $e)
 		{
 			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
+
 		return false;
 	}
 }
