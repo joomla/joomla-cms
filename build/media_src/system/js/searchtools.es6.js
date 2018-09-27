@@ -463,15 +463,15 @@
 })();
 
 (function() {
-	document.addEventListener('DOMContentLoaded', function() {
-		var sort = document.getElementById('sorted');
-		if(sort.hasAttribute('data-caption')) {
-			var caption = sort.getAttribute('data-caption');
-			document.getElementById("captionTable").textContent += caption;
-		};
-		if(sort.hasAttribute('data-sort')) {
-			var ariasort = sort.getAttribute('data-sort');
-			sort.parentNode.setAttribute('aria-sorted', ariasort);
-		};
-	});
+  document.addEventListener('DOMContentLoaded', function() {
+    var sort = document.getElementById('sorted');
+    if (sort.hasAttribute('data-caption')) {
+      var caption = sort.getAttribute('data-caption');
+      document.getElementById("captionTable").textContent += caption;
+    };
+    if (sort.hasAttribute('data-sort')) {
+      var ariasort = sort.getAttribute('data-sort');
+      sort.parentNode.setAttribute('aria-sorted', ariasort);
+    };
+  });
 })();
