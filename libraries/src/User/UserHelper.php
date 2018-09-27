@@ -757,7 +757,7 @@ abstract class UserHelper
 		$query
 			->update($db->quoteName('#__user_keys'))
 			->set($db->quoteName('invalid') . ' = 1')
-			->where($db->quotename('user_id') . ' = ' . $db->quote($userId));
+			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query)->execute();
 
