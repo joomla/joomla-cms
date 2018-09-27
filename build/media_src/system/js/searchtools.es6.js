@@ -454,11 +454,11 @@
       new Searchtools(element, options);
     }
 
-    var sort = document.getElementById('sorted');
+    const sort = document.getElementById('sorted');
 
     if (sort.hasAttribute('data-caption')) {
       const caption = sort.getAttribute('data-caption');
-      document.getElementById("captionTable").textContent += caption;
+      document.getElementById('captionTable').textContent += caption;
     }
 
     if (sort.hasAttribute('data-sort')) {
