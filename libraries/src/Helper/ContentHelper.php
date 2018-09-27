@@ -82,25 +82,26 @@ class ContentHelper
 		}
 
 		// Table alias for related data table below will be 'c', and state / condition column is inside related data table
-		$related_tbl = $db->quoteName('#__' . $config->related_tbl);
-		$state_col   = 'c.' . $db->quoteName($config->state_col);
+		$related_tbl = $db->quoteName('#__' . $config->related_tbl, 'c');
+		$state_col   = $db->quoteName('c.' . $config->state_col);
 
 		// Supported cases
 		switch ($config->relation_type)
 		{
 			case 'tag_assigments':
-				$recid_col = 'ct.' . $db->quoteName($config->group_col);
+				$recid_col = $db->quoteName('ct.' . $config->group_col);
 
 				$query = $db->getQuery(true)
-					->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
-					->join('INNER',  $related_tbl . ' AS c ON ct.content_item_id = c.id AND ct.type_alias = ' . $db->quote($config->extension));
+					->from($db->quoteName('#__contentitem_tag_map', 'ct'))
+					->join('INNER', $related_tbl . ' ON ' . $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id') . ' AND ' .
+						$db->quoteName('ct.type_alias') . ' = ' . $db->quote($config->extension));
 				break;
 
 			case 'category_or_group':
-				$recid_col = 'c.' . $db->quoteName($config->group_col);
+				$recid_col = $db->quoteName('c.' . $config->group_col);
 
 				$query = $db->getQuery(true)
-					->from($related_tbl . ' AS c ');
+					->from($related_tbl);
 				break;
 
 			default:
@@ -114,7 +115,7 @@ class ContentHelper
 		$query
 			->select($recid_col . ' AS catid, ' . $state_col . ' AS state, COUNT(*) AS count')
 			->where($recid_col . ' IN (' . implode(',', array_keys($records)) . ')')
-			->where('state IN (' . implode(',', array_keys($counter_names)) . ')')
+			->where($state_col . ' IN (' . implode(',', array_keys($counter_names)) . ')')
 			->group($recid_col . ', ' . $state_col);
 
 		$relationsAll = $db->setQuery($query)->loadObjectList();
