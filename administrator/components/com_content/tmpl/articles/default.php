@@ -83,16 +83,14 @@ $js = <<<JS
 			var caption = sort.getAttribute('data-caption');
 			document.getElementById("captionTable").textContent += caption;
 		};
+		// hasAttribute() evaluates if an element has a specific attribute defined
+		if(sort.hasAttribute('data-sort')) {
+		// getAttribute() returns the value of a given attribute
+			var ariasort = sort.getAttribute('data-sort');
+			sort.parentNode.setAttribute('aria-sorted', ariasort);
+		};
 	});
 })();
-
-// This script needs to be converted to es6 fromm jquery
-// this adds the aria-sort attribute on the TH
-jQuery(function ($) {
-	$('th').attr('aria-sort', function () {
-		return $(this).find('a').data('sort')
-	})
-});
 
 JS;
 
