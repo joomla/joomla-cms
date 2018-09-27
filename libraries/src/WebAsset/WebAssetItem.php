@@ -271,22 +271,32 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getCSSFiles($resolvePath = true)
+	public function getStylesheetFiles($resolvePath = true)
 	{
-		$files = $this->css;
-
 		if ($resolvePath)
 		{
-			foreach ($files as $path => $attr)
+			$files = [];
+
+			foreach ($this->css as $path => $attr)
 			{
 				$resolved = $this->resolvePath($path, 'stylesheet');
+				$fullPath = $resolved['fullPath'];
 
-				$files[$path]['__isExternal'] = $resolved['external'];
-				$files[$path]['__fullPath']   = $resolved['fullPath'];
+				if (!$fullPath)
+				{
+					// File not found, But we keep going ???
+					continue;
+				}
+
+				$files[$fullPath] = $attr;
+				$files[$fullPath]['__isExternal'] = $resolved['external'];
+				$files[$fullPath]['__pathOrigin'] = $path;
 			}
+
+			return $files;
 		}
 
-		return $files;
+		return $this->css;
 	}
 
 	/**
@@ -298,97 +308,47 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getJSFiles($resolvePath = true)
+	public function getScriptFiles($resolvePath = true)
 	{
-		$files = $this->js;
-
 		if ($resolvePath)
 		{
-			foreach ($files as $path => $attr)
+			$files = [];
+
+			foreach ($this->js as $path => $attr)
 			{
 				$resolved = $this->resolvePath($path, 'script');
+				$fullPath = $resolved['fullPath'];
 
-				$files[$path]['__isExternal'] = $resolved['external'];
-				$files[$path]['__fullPath']   = $resolved['fullPath'];
+				if (!$fullPath)
+				{
+					// File not found, But we keep going ???
+					continue;
+				}
+
+				$files[$fullPath] = $attr;
+				$files[$fullPath]['__isExternal'] = $resolved['external'];
+				$files[$fullPath]['__pathOrigin'] = $path;
 			}
+
+			return $files;
 		}
 
-		return $files;
+		return $this->js;
 	}
 
 	/**
-	 * Attach active asset to the Document
+	 * Return list of the asset files, and it's attributes
 	 *
-	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
-	 *
-	 * @return  self
-	 *
-	 * @throws  \RuntimeException If try attach inactive asset
+	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function attach(Document $doc)
+	public function getAssetFiles()
 	{
-		if (!$this->isActive())
-		{
-			throw new \RuntimeException('Incative Asset cannot be attached');
-		}
-
-		return $this->attachCSS($doc)->attachJS($doc);
-	}
-
-	/**
-	 * Attach StyleSheet files to the document
-	 *
-	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
-	 *
-	 * @return  self
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function attachCSS(Document $doc)
-	{
-		foreach ($this->getCSSFiles(true) as $path => $attr)
-		{
-			if ($attr['__fullPath'])
-			{
-				$file    = $attr['__fullPath'];
-				$version = $attr['__isExternal'] ? false : 'auto';
-
-				unset($attr['__fullPath'], $attr['__isExternal']);
-
-				$doc->addStyleSheet($file, ['version' => $version], $attr);
-			}
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Attach JavaScript files to the document
-	 *
-	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
-	 *
-	 * @return  self
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function attachJS(Document $doc)
-	{
-		foreach ($this->getJSFiles() as $path => $attr)
-		{
-			if ($attr['__fullPath'])
-			{
-				$file    = $attr['__fullPath'];
-				$version = $attr['__isExternal'] ? false : 'auto';
-
-				unset($attr['__fullPath'], $attr['__isExternal']);
-
-				$doc->addScript($file, ['version' => $version], $attr);
-			}
-		}
-
-		return $this;
+		return [
+			'script'     => $this->getScriptFiles(true),
+			'stylesheet' => $this->getStylesheetFiles(true),
+		];
 	}
 
 	/**

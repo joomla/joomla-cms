@@ -337,7 +337,27 @@ class WebAssetRegistry
 		// Attach an active assets do the document
 		foreach ($assets as $asset)
 		{
-			$asset->attach($doc);
+			$paths = $asset->getAssetFiles();
+
+			// Add StyleSheets of the asset
+			foreach ($paths['stylesheet'] as $path => $attr)
+			{
+				$version = $attr['__isExternal'] ? false : 'auto';
+
+				unset($attr['__pathOrigin'], $attr['__isExternal']);
+
+				$doc->addScript($path, ['version' => $version], $attr);
+			}
+
+			// Add Scripts of the asset
+			foreach ($paths['script'] as $path => $attr)
+			{
+				$version = $attr['__isExternal'] ? false : 'auto';
+
+				unset($attr['__pathOrigin'], $attr['__isExternal']);
+
+				$doc->addScript($path, ['version' => $version], $attr);
+			}
 		}
 
 		// Merge with previously added scripts
