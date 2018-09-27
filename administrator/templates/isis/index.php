@@ -109,12 +109,7 @@ function colorIsLight($color)
 }
 
 // Sticky toolbar
-$stickyBar = '';
-
-if ($stickyToolbar)
-{
-	$stickyBar = ' sticky';
-}
+$stickyBar = $stickyToolbar ? ' sticky' : '';
 
 // Template color
 if ($navbar_color)
