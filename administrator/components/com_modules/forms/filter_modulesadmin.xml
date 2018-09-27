@@ -98,7 +98,6 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
-			description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
 			default="25"
 			onchange="this.form.submit();"
 		/>
