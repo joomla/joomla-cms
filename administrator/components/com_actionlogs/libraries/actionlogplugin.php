@@ -89,7 +89,7 @@ abstract class ActionLogPlugin extends JPlugin
 			$messages[$index] = $message;
 		}
 
-		/* @var ActionlogsModelActionlog $model */
+		/** @var ActionlogsModelActionlog $model **/
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
 	}
