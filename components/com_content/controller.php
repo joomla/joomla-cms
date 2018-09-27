@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Content Component Controller
  *
@@ -106,7 +108,11 @@ class ContentController extends JControllerLegacy
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
 			{
-				$model->hit();
+				$config   = ComponentHelper::getParams('com_content');
+				if ($config->get('save_hits', 1) == 1)
+				{
+					$model->hit();
+				}
 			}
 		}
 

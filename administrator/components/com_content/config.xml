@@ -351,6 +351,18 @@
 		</field>
 
 		<field
+			name="save_hits"
+			type="radio"
+			label="COM_CONTENT_FIELD_SAVEHITS_LABEL"
+			description="COM_CONTENT_FIELD_SAVEHITS_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="show_noauth"
 			type="radio"
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
