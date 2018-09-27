@@ -454,6 +454,18 @@
       new Searchtools(element, options);
     }
 
+    const sort = document.getElementById('sorted');
+
+    if (sort.hasAttribute('data-caption')) {
+      const caption = sort.getAttribute('data-caption');
+      document.getElementById('captionTable').textContent += caption;
+    }
+
+    if (sort.hasAttribute('data-sort')) {
+      const ariasort = sort.getAttribute('data-sort');
+      sort.parentNode.setAttribute('aria-sorted', ariasort);
+    }
+
     // Cleanup
     document.removeEventListener('DOMContentLoaded', onBoot);
   };
