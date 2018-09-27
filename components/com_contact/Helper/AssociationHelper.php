@@ -7,20 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Contact\Site\Helper;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Associations;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Factory;
-
-JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
 
 /**
  * Contact Component Association Helper
  *
  * @since  3.0
  */
-abstract class ContactHelperAssociation extends CategoryAssociationHelper
+abstract class AssociationHelper extends CategoryAssociationHelper
 {
 	/**
 	 * Method to get the associations for a given item
@@ -42,7 +43,7 @@ abstract class ContactHelperAssociation extends CategoryAssociationHelper
 		{
 			if ($id)
 			{
-				$associations = \Joomla\CMS\Language\Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
+				$associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
 
 				$return = array();
 

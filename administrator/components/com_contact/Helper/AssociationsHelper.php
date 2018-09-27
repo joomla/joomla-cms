@@ -7,18 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Contact\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Contact\Site\Helper\AssociationHelper;
 
 /**
  * Content associations helper.
  *
  * @since  3.7.0
  */
-class ContactAssociationsHelper extends AssociationExtensionHelper
+class AssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -59,7 +62,7 @@ class ContactAssociationsHelper extends AssociationExtensionHelper
 	 */
 	public function getAssociationsForItem($id = 0, $view = null)
 	{
-		return \ContactHelperAssociation::getAssociations($id, $view);
+		return AssociationHelper::getAssociations($id, $view);
 	}
 
 	/**
