@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::import('com_actionlogs.libraries.actionlogplugin', JPATH_ADMINISTRATOR . '/components');
+JLoader::register('ActionLogPlugin', JPATH_ADMINISTRATOR . '/components/com_actionlogs/libraries/actionlogplugin.php');
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
