@@ -87,9 +87,6 @@ JLoader::registerAlias('JLanguageMultilang',                '\\Joomla\\CMS\\Lang
 JLoader::registerAlias('JText',                             '\\Joomla\\CMS\\Language\\Text', '5.0');
 JLoader::registerAlias('JLanguageTransliterate',            '\\Joomla\\CMS\\Language\\Transliterate', '5.0');
 JLoader::registerAlias('JLanguageStemmerPorteren',          '\\Joomla\\CMS\\Language\\Stemmer\\Porteren', '5.0');
-JLoader::registerAlias('JLanguageWrapperText',              '\\Joomla\\CMS\\Language\\Wrapper\\JTextWrapper', '4.0');
-JLoader::registerAlias('JLanguageWrapperHelper',            '\\Joomla\\CMS\\Language\\Wrapper\\LanguageHelperWrapper', '4.0');
-JLoader::registerAlias('JLanguageWrapperTransliterate',     '\\Joomla\\CMS\\Language\\Wrapper\\TransliterateWrapper', '4.0');
 
 JLoader::registerAlias('JComponentHelper',                  '\\Joomla\\CMS\\Component\\ComponentHelper', '5.0');
 JLoader::registerAlias('JComponentRecord',                  '\\Joomla\\CMS\\Component\\ComponentRecord', '5.0');
@@ -290,13 +287,11 @@ JLoader::registerAlias('JSession',                          '\\Joomla\\CMS\\Sess
 
 JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '5.0');
 JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '5.0');
-JLoader::registerAlias('JUserWrapperHelper',                '\\Joomla\\CMS\\User\\UserWrapper', '4.0');
 
 JLoader::registerAlias('JForm',                             '\\Joomla\\CMS\\Form\\Form', '5.0');
 JLoader::registerAlias('JFormField',                        '\\Joomla\\CMS\\Form\\FormField', '5.0');
 JLoader::registerAlias('JFormHelper',                       '\\Joomla\\CMS\\Form\\FormHelper', '5.0');
 JLoader::registerAlias('JFormRule',                         '\\Joomla\\CMS\\Form\\FormRule', '5.0');
-JLoader::registerAlias('JFormWrapper',                      '\\Joomla\\CMS\\Form\\FormWrapper', '4.0');
 
 JLoader::registerAlias('JFormFieldAccessLevel',             '\\Joomla\\CMS\\Form\\Field\\AccesslevelField', '5.0');
 JLoader::registerAlias('JFormFieldAliastag',                '\\Joomla\\CMS\\Form\\Field\\AliastagField', '5.0');
