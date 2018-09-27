@@ -23,50 +23,6 @@ class JHtmlMessages
 	/**
 	 * Get the HTML code of the state switcher
 	 *
-	 * @param   int      $value      The state value
-	 * @param   int      $i          Row number
-	 * @param   boolean  $canChange  Can the user change the state?
-	 *
-	 * @return  string
-	 *
-	 * @since   1.6
-	 *
-	 * @deprecated  4.0  Use JHtmlMessages::status() instead
-	 */
-	public static function state($value = 0, $i = 0, $canChange = false)
-	{
-		// Log deprecated message
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated. Use JHtmlMessages::status() instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if (null === $i)
-		{
-			throw new InvalidArgumentException('$i is a required argument in JHtmlMessages::state');
-		}
-
-		// Note: $canChange is required but has to be an optional argument in the function call due to argument order
-		if (null === $canChange)
-		{
-			throw new InvalidArgumentException('$canChange is a required argument in JHtmlMessages::state');
-		}
-
-		return static::status($i, $value, $canChange);
-	}
-
-	/**
-	 * Get the HTML code of the state switcher
-	 *
 	 * @param   int      $i          Row number
 	 * @param   int      $value      The state value
 	 * @param   boolean  $canChange  Can the user change the state?

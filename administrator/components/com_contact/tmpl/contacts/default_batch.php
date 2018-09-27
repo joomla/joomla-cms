@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
 ?>
@@ -24,12 +24,12 @@ $published = $this->state->get('filter.published');
 		<div class="row">
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo HTMLHelper::_('batch.language'); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 				</div>
 			</div>
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo HTMLHelper::_('batch.access'); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 				</div>
 			</div>
 		</div>
@@ -37,19 +37,19 @@ $published = $this->state->get('filter.published');
 		<?php if ($published >= 0) : ?>
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo HTMLHelper::_('batch.item', 'com_contact'); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => 'com_contact']); ?>
 				</div>
 			</div>
 		<?php endif; ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.tag'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.tag', []); ?>
 			</div>
 		</div>
 		<div class="row">
 			<div class="control-group">
 				<div class="controls">
-					<?php echo HTMLHelper::_('batch.user'); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.user', []); ?>
 				</div>
 			</div>
 		</div>

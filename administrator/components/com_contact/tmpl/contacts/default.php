@@ -127,7 +127,7 @@ if ($saveOrder && !empty($this->items))
 								<td class="text-center">
 									<div class="btn-group">
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo HTMLHelper::_('contact.featured', $item->featured, $i, $canChange); ?>
+										<?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
 									</div>
 								</td>
 								<th scope="row" class="has-context">
@@ -162,7 +162,7 @@ if ($saveOrder && !empty($this->items))
 								<?php if ($assoc) : ?>
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->association) : ?>
-										<?php echo HTMLHelper::_('contact.association', $item->id); ?>
+										<?php echo HTMLHelper::_('contactadministrator.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
