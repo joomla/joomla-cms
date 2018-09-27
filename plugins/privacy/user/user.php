@@ -92,7 +92,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return array();
 		}
 
-		/** @var JTableUser $userTable **/
+		/** @var JTableUser $userTable */
 		$userTable = JUser::getTable();
 		$userTable->load($user->id);
 
