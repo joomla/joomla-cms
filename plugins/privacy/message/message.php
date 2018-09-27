@@ -19,22 +19,6 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 class PlgPrivacyMessage extends PrivacyPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behaviour. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Processes an export request for Joomla core user message
 	 *
 	 * This event will collect data for the message table
@@ -53,23 +37,6 @@ class PlgPrivacyMessage extends PrivacyPlugin
 			return array();
 		}
 
-		$domains   = array();
-		$domains[] = $this->createMessageDomain($user);
-
-		return $domains;
-	}
-
-	/**
-	 * Create the domain for the user message data
-	 *
-	 * @param   JUser  $user  The user account associated with this request
-	 *
-	 * @return  PrivacyExportDomain
-	 *
-	 * @since   3.9.0
-	 */
-	private function createMessageDomain(JUser $user)
-	{
 		$domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
 
 		$query = $this->db->getQuery(true)
@@ -86,6 +53,6 @@ class PlgPrivacyMessage extends PrivacyPlugin
 			$domain->addItem($this->createItemFromArray($item));
 		}
 
-		return $domain;
+		return array($domain);
 	}
 }
