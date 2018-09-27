@@ -37,6 +37,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>
 					<table class="table" id="styleList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_TEMPLATES_STYLES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
