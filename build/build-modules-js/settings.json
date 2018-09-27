@@ -107,6 +107,27 @@
           "dist/css/bootstrap-reboot.min.css.map": "css/bootstrap-reboot.min.css.map",
           "scss": "scss"
         },
+        "provideAssets": [
+          {
+            "name": "bootstrap.js",
+            "js": ["bootstrap.min.js"],
+            "dependencies": ["jquery"]
+          },
+          {
+            "name": "bootstrap.js.bundle",
+            "js": ["bootstrap.bundle.min.js"],
+            "dependencies": ["jquery"]
+          },
+          {
+            "name": "bootstrap.css",
+            "css": ["bootstrap.min.css"]
+          },
+          {
+            "name": "bootstrap.css.grid",
+            "css": ["bootstrap-grid.min.css"],
+            "dependencies": ["bootstrap.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -313,7 +334,7 @@
         "provideAssets": [
           {
             "name": null,
-            "js": ["jquery.minicolors.min.j"],
+            "js": ["jquery.minicolors.min.js"],
             "css": ["jquery.minicolors.css"],
             "dependencies": ["jquery"]
           }
