@@ -71,27 +71,6 @@ $js = <<<JS
 	  });
 	});
 })();
-
-// This script should be moved to searchtools.js
-// This updates the table caption to show what the table is sorted by
-(function() {
-	document.addEventListener('DOMContentLoaded', function() {
-		var sort = document.getElementById('sorted');
-		// hasAttribute() evaluates if an element has a specific attribute defined
-		if(sort.hasAttribute('data-caption')) {
-		// getAttribute() returns the value of a given attribute
-			var caption = sort.getAttribute('data-caption');
-			document.getElementById("captionTable").textContent += caption;
-		};
-		// hasAttribute() evaluates if an element has a specific attribute defined
-		if(sort.hasAttribute('data-sort')) {
-		// getAttribute() returns the value of a given attribute
-			var ariasort = sort.getAttribute('data-sort');
-			sort.parentNode.setAttribute('aria-sorted', ariasort);
-		};
-	});
-})();
-
 JS;
 
 // @todo move the script to a file
