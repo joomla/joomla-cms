@@ -61,7 +61,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 
 		foreach ($items as $item)
 		{
-			$domain->addItem($this->createItemFromArray((array)$item));
+			$domain->addItem($this->createItemFromArray((array) $item));
 			$domains[] = $this->createCustomFieldsDomain('com_contact.contact', $item);
 		}
 

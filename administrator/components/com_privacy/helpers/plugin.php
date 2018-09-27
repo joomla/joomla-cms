@@ -118,7 +118,7 @@ abstract class PrivacyPlugin extends JPlugin
 	 * Helper function to create the domain for the items custom fields.
 	 *
 	 * @param   string    $context  The context
-	 * @param   stdClass  $item    The items
+	 * @param   stdClass  $item     The items
 	 *
 	 * @return  PrivacyExportDomain
 	 *

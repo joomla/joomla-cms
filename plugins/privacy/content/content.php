@@ -53,7 +53,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 
 		foreach ($items as $item)
 		{
-			$domain->addItem($this->createItemFromArray((array)$item));
+			$domain->addItem($this->createItemFromArray((array) $item));
 			$domains[] = $this->createCustomFieldsDomain('com_content.article', $item);
 		}
 
