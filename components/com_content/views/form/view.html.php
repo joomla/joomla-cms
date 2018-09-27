@@ -27,8 +27,9 @@ class ContentViewForm extends JViewLegacy
 	/**
 	 * Should we show a captcha form for the submission of the article?
 	 *
-	 * @var   bool
-	 * @since 3.7.0
+	 * @var         boolean
+	 * @since       3.7.0
+	 * @deprecated  4.0
 	 */
 	protected $captchaEnabled = false;
 
@@ -109,15 +110,9 @@ class ContentViewForm extends JViewLegacy
 			$this->form->setFieldAttribute('language', 'default', $lang);
 		}
 
-		$captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
-
-		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		if ($captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0')))
 		{
-			if ($captchaSet === $plugin->name)
-			{
-				$this->captchaEnabled = true;
-				break;
-			}
+			$this->captchaEnabled = JPluginHelper::getPlugin('captcha', $captchaSet) ? true : false;
 		}
 
 		$this->_prepareDocument();

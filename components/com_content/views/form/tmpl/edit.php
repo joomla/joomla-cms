@@ -61,9 +61,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 				<?php echo $this->form->getInput('articletext'); ?>
 
-				<?php if ($this->captchaEnabled) : ?>
-					<?php echo $this->form->renderField('captcha'); ?>
-				<?php endif; ?>
+				<?php echo $this->form->renderField('captcha'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($params->get('show_urls_images_frontend')) : ?>
