@@ -8,7 +8,7 @@
       "name": "bootstrap-init",
       "dependencies": [
         "core",
-        "bootstrap.js"
+        "bootstrap.js.bundle"
       ],
       "js": [
         "legacy/bootstrap-init.min.js"
