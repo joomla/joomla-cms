@@ -44,4 +44,29 @@
 		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>
 		<language tag="en-GB">en-GB/en-GB.tpl_atum.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced" label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL">
+
+				<field
+					name="showSitename"
+					type="radio"
+					label="TPL_ATUM_SITENAME_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+				<field
+					name="loginLogo"
+					type="media"
+					label="TPL_ATUM_LOGIN_LOGO_LABEL"
+				 />
+
+			</fieldset>
+		</fields>
+	</config>
 </extension>

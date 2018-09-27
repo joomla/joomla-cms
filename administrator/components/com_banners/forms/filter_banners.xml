@@ -98,7 +98,6 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
-			class="input-mini custom-select"
 			default="25"
 			onchange="this.form.submit();"
 		/>

@@ -15,6 +15,7 @@
 			label="COM_CONTENT_SELECT_STATE"
 			onchange="this.form.submit();"
 			activeonly="true"
+			extension="com_content"
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
@@ -136,7 +137,6 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
-			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

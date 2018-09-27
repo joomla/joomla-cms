@@ -103,7 +103,6 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="input-mini"
 			onchange="this.form.submit();"
 		/>
 	</fields>

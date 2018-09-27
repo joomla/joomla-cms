@@ -24,6 +24,7 @@ $lang = Factory::getLanguage();
 
 // Add JavaScript Frameworks
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
@@ -48,6 +49,8 @@ $sitename = $app->get('sitename');
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
+
+$this->addScriptDeclaration('cssVars();')
 
 ?>
 <!DOCTYPE html>

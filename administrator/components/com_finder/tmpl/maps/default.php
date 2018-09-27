@@ -17,7 +17,7 @@ $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = JFactory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/maps.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
