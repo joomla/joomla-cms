@@ -30,14 +30,6 @@ use Joomla\CMS\Factory;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
-	 * respectively
-	 *
-	 * @var  \stdClass
-	 */
-	protected $authors;
-
-	/**
 	 * An array of items
 	 *
 	 * @var  array
@@ -104,7 +96,6 @@ class HtmlView extends BaseHtmlView
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
-		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->transitions   = $this->get('Transitions');
